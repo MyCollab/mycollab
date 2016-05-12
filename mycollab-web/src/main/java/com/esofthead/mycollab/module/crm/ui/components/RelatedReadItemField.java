@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.service.*;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
 import com.vaadin.server.FontAwesome;
@@ -60,14 +60,14 @@ public class RelatedReadItemField extends CustomField {
             String relateItemName = null;
 
             if (CrmTypeConstants.ACCOUNT.equals(type)) {
-                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 final SimpleAccount account = accountService.findById(typeId, AppContext.getAccountId());
                 if (account != null) {
                     relateItemName = account.getAccountname();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
                 }
             } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
-                CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                 final SimpleCampaign campaign = campaignService.findById(typeId, AppContext.getAccountId());
                 if (campaign != null) {
                     relateItemName = campaign.getCampaignname();
@@ -75,7 +75,7 @@ public class RelatedReadItemField extends CustomField {
 
                 }
             } else if (CrmTypeConstants.CONTACT.equals(type)) {
-                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 final SimpleContact contact = contactService.findById(typeId, AppContext.getAccountId());
                 if (contact != null) {
                     relateItemName = contact.getContactName();
@@ -83,7 +83,7 @@ public class RelatedReadItemField extends CustomField {
 
                 }
             } else if (CrmTypeConstants.LEAD.equals(type)) {
-                LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
                 final SimpleLead lead = leadService.findById(typeId, AppContext.getAccountId());
                 if (lead != null) {
                     relateItemName = lead.getLeadName();
@@ -91,7 +91,7 @@ public class RelatedReadItemField extends CustomField {
 
                 }
             } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
-                OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                 final SimpleOpportunity opportunity = opportunityService.findById(typeId, AppContext.getAccountId());
                 if (opportunity != null) {
                     relateItemName = opportunity.getOpportunityname();
@@ -99,7 +99,7 @@ public class RelatedReadItemField extends CustomField {
 
                 }
             } else if (CrmTypeConstants.CASE.equals(type)) {
-                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                 final SimpleCase cases = caseService.findById(typeId, AppContext.getAccountId());
                 if (cases != null) {
                     relateItemName = cases.getSubject();

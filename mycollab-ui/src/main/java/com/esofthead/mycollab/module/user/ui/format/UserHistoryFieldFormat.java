@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
@@ -52,7 +52,7 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
         }
 
         try {
-            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService userService = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
             if (user != null) {
                 if (displayAsHtml) {

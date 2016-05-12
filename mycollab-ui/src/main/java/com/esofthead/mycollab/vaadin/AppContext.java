@@ -19,7 +19,6 @@ package com.esofthead.mycollab.vaadin;
 import ch.qos.cal10n.IMessageConveyor;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
-import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.SessionExpireException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -37,7 +36,7 @@ import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.google.common.eventbus.Subscribe;
@@ -96,7 +95,7 @@ public class AppContext implements Serializable {
     private transient IMessageConveyor messageHelper;
     private Locale userLocale = Locale.US;
     private TimeZone userTimeZone;
-    private static GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
+    private static GoogleAnalyticsService googleAnalyticsService = AppContextUtil.getSpringBean(GoogleAnalyticsService.class);
 
     public AppContext() {
         MyCollabSession.putCurrentUIVariable("context", this);
@@ -127,7 +126,7 @@ public class AppContext implements Serializable {
      */
     public void updateLastModuleVisit(String moduleName) {
         try {
-            UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
+            UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
             UserAccount userAccount = new UserAccount();
             userAccount.setLastmodulevisit(moduleName);
             UserAccountExample ex = new UserAccountExample();
@@ -217,7 +216,7 @@ public class AppContext implements Serializable {
      */
     public void initDomain(String domain) {
         this.subDomain = domain;
-        BillingAccountService billingService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+        BillingAccountService billingService = AppContextUtil.getSpringBean(BillingAccountService.class);
         BillingAccount account = billingService.getAccountByDomain(domain);
 
         if (account == null) {

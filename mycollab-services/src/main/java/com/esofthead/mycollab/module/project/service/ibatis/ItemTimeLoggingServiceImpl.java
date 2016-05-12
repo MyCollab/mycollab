@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.tracker.dao.VersionMapperExt;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -115,7 +115,7 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
 
     @Override
     public void batchSaveTimeLogging(final List<ItemTimeLogging> timeLoggings, @CacheKey Integer sAccountId) {
-        DataSource dataSource = ApplicationContextUtil.getSpringBean(DataSource.class);
+        DataSource dataSource = AppContextUtil.getSpringBean(DataSource.class);
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.batchUpdate(
                 "insert into m_prj_time_logging (projectId, type, typeid, logValue, loguser, createdTime, lastUpdatedTime, sAccountId, logForDay, isBillable, createdUser, "

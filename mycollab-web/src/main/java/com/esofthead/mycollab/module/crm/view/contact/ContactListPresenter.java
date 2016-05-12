@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -60,7 +60,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
     @Override
     protected void postInitView() {
         super.postInitView();
-        contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+        contactService = AppContextUtil.getSpringBean(ContactService.class);
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
@@ -165,6 +165,6 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
 
     @Override
     public ISearchableService<ContactSearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(ContactService.class);
+        return AppContextUtil.getSpringBean(ContactService.class);
     }
 }

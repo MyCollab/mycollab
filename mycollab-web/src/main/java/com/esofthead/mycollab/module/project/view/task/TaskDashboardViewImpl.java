@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.project.reporting.StreamResourceUtils;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.components.*;
 import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -115,7 +115,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                 @Override
                 @Subscribe
                 public void handle(TaskEvent.NewTaskAdded event) {
-                    final ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    final ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                     SimpleTask task = projectTaskService.findById((Integer) event.getData(), AppContext.getAccountId());
                     if (task != null && taskGroupOrderComponent != null) {
                         taskGroupOrderComponent.insertTasks(Collections.singletonList(task));
@@ -250,7 +250,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     public void displayView() {
         baseCriteria = new TaskSearchCriteria();
         baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+        OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
         List<OptionVal> options = optionValService.findOptionValsExcludeClosed(ProjectTypeConstants.TASK,
                 CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
 
@@ -324,7 +324,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
             throw new MyCollabException("Do not support group view by " + groupByState);
         }
         wrapBody.addComponent(taskGroupOrderComponent);
-        final ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        final ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
         int totalTasks = projectTaskService.getTotalCount(baseCriteria);
         taskSearchPanel.setTotalCountNumber(totalTasks);
         currentPage = 0;

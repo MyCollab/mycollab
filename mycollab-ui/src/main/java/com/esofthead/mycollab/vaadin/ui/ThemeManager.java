@@ -20,7 +20,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ColorUtils;
 import com.esofthead.mycollab.module.user.domain.AccountTheme;
 import com.esofthead.mycollab.module.user.service.AccountThemeService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.Page;
 
@@ -30,7 +30,7 @@ import com.vaadin.server.Page;
  */
 public class ThemeManager {
     public static void loadMobileTheme(int sAccountId) {
-        AccountThemeService themeService = ApplicationContextUtil.getSpringBean(AccountThemeService.class);
+        AccountThemeService themeService = AppContextUtil.getSpringBean(AccountThemeService.class);
         AccountTheme accountTheme = themeService.findTheme(sAccountId);
 
         if (accountTheme == null) {
@@ -131,7 +131,7 @@ public class ThemeManager {
     }
 
     public static void loadDesktopTheme(int sAccountId) {
-        AccountThemeService themeService = ApplicationContextUtil.getSpringBean(AccountThemeService.class);
+        AccountThemeService themeService = AppContextUtil.getSpringBean(AccountThemeService.class);
         AccountTheme accountTheme = themeService.findTheme(sAccountId);
 
         if (accountTheme == null) {

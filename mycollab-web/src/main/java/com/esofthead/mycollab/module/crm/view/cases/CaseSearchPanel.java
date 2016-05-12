@@ -116,9 +116,9 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("case-assignuser".equals(fieldId)) {
+            if ("assignuser".equals(fieldId)) {
                 return new ActiveUserListSelect();
-            } else if ("case-account".equals(fieldId)) {
+            } else if ("account".equals(fieldId)) {
                 return new AccountSelectionField();
             }
             return null;

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -56,7 +56,7 @@ public class CampaignHistoryFieldFormat implements HistoryFieldFormat {
 
         try {
             Integer campaignId = Integer.parseInt(value);
-            CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+            CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
             SimpleCampaign campaign = campaignService.findById(campaignId, AppContext.getAccountId());
 
             if (campaign != null) {

@@ -21,10 +21,8 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.db.query.DateParam;
-import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.db.query.PropertyListParam;
-import com.esofthead.mycollab.core.db.query.StringListParam;
+import com.esofthead.mycollab.core.db.query.*;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 
 import java.util.Arrays;
@@ -36,36 +34,35 @@ import java.util.Arrays;
 public class RiskSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final Param p_assignee = new PropertyListParam("risk-assignuser",
-            GenericI18Enum.FORM_ASSIGNEE, "m_prj_risk", "assigntouser");
+    public static final Param p_assignee = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_ASSIGNEE,
+            new PropertyListParam("assignuser", "m_prj_risk", "assigntouser"));
 
-    public static final Param p_raisedUser = new PropertyListParam("risk-raiseduser",
-            RiskI18nEnum.FORM_RAISED_BY, "m_prj_risk", "raisedbyuser");
+    public static final Param p_raisedUser = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_RAISED_BY,
+            new PropertyListParam("raiseduser", "m_prj_risk", "raisedbyuser"));
 
-    public static final Param p_duedate = new DateParam("risk-duedate",
-            GenericI18Enum.FORM_DUE_DATE, "m_prj_risk", "datedue");
+    public static final Param p_duedate = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_DUE_DATE,
+            new DateParam("duedate", "m_prj_risk", "datedue"));
 
-    public static final Param p_raiseddate = new DateParam("risk-raiseddate",
-            GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "dateraised");
+    public static final Param p_raiseddate = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_CREATED_TIME,
+            new DateParam("raiseddate", "m_prj_risk", "dateraised"));
 
-    public static final Param p_status = new StringListParam("risk-status",
-            GenericI18Enum.FORM_STATUS, "m_prj_risk", "status", Arrays.asList(
-            StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name()));
+    public static final Param p_status = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_STATUS,
+            new StringListParam("status", "m_prj_risk", "status", Arrays.asList(
+                    StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name())));
 
-    public static final Param p_probalitity = new StringListParam("risk-probalitity",
-            RiskI18nEnum.FORM_PROBABILITY, "m_prj_risk", "probalitity",
-            Arrays.asList("Certain", "Likely", "Possible", "Unlikely", "Rare"));
+    public static final Param p_probalitity = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_PROBABILITY,
+            new StringListParam("probalitity", "m_prj_risk", "probalitity",
+                    Arrays.asList("Certain", "Likely", "Possible", "Unlikely", "Rare")));
 
-    public static final Param p_consequence = new StringListParam("risk-consequence",
-            RiskI18nEnum.FORM_CONSEQUENCE, "m_prj_risk", "consequence",
-            Arrays.asList("Catastrophic", "Critical", "Marginal", "Negligible"));
+    public static final Param p_consequence = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_CONSEQUENCE,
+            new StringListParam("consequence", "m_prj_risk", "consequence",
+            Arrays.asList("Catastrophic", "Critical", "Marginal", "Negligible")));
 
-    public static final Param p_createdtime = new DateParam("risk-createdtime",
-            GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "createdTime");
+    public static final Param p_createdtime = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_CREATED_TIME,
+            new DateParam("createdtime", "m_prj_risk", "createdTime"));
 
-    public static final Param p_lastupdatedtime = new DateParam(
-            "risk-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
-            "m_prj_risk", "lastUpdatedTime");
+    public static final Param p_lastupdatedtime = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_LAST_UPDATED_TIME,
+            new DateParam("lastupdatedtime", "m_prj_risk", "lastUpdatedTime"));
 
     private StringSearchField riskname;
 

@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
@@ -126,7 +126,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
             String itemLink = buildItemValue(activityStream);
             String projectLink = buildProjectValue(activityStream);
             String type = ProjectLocalizationTypeMap.getType(activityStream.getType());
-            AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
+            AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
                 if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {

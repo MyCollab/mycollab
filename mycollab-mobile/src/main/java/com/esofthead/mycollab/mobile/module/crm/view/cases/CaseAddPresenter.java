@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -72,7 +72,7 @@ public class CaseAddPresenter extends AbstractCrmPresenter<CaseAddView> {
             if (data.getParams() instanceof SimpleCase) {
                 cases = (SimpleCase) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                 cases = caseService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (cases == null) {
@@ -96,7 +96,7 @@ public class CaseAddPresenter extends AbstractCrmPresenter<CaseAddView> {
     }
 
     private void saveCase(CaseWithBLOBs cases) {
-        CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+        CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
         cases.setSaccountid(AppContext.getAccountId());
         if (cases.getId() == null) {
             caseService.saveWithSession(cases, AppContext.getUsername());

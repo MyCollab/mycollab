@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -114,7 +114,7 @@ public class AssignTaskWindow extends Window {
                     public void buttonClick(Button.ClickEvent event) {
                         if (EditForm.this.validateForm()) {
                             // Save task status and assignee
-                            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                             taskService.updateWithSession(task, AppContext.getUsername());
 
                             // Save comment
@@ -129,7 +129,7 @@ public class AssignTaskWindow extends Window {
                                 comment.setTypeid("" + task.getId());
                                 comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                                 commentService.saveWithSession(comment, AppContext.getUsername());
                             }
 

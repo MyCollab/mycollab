@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
@@ -53,7 +53,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
 
     public RoleListPresenter() {
         super(RoleListView.class);
-        roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+        roleService = AppContextUtil.getSpringBean(RoleService.class);
     }
 
     @Override
@@ -124,6 +124,6 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
 
     @Override
     public ISearchableService<RoleSearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(RoleService.class);
+        return AppContextUtil.getSpringBean(RoleService.class);
     }
 }

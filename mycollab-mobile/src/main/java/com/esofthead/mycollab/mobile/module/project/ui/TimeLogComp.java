@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Label;
@@ -39,7 +39,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
     protected ItemTimeLoggingService itemTimeLoggingService;
 
     protected TimeLogComp() {
-        this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
+        this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
         this.setWidth("100%");
         this.setStyleName(UIConstants.FULL_WIDTH_COMP);
     }

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -60,7 +60,7 @@ class ContactInfoChangeWindow extends Window {
         this.setWidth("450px");
         this.setResizable(false);
         this.setModal(true);
-        this.validation = ApplicationContextUtil.getValidator();
+        this.validation = AppContextUtil.getValidator();
         this.initUI();
         this.center();
         this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
@@ -150,7 +150,7 @@ class ContactInfoChangeWindow extends Window {
         user.setSkypecontact(txtSkype.getValue());
 
         if (validateForm(user)) {
-            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService userService = AppContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(user, AppContext.getUsername());
             close();
             Page.getCurrent().getJavaScript().execute("window.location.reload();");

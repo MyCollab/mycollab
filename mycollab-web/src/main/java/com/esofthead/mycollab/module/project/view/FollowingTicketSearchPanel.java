@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
@@ -198,7 +198,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         private static final long serialVersionUID = 1L;
 
         public UserInvolvedProjectsListSelect() {
-            FollowingTicketSearchPanel.this.projects = ApplicationContextUtil.getSpringBean(ProjectService.class)
+            FollowingTicketSearchPanel.this.projects = AppContextUtil.getSpringBean(ProjectService.class)
                     .getProjectsUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
 
             for (SimpleProject project : projects) {

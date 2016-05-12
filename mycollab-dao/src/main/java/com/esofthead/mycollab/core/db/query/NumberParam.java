@@ -47,8 +47,8 @@ public class NumberParam extends ColumnParam {
     private static final String LESS_THAN_EXPR = "%s.%s < ";
     private static final String LESS_THAN_EQUAL_EXPR = "%s.%s <= ";
 
-    public NumberParam(String id, Enum displayName, String table, String column) {
-        super(id, displayName, table, column);
+    public NumberParam(String id, String table, String column) {
+        super(id, table, column);
     }
 
     public SearchField buildSearchField(String prefixOper, String compareOper, Number value) {

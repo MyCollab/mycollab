@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -58,7 +58,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
             @Override
             public void onSave(final SimpleUser item) {
                 save(item);
-                ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+                ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
                 if (!mailService.isMailSetupValid()) {
                     UI.getCurrent().addWindow(new GetStartedInstructionWindow(item));
                 }
@@ -83,7 +83,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         if (user.getUsername() != null && user.getUsername().equals(AppContext.getUsername())) {
             isRefreshable = true;
         }
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        UserService userService = AppContextUtil.getSpringBean(UserService.class);
         user.setAccountId(AppContext.getAccountId());
         user.setSubdomain(AppContext.getSubDomain());
 

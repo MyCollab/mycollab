@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nE
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.ui.components.ImagePreviewCropWindow;
 import com.esofthead.mycollab.module.user.ui.components.UploadImageField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -133,7 +133,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
     @Override
     public void process(BufferedImage image) {
-        UserAvatarService userAvatarService = ApplicationContextUtil.getSpringBean(UserAvatarService.class);
+        UserAvatarService userAvatarService = AppContextUtil.getSpringBean(UserAvatarService.class);
         userAvatarService.uploadAvatar(image, AppContext.getUsername(), AppContext.getUserAvatarId());
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
     }

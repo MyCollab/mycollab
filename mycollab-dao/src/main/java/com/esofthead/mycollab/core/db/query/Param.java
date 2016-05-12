@@ -26,15 +26,13 @@ import java.io.Serializable;
  */
 public abstract class Param implements Serializable {
     protected String id;
-    protected Enum<?> displayName;
 
     public Param() {
-        this("", null);
+        this("");
     }
 
-    public Param(String id, Enum<?> displayName) {
+    public Param(String id) {
         this.id = id;
-        this.displayName = displayName;
     }
 
     public String getId() {
@@ -43,14 +41,6 @@ public abstract class Param implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Enum<?> getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(Enum<?> displayName) {
-        this.displayName = displayName;
     }
 
     @Override
@@ -70,8 +60,6 @@ public abstract class Param implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + displayName.hashCode();
-        return result;
+        return id.hashCode();
     }
 }

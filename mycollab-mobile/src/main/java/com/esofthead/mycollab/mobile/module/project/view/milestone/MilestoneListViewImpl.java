@@ -37,7 +37,7 @@ import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -69,7 +69,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
 
     @Override
     protected AbstractPagedBeanList<MilestoneSearchCriteria, SimpleMilestone> createBeanList() {
-        return new DefaultPagedBeanList<>(ApplicationContextUtil.getSpringBean(MilestoneService.class), new MilestoneRowDisplayHandler());
+        return new DefaultPagedBeanList<>(AppContextUtil.getSpringBean(MilestoneService.class), new MilestoneRowDisplayHandler());
     }
 
     @Override

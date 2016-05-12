@@ -23,7 +23,7 @@ import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -36,7 +36,7 @@ public class CaseListDisplay extends DefaultPagedBeanList<CaseService, CaseSearc
     private static final long serialVersionUID = -5865353122197825948L;
 
     public CaseListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(CaseService.class), new CaseRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(CaseService.class), new CaseRowDisplayHandler());
     }
 
     static public class CaseRowDisplayHandler implements RowDisplayHandler<SimpleCase> {

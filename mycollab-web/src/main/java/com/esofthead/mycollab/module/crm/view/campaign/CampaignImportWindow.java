@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public class CampaignImportWindow extends EntityImportWindow<SimpleCampaign> {
     private static final long serialVersionUID = 1L;
 
     public CampaignImportWindow() {
-        super(false, "Import Campaign", ApplicationContextUtil.getSpringBean(CampaignService.class), SimpleCampaign.class);
+        super(false, "Import Campaign", AppContextUtil.getSpringBean(CampaignService.class), SimpleCampaign.class);
     }
 
     @Override

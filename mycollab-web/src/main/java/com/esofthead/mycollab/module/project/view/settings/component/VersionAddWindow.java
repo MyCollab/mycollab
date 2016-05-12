@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.view.settings.VersionDefaultFormLayoutFactory;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -61,7 +61,7 @@ public class VersionAddWindow extends Window implements IEditFormHandler<Version
 
     @Override
     public void onSave(Version bean) {
-        VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+        VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
         versionService.saveWithSession(bean, AppContext.getUsername());
         close();
     }

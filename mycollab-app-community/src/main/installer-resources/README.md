@@ -44,6 +44,8 @@ Version 5.3.1
 -----------------------------
 **Library Upgrades**
 
+* Other libraries
+
 **Improvements & New Features**
 
 * [Premium] Associate client information to invoice

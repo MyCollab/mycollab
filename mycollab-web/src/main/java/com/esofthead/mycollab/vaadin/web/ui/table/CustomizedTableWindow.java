@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.util.BeanItemContainer;
@@ -60,7 +60,7 @@ public abstract class CustomizedTableWindow extends Window {
         this.center();
 
         this.tableItem = table;
-        customViewStoreService = ApplicationContextUtil.getSpringBean(CustomViewStoreService.class);
+        customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
 
         final MVerticalLayout contentLayout = new MVerticalLayout();
         this.setContent(contentLayout);

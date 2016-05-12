@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.project.view.bug.components.ToggleBugSummar
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -79,7 +79,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView {
     private static Logger LOG = LoggerFactory.getLogger(BugKanbanViewImpl.class);
 
-    private BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+    private BugService bugService = AppContextUtil.getSpringBean(BugService.class);
 
     private BugSearchPanel searchPanel;
     private MHorizontalLayout kanbanLayout;
@@ -303,7 +303,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                         }
                         SimpleBug bug = kanbanItem.bug;
                         bug.setStatus(optionVal.getTypeval());
-                        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
                         updateComponentCount();
 
@@ -412,7 +412,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                         String summary = bugNameField.getValue();
                         if (StringUtils.isNotBlank(summary)) {
                             bug.setSummary(summary);
-                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                             bugService.saveWithSession(bug, AppContext.getUsername());
                             dragLayoutContainer.removeComponent(layout);
                             KanbanBugBlockItem kanbanBugBlockItem = new KanbanBugBlockItem(bug);

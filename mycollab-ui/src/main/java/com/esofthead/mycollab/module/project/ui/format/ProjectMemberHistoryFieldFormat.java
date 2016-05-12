@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -53,7 +53,7 @@ public final class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat
         }
 
         try {
-            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService userService = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
             if (user != null) {
                 if (displayAsHtml) {

@@ -25,7 +25,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
@@ -33,7 +32,7 @@ import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -105,10 +104,10 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
     }
 
     private int saveBug(SimpleBug bug) {
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         bug.setProjectid(CurrentProjectVariables.getProjectId());
         bug.setSaccountid(AppContext.getAccountId());
-        AsyncEventBus asyncEventBus = ApplicationContextUtil.getSpringBean(AsyncEventBus.class);
+        AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
         if (bug.getId() == null) {
             bug.setStatus(BugStatus.Open.name());
             bug.setLogby(AppContext.getUsername());
@@ -117,7 +116,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
             uploadField.saveContentsToRepo(bug.getProjectid(), ProjectTypeConstants.BUG, bugId);
 
             // save component
-            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+            BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
             bugRelatedItemService.saveAffectedVersionsOfBug(bugId, view.getAffectedVersions());
             bugRelatedItemService.saveFixedVersionsOfBug(bugId, view.getFixedVersion());
             bugRelatedItemService.saveComponentsOfBug(bugId, view.getComponents());
@@ -136,7 +135,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
                     monitorItem.setExtratypeid(CurrentProjectVariables.getProjectId());
                     monitorItems.add(monitorItem);
                 }
-                MonitorItemService monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
+                MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
                 monitorItemService.saveMonitorItems(monitorItems);
             }
         } else {
@@ -145,7 +144,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
             uploadField.saveContentsToRepo(bug.getProjectid(), ProjectTypeConstants.BUG, bug.getId());
 
             int bugId = bug.getId();
-            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+            BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
             bugRelatedItemService.updateAffectedVersionsOfBug(bugId, view.getAffectedVersions());
             bugRelatedItemService.updateFixedVersionsOfBug(bugId, view.getFixedVersion());
             bugRelatedItemService.updateComponentsOfBug(bugId, view.getComponents());

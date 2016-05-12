@@ -23,7 +23,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -65,7 +65,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
                 public void buttonClick(ClickEvent clickEvent) {
                     String username = nameOrEmailField.getValue();
                     if (StringUtils.isValidEmail(username)) {
-                        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                        UserService userService = AppContextUtil.getSpringBean(UserService.class);
                         User user = userService.findUserByUserName(username);
 
                         if (user == null) {

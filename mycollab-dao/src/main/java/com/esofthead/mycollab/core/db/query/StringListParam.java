@@ -33,9 +33,8 @@ public class StringListParam extends ColumnParam {
 
     private List<String> values;
 
-    @SuppressWarnings("rawtypes")
-    public StringListParam(String id, Enum displayName, String table, String column, List<String> values) {
-        super(id, displayName, table, column);
+    public StringListParam(String id, String table, String column, List<String> values) {
+        super(id, table, column);
         this.values = values;
     }
 

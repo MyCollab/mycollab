@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.IPrioritySummaryChartWidget;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonI18nComp;
@@ -55,7 +55,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
     public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
 
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         totalCount = bugService.getTotalCount(searchCriteria);
         this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
         groupItems = bugService.getPrioritySummary(searchCriteria);

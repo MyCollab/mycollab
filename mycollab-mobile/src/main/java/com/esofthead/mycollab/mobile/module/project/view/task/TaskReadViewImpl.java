@@ -38,7 +38,7 @@ import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -91,7 +91,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         taskTimeLogComp.displayTime(beanItem);
         previewForm.addComponent(taskTimeLogComp);
 
-        ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
                 beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
@@ -149,7 +149,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                     quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                 }
 
-                ProjectTaskService service = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 service.updateWithSession(beanItem, AppContext.getUsername());
 
             }

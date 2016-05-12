@@ -25,8 +25,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.events.SearchHandler;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -45,7 +44,7 @@ public class TaskDashboardPresenter extends ProjectGenericListPresenter<TaskDash
 
     public TaskDashboardPresenter() {
         super(TaskDashboardView.class);
-        taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
     }
 
     @Override

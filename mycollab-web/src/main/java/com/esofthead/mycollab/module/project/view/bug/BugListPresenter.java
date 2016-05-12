@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -42,7 +42,7 @@ public class BugListPresenter extends ProjectGenericListPresenter<BugListView, B
 
     public BugListPresenter() {
         super(BugListView.class);
-        bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        bugService = AppContextUtil.getSpringBean(BugService.class);
     }
 
     @Override

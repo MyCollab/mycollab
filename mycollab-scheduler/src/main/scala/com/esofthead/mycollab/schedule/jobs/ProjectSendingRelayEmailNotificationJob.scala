@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.dao.RelayEmailNotificationMapper
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import org.quartz.JobExecutionContext
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
@@ -51,7 +51,7 @@ class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
       try {
         val mailServiceCls = MailServiceMap.service(notification.getType)
         if (mailServiceCls != null) {
-          val emailNotificationAction = ApplicationContextUtil.getSpringBean(mailServiceCls)
+          val emailNotificationAction = AppContextUtil.getSpringBean(mailServiceCls)
           if (emailNotificationAction != null) {
             notification.getAction match {
               case MonitorTypeConstants.CREATE_ACTION => emailNotificationAction.sendNotificationForCreateAction(notification)

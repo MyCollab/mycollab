@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.ListSelect;
 
@@ -53,7 +53,7 @@ public class ProjectMemberListSelect extends ListSelect {
             criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
         }
 
-        ProjectMemberService userService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        ProjectMemberService userService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> memberList = userService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         loadUserList(memberList);
     }

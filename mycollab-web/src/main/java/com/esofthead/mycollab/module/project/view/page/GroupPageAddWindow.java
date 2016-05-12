@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -117,7 +117,7 @@ class GroupPageAddWindow extends Window {
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         if (EditForm.this.validateForm()) {
-                            PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                            PageService pageService = AppContextUtil.getSpringBean(PageService.class);
                             pageService.createFolder(folder, AppContext.getUsername());
                             folder.setCreatedTime(new GregorianCalendar());
                             folder.setCreatedUser(AppContext.getUsername());

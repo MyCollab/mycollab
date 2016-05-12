@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.view.task.components.TaskTimeLogSheet;
 import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
 import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryWithChildRelationshipField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -160,7 +160,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                     quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
                 }
 
-                ProjectTaskService service = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 service.updateWithSession(beanItem, AppContext.getUsername());
 
             }
@@ -233,7 +233,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         ParentTaskComp(Integer parentTaskId, SimpleTask childTask) {
             ELabel titleLbl = new ELabel("Parent task").withStyleName(UIConstants.ARROW_BTN).withWidthUndefined();
             with(titleLbl);
-            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             SimpleTask parentTask = taskService.findById(parentTaskId, AppContext.getAccountId());
             if (parentTask != null) {
                 with(new ToggleTaskSummaryWithChildRelationshipField(parentTask, childTask));

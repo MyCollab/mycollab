@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.CheckBoxDecor;
@@ -52,7 +52,7 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
     }
 
     public CaseTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(CaseService.class), SimpleCase.class, viewId, requiredColumn, displayColumns);
+        super(AppContextUtil.getSpringBean(CaseService.class), SimpleCase.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("selected", new ColumnGenerator() {
             private static final long serialVersionUID = 1L;

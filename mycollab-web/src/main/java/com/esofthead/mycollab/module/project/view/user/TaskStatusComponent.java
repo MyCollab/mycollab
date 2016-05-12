@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
@@ -87,7 +87,7 @@ public class TaskStatusComponent extends Depot {
             ProjectGenericTaskSearchCriteria, ProjectGenericTask> {
 
         public TaskStatusPagedList() {
-            super(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new
+            super(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), new
                     GenericTaskRowDisplayHandler(), 10);
         }
 

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
+import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -24,11 +25,11 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.db.query.*;
-import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.I18nValueListSelect;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.ValueListSelect;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -103,7 +104,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         this.with(searchContainer, controlsBtn);
     }
 
-    private void buildFilterBox(String queryname) {
+    private void buildFilterBox(String queryName) {
         filterBox.removeAllComponents();
 
         SavedSearchResultComboBox filterComboBox = new SavedSearchResultComboBox();
@@ -160,7 +161,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             throw new UserInvalidInputException("You must select at least one search criteria");
         }
 
-        SaveSearchResultService saveSearchResultService = ApplicationContextUtil.getSpringBean(SaveSearchResultService.class);
+        SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
         SaveSearchResultWithBLOBs searchResult = new SaveSearchResultWithBLOBs();
         searchResult.setSaveuser(AppContext.getUsername());
         searchResult.setSaccountid(AppContext.getAccountId());
@@ -175,8 +176,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         Iterator<Component> iterator = searchContainer.iterator();
         List<SearchFieldInfo> fieldInfos = new ArrayList<>();
         while (iterator.hasNext()) {
-            CriteriaSelectionLayout bar = (CriteriaSelectionLayout) iterator.next();
-            SearchFieldInfo searchFieldInfo = bar.buildSearchFieldInfo();
+            CriteriaSelectionLayout criteriaSelectionLayout = (CriteriaSelectionLayout) iterator.next();
+            SearchFieldInfo searchFieldInfo = criteriaSelectionLayout.buildSearchFieldInfo();
             if (searchFieldInfo != null) {
                 fieldInfos.add(searchFieldInfo);
             }
@@ -188,13 +189,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         return null;
     }
 
-    public S fillupSearchCriteria() {
+    public S fillUpSearchCriteria() {
         try {
             S searchCriteria = type.newInstance();
             Iterator<Component> iterator = searchContainer.iterator();
             while (iterator.hasNext()) {
-                CriteriaSelectionLayout bar = (CriteriaSelectionLayout) iterator.next();
-                SearchField searchField = bar.buildSearchField();
+                CriteriaSelectionLayout criteriaSelectionLayout = (CriteriaSelectionLayout) iterator.next();
+                SearchField searchField = criteriaSelectionLayout.buildSearchField();
                 if (searchField != null) {
                     searchCriteria.addExtraField(searchField);
                 }
@@ -211,10 +212,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         try {
             for (int i = 0; i < searchFieldInfos.size(); i++) {
                 SearchFieldInfo searchFieldInfo = searchFieldInfos.get(i);
-                CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
-
-                newCriteriaBar.fillSearchFieldInfo(searchFieldInfo);
-                searchContainer.addComponent(newCriteriaBar);
+                CriteriaSelectionLayout criteriaSelectionLayout = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
+                criteriaSelectionLayout.fillSearchFieldInfo(searchFieldInfo);
+                searchContainer.addComponent(criteriaSelectionLayout);
             }
         } catch (Exception e) {
             LOG.error("Error while build criterion", e);
@@ -232,7 +232,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         private MVerticalLayout valueBox;
         private Button deleteBtn;
 
-        public CriteriaSelectionLayout(int index) {
+        CriteriaSelectionLayout(int index) {
             super(6, 1);
             this.index = index;
             this.setSpacing(true);
@@ -372,7 +372,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             fieldSelectionBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
             for (Param field : paramFields) {
                 fieldSelectionBox.addItem(field);
-                fieldSelectionBox.setItemCaption(field, AppContext.getMessage(field.getDisplayName()));
+                CacheParamMapper.ValueParam valueParam = CacheParamMapper.getValueParam(searchCategory, field.getId());
+                fieldSelectionBox.setItemCaption(field, AppContext.getMessage(valueParam.getDisplayName()));
             }
 
             fieldSelectionBox.addValueChangeListener(new ValueChangeListener() {
@@ -652,16 +653,14 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         private static final long serialVersionUID = 1L;
         private BeanContainer<String, SaveSearchResultWithBLOBs> beanItem;
 
-        public SavedSearchResultComboBox() {
+        SavedSearchResultComboBox() {
             this.setImmediate(true);
             this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-
-            contructComboBox();
+            buildQuerySelectComponent();
 
             this.addValueChangeListener(new ValueChangeListener() {
                 private static final long serialVersionUID = 1L;
 
-                @SuppressWarnings("unchecked")
                 @Override
                 public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
                     Object itemId = SavedSearchResultComboBox.this.getValue();
@@ -669,14 +668,19 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         final SaveSearchResultWithBLOBs data = beanItem.getItem(itemId).getBean();
 
                         String queryText = data.getQuerytext();
-                        List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(queryText);
-                        // @HACK: === the library serialize with extra list
-                        // wrapper
-                        if (CollectionUtils.isEmpty(fieldInfos)) {
-                            throw new UserInvalidInputException("There is no field in search criterion");
+                        try {
+                            List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(queryText);
+                            // @HACK: === the library serialize with extra list
+                            // wrapper
+                            if (CollectionUtils.isEmpty(fieldInfos)) {
+                                throw new UserInvalidInputException("There is no field in search criterion");
+                            }
+                            fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
+                            fillSearchFieldInfoAndInvokeSearchRequest(fieldInfos);
+                        } catch (Exception e) {
+                            LOG.error("Error of invalid query", e);
+                            NotificationUtil.showErrorNotification("This query is invalid");
                         }
-                        fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
-                        fillSearchFieldInfoAndInvokeSearchRequest(fieldInfos);
 
                         if (filterBox.getComponentCount() <= 3) {
                             Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL));
@@ -688,8 +692,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                                 @Override
                                 public void buttonClick(ClickEvent event) {
                                     List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
-                                    SaveSearchResultService saveSearchResultService = ApplicationContextUtil
-                                            .getSpringBean(SaveSearchResultService.class);
+                                    SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
                                     data.setSaveuser(AppContext.getUsername());
                                     data.setSaccountid(AppContext.getAccountId());
                                     data.setQuerytext(XStreamJsonDeSerializer.toJson(fieldInfos));
@@ -703,15 +706,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
                                 @Override
                                 public void buttonClick(ClickEvent event) {
-                                    SaveSearchResultService saveSearchResultService = ApplicationContextUtil
-                                            .getSpringBean(SaveSearchResultService.class);
-                                    saveSearchResultService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
+                                    saveSearchResultService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     searchContainer.removeAllComponents();
                                     if (filterBox.getComponentCount() > 2) {
                                         filterBox.removeComponent(filterBox.getComponent(1));
                                     }
-                                    contructComboBox();
+                                    buildQuerySelectComponent();
                                 }
                             });
                             deleteBtn.setStyleName(UIConstants.BUTTON_DANGER);
@@ -730,16 +731,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     }
                 }
             });
-            this.setImmediate(true);
         }
 
-        private void contructComboBox() {
+        private void buildQuerySelectComponent() {
             SaveSearchResultCriteria searchCriteria = new SaveSearchResultCriteria();
             searchCriteria.setType(StringSearchField.and(searchCategory));
             searchCriteria.setCreateUser(StringSearchField.and(AppContext.getUsername()));
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
-            SaveSearchResultService saveSearchResultService = ApplicationContextUtil.getSpringBean(SaveSearchResultService.class);
+            SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
             List<SaveSearchResultWithBLOBs> result = saveSearchResultService.findPagableListByCriteria(new BasicSearchRequest<>(
                     searchCriteria, 0, Integer.MAX_VALUE));
             beanItem = new BeanContainer<>(SaveSearchResultWithBLOBs.class);

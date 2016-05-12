@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCrit
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -70,7 +70,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
 
             @Override
             public void onDelete(SimpleComponent data) {
-                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 componentService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                 EventBusFactory.getInstance().post(new BugComponentEvent.GotoList(this, null));
             }
@@ -96,7 +96,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
 
             @Override
             public void gotoNext(SimpleComponent data) {
-                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 ComponentSearchCriteria criteria = new ComponentSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -111,7 +111,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
 
             @Override
             public void gotoPrevious(SimpleComponent data) {
-                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 ComponentSearchCriteria criteria = new ComponentSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -129,7 +129,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
             if (data.getParams() instanceof Integer) {
-                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 SimpleComponent component = componentService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (component != null) {
                     ComponentContainer componentContainer = container;

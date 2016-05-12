@@ -18,8 +18,6 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.configuration.StorageFactory;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.file.PathUtils;
 import com.esofthead.mycollab.module.file.service.EntityUploaderService;
@@ -30,7 +28,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ImagePreviewCropWindow;
 import com.esofthead.mycollab.module.user.ui.components.UploadImageField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -41,8 +39,6 @@ import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -130,11 +126,11 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
 
         @Override
         public void process(BufferedImage image) {
-            EntityUploaderService entityUploaderService = ApplicationContextUtil.getSpringBean(EntityUploaderService.class);
+            EntityUploaderService entityUploaderService = AppContextUtil.getSpringBean(EntityUploaderService.class);
             String newLogoId = entityUploaderService.upload(image, PathUtils.getProjectLogoPath(AppContext.getAccountId(),
                     project.getId()), project.getAvatarid(), AppContext.getUsername(), AppContext.getAccountId(),
                     new int[]{16, 32, 48, 64, 100});
-            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+            ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             project.setAvatarid(newLogoId);
             projectService.updateSelectiveWithSession(project, AppContext.getUsername());
             Page.getCurrent().getJavaScript().execute("window.location.reload();");

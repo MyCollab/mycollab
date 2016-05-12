@@ -29,7 +29,7 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.ReportStreamSource;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.StreamResource;
 
@@ -49,7 +49,7 @@ public class StreamResourceUtils {
                 TaskTableFieldDef.duedate(), TaskTableFieldDef.percentagecomplete(), TaskTableFieldDef.startdate(),
                 TaskTableFieldDef.assignee(), TaskTableFieldDef.billableHours(), TaskTableFieldDef.nonBillableHours());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Tasks",
-                new RpFieldsBuilder(fields), exportType, SimpleTask.class, ApplicationContextUtil.getSpringBean(ProjectTaskService.class));
+                new RpFieldsBuilder(fields), exportType, SimpleTask.class, AppContextUtil.getSpringBean(ProjectTaskService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override
             protected Map<String, Object> initReportParameters() {
@@ -69,7 +69,7 @@ public class StreamResourceUtils {
                 BugTableFieldDef.logBy(), BugTableFieldDef.duedate(), BugTableFieldDef.assignUser(),
                 BugTableFieldDef.billableHours(), BugTableFieldDef.nonBillableHours());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Bugs", new
-                RpFieldsBuilder(fields), exportType, SimpleBug.class, ApplicationContextUtil.getSpringBean(BugService.class));
+                RpFieldsBuilder(fields), exportType, SimpleBug.class, AppContextUtil.getSpringBean(BugService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override
             protected Map<String, Object> initReportParameters() {

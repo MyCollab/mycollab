@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriter
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
@@ -53,7 +53,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
     private static final long serialVersionUID = 1L;
 
     public ProjectPagedList() {
-        super(ApplicationContextUtil.getSpringBean(ProjectService.class), new ProjectRowDisplayHandler(), 4);
+        super(AppContextUtil.getSpringBean(ProjectService.class), new ProjectRowDisplayHandler(), 4);
     }
 
     @Override

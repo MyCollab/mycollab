@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -51,7 +51,7 @@ public class TaskStatusChartWidget extends PieChartWrapper<TaskSearchCriteria> i
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+        OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
         List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
                 CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
         for (OptionVal optionVal : optionVals) {
@@ -77,7 +77,7 @@ public class TaskStatusChartWidget extends PieChartWrapper<TaskSearchCriteria> i
 
     @Override
     protected List<GroupItem> loadGroupItems() {
-        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
         return taskService.getStatusSummary(searchCriteria);
     }
 

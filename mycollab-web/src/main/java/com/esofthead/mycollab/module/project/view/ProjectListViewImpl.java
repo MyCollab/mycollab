@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -82,7 +82,7 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
 
     private void generateDisplayTable() {
         tableItem = new DefaultPagedBeanTable<>(
-                ApplicationContextUtil.getSpringBean(ProjectService.class),
+                AppContextUtil.getSpringBean(ProjectService.class),
                 SimpleProject.class, VIEW_DEF_ID,
                 ProjectTableFieldDef.selected(), Arrays.asList(ProjectTableFieldDef.projectName(),
                 ProjectTableFieldDef.lead(), ProjectTableFieldDef.client(), ProjectTableFieldDef.startDate(),

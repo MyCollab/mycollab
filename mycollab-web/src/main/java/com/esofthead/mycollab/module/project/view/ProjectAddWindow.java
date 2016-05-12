@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -121,7 +121,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             return;
         }
 
-        Validator validator = ApplicationContextUtil.getValidator();
+        Validator validator = AppContextUtil.getValidator();
         Set<ConstraintViolation<Project>> violations = validator.validate(project);
         if (CollectionUtils.isNotEmpty(violations)) {
             StringBuilder errorMsg = new StringBuilder();
@@ -132,13 +132,13 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             NotificationUtil.showErrorNotification(errorMsg.toString());
         } else {
             project.setSaccountid(AppContext.getAccountId());
-            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+            ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             projectService.saveWithSession(project, AppContext.getUsername());
 
             EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
                     new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
             if (project.getLead() != null && !AppContext.getUsername().equals(project.getLead())) {
-                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 projectMemberService.inviteProjectMembers(new String[]{project.getLead()}, CurrentProjectVariables.getProjectId(),
                         -1, AppContext.getUsername(), AppContext.getMessage(ProjectMemberI18nEnum
                                 .MSG_DEFAULT_INVITATION_COMMENT), AppContext.getAccountId());

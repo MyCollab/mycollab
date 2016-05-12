@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -38,7 +38,7 @@ public class ActivityListDisplay extends DefaultPagedBeanList<EventService, Acti
     private static final long serialVersionUID = -2050012123292483060L;
 
     public ActivityListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(EventService.class), new ActivityRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(EventService.class), new ActivityRowDisplayHandler());
     }
 
     static public class ActivityRowDisplayHandler implements RowDisplayHandler<SimpleActivity> {

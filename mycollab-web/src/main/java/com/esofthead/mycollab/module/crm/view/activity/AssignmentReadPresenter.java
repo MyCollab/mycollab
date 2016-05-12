@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -75,7 +75,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                                    TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                                     taskService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
@@ -98,7 +98,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
 
             @Override
             public void gotoNext(SimpleTask data) {
-                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 TodoSearchCriteria criteria = new TodoSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -113,7 +113,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
 
             @Override
             public void gotoPrevious(SimpleTask data) {
-                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 TodoSearchCriteria criteria = new TodoSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -132,7 +132,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
         if (AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
             SimpleTask task;
             if (data.getParams() instanceof Integer) {
-                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (task == null) {
                     NotificationUtil.showRecordNotExistNotification();

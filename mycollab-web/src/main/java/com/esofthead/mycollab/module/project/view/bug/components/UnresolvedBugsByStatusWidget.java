@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.IStatusSummaryChartWidget;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonI18nComp;
@@ -51,7 +51,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
     public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
 
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         totalCount = bugService.getTotalCount(searchCriteria);
         this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_STATUS_TITLE) + " (" + totalCount + ")");
         groupItems = bugService.getStatusSummary(searchCriteria);

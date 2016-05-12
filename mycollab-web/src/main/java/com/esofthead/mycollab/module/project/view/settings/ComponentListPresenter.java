@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -54,7 +54,7 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
 
     public ComponentListPresenter() {
         super(ComponentListView.class);
-        componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+        componentService = AppContextUtil.getSpringBean(ComponentService.class);
     }
 
     @Override

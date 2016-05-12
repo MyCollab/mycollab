@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -44,7 +44,7 @@ public class ProjectSettingPresenter extends AbstractPresenter<ProjectSettingVie
         UserSettingView userSettingView = (UserSettingView) container;
         userSettingView.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-        ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
+        ProjectNotificationSettingService projectNotificationSettingService = AppContextUtil
                 .getSpringBean(ProjectNotificationSettingService.class);
         ProjectNotificationSetting notification = projectNotificationSettingService
                 .findNotification(AppContext.getUsername(), CurrentProjectVariables.getProjectId(),

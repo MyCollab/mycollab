@@ -32,12 +32,11 @@ import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -88,7 +87,7 @@ public class AccountServiceImpl extends DefaultService<Integer, Account, Account
             assoAccount.setCampaignid(((SimpleCampaign) record.getExtraData()).getId());
             assoAccount.setCreatedtime(new GregorianCalendar().getTime());
 
-            CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+            CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
             campaignService.saveCampaignAccountRelationship(Collections.singletonList(assoAccount), record.getSaccountid());
         }
         return result;

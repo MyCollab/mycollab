@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanBlockList;
@@ -72,7 +72,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
     }
 
     public AccountCaseListComp() {
-        super(ApplicationContextUtil.getSpringBean(CaseService.class), 20);
+        super(AppContextUtil.getSpringBean(CaseService.class), 20);
         this.setBlockDisplayHandler(new AccountCaseBlockDisplay());
     }
 
@@ -170,7 +170,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                                        CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                                         caseService.removeWithSession(oneCase, AppContext.getUsername(), AppContext.getAccountId());
                                         AccountCaseListComp.this.refresh();
                                     }

@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -34,7 +34,7 @@ public class CampaignListDisplay extends DefaultPagedBeanList<CampaignService, C
     private static final long serialVersionUID = -2234454107835680053L;
 
     public CampaignListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(CampaignService.class), new CampaignRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(CampaignService.class), new CampaignRowDisplayHandler());
     }
 
     static public class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {

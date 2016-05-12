@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -34,7 +34,7 @@ public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityServ
     private static final long serialVersionUID = -2350731660593521985L;
 
     public OpportunityListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(OpportunityService.class), new OpportunityRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(OpportunityService.class), new OpportunityRowDisplayHandler());
     }
 
     static public class OpportunityRowDisplayHandler implements RowDisplayHandler<SimpleOpportunity> {

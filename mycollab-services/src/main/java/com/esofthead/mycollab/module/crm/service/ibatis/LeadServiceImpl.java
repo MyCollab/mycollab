@@ -31,14 +31,13 @@ import com.esofthead.mycollab.module.crm.dao.LeadMapperExt;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.*;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 
@@ -82,7 +81,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
             associateLead.setLeadid(lead.getId());
             associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
-            CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+            CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
             campaignService.saveCampaignLeadRelationship(Collections.singletonList(associateLead), lead.getSaccountid());
         } else if (lead.getExtraData() != null && lead.getExtraData() instanceof SimpleOpportunity) {
             OpportunityLead associateLead = new OpportunityLead();
@@ -90,7 +89,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
             associateLead.setLeadid(lead.getId());
             associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
-            OpportunityService opportunityService = ApplicationContextUtil
+            OpportunityService opportunityService = AppContextUtil
                     .getSpringBean(OpportunityService.class);
             opportunityService.saveOpportunityLeadRelationship(
                     Collections.singletonList(associateLead), lead.getSaccountid());
@@ -113,7 +112,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
         account.setDescription(lead.getDescription());
         account.setSaccountid(lead.getSaccountid());
 
-        AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+        AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
         Integer accountId = accountService.saveWithSession(account, convertUser);
 
         LOG.debug("Create account lead relationship");
@@ -140,7 +139,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
         contact.setEmail(lead.getEmail());
         contact.setSaccountid(lead.getSaccountid());
 
-        ContactService contactService = ApplicationContextUtil
+        ContactService contactService = AppContextUtil
                 .getSpringBean(ContactService.class);
         Integer contactId = contactService.saveWithSession(contact, convertUser);
         LOG.debug("Create contact lead relationship");
@@ -154,7 +153,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
         if (opportunity != null) {
             opportunity.setAccountid(accountId);
             opportunity.setSaccountid(lead.getSaccountid());
-            OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+            OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
             int opportunityId = opportunityService.saveWithSession(opportunity,
                     convertUser);
 

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ListSelect;
 
@@ -54,7 +54,7 @@ public class MilestoneListSelect extends ListSelect {
 
     @Override
     public void attach() {
-        MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+        MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(criteria));

@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.format.{CurrencyFieldFormat, DateFieldFormat, FieldFormat}
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
@@ -117,7 +117,7 @@ class CampaignRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEma
       if (StringUtils.isBlank(value)) {
         ""
       } else {
-        val userService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+        val userService = AppContextUtil.getSpringBean(classOf[UserService])
         val user = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
         if (user != null) {
           val userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid, 16)

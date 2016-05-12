@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.TicketI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 
@@ -51,7 +51,7 @@ public class IssueNavigatorButton extends NavigationButton {
         criteria.setMilestoneId(NumberSearchField.and(milestoneId));
         criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
-        ProjectGenericTaskService ticketService = ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class);
+        ProjectGenericTaskService ticketService = AppContextUtil.getSpringBean(ProjectGenericTaskService.class);
         this.setCaption(AppContext.getMessage(TicketI18nEnum.M_TICKET_NUM, ticketService.getTotalCount(criteria)));
     }
 }

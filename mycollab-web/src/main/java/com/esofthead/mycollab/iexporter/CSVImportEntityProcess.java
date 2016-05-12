@@ -20,7 +20,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.CSVItemMapperDef;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.ImportFieldDef;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -41,7 +41,7 @@ public class CSVImportEntityProcess<S extends ICrudService, E> {
     private Validator validation;
 
     public CSVImportEntityProcess() {
-        validation = ApplicationContextUtil.getSpringBean("validator", LocalValidatorFactoryBean.class);
+        validation = AppContextUtil.getSpringBean("validator", LocalValidatorFactoryBean.class);
     }
 
     /**

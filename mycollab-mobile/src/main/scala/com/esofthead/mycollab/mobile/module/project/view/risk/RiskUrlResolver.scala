@@ -25,7 +25,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.{ProjectScre
 import com.esofthead.mycollab.module.project.domain.SimpleRisk
 import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria
 import com.esofthead.mycollab.module.project.service.RiskService
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
@@ -64,7 +64,7 @@ class RiskUrlResolver extends ProjectUrlResolver {
       val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val riskId = token.getInt
-      val riskService = ApplicationContextUtil.getSpringBean(classOf[RiskService])
+      val riskService = AppContextUtil.getSpringBean(classOf[RiskService])
       val risk = riskService.findById(riskId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new RiskScreenData.Edit(risk))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

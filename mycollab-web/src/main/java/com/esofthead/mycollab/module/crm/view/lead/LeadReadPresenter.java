@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -88,7 +88,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    LeadService LeadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                                    LeadService LeadService = AppContextUtil.getSpringBean(LeadService.class);
                                     LeadService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
@@ -118,7 +118,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 
             @Override
             public void gotoNext(SimpleLead data) {
-                LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -132,7 +132,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 
             @Override
             public void gotoPrevious(SimpleLead data) {
-                LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -194,7 +194,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
                         associateCampaigns.add(associateCampaign);
                     }
 
-                    CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                    CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                     campaignService.saveCampaignLeadRelationship(associateCampaigns, AppContext.getAccountId());
                     view.getRelatedCampaignHandlers().refresh();
                 }

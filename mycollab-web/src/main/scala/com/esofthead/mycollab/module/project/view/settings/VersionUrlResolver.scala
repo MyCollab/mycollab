@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.view.parameters.{ProjectScreenData,
 import com.esofthead.mycollab.module.tracker.domain.Version
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
 import com.esofthead.mycollab.module.tracker.service.VersionService
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
@@ -66,7 +66,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
       val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val versionId = token.getInt
-      val versionService = ApplicationContextUtil.getSpringBean(classOf[VersionService])
+      val versionService = AppContextUtil.getSpringBean(classOf[VersionService])
       val version = versionService.findById(versionId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new VersionScreenData.Edit(version))

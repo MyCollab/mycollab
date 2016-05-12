@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketServi
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -112,7 +112,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
             protected StreamSource buildStreamSource() {
                 SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Following Tickets",
                         new RpFieldsBuilder(ticketTable.getDisplayColumns()), exportType, FollowingTicket.class,
-                        ApplicationContextUtil.getSpringBean(ProjectFollowingTicketService.class));
+                        AppContextUtil.getSpringBean(ProjectFollowingTicketService.class));
                 //TODO: correct the report of following tickets
                 return null;
             }

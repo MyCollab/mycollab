@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
                     subdomain = urlTokenizer.getString();
                 }
 
-                UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                UserService userService = AppContextUtil.getSpringBean(UserService.class);
                 SimpleUser checkUser = userService.findUserByUserNameInAccount(username, accountId);
 
                 if (checkUser == null) {

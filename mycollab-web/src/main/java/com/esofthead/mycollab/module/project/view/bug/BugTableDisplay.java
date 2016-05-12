@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
@@ -56,7 +56,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
     }
 
     public BugTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(BugService.class), SimpleBug.class, viewId, requiredColumn, displayColumns);
+        super(AppContextUtil.getSpringBean(BugService.class), SimpleBug.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("assignuserFullName", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.view.settings.ComponentDefaultFormLayoutFactory;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -61,7 +61,7 @@ public class ComponentAddWindow extends Window implements IEditFormHandler<Compo
 
     @Override
     public void onSave(Component bean) {
-        ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+        ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
         componentService.saveWithSession(bean, AppContext.getUsername());
         close();
     }

@@ -17,7 +17,8 @@
 package com.esofthead.mycollab.module.project.domain.criteria
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria
-import com.esofthead.mycollab.core.db.query.{DateParam, PropertyListParam}
+import com.esofthead.mycollab.core.db.query.{CacheParamMapper, DateParam, PropertyListParam}
+import com.esofthead.mycollab.module.project.ProjectTypeConstants
 
 /**
   * @author MyCollab Ltd
@@ -27,7 +28,8 @@ class InvoiceSearchCriteria extends SearchCriteria {
 
 }
 object InvoiceSearchCriteria {
-  val p_createdDate = new DateParam("invoice-createddate", null, "m_prj_invoice", "createdTime")
-  val p_status = new PropertyListParam[String]("invoice-status", null, "m_prj_invoice", "status")
-  val p_projectIds = new PropertyListParam[Integer]("invoice-projectid", null, "m_prj_invoice", "projectId")
+  val p_status = CacheParamMapper.register(ProjectTypeConstants.INVOICE, null,
+    new PropertyListParam[String]("status", "m_prj_invoice", "status"))
+  val p_projectIds = CacheParamMapper.register(ProjectTypeConstants.INVOICE, null,
+    new PropertyListParam[Integer]("projectid", "m_prj_invoice", "projectId"))
 }

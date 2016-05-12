@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -80,7 +80,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+                                        RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
                                         roleService.removeWithSession(role, AppContext.getUsername(), AppContext.getAccountId());
                                         EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
                                     }
@@ -107,7 +107,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
-            RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+            RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
             SimpleRole role = roleService.findById((Integer) data.getParams(), AppContext.getAccountId());
             if (role != null) {
                 RoleContainer roleContainer = (RoleContainer) container;

@@ -23,12 +23,11 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -59,7 +58,7 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
     @Override
     protected void postInitView() {
         super.postInitView();
-        projectRoleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+        projectRoleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
@@ -129,6 +128,6 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
 
     @Override
     public ISearchableService<ProjectRoleSearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+        return AppContextUtil.getSpringBean(ProjectRoleService.class);
     }
 }

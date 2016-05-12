@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.format.{DateFieldFormat, EmailLinkFieldFormat, FieldFormat}
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.hp.gagawa.java.elements.{A, Img, Span, Text}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -140,7 +140,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
             if (StringUtils.isBlank(value)) {
                 new Span().write
             } else {
-                val userService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+                val userService = AppContextUtil.getSpringBean(classOf[UserService])
                 val user = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid, 16)
@@ -176,7 +176,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
             }
             try {
                 val accountId = value.toInt
-                val accountService = ApplicationContextUtil.getSpringBean(classOf[AccountService])
+                val accountService = AppContextUtil.getSpringBean(classOf[AccountService])
                 val account = accountService.findById(accountId, context.getUser.getAccountId)
                 if (account != null) {
                     val img = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))

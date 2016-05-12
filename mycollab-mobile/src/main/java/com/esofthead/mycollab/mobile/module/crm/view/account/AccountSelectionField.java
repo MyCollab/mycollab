@@ -20,7 +20,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
@@ -57,7 +57,7 @@ public class AccountSelectionField extends
 	}
 
 	private void setAccountByVal(Integer accountId) {
-		AccountService accountService = ApplicationContextUtil
+		AccountService accountService = AppContextUtil
 				.getSpringBean(AccountService.class);
 		SimpleAccount account = accountService.findById(accountId,
 				AppContext.getAccountId());

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.ui.components.ProjectActivityCompon
 import com.esofthead.mycollab.module.project.ui.components.TagViewComponent;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -132,7 +132,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                     quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
                 }
 
-                VersionService service = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionService service = AppContextUtil.getSpringBean(VersionService.class);
                 service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
             }
         });

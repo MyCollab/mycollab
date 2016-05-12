@@ -38,7 +38,7 @@ import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
@@ -218,20 +218,20 @@ public class MobileApplication extends MyCollabUI {
 
     public void doLogin(String username, String password, boolean isRememberPassword) {
         try {
-            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService userService = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
 
             if (isRememberPassword) {
                 rememberPassword(username, password);
             }
 
-            BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+            BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
             SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
             LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
             AppContext.getInstance().setSessionVariables(user, billingAccount);
 
-            UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
+            UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
             UserAccount userAccount = new UserAccount();
             userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
             UserAccountExample ex = new UserAccountExample();

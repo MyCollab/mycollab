@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.service.ProjectRoleService
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
 import com.esofthead.mycollab.module.project.view.parameters.{ProjectRoleScreenData, ProjectScreenData}
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
@@ -65,7 +65,7 @@ class RoleUrlResolver extends ProjectUrlResolver {
       val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val roleId = token.getInt
-      val roleService = ApplicationContextUtil.getSpringBean(classOf[ProjectRoleService])
+      val roleService = AppContextUtil.getSpringBean(classOf[ProjectRoleService])
       val role = roleService.findById(roleId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectRoleScreenData.Add(role))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

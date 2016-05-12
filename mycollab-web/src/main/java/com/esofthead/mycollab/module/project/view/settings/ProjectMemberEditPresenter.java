@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -91,7 +91,7 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
     }
 
     public void saveProjectMember(ProjectMember projectMember) {
-        ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
 
         if (projectMember.getId() == null) {
             throw new MyCollabException("User not exist in projectMember table, something goes wrong in DB");

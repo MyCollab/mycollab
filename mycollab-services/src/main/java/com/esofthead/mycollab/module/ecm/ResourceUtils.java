@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.ecm.domain.ExternalFolder;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
 import com.esofthead.mycollab.module.ecm.service.DropboxResourceService;
 import com.esofthead.mycollab.module.ecm.service.ExternalResourceService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
@@ -41,7 +41,7 @@ public class ResourceUtils {
      */
     public static ExternalResourceService getExternalResourceService(ResourceType resourceType) {
         if (ResourceType.Dropbox == resourceType) {
-            return ApplicationContextUtil.getSpringBean(DropboxResourceService.class);
+            return AppContextUtil.getSpringBean(DropboxResourceService.class);
         } else {
             throw new MyCollabException("Current support only dropbox resource service");
         }

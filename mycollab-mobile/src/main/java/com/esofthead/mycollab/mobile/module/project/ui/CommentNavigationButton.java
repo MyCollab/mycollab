@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 
@@ -50,7 +50,7 @@ public class CommentNavigationButton extends NavigationButton {
 
     public void displayTotalComments(String typeId) {
         this.typeId = typeId;
-        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
         CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));

@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -57,7 +57,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
     private Opportunity opportunity;
 
     public OpportunityLeadListComp() {
-        super(ApplicationContextUtil.getSpringBean(LeadService.class), 20);
+        super(AppContextUtil.getSpringBean(LeadService.class), 20);
         this.setBlockDisplayHandler(new OpportunityLeadBlockDisplay());
     }
 
@@ -155,7 +155,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final OpportunityService accountService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                                        final OpportunityService accountService = AppContextUtil.getSpringBean(OpportunityService.class);
                                         final OpportunityLead associateLead = new OpportunityLead();
                                         associateLead.setOpportunityid(opportunity.getId());
                                         associateLead.setLeadid(lead.getId());

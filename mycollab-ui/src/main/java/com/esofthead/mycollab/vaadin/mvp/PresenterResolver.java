@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.service.ComponentScannerService;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 
@@ -66,7 +66,7 @@ public final class PresenterResolver {
             if (!presenterClass.isInterface()) {
                 value = presenterClass.newInstance();
             } else {
-                ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean
+                ComponentScannerService componentScannerService = AppContextUtil.getSpringBean
                         (ComponentScannerService.class);
                 Class presenterClassImpl = componentScannerService.getPresenterImplCls(presenterClass);
                 if (presenterClassImpl != null) {

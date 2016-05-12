@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -104,7 +104,7 @@ public class ApproveInputWindow extends Window {
                             // Save bug status and assignee
                             bug.setStatus(BugStatus.Verified.name());
 
-                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                             bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
 
                             // Save comment
@@ -119,7 +119,7 @@ public class ApproveInputWindow extends Window {
                                 comment.setTypeid("" + bug.getId());
                                 comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                                 commentService.saveWithSession(comment, AppContext.getUsername());
                             }
 

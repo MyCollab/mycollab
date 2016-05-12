@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.ecm.service.ExternalDriveService;
 import com.esofthead.mycollab.module.ecm.service.ExternalResourceService;
 import com.esofthead.mycollab.module.ecm.service.ResourceMover;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ItemClickEvent;
@@ -74,10 +74,10 @@ public abstract class AbstractResourceMovingWindow extends Window {
         this.setModal(true);
         this.setResizable(false);
         this.movedResources = lstRes;
-        this.resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
-        this.externalResourceService = ApplicationContextUtil.getSpringBean(ExternalResourceService.class);
-        this.externalDriveService = ApplicationContextUtil.getSpringBean(ExternalDriveService.class);
-        this.resourceMover = ApplicationContextUtil.getSpringBean(ResourceMover.class);
+        this.resourceService = AppContextUtil.getSpringBean(ResourceService.class);
+        this.externalResourceService = AppContextUtil.getSpringBean(ExternalResourceService.class);
+        this.externalDriveService = AppContextUtil.getSpringBean(ExternalDriveService.class);
+        this.resourceMover = AppContextUtil.getSpringBean(ResourceMover.class);
         constructBody();
     }
 

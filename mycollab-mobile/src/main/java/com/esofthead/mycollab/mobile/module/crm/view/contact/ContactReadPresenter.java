@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -82,7 +82,7 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ContactService ContactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                                    ContactService ContactService = AppContextUtil.getSpringBean(ContactService.class);
                                     ContactService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
@@ -105,7 +105,7 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
 
             @Override
             public void gotoNext(SimpleContact data) {
-                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -120,7 +120,7 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
 
             @Override
             public void gotoPrevious(SimpleContact data) {
-                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -146,7 +146,7 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
                     associateOpportunities.add(assoOpportunity);
                 }
 
-                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 contactService.saveContactOpportunityRelationship(
                         associateOpportunities, AppContext.getAccountId());
 
@@ -198,7 +198,7 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
 			 */
 
             if (data.getParams() instanceof Integer) {
-                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 SimpleContact contact = contactService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (contact != null) {
                     view.previewItem(contact);

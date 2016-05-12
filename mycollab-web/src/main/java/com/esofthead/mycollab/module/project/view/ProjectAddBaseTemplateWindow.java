@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTemplateService;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -85,7 +85,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
                     NotificationUtil.showErrorNotification("Project key must be not null and less than 3 characters");
                     return;
                 }
-                ProjectTemplateService projectTemplateService = ApplicationContextUtil.getSpringBean
+                ProjectTemplateService projectTemplateService = AppContextUtil.getSpringBean
                         (ProjectTemplateService.class);
                 if (projectTemplateService != null) {
                     Integer newProjectId = projectTemplateService.cloneProject(templatePrj.getId(), newPrjName, newPrjKey,
@@ -111,7 +111,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
 
     private static class TemplateProjectComboBox extends ComboBox {
         TemplateProjectComboBox() {
-            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+            ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
             searchCriteria.addExtraField(ProjectSearchCriteria.p_template.buildParamIsEqual(SearchField.AND, 1));
             List<SimpleProject> projectTemplates = projectService.findPagableListByCriteria(new BasicSearchRequest<>

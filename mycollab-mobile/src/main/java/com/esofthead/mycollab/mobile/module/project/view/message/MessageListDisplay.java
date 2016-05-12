@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MessageService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -49,7 +49,7 @@ public class MessageListDisplay extends DefaultPagedBeanList<MessageService, Mes
     private static final long serialVersionUID = 7625380843753142287L;
 
     public MessageListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(MessageService.class), new MessageRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(MessageService.class), new MessageRowDisplayHandler());
     }
 
     public static class MessageRowDisplayHandler implements RowDisplayHandler<SimpleMessage> {
@@ -100,7 +100,7 @@ public class MessageListDisplay extends DefaultPagedBeanList<MessageService, Mes
             Label messageContent = new Label(StringUtils.trim(StringUtils.trimHtmlTags(message.getMessage()), 150, true));
             rightCol.addComponent(messageContent);
 
-            ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+            ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
                     AppContext.getAccountId(), message.getProjectid(),
                     ProjectTypeConstants.MESSAGE, "" + message.getId()));

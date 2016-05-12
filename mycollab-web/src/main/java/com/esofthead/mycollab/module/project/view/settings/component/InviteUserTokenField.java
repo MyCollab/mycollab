@@ -22,7 +22,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.hp.gagawa.java.elements.Img;
@@ -69,7 +69,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         suggestField.setPopupWidth(400);
 
         addComponent(suggestField);
-        ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
     }
 

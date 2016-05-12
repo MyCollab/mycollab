@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
     private static final long serialVersionUID = 1L;
 
     public AccountImportWindow() {
-        super(false, "Import Accounts", ApplicationContextUtil.getSpringBean(AccountService.class), Account.class);
+        super(false, "Import Accounts", AppContextUtil.getSpringBean(AccountService.class), Account.class);
     }
 
     @Override

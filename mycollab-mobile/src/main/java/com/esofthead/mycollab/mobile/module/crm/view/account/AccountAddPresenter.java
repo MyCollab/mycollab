@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -72,7 +72,7 @@ public class AccountAddPresenter extends AbstractCrmPresenter<AccountAddView> {
             if (data.getParams() instanceof SimpleAccount) {
                 account = (SimpleAccount) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 account = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (account == null) {
@@ -96,7 +96,7 @@ public class AccountAddPresenter extends AbstractCrmPresenter<AccountAddView> {
     }
 
     private void saveAccount(Account account) {
-        AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+        AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
         account.setSaccountid(AppContext.getAccountId());
         if (account.getId() == null) {
             accountService.saveWithSession(account, AppContext.getUsername());

@@ -40,7 +40,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -117,7 +117,7 @@ public class ResolvedInputWindow extends Window {
                                     if (selectedBug.getId().equals(bug.getId())) {
                                         throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
                                     }
-                                    BugRelationService relatedBugService = ApplicationContextUtil.getSpringBean(BugRelationService.class);
+                                    BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
                                     RelatedBug relatedBug = new RelatedBug();
                                     relatedBug.setBugid(bug.getId());
                                     relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
@@ -139,11 +139,11 @@ public class ResolvedInputWindow extends Window {
                             }
                             bug.setStatus(BugStatus.Resolved.name());
 
-                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+                            BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
                             bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), fixedVersionSelect.getSelectedItems());
 
                             // Save bug status and assignee
-                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                             bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
 
                             // Save comment
@@ -157,7 +157,7 @@ public class ResolvedInputWindow extends Window {
                                 comment.setTypeid("" + bug.getId());
                                 comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                                 commentService.saveWithSession(comment, AppContext.getUsername());
                             }
 

@@ -35,8 +35,8 @@ public class StringParam extends ColumnParam {
 
     public static String[] OPTIONS = {IS, IS_NOT, CONTAINS, NOT_CONTAINS, IS_EMPTY, IS_NOT_EMPTY};
 
-    public StringParam(String id, Enum displayName, String table, String column) {
-        super(id, displayName, table, column);
+    public StringParam(String id, String table, String column) {
+        super(id, table, column);
     }
 
     public SearchField buildSearchField(String prefixOper, String compareOper, String value) {

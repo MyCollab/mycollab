@@ -26,7 +26,7 @@ import com.esofthead.mycollab.mobile.ui.TempFileFactory;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -68,7 +68,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
 
     public ProjectCommentInputView(String typeVal, String typeIdVal, Integer extraTypeIdVal) {
         this.setCaption("Add a comment");
-        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         MVerticalLayout content = new MVerticalLayout().withFullWidth().withStyleName("comment-input");
         this.setContent(content);
 
@@ -94,7 +94,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
                 comment.setTypeid("" + typeId);
                 comment.setExtratypeid(extraTypeId);
 
-                final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                 int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
 
                 String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, AppContext.getAccountId(),

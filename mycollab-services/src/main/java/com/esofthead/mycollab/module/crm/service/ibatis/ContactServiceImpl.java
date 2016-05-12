@@ -31,12 +31,11 @@ import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -162,7 +161,7 @@ public class ContactServiceImpl extends DefaultService<Integer, Contact, Contact
             associateContact.setContactid(contact.getId());
             associateContact.setCreatedtime(new GregorianCalendar().getTime());
 
-            CampaignService campaignService = ApplicationContextUtil
+            CampaignService campaignService = AppContextUtil
                     .getSpringBean(CampaignService.class);
             campaignService.saveCampaignContactRelationship(
                     Collections.singletonList(associateContact), contact.getSaccountid());

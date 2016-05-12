@@ -37,7 +37,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -107,7 +107,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 @Override
                 @Subscribe
                 public void handle(BugEvent.NewBugAdded event) {
-                    final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                    final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                     SimpleBug bug = bugService.findById((Integer) event.getData(), AppContext.getAccountId());
                     if (bug != null && bugGroupOrderComponent != null) {
                         bugGroupOrderComponent.insertBugs(Collections.singletonList(bug));
@@ -309,7 +309,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
             throw new MyCollabException("Do not support group view by " + groupByState);
         }
         wrapBody.addComponent(bugGroupOrderComponent);
-        final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         int totalBugs = bugService.getTotalCount(baseCriteria);
         searchPanel.setTotalCountNumber(totalBugs);
         currentPage = 0;

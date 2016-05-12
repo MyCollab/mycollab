@@ -24,7 +24,7 @@ import com.esofthead.mycollab.common.service.RelayEmailNotificationService
 import com.esofthead.mycollab.core.arguments.{BasicSearchRequest, SetSearchField}
 import com.esofthead.mycollab.module.crm.CrmTypeConstants
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import org.quartz.JobExecutionContext
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,7 +45,7 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
 
   @SuppressWarnings(Array("unchecked"))
   def executeJob(context: JobExecutionContext) {
-    val relayEmailService = ApplicationContextUtil.getSpringBean(classOf[RelayEmailNotificationService])
+    val relayEmailService = AppContextUtil.getSpringBean(classOf[RelayEmailNotificationService])
     val criteria = new RelayEmailNotificationSearchCriteria
     criteria.setTypes(new SetSearchField[String](CrmTypeConstants.ACCOUNT, CrmTypeConstants.CONTACT,
       CrmTypeConstants.CAMPAIGN, CrmTypeConstants.LEAD, CrmTypeConstants.OPPORTUNITY, CrmTypeConstants.CASE,
@@ -61,7 +61,7 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
       try {
         val mailServiceCls = MailServiceMap.service(notification.getType)
         if (mailServiceCls != null) {
-          emailNotificationAction = ApplicationContextUtil.getSpringBean(mailServiceCls)
+          emailNotificationAction = AppContextUtil.getSpringBean(mailServiceCls)
 
           if (emailNotificationAction != null) {
             notification.getAction match {

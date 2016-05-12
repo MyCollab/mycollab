@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.mail.EmailAttachementSource;
 import com.esofthead.mycollab.module.mail.FileEmailAttachmentSource;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
@@ -220,7 +220,7 @@ public class MailFormWindow extends Window {
                 }
                 if (AppContext.getUser().getEmail() != null
                         && AppContext.getUser().getEmail().length() > 0) {
-                    ExtMailService systemMailService = ApplicationContextUtil
+                    ExtMailService systemMailService = AppContextUtil
                             .getSpringBean(ExtMailService.class);
 
                     List<File> listFile = attachments.files();

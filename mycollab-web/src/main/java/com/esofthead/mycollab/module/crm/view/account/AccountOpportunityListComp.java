@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanBlockList;
@@ -70,7 +70,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
     }
 
     public AccountOpportunityListComp() {
-        super(ApplicationContextUtil.getSpringBean(OpportunityService.class), 20);
+        super(AppContextUtil.getSpringBean(OpportunityService.class), 20);
         this.setBlockDisplayHandler(new AccountOpportunityBlockDisplay());
     }
 
@@ -168,7 +168,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                                        OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                                         opportunityService.removeWithSession(opportunity,
                                                 AppContext.getUsername(), AppContext.getAccountId());
                                         AccountOpportunityListComp.this.refresh();

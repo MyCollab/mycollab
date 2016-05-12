@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.view.parameters.{ComponentScreenDat
 import com.esofthead.mycollab.module.tracker.domain.Component
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
 import com.esofthead.mycollab.module.tracker.service.ComponentService
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
@@ -75,7 +75,7 @@ class ComponentUrlResolver extends ProjectUrlResolver {
       val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val componentId = token.getInt
-      val componentService = ApplicationContextUtil.getSpringBean(classOf[ComponentService])
+      val componentService = AppContextUtil.getSpringBean(classOf[ComponentService])
       val component = componentService.findById(componentId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ComponentScreenData.Edit(component))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

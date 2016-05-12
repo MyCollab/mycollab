@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.ui.components.TimeLogComp;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -27,7 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 5.0.5
  */
 public class MilestoneTimeLogComp extends TimeLogComp<SimpleMilestone> {
-    private ItemTimeLoggingService itemLogService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
+    private ItemTimeLoggingService itemLogService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
 
     @Override
     protected Double getTotalBillableHours(SimpleMilestone bean) {

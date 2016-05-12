@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -71,7 +71,7 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
                             public void onClose(
                                     final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                                    BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                                     bugService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
@@ -93,7 +93,7 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             if (data.getParams() instanceof Integer) {
-                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 SimpleBug bug = bugService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (bug != null) {
                     view.previewItem(bug);

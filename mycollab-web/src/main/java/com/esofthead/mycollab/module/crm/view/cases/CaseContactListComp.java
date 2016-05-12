@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -52,7 +52,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
     private CaseWithBLOBs cases;
 
     public CaseContactListComp() {
-        super(ApplicationContextUtil.getSpringBean(ContactService.class), 20);
+        super(AppContextUtil.getSpringBean(ContactService.class), 20);
         this.setBlockDisplayHandler(new CaseContactBlockDisplay());
     }
 
@@ -154,7 +154,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final ContactService contactService = ApplicationContextUtil
+                                        final ContactService contactService = AppContextUtil
                                                 .getSpringBean(ContactService.class);
                                         ContactCase associateContact = new ContactCase();
                                         associateContact.setCaseid(cases.getId());

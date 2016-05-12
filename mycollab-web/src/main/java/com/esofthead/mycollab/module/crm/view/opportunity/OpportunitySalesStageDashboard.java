@@ -25,8 +25,7 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunitySalesStageDashboard;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;
@@ -47,7 +46,7 @@ public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunityS
 
     @Override
     protected List<GroupItem> loadGroupItems() {
-        final OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+        final OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
         return opportunityService.getSalesStageSummary(searchCriteria);
     }
 

@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -86,7 +86,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                             @Override
                             public void onClose(final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                                    BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                                     bugService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
                                 }
@@ -112,7 +112,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
 
             @Override
             public void gotoNext(SimpleBug data) {
-                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.and(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.GREATER_THAN, data.getBugkey()));
@@ -126,7 +126,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
 
             @Override
             public void gotoPrevious(SimpleBug data) {
-                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.and(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.LESS_THAN,
@@ -150,7 +150,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             if (data.getParams() instanceof Integer) {
-                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 SimpleBug bug = bugService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (bug != null) {
                     BugContainer bugContainer = (BugContainer) container;

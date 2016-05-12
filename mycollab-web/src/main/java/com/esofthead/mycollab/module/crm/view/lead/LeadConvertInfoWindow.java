@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.esofthead.mycollab.module.crm.view.opportunity.OpportunitySalesStageComboBox;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -91,7 +91,7 @@ public class LeadConvertInfoWindow extends Window {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
                 lead.setStatus("Converted");
                 leadService.updateWithSession(lead, AppContext.getUsername());
                 Opportunity opportunity = null;

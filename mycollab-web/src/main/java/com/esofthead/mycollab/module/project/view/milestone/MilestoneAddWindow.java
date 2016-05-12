@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.events.AssignmentEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
@@ -80,7 +80,7 @@ public class MilestoneAddWindow extends Window {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editForm.validateForm()) {
-                    MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                    MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
                     Integer milestoneId;
                     if (milestone.getId() == null) {
                         milestoneId = milestoneService.saveWithSession(milestone, AppContext.getUsername());

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 
 import java.util.Arrays;
 
@@ -34,33 +34,29 @@ import java.util.Arrays;
 public class CampaignSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final Param p_campaignName = new StringParam("campaign-name",
-            GenericI18Enum.FORM_NAME, "m_crm_campaign", "campaignName");
+    public static final Param p_campaignName = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_NAME,
+            new StringParam("name", "m_crm_campaign", "campaignName"));
 
-    public static final Param p_startDate = new DateParam("campaign-startdate",
-            GenericI18Enum.FORM_START_DATE, "m_crm_campaign", "startDate");
+    public static final Param p_startDate = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_START_DATE,
+            new DateParam("startdate", "m_crm_campaign", "startDate"));
 
-    public static final Param p_endDate = new DateParam("campaign-enddate",
-            GenericI18Enum.FORM_END_DATE, "m_crm_campaign", "endDate");
+    public static final Param p_endDate = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_END_DATE,
+            new DateParam("enddate", "m_crm_campaign", "endDate"));
 
-    public static final Param p_createdtime = new DateParam("campaign-createdtime",
-            GenericI18Enum.FORM_CREATED_TIME, "m_crm_campaign", "createdTime");
+    public static final Param p_createdtime = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_CREATED_TIME,
+            new DateParam("createdtime", "m_crm_campaign", "createdTime"));
 
-    public static final Param p_lastUpdatedTime = new DateParam(
-            "campaign-lastUpdatedTime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
-            "m_crm_campaign", "lastUpdatedTime");
+    public static final Param p_lastUpdatedTime = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN,
+            GenericI18Enum.FORM_LAST_UPDATED_TIME, new DateParam("lastUpdatedTime", "m_crm_campaign", "lastUpdatedTime"));
 
-    public static final Param p_types = new StringListParam("campaign-type",
-            GenericI18Enum.FORM_TYPE, "m_crm_campaign", "type",
-            Arrays.asList(CrmDataTypeFactory.getCampaignTypeList()));
+    public static final Param p_types = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_TYPE,
+            new StringListParam("type", "m_crm_campaign", "type", Arrays.asList(CrmDataTypeFactory.getCampaignTypeList())));
 
-    public static final Param p_statuses = new StringListParam("campaign-status",
-            GenericI18Enum.FORM_STATUS, "m_crm_campaign", "status",
-            Arrays.asList(CrmDataTypeFactory.getCampaignStatusList()));
+    public static final Param p_statuses = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_STATUS,
+            new StringListParam("status", "m_crm_campaign", "status", Arrays.asList(CrmDataTypeFactory.getCampaignStatusList())));
 
-    public static final Param p_assignee = new PropertyListParam(
-            "campaign-assignuser", GenericI18Enum.FORM_ASSIGNEE,
-            "m_crm_campaign", "assignUser");
+    public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_ASSIGNEE,
+            new PropertyListParam("assignuser", "m_crm_campaign", "assignUser"));
 
     private StringSearchField campaignName;
     private StringSearchField assignUser;

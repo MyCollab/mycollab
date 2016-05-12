@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.InviteUserT
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -156,7 +156,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
     private void displayRolePermission(Integer roleId) {
         projectFormHelper.getLayout().removeAllComponents();
         if (roleId != null && roleId > 0) {
-            ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+            ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
             SimpleProjectRole role = roleService.findById(roleId, AppContext.getAccountId());
             if (role != null) {
                 PermissionMap permissionMap = role.getPermissionMap();

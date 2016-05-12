@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -34,7 +34,7 @@ public class AccountListDisplay extends DefaultPagedBeanList<AccountService, Acc
     private static final long serialVersionUID = 1491890029721763281L;
 
     public AccountListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(AccountService.class), new AccountRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(AccountService.class), new AccountRowDisplayHandler());
     }
 
     static public class AccountRowDisplayHandler implements RowDisplayHandler<SimpleAccount> {

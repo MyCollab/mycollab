@@ -22,7 +22,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -39,7 +39,7 @@ public class SystemUIChecker {
      */
     public static boolean hasValidSmtpAccount() {
         if (!SiteConfiguration.isDemandEdition()) {
-            ExtMailService extMailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+            ExtMailService extMailService = AppContextUtil.getSpringBean(ExtMailService.class);
             if (!extMailService.isMailSetupValid()) {
                 if (AppContext.isAdmin()) {
                     ConfirmDialogExt.show(UI.getCurrent(),

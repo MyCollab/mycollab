@@ -20,7 +20,7 @@ import java.util.Currency
 
 import com.esofthead.mycollab.core.utils.{CurrencyUtils, StringUtils}
 import com.esofthead.mycollab.schedule.email.MailContext
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.hp.gagawa.java.elements.Span
 import org.apache.commons.beanutils.PropertyUtils
 import org.slf4j.LoggerFactory

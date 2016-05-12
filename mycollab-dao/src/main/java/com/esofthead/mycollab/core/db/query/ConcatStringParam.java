@@ -34,8 +34,8 @@ public class ConcatStringParam extends Param {
     private String table;
     private String[] columns;
 
-    public ConcatStringParam(String id, Enum displayName, String table, String[] columns) {
-        super(id, displayName);
+    public ConcatStringParam(String id, String table, String[] columns) {
+        super(id);
         this.table = table;
         this.columns = columns;
     }

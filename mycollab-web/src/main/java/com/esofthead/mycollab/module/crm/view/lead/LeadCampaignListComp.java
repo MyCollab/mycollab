@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -54,7 +54,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
     private Lead lead;
 
     public LeadCampaignListComp() {
-        super(ApplicationContextUtil.getSpringBean(CampaignService.class), 20);
+        super(AppContextUtil.getSpringBean(CampaignService.class), 20);
         this.setBlockDisplayHandler(new LeadCampaignBlockDisplay());
     }
 
@@ -153,7 +153,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                                        CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                                         CampaignLead associateLead = new CampaignLead();
                                         associateLead.setLeadid(lead.getId());
                                         associateLead.setCampaignid(campaign.getId());

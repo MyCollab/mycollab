@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.ITaskStatusChartWidget;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonI18nComp;
@@ -91,7 +91,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
     public void setSearchCriteria(TaskSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
 
-        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
         totalCount = taskService.getTotalCount(searchCriteria);
         groupItems = taskService.getStatusSummary(searchCriteria);
         displayPlainMode();
@@ -104,7 +104,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
         this.setTitle(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_STATUS_TITLE) + " (" + totalCount + ")");
 
         if (!groupItems.isEmpty()) {
-            OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+            OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
             List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
                     CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
 

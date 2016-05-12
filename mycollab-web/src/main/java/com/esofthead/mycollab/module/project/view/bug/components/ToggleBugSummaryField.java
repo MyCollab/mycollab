@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
@@ -115,7 +115,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(bug.getSummary())) {
             bug.setSummary(newValue);
             titleLinkLbl.setValue(buildBugLink());
-            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
             bugService.updateSelectiveWithSession(BeanUtility.deepClone(bug), AppContext.getUsername());
         }
 

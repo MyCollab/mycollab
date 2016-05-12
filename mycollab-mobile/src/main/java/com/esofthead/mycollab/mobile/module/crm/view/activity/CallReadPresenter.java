@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -69,7 +69,7 @@ public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                                    CallService callService = AppContextUtil.getSpringBean(CallService.class);
                                     callService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
@@ -92,7 +92,7 @@ public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
 
             @Override
             public void gotoNext(SimpleCall data) {
-                CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 CallSearchCriteria criteria = new CallSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -106,7 +106,7 @@ public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
 
             @Override
             public void gotoPrevious(SimpleCall data) {
-                CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 CallSearchCriteria criteria = new CallSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -125,7 +125,7 @@ public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
         if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
             SimpleCall call;
             if (data.getParams() instanceof Integer) {
-                CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 call = callService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (call == null) {
                     NotificationUtil.showRecordNotExistNotification();

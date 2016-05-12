@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.ui.TempFileFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.StreamVariable;
@@ -51,7 +51,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     private String attachmentPath;
 
     public ProjectFormAttachmentUploadField() {
-        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         currentPollInterval = UI.getCurrent().getPollInterval();
 
         receiver = createReceiver();

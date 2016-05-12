@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.hp.gagawa.java.elements.A;
@@ -57,7 +57,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
 
     public ProjectActivityStreamListDisplay() {
         super(new ActivityStreamRowHandler(), 20);
-        projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
+        projectActivityStreamService = AppContextUtil.getSpringBean(ProjectActivityStreamService.class);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
 
         @Override
         public Component generateRow(final ProjectActivityStream activityStream, int rowIndex) {
-            AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
+            AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
             CssLayout layout = new CssLayout();
             layout.addStyleName("activity-cell");
             String itemType = ProjectLocalizationTypeMap.getType(activityStream.getType());

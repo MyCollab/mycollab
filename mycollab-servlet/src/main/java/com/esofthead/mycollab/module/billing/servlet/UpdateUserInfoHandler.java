@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.esb.NewUserJoinEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.GenericHttpServlet;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +74,7 @@ public class UpdateUserInfoHandler extends GenericHttpServlet {
 
         try {
             LOG.debug("Update password of user {}", username);
-            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService userService = AppContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(user, username);
             userService.updateUserAccountStatus(username, sAccountId, RegisterStatusConstants.ACTIVE);
             asyncEventBus.post(new NewUserJoinEvent(username, sAccountId));

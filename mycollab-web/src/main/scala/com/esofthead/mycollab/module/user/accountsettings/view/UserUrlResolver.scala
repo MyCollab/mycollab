@@ -21,7 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.module.user.events.UserEvent
 import com.esofthead.mycollab.module.user.service.UserService
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 
 /**
@@ -49,7 +49,7 @@ class UserUrlResolver extends AccountSettingUrlResolver {
   private class EditUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
       val username = new UrlTokenizer(params(0)).getString
-      val userService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+      val userService = AppContextUtil.getSpringBean(classOf[UserService])
       val user = userService.findUserByUserNameInAccount(username, AppContext.getAccountId)
       EventBusFactory.getInstance().post(new UserEvent.GotoEdit(EditUrlResolver.this, user))
     }

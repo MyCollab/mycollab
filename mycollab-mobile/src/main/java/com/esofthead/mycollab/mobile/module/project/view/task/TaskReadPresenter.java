@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -69,7 +69,7 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
                             public void onClose(
                                     final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                    ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                                     taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                                 }
@@ -90,7 +90,7 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
     protected void onGo(final ComponentContainer container, final ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
             if (data.getParams() instanceof Integer) {
-                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
                 if (task != null) {

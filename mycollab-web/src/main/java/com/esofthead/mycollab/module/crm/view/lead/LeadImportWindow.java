@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public class LeadImportWindow extends EntityImportWindow<SimpleLead> {
     private static final long serialVersionUID = 1L;
 
     public LeadImportWindow() {
-        super(false, "Import Leads", ApplicationContextUtil.getSpringBean(LeadService.class), SimpleLead.class);
+        super(false, "Import Leads", AppContextUtil.getSpringBean(LeadService.class), SimpleLead.class);
     }
 
     @Override

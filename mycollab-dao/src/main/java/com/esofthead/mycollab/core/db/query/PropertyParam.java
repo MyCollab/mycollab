@@ -33,8 +33,8 @@ public class PropertyParam extends ColumnParam {
     private static final String IS_EXPR = "%s.%s = ";
     private static final String IS_NOT_EXPR = "%s.%s <> ";
 
-    public PropertyParam(String id, Enum displayName, String table, String column) {
-        super(id, displayName, table, column);
+    public PropertyParam(String id, String table, String column) {
+        super(id, table, column);
     }
 
     public SearchField buildSearchField(String prefixOper, String compareOper, Object value) {

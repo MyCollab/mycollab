@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.ui.components.TimeLogComp;
 import com.esofthead.mycollab.module.tracker.domain.Version;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -27,7 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 5.0.5
  */
 public class VersionTimeLogComp extends TimeLogComp<Version> {
-    private ItemTimeLoggingService itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
+    private ItemTimeLoggingService itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
 
     @Override
     protected Double getTotalBillableHours(Version bean) {

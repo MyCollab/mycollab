@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nE
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -129,7 +129,7 @@ public class PasswordChangeWindow extends Window {
 
         user.setPassword(PasswordEncryptHelper.encryptSaltPassword(txtNewPassword.getValue()));
 
-        final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        final UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());
 
         EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(PasswordChangeWindow.this, null));

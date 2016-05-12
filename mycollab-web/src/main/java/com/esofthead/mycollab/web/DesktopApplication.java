@@ -38,7 +38,7 @@ import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
 import com.esofthead.mycollab.shell.view.ShellUrlResolver;
 import com.esofthead.mycollab.shell.view.components.NoSubDomainExistedWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
@@ -314,7 +314,7 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     public void doLogin(String username, String password, boolean isRememberPassword) {
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        UserService userService = AppContextUtil.getSpringBean(UserService.class);
         SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
 
         if (isRememberPassword) {
@@ -327,14 +327,14 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     public void afterDoLogin(SimpleUser user) {
-        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+        BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
         SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
         LOG.info(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)) +
                 "-- and user " + BeanUtility.printBeanObj(user));
         AppContext.getInstance().setSessionVariables(user, billingAccount);
 
-        UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
+        UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
         UserAccount userAccount = new UserAccount();
         userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
         UserAccountExample ex = new UserAccountExample();

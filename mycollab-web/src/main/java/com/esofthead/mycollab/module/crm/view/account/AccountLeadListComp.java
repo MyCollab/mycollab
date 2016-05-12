@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -58,7 +58,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
     private Account account;
 
     public AccountLeadListComp() {
-        super(ApplicationContextUtil.getSpringBean(LeadService.class), 20);
+        super(AppContextUtil.getSpringBean(LeadService.class), 20);
         this.setBlockDisplayHandler(new AccountLeadBlockDisplay());
     }
 
@@ -155,7 +155,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                                        final AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                                         final AccountLead associateLead = new AccountLead();
                                         associateLead.setAccountid(account.getId());
                                         associateLead.setLeadid(lead.getId());

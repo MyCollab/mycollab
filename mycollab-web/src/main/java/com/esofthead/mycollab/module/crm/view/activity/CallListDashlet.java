@@ -23,10 +23,9 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
-import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -66,7 +65,7 @@ public class CallListDashlet extends Depot {
                 final SimpleCall call = (SimpleCall) event.getData();
                 if ("isClosed".equals(event.getFieldName())) {
                     call.setIsclosed(true);
-                    final CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                    final CallService callService = AppContextUtil.getSpringBean(CallService.class);
                     callService.updateWithSession(call, AppContext.getUsername());
                     display();
                 }

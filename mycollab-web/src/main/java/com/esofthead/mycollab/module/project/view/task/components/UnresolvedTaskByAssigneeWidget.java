@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.view.task.ITaskAssigneeChartWidget;
 import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -88,7 +88,7 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
     public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
 
-        ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
         totalCountItems = projectTaskService.getTotalCount(searchCriteria);
         groupItems = projectTaskService.getAssignedTasksSummary(searchCriteria);
 
@@ -148,7 +148,7 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
             this.setStyleName(UIConstants.BUTTON_LINK);
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
             this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
-            UserService service = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService service = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
                     AppContext.getSiteUrl(), AppContext.getUserTimeZone()));

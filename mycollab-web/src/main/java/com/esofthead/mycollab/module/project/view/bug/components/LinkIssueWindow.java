@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -45,7 +45,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 4.6.0
  */
 public class LinkIssueWindow extends Window {
-    private BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+    private BugService bugService = AppContextUtil.getSpringBean(BugService.class);
 
     private RelatedBugEditForm editForm;
     private BugSelectionField bugSelectionField;
@@ -97,7 +97,7 @@ public class LinkIssueWindow extends Window {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         if (editForm.validateForm()) {
-                            BugRelationService relatedBugService = ApplicationContextUtil.getSpringBean(BugRelationService.class);
+                            BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
 
                             SimpleBug selectedBug = bugSelectionField.getSelectedBug();
                             if (selectedBug == null) {

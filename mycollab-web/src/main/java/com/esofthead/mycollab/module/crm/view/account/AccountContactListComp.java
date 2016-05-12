@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -30,7 +29,7 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -56,7 +55,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
     private Account account;
 
     public AccountContactListComp() {
-        super(ApplicationContextUtil.getSpringBean(ContactService.class), 20);
+        super(AppContextUtil.getSpringBean(ContactService.class), 20);
         this.setBlockDisplayHandler(new AccountContactBlockDisplay());
     }
 
@@ -154,7 +153,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                                        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                                         contact.setAccountid(null);
                                         contactService.updateWithSession(contact, AppContext.getUsername());
                                         AccountContactListComp.this.refresh();

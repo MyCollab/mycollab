@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -52,7 +52,7 @@ public class LeadTableDisplay extends DefaultPagedBeanTable<LeadService, LeadSea
     }
 
     public LeadTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(LeadService.class),
+        super(AppContextUtil.getSpringBean(LeadService.class),
                 SimpleLead.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("selected", new Table.ColumnGenerator() {

@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -65,7 +65,7 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ProjectMemberService projectMemberService = ApplicationContextUtil.
+                                    ProjectMemberService projectMemberService = AppContextUtil.
                                             getSpringBean(ProjectMemberService.class);
                                     projectMemberService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
@@ -88,7 +88,7 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
             }
         }
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS) || isCurrentUserAccess) {
-            ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+            ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
             SimpleProjectMember prjMember = null;
             if (data.getParams() instanceof Integer) {
                 prjMember = prjMemberService.findById((Integer) data.getParams(), AppContext.getAccountId());

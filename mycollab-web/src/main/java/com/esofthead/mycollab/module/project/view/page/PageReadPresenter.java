@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -77,7 +77,7 @@ public class PageReadPresenter extends ProjectGenericPresenter<PageReadView> {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                                    PageService pageService = AppContextUtil.getSpringBean(PageService.class);
                                     pageService.removeResource(data.getPath());
                                     EventBusFactory.getInstance().post(new PageEvent.GotoList(this, null));
                                 }

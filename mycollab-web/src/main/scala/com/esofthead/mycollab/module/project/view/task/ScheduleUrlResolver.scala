@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.esofthead.mycollab.module.project.view.parameters.{ProjectScreenData, TaskScreenData}
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
@@ -64,7 +64,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
       if (ProjectLinkParams.isValidParam(params(0))) {
         val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
         val itemKey = ProjectLinkParams.getItemKey(params(0))
-        val taskService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskService])
+        val taskService = AppContextUtil.getSpringBean(classOf[ProjectTaskService])
         val task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId)
         if (task != null) {
           val projectId = task.getProjectid
@@ -84,7 +84,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       var task: SimpleTask = null
-      val taskService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskService])
+      val taskService = AppContextUtil.getSpringBean(classOf[ProjectTaskService])
       if (ProjectLinkParams.isValidParam(params(0))) {
         val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
         val itemKey = ProjectLinkParams.getItemKey(params(0))

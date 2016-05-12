@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.TimeZoneSelectionField;
@@ -136,7 +136,7 @@ class AccountInfoChangeWindow extends Window {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editForm.validateForm()) {
-                    BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+                    BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
                     billingAccountService.updateSelectiveWithSession(billingAccount, AppContext.getUsername());
                     close();
                     String siteUrl = SiteConfiguration.getSiteUrl(billingAccount.getSubdomain());

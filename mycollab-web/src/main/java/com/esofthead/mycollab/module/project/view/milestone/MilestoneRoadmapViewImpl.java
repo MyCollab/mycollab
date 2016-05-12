@@ -42,7 +42,7 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.ReportStreamSource;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -60,7 +60,6 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
@@ -77,7 +76,7 @@ import java.util.*;
 public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements MilestoneRoadmapView {
     private Button createBtn;
 
-    private MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+    private MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
 
     private ApplicationEventListener<MilestoneEvent.NewMilestoneAdded> newMilestoneHandler = new
             ApplicationEventListener<MilestoneEvent.NewMilestoneAdded>() {
@@ -276,7 +275,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.id(),
                 MilestoneTableFieldDef.assignee());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
-                new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, ApplicationContextUtil.getSpringBean
+                new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, AppContextUtil.getSpringBean
                 (MilestoneService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override
@@ -350,7 +349,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
                             searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
-                            ProjectGenericTaskService genericTaskService = ApplicationContextUtil.getSpringBean
+                            ProjectGenericTaskService genericTaskService = AppContextUtil.getSpringBean
                                     (ProjectGenericTaskService.class);
                             List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new
                                     BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));

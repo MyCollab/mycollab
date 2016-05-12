@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -76,7 +76,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    MeetingService campaignService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+                                    MeetingService campaignService = AppContextUtil.getSpringBean(MeetingService.class);
                                     campaignService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
@@ -99,7 +99,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 
             @Override
             public void gotoNext(SimpleMeeting data) {
-                MeetingService accountService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+                MeetingService accountService = AppContextUtil.getSpringBean(MeetingService.class);
                 MeetingSearchCriteria criteria = new MeetingSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -114,7 +114,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 
             @Override
             public void gotoPrevious(SimpleMeeting data) {
-                MeetingService accountService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+                MeetingService accountService = AppContextUtil.getSpringBean(MeetingService.class);
                 MeetingSearchCriteria criteria = new MeetingSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -133,7 +133,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
         if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
             SimpleMeeting meeting;
             if (data.getParams() instanceof Integer) {
-                MeetingService meetingService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+                MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
                 meeting = meetingService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (meeting == null) {
                     NotificationUtil.showRecordNotExistNotification();

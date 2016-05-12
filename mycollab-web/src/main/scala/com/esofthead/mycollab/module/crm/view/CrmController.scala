@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.crm.view.lead.{LeadAddPresenter, LeadConver
 import com.esofthead.mycollab.module.crm.view.opportunity.{ContactRoleEditPresenter, OpportunityAddPresenter, OpportunityListPresenter, OpportunityReadPresenter}
 import com.esofthead.mycollab.module.crm.view.parameters.{ActivityScreenData, AssignmentScreenData, CallScreenData, MeetingScreenData}
 import com.esofthead.mycollab.module.crm.view.setting.CrmSettingPresenter
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PresenterResolver, ScreenData}
 import com.google.common.eventbus.Subscribe
@@ -299,7 +299,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         val value: Any = event.getData
         var lead: SimpleLead = null
         if (value.isInstanceOf[Integer]) {
-          val leadService = ApplicationContextUtil.getSpringBean(classOf[LeadService])
+          val leadService = AppContextUtil.getSpringBean(classOf[LeadService])
           lead = leadService.findById(value.asInstanceOf[Integer], AppContext.getAccountId)
         }
         else if (value.isInstanceOf[SimpleLead]) {

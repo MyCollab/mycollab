@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -28,7 +28,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -59,7 +58,7 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
     private ResourceService resourceService;
 
     public AttachmentPanel() {
-        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         this.setSpacing(true);
         attachmentDisplayComponent = new AttachmentDisplayComponent();
         this.addComponent(attachmentDisplayComponent);

@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.ecm.domain.Folder;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
 import com.esofthead.mycollab.module.ecm.service.ExternalResourceService;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.server.StreamResource;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public class StreamDownloadResourceSupportExtDrive implements StreamResource.Str
 
     public StreamDownloadResourceSupportExtDrive(Collection<Resource> resources) {
         this.resources = resources;
-        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        resourceService = AppContextUtil.getSpringBean(ResourceService.class);
     }
 
     @Override

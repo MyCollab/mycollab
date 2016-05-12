@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.events.ProjectMemberEvent.InvitePro
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.shell.view.SystemUIChecker;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -74,14 +74,14 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             @Override
             public void receiveEvent(ViewEvent<InviteProjectMembers> event) {
                 InviteProjectMembers inviteMembers = (InviteProjectMembers) event.getData();
-                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 List<String> inviteEmails = inviteMembers.getEmails();
                 if (CollectionUtils.isNotEmpty(inviteEmails)) {
                     projectMemberService.inviteProjectMembers(inviteEmails.toArray(new String[inviteEmails.size()]),
                             CurrentProjectVariables.getProjectId(), inviteMembers.getRoleId(),
                             AppContext.getUsername(), inviteMembers.getInviteMessage(), AppContext.getAccountId());
 
-                    ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+                    ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
                     if (mailService.isMailSetupValid()) {
                         NotificationUtil.showNotification("Invitation is sent successfully",
                                 AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
@@ -62,7 +62,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
     protected void postInitView() {
         super.postInitView();
 
-        caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+        caseService = AppContextUtil.getSpringBean(CaseService.class);
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
             @Override
@@ -166,6 +166,6 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
     @Override
     public ISearchableService<CaseSearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(CaseService.class);
+        return AppContextUtil.getSpringBean(CaseService.class);
     }
 }

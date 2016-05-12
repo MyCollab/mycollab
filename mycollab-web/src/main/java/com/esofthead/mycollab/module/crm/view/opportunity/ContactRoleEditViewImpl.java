@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.crm.service.ContactOpportunityService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.view.contact.ContactSelectionField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -143,7 +143,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         }
 
         if (contactOpps.size() > 0) {
-            ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+            ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
             contactService.saveContactOpportunityRelationship(contactOpps, AppContext.getAccountId());
         }
 
@@ -182,7 +182,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             bodyWrapper.setStyleName("contactopp-list-body");
             bodyWrapper.setSizeFull();
 
-            ContactOpportunityService contactOppoService = ApplicationContextUtil.getSpringBean(ContactOpportunityService.class);
+            ContactOpportunityService contactOppoService = AppContextUtil.getSpringBean(ContactOpportunityService.class);
             ContactSearchCriteria criteria = new ContactSearchCriteria();
             criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
             criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
@@ -282,7 +282,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
                     // The contact opportunity relationship is existed
                     if (contactOpp.getId() != null) {
-                        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                         ContactOpportunity associateOpportunity = new ContactOpportunity();
                         associateOpportunity.setContactid(contactOpp.getId());
                         associateOpportunity.setOpportunityid(opportunity.getId());

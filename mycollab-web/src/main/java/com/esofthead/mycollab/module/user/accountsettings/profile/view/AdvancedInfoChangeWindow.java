@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -106,7 +106,7 @@ class AdvancedInfoChangeWindow extends Window {
         user.setCompany(txtCompany.getValue());
         user.setCountry((String) cboCountry.getValue());
 
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());
         close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");

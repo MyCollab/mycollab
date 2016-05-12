@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -79,7 +79,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
             if (data.getParams() instanceof SimpleContact) {
                 contact = (SimpleContact) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 contact = contactService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (contact == null) {
@@ -102,7 +102,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
     }
 
     private int saveContact(Contact contact) {
-        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
         contact.setSaccountid(AppContext.getAccountId());
         if (contact.getId() == null) {
             contactService.saveWithSession(contact, AppContext.getUsername());

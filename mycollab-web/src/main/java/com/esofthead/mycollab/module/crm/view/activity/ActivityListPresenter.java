@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
@@ -127,17 +127,17 @@ public class ActivityListPresenter extends
         }
 
         if (keyListCall.size() > 0) {
-            CallMapper callService = ApplicationContextUtil.getSpringBean(CallMapper.class);
+            CallMapper callService = AppContextUtil.getSpringBean(CallMapper.class);
             callService.removeKeysWithSession(keyListCall);
         }
 
         if (keyListMeeting.size() > 0) {
-            MeetingMapper meetingService = ApplicationContextUtil.getSpringBean(MeetingMapper.class);
+            MeetingMapper meetingService = AppContextUtil.getSpringBean(MeetingMapper.class);
             meetingService.removeKeysWithSession(keyListMeeting);
         }
 
         if (keyListTask.size() > 0) {
-            CrmTaskMapper taskService = ApplicationContextUtil.getSpringBean(CrmTaskMapper.class);
+            CrmTaskMapper taskService = AppContextUtil.getSpringBean(CrmTaskMapper.class);
             taskService.removeKeysWithSession(keyListTask);
         }
         doSearch(searchCriteria);
@@ -146,7 +146,7 @@ public class ActivityListPresenter extends
 
     @Override
     public ISearchableService<ActivitySearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(EventService.class);
+        return AppContextUtil.getSpringBean(EventService.class);
     }
 
 }

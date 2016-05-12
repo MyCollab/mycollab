@@ -36,7 +36,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.hp.gagawa.java.elements.*;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -72,19 +72,19 @@ public class ProjectTooltipGenerator {
     public static String generateTooltipEntity(Locale locale, String type, Integer typeId, Integer sAccountId,
                                                String siteUrl, TimeZone timeZone, boolean showProject) {
         if (ProjectTypeConstants.BUG.equals(type)) {
-            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
             SimpleBug bug = bugService.findById(typeId, sAccountId);
             return generateToolTipBug(locale, bug, siteUrl, timeZone, showProject);
         } else if (ProjectTypeConstants.TASK.equals(type)) {
-            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             SimpleTask task = taskService.findById(typeId, sAccountId);
             return generateToolTipTask(locale, task, siteUrl, timeZone, showProject);
         } else if (ProjectTypeConstants.MILESTONE.equals(type)) {
-            MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+            MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
             SimpleMilestone milestone = milestoneService.findById(typeId, sAccountId);
             return generateToolTipMilestone(locale, milestone, siteUrl, timeZone, showProject);
         } else if (ProjectTypeConstants.RISK.equals(type)) {
-            RiskService riskService = ApplicationContextUtil.getSpringBean(RiskService.class);
+            RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
             SimpleRisk risk = riskService.findById(typeId, sAccountId);
             return generateToolTipRisk(locale, risk, siteUrl, timeZone, showProject);
         } else {

@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.web.ui.EmailLink;
@@ -54,7 +54,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
     }
 
     public ContactTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(ContactService.class), SimpleContact.class, viewId, requiredColumn, displayColumns);
+        super(AppContextUtil.getSpringBean(ContactService.class), SimpleContact.class, viewId, requiredColumn, displayColumns);
 
         addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

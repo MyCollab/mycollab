@@ -18,7 +18,7 @@ package com.esofthead.mycollab.vaadin.ui.registry;
 
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -46,7 +46,7 @@ public class AuditLogRegistry implements InitializingBean {
     }
 
     public static FieldGroupFormatter getFieldGroupFormatter(String type) {
-        AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
+        AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
         return auditLogRegistry.auditPrinters.get(type);
     }
 

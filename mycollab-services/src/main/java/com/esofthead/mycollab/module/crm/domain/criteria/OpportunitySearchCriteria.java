@@ -23,6 +23,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 
 import java.util.Arrays;
@@ -34,52 +35,42 @@ import java.util.Arrays;
 public class OpportunitySearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final Param p_opportunityName = new StringParam("opportunity-name",
-            GenericI18Enum.FORM_NAME, "m_crm_opportunity",
-            "opportunityName");
+    public static final Param p_opportunityName = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            GenericI18Enum.FORM_NAME, new StringParam("name", "m_crm_opportunity", "opportunityName"));
 
-    public static final Param p_account = new PropertyParam("opportunity-account",
-            OpportunityI18nEnum.FORM_ACCOUNT_NAME, "m_crm_opportunity",
-            "accountid");
+    public static final Param p_account = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            OpportunityI18nEnum.FORM_ACCOUNT_NAME, new PropertyParam("account", "m_crm_opportunity", "accountid"));
 
-    public static final Param p_campaign = new PropertyParam("opportunity-campaign",
-            OpportunityI18nEnum.FORM_CAMPAIGN_NAME, "m_crm_opportunity",
-            "campaignid");
+    public static final Param p_campaign = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            OpportunityI18nEnum.FORM_CAMPAIGN_NAME, new PropertyParam("campaign", "m_crm_opportunity", "campaignid"));
 
-    public static final Param p_nextStep = new StringParam("opportunity-nextstep",
-            OpportunityI18nEnum.FORM_NEXT_STEP, "m_crm_opportunity", "nextStep");
+    public static final Param p_nextStep = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            OpportunityI18nEnum.FORM_NEXT_STEP, new StringParam("nextstep", "m_crm_opportunity", "nextStep"));
 
-    public static final Param p_saleStage = new StringListParam(
-            "opportunity-saleStage", OpportunityI18nEnum.FORM_SALE_STAGE,
-            "m_crm_opportunity", "salesStage", Arrays.asList(CrmDataTypeFactory
-            .getOpportunitySalesStageList()));
+    public static final Param p_saleStage = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            OpportunityI18nEnum.FORM_SALE_STAGE, new StringListParam("saleStage", "m_crm_opportunity", "salesStage",
+                    Arrays.asList(CrmDataTypeFactory.getOpportunitySalesStageList())));
 
-    public static final Param p_leadSource = new StringListParam(
-            "opportunity-leadSource", OpportunityI18nEnum.FORM_LEAD_SOURCE,
-            "m_crm_opportunity", "source", Arrays.asList(CrmDataTypeFactory
-            .getLeadSourceList()));
+    public static final Param p_leadSource = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            OpportunityI18nEnum.FORM_LEAD_SOURCE, new StringListParam("leadSource", "m_crm_opportunity", "source",
+                    Arrays.asList(CrmDataTypeFactory.getLeadSourceList())));
 
-    public static final Param p_type = new StringListParam("opportunity-type",
-            GenericI18Enum.FORM_TYPE, "m_crm_opportunity", "type",
-            Arrays.asList(CrmDataTypeFactory.getOpportunityTypeList()));
+    public static final Param p_type = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY, GenericI18Enum.FORM_TYPE,
+            new StringListParam("type", "m_crm_opportunity", "type", Arrays.asList(CrmDataTypeFactory.getOpportunityTypeList())));
 
-    public static final Param p_assignee = new PropertyListParam(
-            "opportunity-assignee", GenericI18Enum.FORM_ASSIGNEE,
-            "m_crm_opportunity", "assignUser");
+    public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY, GenericI18Enum.FORM_ASSIGNEE,
+            new PropertyListParam("assignee", "m_crm_opportunity", "assignUser"));
 
-    public static final Param p_expectedcloseddate = new DateParam(
-            "opportunity-expectedcloseddate",
-            OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE, "m_crm_opportunity",
-            "expectedClosedDate");
+    public static final Param p_expectedcloseddate = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE, new DateParam("expectedcloseddate", "m_crm_opportunity",
+                    "expectedClosedDate"));
 
-    public static final Param p_createdtime = new DateParam(
-            "opportunity-createdtime", GenericI18Enum.FORM_CREATED_TIME,
-            "m_crm_opportunity", "createdTime");
+    public static final Param p_createdtime = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY, GenericI18Enum.FORM_CREATED_TIME,
+            new DateParam("createdtime", "m_crm_opportunity", "createdTime"));
 
-    public static final Param p_lastupdatedtime = new DateParam(
-            "opportunity-lastUpdatedTime",
-            GenericI18Enum.FORM_LAST_UPDATED_TIME, "m_crm_opportunity",
-            "lastUpdatedTime");
+    public static final Param p_lastupdatedtime = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            GenericI18Enum.FORM_LAST_UPDATED_TIME, new DateParam("lastUpdatedTime", "m_crm_opportunity",
+                    "lastUpdatedTime"));
 
     private StringSearchField opportunityName;
     private SetSearchField<String> assignUsers;

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -56,7 +56,7 @@ public class AccountHistoryFieldFormat implements HistoryFieldFormat {
 
         try {
             Integer accountId = Integer.parseInt(value);
-            AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+            AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
             SimpleAccount account = accountService.findById(accountId, AppContext.getAccountId());
 
             if (account != null) {

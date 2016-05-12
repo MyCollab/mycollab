@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -25,9 +24,8 @@ import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjector;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import org.joda.time.LocalDate;
@@ -60,7 +58,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                 .inCollection(TaskSearchCriteria.p_status, new VariableInjector() {
                     @Override
                     public Object eval() {
-                        OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+                        OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
                         List<OptionVal> options = optionValService.findOptionValsExcludeClosed(ProjectTypeConstants.TASK,
                                 CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
                         List<String> statuses = new ArrayList<>();
@@ -77,13 +75,13 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                     public Object eval() {
                         return new LocalDate().toDate();
                     }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", GenericI18Enum.FORM_STATUS,
-                "m_prj_task", "status"), StringParam.IS_NOT, new VariableInjector() {
-            @Override
-            public Object eval() {
-                return OptionI18nEnum.StatusI18nEnum.Closed.name();
-            }
-        }));
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), StringParam.IS_NOT,
+                new VariableInjector() {
+                    @Override
+                    public Object eval() {
+                        return OptionI18nEnum.StatusI18nEnum.Closed.name();
+                    }
+                }));
 
         SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, "My Tasks", SearchFieldInfo.inCollection
                 (TaskSearchCriteria.p_assignee, new VariableInjector() {

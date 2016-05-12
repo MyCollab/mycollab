@@ -18,9 +18,11 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.db.query.CacheParamMapper;
 import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 
 /**
@@ -30,31 +32,35 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 public class TaskSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final PropertyListParam<String> p_assignee = new PropertyListParam<>("task-assignuser",
-            GenericI18Enum.FORM_ASSIGNEE, "m_prj_task", "assignUser");
+    public static final PropertyListParam<String> p_assignee = CacheParamMapper.register(ProjectTypeConstants.TASK,
+            GenericI18Enum.FORM_ASSIGNEE, new PropertyListParam<String>("assignuser", "m_prj_task", "assignUser"));
 
-    public static final PropertyListParam<Integer> p_milestoneId = new PropertyListParam<>("task-milestone",
-            TaskI18nEnum.FORM_PHASE, "m_prj_task", "milestoneId");
+    public static final PropertyListParam<Integer> p_milestoneId = CacheParamMapper.register(ProjectTypeConstants.TASK, TaskI18nEnum.FORM_PHASE,
+            new PropertyListParam<Integer>("milestone", "m_prj_task", "milestoneId"));
 
-    public static final DateParam p_duedate = new DateParam("task-duedate", GenericI18Enum.FORM_DUE_DATE, "m_prj_task",
-            "deadline");
+    public static final DateParam p_duedate = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_DUE_DATE,
+            new DateParam("duedate", "m_prj_task", "deadline"));
 
-    public static final DateParam p_lastupdatedtime = new DateParam("task-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
-            "m_prj_task", "lastUpdatedTime");
+    public static final DateParam p_lastupdatedtime = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_LAST_UPDATED_TIME,
+            new DateParam("lastupdatedtime", "m_prj_task", "lastUpdatedTime"));
 
-    public static final DateParam p_createtime = new DateParam("task-createtime",
-            GenericI18Enum.FORM_CREATED_TIME, "m_prj_task", "createdTime");
+    public static final DateParam p_createtime = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_CREATED_TIME,
+            new DateParam("createtime", "m_prj_task", "createdTime"));
 
-    public static final PropertyListParam p_status = new PropertyListParam("task-status",
-            GenericI18Enum.FORM_STATUS, "m_prj_task", "status");
+    public static final PropertyListParam p_status = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_STATUS,
+            new PropertyListParam("status", "m_prj_task", "status"));
 
-    public static final DateParam p_startdate = new DateParam("task-startdate", GenericI18Enum.FORM_START_DATE, "m_prj_task", "startdate");
+    public static final DateParam p_startdate = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_START_DATE,
+            new DateParam("startdate", "m_prj_task", "startdate"));
 
-    public static final DateParam p_enddate = new DateParam("task-enddate", GenericI18Enum.FORM_END_DATE, "m_prj_task", "enddate");
+    public static final DateParam p_enddate = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_END_DATE,
+            new DateParam("enddate", "m_prj_task", "enddate"));
 
-    public static final NumberParam p_taskkey = new NumberParam("task-key", TaskI18nEnum.FORM_TASK_KEY, "m_prj_task", "taskkey");
+    public static final NumberParam p_taskkey = CacheParamMapper.register(ProjectTypeConstants.TASK, TaskI18nEnum.FORM_TASK_KEY,
+            new NumberParam("key", "m_prj_task", "taskkey"));
 
-    public static final PropertyListParam p_projectIds = new PropertyListParam("task-projectid", null, "m_prj_task", "projectid");
+    public static final PropertyListParam p_projectIds = CacheParamMapper.register(ProjectTypeConstants.TASK, null,
+            new PropertyListParam("projectid", "m_prj_task", "projectid"));
 
     private NumberSearchField projectId;
     private NumberSearchField parentTaskId;

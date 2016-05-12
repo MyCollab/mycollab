@@ -34,12 +34,11 @@ import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -90,7 +89,7 @@ public class OpportunityServiceImpl extends DefaultService<Integer, Opportunity,
                     .getExtraData()).getId());
             associateOpportunity.setCreatedtime(new GregorianCalendar()
                     .getTime());
-            ContactService contactService = ApplicationContextUtil
+            ContactService contactService = AppContextUtil
                     .getSpringBean(ContactService.class);
             contactService.saveContactOpportunityRelationship(
                     Collections.singletonList(associateOpportunity),

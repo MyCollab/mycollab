@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.security.PermissionMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class CurrentProjectVariables {
         MyCollabSession.putCurrentUIVariable(CURRENT_PROJECT, project);
 
         // get member permission
-        ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         SimpleProjectMember prjMember = prjMemberService.findMemberByUsername(AppContext.getUsername(), project.getId(), AppContext.getAccountId());
         if (prjMember != null) {
             if (!prjMember.isProjectOwner()) {
@@ -60,7 +60,7 @@ public class CurrentProjectVariables {
                 }
                 ProjectRolePermissionExample ex = new ProjectRolePermissionExample();
                 ex.createCriteria().andRoleidEqualTo(prjMember.getProjectroleid()).andProjectidEqualTo(CurrentProjectVariables.getProjectId());
-                ProjectRolePermissionMapper rolePermissionMapper = ApplicationContextUtil.getSpringBean(ProjectRolePermissionMapper.class);
+                ProjectRolePermissionMapper rolePermissionMapper = AppContextUtil.getSpringBean(ProjectRolePermissionMapper.class);
                 List<ProjectRolePermission> rolePermissions = rolePermissionMapper.selectByExampleWithBLOBs(ex);
                 if (!rolePermissions.isEmpty()) {
                     ProjectRolePermission rolePer = rolePermissions.get(0);

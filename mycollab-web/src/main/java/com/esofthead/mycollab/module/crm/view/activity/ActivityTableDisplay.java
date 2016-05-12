@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -61,7 +61,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
     }
 
     public ActivityTableDisplay(TableViewField requireColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(EventService.class), SimpleActivity.class, requireColumn, displayColumns);
+        super(AppContextUtil.getSpringBean(EventService.class), SimpleActivity.class, requireColumn, displayColumns);
 
         this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

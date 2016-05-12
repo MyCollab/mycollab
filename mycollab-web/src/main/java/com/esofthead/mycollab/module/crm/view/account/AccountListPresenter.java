@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
@@ -61,7 +61,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
     @Override
     protected void postInitView() {
         super.postInitView();
-        accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+        accountService = AppContextUtil.getSpringBean(AccountService.class);
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
             @Override
@@ -163,6 +163,6 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
 
     @Override
     public ISearchableService<AccountSearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(AccountService.class);
+        return AppContextUtil.getSpringBean(AccountService.class);
     }
 }

@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
@@ -38,7 +37,7 @@ import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,86 +73,86 @@ public class TooltipGeneratorServletRequestHandler extends GenericHttpServlet {
 
             String html = "";
             if (ProjectTypeConstants.PROJECT.equals(type)) {
-                ProjectService service = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                ProjectService service = AppContextUtil.getSpringBean(ProjectService.class);
                 SimpleProject project = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipProject(locale, project, siteURL, timeZone);
             } else if (ProjectTypeConstants.MESSAGE.equals(type)) {
-                MessageService service = ApplicationContextUtil.getSpringBean(MessageService.class);
+                MessageService service = AppContextUtil.getSpringBean(MessageService.class);
                 SimpleMessage message = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipMessage(locale, message, siteURL, timeZone);
             } else if (ProjectTypeConstants.MILESTONE.equals(type)) {
-                MilestoneService service = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                MilestoneService service = AppContextUtil.getSpringBean(MilestoneService.class);
                 SimpleMilestone mileStone = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipMilestone(locale, mileStone, siteURL, timeZone, false);
             } else if (ProjectTypeConstants.BUG.equals(type)) {
-                BugService service = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugService service = AppContextUtil.getSpringBean(BugService.class);
                 SimpleBug bug = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipBug(locale, bug, siteURL, timeZone, false);
             } else if (ProjectTypeConstants.TASK.equals(type)) {
-                ProjectTaskService service = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipTask(locale, task, siteURL, timeZone, false);
             } else if (ProjectTypeConstants.RISK.equals(type)) {
-                RiskService service = ApplicationContextUtil.getSpringBean(RiskService.class);
+                RiskService service = AppContextUtil.getSpringBean(RiskService.class);
                 SimpleRisk risk = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipRisk(locale, risk, siteURL, timeZone, false);
             } else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
-                VersionService service = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionService service = AppContextUtil.getSpringBean(VersionService.class);
                 SimpleVersion version = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipVersion(locale, version, siteURL, timeZone);
             } else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
-                ComponentService service = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentService service = AppContextUtil.getSpringBean(ComponentService.class);
                 SimpleComponent component = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipComponent(locale, component, siteURL, timeZone);
             } else if (ProjectTypeConstants.PAGE.equals(type)) {
-                ProjectPageService pageService = ApplicationContextUtil.getSpringBean(ProjectPageService.class);
+                ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
                 Page page = pageService.getPage(typeId, username);
                 html = ProjectTooltipGenerator.generateToolTipPage(locale, page, siteURL, timeZone);
             } else if (ProjectTypeConstants.STANDUP.equals(type)) {
-                StandupReportService service = ApplicationContextUtil.getSpringBean(StandupReportService.class);
+                StandupReportService service = AppContextUtil.getSpringBean(StandupReportService.class);
                 SimpleStandupReport standup = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipStandUp(locale, standup, siteURL, timeZone);
             } else if (CrmTypeConstants.ACCOUNT.equals(type)) {
-                AccountService service = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService service = AppContextUtil.getSpringBean(AccountService.class);
                 SimpleAccount account = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateToolTipAccount(locale, account, siteURL);
             } else if (CrmTypeConstants.CONTACT.equals(type)) {
-                ContactService service = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService service = AppContextUtil.getSpringBean(ContactService.class);
                 SimpleContact contact = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateToolTipContact(locale, contact, siteURL, timeZone);
             } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
-                CampaignService service = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService service = AppContextUtil.getSpringBean(CampaignService.class);
                 SimpleCampaign account = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateTooltipCampaign(locale, account, siteURL, timeZone);
             } else if (CrmTypeConstants.LEAD.equals(type)) {
-                LeadService service = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService service = AppContextUtil.getSpringBean(LeadService.class);
                 SimpleLead lead = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateTooltipLead(locale, lead, siteURL, timeZone);
             } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
-                OpportunityService service = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                OpportunityService service = AppContextUtil.getSpringBean(OpportunityService.class);
                 SimpleOpportunity opportunity = service.findById(
                         Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateTooltipOpportunity(locale, opportunity, siteURL, timeZone);
             } else if (CrmTypeConstants.CASE.equals(type)) {
-                CaseService service = ApplicationContextUtil.getSpringBean(CaseService.class);
+                CaseService service = AppContextUtil.getSpringBean(CaseService.class);
                 SimpleCase cases = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateTooltipCases(locale, cases, siteURL, timeZone);
             } else if (CrmTypeConstants.MEETING.equals(type)) {
-                MeetingService service = ApplicationContextUtil.getSpringBean(MeetingService.class);
+                MeetingService service = AppContextUtil.getSpringBean(MeetingService.class);
                 SimpleMeeting meeting = service.findById(
                         Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateToolTipMeeting(locale, meeting, siteURL, timeZone);
             } else if (CrmTypeConstants.CALL.equals(type)) {
-                CallService service = ApplicationContextUtil.getSpringBean(CallService.class);
+                CallService service = AppContextUtil.getSpringBean(CallService.class);
                 SimpleCall call = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateToolTipCall(locale, call, siteURL, timeZone);
             } else if (CrmTypeConstants.TASK.equals(type)) {
-                TaskService service = ApplicationContextUtil.getSpringBean(TaskService.class);
+                TaskService service = AppContextUtil.getSpringBean(TaskService.class);
                 com.esofthead.mycollab.module.crm.domain.SimpleTask crmTask = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateToolTipCrmTask(locale,
                         crmTask, siteURL, timeZone);
             } else if ("User".equals(type)) {
-                UserService service = ApplicationContextUtil.getSpringBean(UserService.class);
+                UserService service = AppContextUtil.getSpringBean(UserService.class);
                 SimpleUser user = service.findUserByUserNameInAccount(username, sAccountId);
                 html = CommonTooltipGenerator.generateTooltipUser(locale, user, siteURL, timeZone);
             } else {

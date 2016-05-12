@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
@@ -48,7 +48,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
     private BugService bugService;
 
     public BugSelectionField() {
-        bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        bugService = AppContextUtil.getSpringBean(BugService.class);
         suggestField = new SuggestField();
         suggestField.setPopupWidth(600);
         suggestField.setWidth("400px");

@@ -17,9 +17,8 @@
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -29,8 +28,6 @@ import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.TimeZone;
 
 /**
  * @author MyCollab Ltd
@@ -68,7 +65,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
                     NotificationUtil.showErrorNotification("Password is not match");
                     return;
                 }
-                BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean
+                BillingAccountService billingAccountService = AppContextUtil.getSpringBean
                         (BillingAccountService.class);
                 String timezoneDbId = timeZoneSelectionField.getValue();
                 billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, true, true,

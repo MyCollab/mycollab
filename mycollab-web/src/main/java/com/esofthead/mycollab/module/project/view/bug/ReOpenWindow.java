@@ -29,12 +29,11 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.project.view.settings.component.VersionMultiSelectField;
-import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -110,14 +109,14 @@ public class ReOpenWindow extends Window {
                             bug.setResolution(OptionI18nEnum.BugResolution.None.name());
 
                             // Save bug status and assignee
-                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                             bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
 
-                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+                            BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
                             bugRelatedItemService.updateAffectedVersionsOfBug(bug.getId(), affectedVersionsSelect.getSelectedItems());
                             bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), null);
 
-                            BugRelationService bugRelationService = ApplicationContextUtil.getSpringBean(BugRelationService.class);
+                            BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
                             bugRelationService.removeDuplicatedBugs(bug.getId());
 
                             // Save comment
@@ -132,7 +131,7 @@ public class ReOpenWindow extends Window {
                                 comment.setTypeid("" + bug.getId());
                                 comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                                 commentService.saveWithSession(comment, AppContext.getUsername());
                             }
 

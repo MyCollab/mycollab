@@ -41,7 +41,6 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent, String type) {
         super(parent, "advancedSearch");
         setStyleName("advancedSearchLayout");
-
         this.type = type;
         initLayout();
     }
@@ -96,8 +95,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                ((DefaultGenericSearchPanel<S>) DynamicQueryParamLayout.this.searchPanel)
-                        .moveToBasicSearchLayout();
+                ((DefaultGenericSearchPanel<S>) searchPanel).moveToBasicSearchLayout();
             }
         });
         basicSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
@@ -111,7 +109,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     @Override
     protected S fillUpSearchCriteria() {
-        return buildCriterionComp.fillupSearchCriteria();
+        return buildCriterionComp.fillUpSearchCriteria();
     }
 
     protected abstract Class<S> getType();

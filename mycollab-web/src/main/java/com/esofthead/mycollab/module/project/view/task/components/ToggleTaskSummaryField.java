@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
@@ -117,7 +117,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(task.getTaskname())) {
             task.setTaskname(newValue);
             titleLinkLbl.setValue(buildTaskLink());
-            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             taskService.updateSelectiveWithSession(BeanUtility.deepClone(task), AppContext.getUsername());
         }
 

@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.A;
@@ -46,7 +46,7 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
     private static final long serialVersionUID = -3362055893248919249L;
 
     public ProjectListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(ProjectService.class), new ProjectRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(ProjectService.class), new ProjectRowDisplayHandler());
     }
 
     public static class ProjectRowDisplayHandler implements RowDisplayHandler<SimpleProject> {

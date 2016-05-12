@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -95,7 +95,7 @@ public class PageAddPresenter extends ProjectGenericPresenter<PageAddView> {
     }
 
     private void savePage(Page page) {
-        ProjectPageService pageService = ApplicationContextUtil.getSpringBean(ProjectPageService.class);
+        ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
 
         pageService.savePage(page, AppContext.getUsername(), CurrentProjectVariables.getProjectId(),
                 AppContext.getAccountId());

@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -46,7 +45,7 @@ import com.esofthead.mycollab.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.module.project.view.time.IFinancePresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectInfoComponent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -59,8 +58,6 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.Collections;
 
 /**
  * @author MyCollab Ltd.
@@ -181,7 +178,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
                 searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
-                ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 int totalMembers = prjMemberService.getTotalCount(searchCriteria);
                 if (totalMembers < 2) {
                     UI.getCurrent().addWindow(new AskToAddMoreMembersWindow());
@@ -345,7 +342,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             Button skipBtn = new Button("Skip", new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                    ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
                     SimpleProject project = CurrentProjectVariables.getProject();
                     project.setContextask(false);
                     projectService.updateSelectiveWithSession(project, AppContext.getUsername());

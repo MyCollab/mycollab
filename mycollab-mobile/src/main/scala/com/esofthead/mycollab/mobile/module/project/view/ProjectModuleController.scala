@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants}
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PageActionChain, PresenterResolver, ScreenData}
 import com.google.common.eventbus.Subscribe
@@ -83,7 +83,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
     this.register(new ApplicationEventListener[ProjectEvent.AllActivities]() {
       @Subscribe def handle(event: ProjectEvent.AllActivities) {
         val presenter = PresenterResolver.getPresenter(classOf[AllActivityStreamPresenter])
-        val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+        val prjService = AppContextUtil.getSpringBean(classOf[ProjectService])
         val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))

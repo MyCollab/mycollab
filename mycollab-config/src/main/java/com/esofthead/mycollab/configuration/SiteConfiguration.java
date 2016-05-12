@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.configuration;
 
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,7 +181,7 @@ public class SiteConfiguration {
 
     public static String getSiteUrl(String subDomain) {
         String siteUrl;
-        IDeploymentMode modeService = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        IDeploymentMode modeService = AppContextUtil.getSpringBean(IDeploymentMode.class);
         if (modeService.isDemandEdition()) {
             siteUrl = String.format(ApplicationProperties.getString(ApplicationProperties.APP_URL), subDomain);
         } else {
@@ -192,12 +192,12 @@ public class SiteConfiguration {
     }
 
     public static boolean isDemandEdition() {
-        IDeploymentMode modeService = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        IDeploymentMode modeService = AppContextUtil.getSpringBean(IDeploymentMode.class);
         return modeService.isDemandEdition();
     }
 
     public static boolean isCommunityEdition() {
-        IDeploymentMode modeService = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        IDeploymentMode modeService = AppContextUtil.getSpringBean(IDeploymentMode.class);
         return modeService.isCommunityEdition();
     }
 

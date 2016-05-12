@@ -19,7 +19,7 @@ package com.esofthead.mycollab.shell.view.components;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -105,7 +105,7 @@ public class AdRequestWindow extends Window {
 
     private void turnOffAdd(SimpleUser user) {
         user.setRequestad(false);
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateSelectiveWithSession(user, AppContext.getUsername());
     }
 }

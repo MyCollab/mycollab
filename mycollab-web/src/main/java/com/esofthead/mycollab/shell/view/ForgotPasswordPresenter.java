@@ -18,7 +18,7 @@ package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -42,7 +42,7 @@ public class ForgotPasswordPresenter extends AbstractPresenter<ForgotPasswordVie
         windowContainer.removeAllComponents();
         windowContainer.addComponent(view);
 
-        ExtMailService extMailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+        ExtMailService extMailService = AppContextUtil.getSpringBean(ExtMailService.class);
         if (!extMailService.isMailSetupValid()) {
             NotificationUtil.showErrorNotification(AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
         }

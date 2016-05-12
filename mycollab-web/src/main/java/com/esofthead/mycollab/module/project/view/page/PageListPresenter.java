@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -47,7 +47,7 @@ public class PageListPresenter extends ProjectGenericPresenter<PageListView> {
 
     public PageListPresenter() {
         super(PageListView.class);
-        pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+        pageService = AppContextUtil.getSpringBean(PageService.class);
     }
 
     @Override

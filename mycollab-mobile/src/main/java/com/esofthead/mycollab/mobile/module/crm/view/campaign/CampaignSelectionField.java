@@ -20,7 +20,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.Property;
 
@@ -54,7 +54,7 @@ public class CampaignSelectionField extends
 	}
 
 	private void setCampaignByVal(Integer campaignId) {
-		CampaignService campaignService = ApplicationContextUtil
+		CampaignService campaignService = AppContextUtil
 				.getSpringBean(CampaignService.class);
 		SimpleCampaign campaign = campaignService.findById(campaignId,
 				AppContext.getAccountId());

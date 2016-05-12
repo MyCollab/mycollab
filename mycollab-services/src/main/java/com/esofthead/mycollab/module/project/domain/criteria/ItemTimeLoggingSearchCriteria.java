@@ -17,7 +17,9 @@
 package com.esofthead.mycollab.module.project.domain.criteria;
 
 import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.db.query.CacheParamMapper;
 import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 
 /**
  * @author MyCollab Ltd.
@@ -31,7 +33,9 @@ public class ItemTimeLoggingSearchCriteria extends SearchCriteria {
     private StringSearchField type;
     private NumberSearchField typeId;
     private BooleanSearchField isBillable;
-    public static final DateParam p_logDates = new DateParam("time-logdate", null, "m_prj_time_logging", "logForDay");
+
+    public static final DateParam p_logDates = CacheParamMapper.register(ProjectTypeConstants.TIME, null,
+            new DateParam("logdate", "m_prj_time_logging", "logForDay"));
 
     public SetSearchField<Integer> getProjectIds() {
         return projectIds;

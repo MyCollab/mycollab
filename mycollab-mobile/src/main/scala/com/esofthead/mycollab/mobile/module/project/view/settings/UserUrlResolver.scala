@@ -25,7 +25,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.{ProjectMemb
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.esofthead.mycollab.module.project.service.ProjectMemberService
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
@@ -65,7 +65,7 @@ class UserUrlResolver extends ProjectUrlResolver {
       val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val memberId = token.getInt
-      val memberService = ApplicationContextUtil.getSpringBean(classOf[ProjectMemberService])
+      val memberService = AppContextUtil.getSpringBean(classOf[ProjectMemberService])
       val member = memberService.findById(memberId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Edit(member))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

@@ -38,8 +38,8 @@ public class DateParam extends ColumnParam {
 
     public static String[] OPTIONS = {IS, IS_NOT, BEFORE, AFTER, BETWEEN, NOT_BETWEEN};
 
-    public DateParam(String id, Enum displayName, String table, String column) {
-        super(id, displayName, table, column);
+    public DateParam(String id, String table, String column) {
+        super(id, table, column);
     }
 
     public static SearchField inRangeDate(DateParam dateParam, VariableInjector variableInjector) {

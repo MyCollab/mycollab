@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -57,7 +57,7 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
 
             @Override
             public void gotoNext(SimpleLead data) {
-                LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -71,7 +71,7 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
 
             @Override
             public void gotoPrevious(SimpleLead data) {
-                LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));

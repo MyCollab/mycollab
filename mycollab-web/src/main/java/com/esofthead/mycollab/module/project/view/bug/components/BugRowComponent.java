@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
@@ -149,7 +149,7 @@ public class BugRowComponent extends MVerticalLayout {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                                    BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                                     bugService.removeWithSession(bug, AppContext.getUsername(), AppContext.getAccountId());
                                     deleteBug();
                                 }

@@ -25,7 +25,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.ui.chart.Key;
 import com.esofthead.mycollab.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -64,7 +64,7 @@ public class BugAssigneeChartWidget extends PieChartWrapper<BugSearchCriteria> i
 
     @Override
     protected List<GroupItem> loadGroupItems() {
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         return bugService.getAssignedDefectsSummary(searchCriteria);
     }
 

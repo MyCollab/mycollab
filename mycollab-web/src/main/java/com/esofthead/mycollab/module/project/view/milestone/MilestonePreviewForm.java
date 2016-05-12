@@ -37,7 +37,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -173,7 +173,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(riskSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1, spacingLbl2);
 
-            assignmentsLayout = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowRenderer());
+            assignmentsLayout = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowRenderer());
             assignmentsLayout.setMargin(new MarginInfo(true, true, true, false));
             assignmentsLayout.setControlStyle("");
             this.with(header, assignmentsLayout);

@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.RiskScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
@@ -56,7 +56,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
     private static final long serialVersionUID = 1L;
 
     public FollowingTicketTableDisplay() {
-        super(ApplicationContextUtil.getSpringBean(ProjectFollowingTicketService.class),
+        super(AppContextUtil.getSpringBean(ProjectFollowingTicketService.class),
                 FollowingTicket.class, Arrays.asList(FollowingTicketFieldDef.summary,
                         FollowingTicketFieldDef.project, FollowingTicketFieldDef.assignee, FollowingTicketFieldDef.createdDate));
 

@@ -34,7 +34,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
@@ -225,13 +225,13 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
 
         FormReportLayout formReportLayout = (FormReportLayout) parameters.get("layout");
 
-        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
         final CommentSearchCriteria commentCriteria = new CommentSearchCriteria();
         commentCriteria.setType(StringSearchField.and(formReportLayout.getModuleName()));
         commentCriteria.setTypeId(StringSearchField.and(typeId + ""));
         final int commentCount = commentService.getTotalCount(commentCriteria);
 
-        AuditLogService auditLogService = ApplicationContextUtil.getSpringBean(AuditLogService.class);
+        AuditLogService auditLogService = AppContextUtil.getSpringBean(AuditLogService.class);
         final AuditLogSearchCriteria logCriteria = new AuditLogSearchCriteria();
         logCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         logCriteria.setType(StringSearchField.and(formReportLayout.getModuleName()));

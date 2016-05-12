@@ -16,8 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.*;
-import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.arguments.DateSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
  * @author MyCollab Ltd.
@@ -29,8 +31,6 @@ public class StandupReportSearchCriteria extends SearchCriteria {
     private SetSearchField<Integer> projectIds;
     private StringSearchField logBy;
     private DateSearchField onDate;
-
-    public static final DateParam p_fordays = new DateParam("standup-forday", null, "m_prj_standup", "forday");
 
     public SetSearchField<Integer> getProjectIds() {
         return projectIds;

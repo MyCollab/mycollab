@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -79,7 +79,7 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
             if (data.getParams() instanceof SimpleOpportunity) {
                 opportunity = (SimpleOpportunity) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                OpportunityService accountService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                OpportunityService accountService = AppContextUtil.getSpringBean(OpportunityService.class);
                 opportunity = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (opportunity == null) {
@@ -102,7 +102,7 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
     }
 
     private int saveOpportunity(Opportunity opportunity) {
-        OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+        OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
         opportunity.setSaccountid(AppContext.getAccountId());
         if (opportunity.getId() == null) {
             opportunityService.saveWithSession(opportunity, AppContext.getUsername());

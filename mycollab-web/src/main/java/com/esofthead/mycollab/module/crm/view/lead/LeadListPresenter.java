@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
@@ -60,7 +60,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
     @Override
     protected void postInitView() {
         super.postInitView();
-        leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+        leadService = AppContextUtil.getSpringBean(LeadService.class);
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
@@ -165,6 +165,6 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
 
     @Override
     public ISearchableService<LeadSearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(LeadService.class);
+        return AppContextUtil.getSpringBean(LeadService.class);
     }
 }

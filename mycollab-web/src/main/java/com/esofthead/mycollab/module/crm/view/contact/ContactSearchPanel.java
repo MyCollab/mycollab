@@ -200,9 +200,9 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("contact-assignuser".equals(fieldId)) {
+            if ("assignuser".equals(fieldId)) {
                 return new ActiveUserListSelect();
-            } else if ("contact-account".equals(fieldId)) {
+            } else if ("account".equals(fieldId)) {
                 return new AccountSelectionField();
             }
             return null;

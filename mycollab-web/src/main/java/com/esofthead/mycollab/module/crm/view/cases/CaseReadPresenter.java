@@ -36,7 +36,7 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -89,7 +89,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                                    CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                                     caseService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
@@ -119,7 +119,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 
             @Override
             public void gotoNext(SimpleCase data) {
-                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                 CaseSearchCriteria criteria = new CaseSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -134,7 +134,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 
             @Override
             public void gotoPrevious(SimpleCase data) {
-                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                 CaseSearchCriteria criteria = new CaseSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -190,7 +190,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                             associateContacts.add(associateContact);
                         }
 
-                        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                         contactService.saveContactCaseRelationship(associateContacts, AppContext.getAccountId());
                         view.getRelatedContactHandlers().refresh();
                     }
@@ -202,7 +202,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
         CrmModule.navigateItem(CrmTypeConstants.CASE);
         if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
             if (data.getParams() instanceof Integer) {
-                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                 SimpleCase cases = caseService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (cases != null) {
                     super.onGo(container, data);

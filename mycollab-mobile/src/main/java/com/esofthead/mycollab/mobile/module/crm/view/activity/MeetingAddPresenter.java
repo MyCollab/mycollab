@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -71,7 +71,7 @@ public class MeetingAddPresenter extends AbstractCrmPresenter<MeetingAddView> {
             if (data.getParams() instanceof MeetingWithBLOBs) {
                 meeting = (MeetingWithBLOBs) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                MeetingService meetingService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+                MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
                 meeting = meetingService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (meeting == null) {
@@ -96,7 +96,7 @@ public class MeetingAddPresenter extends AbstractCrmPresenter<MeetingAddView> {
     }
 
     public void save(MeetingWithBLOBs item) {
-        MeetingService meetingService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+        MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
         item.setSaccountid(AppContext.getAccountId());
         if (item.getId() == null) {
             meetingService.saveWithSession(item, AppContext.getUsername());

@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -76,7 +76,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                                    AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                                     accountService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null));
                                 }
@@ -99,7 +99,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
 
             @Override
             public void gotoNext(SimpleAccount data) {
-                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 AccountSearchCriteria criteria = new AccountSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -114,7 +114,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
 
             @Override
             public void gotoPrevious(SimpleAccount data) {
-                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 AccountSearchCriteria criteria = new AccountSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -152,7 +152,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
 
             @Override
             public void selectAssociateItems(Set<SimpleContact> items) {
-                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 SimpleAccount account = view.getItem();
                 for (SimpleContact contact : items) {
                     contact.setAccountid(account.getId());
@@ -177,7 +177,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                     associateLeads.add(assoLead);
                 }
 
-                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 accountService.saveAccountLeadRelationship(associateLeads, AppContext.getAccountId());
 
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
@@ -239,7 +239,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             if (data.getParams() instanceof Integer) {
-                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 SimpleAccount account = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (account != null) {
                     view.previewItem(account);

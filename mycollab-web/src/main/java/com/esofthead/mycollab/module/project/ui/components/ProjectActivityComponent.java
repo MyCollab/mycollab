@@ -30,7 +30,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -113,8 +113,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         activityBox = new MVerticalLayout().withMargin(new MMarginInfo(true, true, true, false));
         this.with(headerPanel, commentBox, activityBox);
 
-        commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
-        auditLogService = ApplicationContextUtil.getSpringBean(AuditLogService.class);
+        commentService = AppContextUtil.getSpringBean(CommentService.class);
+        auditLogService = AppContextUtil.getSpringBean(AuditLogService.class);
     }
 
     public void loadActivities(String typeId) {
@@ -208,7 +208,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                                         commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
                                         activityBox.removeComponent(layout);
                                     }

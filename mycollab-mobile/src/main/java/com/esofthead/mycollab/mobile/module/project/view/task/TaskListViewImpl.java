@@ -40,7 +40,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -69,7 +69,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
 
     @Override
     protected AbstractPagedBeanList<TaskSearchCriteria, SimpleTask> createBeanList() {
-        return new DefaultPagedBeanList<>(ApplicationContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowDisplayHandler());
+        return new DefaultPagedBeanList<>(AppContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowDisplayHandler());
     }
 
     @Override

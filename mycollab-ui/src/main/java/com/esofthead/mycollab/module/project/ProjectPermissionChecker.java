@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.security.PermissionMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -28,7 +28,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  */
 public class ProjectPermissionChecker {
     private static ProjectMemberService getMemberService() {
-        return ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        return AppContextUtil.getSpringBean(ProjectMemberService.class);
     }
 
     public static boolean canWrite(Integer prjId, String permissionItem) {

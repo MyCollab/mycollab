@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.contact;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.Property;
 
@@ -56,7 +56,7 @@ public class ContactSelectionField extends AbstractSelectionCustomField<Integer,
     }
 
     private void setContactByVal(Integer contactId) {
-        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
         SimpleContact contactVal = contactService.findById(contactId, AppContext.getAccountId());
         if (contactVal != null) {
             setInternalContact(contactVal);

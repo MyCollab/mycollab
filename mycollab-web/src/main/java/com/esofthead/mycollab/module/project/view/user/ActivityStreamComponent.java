@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
@@ -116,12 +116,12 @@ public class ActivityStreamComponent extends CssLayout {
 
             Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
             CssLayout currentFeedBlock = new CssLayout();
-            AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
+            AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
 
             try {
                 for (ProjectActivityStream activityStream : currentListData) {
                     if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
-                        ProjectPageService pageService = ApplicationContextUtil.getSpringBean(ProjectPageService.class);
+                        ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
                         Page page = pageService.getPage(activityStream.getTypeid(), AppContext.getUsername());
                         if (page != null) {
                             activityStream.setNamefield(page.getSubject());

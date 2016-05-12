@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -104,7 +104,7 @@ public class BugAddWindow extends Window {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         if (EditForm.this.validateForm()) {
-                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                             Integer bugId;
                             if (bean.getId() == null) {
                                 bugId = bugService.saveWithSession(bean, AppContext.getUsername());
@@ -113,10 +113,10 @@ public class BugAddWindow extends Window {
                                 bugId = bean.getId();
                             }
 
-                            AsyncEventBus asyncEventBus = ApplicationContextUtil.getSpringBean(AsyncEventBus.class);
+                            AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
                             // save component
                             BugEditFormFieldFactory bugEditFormFieldFactory = (BugEditFormFieldFactory) fieldFactory;
-                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+                            BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
                             bugRelatedItemService.saveAffectedVersionsOfBug(bugId, bugEditFormFieldFactory.getAffectedVersionSelect().getSelectedItems());
                             bugRelatedItemService.saveComponentsOfBug(bugId, bugEditFormFieldFactory.getComponentSelect().getSelectedItems());
                             asyncEventBus.post(new CleanCacheEvent(AppContext.getAccountId(), new Class[]{BugService.class}));
@@ -141,7 +141,7 @@ public class BugAddWindow extends Window {
                                     monitorItem.setExtratypeid(bean.getProjectid());
                                     monitorItems.add(monitorItem);
                                 }
-                                MonitorItemService monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
+                                MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
                                 monitorItemService.saveMonitorItems(monitorItems);
                             }
                             close();

@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.vaadin.data.Property;
 import com.vaadin.ui.UI;
@@ -49,7 +49,7 @@ public class VersionMultiSelectField extends MultiSelectComp {
         VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
         searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
-        VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+        VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
         return versionService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
     }
 

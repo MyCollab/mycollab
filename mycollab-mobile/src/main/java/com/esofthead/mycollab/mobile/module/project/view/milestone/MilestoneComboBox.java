@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.data.util.BeanContainer;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class MilestoneComboBox extends ValueComboBox {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 
-        MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+        MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<>(SimpleMilestone.class);

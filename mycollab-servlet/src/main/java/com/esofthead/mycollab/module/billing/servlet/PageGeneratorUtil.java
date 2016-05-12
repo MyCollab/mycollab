@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 import org.apache.velocity.app.VelocityEngine;
 
@@ -54,7 +54,7 @@ class PageGeneratorUtil {
         context.put("defaultUrls", defaultUrls);
 
         StringWriter writer = new StringWriter();
-        VelocityEngine templateEngine = ApplicationContextUtil.getSpringBean(VelocityEngine.class);
+        VelocityEngine templateEngine = AppContextUtil.getSpringBean(VelocityEngine.class);
         templateEngine.evaluate(context.getVelocityContext(), writer, "log task", reader);
 
         String html = writer.toString();

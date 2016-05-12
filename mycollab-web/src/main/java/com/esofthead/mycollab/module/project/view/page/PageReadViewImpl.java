@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -91,7 +91,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     public PageReadViewImpl() {
         super(new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)), new PagePreviewFormLayout());
-        pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+        pageService = AppContextUtil.getSpringBean(PageService.class);
         constructHeader();
     }
 
@@ -206,7 +206,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                     AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
                     .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
 
-            ProjectMemberService projectMemberService = ApplicationContextUtil
+            ProjectMemberService projectMemberService = AppContextUtil
                     .getSpringBean(ProjectMemberService.class);
             SimpleProjectMember member = projectMemberService.findMemberByUsername(beanItem.getCreatedUser(),
                     CurrentProjectVariables.getProjectId(), AppContext.getAccountId());

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -41,7 +41,7 @@ public class BugKanbanPresenter extends ProjectGenericPresenter<BugKanbanView> {
 
     public BugKanbanPresenter() {
         super(BugKanbanView.class);
-        bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        bugService = AppContextUtil.getSpringBean(BugService.class);
     }
 
     @Override

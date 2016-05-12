@@ -30,11 +30,10 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TicketI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -55,7 +54,7 @@ public class IssueListView extends AbstractMobilePageView {
 
     public IssueListView(Integer milestoneId) {
         this.milestoneId = milestoneId;
-        ticketList = new BeanList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), TicketRowDisplayHandler.class);
+        ticketList = new BeanList<>(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), TicketRowDisplayHandler.class);
         ticketList.setDisplayEmptyListText(false);
         this.setContent(ticketList);
         displayTickets();

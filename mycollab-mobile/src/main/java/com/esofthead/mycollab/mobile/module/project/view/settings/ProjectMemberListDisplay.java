@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -49,7 +49,7 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
     private static final long serialVersionUID = -8386107467240727141L;
 
     public ProjectMemberListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(ProjectMemberService.class), new ProjectMemberRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(ProjectMemberService.class), new ProjectMemberRowDisplayHandler());
     }
 
     private static class ProjectMemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {

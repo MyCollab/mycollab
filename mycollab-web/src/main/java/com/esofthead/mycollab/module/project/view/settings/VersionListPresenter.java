@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
@@ -55,7 +55,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 
     public VersionListPresenter() {
         super(VersionListView.class);
-        versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+        versionService = AppContextUtil.getSpringBean(VersionService.class);
     }
 
     @Override

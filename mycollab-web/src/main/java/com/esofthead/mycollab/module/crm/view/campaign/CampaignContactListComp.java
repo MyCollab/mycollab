@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -56,7 +56,7 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
     private CampaignWithBLOBs campaign;
 
     public CampaignContactListComp() {
-        super(ApplicationContextUtil.getSpringBean(ContactService.class), 20);
+        super(AppContextUtil.getSpringBean(ContactService.class), 20);
         this.setBlockDisplayHandler(new CampaignContactBlockDisplay());
     }
 
@@ -155,7 +155,7 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                                        CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                                         CampaignContact associateContact = new CampaignContact();
                                         associateContact.setContactid(contact.getId());
                                         associateContact.setCampaignid(campaign.getId());

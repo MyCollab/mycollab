@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
@@ -99,7 +99,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                             public void onClose(
                                     final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                    ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                                     taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
                                             (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
@@ -125,7 +125,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
             @Override
             public void gotoNext(SimpleTask task) {
-                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
@@ -141,7 +141,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
             @Override
             public void gotoPrevious(final SimpleTask task) {
-                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(task.getProjectid()));
@@ -165,7 +165,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
             taskContainer.addComponent(view);
             if (data.getParams() instanceof Integer) {
-                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
                 if (task != null) {

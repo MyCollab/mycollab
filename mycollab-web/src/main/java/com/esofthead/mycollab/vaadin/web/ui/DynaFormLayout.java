@@ -23,7 +23,7 @@ import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.IDynaFormLayout;
@@ -52,7 +52,7 @@ public class DynaFormLayout implements IDynaFormLayout {
         } else {
             this.excludeFields = new HashSet<>();
         }
-        MasterFormService formService = ApplicationContextUtil.getSpringBean(MasterFormService.class);
+        MasterFormService formService = AppContextUtil.getSpringBean(MasterFormService.class);
         DynaForm form = formService.findCustomForm(AppContext.getAccountId(), moduleName);
         this.dynaForm = (form != null) ? form : defaultForm;
     }

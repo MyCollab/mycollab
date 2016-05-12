@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
 import com.esofthead.mycollab.module.project.view.user.ProjectActivityStreamPagedList;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -198,7 +198,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
                     @Override
                     public void buttonClick(ClickEvent event) {
-                        ProjectMemberMapper projectMemberMapper = ApplicationContextUtil.getSpringBean(ProjectMemberMapper.class);
+                        ProjectMemberMapper projectMemberMapper = AppContextUtil.getSpringBean(ProjectMemberMapper.class);
                         beanItem.setStatus(RegisterStatusConstants.VERIFICATING);
                         projectMemberMapper.updateByPrimaryKeySelective(beanItem);
                         waitingNotLayout.removeAllComponents();
@@ -314,7 +314,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             addHeaderElement(overdueSelection);
             addHeaderElement(isOpenSelection);
 
-            taskList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
+            taskList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectGenericTaskService.class),
                     new TaskRowDisplayHandler(), 10);
             bodyContent.addComponent(taskList);
         }

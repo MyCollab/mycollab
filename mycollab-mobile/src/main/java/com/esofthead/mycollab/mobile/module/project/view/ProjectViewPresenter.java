@@ -27,7 +27,7 @@ import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -52,7 +52,7 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
             // do nothing
         }
         if (data.getParams() instanceof Integer) {
-            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+            ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             SimpleProject project = projectService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
             if (project == null) {

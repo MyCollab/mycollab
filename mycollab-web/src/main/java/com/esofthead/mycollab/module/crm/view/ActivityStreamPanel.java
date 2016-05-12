@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
@@ -101,7 +101,7 @@ public class ActivityStreamPanel extends CssLayout {
         public CrmActivityStreamPagedList() {
             listContainer.setWidth("100%");
             this.addComponent(listContainer);
-            activityStreamService = ApplicationContextUtil.getSpringBean(ActivityStreamService.class);
+            activityStreamService = AppContextUtil.getSpringBean(ActivityStreamService.class);
         }
 
         public void setSearchCriteria(final ActivityStreamSearchCriteria searchCriteria) {
@@ -212,7 +212,7 @@ public class ActivityStreamPanel extends CssLayout {
             String assigneeValue = buildAssigneeValue(activityStream);
             String itemValue = buildItemValue(activityStream);
 
-            AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
+            AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
             StringBuffer content = new StringBuffer();
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {

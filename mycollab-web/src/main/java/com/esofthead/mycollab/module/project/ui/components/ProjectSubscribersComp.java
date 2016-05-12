@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.data.Property;
@@ -49,7 +49,7 @@ public class ProjectSubscribersComp extends CustomField {
 
     @Override
     protected Component initContent() {
-        ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleUser> members = projectMemberService.getActiveUsersInProject(projectId, AppContext.getAccountId());
         CssLayout container = new CssLayout();
         container.setStyleName("followers-container");

@@ -207,7 +207,7 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("campaign-assignuser".equals(fieldId)) {
+            if ("assignuser".equals(fieldId)) {
                 return new ActiveUserListSelect();
             }
             return null;

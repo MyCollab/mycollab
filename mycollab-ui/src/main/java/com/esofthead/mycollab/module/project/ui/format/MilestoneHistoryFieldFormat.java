@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import org.apache.commons.lang3.StringUtils;
@@ -49,7 +49,7 @@ public final class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 
         try {
             Integer milestoneId = Integer.parseInt(value);
-            MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+            MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
             SimpleMilestone milestone = milestoneService.findById(milestoneId, AppContext.getAccountId());
 
             if (milestone != null) {

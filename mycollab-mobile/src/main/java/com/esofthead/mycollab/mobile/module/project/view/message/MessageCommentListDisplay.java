@@ -24,7 +24,7 @@ import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentRequestComp
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.shared.ui.MarginInfo;
@@ -56,7 +56,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
             commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
         }
 
-        commentList = new BeanList<>(ApplicationContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
+        commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
         commentList.setDisplayEmptyListText(false);
         this.addComponent(commentList);
         displayCommentList();
@@ -78,7 +78,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
         final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));
-        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
         return commentService.getTotalCount(searchCriteria);
     }
 

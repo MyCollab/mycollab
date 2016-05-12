@@ -26,7 +26,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.ui.chart.GenericChartWrapper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
@@ -84,7 +84,7 @@ public class TaskStatusTrendChartWidget extends Depot {
 
         public TaskStatusChartWrapper() {
             super(350, 280);
-            timelineTrackingService = ApplicationContextUtil.getSpringBean(TimelineTrackingService.class);
+            timelineTrackingService = AppContextUtil.getSpringBean(TimelineTrackingService.class);
         }
 
         @Override
@@ -181,7 +181,7 @@ public class TaskStatusTrendChartWidget extends Depot {
             searchCriteria.setFieldgroup(StringSearchField.and("status"));
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);
-            OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+            OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
             List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
                     CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
             List<String> options = new ArrayList<>();

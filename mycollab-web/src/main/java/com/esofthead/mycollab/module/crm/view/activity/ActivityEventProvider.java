@@ -23,7 +23,7 @@ import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
@@ -47,7 +47,7 @@ public class ActivityEventProvider implements CalendarEventProvider {
     private MeetingService meetingService;
 
     public ActivityEventProvider() {
-        meetingService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+        meetingService = AppContextUtil.getSpringBean(MeetingService.class);
     }
 
     @SuppressWarnings("unchecked")

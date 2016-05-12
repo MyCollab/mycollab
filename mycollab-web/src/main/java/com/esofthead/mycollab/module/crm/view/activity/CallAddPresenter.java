@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -74,7 +74,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
             CallWithBLOBs call;
 
             if (data.getParams() instanceof Integer) {
-                CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 call = callService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
                 if (call == null) {
                     NotificationUtil.showRecordNotExistNotification();
@@ -103,7 +103,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
     }
 
     public void save(CallWithBLOBs item) {
-        CallService taskService = ApplicationContextUtil.getSpringBean(CallService.class);
+        CallService taskService = AppContextUtil.getSpringBean(CallService.class);
 
         item.setSaccountid(AppContext.getAccountId());
         if (item.getId() == null) {

@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 import java.util.Arrays;
@@ -38,7 +38,7 @@ public class CaseImportWindow extends EntityImportWindow<SimpleCase> {
     private static final long serialVersionUID = 1L;
 
     public CaseImportWindow() {
-        super(false, "Import Cases", ApplicationContextUtil.getSpringBean(CaseService.class), SimpleCase.class);
+        super(false, "Import Cases", AppContextUtil.getSpringBean(CaseService.class), SimpleCase.class);
     }
 
     @Override

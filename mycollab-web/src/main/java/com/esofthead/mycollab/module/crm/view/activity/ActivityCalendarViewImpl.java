@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityEventProvider.CrmEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -554,7 +554,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     SimpleMeeting simpleMeeting = crmEvent.getSource();
                     simpleMeeting.setStartdate(event.getNewStart());
                     simpleMeeting.setEnddate(event.getNewEnd());
-                    MeetingService service = ApplicationContextUtil
+                    MeetingService service = AppContextUtil
                             .getSpringBean(MeetingService.class);
                     service.updateWithSession(simpleMeeting,
                             AppContext.getUsername());
@@ -593,7 +593,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         simpleMeeting.setStartdate(newStartDate);
                         simpleMeeting.setEnddate(calendar.getTime());
 
-                        MeetingService service = ApplicationContextUtil
+                        MeetingService service = AppContextUtil
                                 .getSpringBean(MeetingService.class);
                         service.updateWithSession(simpleMeeting,
                                 AppContext.getUsername());
@@ -765,7 +765,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                                 @Override
                                 public void buttonClick(ClickEvent event) {
                                     if (EditForm.this.validateForm()) {
-                                        MeetingService meetingService = ApplicationContextUtil
+                                        MeetingService meetingService = AppContextUtil
                                                 .getSpringBean(MeetingService.class);
                                         meetingService.saveWithSession(meeting,
                                                 AppContext.getUsername());

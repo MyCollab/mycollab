@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CallService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -42,7 +42,7 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
     private static final long serialVersionUID = 1L;
 
     public CallTableDisplay(TableViewField requireColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(CallService.class), SimpleCall.class, requireColumn, displayColumns);
+        super(AppContextUtil.getSpringBean(CallService.class), SimpleCall.class, requireColumn, displayColumns);
 
         this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

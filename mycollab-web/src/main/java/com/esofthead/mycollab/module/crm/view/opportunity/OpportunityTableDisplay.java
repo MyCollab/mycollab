@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.CheckBoxDecor;
@@ -52,7 +52,7 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
     }
 
     public OpportunityTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
+        super(AppContextUtil.getSpringBean(OpportunityService.class),
                 SimpleOpportunity.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("selected", new Table.ColumnGenerator() {

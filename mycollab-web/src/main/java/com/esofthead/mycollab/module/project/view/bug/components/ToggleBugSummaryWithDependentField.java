@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.tracker.dao.RelatedBugMapper;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBugExample;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.RemoveInlineComponentMarker;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
@@ -56,7 +56,7 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
                             public void onClose(ConfirmDialog confirmDialog) {
                                 RelatedBugExample ex = new RelatedBugExample();
                                 ex.createCriteria().andBugidEqualTo(hostBug.getId()).andRelatedidEqualTo(relatedBug.getId());
-                                RelatedBugMapper bugMapper = ApplicationContextUtil.getSpringBean(RelatedBugMapper.class);
+                                RelatedBugMapper bugMapper = AppContextUtil.getSpringBean(RelatedBugMapper.class);
                                 bugMapper.deleteByExample(ex);
                                 UIUtils.removeChildAssociate(toggleBugSummaryField, RemoveInlineComponentMarker.class);
                             }

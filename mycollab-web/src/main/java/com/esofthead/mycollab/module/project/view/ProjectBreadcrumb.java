@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -254,7 +254,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
             extraPath = extraPath.substring(1);
         }
         if (!extraPath.equals("")) {
-            PageService wikiService = ApplicationContextUtil.getSpringBean(PageService.class);
+            PageService wikiService = AppContextUtil.getSpringBean(PageService.class);
 
             String[] subPath = extraPath.split("/");
             StringBuilder tempPath = new StringBuilder();

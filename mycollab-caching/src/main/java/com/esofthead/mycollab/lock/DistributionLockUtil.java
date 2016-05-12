@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.lock;
 
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.apache.commons.collections.map.AbstractReferenceMap;
 import org.apache.commons.collections.map.ReferenceMap;
 
@@ -35,7 +35,7 @@ public class DistributionLockUtil {
 
     public static Lock getLock(String lockName) {
         try {
-            DistributionLockService lockService = ApplicationContextUtil.getSpringBean(DistributionLockService.class);
+            DistributionLockService lockService = AppContextUtil.getSpringBean(DistributionLockService.class);
             Lock lock = lockService.getLock(lockName);
             if (lock == null) {
                 return getStaticDefaultLock(lockName);

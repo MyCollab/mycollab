@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.web;
 
 import com.esofthead.mycollab.license.LicenseResolver;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AbstractLicenseActivationWindow;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -51,7 +51,7 @@ public class AdWindow extends Window {
             Label webPage = new Label(informDiv.write(), ContentMode.HTML);
             this.setContent(content.with(webPage).withAlign(webPage, Alignment.TOP_CENTER));
         }
-        LicenseResolver licenseResolver = ApplicationContextUtil.getSpringBean(LicenseResolver.class);
+        LicenseResolver licenseResolver = AppContextUtil.getSpringBean(LicenseResolver.class);
         if (licenseResolver != null) {
             Button editLicenseBtn = new Button("Enter license code", new Button.ClickListener() {
                 @Override

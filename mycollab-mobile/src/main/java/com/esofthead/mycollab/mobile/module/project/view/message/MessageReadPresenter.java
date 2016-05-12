@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -46,7 +46,7 @@ public class MessageReadPresenter extends AbstractProjectPresenter<MessageReadVi
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
             if (data.getParams() instanceof Integer) {
-                MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
                 SimpleMessage message = messageService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 view.previewItem(message);
                 super.onGo(container, data);

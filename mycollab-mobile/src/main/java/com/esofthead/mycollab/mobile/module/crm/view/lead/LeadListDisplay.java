@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -34,7 +34,7 @@ public class LeadListDisplay extends DefaultPagedBeanList<LeadService, LeadSearc
     private static final long serialVersionUID = -2350731660593521985L;
 
     public LeadListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(LeadService.class), new LeadRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(LeadService.class), new LeadRowDisplayHandler());
     }
 
     static public class LeadRowDisplayHandler implements RowDisplayHandler<SimpleLead> {

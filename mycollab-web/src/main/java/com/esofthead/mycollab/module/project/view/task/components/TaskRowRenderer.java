@@ -23,11 +23,10 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
@@ -161,7 +160,7 @@ public class TaskRowRenderer extends MVerticalLayout {
                 public void buttonClick(Button.ClickEvent event) {
                     task.setStatus(OptionI18nEnum.StatusI18nEnum.Closed.name());
                     task.setPercentagecomplete(100d);
-                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                     projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
                     taskSettingPopupBtn.setPopupVisible(false);
                     closeTask();
@@ -181,7 +180,7 @@ public class TaskRowRenderer extends MVerticalLayout {
                     task.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
                     task.setPercentagecomplete(0d);
 
-                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                     projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
                     reOpenTask();
                     EventBusFactory.getInstance().post(new TaskEvent.HasTaskChange(TaskRowRenderer.this, null));
@@ -210,7 +209,7 @@ public class TaskRowRenderer extends MVerticalLayout {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                    ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                                     projectTaskService.removeWithSession(task, AppContext.getUsername(), AppContext.getAccountId());
                                     deleteTask();
                                 }

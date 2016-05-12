@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.common.domain.FavoriteItem;
 import com.esofthead.mycollab.common.service.FavoriteItemService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -43,7 +43,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
     protected B beanItem;
-    private FavoriteItemService favoriteItemService = ApplicationContextUtil.getSpringBean(FavoriteItemService.class);
+    private FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
     private boolean isDisplaySideBar = true;
 
     protected AdvancedPreviewBeanForm<B> previewForm;
@@ -156,7 +156,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             favoriteItem.setTypeid(PropertyUtils.getProperty(beanItem, "id").toString());
             favoriteItem.setSaccountid(AppContext.getAccountId());
             favoriteItem.setCreateduser(AppContext.getUsername());
-            FavoriteItemService favoriteItemService = ApplicationContextUtil.getSpringBean(FavoriteItemService.class);
+            FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
             favoriteItemService.saveOrDelete(favoriteItem);
         } catch (Exception e) {
             LOG.error("Error while set favorite flag to bean", e);

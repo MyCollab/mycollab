@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -80,7 +80,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                                    CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                                     campaignService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
                                 }
@@ -102,7 +102,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
 
             @Override
             public void gotoNext(SimpleCampaign data) {
-                CampaignService contactService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService contactService = AppContextUtil.getSpringBean(CampaignService.class);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -117,7 +117,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
 
             @Override
             public void gotoPrevious(SimpleCampaign data) {
-                CampaignService contactService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService contactService = AppContextUtil.getSpringBean(CampaignService.class);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -143,7 +143,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
                     associateAccounts.add(assoAccount);
                 }
 
-                CampaignService accountService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService accountService = AppContextUtil.getSpringBean(CampaignService.class);
                 accountService.saveCampaignAccountRelationship(associateAccounts, AppContext.getAccountId());
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
@@ -169,7 +169,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
                     associateContacts.add(associateContact);
                 }
 
-                CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                 campaignService.saveCampaignContactRelationship(associateContacts, AppContext.getAccountId());
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
@@ -195,7 +195,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
                     associateLeads.add(associateLead);
                 }
 
-                CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                 campaignService.saveCampaignLeadRelationship(associateLeads, AppContext.getAccountId());
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
@@ -242,7 +242,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
         if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
 
             if (data.getParams() instanceof Integer) {
-                CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                 SimpleCampaign campaign = campaignService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (campaign != null) {
                     view.previewItem(campaign);

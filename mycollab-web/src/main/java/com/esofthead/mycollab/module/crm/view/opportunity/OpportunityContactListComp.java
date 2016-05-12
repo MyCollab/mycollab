@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.*;
@@ -73,7 +73,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
     }
 
     public OpportunityContactListComp() {
-        super(ApplicationContextUtil.getSpringBean(ContactOpportunityService.class), 20);
+        super(AppContextUtil.getSpringBean(ContactOpportunityService.class), 20);
         this.setBlockDisplayHandler(new OpportunityContactBlockDisplay());
     }
 
@@ -189,7 +189,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                                        final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                                         ContactOpportunity associateContact = new ContactOpportunity();
                                         associateContact.setOpportunityid(opportunity.getId());
                                         associateContact.setContactid(contact.getId());

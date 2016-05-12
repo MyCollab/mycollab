@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
 import com.esofthead.mycollab.module.tracker.dao.BugMapper;
 import com.esofthead.mycollab.module.tracker.domain.BugExample;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +91,7 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
     public void massUpdatePredecessors(Integer taskSourceId, final List<TaskPredecessor> predecessors, Integer sAccountId) {
         Lock lock = DistributionLockUtil.getLock("task-service" + sAccountId);
         try {
-            PredecessorMapper predecessorMapper = ApplicationContextUtil.getSpringBean(PredecessorMapper.class);
+            PredecessorMapper predecessorMapper = AppContextUtil.getSpringBean(PredecessorMapper.class);
             PredecessorExample ex = new PredecessorExample();
             ex.createCriteria().andSourceidEqualTo(taskSourceId);
             predecessorMapper.deleteByExample(ex);
@@ -305,7 +305,7 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
 
     private void massDeleteMilestoneGanttItems(List<Integer> milestoneIds) {
         if (CollectionUtils.isNotEmpty(milestoneIds)) {
-            MilestoneMapper milestoneMapper = ApplicationContextUtil.getSpringBean(MilestoneMapper.class);
+            MilestoneMapper milestoneMapper = AppContextUtil.getSpringBean(MilestoneMapper.class);
             MilestoneExample ex = new MilestoneExample();
             ex.createCriteria().andIdIn(milestoneIds);
             milestoneMapper.deleteByExample(ex);
@@ -314,7 +314,7 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
 
     private void massDeleteTaskGanttItems(List<Integer> taskIds) {
         if (CollectionUtils.isNotEmpty(taskIds)) {
-            TaskMapper taskMapper = ApplicationContextUtil.getSpringBean(TaskMapper.class);
+            TaskMapper taskMapper = AppContextUtil.getSpringBean(TaskMapper.class);
             TaskExample ex = new TaskExample();
             ex.createCriteria().andIdIn(taskIds);
             taskMapper.deleteByExample(ex);
@@ -323,7 +323,7 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
 
     private void massDeleteBugGanttItems(List<Integer> bugIds) {
         if (CollectionUtils.isNotEmpty(bugIds)) {
-            BugMapper bugMapper = ApplicationContextUtil.getSpringBean(BugMapper.class);
+            BugMapper bugMapper = AppContextUtil.getSpringBean(BugMapper.class);
             BugExample ex = new BugExample();
             ex.createCriteria().andIdIn(bugIds);
             bugMapper.deleteByExample(ex);

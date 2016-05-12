@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.service.ComponentScannerService;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 
@@ -59,7 +59,7 @@ public class ViewManager {
     }
 
     private static <T> T createInstanceFromCls(Class<T> viewClass) throws IllegalAccessException, InstantiationException {
-        ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean(ComponentScannerService.class);
+        ComponentScannerService componentScannerService = AppContextUtil.getSpringBean(ComponentScannerService.class);
         Class<?> implCls = componentScannerService.getViewImplCls(viewClass);
         if (implCls != null) {
             return (T) implCls.newInstance();

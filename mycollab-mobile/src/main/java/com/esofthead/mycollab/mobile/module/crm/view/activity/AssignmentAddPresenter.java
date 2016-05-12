@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -72,7 +72,7 @@ public class AssignmentAddPresenter extends AbstractCrmPresenter<AssignmentAddVi
             if (data.getParams() instanceof Task) {
                 task = (Task) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 task = taskService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
                 if (task == null) {
                     NotificationUtil.showRecordNotExistNotification();
@@ -99,7 +99,7 @@ public class AssignmentAddPresenter extends AbstractCrmPresenter<AssignmentAddVi
     }
 
     public void save(Task item) {
-        TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+        TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
         item.setSaccountid(AppContext.getAccountId());
         if (item.getId() == null) {
             taskService.saveWithSession(item, AppContext.getUsername());

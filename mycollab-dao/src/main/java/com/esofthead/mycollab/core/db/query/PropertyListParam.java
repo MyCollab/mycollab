@@ -30,8 +30,8 @@ public class PropertyListParam<P> extends ColumnParam {
 
     public static final String[] OPTIONS = {BELONG_TO, NOT_BELONG_TO};
 
-    public PropertyListParam(String id, Enum<?> displayName, String table, String column) {
-        super(id, displayName, table, column);
+    public PropertyListParam(String id, String table, String column) {
+        super(id, table, column);
     }
 
     public CollectionValueSearchField buildPropertyParamInList(String oper, Collection<P> value) {

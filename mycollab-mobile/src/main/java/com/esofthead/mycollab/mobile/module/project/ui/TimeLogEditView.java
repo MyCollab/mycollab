@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
@@ -71,7 +71,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
         this.addStyleName("timelog-edit-view");
 
-        this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
+        this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
 
         this.initUI();
         this.loadTimeValue();
@@ -88,7 +88,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         constructRemainTimeEntryPanel();
 
         this.tableItem = new DefaultPagedBeanList<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
-                ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class), new TimeLogRowHandler()) {
+                AppContextUtil.getSpringBean(ItemTimeLoggingService.class), new TimeLogRowHandler()) {
 
             private static final long serialVersionUID = -4549910960891655297L;
 

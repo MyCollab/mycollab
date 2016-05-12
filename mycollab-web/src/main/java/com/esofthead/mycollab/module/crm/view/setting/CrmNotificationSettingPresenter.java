@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.setting;
 import com.esofthead.mycollab.module.crm.domain.CrmNotificationSetting;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -40,7 +40,7 @@ public class CrmNotificationSettingPresenter extends CrmGenericPresenter<CrmNoti
         CrmSettingContainer settingContainer = (CrmSettingContainer) container;
         settingContainer.gotoSubView("notification");
 
-        CrmNotificationSettingService service = ApplicationContextUtil.getSpringBean(CrmNotificationSettingService.class);
+        CrmNotificationSettingService service = AppContextUtil.getSpringBean(CrmNotificationSettingService.class);
         CrmNotificationSetting setting = service.findNotification(AppContext.getUsername(), AppContext.getAccountId());
         view.showNotificationSettings(setting);
 

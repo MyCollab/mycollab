@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -72,7 +72,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     public CrmFollowersComp(String type, String permissionItem) {
         super();
         withMargin(false);
-        monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
+        monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
         this.type = type;
         this.permissionItem = permissionItem;
     }
@@ -193,7 +193,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             UserSearchCriteria criteria = new UserSearchCriteria();
             criteria.setStatuses(new SetSearchField<>("Active"));
 
-            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService userService = AppContextUtil.getSpringBean(UserService.class);
             users = userService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
             for (SimpleUser member : users) {
                 this.addComponent(new FollowerRow(member));

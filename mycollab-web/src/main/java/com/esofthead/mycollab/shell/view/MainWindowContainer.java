@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.shell.ShellController;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -56,7 +56,7 @@ public class MainWindowContainer extends CssLayout {
     }
 
     private void setDefaultView() {
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        UserService userService = AppContextUtil.getSpringBean(UserService.class);
         int activeUsersCount = userService.getTotalActiveUsersInAccount(AppContext.getAccountId());
         if (activeUsersCount == 0) {
             this.setContent(new SetupNewInstanceView());

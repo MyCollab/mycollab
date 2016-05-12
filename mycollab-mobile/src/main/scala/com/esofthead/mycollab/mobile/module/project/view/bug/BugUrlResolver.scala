@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria
 import com.esofthead.mycollab.module.tracker.service.BugService
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
@@ -60,7 +60,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       if (ProjectLinkParams.isValidParam(params(0))) {
         val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
         val itemKey = ProjectLinkParams.getItemKey(params(0))
-        val bugService = ApplicationContextUtil.getSpringBean(classOf[BugService])
+        val bugService = AppContextUtil.getSpringBean(classOf[BugService])
         val bug = bugService.findByProjectAndBugKey(itemKey, prjShortName, AppContext.getAccountId)
         if (bug != null) {
           projectId = bug.getProjectid
@@ -84,7 +84,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       if (ProjectLinkParams.isValidParam(params(0))) {
         val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
         val itemKey = ProjectLinkParams.getItemKey(params(0))
-        val bugService = ApplicationContextUtil.getSpringBean(classOf[BugService])
+        val bugService = AppContextUtil.getSpringBean(classOf[BugService])
         bug = bugService.findByProjectAndBugKey(itemKey, prjShortName, AppContext.getAccountId)
       }
       else {

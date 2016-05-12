@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -47,7 +47,7 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
     private Label billableHoursLbl, nonBillableHoursLbl, remainHoursLbl;
 
     protected TimeLogComp() {
-        this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
+        this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
         this.withMargin(false);
 
         HorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");

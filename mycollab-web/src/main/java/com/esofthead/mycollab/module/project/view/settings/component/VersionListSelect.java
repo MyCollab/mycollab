@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.ListSelect;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class VersionListSelect extends ListSelect {
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
                 CurrentProjectVariables.getProjectId()));
 
-        VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+        VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
         List<Version> versions = versionService
                 .findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         for (Version version : versions) {

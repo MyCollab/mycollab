@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PageableHandler;
 import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
@@ -94,7 +94,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     public AbstractPagedBeanTable(Class<B> type, String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         if (viewId != null) {
-            CustomViewStoreService customViewStoreService = ApplicationContextUtil.getSpringBean(CustomViewStoreService.class);
+            CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
             CustomViewStore viewLayoutDef = customViewStoreService.getViewLayoutDef(AppContext.getAccountId(),
                     AppContext.getUsername(), viewId);
             if (!(viewLayoutDef instanceof NullCustomViewStore)) {

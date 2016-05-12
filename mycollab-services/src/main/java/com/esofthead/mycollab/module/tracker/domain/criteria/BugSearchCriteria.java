@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.tracker.domain.criteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.db.query.*;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
@@ -35,69 +36,68 @@ import java.util.Collection;
 public class BugSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final CompositionStringParam p_textDesc = new CompositionStringParam("bug-textDesc",
-            BugI18nEnum.FORM_ANY_TEXT, new StringParam("", null, "m_tracker_bug", "summary"),
-            new StringParam("", null, "m_tracker_bug", "detail"),
-            new StringParam("", null, "m_tracker_bug", "environment"));
+    public static final CompositionStringParam p_textDesc = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_ANY_TEXT,
+            new CompositionStringParam("textDesc",
+                    new StringParam("", "m_tracker_bug", "summary"),
+                    new StringParam("", "m_tracker_bug", "detail"),
+                    new StringParam("", "m_tracker_bug", "environment")));
 
-    public static final Param p_createdtime = new DateParam("bug-createdtime",
-            GenericI18Enum.FORM_CREATED_TIME, "m_tracker_bug", "createdTime");
+    public static final Param p_createdtime = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_CREATED_TIME,
+            new DateParam("createdtime", "m_tracker_bug", "createdTime"));
 
-    public static final DateParam p_lastupdatedtime = new DateParam(
-            "bug-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
-            "m_tracker_bug", "lastUpdatedTime");
+    public static final DateParam p_lastupdatedtime = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_LAST_UPDATED_TIME,
+            new DateParam("lastupdatedtime", "m_tracker_bug", "lastUpdatedTime"));
 
-    public static final DateParam p_resolveddate = new DateParam("bug-resolveddate",
-            BugI18nEnum.FORM_RESOLVED_DATE, "m_tracker_bug", "resolveddate");
+    public static final DateParam p_resolveddate = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_RESOLVED_DATE,
+            new DateParam("resolveddate", "m_tracker_bug", "resolveddate"));
 
-    public static final DateParam p_createddate = new DateParam("bug-createddate",
-            GenericI18Enum.FORM_CREATED_TIME, "m_tracker_bug", "createdTime");
+    public static final DateParam p_createddate = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_CREATED_TIME,
+            new DateParam("createddate", "m_tracker_bug", "createdTime"));
 
-    public static final DateParam p_duedate = new DateParam("bug-duedate",
-            GenericI18Enum.FORM_DUE_DATE, "m_tracker_bug", "duedate");
+    public static final DateParam p_duedate = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_DUE_DATE,
+            new DateParam("duedate", "m_tracker_bug", "duedate"));
 
-    public static final NumberParam p_bugkey = new NumberParam("bug-key", BugI18nEnum.FORM_BUG_KEY, "m_tracker_bug",
-            "bugkey");
+    public static final NumberParam p_bugkey = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_BUG_KEY,
+            new NumberParam("key", "m_tracker_bug", "bugkey"));
 
-    public static final PropertyListParam<Integer> p_milestones = new PropertyListParam<>("bug-milestones",
-            BugI18nEnum.FORM_PHASE, "m_tracker_bug", "milestoneId");
+    public static final PropertyListParam<Integer> p_milestones = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_PHASE,
+            new PropertyListParam<Integer>("milestones", "m_tracker_bug", "milestoneId"));
 
-    public static final StringListParam p_priority = new StringListParam("bug-priority",
-            BugI18nEnum.FORM_PRIORITY, "m_tracker_bug", "priority",
-            Arrays.asList(BugPriority.Blocker.name(),
-                    BugPriority.Critical.name(), BugPriority.Major.name(),
-                    BugPriority.Minor.name(), BugPriority.Trivial.name()));
+    public static final StringListParam p_priority = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_PRIORITY,
+            new StringListParam("priority", "m_tracker_bug", "priority",
+                    Arrays.asList(BugPriority.Blocker.name(),
+                            BugPriority.Critical.name(), BugPriority.Major.name(),
+                            BugPriority.Minor.name(), BugPriority.Trivial.name())));
 
-    public static final StringListParam p_severity = new StringListParam("bug-severity",
-            BugI18nEnum.FORM_SEVERITY, "m_tracker_bug", "severity",
-            Arrays.asList(BugSeverity.Critical.name(), BugSeverity.Major.name(),
-                    BugSeverity.Minor.name(), BugSeverity.Trivial.name()));
+    public static final StringListParam p_severity = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_SEVERITY,
+            new StringListParam("severity", "m_tracker_bug", "severity",
+                    Arrays.asList(BugSeverity.Critical.name(), BugSeverity.Major.name(),
+                            BugSeverity.Minor.name(), BugSeverity.Trivial.name())));
 
-    public static final StringListParam p_status = new StringListParam("bug-status",
-            GenericI18Enum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(BugStatus.Verified.name(),
-            BugStatus.Open.name(), BugStatus.ReOpen.name(), BugStatus.Resolved.name()));
+    public static final StringListParam p_status = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_STATUS,
+            new StringListParam("status", "m_tracker_bug", "status",
+                    Arrays.asList(BugStatus.Verified.name(), BugStatus.Open.name(), BugStatus.ReOpen.name(), BugStatus.Resolved.name())));
 
-    public static final BugTypeCustomSqlParam p_affectedVersions = new BugTypeCustomSqlParam(
-            "bug_affected_versions", BugI18nEnum.FORM_AFFECTED_VERSIONS,
-            "AffVersion");
+    public static final BugTypeCustomSqlParam p_affectedVersions = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_AFFECTED_VERSIONS,
+            new BugTypeCustomSqlParam("affected_versions", "AffVersion"));
 
-    public static final BugTypeCustomSqlParam p_fixedVersions = new BugTypeCustomSqlParam(
-            "bug_fixed_versions", BugI18nEnum.FORM_FIXED_VERSIONS, "FixVersion");
+    public static final BugTypeCustomSqlParam p_fixedVersions = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_FIXED_VERSIONS,
+            new BugTypeCustomSqlParam("fixed_versions", "FixVersion"));
 
-    public static final BugTypeCustomSqlParam p_components = new BugTypeCustomSqlParam("bug_components",
-            BugI18nEnum.FORM_COMPONENTS, "Component");
+    public static final BugTypeCustomSqlParam p_components = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_COMPONENTS,
+            new BugTypeCustomSqlParam("components", "Component"));
 
-    public static final PropertyListParam<String> p_assignee = new PropertyListParam<>("bug-assignuser",
-            GenericI18Enum.FORM_ASSIGNEE, "m_tracker_bug", "assignuser");
+    public static final PropertyListParam<String> p_assignee = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_ASSIGNEE,
+            new PropertyListParam<String>("assignuser", "m_tracker_bug", "assignuser"));
 
-    public static final PropertyListParam p_projectIds = new PropertyListParam("bug-projectid", null, "m_tracker_bug",
-            "projectid");
+    public static final PropertyListParam p_projectIds = CacheParamMapper.register(ProjectTypeConstants.BUG, null,
+            new PropertyListParam("projectid", "m_tracker_bug", "projectid"));
 
     private static class BugTypeCustomSqlParam extends CustomSqlParam {
         private String type;
 
-        public BugTypeCustomSqlParam(String id, Enum displayName, String type) {
-            super(id, displayName);
+        public BugTypeCustomSqlParam(String id, String type) {
+            super(id);
             this.type = type;
         }
 

@@ -27,13 +27,12 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
@@ -100,7 +99,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
     }
 
     private int save(Task item) {
-        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
 
         item.setSaccountid(AppContext.getAccountId());
         item.setProjectid(CurrentProjectVariables.getProjectId());

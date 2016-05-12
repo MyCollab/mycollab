@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -49,7 +49,7 @@ public class GenericTaskTableDisplay extends DefaultPagedBeanTable<ProjectGeneri
     private static final long serialVersionUID = 1L;
 
     public GenericTaskTableDisplay(List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), ProjectGenericTask.class, displayColumns);
+        super(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), ProjectGenericTask.class, displayColumns);
 
         addGeneratedColumn("name", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

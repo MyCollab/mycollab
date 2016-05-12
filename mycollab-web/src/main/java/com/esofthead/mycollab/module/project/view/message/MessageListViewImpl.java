@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberBlock;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -93,7 +93,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                 messageList.setSearchCriteria(criteria);
             }
         });
-        messageList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(MessageService.class), new MessageRowDisplayHandler());
+        messageList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(MessageService.class), new MessageRowDisplayHandler());
         messageList.setControlStyle("borderlessControl");
     }
 
@@ -122,7 +122,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
     public void setCriteria(final MessageSearchCriteria criteria) {
         this.removeAllComponents();
         this.searchCriteria = criteria;
-        MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+        MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
         int totalCount = messageService.getTotalCount(searchCriteria);
 
         this.isEmpty = !(totalCount > 0);
@@ -181,7 +181,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                                 @Override
                                 public void onClose(final ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        MessageService messageService = ApplicationContextUtil
+                                        MessageService messageService = AppContextUtil
                                                 .getSpringBean(MessageService.class);
                                         messageService.removeWithSession(message,
                                                 AppContext.getUsername(), AppContext.getAccountId());
@@ -216,7 +216,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                 commentNotification.addComponent(commentCountLbl);
                 notification.addComponent(commentNotification);
             }
-            ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+            ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils
                     .getProjectEntityAttachmentPath(AppContext.getAccountId(),
                             message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));

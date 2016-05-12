@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -47,7 +47,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadView> {
     private static final long serialVersionUID = 1L;
 
-    private ProjectRoleService projectRoleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+    private ProjectRoleService projectRoleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
 
     public ProjectRoleReadPresenter() {
         super(ProjectRoleReadView.class);

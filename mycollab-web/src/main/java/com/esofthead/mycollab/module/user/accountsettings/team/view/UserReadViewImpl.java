@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -127,7 +127,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             final Button resendBtn = new Button("Resend Invitation", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                    UserService userService = AppContextUtil.getSpringBean(UserService.class);
                     userService.updateUserAccountStatus(user.getUsername(),
                             user.getAccountId(), RegisterStatusConstants.VERIFICATING);
                     controlGenerator.removeButtonIndex(0);

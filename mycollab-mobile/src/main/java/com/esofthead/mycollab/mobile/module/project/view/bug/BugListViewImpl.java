@@ -41,7 +41,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -70,7 +70,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
 
     @Override
     protected AbstractPagedBeanList<BugSearchCriteria, SimpleBug> createBeanList() {
-        return new DefaultPagedBeanList<>(ApplicationContextUtil.getSpringBean(BugService.class), new BugRowDisplayHandler());
+        return new DefaultPagedBeanList<>(AppContextUtil.getSpringBean(BugService.class), new BugRowDisplayHandler());
     }
 
     @Override

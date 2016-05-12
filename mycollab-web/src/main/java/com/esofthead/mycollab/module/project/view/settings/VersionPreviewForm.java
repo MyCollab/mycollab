@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -27,7 +26,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -103,7 +102,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             header.with(openSelection, reOpenSelection, verifiedSelection, resolvedSelection,
                     spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
 
-            bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new BugRowRenderer());
+            bugList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(BugService.class), new BugRowRenderer());
             bugList.setMargin(new MarginInfo(true, true, true, false));
             bugList.setControlStyle("");
 

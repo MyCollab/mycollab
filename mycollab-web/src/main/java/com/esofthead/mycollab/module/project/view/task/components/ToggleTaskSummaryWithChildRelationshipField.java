@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.RemoveInlineComponentMarker;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
@@ -41,7 +41,7 @@ public class ToggleTaskSummaryWithChildRelationshipField extends CustomField<Sim
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 childTask.setParenttaskid(null);
-                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 taskService.updateWithSession(childTask, AppContext.getUsername());
                 UIUtils.removeChildAssociate(ToggleTaskSummaryWithChildRelationshipField.this, RemoveInlineComponentMarker.class);
             }

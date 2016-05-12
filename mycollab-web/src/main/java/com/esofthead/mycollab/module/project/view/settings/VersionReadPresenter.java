@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriter
 import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -69,7 +69,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 
             @Override
             public void onDelete(Version data) {
-                VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
                 versionService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                 EventBusFactory.getInstance().post(new BugVersionEvent.GotoList(this, null));
             }
@@ -95,7 +95,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 
             @Override
             public void gotoNext(Version data) {
-                VersionService componentService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionService componentService = AppContextUtil.getSpringBean(VersionService.class);
                 VersionSearchCriteria criteria = new VersionSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -109,7 +109,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 
             @Override
             public void gotoPrevious(Version data) {
-                VersionService componentService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionService componentService = AppContextUtil.getSpringBean(VersionService.class);
                 VersionSearchCriteria criteria = new VersionSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -127,7 +127,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
             if (data.getParams() instanceof Integer) {
-                VersionService componentService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionService componentService = AppContextUtil.getSpringBean(VersionService.class);
                 Version version = componentService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (version != null) {
                     VersionContainer versionContainer = (VersionContainer) container;

@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericItemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -64,7 +64,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
     public UserDashboardViewImpl() {
         this.withMargin(false).withWidth("100%");
 
-        prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+        prjService = AppContextUtil.getSpringBean(ProjectService.class);
         prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
 
         tabSheet = new TabSheet();
@@ -214,7 +214,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         headerComp.with(headerLbl, backDashboard).alignAll(Alignment.MIDDLE_LEFT);
         layout.with(headerComp);
 
-        ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+        ProjectService prjService = AppContextUtil.getSpringBean(ProjectService.class);
         prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ProjectGenericItemSearchCriteria searchCriteria = new ProjectGenericItemSearchCriteria();
@@ -222,7 +222,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
             searchCriteria.setTxtValue(StringSearchField.and(value));
 
             DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
-                    searchItemsTable = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericItemService.class),
+                    searchItemsTable = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectGenericItemService.class),
                     new GenericItemRowDisplayHandler());
             searchItemsTable.setControlStyle("borderlessControl");
             int foundNum = searchItemsTable.setSearchCriteria(searchCriteria);

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCrit
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.vaadin.ui.ComponentContainer;
 
@@ -48,7 +48,7 @@ public class MilestoneListPresenter extends ProjectGenericListPresenter<Mileston
 
     public MilestoneListPresenter() {
         super(MilestoneListView.class);
-        milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+        milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
     }
 
     @Override

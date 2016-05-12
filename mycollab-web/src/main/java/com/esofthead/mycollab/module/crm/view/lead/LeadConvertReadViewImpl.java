@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -196,7 +196,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
         LOG.debug("Display associate account");
-        AccountService accountService = ApplicationContextUtil
+        AccountService accountService = AppContextUtil
                 .getSpringBean(AccountService.class);
         final SimpleAccount account = accountService.findAccountAssoWithConvertedLead(lead.getId(), AppContext.getAccountId());
         if (account != null) {
@@ -217,7 +217,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         }
 
         LOG.debug("Display associate contact");
-        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
         final SimpleContact contact = contactService.findContactAssoWithConvertedLead(lead.getId(),
                 AppContext.getAccountId());
         if (contact != null) {
@@ -237,7 +237,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         }
 
         LOG.debug("Display associate opportunity");
-        OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+        OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
         final SimpleOpportunity opportunity = opportunityService.findOpportunityAssoWithConvertedLead(lead.getId(),
                 AppContext.getAccountId());
         if (opportunity != null) {

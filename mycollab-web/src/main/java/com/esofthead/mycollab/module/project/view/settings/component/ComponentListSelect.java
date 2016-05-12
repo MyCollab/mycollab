@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.ListSelect;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class ComponentListSelect extends ListSelect {
         searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
-        ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+        ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
         List<Component> components = componentService
                 .findPagableListByCriteria(new BasicSearchRequest<ComponentSearchCriteria>(searchCriteria, 0, Integer.MAX_VALUE));
         for (Component component : components) {

@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
@@ -66,7 +66,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
-import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -98,9 +97,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     public ResourcesDisplayComponent(final Folder rootFolder) {
         this.baseFolder = rootFolder;
         this.rootPath = rootFolder.getPath();
-        externalResourceService = ApplicationContextUtil.getSpringBean(ExternalResourceService.class);
-        externalDriveService = ApplicationContextUtil.getSpringBean(ExternalDriveService.class);
-        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        externalResourceService = AppContextUtil.getSpringBean(ExternalResourceService.class);
+        externalDriveService = AppContextUtil.getSpringBean(ExternalDriveService.class);
+        resourceService = AppContextUtil.getSpringBean(ResourceService.class);
 
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         fileBreadCrumb = new FileBreadcrumb(rootPath);
@@ -447,7 +446,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 usernameLbl.addStyleName(UIConstants.LABEL_META_INFO);
                 moreInfoAboutResLayout.addComponent(usernameLbl);
             } else {
-                UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                UserService userService = AppContextUtil.getSpringBean(UserService.class);
                 SimpleUser user = userService.findUserByUserNameInAccount(resource.getCreatedUser(), AppContext.getAccountId());
                 if (user != null) {
                     UserLink userLink = new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName());

@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -85,7 +85,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    OpportunityService OpportunityService = ApplicationContextUtil
+                                    OpportunityService OpportunityService = AppContextUtil
                                             .getSpringBean(OpportunityService.class);
                                     OpportunityService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
@@ -110,7 +110,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
 
             @Override
             public void gotoNext(SimpleOpportunity data) {
-                OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
@@ -124,7 +124,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
 
             @Override
             public void gotoPrevious(SimpleOpportunity data) {
-                OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
@@ -151,7 +151,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
                             associateContacts.add(associateContact);
                         }
 
-                        ContactService contactService = ApplicationContextUtil
+                        ContactService contactService = AppContextUtil
                                 .getSpringBean(ContactService.class);
                         contactService.saveContactOpportunityRelationship(
                                 associateContacts, AppContext.getAccountId());
@@ -182,7 +182,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
                             associateLeads.add(associateLead);
                         }
 
-                        OpportunityService opportunityService = ApplicationContextUtil
+                        OpportunityService opportunityService = AppContextUtil
                                 .getSpringBean(OpportunityService.class);
                         opportunityService.saveOpportunityLeadRelationship(
                                 associateLeads, AppContext.getAccountId());
@@ -243,7 +243,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
         if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
 
             if (data.getParams() instanceof Integer) {
-                OpportunityService opportunityService = ApplicationContextUtil
+                OpportunityService opportunityService = AppContextUtil
                         .getSpringBean(OpportunityService.class);
                 SimpleOpportunity opportunity = opportunityService.findById(
                         (Integer) data.getParams(), AppContext.getAccountId());

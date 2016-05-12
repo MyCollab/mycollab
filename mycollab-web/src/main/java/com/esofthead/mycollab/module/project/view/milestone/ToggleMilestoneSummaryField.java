@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
@@ -111,7 +111,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(milestone.getName())) {
             milestone.setName(newValue);
             titleLinkLbl.setValue(buildMilestoneLink());
-            MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+            MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
             milestoneService.updateSelectiveWithSession(BeanUtility.deepClone(milestone), AppContext.getUsername());
         }
 

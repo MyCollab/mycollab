@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +50,7 @@ public final class TaskHistoryFieldFormat implements HistoryFieldFormat {
 
         try {
             Integer taskId = Integer.parseInt(value);
-            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             SimpleTask task = taskService.findById(taskId, AppContext.getAccountId());
 
             if (task != null) {

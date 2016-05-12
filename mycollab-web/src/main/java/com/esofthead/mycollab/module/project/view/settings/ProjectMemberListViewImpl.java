@@ -38,7 +38,7 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.ReportStreamSource;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -170,7 +170,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
             searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName",
                     SearchCriteria.DESC)));
         }
-        ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> memberLists = prjMemberService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
                 Integer.MAX_VALUE));
 
@@ -214,7 +214,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                                    ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                                     prjMemberService.removeWithSession(member, AppContext.getUsername(), AppContext.getAccountId());
 
                                     EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
@@ -274,7 +274,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    ProjectMemberMapper projectMemberMapper = ApplicationContextUtil.getSpringBean(ProjectMemberMapper.class);
+                    ProjectMemberMapper projectMemberMapper = AppContextUtil.getSpringBean(ProjectMemberMapper.class);
                     member.setStatus(RegisterStatusConstants.VERIFICATING);
                     projectMemberMapper.updateByPrimaryKeySelective(member);
                     waitingNotLayout.removeAllComponents();
@@ -319,7 +319,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         List fields = Arrays.asList(ProjectMemberTableFieldDef.memberName(), ProjectMemberTableFieldDef.roleName(),
                 ProjectMemberTableFieldDef.billingRate(), ProjectMemberTableFieldDef.overtimeRate());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Project Members",
-                new RpFieldsBuilder(fields), exportType, SimpleProjectMember.class, ApplicationContextUtil.getSpringBean
+                new RpFieldsBuilder(fields), exportType, SimpleProjectMember.class, AppContextUtil.getSpringBean
                 (ProjectMemberService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override

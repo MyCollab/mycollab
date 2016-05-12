@@ -22,7 +22,7 @@ import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
@@ -119,7 +119,7 @@ public class AttachmentDisplayComponent extends CssLayout {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+                                    ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
                                     attachmentService.removeResource(attachment.getPath(),
                                             AppContext.getUsername(), AppContext.getAccountId());
                                     ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);

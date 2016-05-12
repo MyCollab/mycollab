@@ -25,7 +25,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.db.query.SearchQueryInfo;
 import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -65,7 +65,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         searchCriteria.setCreateUser(StringSearchField.and(AppContext.getUsername()));
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
-        SaveSearchResultService saveSearchResultService = ApplicationContextUtil.getSpringBean(SaveSearchResultService.class);
+        SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
         List<SaveSearchResultWithBLOBs> savedSearchResults = saveSearchResultService.findPagableListByCriteria(new
                 BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         savedQueries = new ArrayList<>();

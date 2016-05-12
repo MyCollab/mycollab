@@ -208,11 +208,11 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("opportunity-assignee".equals(fieldId)) {
+            if ("assignee".equals(fieldId)) {
                 return new ActiveUserListSelect();
-            } else if ("opportunity-account".equals(fieldId)) {
+            } else if ("account".equals(fieldId)) {
                 return new AccountSelectionField();
-            } else if ("opportunity-campaign".equals(fieldId)) {
+            } else if ("campaign".equals(fieldId)) {
                 return new CampaignSelectionField();
             }
             return null;

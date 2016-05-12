@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.events.MessageEvent;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -69,7 +69,7 @@ public class MessageReadPresenter extends ProjectGenericPresenter<MessageReadVie
             messageContainer.addComponent(view);
 
             if (data.getParams() instanceof Integer) {
-                MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
                 SimpleMessage message = messageService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 view.previewItem(message);
 

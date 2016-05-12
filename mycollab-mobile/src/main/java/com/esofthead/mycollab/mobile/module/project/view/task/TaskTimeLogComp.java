@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 import java.util.Date;
@@ -105,7 +105,7 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
 
         @Override
         protected void updateTimeRemain(double newValue) {
-            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             bean.setRemainestimate(newValue);
             taskService.updateWithSession(bean, AppContext.getUsername());
         }

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.task.ITaskPriorityChartWidget;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonI18nComp;
@@ -87,7 +87,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
     public void setSearchCriteria(TaskSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
 
-        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
         totalCount = taskService.getTotalCount(searchCriteria);
         groupItems = taskService.getPrioritySummary(searchCriteria);
         displayPlainMode();

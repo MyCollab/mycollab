@@ -28,14 +28,14 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 public class OpportunityImportWindow extends EntityImportWindow<SimpleOpportunity> {
 	private static final long serialVersionUID = 1L;
 
 	public OpportunityImportWindow() {
-		super(false, "Import Opportunities", ApplicationContextUtil.getSpringBean(OpportunityService.class), SimpleOpportunity.class);
+		super(false, "Import Opportunities", AppContextUtil.getSpringBean(OpportunityService.class), SimpleOpportunity.class);
 	}
 
 	@Override

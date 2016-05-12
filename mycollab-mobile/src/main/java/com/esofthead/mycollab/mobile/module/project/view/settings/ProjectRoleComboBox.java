@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.util.BeanContainer;
 
@@ -45,7 +45,7 @@ public class ProjectRoleComboBox extends ValueComboBox {
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
-        ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+        ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
         List<SimpleProjectRole> roleList = roleService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         BeanContainer<String, SimpleProjectRole> beanItem = new BeanContainer<>(SimpleProjectRole.class);

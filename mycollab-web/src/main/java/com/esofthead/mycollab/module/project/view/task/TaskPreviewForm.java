@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.project.view.task.components.TaskSearchPanel;
 import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryWithParentRelationshipField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -136,7 +136,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     @Override
                     @Subscribe
                     public void handle(TaskEvent.NewTaskAdded event) {
-                        final ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                        final ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                         SimpleTask task = projectTaskService.findById((Integer) event.getData(), AppContext.getAccountId());
                         if (task != null && tasksLayout != null) {
                             tasksLayout.addComponent(generateSubTaskContent(task), 0);
@@ -205,7 +205,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
             contentLayout.addComponent(splitButton);
 
-            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), AppContext.getAccountId(), new
                     SearchCriteria.OrderField("createdTime", SearchCriteria.DESC));
             if (CollectionUtils.isNotEmpty(subTasks)) {
@@ -249,7 +249,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 @Override
                 public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                     Boolean selectedFlag = checkBox.getValue();
-                    ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                     if (selectedFlag) {
                         statusLbl.setValue(AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum
                                 .StatusI18nEnum.class, com.esofthead.mycollab.common.i18n.OptionI18nEnum
@@ -293,7 +293,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
             taskSearchPanel = new TaskSearchPanel(false);
             final DefaultBeanPagedList<ProjectTaskService, TaskSearchCriteria, SimpleTask> taskList = new DefaultBeanPagedList<>(
-                    ApplicationContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowRenderer(), 10);
+                    AppContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowRenderer(), 10);
             new Restrain(taskList).setMaxHeight((UIUtils.getBrowserHeight() - 120) + "px");
             taskSearchPanel.addSearchHandler(new SearchHandler<TaskSearchCriteria>() {
                 @Override
@@ -320,7 +320,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                             NotificationUtil.showErrorNotification("Can not assign the parent task to itself");
                         } else {
                             item.setParenttaskid(parentTask.getId());
-                            ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                             projectTaskService.updateWithSession(item, AppContext.getUsername());
                             EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(this, item.getId()));
                         }

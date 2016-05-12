@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.service.RiskService;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -120,21 +120,21 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
                 bug.setId(genericTask.getTypeId());
                 bug.setSummary(genericTask.getName());
                 bug.setSaccountid(AppContext.getAccountId());
-                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
             } else if (genericTask.isTask()) {
                 Task task = new Task();
                 task.setId(genericTask.getTypeId());
                 task.setTaskname(genericTask.getName());
                 task.setSaccountid(AppContext.getAccountId());
-                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 taskService.updateSelectiveWithSession(task, AppContext.getUsername());
             } else if (genericTask.isRisk()) {
                 Risk risk = new Risk();
                 risk.setId(genericTask.getTypeId());
                 risk.setRiskname(genericTask.getName());
                 risk.setSaccountid(AppContext.getAccountId());
-                RiskService riskService = ApplicationContextUtil.getSpringBean(RiskService.class);
+                RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
                 riskService.updateSelectiveWithSession(risk, AppContext.getUsername());
             }
         }

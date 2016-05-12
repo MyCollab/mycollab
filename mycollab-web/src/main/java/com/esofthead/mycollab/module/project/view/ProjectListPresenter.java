@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
@@ -42,7 +42,7 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
 
     public ProjectListPresenter() {
         super(ProjectListView.class);
-        projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+        projectService = AppContextUtil.getSpringBean(ProjectService.class);
     }
 
     @Override

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -55,7 +55,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
 
     public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         totalCount = bugService.getTotalCount(searchCriteria);
         setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE) + " (" + totalCount + ")");
         groupItems = bugService.getAssignedDefectsSummary(searchCriteria);
@@ -111,7 +111,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
             this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
-            UserService service = ApplicationContextUtil.getSpringBean(UserService.class);
+            UserService service = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
                     AppContext.getSiteUrl(), AppContext.getUserTimeZone()));

@@ -21,13 +21,11 @@ import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.server.BootstrapFragmentResponse;
 import com.vaadin.server.BootstrapListener;
 import com.vaadin.server.BootstrapPageResponse;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 
 import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
@@ -45,7 +43,7 @@ public class MyCollabBootstrapListener implements BootstrapListener {
     @Override
     public void modifyBootstrapPage(BootstrapPageResponse response) {
         String domain = Utils.getSubDomain(response.getRequest());
-        BillingAccountService billingService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+        BillingAccountService billingService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
         BillingAccount account = billingService.getAccountByDomain(domain);
         if (account != null) {

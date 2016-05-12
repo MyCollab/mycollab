@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -73,7 +73,7 @@ class ReOpenView extends AbstractMobilePageView {
                     ReOpenView.this.bug.setStatus(BugStatus.ReOpen.name());
 
                     // Save bug status and assignee
-                    final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                    final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                     bugService.updateSelectiveWithSession(ReOpenView.this.bug, AppContext.getUsername());
 
                     // Save comment
@@ -88,7 +88,7 @@ class ReOpenView extends AbstractMobilePageView {
                         comment.setTypeid("" + bug.getId());
                         comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                        final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                        final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                         commentService.saveWithSession(comment, AppContext.getUsername());
                     }
                     callbackForm.previewItem(bug);

@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -34,7 +34,7 @@ public class ContactListDisplay extends DefaultPagedBeanList<ContactService, Con
     private static final long serialVersionUID = -2234454107835680053L;
 
     public ContactListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(ContactService.class), new ContactRowDisplayHandler());
+        super(AppContextUtil.getSpringBean(ContactService.class), new ContactRowDisplayHandler());
     }
 
     static public class ContactRowDisplayHandler implements RowDisplayHandler<SimpleContact> {

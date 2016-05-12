@@ -25,8 +25,8 @@ import java.util.Collection;
  * @since 4.5.0
  */
 public abstract class CustomSqlParam extends Param {
-    public CustomSqlParam(String id, Enum displayName) {
-        super(id, displayName);
+    public CustomSqlParam(String id) {
+        super(id);
     }
 
     public abstract NoValueSearchField buildPropertyParamInList(String oper, Collection<?> value);

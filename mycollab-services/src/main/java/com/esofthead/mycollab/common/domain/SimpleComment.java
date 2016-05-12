@@ -20,7 +20,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +62,7 @@ public class SimpleComment extends CommentWithBLOBs {
     public List<Content> getAttachments() {
         try {
             if (attachments == null) {
-                ContentJcrDao contentJcr = ApplicationContextUtil.getSpringBean(ContentJcrDao.class);
+                ContentJcrDao contentJcr = AppContextUtil.getSpringBean(ContentJcrDao.class);
                 String commentPath = AttachmentUtils.getCommentAttachmentPath(getType(), getSaccountid(), getExtratypeid(), getTypeid(), getId());
                 attachments = contentJcr.getContents(commentPath);
             }

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
@@ -47,7 +47,7 @@ public class ProjectMemberSelectionField extends AbstractSelectionCustomField<St
     }
 
     private void setMemberByVal(String value) {
-        ProjectMemberService service = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        ProjectMemberService service = AppContextUtil.getSpringBean(ProjectMemberService.class);
         SimpleProjectMember member = service.findMemberByUsername(value, CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
         if (member != null) {
             setInternalMember(member);

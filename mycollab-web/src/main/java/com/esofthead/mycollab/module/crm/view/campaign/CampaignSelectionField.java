@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -56,7 +56,7 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
     }
 
     private void setCampaignByVal(Integer campaignId) {
-        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+        CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
         SimpleCampaign campaign = campaignService.findById(campaignId, AppContext.getAccountId());
         if (campaign != null) {
             setInternalCampaign(campaign);

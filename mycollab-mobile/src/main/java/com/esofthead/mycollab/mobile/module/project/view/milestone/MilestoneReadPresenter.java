@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -71,7 +71,7 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    MilestoneService milestoneService = ApplicationContextUtil
+                                    MilestoneService milestoneService = AppContextUtil
                                             .getSpringBean(MilestoneService.class);
                                     milestoneService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
@@ -94,7 +94,7 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
             if (data.getParams() instanceof Integer) {
-                MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
                 SimpleMilestone milestone = milestoneService.findById(
                         (Integer) data.getParams(), AppContext.getAccountId());
                 if (milestone != null) {

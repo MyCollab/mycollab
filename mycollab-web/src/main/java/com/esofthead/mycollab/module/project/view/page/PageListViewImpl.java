@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -287,7 +287,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                                    PageService pageService = AppContextUtil.getSpringBean(PageService.class);
                                     pageService.removeResource(resource.getPath());
                                     resources.remove(resource);
                                     displayPages(resources);
@@ -354,7 +354,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                                    PageService pageService = AppContextUtil.getSpringBean(PageService.class);
                                     pageService.removeResource(resource.getPath());
                                     resources.remove(resource);
                                     displayPages(resources);

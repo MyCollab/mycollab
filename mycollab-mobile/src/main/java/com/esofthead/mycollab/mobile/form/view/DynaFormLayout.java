@@ -21,7 +21,7 @@ import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.ComponentContainer;
@@ -47,7 +47,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
     private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
     public DynaFormLayout(String moduleName, DynaForm defaultForm) {
-        MasterFormService formService = ApplicationContextUtil.getSpringBean(MasterFormService.class);
+        MasterFormService formService = AppContextUtil.getSpringBean(MasterFormService.class);
         DynaForm form = formService.findCustomForm(AppContext.getAccountId(), moduleName);
 
         if (form != null) {

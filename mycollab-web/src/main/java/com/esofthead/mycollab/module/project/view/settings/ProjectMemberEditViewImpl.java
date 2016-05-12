@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -153,7 +153,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
     private void displayRolePermission(Integer roleId) {
         projectFormHelper.getLayout().removeAllComponents();
         if (roleId != null && roleId > 0) {
-            ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+            ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
             SimpleProjectRole role = roleService.findById(roleId, AppContext.getAccountId());
             if (role != null) {
                 final PermissionMap permissionMap = role.getPermissionMap();

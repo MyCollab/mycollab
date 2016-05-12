@@ -23,7 +23,7 @@ import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.service.AccountLogoService;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.SettingEvent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -120,7 +120,7 @@ public class LogoEditWindow extends Window {
                 if (scaleImageData != null && scaleImageData.length > 0) {
                     try {
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
-                        AccountLogoService accountLogoService = ApplicationContextUtil.getSpringBean(AccountLogoService.class);
+                        AccountLogoService accountLogoService = AppContextUtil.getSpringBean(AccountLogoService.class);
                         accountLogoService.upload(AppContext.getUsername(),
                                 image, AppContext.getAccountId());
                         Page.getCurrent().getJavaScript().execute("window.location.reload();");

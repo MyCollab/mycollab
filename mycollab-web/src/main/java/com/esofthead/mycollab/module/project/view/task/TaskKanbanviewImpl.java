@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.project.view.kanban.DeleteColumnWindow;
 import com.esofthead.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
 import com.esofthead.mycollab.module.project.view.task.components.TaskSearchPanel;
 import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -95,8 +95,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanview {
     private static Logger LOG = LoggerFactory.getLogger(TaskKanbanviewImpl.class);
 
-    private ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-    private OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+    private ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+    private OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
 
     private TaskSearchPanel searchPanel;
     private DDHorizontalLayout kanbanLayout;
@@ -411,7 +411,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         }
                         SimpleTask task = kanbanItem.task;
                         task.setStatus(optionVal.getTypeval());
-                        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                         taskService.updateSelectiveWithSession(task, AppContext.getUsername());
                         updateComponentCount();
 
@@ -500,7 +500,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         public void colorChanged(ColorChangeEvent colorChangeEvent) {
                             Color color = colorChangeEvent.getColor();
                             String colorStr = color.getCSS().substring(1);
-                            OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+                            OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
                             optionVal.setColor(colorStr);
                             optionValService.updateWithSession(optionVal, AppContext.getUsername());
                             JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + colorStr + "'});");
@@ -628,7 +628,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         String taskName = taskNameField.getValue();
                         if (StringUtils.isNotBlank(taskName)) {
                             task.setTaskname(taskName);
-                            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                             taskService.saveWithSession(task, AppContext.getUsername());
                             dragLayoutContainer.removeComponent(layout);
                             KanbanTaskBlockItem kanbanTaskBlockItem = new KanbanTaskBlockItem(task);
@@ -684,7 +684,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         if (StringUtils.isNotBlank(columnNameField.getValue())) {
-                            OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+                            OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
                             if (optionValService.isExistedOptionVal(ProjectTypeConstants.TASK, columnNameField
                                     .getValue(), "status", optionVal.getExtraid(), AppContext.getAccountId())) {
                                 NotificationUtil.showErrorNotification(String.format("There is already the column " +

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
@@ -85,7 +85,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                                         commentService.removeWithSession(comment,
                                                 AppContext.getUsername(), AppContext.getAccountId());
                                         CommentRowDisplayHandler.this.owner.removeRow(layout);

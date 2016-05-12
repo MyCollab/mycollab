@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberBlock;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -130,7 +130,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                                 public void onClose(
                                         final ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                                        MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
                                         messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
                                         previewForm.fireCancelForm(message);
                                     }
@@ -151,7 +151,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                     if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES)) {
                         message.setIsstick(stickyCheck.getValue());
                         message.setSaccountid(AppContext.getAccountId());
-                        MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                        MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
                         messageService.updateWithSession(message, AppContext.getUsername());
                     } else {
                         NotificationUtil.showMessagePermissionAlert();
@@ -193,7 +193,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             SafeHtmlLabel messageContent = new SafeHtmlLabel(message.getMessage());
             rowLayout.addComponent(messageContent);
 
-            ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+            ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
                     AppContext.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {

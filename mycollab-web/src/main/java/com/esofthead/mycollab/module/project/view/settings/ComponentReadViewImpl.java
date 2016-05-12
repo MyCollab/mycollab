@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -145,7 +145,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
                     quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
                 }
 
-                ComponentService service = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentService service = AppContextUtil.getSpringBean(ComponentService.class);
                 service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
 
             }

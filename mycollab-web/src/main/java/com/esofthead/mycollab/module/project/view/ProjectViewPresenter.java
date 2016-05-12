@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -48,13 +48,13 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
         prjContainer.removeAllComponents();
         prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
         if (data.getParams() instanceof Integer) {
-            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+            ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             SimpleProject project = projectService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
             if (project == null) {
                 throw new ResourceNotFoundException();
             } else {
-                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 boolean userBelongToProject = projectMemberService.isUserBelongToProject(AppContext.getUsername(), project.getId(),
                         AppContext.getAccountId());
                 if (userBelongToProject) {

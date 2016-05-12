@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18n
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -206,7 +206,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         Button resetButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean
+                BillingAccountService billingAccountService = AppContextUtil.getSpringBean
                         (BillingAccountService.class);
                 billingAccount.setLogopath(null);
                 billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
@@ -253,7 +253,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
 
                 if (mimeType.equals("image/png")) {
                     try {
-                        AccountFavIconService favIconService = ApplicationContextUtil.getSpringBean(AccountFavIconService.class);
+                        AccountFavIconService favIconService = AppContextUtil.getSpringBean(AccountFavIconService.class);
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
                         String newFavIconPath = favIconService.upload(AppContext.getUsername(), image, AppContext
                                 .getAccountId());
@@ -277,7 +277,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         Button resetButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+                BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
                 billingAccount.setFaviconpath(null);
                 billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
                 Page.getCurrent().getJavaScript().execute("window.location.reload();");

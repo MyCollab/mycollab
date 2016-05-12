@@ -22,7 +22,7 @@ import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.view.IKanbanView;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -91,7 +91,7 @@ public class AddNewColumnWindow extends Window {
                 optionVal.setType(type);
                 optionVal.setTypeval(stageField.getValue());
                 optionVal.setFieldgroup(fieldGroup);
-                OptionValService optionService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+                OptionValService optionService = AppContextUtil.getSpringBean(OptionValService.class);
                 int optionValId = optionService.saveWithSession(optionVal, AppContext.getUsername());
 
                 if (optionVal.getIsdefault()) {

@@ -36,7 +36,7 @@ import com.esofthead.mycollab.reporting.ReportStreamSource;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -167,7 +167,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                     SearchCriteria.DESC)));
         }
 
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        UserService userService = AppContextUtil.getSpringBean(UserService.class);
         List<SimpleUser> userAccountList = userService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
                 Integer.MAX_VALUE));
         headerText.updateTitle(AppContext.getMessage(UserI18nEnum.VIEW_LIST_TITLE, userAccountList.size()));
@@ -217,7 +217,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                                    UserService userService = AppContextUtil.getSpringBean(UserService.class);
                                     userService.pendingUserAccounts(Collections.singletonList(member.getUsername()),
                                             AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
@@ -279,11 +279,11 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+                    ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
                     if (!mailService.isMailSetupValid()) {
                         UI.getCurrent().addWindow(new GetStartedInstructionWindow(member));
                     } else {
-                        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                        UserService userService = AppContextUtil.getSpringBean(UserService.class);
                         userService.updateUserAccountStatus(member.getUsername(), member.getAccountId(),
                                 RegisterStatusConstants.VERIFICATING);
                         waitingNotLayout.removeAllComponents();
@@ -318,7 +318,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 UserTableFieldDef.email(), UserTableFieldDef.birthday(),
                 UserTableFieldDef.officephone(), UserTableFieldDef.homephone(), UserTableFieldDef.company());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Users",
-                new RpFieldsBuilder(fields), exportType, SimpleUser.class, ApplicationContextUtil.getSpringBean
+                new RpFieldsBuilder(fields), exportType, SimpleUser.class, AppContextUtil.getSpringBean
                 (UserService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override

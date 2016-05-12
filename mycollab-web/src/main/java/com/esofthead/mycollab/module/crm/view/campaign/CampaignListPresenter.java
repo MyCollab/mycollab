@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -58,7 +58,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
     @Override
     protected void postInitView() {
         super.postInitView();
-        campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+        campaignService = AppContextUtil.getSpringBean(CampaignService.class);
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
@@ -150,6 +150,6 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
 
     @Override
     public ISearchableService<CampaignSearchCriteria> getSearchService() {
-        return ApplicationContextUtil.getSpringBean(CampaignService.class);
+        return AppContextUtil.getSpringBean(CampaignService.class);
     }
 }

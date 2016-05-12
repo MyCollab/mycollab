@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.service.*;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
@@ -65,37 +65,37 @@ public class RelatedItemSelectionField extends CustomField<Integer> implements F
             String type = (String) PropertyUtils.getProperty(bean, "type");
             if (type != null && typeid != null) {
                 if ("Account".equals(type)) {
-                    AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                    AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                     SimpleAccount account = accountService.findById(typeid, AppContext.getAccountId());
                     if (account != null) {
                         navButton.setCaption(account.getAccountname());
                     }
                 } else if ("Campaign".equals(type)) {
-                    CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                    CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                     SimpleCampaign campaign = campaignService.findById(typeid, AppContext.getAccountId());
                     if (campaign != null) {
                         navButton.setCaption(campaign.getCampaignname());
                     }
                 } else if ("Contact".equals(type)) {
-                    ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                    ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                     SimpleContact contact = contactService.findById(typeid, AppContext.getAccountId());
                     if (contact != null) {
                         navButton.setCaption(contact.getContactName());
                     }
                 } else if ("Lead".equals(type)) {
-                    LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                    LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
                     SimpleLead lead = leadService.findById(typeid, AppContext.getAccountId());
                     if (lead != null) {
                         navButton.setCaption(lead.getLeadName());
                     }
                 } else if ("Opportunity".equals(type)) {
-                    OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                    OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                     SimpleOpportunity opportunity = opportunityService.findById(typeid, AppContext.getAccountId());
                     if (opportunity != null) {
                         navButton.setCaption(opportunity.getOpportunityname());
                     }
                 } else if ("Case".equals(type)) {
-                    CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                    CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                     SimpleCase cases = caseService.findById(typeid, AppContext.getAccountId());
                     if (cases != null) {
                         navButton.setCaption(cases.getSubject());

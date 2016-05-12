@@ -35,7 +35,7 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.ReportStreamSource;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -98,7 +98,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                     MilestoneListViewImpl.this.removeAllComponents();
                     MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
                     searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                    MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                    MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
                     List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new
                             BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
                     displayMilestones(milestoneList);
@@ -275,7 +275,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                 MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.id(),
                 MilestoneTableFieldDef.assignee());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
-                new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, ApplicationContextUtil.getSpringBean
+                new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, AppContextUtil.getSpringBean
                 (MilestoneService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override
@@ -353,7 +353,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        MilestoneService projectTaskService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                                        MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
                                         projectTaskService.removeWithSession(milestone,
                                                 AppContext.getUsername(), AppContext.getAccountId());
                                         milestones.remove(milestone);

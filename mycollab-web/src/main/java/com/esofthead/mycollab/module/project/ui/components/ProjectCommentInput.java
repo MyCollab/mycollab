@@ -22,7 +22,7 @@ import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
@@ -105,7 +105,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
                 comment.setTypeid("" + typeId);
                 comment.setExtratypeid(extraTypeId);
 
-                final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                 int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
 
                 String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, AppContext.getAccountId(),

@@ -22,10 +22,9 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.i18n.ProjectSettingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.BlockWidget;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
@@ -34,7 +33,6 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.OptionGroup;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -90,7 +88,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             public void buttonClick(ClickEvent event) {
                 try {
                     bean.setLevel((String) optionGroup.getValue());
-                    ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
+                    ProjectNotificationSettingService projectNotificationSettingService = AppContextUtil
                             .getSpringBean(ProjectNotificationSettingService.class);
 
                     if (bean.getId() == null) {

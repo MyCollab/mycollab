@@ -224,11 +224,11 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("task-assignuser".equals(fieldId)) {
+            if ("assignuser".equals(fieldId)) {
                 return new ProjectMemberListSelect(false);
-            } else if ("task-milestone".equals(fieldId)) {
+            } else if ("milestone".equals(fieldId)) {
                 return new MilestoneListSelect();
-            } else if ("task-status".equals(fieldId)) {
+            } else if ("status".equals(fieldId)) {
                 return new TaskStatusListSelect();
             }
             return null;

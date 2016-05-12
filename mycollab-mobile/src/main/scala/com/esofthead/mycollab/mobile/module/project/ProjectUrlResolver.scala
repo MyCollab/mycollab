@@ -32,7 +32,7 @@ import com.esofthead.mycollab.mobile.module.project.view.task.TaskUrlResolver
 import com.esofthead.mycollab.mobile.shell.ModuleHelper
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent
 import com.esofthead.mycollab.module.project.service.ProjectService
-import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.spring.AppContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
 
@@ -87,7 +87,7 @@ class ProjectUrlResolver extends UrlResolver {
   class ActivityUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       if (params.length == 0) {
-        val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+        val prjService = AppContextUtil.getSpringBean(classOf[ProjectService])
         val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))

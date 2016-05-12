@@ -16,11 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjector;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -66,13 +64,13 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                     public Object eval() {
                         return new LocalDate().toDate();
                     }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", GenericI18Enum.FORM_STATUS,
-                "m_tracker_bug", "status"), StringParam.IS_NOT, new VariableInjector() {
-            @Override
-            public Object eval() {
-                return BugStatus.Verified.name();
-            }
-        }));
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_tracker_bug", "status"), StringParam.IS_NOT,
+                new VariableInjector() {
+                    @Override
+                    public Object eval() {
+                        return BugStatus.Verified.name();
+                    }
+                }));
 
         SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, "My Bugs", SearchFieldInfo.inCollection
                 (BugSearchCriteria.p_assignee, new VariableInjector() {

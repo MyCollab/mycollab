@@ -23,7 +23,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -54,7 +54,7 @@ public class TagViewComponent extends CssLayout {
     private String tagQuery = "";
 
     public TagViewComponent() {
-        tagService = ApplicationContextUtil.getSpringBean(TagService.class);
+        tagService = AppContextUtil.getSpringBean(TagService.class);
         this.setStyleName("project-tag-comp");
     }
 

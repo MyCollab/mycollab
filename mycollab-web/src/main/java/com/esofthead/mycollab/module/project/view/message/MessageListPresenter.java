@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriter
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
@@ -53,7 +53,7 @@ public class MessageListPresenter extends ProjectGenericPresenter<MessageListVie
 
             @Override
             public void onSave(Message message) {
-                MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
                 messageService.saveWithSession(message, AppContext.getUsername());
                 doSearch(searchCriteria);
             }

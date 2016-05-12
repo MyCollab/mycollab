@@ -38,7 +38,7 @@ import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.components.AbstractAboutWindow;
 import com.esofthead.mycollab.shell.view.components.AdRequestWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
@@ -135,7 +135,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         bodyLayout.removeAllComponents();
         bodyLayout.addComponent(module);
 
-        IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        IDeploymentMode mode = AppContextUtil.getSpringBean(IDeploymentMode.class);
         if (mode.isCommunityEdition()) {
             SliderPanel sliderPanel = CommunitySliderPanel.buildCommunitySliderPanel();
             bodyLayout.addComponent(sliderPanel);
@@ -292,7 +292,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     Duration dur = new Duration(new DateTime(), new DateTime(billingAccount.getCreatedtime()));
                     int daysLeft = dur.toStandardDays().getDays();
                     if (daysLeft > 30) {
-                        BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
+                        BillingService billingService = AppContextUtil.getSpringBean(BillingService.class);
                         BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();
                         billingAccount.setBillingPlan(freeBillingPlan);
                         informLbl.setValue("<div class='informBlock'>TRIAL ENDING<br>"
@@ -320,7 +320,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             accountLayout.addComponent(buyPremiumBtn);
         }
 
-        LicenseResolver licenseResolver = ApplicationContextUtil.getSpringBean(LicenseResolver.class);
+        LicenseResolver licenseResolver = AppContextUtil.getSpringBean(LicenseResolver.class);
         if (licenseResolver != null) {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
             if (licenseInfo != null) {
@@ -359,7 +359,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         }
 
         if (!SiteConfiguration.isDemandEdition()) {
-            ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+            ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
             if (!mailService.isMailSetupValid()) {
                 EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new SmtpSetupNotification()));
             }

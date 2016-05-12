@@ -22,10 +22,9 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nE
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -144,7 +143,7 @@ class BasicInfoChangeWindow extends Window {
         user.setLanguage((String) languageBox.getValue());
         user.setTimezone(timeZoneField.getTimeZone().getId());
 
-        final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        final UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());
         close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");

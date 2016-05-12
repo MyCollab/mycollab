@@ -38,7 +38,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -83,7 +83,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 @Subscribe
                 public void handle(BugEvent.BugChanged event) {
                     Integer bugChangeId = (Integer) event.getData();
-                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                    BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                     SimpleBug bugChange = bugService.findById(bugChangeId, AppContext.getAccountId());
                     previewItem(bugChange);
                 }
@@ -248,7 +248,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 toggleBugSummaryField.addLabelStyleName(UIConstants.LABEL_OVERDUE);
             }
 
-            BugRelationService bugRelationService = ApplicationContextUtil.getSpringBean(BugRelationService.class);
+            BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
             List<SimpleRelatedBug> relatedBugs = bugRelationService.findRelatedBugs(bug.getId());
             if (CollectionUtils.isNotEmpty(relatedBugs)) {
                 for (final SimpleRelatedBug relatedBug : relatedBugs) {

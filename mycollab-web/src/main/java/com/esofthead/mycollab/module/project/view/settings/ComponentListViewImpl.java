@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -76,7 +76,7 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
     }
 
     private void generateDisplayTable() {
-        tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(ComponentService.class),
+        tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ComponentService.class),
                 SimpleComponent.class, new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
                 Arrays.asList(
                         new TableViewField(GenericI18Enum.FORM_NAME, "componentname", UIConstants.TABLE_EX_LABEL_WIDTH),

@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
     private static final long serialVersionUID = 1L;
 
     public ContactImportWindow() {
-        super(true, "Import Contacts", ApplicationContextUtil.getSpringBean(ContactService.class), Contact.class);
+        super(true, "Import Contacts", AppContextUtil.getSpringBean(ContactService.class), Contact.class);
     }
 
     @Override

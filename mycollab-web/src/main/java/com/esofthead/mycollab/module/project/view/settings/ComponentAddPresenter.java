@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.bug.BugComponentContainer;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -73,7 +73,7 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
     }
 
     private void save(Component item) {
-        ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+        ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
 
         SimpleProject project = CurrentProjectVariables.getProject();
         item.setSaccountid(AppContext.getAccountId());

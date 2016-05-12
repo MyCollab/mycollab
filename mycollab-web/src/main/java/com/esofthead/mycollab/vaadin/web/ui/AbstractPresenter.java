@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.security.PermissionChecker;
 import com.esofthead.mycollab.security.PermissionMap;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.mvp.service.ComponentScannerService;
@@ -48,7 +48,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     public AbstractPresenter(Class<V> viewClass) {
         this.viewClass = viewClass;
-        ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean(ComponentScannerService.class);
+        ComponentScannerService componentScannerService = AppContextUtil.getSpringBean(ComponentScannerService.class);
         implClass = (Class<V>) componentScannerService.getViewImplCls(viewClass);
         if (implClass == null) {
             throw new MyCollabException("Can not find the implementation for view " + viewClass);

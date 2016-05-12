@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -80,7 +80,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
             if (data.getParams() instanceof SimpleLead) {
                 lead = (SimpleLead) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
                 lead = leadService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
 
@@ -106,7 +106,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
     }
 
     private int saveLead(Lead lead) {
-        LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+        LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
         lead.setSaccountid(AppContext.getAccountId());
         if (lead.getId() == null) {
             leadService.saveWithSession(lead, AppContext.getUsername());

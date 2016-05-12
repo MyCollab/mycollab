@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -83,7 +83,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
             //get Billable hours
             baseCriteria.setIsBillable(new BooleanSearchField(true));
-            ItemTimeLoggingService loggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
+            ItemTimeLoggingService loggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
             Double billableHours = loggingService.getTotalHoursByCriteria(baseCriteria);
             billableHoursLbl.setValue(FontAwesome.MONEY.getHtml() + " " + billableHours);
 
@@ -216,7 +216,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             Button activeProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                    ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
                     project.setProjectstatus(OptionI18nEnum.StatusI18nEnum.Open.name());
                     projectService.updateSelectiveWithSession(project, AppContext.getUsername());
 
@@ -345,7 +345,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     Boolean isTemplate = !MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
                     project.setIstemplate(isTemplate);
-                    ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                    ProjectService prjService = AppContextUtil.getSpringBean(ProjectService.class);
                     prjService.updateWithSession(project, AppContext.getUsername());
                     if (project.getIstemplate()) {
                         markProjectTemplateBtn.setCaption("Unmark template");
@@ -391,7 +391,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                                        ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
                                         project.setProjectstatus(OptionI18nEnum.StatusI18nEnum.Archived.name());
                                         projectService.updateSelectiveWithSession(project, AppContext.getUsername());
 
@@ -424,7 +424,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                                     public void onClose(
                                             ConfirmDialog dialog) {
                                         if (dialog.isConfirmed()) {
-                                            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                                            ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
                                             projectService.removeWithSession(CurrentProjectVariables.getProject(),
                                                     AppContext.getUsername(), AppContext.getAccountId());
                                             EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));

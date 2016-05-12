@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.ClassUtils;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.esofthead.mycollab.validator.constraints.DateComparision;
@@ -59,7 +59,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
 
         if (isValidateForm) {
             this.fieldGroup.addCommitHandler(this);
-            validation = ApplicationContextUtil.getValidator();
+            validation = AppContextUtil.getValidator();
         }
     }
 

@@ -22,7 +22,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.crm.domain.CrmNotificationSetting;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.project.i18n.ProjectSettingI18nEnum;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -91,7 +91,7 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements 
             public void buttonClick(ClickEvent event) {
                 try {
                     notification.setLevel((String) optionGroup.getValue());
-                    CrmNotificationSettingService crmNotificationSettingService = ApplicationContextUtil
+                    CrmNotificationSettingService crmNotificationSettingService = AppContextUtil
                             .getSpringBean(CrmNotificationSettingService.class);
                     if (notification.getId() == null) {
                         crmNotificationSettingService.saveWithSession(notification, AppContext.getUsername());

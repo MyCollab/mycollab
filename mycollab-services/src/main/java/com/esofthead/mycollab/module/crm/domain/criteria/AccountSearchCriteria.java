@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 
 import java.util.Arrays;
@@ -35,52 +36,49 @@ import java.util.Arrays;
 public class AccountSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final Param p_accountName = new StringParam("account-name",
-            AccountI18nEnum.FORM_ACCOUNT_NAME, "m_crm_account", "accountName");
+    public static final Param p_accountName = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            AccountI18nEnum.FORM_ACCOUNT_NAME, new StringParam("name", "m_crm_account", "accountName"));
 
-    public static final Param p_website = new StringParam("account-website",
-            AccountI18nEnum.FORM_WEBSITE, "m_crm_account", "website");
+    public static final Param p_website = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, AccountI18nEnum.FORM_WEBSITE,
+            new StringParam("website", "m_crm_account", "website"));
 
-    public static final Param p_numemployees = new NumberParam("account-employees",
-            AccountI18nEnum.FORM_EMPLOYEES, "m_crm_account", "numemployees");
+    public static final Param p_numemployees = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            AccountI18nEnum.FORM_EMPLOYEES, new NumberParam("employees", "m_crm_account", "numemployees"));
 
-    public static final Param p_assignee = new PropertyListParam(
-            "account-assignuser", GenericI18Enum.FORM_ASSIGNEE,
-            "m_crm_account", "assignUser");
+    public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, GenericI18Enum
+            .FORM_ASSIGNEE, new PropertyListParam("assignuser", "m_crm_account", "assignUser"));
 
-    public static final Param p_createdtime = new DateParam("account-createdtime",
-            GenericI18Enum.FORM_CREATED_TIME, "m_crm_account", "createdTime");
+    public static final Param p_createdtime = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            GenericI18Enum.FORM_CREATED_TIME, new DateParam("createdtime", "m_crm_account", "createdTime"));
 
-    public static final Param p_lastupdatedtime = new DateParam(
-            "account-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
-            "m_crm_account", "lastUpdatedTime");
+    public static final Param p_lastupdatedtime = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            GenericI18Enum.FORM_LAST_UPDATED_TIME, new DateParam("lastupdatedtime", "m_crm_account", "lastUpdatedTime"));
 
-    public static final Param p_anyCity = new CompositionStringParam("account-anyCity",
-            AccountI18nEnum.FORM_ANY_CITY,
-            new StringParam("", null, "m_crm_account", "city"),
-            new StringParam("", null, "m_crm_account", "shippingCity"));
+    public static final Param p_anyCity = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            AccountI18nEnum.FORM_ANY_CITY, new CompositionStringParam("anyCity",
+                    new StringParam("", "m_crm_account", "city"),
+                    new StringParam("", "m_crm_account", "shippingCity")));
 
-    public static final Param p_anyPhone = new CompositionStringParam("account-anyPhone", AccountI18nEnum.FORM_ANY_PHONE,
-            new StringParam("", null, "m_crm_account", "alternatePhone"),
-            new StringParam("", null, "m_crm_account", "phoneOffice"));
+    public static final Param p_anyPhone = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, AccountI18nEnum.FORM_ANY_PHONE,
+            new CompositionStringParam("anyPhone",
+                    new StringParam("", "m_crm_account", "alternatePhone"),
+                    new StringParam("", "m_crm_account", "phoneOffice")));
 
-    public static final Param p_industries = new StringListParam("account-industry",
-            AccountI18nEnum.FORM_INDUSTRY, "m_crm_account", "industry",
-            Arrays.asList(CrmDataTypeFactory.getAccountIndustryList()));
+    public static final Param p_industries = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            AccountI18nEnum.FORM_INDUSTRY, new StringListParam("industry", "m_crm_account", "industry",
+                    Arrays.asList(CrmDataTypeFactory.getAccountIndustryList())));
 
-    public static final Param p_types = new I18nStringListParam("account-type",
-            GenericI18Enum.FORM_TYPE, "m_crm_account", "type",
-            CrmDataTypeFactory.getAccountTypeList());
+    public static final Param p_types = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, GenericI18Enum.FORM_TYPE,
+            new I18nStringListParam("type", "m_crm_account", "type",
+                    CrmDataTypeFactory.getAccountTypeList()));
 
-    public static final Param p_billingCountry = new StringListParam(
-            "account-billingCountry", AccountI18nEnum.FORM_BILLING_COUNTRY,
-            "m_crm_account", "billingCountry",
-            Arrays.asList(CountryValueFactory.getCountryList()));
+    public static final Param p_billingCountry = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            AccountI18nEnum.FORM_BILLING_COUNTRY, new StringListParam("billingCountry", "m_crm_account", "billingCountry",
+                    Arrays.asList(CountryValueFactory.getCountryList())));
 
-    public static final Param p_shippingCountry = new StringListParam(
-            "account-shippingCountry", AccountI18nEnum.FORM_SHIPPING_COUNTRY,
-            "m_crm_account", "shippingCountry",
-            Arrays.asList(CountryValueFactory.getCountryList()));
+    public static final Param p_shippingCountry = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            AccountI18nEnum.FORM_SHIPPING_COUNTRY, new StringListParam("shippingCountry", "m_crm_account", "shippingCountry",
+                    Arrays.asList(CountryValueFactory.getCountryList())));
 
     private StringSearchField accountname;
     private StringSearchField assignUser;

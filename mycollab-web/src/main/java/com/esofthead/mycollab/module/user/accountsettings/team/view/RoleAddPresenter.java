@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -71,7 +71,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
     }
 
     public void save(Role item) {
-        RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+        RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
         item.setSaccountid(AppContext.getAccountId());
 
         if (item.getId() == null) {

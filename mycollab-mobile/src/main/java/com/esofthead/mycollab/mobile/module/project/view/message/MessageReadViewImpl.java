@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -97,7 +97,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         Label messageContent = new Label(StringUtils.trimHtmlTags(bean.getMessage()));
         rightCol.addComponent(messageContent);
 
-        ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
                 AppContext.getAccountId(), bean.getProjectid(), ProjectTypeConstants.MESSAGE, "" + bean.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {

@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -79,7 +79,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
             if (data.getParams() instanceof SimpleAccount) {
                 account = (SimpleAccount) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 account = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
 
@@ -104,7 +104,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
     }
 
     private int saveAccount(Account account) {
-        AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+        AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
 
         account.setSaccountid(AppContext.getAccountId());
         if (account.getId() == null) {
