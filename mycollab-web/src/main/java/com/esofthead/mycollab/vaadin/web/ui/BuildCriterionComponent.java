@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
-import com.esofthead.mycollab.common.json.QueryAnalyzer;
 import com.esofthead.mycollab.common.domain.SaveSearchResult;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.json.QueryAnalyzer;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.*;
@@ -483,7 +483,20 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 return null;
             }
 
-            return new SearchFieldInfo(prefixOper, param, compareOper, ConstantValueInjector.valueOf(value));
+            if (value != null) {
+                if (value.getClass().isArray()) {
+                    if (Array.getLength(value) == 0) {
+                        return null;
+                    }
+                } else if (Collection.class.isAssignableFrom(value.getClass())){
+                    if (((Collection)value).size() == 0) {
+                        return null;
+                    }
+                }
+                return new SearchFieldInfo(prefixOper, param, compareOper, ConstantValueInjector.valueOf(value));
+            } else {
+                return null;
+            }
         }
     }
 

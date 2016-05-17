@@ -61,6 +61,7 @@ Version 5.3.1
 **Bug Fixes**
 
 * [Premium] Not edit hours in time edit window can cause the system error
+* [Premium] Gantt chart is more stable
 
 Version 5.3.0
 -----------------------------
