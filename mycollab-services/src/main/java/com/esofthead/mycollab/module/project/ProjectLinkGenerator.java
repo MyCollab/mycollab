@@ -90,10 +90,6 @@ public class ProjectLinkGenerator {
         return "project/page/edit/" + GenericLinkUtils.encodeParam(projectId, pagePath);
     }
 
-    public static String generateProblemsLink(Integer projectId) {
-        return "project/problem/list/" + UrlEncodeDecoder.encode(projectId);
-    }
-
     public static String generateProjectMemberFullLink(String siteUrl, Integer projectId, String memberName) {
         if (memberName == null) {
             return "";
@@ -161,6 +157,10 @@ public class ProjectLinkGenerator {
         return String.format("project/bug/edit/%s-%d", prjShortname, bugkey);
     }
 
+    public static String generateBugsLink(Integer projectId) {
+        return "project/bug/list/" + UrlEncodeDecoder.encode(projectId);
+    }
+
     public static String generateBugPreviewFullLink(String siteUrl, Integer bugKey, String prjShortname) {
         return siteUrl + URL_PREFIX_PARAM + generateBugPreviewLink(bugKey, prjShortname);
     }
@@ -203,10 +203,6 @@ public class ProjectLinkGenerator {
 
     public static String generateUsersWorkloadReportLink() {
         return "project/reports/usersworkload/";
-    }
-
-    public static String generateProjectCalendarLink(Integer projectId) {
-        return "project/calendar/" + UrlEncodeDecoder.encode(projectId);
     }
 
     public static String generateUsersLink(Integer projectId) {

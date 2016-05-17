@@ -26,11 +26,12 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.community.vaadin.web.ui.field.PopupFieldBuilder;
+import com.esofthead.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.PopupView;
 import org.vaadin.teemu.VaadinIcons;
 
@@ -42,111 +43,111 @@ import org.vaadin.teemu.VaadinIcons;
 public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
 
     @Override
-    public PopupView createPriorityPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(task.getPriority()))
+    public AbstractComponent createPriorityPopupField(SimpleTask task) {
+        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(task.getPriority()))
                 .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP)).build();
     }
 
     @Override
-    public PopupView createAssigneePopupField(SimpleTask task) {
+    public AbstractComponent createAssigneePopupField(SimpleTask task) {
         String avatarLink = StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16);
         Img img = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
-        return new PopupFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
+        return new MetaFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
                 .FORM_ASSIGNEE)).build();
     }
 
     @Override
-    public PopupView createCommentsPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
+    public AbstractComponent createCommentsPopupField(SimpleTask task) {
+        return new MetaFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
                 .withDescription("Comments").build();
     }
 
     @Override
-    public PopupView createStatusPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, task.getStatus()).withDescription
+    public AbstractComponent createStatusPopupField(SimpleTask task) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, task.getStatus()).withDescription
                 (AppContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 
     @Override
-    public PopupView createPercentagePopupField(SimpleTask task) {
+    public AbstractComponent createPercentagePopupField(SimpleTask task) {
         if (task.getPercentagecomplete() != null && task.getPercentagecomplete() > 0) {
-            return new PopupFieldBuilder().withCaptionAndIcon(VaadinIcons.CALENDAR_CLOCK,
+            return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.CALENDAR_CLOCK,
                     String.format(" %s%%", task.getPercentagecomplete())).withDescription("Percentage complete").build();
         } else {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.CALENDAR_CLOCK.getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription("Percentage complete").build();
+            divHint.appendChild(new Span().appendText(" Percentage complete is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Percentage complete").build();
         }
     }
 
     @Override
-    public PopupView createMilestonePopupField(SimpleTask task) {
+    public AbstractComponent createMilestonePopupField(SimpleTask task) {
         if (task.getMilestoneid() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription("Milestone").build();
+            divHint.appendChild(new Span().appendText(" Milestone is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Milestone").build();
         } else {
-            return new PopupFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), task
+            return new MetaFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), task
                     .getMilestoneName()).withDescription("Milestone").build();
         }
     }
 
     @Override
-    public PopupView createDeadlinePopupField(SimpleTask task) {
+    public AbstractComponent createDeadlinePopupField(SimpleTask task) {
         if (task.getDeadlineRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription("Deadline").build();
+            divHint.appendChild(new Span().appendText(" Deadline is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Deadline").build();
         } else {
-            return new PopupFieldBuilder().withCaption(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
                     AppContext.formatPrettyTime(task.getDeadlineRoundPlusOne()))).withDescription("Deadline").build();
         }
     }
 
     @Override
-    public PopupView createStartDatePopupField(SimpleTask task) {
+    public AbstractComponent createStartDatePopupField(SimpleTask task) {
         if (task.getStartdate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription("Start date").build();
+            divHint.appendChild(new Span().appendText(" Start date is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Start date").build();
         } else {
-            return new PopupFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
                     AppContext.formatDate(task.getStartdate()))).withDescription("Start date").build();
         }
     }
 
     @Override
-    public PopupView createEndDatePopupField(SimpleTask task) {
+    public AbstractComponent createEndDatePopupField(SimpleTask task) {
         if (task.getEnddate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription("End date").build();
+            divHint.appendChild(new Span().appendText(" End date is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("End date").build();
         } else {
-            return new PopupFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
                     AppContext.formatDate(task.getEnddate()))).withDescription("End date").build();
         }
     }
 
     @Override
-    public PopupView createFollowersPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + NumberUtils.zeroIfNull(task.getNumFollowers()))
+    public AbstractComponent createFollowersPopupField(SimpleTask task) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + NumberUtils.zeroIfNull(task.getNumFollowers()))
                 .withDescription("Followers").build();
     }
 
     @Override
-    public PopupView createBillableHoursPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + NumberUtils.zeroIfNull(task.getBillableHours()))
+    public AbstractComponent createBillableHoursPopupField(SimpleTask task) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + NumberUtils.zeroIfNull(task.getBillableHours()))
                 .withDescription("Billable hours").build();
     }
 
     @Override
-    public PopupView createNonBillableHoursPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + NumberUtils.zeroIfNull(task.getNonBillableHours()))
+    public AbstractComponent createNonBillableHoursPopupField(SimpleTask task) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + NumberUtils.zeroIfNull(task.getNonBillableHours()))
                 .withDescription("Non billable hours").build();
     }
 }

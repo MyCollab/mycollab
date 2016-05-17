@@ -21,39 +21,29 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.vaadin.server.FontAwesome;
+import com.esofthead.mycollab.vaadin.web.ui.IntegerKeyListSelect;
 import com.vaadin.ui.ListSelect;
 
-import java.util.HashMap;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class MilestoneListSelect extends ListSelect {
-    private static final Map<String, FontAwesome> statusIconsMap;
-
-    static {
-        statusIconsMap = new HashMap<>();
-        statusIconsMap.put(OptionI18nEnum.MilestoneStatus.InProgress.name(), FontAwesome.SPINNER);
-        statusIconsMap.put(OptionI18nEnum.MilestoneStatus.Future.name(), FontAwesome.CLOCK_O);
-        statusIconsMap.put(OptionI18nEnum.MilestoneStatus.Closed.name(), FontAwesome.MINUS);
-    }
+public class MilestoneListSelect extends IntegerKeyListSelect {
 
     public MilestoneListSelect() {
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
         this.setNullSelectionAllowed(false);
         this.setMultiSelect(true);
         this.setRows(4);
-    }
 
-    @Override
-    public void attach() {
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
@@ -61,9 +51,6 @@ public class MilestoneListSelect extends ListSelect {
         for (SimpleMilestone milestone : milestones) {
             this.addItem(milestone.getId());
             this.setItemCaption(milestone.getId(), milestone.getName());
-            String status = milestone.getStatus();
-            this.setItemIcon(milestone.getId(), statusIconsMap.get(status));
         }
-        super.attach();
     }
 }

@@ -16,12 +16,11 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
-import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
-import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
+import com.esofthead.mycollab.common.json.QueryAnalyzer;
+import com.esofthead.mycollab.common.domain.SaveSearchResult;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.db.query.*;
@@ -58,6 +57,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
     private static final Logger LOG = LoggerFactory.getLogger(BuildCriterionComponent.class);
 
+    private GenericSearchPanel.SearchLayout<S> hostSearchLayout;
     private Param[] paramFields;
     private String searchCategory;
     private Class<S> type;
@@ -65,7 +65,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
     private MHorizontalLayout filterBox;
     private MVerticalLayout searchContainer;
 
-    public BuildCriterionComponent(Param[] paramFields, Class<S> type, String searchCategory) {
+    public BuildCriterionComponent(GenericSearchPanel.SearchLayout<S> searchLayout, Param[] paramFields, Class<S> type, String searchCategory) {
+        this.hostSearchLayout = searchLayout;
         this.paramFields = paramFields;
         this.type = type;
         this.searchCategory = searchCategory;
@@ -162,17 +163,17 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         }
 
         SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-        SaveSearchResultWithBLOBs searchResult = new SaveSearchResultWithBLOBs();
+        SaveSearchResult searchResult = new SaveSearchResult();
         searchResult.setSaveuser(AppContext.getUsername());
         searchResult.setSaccountid(AppContext.getAccountId());
-        searchResult.setQuerytext(XStreamJsonDeSerializer.toJson(fieldInfos));
+        searchResult.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
         searchResult.setType(searchCategory);
         searchResult.setQueryname(queryText);
         saveSearchResultService.saveWithSession(searchResult, AppContext.getUsername());
         buildFilterBox(queryText);
     }
 
-    private List<SearchFieldInfo> buildSearchFieldInfos() {
+    List<SearchFieldInfo> buildSearchFieldInfos() {
         Iterator<Component> iterator = searchContainer.iterator();
         List<SearchFieldInfo> fieldInfos = new ArrayList<>();
         while (iterator.hasNext()) {
@@ -185,28 +186,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         return fieldInfos;
     }
 
+    public void clearAllFields() {
+        searchContainer.removeAllComponents();
+    }
+
     protected Component buildPropertySearchComp(String fieldId) {
         return null;
     }
 
-    public S fillUpSearchCriteria() {
-        try {
-            S searchCriteria = type.newInstance();
-            Iterator<Component> iterator = searchContainer.iterator();
-            while (iterator.hasNext()) {
-                CriteriaSelectionLayout criteriaSelectionLayout = (CriteriaSelectionLayout) iterator.next();
-                SearchField searchField = criteriaSelectionLayout.buildSearchField();
-                if (searchField != null) {
-                    searchCriteria.addExtraField(searchField);
-                }
-            }
-            return searchCriteria;
-        } catch (Exception e) {
-            throw new MyCollabException(e);
-        }
-    }
-
-    private void fillSearchFieldInfoAndInvokeSearchRequest(List<SearchFieldInfo> searchFieldInfos) {
+    public void fillSearchFieldInfoAndInvokeSearchRequest(List<SearchFieldInfo> searchFieldInfos) {
         searchContainer.removeAllComponents();
 
         try {
@@ -282,7 +270,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             index--;
             indexLbl.setValue(index + "");
             if (index == 1) {
-                operatorSelectionBox.setVisible(false);
+                removeComponent(operatorSelectionBox);
+                Label placeHolder = new Label("&nbsp;", ContentMode.HTML);
+                placeHolder.setWidth("90px");
+                this.addComponent(placeHolder, 1, 0);
             }
         }
 
@@ -333,13 +324,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             } else if (param instanceof PropertyParam || param instanceof PropertyListParam || param instanceof CustomSqlParam) {
                 Component comp = buildPropertySearchComp(param.getId());
                 if (comp != null) {
+                    comp.setWidth(width);
+                    valueBox.addComponent(comp);
                     if (comp instanceof CustomField<?> && (((CustomField) comp).getType() == Integer.class)) {
                         ((Field) comp).setValue(Integer.parseInt(searchFieldInfo.eval() + ""));
                     } else {
                         ((Field) comp).setValue(searchFieldInfo.eval());
                     }
-                    comp.setWidth(width);
-                    valueBox.addComponent(comp);
                 }
             } else if (param instanceof StringListParam) {
                 ValueListSelect listSelect = new ValueListSelect();
@@ -492,166 +483,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 return null;
             }
 
-            return new SearchFieldInfo(prefixOper, param, compareOper, value);
-        }
-
-        private SearchField buildSearchField() {
-            Param param = (Param) fieldSelectionBox.getValue();
-            String prefixOperation = (operatorSelectionBox != null) ? (String) operatorSelectionBox.getValue() : "AND";
-            if (param != null) {
-                String compareOper = (String) compareSelectionBox.getValue();
-
-                if (param instanceof StringParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-                    TextField field = (TextField) valueBox.getComponent(0);
-                    String value = field.getValue();
-                    StringParam wrapParam = (StringParam) param;
-                    return wrapParam.buildSearchField(prefixOperation, compareOper, value);
-                } else if (param instanceof StringListParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-                    ValueListSelect field = (ValueListSelect) valueBox.getComponent(0);
-                    Collection<?> value = (Collection<?>) field.getValue();
-                    if (CollectionUtils.isEmpty(value)) {
-                        return null;
-                    }
-
-                    StringListParam wrapParam = (StringListParam) param;
-
-                    switch (compareOper) {
-                        case StringListParam.IN:
-                            return wrapParam.buildStringParamInList(prefixOperation, value);
-                        case StringListParam.NOT_IN:
-                            return wrapParam.buildStringParamNotInList(prefixOperation, value);
-                        default:
-                            throw new MyCollabException("Not support yet");
-                    }
-                } else if (param instanceof I18nStringListParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-                    I18nValueListSelect field = (I18nValueListSelect) valueBox.getComponent(0);
-                    Collection<?> value = (Collection<?>) field.getValue();
-                    if (CollectionUtils.isEmpty(value)) {
-                        return null;
-                    }
-
-                    I18nStringListParam wrapParam = (I18nStringListParam) param;
-
-                    switch (compareOper) {
-                        case StringListParam.IN:
-                            return wrapParam.buildStringParamInList(prefixOperation, value);
-                        case StringListParam.NOT_IN:
-                            return wrapParam.buildStringParamNotInList(prefixOperation, value);
-                        default:
-                            throw new MyCollabException("Not support yet");
-                    }
-                } else if (param instanceof NumberParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-                    TextField field = (TextField) valueBox.getComponent(0);
-                    Number value = 0;
-                    try {
-                        value = Double.parseDouble(field.getValue());
-                    } catch (Exception e) {
-
-                    }
-
-                    NumberParam wrapParam = (NumberParam) param;
-                    return wrapParam.buildSearchField(prefixOperation, compareOper, value);
-                } else if (param instanceof PropertyListParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-
-                    ListSelect field = (ListSelect) valueBox.getComponent(0);
-                    Collection<?> value = (Collection<?>) field.getValue();
-                    if (CollectionUtils.isEmpty(value)) {
-                        return null;
-                    }
-                    PropertyListParam wrapParam = (PropertyListParam) param;
-                    switch (compareOper) {
-                        case PropertyListParam.BELONG_TO:
-                            return wrapParam.buildPropertyParamInList(prefixOperation, value);
-                        case PropertyListParam.NOT_BELONG_TO:
-                            return wrapParam.buildPropertyParamNotInList(prefixOperation, value);
-                        default:
-                            throw new MyCollabException("Not support yet");
-                    }
-                } else if (param instanceof CustomSqlParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-
-                    ListSelect field = (ListSelect) valueBox.getComponent(0);
-                    Collection<?> value = (Collection<?>) field.getValue();
-                    if (CollectionUtils.isEmpty(value)) {
-                        return null;
-                    }
-                    CustomSqlParam wrapParam = (CustomSqlParam) param;
-                    switch (compareOper) {
-                        case PropertyListParam.BELONG_TO:
-                            return wrapParam.buildPropertyParamInList(prefixOperation, value);
-                        case PropertyListParam.NOT_BELONG_TO:
-                            return wrapParam.buildPropertyParamNotInList(prefixOperation, value);
-                        default:
-                            throw new MyCollabException("Not support yet");
-                    }
-                } else if (param instanceof PropertyParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-                    Field field = (Field) valueBox.getComponent(0);
-                    Object value = field.getValue();
-                    PropertyParam wrapParam = (PropertyParam) param;
-                    return wrapParam.buildSearchField(prefixOperation, compareOper, value);
-                } else if (param instanceof CompositionStringParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-                    TextField field = (TextField) valueBox.getComponent(0);
-                    String value = field.getValue();
-                    CompositionStringParam wrapParam = (CompositionStringParam) param;
-                    return wrapParam.buildSearchField(prefixOperation, compareOper, value);
-                } else if (param instanceof ConcatStringParam) {
-                    if (valueBox.getComponentCount() != 1) {
-                        return null;
-                    }
-                    TextField field = (TextField) valueBox.getComponent(0);
-                    String value = field.getValue();
-                    ConcatStringParam wrapParam = (ConcatStringParam) param;
-                    return wrapParam.buildSearchField(prefixOperation, compareOper, value);
-                } else if (param instanceof DateParam) {
-                    DateParam wrapParam = (DateParam) param;
-                    if (DateParam.BETWEEN.equals(compareOper) || DateParam.NOT_BETWEEN.equals(compareOper)) {
-                        if (valueBox.getComponentCount() != 2) {
-                            return null;
-                        }
-                        Date dateValue1 = ((DateFieldExt) valueBox.getComponent(0)).getValue();
-                        Date dateValue2 = ((DateFieldExt) valueBox.getComponent(1)).getValue();
-                        return wrapParam.buildSearchField(prefixOperation, compareOper, dateValue1, dateValue2);
-                    } else {
-                        if (valueBox.getComponentCount() != 1) {
-                            return null;
-                        }
-                        Date dateValue = ((DateFieldExt) valueBox.getComponent(0)).getValue();
-                        return wrapParam.buildSearchField(prefixOperation, compareOper, dateValue);
-                    }
-                } else {
-                    throw new MyCollabException("Not support yet");
-                }
-            }
-            return null;
+            return new SearchFieldInfo(prefixOper, param, compareOper, ConstantValueInjector.valueOf(value));
         }
     }
 
     private class SavedSearchResultComboBox extends ComboBox {
         private static final long serialVersionUID = 1L;
-        private BeanContainer<String, SaveSearchResultWithBLOBs> beanItem;
+        private BeanContainer<String, SaveSearchResult> beanItem;
 
         SavedSearchResultComboBox() {
             this.setImmediate(true);
@@ -665,18 +503,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
                     Object itemId = SavedSearchResultComboBox.this.getValue();
                     if (itemId != null) {
-                        final SaveSearchResultWithBLOBs data = beanItem.getItem(itemId).getBean();
+                        final SaveSearchResult data = beanItem.getItem(itemId).getBean();
 
                         String queryText = data.getQuerytext();
                         try {
-                            List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(queryText);
-                            // @HACK: === the library serialize with extra list
-                            // wrapper
-                            if (CollectionUtils.isEmpty(fieldInfos)) {
-                                throw new UserInvalidInputException("There is no field in search criterion");
-                            }
-                            fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
+                            List<SearchFieldInfo> fieldInfos = QueryAnalyzer.toSearchFieldInfos(queryText, searchCategory);
                             fillSearchFieldInfoAndInvokeSearchRequest(fieldInfos);
+                            hostSearchLayout.callSearchAction();
                         } catch (Exception e) {
                             LOG.error("Error of invalid query", e);
                             NotificationUtil.showErrorNotification("This query is invalid");
@@ -695,7 +528,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                                     SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
                                     data.setSaveuser(AppContext.getUsername());
                                     data.setSaccountid(AppContext.getAccountId());
-                                    data.setQuerytext(XStreamJsonDeSerializer.toJson(fieldInfos));
+                                    data.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
                                     saveSearchResultService.updateWithSession(data, AppContext.getUsername());
 
                                 }
@@ -720,7 +553,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
                             filterBox.addComponent(deleteBtn, 1);
                             filterBox.addComponent(updateBtn, 1);
-
                         }
 
                     } else {
@@ -740,12 +572,12 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
             SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-            List<SaveSearchResultWithBLOBs> result = saveSearchResultService.findPagableListByCriteria(new BasicSearchRequest<>(
+            List<SaveSearchResult> result = saveSearchResultService.findPagableListByCriteria(new BasicSearchRequest<>(
                     searchCriteria, 0, Integer.MAX_VALUE));
-            beanItem = new BeanContainer<>(SaveSearchResultWithBLOBs.class);
+            beanItem = new BeanContainer<>(SaveSearchResult.class);
             beanItem.setBeanIdProperty("id");
 
-            for (SaveSearchResultWithBLOBs searchResult : result) {
+            for (SaveSearchResult searchResult : result) {
                 beanItem.addBean(searchResult);
             }
             this.setContainerDataSource(beanItem);

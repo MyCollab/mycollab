@@ -27,18 +27,18 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -101,9 +101,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                                 if (dialog.isConfirmed()) {
                                     ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                                     taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
-                                            (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
-                                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+                                    EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null));
                                 }
                             }
                         });
@@ -118,9 +116,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
             @Override
             public void onCancel() {
-                PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
-                        (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+                EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null));
             }
 
             @Override

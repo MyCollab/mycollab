@@ -26,7 +26,7 @@ import com.esofthead.mycollab.vaadin.web.ui.IListView;
  * @since 1.0
  */
 public interface TaskDashboardView extends IListView<TaskSearchCriteria, SimpleTask>, PageView {
-    void displayView();
+    void displayView(String query);
 
     void queryTask(TaskSearchCriteria searchCriteria);
 }

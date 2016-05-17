@@ -36,39 +36,39 @@ import java.util.Arrays;
 public class AccountSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final Param p_accountName = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+    public static final StringParam p_accountName = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
             AccountI18nEnum.FORM_ACCOUNT_NAME, new StringParam("name", "m_crm_account", "accountName"));
 
-    public static final Param p_website = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, AccountI18nEnum.FORM_WEBSITE,
+    public static final StringParam p_website = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, AccountI18nEnum.FORM_WEBSITE,
             new StringParam("website", "m_crm_account", "website"));
 
-    public static final Param p_numemployees = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+    public static final NumberParam p_numemployees = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
             AccountI18nEnum.FORM_EMPLOYEES, new NumberParam("employees", "m_crm_account", "numemployees"));
 
-    public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, GenericI18Enum
+    public static final PropertyListParam p_assignee = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, GenericI18Enum
             .FORM_ASSIGNEE, new PropertyListParam("assignuser", "m_crm_account", "assignUser"));
 
-    public static final Param p_createdtime = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+    public static final DateParam p_createdtime = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
             GenericI18Enum.FORM_CREATED_TIME, new DateParam("createdtime", "m_crm_account", "createdTime"));
 
-    public static final Param p_lastupdatedtime = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+    public static final DateParam p_lastupdatedtime = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
             GenericI18Enum.FORM_LAST_UPDATED_TIME, new DateParam("lastupdatedtime", "m_crm_account", "lastUpdatedTime"));
 
-    public static final Param p_anyCity = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+    public static final CompositionStringParam p_anyCity = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
             AccountI18nEnum.FORM_ANY_CITY, new CompositionStringParam("anyCity",
                     new StringParam("", "m_crm_account", "city"),
                     new StringParam("", "m_crm_account", "shippingCity")));
 
-    public static final Param p_anyPhone = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, AccountI18nEnum.FORM_ANY_PHONE,
+    public static final CompositionStringParam p_anyPhone = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, AccountI18nEnum.FORM_ANY_PHONE,
             new CompositionStringParam("anyPhone",
                     new StringParam("", "m_crm_account", "alternatePhone"),
                     new StringParam("", "m_crm_account", "phoneOffice")));
 
-    public static final Param p_industries = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+    public static final StringListParam p_industries = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
             AccountI18nEnum.FORM_INDUSTRY, new StringListParam("industry", "m_crm_account", "industry",
                     Arrays.asList(CrmDataTypeFactory.getAccountIndustryList())));
 
-    public static final Param p_types = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, GenericI18Enum.FORM_TYPE,
+    public static final I18nStringListParam p_types = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, GenericI18Enum.FORM_TYPE,
             new I18nStringListParam("type", "m_crm_account", "type",
                     CrmDataTypeFactory.getAccountTypeList()));
 

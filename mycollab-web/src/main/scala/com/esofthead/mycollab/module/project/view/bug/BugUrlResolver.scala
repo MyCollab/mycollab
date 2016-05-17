@@ -46,13 +46,11 @@ class BugUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
-      val criteria = new BugSearchCriteria
-      criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
-      criteria.setStatuses(new SetSearchField[String](BugStatus.Open.name, BugStatus.ReOpen.name, BugStatus.Resolved.name))
-      criteria.setProjectId(new NumberSearchField(projectId))
+      val tokenizer = new UrlTokenizer(params(0))
+      val projectId = tokenizer.getInt
+      val query = tokenizer.getQuery
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new BugScreenData.Search(criteria))
+        new BugScreenData.GotoList(query))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }

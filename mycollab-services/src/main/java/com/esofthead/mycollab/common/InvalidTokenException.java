@@ -25,15 +25,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 public class InvalidTokenException extends MyCollabException {
     private static final long serialVersionUID = 1L;
 
-    public InvalidTokenException(Throwable e) {
-        super(e);
-    }
-
     public InvalidTokenException(String message) {
         super(message);
-    }
-
-    public InvalidTokenException(String message, Throwable e) {
-        super(message, e);
     }
 }

@@ -46,11 +46,11 @@ public class TableViewFieldDecorator extends TableViewField {
         tableField.setField(field);
     }
 
-    public Enum<?> getDescKey() {
+    public Enum getDescKey() {
         return tableField.getDescKey();
     }
 
-    public void setDescKey(Enum<?> descKey) {
+    public void setDescKey(Enum descKey) {
         tableField.setDescKey(descKey);
     }
 

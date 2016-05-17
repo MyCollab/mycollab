@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -308,8 +309,11 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             metaBlock.addComponent(popupFieldFactory.createMilestoneAssigneePopupField(milestone, true));
             metaBlock.addComponent(popupFieldFactory.createStartDatePopupField(milestone));
             metaBlock.addComponent(popupFieldFactory.createEndDatePopupField(milestone));
-            metaBlock.addComponent(popupFieldFactory.createBillableHoursPopupField(milestone));
-            metaBlock.addComponent(popupFieldFactory.createNonBillableHoursPopupField(milestone));
+            if (!SiteConfiguration.isCommunityEdition()) {
+                metaBlock.addComponent(popupFieldFactory.createBillableHoursPopupField(milestone));
+                metaBlock.addComponent(popupFieldFactory.createNonBillableHoursPopupField(milestone));
+            }
+
             this.add(metaBlock);
 
             if (StringUtils.isNotBlank(milestone.getDescription())) {

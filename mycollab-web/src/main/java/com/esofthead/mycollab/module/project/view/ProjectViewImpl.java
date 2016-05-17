@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -253,7 +254,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                 myProjectTab.removeTab(ProjectTypeConstants.FILE);
             }
 
-            if (CurrentProjectVariables.hasRiskFeature()) {
+            if (CurrentProjectVariables.hasRiskFeature() && !SiteConfiguration.isCommunityEdition()) {
                 myProjectTab.addTab(constructProjectRiskComponent(), ProjectTypeConstants.RISK, 8,
                         AppContext.getMessage(RiskI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateRisksLink(prjId));
@@ -261,7 +262,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                 myProjectTab.removeTab(ProjectTypeConstants.RISK);
             }
 
-            if (CurrentProjectVariables.hasTimeFeature() || CurrentProjectVariables.hasInvoiceFeature()) {
+            if ((CurrentProjectVariables.hasTimeFeature() || CurrentProjectVariables.hasInvoiceFeature()) && !SiteConfiguration.isCommunityEdition()) {
                 myProjectTab.addTab(constructTimeTrackingComponent(), ProjectTypeConstants.FINANCE, 10,
                         AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FINANCE),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTimeReportLink(prjId));

@@ -43,4 +43,10 @@ public class DoubleField extends AbstractNumberField<Double> {
     public void setWidth(String width) {
         tf.setWidth(width);
     }
+
+    @Override
+    public Double getValue() {
+        Double value = super.getValue();
+        return (value == null || value < 0) ? 0d : value;
+    }
 }

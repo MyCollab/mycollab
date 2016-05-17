@@ -18,9 +18,8 @@ package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -29,6 +28,7 @@ import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
@@ -40,6 +40,8 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -53,6 +55,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
     private TaskSavedFilterComboBox savedFilterComboBox;
 
     private static Param[] paramFields = new Param[]{
+            TaskSearchCriteria.p_taskname,
             TaskSearchCriteria.p_assignee, TaskSearchCriteria.p_createtime,
             TaskSearchCriteria.p_duedate, TaskSearchCriteria.p_lastupdatedtime,
             TaskSearchCriteria.p_status, TaskSearchCriteria.p_startdate, TaskSearchCriteria.p_enddate,
@@ -74,8 +77,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
                 @Override
                 public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
                     List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                    TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
-                            fieldInfos);
+                    TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class, fieldInfos);
                     criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                     EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskSearchPanel.this, criteria));
                 }
@@ -105,6 +107,13 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
     public void setTextField(String name) {
         if (getCompositionRoot() instanceof TaskBasicSearchLayout) {
             ((TaskBasicSearchLayout) getCompositionRoot()).setNameField(name);
+        }
+    }
+
+    public void displaySearchFieldInfos(List<SearchFieldInfo> searchFieldInfos) {
+        if (canSwitchToAdvanceLayout) {
+            TaskAdvancedSearchLayout advancedSearchLayout = (TaskAdvancedSearchLayout) moveToAdvancedSearchLayout();
+            advancedSearchLayout.displaySearchFieldInfos(searchFieldInfos);
         }
     }
 
@@ -182,14 +191,17 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
         @Override
         protected TaskSearchCriteria fillUpSearchCriteria() {
-            searchCriteria = new TaskSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setTaskName(StringSearchField.and(nameField.getValue().trim()));
+            List<SearchFieldInfo> searchFieldInfos = new ArrayList<>();
+            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_taskname, StringParam.CONTAINS,
+                    ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
-            } else {
-                searchCriteria.setAssignUser(null);
+                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_assignee, PropertyListParam.BELONG_TO,
+                        ConstantValueInjector.valueOf(Arrays.asList(AppContext.getUsername()))));
             }
+            EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
+            searchCriteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
+                    searchFieldInfos);
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
 
@@ -197,7 +209,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         public ComponentContainer constructHeader() {
             return TaskSearchPanel.this.constructHeader();
         }
-
     }
 
     private class TaskAdvancedSearchLayout extends DynamicQueryParamLayout<TaskSearchCriteria> {

@@ -19,12 +19,17 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+import java.util.List;
 
 /**
  * @param <S>
@@ -47,19 +52,26 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     protected void initLayout() {
         header = constructHeader();
-        ComponentContainer body = constructBody();
-        ComponentContainer footer = constructFooter();
+        buildCriterionComp = new BuildCriterionComponent<S>(this, getParamFields(), getType(), type) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected Component buildPropertySearchComp(String fieldId) {
+                return buildSelectionComp(fieldId);
+            }
+        };
+
         this.addComponent(header, "advSearchHeader");
-        this.addComponent(body, "advSearchBody");
-        this.addComponent(footer, "advSearchFooter");
+        this.addComponent(buildCriterionComp, "advSearchBody");
+        this.addComponent(createButtonControls(), "advSearchFooter");
     }
 
     @Override
     protected void addHeaderRight(Component c) {
-        if (this.header == null)
+        if (header == null)
             return;
 
-        this.header.addComponent(c);
+        header.addComponent(c);
     }
 
     private HorizontalLayout createButtonControls() {
@@ -104,12 +116,18 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     }
 
     protected void clearFields() {
+        buildCriterionComp.clearAllFields();
+    }
 
+    public void displaySearchFieldInfos(List<SearchFieldInfo> searchFieldInfos) {
+        buildCriterionComp.fillSearchFieldInfoAndInvokeSearchRequest(searchFieldInfos);
     }
 
     @Override
     protected S fillUpSearchCriteria() {
-        return buildCriterionComp.fillUpSearchCriteria();
+        List<SearchFieldInfo> searchFieldInfos = buildCriterionComp.buildSearchFieldInfos();
+        EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
+        return SearchFieldInfo.buildSearchCriteria(getType(), searchFieldInfos);
     }
 
     protected abstract Class<S> getType();
@@ -117,22 +135,6 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     public abstract ComponentContainer constructHeader();
 
     public abstract Param[] getParamFields();
-
-    public ComponentContainer constructBody() {
-        buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(), getType(), type) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected Component buildPropertySearchComp(String fieldId) {
-                return buildSelectionComp(fieldId);
-            }
-        };
-        return buildCriterionComp;
-    }
-
-    public ComponentContainer constructFooter() {
-        return createButtonControls();
-    }
 
     protected Component buildSelectionComp(String fieldId) {
         return null;

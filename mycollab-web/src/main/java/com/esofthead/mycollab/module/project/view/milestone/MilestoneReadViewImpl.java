@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -94,7 +95,11 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         milestoneTimeLogComp = new MilestoneTimeLogComp();
-        addToSideBar(dateInfoComp, peopleInfoComp, milestoneTimeLogComp);
+        if (SiteConfiguration.isCommunityEdition()) {
+            addToSideBar(dateInfoComp, peopleInfoComp);
+        } else {
+            addToSideBar(dateInfoComp, peopleInfoComp, milestoneTimeLogComp);
+        }
     }
 
     @Override

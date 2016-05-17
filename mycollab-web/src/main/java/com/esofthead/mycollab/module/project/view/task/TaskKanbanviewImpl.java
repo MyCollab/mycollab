@@ -20,9 +20,9 @@ import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.service.OptionValService;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -349,23 +349,23 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             MHorizontalLayout headerLayout = new MHorizontalLayout();
 
             ToggleTaskSummaryField toggleTaskSummaryField = new ToggleTaskSummaryField(task, 70);
-            PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
+            AbstractComponent priorityField = popupFieldFactory.createPriorityPopupField(task);
             headerLayout.with(priorityField, toggleTaskSummaryField).expand(toggleTaskSummaryField);
 
             root.with(headerLayout);
 
             CssLayout footer = new CssLayout();
 
-            PopupView commentField = popupFieldFactory.createCommentsPopupField(task);
+            AbstractComponent commentField = popupFieldFactory.createCommentsPopupField(task);
             footer.addComponent(commentField);
 
-            PopupView followerField = popupFieldFactory.createFollowersPopupField(task);
+            AbstractComponent followerField = popupFieldFactory.createFollowersPopupField(task);
             footer.addComponent(followerField);
 
-            PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(task);
+            AbstractComponent deadlineField = popupFieldFactory.createDeadlinePopupField(task);
             footer.addComponent(deadlineField);
 
-            PopupView assigneeField = popupFieldFactory.createAssigneePopupField(task);
+            AbstractComponent assigneeField = popupFieldFactory.createAssigneePopupField(task);
             footer.addComponent(assigneeField);
 
             root.addComponent(footer);

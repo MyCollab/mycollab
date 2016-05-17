@@ -19,9 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
+import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -33,6 +31,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ComponentLi
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.VersionListSelect;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.*;
@@ -43,6 +42,8 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -89,6 +90,13 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
         } else {
             return null;
+        }
+    }
+
+    public void displaySearchFieldInfos(List<SearchFieldInfo> searchFieldInfos) {
+        if (canSwitchToAdvanceLayout) {
+            BugAdvancedSearchLayout advancedSearchLayout = (BugAdvancedSearchLayout) moveToAdvancedSearchLayout();
+            advancedSearchLayout.displaySearchFieldInfos(searchFieldInfos);
         }
     }
 
@@ -175,14 +183,17 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
 
         @Override
         protected BugSearchCriteria fillUpSearchCriteria() {
-            searchCriteria = new BugSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setSummary(StringSearchField.and(nameField.getValue().trim()));
+            List<SearchFieldInfo> searchFieldInfos = new ArrayList<>();
+            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_textDesc, StringParam.CONTAINS,
+                    ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
-                searchCriteria.setAssignuser(StringSearchField.and(AppContext.getUsername()));
-            } else {
-                searchCriteria.setAssignuser(null);
+                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_assignee, PropertyListParam.BELONG_TO,
+                        ConstantValueInjector.valueOf(Arrays.asList(AppContext.getUsername()))));
             }
+            EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
+            searchCriteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class,
+                    searchFieldInfos);
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
 

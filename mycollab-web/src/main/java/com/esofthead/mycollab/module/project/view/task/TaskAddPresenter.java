@@ -25,17 +25,17 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
-import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.ComponentContainer;
 
@@ -64,9 +64,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
 
             @Override
             public void onCancel() {
-                PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
-                        (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+                EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null));
             }
 
             @Override

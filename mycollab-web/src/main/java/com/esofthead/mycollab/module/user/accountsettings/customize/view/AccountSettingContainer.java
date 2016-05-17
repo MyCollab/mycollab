@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -49,8 +50,10 @@ public class AccountSettingContainer extends AbstractPageView {
         generalSettingPresenter = PresenterResolver.getPresenter(GeneralSettingPresenter.class);
         settingTab.addTab(this.generalSettingPresenter.getView(), "General Settings");
 
-        themeCustomizePresenter = PresenterResolver.getPresenter(IThemeCustomizePresenter.class);
-        settingTab.addTab(this.themeCustomizePresenter.getView(), "Theme");
+        if (!SiteConfiguration.isCommunityEdition()) {
+            themeCustomizePresenter = PresenterResolver.getPresenter(IThemeCustomizePresenter.class);
+            settingTab.addTab(this.themeCustomizePresenter.getView(), "Theme");
+        }
 
         settingTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;

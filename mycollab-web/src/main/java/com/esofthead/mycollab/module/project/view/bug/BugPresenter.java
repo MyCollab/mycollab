@@ -53,7 +53,7 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
             presenter = PresenterResolver.getPresenter(BugKanbanPresenter.class);
         } else if (data == null) {
             presenter = PresenterResolver.getPresenter(BugListPresenter.class);
-        } else if (data instanceof BugScreenData.Search) {
+        } else if (data instanceof BugScreenData.GotoList) {
             presenter = PresenterResolver.getPresenter(BugListPresenter.class);
         } else {
             throw new MyCollabException("Do not support screen data");

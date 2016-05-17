@@ -28,6 +28,7 @@ import org.joda.time.LocalDate;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * @author MyCollab Ltd
@@ -51,34 +52,39 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 (BugSearchCriteria.p_projectIds, new CurrentProjectIdInjector()));
 
         SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, "All Open Bugs", SearchFieldInfo.inCollection(
-                BugSearchCriteria.p_status, new VariableInjector() {
-                    @Override
-                    public Object eval() {
-                        return Arrays.asList(BugStatus.Open.name(), BugStatus.ReOpen.name());
-                    }
-                }));
+                BugSearchCriteria.p_status, ConstantValueInjector.valueOf(String.class,
+                        Arrays.asList(BugStatus.Open.name(), BugStatus.ReOpen.name()))));
 
-        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, "Overdue Bugs", new SearchFieldInfo
-                (SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE, new VariableInjector() {
-                    @Override
-                    public Object eval() {
-                        return new LocalDate().toDate();
-                    }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_tracker_bug", "status"), StringParam.IS_NOT,
-                new VariableInjector() {
-                    @Override
-                    public Object eval() {
-                        return BugStatus.Verified.name();
-                    }
-                }));
+        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, "Overdue Bugs",
+                new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE,
+                        new VariableInjector() {
+                            @Override
+                            public Object eval() {
+                                return new LocalDate().toDate();
+                            }
+
+                            @Override
+                            public Class getType() {
+                                return Date.class;
+                            }
+
+                            @Override
+                            public boolean isArray() {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean isCollection() {
+                                return false;
+                            }
+                        }),
+                new SearchFieldInfo(SearchField.AND, new StringParam("id-status",
+                        "m_tracker_bug", "status"), StringParam.IS_NOT,
+                        ConstantValueInjector.valueOf(BugStatus.Verified.name())));
 
         SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, "My Bugs", SearchFieldInfo.inCollection
-                (BugSearchCriteria.p_assignee, new VariableInjector() {
-                    @Override
-                    public Object eval() {
-                        return Collections.singletonList(AppContext.getUsername());
-                    }
-                }));
+                (BugSearchCriteria.p_assignee, ConstantValueInjector.valueOf(String.class,
+                        Collections.singletonList(AppContext.getUsername()))));
 
         SearchQueryInfo newBugsThisWeekQuery = new SearchQueryInfo(NEW_THIS_WEEK, "New This Week", SearchFieldInfo
                 .inDateRange(BugSearchCriteria.p_createddate, VariableInjector.THIS_WEEK));
@@ -93,12 +99,8 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjector.LAST_WEEK));
 
         SearchQueryInfo waitForApproveQuery = new SearchQueryInfo(WAITING_FOR_APPROVAL, "Waiting For Approval",
-                SearchFieldInfo.inCollection(BugSearchCriteria.p_status, new VariableInjector() {
-                    @Override
-                    public Object eval() {
-                        return Arrays.asList(BugStatus.Resolved.name());
-                    }
-                }));
+                SearchFieldInfo.inCollection(BugSearchCriteria.p_status, ConstantValueInjector.valueOf(String.class,
+                        Arrays.asList(BugStatus.Resolved.name()))));
 
         this.addSharedSearchQueryInfo(allBugsQuery);
         this.addSharedSearchQueryInfo(allOpenBugsQuery);

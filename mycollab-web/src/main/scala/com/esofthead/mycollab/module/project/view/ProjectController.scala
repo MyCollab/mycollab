@@ -153,7 +153,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
 
     this.register(new ApplicationEventListener[TaskEvent.GotoDashboard] {
       @Subscribe def handle(event: TaskEvent.GotoDashboard) {
-        val data = new GotoDashboard()
+        val data = new GotoDashboard(event.getData)
         val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
         presenter.go(projectView, data)
       }
@@ -234,18 +234,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
       @Subscribe def handle(event: BugEvent.GotoList) {
         val params: Any = event.getData
         val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
-        if (params == null) {
-          val criteria = new BugSearchCriteria
-          criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
-          criteria.setStatuses(new SetSearchField[String](BugStatus.Open.name, BugStatus.ReOpen.name, BugStatus.Resolved.name))
-          presenter.go(projectView, new BugScreenData.Search(criteria))
-        }
-        else if (params.isInstanceOf[BugSearchCriteria]) {
-          presenter.go(projectView, new BugScreenData.Search(params.asInstanceOf[BugSearchCriteria]))
-        }
-        else {
-          throw new MyCollabException("Invalid search parameter: " + BeanUtility.printBeanObj(params))
-        }
+        presenter.go(projectView, new BugScreenData.GotoList(event.getData))
       }
     })
     this.register(new ApplicationEventListener[BugComponentEvent.GotoAdd] {

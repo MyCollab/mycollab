@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -95,7 +96,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
         timesheetComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
 
-        addToSideBar(dateInfoComp, peopleInfoComp, timesheetComp, followerSheet);
+        if (SiteConfiguration.isCommunityEdition()) {
+            addToSideBar(dateInfoComp, peopleInfoComp, followerSheet);
+        } else {
+            addToSideBar(dateInfoComp, peopleInfoComp, timesheetComp, followerSheet);
+        }
     }
 
     @Override

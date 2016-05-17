@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -55,10 +55,6 @@ public class ProjectMemberListSelect extends ListSelect {
 
         ProjectMemberService userService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> memberList = userService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
-        loadUserList(memberList);
-    }
-
-    protected void loadUserList(List<SimpleProjectMember> memberList) {
         for (SimpleProjectMember member : memberList) {
             this.addItem(member.getUsername());
             this.setItemCaption(member.getUsername(), member.getDisplayName());

@@ -19,6 +19,10 @@ package com.esofthead.mycollab.core.db.query;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.StringUtils;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -34,30 +38,32 @@ public class SearchFieldInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String prefixOper;
+
     private Param param;
+
     private String compareOper;
+
     private VariableInjector variableInjector;
 
-    public SearchFieldInfo(String prefixOper, Param param, String compareOper, Object value) {
+    @JsonCreator
+    public SearchFieldInfo(@JsonProperty("prefixOper") String prefixOper, @JsonProperty("param") Param param,
+                           @JsonProperty("compareOper") String compareOper,
+                           @JsonProperty("variableInjector") VariableInjector value) {
         this.prefixOper = prefixOper;
         this.param = param;
         this.compareOper = compareOper;
-        if (value instanceof VariableInjector) {
-            this.variableInjector = (VariableInjector) value;
-        } else {
-            variableInjector = new ConstantValueInjector(value);
-        }
+        this.variableInjector = value;
     }
 
-    public static SearchFieldInfo inCollection(PropertyListParam param, Object value) {
+    public static SearchFieldInfo inCollection(PropertyListParam param, VariableInjector value) {
         return new SearchFieldInfo(SearchField.AND, param, PropertyListParam.BELONG_TO, value);
     }
 
-    public static SearchFieldInfo inCollection(StringListParam param, Object value) {
+    public static SearchFieldInfo inCollection(StringListParam param, VariableInjector value) {
         return new SearchFieldInfo(SearchField.AND, param, StringListParam.IN, value);
     }
 
-    public static SearchFieldInfo inDateRange(DateParam param, Object value) {
+    public static SearchFieldInfo inDateRange(DateParam param, VariableInjector value) {
         return new SearchFieldInfo(SearchField.AND, param, DateParam.BETWEEN, value);
     }
 
@@ -100,61 +106,105 @@ public class SearchFieldInfo implements Serializable {
         return variableInjector.eval();
     }
 
+    public SearchField buildSearchField() {
+        if (param instanceof StringParam) {
+            StringParam wrapParam = (StringParam) param;
+            return wrapParam.buildSearchField(prefixOper, compareOper, (String) this.eval());
+        } else if (param instanceof StringListParam) {
+            StringListParam listParam = (StringListParam) param;
+            if (this.getCompareOper().equals(StringListParam.IN)) {
+                return listParam.buildStringParamInList(prefixOper, (Collection<String>) this.eval());
+            } else {
+                return listParam.buildStringParamNotInList(prefixOper, (Collection<String>) this.eval());
+            }
+        } else if (param instanceof I18nStringListParam) {
+            I18nStringListParam wrapParam = (I18nStringListParam) param;
+
+            switch (compareOper) {
+                case StringListParam.IN:
+                    return wrapParam.buildStringParamInList(prefixOper, (Collection<String>) this.eval());
+                case StringListParam.NOT_IN:
+                    return wrapParam.buildStringParamNotInList(prefixOper, (Collection<String>) this.eval());
+                default:
+                    throw new MyCollabException("Not support yet");
+            }
+        } else if (param instanceof NumberParam) {
+            NumberParam wrapParam = (NumberParam) param;
+            String value = (String) this.eval();
+            if (StringUtils.isNotBlank(value)) {
+                try {
+                    return wrapParam.buildSearchField(prefixOper, compareOper, Double.valueOf(value));
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+            return null;
+        } else if (param instanceof PropertyListParam) {
+            PropertyListParam wrapParam = (PropertyListParam) param;
+            switch (compareOper) {
+                case PropertyListParam.BELONG_TO:
+                    return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());
+                case PropertyListParam.NOT_BELONG_TO:
+                    return wrapParam.buildPropertyParamNotInList(prefixOper, (Collection<?>) this.eval());
+                default:
+                    throw new MyCollabException("Not support yet");
+            }
+        } else if (param instanceof CustomSqlParam) {
+            CustomSqlParam wrapParam = (CustomSqlParam) param;
+            switch (compareOper) {
+                case PropertyListParam.BELONG_TO:
+                    return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());
+                case PropertyListParam.NOT_BELONG_TO:
+                    return wrapParam.buildPropertyParamNotInList(prefixOper, (Collection<?>) this.eval());
+                default:
+                    throw new MyCollabException("Not support yet");
+            }
+        } else if (param instanceof PropertyParam) {
+            PropertyParam wrapParam = (PropertyParam) param;
+            return wrapParam.buildSearchField(prefixOper, compareOper, eval());
+        } else if (param instanceof CompositionStringParam) {
+            CompositionStringParam wrapParam = (CompositionStringParam) param;
+            return wrapParam.buildSearchField(prefixOper, compareOper, (String) eval());
+        } else if (param instanceof ConcatStringParam) {
+            ConcatStringParam wrapParam = (ConcatStringParam) param;
+            return wrapParam.buildSearchField(prefixOper, compareOper, (String) eval());
+        } else if (param instanceof DateParam) {
+            DateParam wrapParam = (DateParam) param;
+            Object value = this.eval();
+            if (value.getClass().isArray()) {
+                Date val1 = (Date) Array.get(value, 0);
+                Date val2 = (Date) Array.get(value, 1);
+                return wrapParam.buildSearchField(prefixOper, compareOper, val1, val2);
+            } else {
+                return wrapParam.buildSearchField(prefixOper, compareOper, (Date) value);
+            }
+        } else {
+            throw new MyCollabException("Not support yet");
+        }
+    }
+
     public static <S extends SearchCriteria> S buildSearchCriteria(Class<S> cls, List<SearchFieldInfo> fieldInfos) {
         try {
             S obj = cls.newInstance();
             for (SearchFieldInfo info : fieldInfos) {
-                Param param = info.getParam();
-                SearchField searchField;
-                if (param instanceof StringParam) {
-                    StringParam wrapParam = (StringParam) param;
-                    searchField = wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(),
-                            (String) info.eval());
+                SearchField searchField = info.buildSearchField();
+                if (searchField != null) {
                     obj.addExtraField(searchField);
-                } else if (param instanceof NumberParam) {
-                    NumberParam wrapParam = (NumberParam) param;
-                    searchField = wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(),
-                            Double.parseDouble((String) info.eval()));
+                }
+            }
+            return obj;
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
+
+    public static <S extends SearchCriteria> S buildSearchCriteria(S searchCriteria, List<SearchFieldInfo> fieldInfos) {
+        try {
+            S obj = BeanUtility.deepClone(searchCriteria);
+            for (SearchFieldInfo info : fieldInfos) {
+                SearchField searchField = info.buildSearchField();
+                if (searchField != null) {
                     obj.addExtraField(searchField);
-                } else if (param instanceof CompositionStringParam) {
-                    CompositionStringParam wrapParam = (CompositionStringParam) param;
-                    searchField = wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(),
-                            (String) info.eval());
-                    obj.addExtraField(searchField);
-                } else if (param instanceof StringListParam) {
-                    StringListParam listParam = (StringListParam) param;
-                    if (info.getCompareOper().equals(StringListParam.IN)) {
-                        searchField = listParam.buildStringParamInList(info.getPrefixOper(), (Collection<String>) info.eval());
-                    } else {
-                        searchField = listParam.buildStringParamNotInList(info.getPrefixOper(), (Collection<String>) info.eval());
-                    }
-                    obj.addExtraField(searchField);
-                } else if (param instanceof DateParam) {
-                    DateParam dateParam = (DateParam) param;
-                    Object value = info.eval();
-                    if (value.getClass().isArray()) {
-                        Date val1 = (Date) Array.get(value, 0);
-                        Date val2 = (Date) Array.get(value, 1);
-                        searchField = dateParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(), val1, val2);
-                    } else {
-                        searchField = dateParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(), (Date) value);
-                    }
-                    obj.addExtraField(searchField);
-                } else if (param instanceof PropertyListParam) {
-                    PropertyListParam listParam = (PropertyListParam) param;
-                    switch (info.getCompareOper()) {
-                        case PropertyListParam.BELONG_TO:
-                            searchField = listParam.buildPropertyParamInList(info.getPrefixOper(), (Collection) info.eval());
-                            break;
-                        case PropertyListParam.NOT_BELONG_TO:
-                            searchField = listParam.buildPropertyParamNotInList(info.getPrefixOper(), (Collection) info.eval());
-                            break;
-                        default:
-                            throw new MyCollabException("Not support yet");
-                    }
-                    obj.addExtraField(searchField);
-                } else {
-                    throw new IllegalArgumentException("Not support field: " + param);
                 }
             }
             return obj;

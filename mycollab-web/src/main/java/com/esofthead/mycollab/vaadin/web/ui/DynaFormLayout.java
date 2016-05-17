@@ -81,6 +81,7 @@ public class DynaFormLayout implements IDynaFormLayout {
             if (StringUtils.isNotBlank(section.getHeader())) {
                 Label header = new Label(section.getHeader());
                 MCssLayout formSection = new MCssLayout(header).withStyleName(UIConstants.FORM_SECTION).withFullWidth();
+                formSection.addStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
                 layout.addComponent(formSection);
             }
 

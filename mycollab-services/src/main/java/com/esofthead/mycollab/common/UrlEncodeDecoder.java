@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.common;
 
 import com.esofthead.mycollab.core.MyCollabException;
@@ -56,7 +55,7 @@ public class UrlEncodeDecoder {
      * @param str
      * @return
      */
-    static String decode(String str) {
+    public static String decode(String str) {
         try {
             String decodeStr = URLDecoder.decode(str, "UTF8");
             decodeStr = new String(Base64.decodeBase64(decodeStr.getBytes("UTF-8")), "UTF-8");

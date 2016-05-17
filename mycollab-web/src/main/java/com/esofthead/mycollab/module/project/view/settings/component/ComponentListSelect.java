@@ -17,16 +17,16 @@
 package com.esofthead.mycollab.module.project.view.settings.component;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.vaadin.ui.ListSelect;
+import com.esofthead.mycollab.vaadin.web.ui.IntegerKeyListSelect;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class ComponentListSelect extends ListSelect {
+public class ComponentListSelect extends IntegerKeyListSelect {
     private static final long serialVersionUID = 1L;
 
     public ComponentListSelect() {
@@ -46,8 +46,8 @@ public class ComponentListSelect extends ListSelect {
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-        List<Component> components = componentService
-                .findPagableListByCriteria(new BasicSearchRequest<ComponentSearchCriteria>(searchCriteria, 0, Integer.MAX_VALUE));
+        List<Component> components = componentService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria,
+                0, Integer.MAX_VALUE));
         for (Component component : components) {
             this.addItem(component.getId());
             this.setItemCaption(component.getId(), component.getComponentname());

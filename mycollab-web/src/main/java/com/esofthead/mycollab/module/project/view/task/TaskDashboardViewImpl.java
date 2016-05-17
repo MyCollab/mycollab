@@ -16,16 +16,20 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
+import com.esofthead.mycollab.common.json.QueryAnalyzer;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.db.query.VariableInjector;
+import com.esofthead.mycollab.core.db.query.LazyValueInjector;
+import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -60,6 +64,8 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -75,6 +81,8 @@ import java.util.List;
 @ViewComponent
 public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashboardView {
     private static final long serialVersionUID = 1L;
+
+    private static final Logger LOG = LoggerFactory.getLogger(TaskDashboardViewImpl.class);
 
     static final String DESCENDING = "Descending";
     static final String ASCENDING = "Ascending";
@@ -247,9 +255,10 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         super.detach();
     }
 
-    public void displayView() {
+    public void displayView(String query) {
         baseCriteria = new TaskSearchCriteria();
         baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+
         OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
         List<OptionVal> options = optionValService.findOptionValsExcludeClosed(ProjectTypeConstants.TASK,
                 CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
@@ -258,10 +267,24 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         for (OptionVal option : options) {
             statuses.addValue(option.getTypeval());
         }
-        baseCriteria.setStatuses(statuses);
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
+        statisticSearchCriteria.setStatuses(statuses);
 
-        taskSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
+        if (StringUtils.isNotBlank(query)) {
+            try {
+                String jsonQuery = UrlEncodeDecoder.decode(query);
+                List<SearchFieldInfo> searchFieldInfos = QueryAnalyzer.toSearchFieldInfos(jsonQuery, ProjectTypeConstants.TASK);
+                taskSearchPanel.displaySearchFieldInfos(searchFieldInfos);
+                TaskSearchCriteria searchCriteria = SearchFieldInfo.buildSearchCriteria(baseCriteria, searchFieldInfos);
+                searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                queryTask(searchCriteria);
+            } catch (Exception e) {
+                LOG.error("Error", e);
+                taskSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
+            }
+        } else {
+            taskSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
+        }
     }
 
     @Override
@@ -355,9 +378,9 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     }
 
     private StreamResource buildStreamSource(ReportExportType exportType) {
-        return StreamResourceUtils.buildTaskStreamResource(exportType, new VariableInjector<TaskSearchCriteria>() {
+        return StreamResourceUtils.buildTaskStreamResource(exportType, new LazyValueInjector() {
             @Override
-            public TaskSearchCriteria eval() {
+            protected Object doEval() {
                 return baseCriteria;
             }
         });

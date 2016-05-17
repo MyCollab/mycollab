@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -208,7 +209,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         peopleInfoComp = new PeopleInfoComp();
         bugFollowersList = new ProjectFollowersComp<>(ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
         bugTimeLogList = ViewManager.getCacheComponent(BugTimeLogSheet.class);
-        addToSideBar(dateInfoComp, peopleInfoComp, bugTimeLogList, bugFollowersList);
+        if (SiteConfiguration.isCommunityEdition()) {
+            addToSideBar(dateInfoComp, peopleInfoComp, bugFollowersList);
+        } else {
+            addToSideBar(dateInfoComp, peopleInfoComp, bugTimeLogList, bugFollowersList);
+        }
     }
 
     @Override

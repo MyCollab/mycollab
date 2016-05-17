@@ -68,7 +68,7 @@ object ProjectPresenterDataMapper {
     classOf[BugScreenData.Read] -> classOf[BugPresenter],
     classOf[BugScreenData.Add] -> classOf[BugPresenter],
     classOf[BugScreenData.Edit] -> classOf[BugPresenter],
-    classOf[BugScreenData.Search] -> classOf[BugPresenter],
+    classOf[BugScreenData.GotoList] -> classOf[BugPresenter],
     classOf[BugScreenData.GotoKanbanView] -> classOf[BugPresenter])
 
   val standupMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](

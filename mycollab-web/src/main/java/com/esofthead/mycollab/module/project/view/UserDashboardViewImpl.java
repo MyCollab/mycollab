@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericItem;
@@ -71,7 +72,10 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         tabSheet.addTab(buildDashboardComp(), AppContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), FontAwesome.DASHBOARD);
         tabSheet.addTab(buildProjectListComp(), AppContext.getMessage(ProjectI18nEnum.LIST), FontAwesome.BUILDING_O);
         tabSheet.addTab(buildFollowingTicketComp(), "Following Items", FontAwesome.EYE);
-        tabSheet.addTab(buildCalendarComp(), "Calendar", FontAwesome.CALENDAR);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            tabSheet.addTab(buildCalendarComp(), "Calendar", FontAwesome.CALENDAR);
+        }
+
 //        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);
 
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.common.service;
 
-import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
+import com.esofthead.mycollab.common.domain.SaveSearchResult;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 
@@ -24,5 +24,5 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface SaveSearchResultService extends IDefaultService<Integer, SaveSearchResultWithBLOBs, SaveSearchResultCriteria> {
+public interface SaveSearchResultService extends IDefaultService<Integer, SaveSearchResult, SaveSearchResultCriteria> {
 }

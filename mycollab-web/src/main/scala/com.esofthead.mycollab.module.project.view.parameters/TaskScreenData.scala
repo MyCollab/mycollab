@@ -31,7 +31,7 @@ object TaskScreenData {
 
   class Add(param: Task) extends ScreenData[Task](param) {}
 
-  class GotoDashboard extends ScreenData {}
+  class GotoDashboard(query: Any) extends ScreenData[Any](query) {}
 
   class GotoKanbanView extends ScreenData {}
 

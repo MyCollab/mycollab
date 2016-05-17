@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -66,44 +67,46 @@ public class TaskRowRenderer extends MVerticalLayout {
                 true, false, false));
 
         TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
-        PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
-        PopupView assigneeField = popupFieldFactory.createAssigneePopupField(task);
+        AbstractComponent priorityField = popupFieldFactory.createPriorityPopupField(task);
+        AbstractComponent assigneeField = popupFieldFactory.createAssigneePopupField(task);
         headerLayout.with(taskSettingPopupBtn, priorityField, assigneeField, toogleTaskField).expand(toogleTaskField);
 
         CssLayout footer = new CssLayout();
 
-        PopupView commentField = popupFieldFactory.createCommentsPopupField(task);
+        AbstractComponent commentField = popupFieldFactory.createCommentsPopupField(task);
         footer.addComponent(commentField);
 
-        PopupView followerView = popupFieldFactory.createFollowersPopupField(task);
+        AbstractComponent followerView = popupFieldFactory.createFollowersPopupField(task);
         footer.addComponent(followerView);
 
-        PopupView statusField = popupFieldFactory.createStatusPopupField(task);
+        AbstractComponent statusField = popupFieldFactory.createStatusPopupField(task);
         footer.addComponent(statusField);
 
-        PopupView milestoneField = popupFieldFactory.createMilestonePopupField(task);
+        AbstractComponent milestoneField = popupFieldFactory.createMilestonePopupField(task);
         footer.addComponent(milestoneField);
 
-        PopupView percentageField = popupFieldFactory.createPercentagePopupField(task);
+        AbstractComponent percentageField = popupFieldFactory.createPercentagePopupField(task);
         footer.addComponent(percentageField);
 
         String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 AppContext.formatDate(task.getDeadline()));
-        PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(task);
+        AbstractComponent deadlineField = popupFieldFactory.createDeadlinePopupField(task);
         deadlineField.setDescription(deadlineTooltip);
         footer.addComponent(deadlineField);
 
-        PopupView startDateField = popupFieldFactory.createStartDatePopupField(task);
+        AbstractComponent startDateField = popupFieldFactory.createStartDatePopupField(task);
         footer.addComponent(startDateField);
 
-        PopupView endDateField = popupFieldFactory.createEndDatePopupField(task);
+        AbstractComponent endDateField = popupFieldFactory.createEndDatePopupField(task);
         footer.addComponent(endDateField);
 
-        PopupView billableHoursField = popupFieldFactory.createBillableHoursPopupField(task);
-        footer.addComponent(billableHoursField);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            AbstractComponent billableHoursField = popupFieldFactory.createBillableHoursPopupField(task);
+            footer.addComponent(billableHoursField);
 
-        PopupView nonBillableHours = popupFieldFactory.createNonBillableHoursPopupField(task);
-        footer.addComponent(nonBillableHours);
+            AbstractComponent nonBillableHours = popupFieldFactory.createNonBillableHoursPopupField(task);
+            footer.addComponent(nonBillableHours);
+        }
 
         this.with(headerLayout, footer);
     }

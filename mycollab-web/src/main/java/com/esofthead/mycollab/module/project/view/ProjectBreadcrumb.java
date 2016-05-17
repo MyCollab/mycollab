@@ -319,11 +319,11 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         }
     }
 
-    public void gotoTaskDashboard() {
+    public void gotoTaskDashboard(String query) {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(TaskI18nEnum.LIST)));
-        AppContext.addFragment(ProjectLinkGenerator.generateTaskDashboardLink(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_DASHBOARD));
+        String fragment = (StringUtils.isNotBlank(query)) ? ProjectLinkGenerator.generateTaskDashboardLink(project.getId()) + "?" + query : ProjectLinkGenerator.generateTaskDashboardLink(project.getId());
+        AppContext.addFragment(fragment, AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_DASHBOARD));
     }
 
     public void gotoTaskAdd() {
@@ -404,11 +404,12 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         AppContext.addFragment("project/bug/kanban/" + UrlEncodeDecoder.encode(project.getId()), "Kanban View");
     }
 
-    public void gotoBugList() {
+    public void gotoBugList(String query) {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(BugI18nEnum.LIST)));
-        AppContext.addFragment("project/bug/list/" + UrlEncodeDecoder.encode(project.getId()),
-                AppContext.getMessage(BugI18nEnum.LIST));
+        String fragment = (StringUtils.isNotBlank(query)) ? ProjectLinkGenerator.generateBugsLink(project.getId()) + "?" +
+                query : ProjectLinkGenerator.generateBugsLink(project.getId());
+        AppContext.addFragment(fragment, AppContext.getMessage(BugI18nEnum.LIST));
     }
 
     public void gotoBugAdd() {

@@ -44,8 +44,10 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
 
   private class DashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoDashboard)
+      val tokenizer = new UrlTokenizer(params(0))
+      val projectId = tokenizer.getInt
+      val query = tokenizer.getQuery
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoDashboard(query))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }

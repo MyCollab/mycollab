@@ -18,10 +18,7 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.*;
-import com.esofthead.mycollab.core.db.query.CacheParamMapper;
-import com.esofthead.mycollab.core.db.query.DateParam;
-import com.esofthead.mycollab.core.db.query.NumberParam;
-import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 
@@ -31,6 +28,9 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
  */
 public class TaskSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
+
+    public static final StringParam p_taskname = CacheParamMapper.register(ProjectTypeConstants.TASK,
+            GenericI18Enum.FORM_NAME, new StringParam("taskname", "m_prj_task", "taskname"));
 
     public static final PropertyListParam<String> p_assignee = CacheParamMapper.register(ProjectTypeConstants.TASK,
             GenericI18Enum.FORM_ASSIGNEE, new PropertyListParam<String>("assignuser", "m_prj_task", "assignUser"));

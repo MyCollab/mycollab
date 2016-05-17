@@ -445,17 +445,19 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         supportOpener.extend(supportBtn);
         accountPopupContent.addOption(supportBtn);
 
-        Button myAccountBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        if (!SiteConfiguration.isCommunityEdition()) {
+            Button myAccountBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
-            }
-        });
-        myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
-        accountPopupContent.addOption(myAccountBtn);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    accountMenu.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+                }
+            });
+            myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
+            accountPopupContent.addOption(myAccountBtn);
+        }
 
         accountPopupContent.addSeparator();
         Button aboutBtn = new Button("About MyCollab", new ClickListener() {

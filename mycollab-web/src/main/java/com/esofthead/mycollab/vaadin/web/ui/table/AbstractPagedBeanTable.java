@@ -19,10 +19,10 @@ package com.esofthead.mycollab.vaadin.web.ui.table;
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.domain.NullCustomViewStore;
+import com.esofthead.mycollab.common.json.FieldDefAnalyzer;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
-import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PageableHandler;
@@ -99,11 +99,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
                     AppContext.getUsername(), viewId);
             if (!(viewLayoutDef instanceof NullCustomViewStore)) {
                 try {
-                    List<TableViewField> selectedColumns = (List<TableViewField>) XStreamJsonDeSerializer
-                            .fromJson(viewLayoutDef.getViewinfo());
-                    // @HACK: the problem in deserialize json cause the list of
-                    // list
-                    this.displayColumns = (List<TableViewField>) selectedColumns.get(0);
+                    this.displayColumns = FieldDefAnalyzer.toTableFields(viewLayoutDef.getViewinfo());
                 } catch (Exception e) {
                     LOG.error("Error", e);
                     this.displayColumns = displayColumns;

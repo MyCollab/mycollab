@@ -18,20 +18,20 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
-import com.vaadin.ui.PopupView;
+import com.vaadin.ui.AbstractComponent;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.0
  */
 public interface MilestonePopupFieldFactory extends CacheableComponent {
-    PopupView createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName);
+    AbstractComponent createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName);
 
-    PopupView createStartDatePopupField(SimpleMilestone milestone);
+    AbstractComponent createStartDatePopupField(SimpleMilestone milestone);
 
-    PopupView createEndDatePopupField(SimpleMilestone milestone);
+    AbstractComponent createEndDatePopupField(SimpleMilestone milestone);
 
-    PopupView createBillableHoursPopupField(SimpleMilestone milestone);
+    AbstractComponent createBillableHoursPopupField(SimpleMilestone milestone);
 
-    PopupView createNonBillableHoursPopupField(SimpleMilestone milestone);
+    AbstractComponent createNonBillableHoursPopupField(SimpleMilestone milestone);
 }

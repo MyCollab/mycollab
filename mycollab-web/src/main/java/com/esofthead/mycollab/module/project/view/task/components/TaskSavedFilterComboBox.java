@@ -67,29 +67,34 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                         }
                         return statuses;
                     }
+
+                    @Override
+                    public Class getType() {
+                        return String.class;
+                    }
+
+                    @Override
+                    public boolean isArray() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isCollection() {
+                        return true;
+                    }
                 }));
 
         SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_TASKS, "Overdue Tasks", new SearchFieldInfo
-                (SearchField.AND, TaskSearchCriteria.p_duedate, DateParam.BEFORE, new VariableInjector() {
+                (SearchField.AND, TaskSearchCriteria.p_duedate, DateParam.BEFORE, new LazyValueInjector() {
                     @Override
-                    public Object eval() {
+                    protected Object doEval() {
                         return new LocalDate().toDate();
                     }
                 }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), StringParam.IS_NOT,
-                new VariableInjector() {
-                    @Override
-                    public Object eval() {
-                        return OptionI18nEnum.StatusI18nEnum.Closed.name();
-                    }
-                }));
+                ConstantValueInjector.valueOf(OptionI18nEnum.StatusI18nEnum.Closed.name())));
 
         SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, "My Tasks", SearchFieldInfo.inCollection
-                (TaskSearchCriteria.p_assignee, new VariableInjector() {
-                    @Override
-                    public Object eval() {
-                        return Collections.singletonList(AppContext.getUsername());
-                    }
-                }));
+                (TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Collections.singletonList(AppContext.getUsername()))));
 
         SearchQueryInfo newTasksThisWeekQuery = new SearchQueryInfo(NEW_TASKS_THIS_WEEK, "New This Week",
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_createtime, VariableInjector.THIS_WEEK));

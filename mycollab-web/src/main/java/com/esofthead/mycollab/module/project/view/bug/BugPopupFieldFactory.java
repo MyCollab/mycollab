@@ -18,32 +18,32 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
-import com.vaadin.ui.PopupView;
+import com.vaadin.ui.AbstractComponent;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.3
  */
 public interface BugPopupFieldFactory extends CacheableComponent {
-    PopupView createPriorityPopupField(SimpleBug bug);
+    AbstractComponent createPriorityPopupField(SimpleBug bug);
 
-    PopupView createAssigneePopupField(SimpleBug bug);
+    AbstractComponent createAssigneePopupField(SimpleBug bug);
 
-    PopupView createCommentsPopupField(SimpleBug bug);
+    AbstractComponent createCommentsPopupField(SimpleBug bug);
 
-    PopupView createStatusPopupField(SimpleBug bug);
+    AbstractComponent createStatusPopupField(SimpleBug bug);
 
-    PopupView createMilestonePopupField(SimpleBug bug);
+    AbstractComponent createMilestonePopupField(SimpleBug bug);
 
-    PopupView createDeadlinePopupField(SimpleBug bug);
+    AbstractComponent createDeadlinePopupField(SimpleBug bug);
 
-    PopupView createStartDatePopupField(SimpleBug bug);
+    AbstractComponent createStartDatePopupField(SimpleBug bug);
 
-    PopupView createEndDatePopupField(SimpleBug bug);
+    AbstractComponent createEndDatePopupField(SimpleBug bug);
 
-    PopupView createBillableHoursPopupField(SimpleBug bug);
+    AbstractComponent createBillableHoursPopupField(SimpleBug bug);
 
-    PopupView createNonbillableHoursPopupField(SimpleBug bug);
+    AbstractComponent createNonbillableHoursPopupField(SimpleBug bug);
 
-    PopupView createFollowersPopupField(SimpleBug bug);
+    AbstractComponent createFollowersPopupField(SimpleBug bug);
 }

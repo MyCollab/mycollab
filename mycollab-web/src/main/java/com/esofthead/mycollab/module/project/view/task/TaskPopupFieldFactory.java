@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
-import com.vaadin.ui.PopupView;
+import com.vaadin.ui.AbstractComponent;
 
 /**
  * @author MyCollab Ltd
@@ -26,27 +26,27 @@ import com.vaadin.ui.PopupView;
  */
 public interface TaskPopupFieldFactory extends CacheableComponent {
 
-    PopupView createAssigneePopupField(SimpleTask task);
+    AbstractComponent createAssigneePopupField(SimpleTask task);
 
-    PopupView createPriorityPopupField(SimpleTask task);
+    AbstractComponent createPriorityPopupField(SimpleTask task);
 
-    PopupView createCommentsPopupField(SimpleTask task);
+    AbstractComponent createCommentsPopupField(SimpleTask task);
 
-    PopupView createStatusPopupField(SimpleTask task);
+    AbstractComponent createStatusPopupField(SimpleTask task);
 
-    PopupView createMilestonePopupField(SimpleTask task);
+    AbstractComponent createMilestonePopupField(SimpleTask task);
 
-    PopupView createPercentagePopupField(SimpleTask task);
+    AbstractComponent createPercentagePopupField(SimpleTask task);
 
-    PopupView createDeadlinePopupField(SimpleTask task);
+    AbstractComponent createDeadlinePopupField(SimpleTask task);
 
-    PopupView createStartDatePopupField(SimpleTask task);
+    AbstractComponent createStartDatePopupField(SimpleTask task);
 
-    PopupView createEndDatePopupField(SimpleTask task);
+    AbstractComponent createEndDatePopupField(SimpleTask task);
 
-    PopupView createBillableHoursPopupField(SimpleTask task);
+    AbstractComponent createBillableHoursPopupField(SimpleTask task);
 
-    PopupView createNonBillableHoursPopupField(SimpleTask task);
+    AbstractComponent createNonBillableHoursPopupField(SimpleTask task);
 
-    PopupView createFollowersPopupField(SimpleTask task);
+    AbstractComponent createFollowersPopupField(SimpleTask task);
 }

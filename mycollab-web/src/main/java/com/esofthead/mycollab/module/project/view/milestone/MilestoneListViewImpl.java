@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -391,8 +392,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             metaBlock.addComponent(popupFieldFactory.createMilestoneAssigneePopupField(milestone, false));
             metaBlock.addComponent(popupFieldFactory.createStartDatePopupField(milestone));
             metaBlock.addComponent(popupFieldFactory.createEndDatePopupField(milestone));
-            metaBlock.addComponent(popupFieldFactory.createBillableHoursPopupField(milestone));
-            metaBlock.addComponent(popupFieldFactory.createNonBillableHoursPopupField(milestone));
+            if (!SiteConfiguration.isCommunityEdition()) {
+                metaBlock.addComponent(popupFieldFactory.createBillableHoursPopupField(milestone));
+                metaBlock.addComponent(popupFieldFactory.createNonBillableHoursPopupField(milestone));
+            }
+
             this.addComponent(metaBlock);
         }
     }

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -144,7 +145,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             footer.addComponents(activeMembersLbl);
         }
 
-        if (project.getAccountid() != null) {
+        if (project.getAccountid() != null && !SiteConfiguration.isCommunityEdition()) {
             Div clientDiv = new Div();
             if (project.getClientAvatarId() == null) {
                 clientDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
@@ -158,54 +159,56 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             footer.addComponents(accountBtn);
         }
 
-        Button tagBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null));
-            }
-        });
-        tagBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        tagBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        tagBtn.setDescription("Tag management");
-        tagBtn.setIcon(FontAwesome.TAGS);
-        footer.addComponents(tagBtn);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            Button tagBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null));
+                }
+            });
+            tagBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+            tagBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            tagBtn.setDescription("Tag management");
+            tagBtn.setIcon(FontAwesome.TAGS);
+            footer.addComponents(tagBtn);
 
-        Button favoriteBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoFavoriteView(this, null));
-            }
-        });
-        favoriteBtn.setCaptionAsHtml(true);
-        favoriteBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        favoriteBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        favoriteBtn.setIcon(FontAwesome.STAR);
-        favoriteBtn.setDescription("Your favorite list");
-        footer.addComponents(favoriteBtn);
+            Button favoriteBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoFavoriteView(this, null));
+                }
+            });
+            favoriteBtn.setCaptionAsHtml(true);
+            favoriteBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+            favoriteBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            favoriteBtn.setIcon(FontAwesome.STAR);
+            favoriteBtn.setDescription("Your favorite list");
+            footer.addComponents(favoriteBtn);
 
-        Button eventBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoCalendarView(this));
-            }
-        });
-        eventBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        eventBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        eventBtn.setIcon(FontAwesome.CALENDAR);
-        eventBtn.setDescription("Calendar");
-        footer.addComponents(eventBtn);
+            Button eventBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoCalendarView(this));
+                }
+            });
+            eventBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+            eventBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            eventBtn.setIcon(FontAwesome.CALENDAR);
+            eventBtn.setDescription("Calendar");
+            footer.addComponents(eventBtn);
 
-        Button ganttChartBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoGanttChart(this, null));
-            }
-        });
-        ganttChartBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        ganttChartBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        ganttChartBtn.setIcon(FontAwesome.BAR_CHART_O);
-        ganttChartBtn.setDescription("Gantt chart");
-        footer.addComponents(ganttChartBtn);
+            Button ganttChartBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoGanttChart(this, null));
+                }
+            });
+            ganttChartBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+            ganttChartBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            ganttChartBtn.setIcon(FontAwesome.BAR_CHART_O);
+            ganttChartBtn.setDescription("Gantt chart");
+            footer.addComponents(ganttChartBtn);
+        }
 
         headerLayout.with(headerLbl, footer);
 

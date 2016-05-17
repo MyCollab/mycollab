@@ -108,7 +108,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         });
 
         MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName(UIConstants.FORM_SECTION).withWidth("100%")
+                .withStyleName(UIConstants.FORM_SECTION, UIConstants.HOVER_EFFECT_NOT_BOX).withWidth("100%")
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new CrmCommentInput(this, type);

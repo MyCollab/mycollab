@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -78,22 +79,26 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                     serviceMenu.selectService(0);
                 }
             });
+            serviceMenu.selectService(0);
 
-            serviceMenu.addService(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CLIENTS), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ClientEvent.GotoList(this, null));
-                    serviceMenu.selectService(1);
-                }
-            });
+            if (!SiteConfiguration.isCommunityEdition()) {
+                serviceMenu.addService(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CLIENTS), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        EventBusFactory.getInstance().post(new ClientEvent.GotoList(this, null));
+                        serviceMenu.selectService(1);
+                    }
+                });
 
-            serviceMenu.addService(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ReportEvent.GotoConsole(this));
-                    serviceMenu.selectService(2);
-                }
-            });
+                serviceMenu.addService(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        EventBusFactory.getInstance().post(new ReportEvent.GotoConsole(this));
+                        serviceMenu.selectService(2);
+                    }
+                });
+            }
+
             serviceMenuContainer.with(serviceMenu);
 
             Button newPrjBtn = new Button(AppContext.getMessage(ProjectI18nEnum.NEW), new Button.ClickListener

@@ -16,41 +16,60 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.common.dao.SaveSearchResultMapper;
 import com.esofthead.mycollab.common.dao.SaveSearchResultMapperExt;
-import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
+import com.esofthead.mycollab.common.domain.SaveSearchResult;
+import com.esofthead.mycollab.common.domain.SaveSearchResultExample;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
-public class SaveSearchResultServiceImpl extends
-		DefaultService<Integer, SaveSearchResultWithBLOBs, SaveSearchResultCriteria> implements SaveSearchResultService {
+public class SaveSearchResultServiceImpl extends DefaultService<Integer, SaveSearchResult, SaveSearchResultCriteria>
+        implements SaveSearchResultService {
 
-	@Autowired
-	private SaveSearchResultMapper saveSearchResultMapper;
+    @Autowired
+    private SaveSearchResultMapper saveSearchResultMapper;
 
-	@Autowired
-	private SaveSearchResultMapperExt saveSearchResultMapperExt;
+    @Autowired
+    private SaveSearchResultMapperExt saveSearchResultMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, SaveSearchResultWithBLOBs> getCrudMapper() {
-		return saveSearchResultMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, SaveSearchResult> getCrudMapper() {
+        return saveSearchResultMapper;
+    }
 
-	@Override
-	public ISearchableDAO<SaveSearchResultCriteria> getSearchMapper() {
-		return saveSearchResultMapperExt;
-	}
+    @Override
+    public ISearchableDAO<SaveSearchResultCriteria> getSearchMapper() {
+        return saveSearchResultMapperExt;
+    }
+
+    @Override
+    public Integer saveWithSession(SaveSearchResult record, String username) {
+        checkDuplicateEntryName(record);
+        return super.saveWithSession(record, username);
+    }
+
+    @Override
+    public Integer updateWithSession(SaveSearchResult record, String username) {
+        return super.updateWithSession(record, username);
+    }
+
+    private void checkDuplicateEntryName(SaveSearchResult record) {
+        SaveSearchResultExample ex = new SaveSearchResultExample();
+        ex.createCriteria().andSaccountidEqualTo(record.getSaccountid()).andTypeEqualTo(record.getType())
+                .andQuerynameEqualTo(record.getQueryname());
+        if (saveSearchResultMapper.countByExample(ex) > 0) {
+            throw new UserInvalidInputException("There is the query name existed");
+        }
+    }
 }

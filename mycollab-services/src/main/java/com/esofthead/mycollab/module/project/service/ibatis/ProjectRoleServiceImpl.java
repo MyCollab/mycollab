@@ -68,8 +68,7 @@ public class ProjectRoleServiceImpl extends DefaultService<Integer, ProjectRole,
     }
 
     @Override
-    public void savePermission(Integer projectId, Integer roleId,
-                               PermissionMap permissionMap, Integer sAccountId) {
+    public void savePermission(Integer projectId, Integer roleId, PermissionMap permissionMap, Integer sAccountId) {
         String perVal = JsonDeSerializer.toJson(permissionMap);
 
         ProjectRolePermissionExample ex = new ProjectRolePermissionExample();

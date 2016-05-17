@@ -61,10 +61,11 @@ public class BugListPresenter extends ProjectGenericListPresenter<BugListView, B
             BugContainer trackerContainer = (BugContainer) container;
             trackerContainer.removeAllComponents();
             trackerContainer.addComponent(view);
-            view.displayView();
+            String query = (data != null && data.getParams() instanceof String) ? (String) data.getParams() : "";
+            view.displayView(query);
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-            breadcrumb.gotoBugList();
+            breadcrumb.gotoBugList(query);
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

@@ -55,12 +55,13 @@ public class TaskDashboardPresenter extends ProjectGenericListPresenter<TaskDash
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-            breadCrumb.gotoTaskDashboard();
-
             container.removeAllComponents();
             container.addComponent(view);
-            view.displayView();
+            String query = (data != null && data.getParams() instanceof String) ? (String) data.getParams() : "";
+            view.displayView(query);
+
+            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadCrumb.gotoTaskDashboard(query);
         } else {
             throw new SecureAccessException();
         }

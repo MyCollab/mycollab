@@ -32,7 +32,7 @@ public interface BugListView extends IListView<BugSearchCriteria, SimpleBug> {
     String PLAIN_LIST = "Plain";
     String GROUP_USER = "User";
 
-    void displayView();
+    void displayView(String query);
 
     void queryBug(BugSearchCriteria searchCriteria);
 }

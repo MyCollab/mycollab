@@ -82,13 +82,15 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
         }
     }
 
-    protected void moveToBasicSearchLayout() {
+    protected SearchLayout<S> moveToBasicSearchLayout() {
         SearchLayout<S> layout = createBasicSearchLayout();
         setCompositionRoot(layout);
+        return layout;
     }
 
-    protected void moveToAdvancedSearchLayout() {
+    protected SearchLayout<S> moveToAdvancedSearchLayout() {
         SearchLayout<S> layout = createAdvancedSearchLayout();
         setCompositionRoot(layout);
+        return layout;
     }
 }

@@ -26,11 +26,12 @@ import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.community.vaadin.web.ui.field.PopupFieldBuilder;
+import com.esofthead.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.PopupView;
 import org.vaadin.teemu.VaadinIcons;
 
@@ -42,111 +43,110 @@ import org.vaadin.teemu.VaadinIcons;
 public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
 
     @Override
-    public PopupView createPriorityPopupField(SimpleBug bug) {
-        return new PopupFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(bug.getPriority()))
+    public AbstractComponent createPriorityPopupField(SimpleBug bug) {
+        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(bug.getPriority()))
                 .withDescription("Priority").build();
     }
 
     @Override
-    public PopupView createAssigneePopupField(SimpleBug bug) {
+    public AbstractComponent createAssigneePopupField(SimpleBug bug) {
         String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
-        return new PopupFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
+        return new MetaFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
                 .FORM_ASSIGNEE)).build();
     }
 
     @Override
-    public PopupView createCommentsPopupField(SimpleBug bug) {
+    public AbstractComponent createCommentsPopupField(SimpleBug bug) {
         if (bug.getNumComments() != null) {
-            return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, "" + bug.getNumComments())
+            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, "" + bug.getNumComments())
                     .withDescription("Comments").build();
         } else {
-            return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, " 0").withDescription
+            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, " 0").withDescription
                     ("Comments").build();
         }
     }
 
     @Override
-    public PopupView createMilestonePopupField(SimpleBug bug) {
+    public AbstractComponent createMilestonePopupField(SimpleBug bug) {
         if (bug.getMilestoneid() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+            divHint.appendChild(new Span().appendText(" Milestone is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (BugI18nEnum.FORM_PHASE)).build();
         } else {
-            return new PopupFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), bug
-                    .getMilestoneName()).withDescription(AppContext.getMessage
-                    (BugI18nEnum.FORM_PHASE)).build();
+            return new MetaFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE),
+                    bug.getMilestoneName()).withDescription(AppContext.getMessage(BugI18nEnum.FORM_PHASE)).build();
         }
     }
 
     @Override
-    public PopupView createStatusPopupField(SimpleBug bug) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, AppContext.getMessage(OptionI18nEnum.BugStatus
+    public AbstractComponent createStatusPopupField(SimpleBug bug) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, AppContext.getMessage(OptionI18nEnum.BugStatus
                 .class, bug.getStatus())).withDescription(AppContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 
     @Override
-    public PopupView createDeadlinePopupField(SimpleBug bug) {
+    public AbstractComponent createDeadlinePopupField(SimpleBug bug) {
         if (bug.getDueDateRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+            divHint.appendChild(new Span().appendText(" Deadline is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_DUE_DATE)).build();
         } else {
-            return new PopupFieldBuilder().withCaption(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
                     AppContext.formatPrettyTime(bug.getDueDateRoundPlusOne()))).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_DUE_DATE)).build();
         }
     }
 
     @Override
-    public PopupView createStartDatePopupField(SimpleBug bug) {
+    public AbstractComponent createStartDatePopupField(SimpleBug bug) {
         if (bug.getStartdate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+            divHint.appendChild(new Span().appendText(" Start date is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_START_DATE)).build();
         } else {
-            return new PopupFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_FORWARD.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_FORWARD.getHtml(),
                     AppContext.formatPrettyTime(bug.getStartdate()))).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_START_DATE)).build();
         }
     }
 
     @Override
-    public PopupView createEndDatePopupField(SimpleBug bug) {
+    public AbstractComponent createEndDatePopupField(SimpleBug bug) {
         if (bug.getEnddate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+            divHint.appendChild(new Span().appendText(" End date is not set").setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_END_DATE)).build();
         } else {
-            return new PopupFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
                     AppContext.formatPrettyTime(bug.getEnddate()))).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_END_DATE)).build();
         }
     }
 
     @Override
-    public PopupView createBillableHoursPopupField(SimpleBug bug) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + bug.getBillableHours())
+    public AbstractComponent createBillableHoursPopupField(SimpleBug bug) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + bug.getBillableHours())
                 .withDescription("Billable hours").build();
     }
 
     @Override
-    public PopupView createNonbillableHoursPopupField(SimpleBug bug) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
+    public AbstractComponent createNonbillableHoursPopupField(SimpleBug bug) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
                 .withDescription("Non billable hours").build();
     }
 
     @Override
-    public PopupView createFollowersPopupField(SimpleBug bug) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + bug.getNumFollowers())
+    public AbstractComponent createFollowersPopupField(SimpleBug bug) {
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + bug.getNumFollowers())
                 .withDescription("Followers").build();
     }
 }
