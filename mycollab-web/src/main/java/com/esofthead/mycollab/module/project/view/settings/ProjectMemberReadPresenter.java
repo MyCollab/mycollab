@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -100,7 +101,7 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+                criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
 
                 Integer nextId = projectMemberService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -117,7 +118,7 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
                 ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
-                criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+                criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
 
                 Integer nextId = projectMemberService.getPreviousItemKey(criteria);
                 if (nextId != null) {

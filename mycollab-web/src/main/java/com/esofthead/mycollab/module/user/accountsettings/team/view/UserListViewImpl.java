@@ -17,18 +17,18 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.UserTableFieldDef;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
+import com.esofthead.mycollab.module.user.esb.SendUserInvitationEvent;
 import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.reporting.ReportExportType;
@@ -42,11 +42,12 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.SearchTextField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.google.common.eventbus.AsyncEventBus;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
@@ -163,8 +164,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         if (sortAsc) {
             searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("displayName", SearchCriteria.ASC)));
         } else {
-            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("displayName",
-                    SearchCriteria.DESC)));
+            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("displayName", SearchCriteria.DESC)));
         }
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
@@ -181,6 +181,9 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         VerticalLayout blockContent = new VerticalLayout();
         blockContent.setWidth("350px");
         blockContent.setStyleName("member-block");
+        if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
+            blockContent.addStyleName("inactive");
+        }
         MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
         memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
@@ -189,7 +192,24 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout();
+        buttonControls.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
         buttonControls.setVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
+
+        if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
+            Button resendBtn = new Button("Resend the invitation", new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), null,
+                            member.getInviteUser(), AppContext.getSubDomain(), AppContext.getAccountId());
+                    AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
+                    asyncEventBus.post(invitationEvent);
+                    NotificationUtil.showNotification("Success!", "The invitation is sent to " + member
+                            .getDisplayName() + " successfully");
+                }
+            });
+            resendBtn.addStyleName(UIConstants.BUTTON_LINK);
+            buttonControls.with(resendBtn);
+        }
 
         Button editBtn = new Button("", FontAwesome.EDIT);
         editBtn.addClickListener(new ClickListener() {
@@ -198,7 +218,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member));
             }
         });
-        editBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        editBtn.addStyleName(UIConstants.BUTTON_LINK);
+        buttonControls.with(editBtn);
 
         Button deleteBtn = new Button();
         deleteBtn.addClickListener(new Button.ClickListener() {
@@ -227,11 +248,11 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             }
         });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
-        deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-        buttonControls.with(editBtn, deleteBtn);
+        deleteBtn.addStyleName(UIConstants.BUTTON_LINK);
+        buttonControls.with(deleteBtn);
 
         memberInfo.addComponent(buttonControls);
-        memberInfo.setComponentAlignment(buttonControls, Alignment.TOP_RIGHT);
+        memberInfo.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
 
         A memberLink = new A(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
                 member.getUsername())).appendText(member.getDisplayName());
@@ -268,46 +289,10 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                         .LABEL_META_INFO).withWidth("100%");
         memberInfo.addComponent(memberSinceLabel);
 
-        if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member.getRegisterstatus())) {
-            final VerticalLayout waitingNotLayout = new VerticalLayout();
-            Label infoStatus = new Label("Waiting for accept invitation");
-            infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
-            waitingNotLayout.addComponent(infoStatus);
-
-            ButtonLink resendInvitationLink = new ButtonLink("Resend Invitation", new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
-                    if (!mailService.isMailSetupValid()) {
-                        UI.getCurrent().addWindow(new GetStartedInstructionWindow(member));
-                    } else {
-                        UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                        userService.updateUserAccountStatus(member.getUsername(), member.getAccountId(),
-                                RegisterStatusConstants.VERIFICATING);
-                        waitingNotLayout.removeAllComponents();
-                        Label statusEmail = new Label("Sending invitation email");
-                        statusEmail.addStyleName(UIConstants.LABEL_META_INFO);
-                        waitingNotLayout.addComponent(statusEmail);
-                    }
-                }
-            });
-            resendInvitationLink.addStyleName(UIConstants.BUTTON_LINK);
-            waitingNotLayout.addComponent(resendInvitationLink);
-            memberInfo.addComponent(waitingNotLayout);
-        } else if (RegisterStatusConstants.ACTIVE.equals(member.getRegisterstatus())) {
-            ELabel lastAccessTimeLbl = new ELabel("Logged in "
-                    + AppContext.formatPrettyTime(member.getLastaccessedtime())).withDescription(AppContext
-                    .formatDateTime(member.getLastaccessedtime()));
-            lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
-            memberInfo.addComponent(lastAccessTimeLbl);
-        } else if (RegisterStatusConstants.VERIFICATING.equals(member.getRegisterstatus())) {
-            Label infoStatus = new Label("Sending invitation email");
-            infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
-            memberInfo.addComponent(infoStatus);
-        }
-
+        ELabel lastAccessTimeLbl = new ELabel("Logged in " + AppContext.formatPrettyTime(member.getLastaccessedtime()))
+                .withDescription(AppContext.formatDateTime(member.getLastaccessedtime()));
+        lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
+        memberInfo.addComponent(lastAccessTimeLbl);
         blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);
         return blockContent;

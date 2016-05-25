@@ -88,6 +88,34 @@
                     <groupId>com.vaadin</groupId>
                     <artifactId>vaadin-sass-compiler</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin.external.flute</groupId>
+                    <artifactId>flute</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin.external.streamhtmlparser</groupId>
+                    <artifactId>streamhtmlparser-jsilver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.w3c.css</groupId>
+                    <artifactId>sac</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.sourceforge.cssparser</groupId>
+                    <artifactId>cssparser</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
     </dependencies>

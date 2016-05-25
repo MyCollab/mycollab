@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.core.ResourceNotFoundException;
-import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.UserNotBelongProjectException;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -61,7 +61,7 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
                     CurrentProjectVariables.setProject(project);
                     view.initView(project);
                 } else {
-                    throw new SecureAccessException();
+                    throw new UserNotBelongProjectException();
                 }
             }
         }

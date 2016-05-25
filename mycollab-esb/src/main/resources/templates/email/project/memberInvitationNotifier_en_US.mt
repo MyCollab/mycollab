@@ -43,13 +43,19 @@ a {
         <tr>
             <td style="padding: 10px 25px;">
                 <div><img src="${defaultUrls.cdn_url}icons/default_user_avatar_16.png" width="16" height="16"
-                style="display: inline-block; vertical-align: top;"/><b>${inviteUser}</b> invited you to join the project <b>"$!{member.projectName}"</b>.</div>
-                #linkBlock( $!urlAccept "Accept Invitation")
+                style="display: inline-block; vertical-align: top;"/><b>${inviteUser}</b> invited you to join the project <b>"$!{project.name}"</b>.</div>
             </td>
         </tr>
         <tr>
         <td style="padding: 0px 25px;">
         #messageBlock( $inviteMessage )
+
+        #if ($password)
+            Account details: <br>
+            Email: <a href="mail:$inviteeEmail">$inviteeEmail</a><br>
+            Password: $password
+        #end
+        #linkBlock( $!urlAccept "Go")
         </td>
         </tr>
         #parse("templates/email/footer_en_US.mt")

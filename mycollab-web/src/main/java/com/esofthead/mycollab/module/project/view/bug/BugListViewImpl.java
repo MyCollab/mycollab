@@ -42,6 +42,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
@@ -51,6 +52,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
@@ -126,6 +128,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                     searchPanel.setTotalCountNumber(totalTasks);
                 }
             };
+
+    private ApplicationEventListener<ShellEvent.AddQueryParam> addQueryHandler = QueryParamHandler.queryParamHandler();
 
     public BugListViewImpl() {
         this.withMargin(new MarginInfo(false, true, true, true));
@@ -254,6 +258,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     public void attach() {
         EventBusFactory.getInstance().register(searchHandler);
         EventBusFactory.getInstance().register(newBugHandler);
+        EventBusFactory.getInstance().register(addQueryHandler);
         super.attach();
     }
 
@@ -261,6 +266,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     public void detach() {
         EventBusFactory.getInstance().unregister(searchHandler);
         EventBusFactory.getInstance().unregister(newBugHandler);
+        EventBusFactory.getInstance().unregister(addQueryHandler);
         super.detach();
     }
 
@@ -358,7 +364,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 BugSearchCriteria searchCriteria = SearchFieldInfo.buildSearchCriteria(baseCriteria, searchFieldInfos);
                 searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 queryBug(searchCriteria);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 LOG.error("Error", e);
                 searchPanel.selectQueryInfo(BugSavedFilterComboBox.OPEN_BUGS);
             }

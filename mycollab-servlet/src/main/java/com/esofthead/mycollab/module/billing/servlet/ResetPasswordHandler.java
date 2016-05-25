@@ -17,8 +17,7 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.EnDecryptHelper;
 import com.esofthead.mycollab.core.InvalidPasswordException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
@@ -61,7 +60,7 @@ public class ResetPasswordHandler extends GenericHttpServlet {
             throw new UserInvalidInputException(LocalizationHelper.getMessage(Locale.US,
                     ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED, username));
         } else {
-            user.setPassword(PasswordEncryptHelper.encryptSaltPassword(password));
+            user.setPassword(EnDecryptHelper.encryptSaltPassword(password));
             userService.updateWithSession(user, username);
         }
     }

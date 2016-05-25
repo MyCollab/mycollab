@@ -310,6 +310,9 @@ public class ThemeManager {
             //Set toogle button group background
             extraStyles.append(".v-buttongroup.toggle-btn-group .v-button { background-color: #" +
                     accountTheme.getOptionbtn() + ";}");
+            extraStyles.append(".block-popupedit { background-color: " + ColorUtils.brighterColor("#" + accountTheme
+                    .getOptionbtn(), 0.2) + ";}");
+            extraStyles.append(".block-popupedit:hover { background-color: #" + accountTheme.getOptionbtn() + ";}");
         }
 
         if (accountTheme.getOptionbtntext() != null) {

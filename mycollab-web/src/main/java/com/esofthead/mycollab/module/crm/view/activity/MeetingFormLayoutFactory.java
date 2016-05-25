@@ -18,12 +18,11 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout2;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -31,10 +30,9 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class MeetingFormLayoutFactory implements IWrappedFormLayoutFactory {
+public abstract class MeetingFormLayoutFactory extends WrappedFormLayoutFactory {
     private static final long serialVersionUID = 1L;
     private String title;
-    private IFormLayoutFactory informationLayout;
 
     public MeetingFormLayoutFactory(String title) {
         this.title = title;
@@ -48,23 +46,13 @@ public abstract class MeetingFormLayoutFactory implements IWrappedFormLayoutFact
         if (topPanel != null) {
             meetingLayout.addControlButtons(topPanel);
         }
-        informationLayout = new DynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
+        wrappedLayoutFactory = new DefaultDynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
         VerticalLayout body = new VerticalLayout();
         body.setStyleName(UIConstants.BOX);
-        body.addComponent(informationLayout.getLayout());
+        body.addComponent(wrappedLayoutFactory.getLayout());
         meetingLayout.addBody(body);
 
         return meetingLayout;
-    }
-
-    @Override
-    public void attachField(Object propertyId, Field<?> field) {
-        informationLayout.attachField(propertyId, field);
-    }
-
-    @Override
-    public IFormLayoutFactory getWrappedFactory() {
-        return informationLayout;
     }
 
     protected abstract Layout createTopPanel();

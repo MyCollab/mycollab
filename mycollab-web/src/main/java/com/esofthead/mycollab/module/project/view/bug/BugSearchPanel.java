@@ -84,6 +84,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                     BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
                     criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                     EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugSearchPanel.this, criteria));
+                    EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, fieldInfos));
                 }
             });
             ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml()).withWidthUndefined();

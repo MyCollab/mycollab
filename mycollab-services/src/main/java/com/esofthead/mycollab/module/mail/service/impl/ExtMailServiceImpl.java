@@ -16,20 +16,24 @@
  */
 package com.esofthead.mycollab.module.mail.service.impl;
 
+import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.configuration.EmailConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.mail.DefaultMailer;
+import com.esofthead.mycollab.module.mail.EmailAttachementSource;
 import com.esofthead.mycollab.module.mail.IMailer;
 import com.esofthead.mycollab.module.mail.NullMailer;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @Service
-public class ExtMailServiceImpl extends AbstractMailService implements ExtMailService {
+public class ExtMailServiceImpl implements ExtMailService {
 
     @Override
     public boolean isMailSetupValid() {
@@ -37,14 +41,21 @@ public class ExtMailServiceImpl extends AbstractMailService implements ExtMailSe
         return !(emailConfiguration.getHost().equals(""));
     }
 
-    @Override
-    protected IMailer getMailer() {
+    private IMailer getMailer() {
         EmailConfiguration emailConfiguration = SiteConfiguration.getEmailConfiguration();
         if (!isMailSetupValid()) {
             return new NullMailer();
         }
 
         return new DefaultMailer(emailConfiguration);
+    }
+
+    @Override
+    public void sendHTMLMail(String fromEmail, String fromName,
+                             List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+                             List<MailRecipientField> bccEmail, String subject, String html,
+                             List<EmailAttachementSource> attachments) {
+        getMailer().sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html, attachments);
     }
 
 }

@@ -25,8 +25,8 @@ import org.jasypt.util.text.BasicTextEncryptor;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class PasswordEncryptHelper {
-    private static StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+public class EnDecryptHelper {
+    private static StrongPasswordEncryptor strongEncryptor = new StrongPasswordEncryptor();
     private static BasicTextEncryptor basicTextEncryptor;
 
     static {
@@ -41,7 +41,7 @@ public class PasswordEncryptHelper {
      * @return
      */
     public static String encryptSaltPassword(String password) {
-        return passwordEncryptor.encryptPassword(password);
+        return strongEncryptor.encryptPassword(password);
     }
 
     public static String encryptText(String text) {
@@ -64,7 +64,7 @@ public class PasswordEncryptHelper {
      */
     public static boolean checkPassword(String inputPassword, String expectedPassword, boolean isPasswordEncrypt) {
         if (!isPasswordEncrypt) {
-            return passwordEncryptor.checkPassword(inputPassword, expectedPassword);
+            return strongEncryptor.checkPassword(inputPassword, expectedPassword);
         } else {
             return inputPassword.equals(expectedPassword);
         }

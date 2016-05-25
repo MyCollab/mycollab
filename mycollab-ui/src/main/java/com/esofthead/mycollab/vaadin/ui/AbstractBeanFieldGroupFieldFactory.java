@@ -58,7 +58,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
         this.isReadOnlyGroup = isReadOnlyGroup;
 
         if (isValidateForm) {
-            this.fieldGroup.addCommitHandler(this);
+            fieldGroup.addCommitHandler(this);
             validation = AppContextUtil.getValidator();
         }
     }
@@ -67,8 +67,8 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
     public void setBean(B bean) {
         fieldGroup.setItemDataSource(new BeanItem<>(bean));
         IFormLayoutFactory layoutFactory = attachForm.getLayoutFactory();
-        if (layoutFactory instanceof IWrappedFormLayoutFactory) {
-            layoutFactory = ((IWrappedFormLayoutFactory) layoutFactory).getWrappedFactory();
+        if (layoutFactory instanceof WrappedFormLayoutFactory) {
+            layoutFactory = ((WrappedFormLayoutFactory) layoutFactory).getWrappedFactory();
         }
         if (layoutFactory instanceof IDynaFormLayout) {
             IDynaFormLayout dynaFormLayout = (IDynaFormLayout) layoutFactory;

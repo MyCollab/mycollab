@@ -20,9 +20,10 @@ import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
@@ -30,7 +31,7 @@ import com.vaadin.ui.Field;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
+public class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
     private static final long serialVersionUID = 1L;
     private GridFormLayoutHelper informationLayout;
 
@@ -43,15 +44,16 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
     }
 
     @Override
-    public void attachField(Object propertyId, final Field<?> field) {
+    protected Component onAttachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("memberFullName")) {
-            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0, 2, "100%");
+            return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0, 2, "100%");
         } else if (propertyId.equals("projectroleid")) {
-            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1, 2, "100%");
+            return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1, 2, "100%");
         } else if (ProjectMember.Field.billingrate.equalTo(propertyId)) {
-            informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 0, 2);
+            return informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 0, 2);
         } else if (ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {
-            informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 1, 2);
+            return informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 1, 2);
         }
+        return null;
     }
 }

@@ -23,8 +23,8 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.servlet.InstallUtils;
-import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -82,7 +82,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
     }
 
-    private class BasicFormLayoutFactory implements IFormLayoutFactory {
+    private class BasicFormLayoutFactory extends AbstractFormLayoutFactory {
         private GridFormLayoutHelper informationLayout;
 
         @Override
@@ -105,10 +105,8 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
 
                 @Override
                 public void buttonClick(final Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
+                    EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this));
                 }
-
             });
             closeBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
@@ -162,6 +160,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                     p.setProperty(ApplicationProperties.MAIL_PORT, emailConf.getPort());
                     p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.getIsStartTls());
                     p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.getIsSsl());
+                    p.setProperty(ApplicationProperties.MAIL_NOTIFY, emailConf.getUser());
                     p.save();
                     NotificationUtil.showNotification("Congrats", "Set up SMTP account successfully");
                 } catch (Exception e) {
@@ -172,20 +171,21 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        protected Component onAttachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("host")) {
-                this.informationLayout.addComponent(field, "Host", 0, 0);
+                return informationLayout.addComponent(field, "Host", 0, 0);
             } else if (propertyId.equals("user")) {
-                this.informationLayout.addComponent(field, "User Name", 0, 1);
+                return informationLayout.addComponent(field, "User Name", 0, 1);
             } else if (propertyId.equals("password")) {
-                this.informationLayout.addComponent(field, "Password", 0, 2);
+                return informationLayout.addComponent(field, "Password", 0, 2);
             } else if (propertyId.equals("port")) {
-                this.informationLayout.addComponent(field, "Port", 0, 3);
+                return informationLayout.addComponent(field, "Port", 0, 3);
             } else if (propertyId.equals("isStartTls")) {
-                this.informationLayout.addComponent(field, "StartTls", 0, 4);
+                return informationLayout.addComponent(field, "StartTls", 0, 4);
             } else if (propertyId.equals("isSsl")) {
-                this.informationLayout.addComponent(field, "Tls/Ssl", 0, 5);
+                return informationLayout.addComponent(field, "Tls/Ssl", 0, 5);
             }
+            return null;
         }
     }
 

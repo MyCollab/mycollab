@@ -42,8 +42,7 @@ public class ConfirmEmailHandler extends GenericHttpServlet {
     private UserService userServices;
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request,
-                                   HttpServletResponse response) throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         try {
             if (pathInfo != null) {

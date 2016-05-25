@@ -2080,7 +2080,6 @@ div.v-window {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #7ec8ef;
 	padding: 0px 5px;
 	margin: 3px 3px 0px 0px;
 	color: #f2f2f2 !important;
@@ -2092,7 +2091,6 @@ div.v-window {
 }
 
 .block-popupedit:hover {
-	background-color: #33aae5;
 	color: #ffffff;
 }
 
@@ -14740,7 +14738,6 @@ div.v-window {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #7ec8ef;
 	padding: 0px 5px;
 	margin: 3px 3px 0px 0px;
 	color: #f2f2f2 !important;
@@ -14752,7 +14749,6 @@ div.v-window {
 }
 
 .block-popupedit:hover {
-	background-color: #33aae5;
 	color: #ffffff;
 }
 
@@ -17116,6 +17112,10 @@ div.v-csslayout.main-body {
 	background-color: #f9f9f9;
 }
 
+.member-block.inactive {
+	background-color: #f7c6c3;
+}
+
 .v-label.is-admin {
 	color: #b00000;
 }
@@ -17315,8 +17315,6 @@ div.v-ratingstars-bar {
 
 .billing-setting {
 	border: 1px solid #e9e9e9;
-	border-radius: 3px;
-	background-color: #F5F5F5;
 }
 
 .billing-setting .faq-layout {
@@ -17331,22 +17329,6 @@ div.v-ratingstars-bar {
 	text-align: center;
 }
 
-.current-plan-information .intro-text {
-	color: black;
-	font-weight: 600;
-}
-
-.current-plan-information .current-price-lbl {
-	color: #a2a1a1;
-	font-size: 18px;
-}
-
-.current-plan-information .current-price {
-	color: #ed0407;
-	font-size: 24px;
-	font-weight: 600;
-}
-
 .current-plan-information #currentPlanInfo {
 	background-color: #d4e0f0;
 	padding: 0px 10px;
@@ -17357,13 +17339,6 @@ div.v-ratingstars-bar {
 	display: table-cell;
 }
 
-.current-plan-information #currentPlanInfo .blockSeparator {
-	display: table-cell;
-	width: 5px;
-	height: 100%;
-	background-color: #e9e9e9;
-}
-
 .current-plan-information #currentPlanInfo .infoTitle {
 	font-weight: 600;
 	color: #19739a;
@@ -17372,7 +17347,6 @@ div.v-ratingstars-bar {
 .prig-bottom {
 	width: 100%;
 	margin-top: 20px;
-	border: solid 1px $my-separator;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -17430,7 +17404,6 @@ div.v-ratingstars-bar {
 	border-color: #e9e9e9;
 	border-style: solid;
 	border-width: 1px 0px 0px 1px;
-	background-color: #F5F5F5;
 }
 
 .billing-plan-list > div > div:first-child > .billing-plan {
@@ -17442,12 +17415,11 @@ div.v-ratingstars-bar {
 }
 
 .billing-plan .billing-type {
-	font-size: 16px;
 	padding: 5px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	color: #19739a;
+	color: #0083ce;
 	text-transform: uppercase;
 	border-bottom: 1px solid #e9e9e9;
 	background-color: white;
@@ -17472,17 +17444,6 @@ div.v-ratingstars-bar {
 .billing-plan .greenbtn, .billing-plan .graybtn {
 	margin-bottom: 15px;
 	margin-top: 15px;
-}
-
-.updateplan-window {
-	text-align: center;
-}
-
-.updateplan-window .billing-type {
-	color: #19739a;
-	text-transform: uppercase;
-	font-size: 13px;
-	font-weight: 600;
 }
 
 .v-verticallayout .driveEditting {

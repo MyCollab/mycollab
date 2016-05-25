@@ -16,14 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
-import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.field.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -40,7 +39,7 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
         super.setBean(bean);
     }
 
-    private static class PageReadFormLayout implements IFormLayoutFactory {
+    private static class PageReadFormLayout extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private MVerticalLayout layout;
@@ -52,10 +51,12 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
         }
 
         @Override
-        public void attachField(java.lang.Object propertyId, Field<?> field) {
+        protected Component onAttachField(java.lang.Object propertyId, Field<?> field) {
             if (propertyId.equals("content")) {
                 layout.addComponent(field);
+                return field;
             }
+            return null;
         }
     }
 
@@ -68,9 +69,7 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
 
         @Override
         protected Field<?> onCreateField(java.lang.Object propertyId) {
-            if (propertyId.equals("status")) {
-                return new I18nFormViewField(attachForm.getBean().getStatus(), WikiI18nEnum.class);
-            } else if (propertyId.equals("content")) {
+            if (propertyId.equals("content")) {
                 return new RichTextViewField(attachForm.getBean().getContent());
             }
             return null;

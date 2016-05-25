@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.event.ShortcutAction;
@@ -58,7 +58,7 @@ public class MilestoneAddWindow extends Window {
         this.setContent(content);
         final AdvancedEditBeanForm<SimpleMilestone> editForm = new AdvancedEditBeanForm<>();
         content.addComponent(editForm);
-        editForm.setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.MILESTONE,
+        editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.MILESTONE,
                 MilestoneDefaultFormLayoutFactory.getForm(), Milestone.Field.id.name()));
         final MilestoneEditFormFieldFactory milestoneEditFormFieldFactory = new MilestoneEditFormFieldFactory(editForm);
         editForm.setBeanFormFieldFactory(milestoneEditFormFieldFactory);

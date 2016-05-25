@@ -292,7 +292,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
         val criteria = new ProjectMemberSearchCriteria
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
-        criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE))
+        criteria.setStatuses(new SetSearchField(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET))
         val presenter = PresenterResolver.getPresenter(classOf[ProjectUserPresenter])
         presenter.go(navManager, new ProjectMemberScreenData.Search(criteria))
       }

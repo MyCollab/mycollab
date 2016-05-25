@@ -19,64 +19,61 @@ package com.esofthead.mycollab.module.crm.domain;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleTask extends Task {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String createdUserAvatarId;
-	private String createdUserFullName;
-	private String contactName;
-	private String assignUserFullName;
-	private String assignUserAvatarId;
+    private String createdUserAvatarId;
+    private String createdUserFullName;
+    private String contactName;
+    private String assignUserFullName;
+    private String assignUserAvatarId;
 
-	public String getCreatedUserAvatarId() {
-		return createdUserAvatarId;
-	}
+    public String getCreatedUserAvatarId() {
+        return createdUserAvatarId;
+    }
 
-	public void setCreatedUserAvatarId(String createdUserAvatarId) {
-		this.createdUserAvatarId = createdUserAvatarId;
-	}
+    public void setCreatedUserAvatarId(String createdUserAvatarId) {
+        this.createdUserAvatarId = createdUserAvatarId;
+    }
 
-	public String getCreatedUserFullName() {
-		if (StringUtils.isBlank(createdUserFullName)) {
-			return StringUtils.extractNameFromEmail(getCreateduser());
-		}
-		return createdUserFullName;
-	}
+    public String getCreatedUserFullName() {
+        if (StringUtils.isBlank(createdUserFullName)) {
+            return StringUtils.extractNameFromEmail(getCreateduser());
+        }
+        return createdUserFullName;
+    }
 
-	public void setCreatedUserFullName(String createdUserFullName) {
-		this.createdUserFullName = createdUserFullName;
-	}
+    public void setCreatedUserFullName(String createdUserFullName) {
+        this.createdUserFullName = createdUserFullName;
+    }
 
-	public String getContactName() {
-		return contactName;
-	}
+    public String getContactName() {
+        return contactName;
+    }
 
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
-	}
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
 
-	public String getAssignUserFullName() {
-		if (StringUtils.isBlank(assignUserFullName)) {
-			return StringUtils.extractNameFromEmail(getAssignuser());
-		}
-		return assignUserFullName;
-	}
+    public String getAssignUserFullName() {
+        if (StringUtils.isBlank(assignUserFullName)) {
+            return StringUtils.extractNameFromEmail(getAssignuser());
+        }
+        return assignUserFullName;
+    }
 
-	public void setAssignUserFullName(String assignUserFullName) {
-		this.assignUserFullName = assignUserFullName;
-	}
+    public void setAssignUserFullName(String assignUserFullName) {
+        this.assignUserFullName = assignUserFullName;
+    }
 
-	public String getAssignUserAvatarId() {
-		return assignUserAvatarId;
-	}
+    public String getAssignUserAvatarId() {
+        return assignUserAvatarId;
+    }
 
-	public void setAssignUserAvatarId(String assignUserAvatarId) {
-		this.assignUserAvatarId = assignUserAvatarId;
-	}
-
+    public void setAssignUserAvatarId(String assignUserAvatarId) {
+        this.assignUserAvatarId = assignUserAvatarId;
+    }
 }

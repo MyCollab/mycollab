@@ -83,8 +83,11 @@ object NewProjectMemberJoinCommand {
     contentGenerator.putVariable("formatter", new Formatter)
     contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(account.getSubdomain))
     val recipients = ListBuffer[MailRecipientField]()
-    membersInProjects.foreach(user => recipients.append(new MailRecipientField(user.getUsername, user.getDisplayName)))
-    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
+    membersInProjects.foreach(user => {
+      if (event.username != user.getUsername)
+        recipients.append(new MailRecipientField(user.getUsername, user.getDisplayName))
+    })
+    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
       null, null, String.format("%s has just joined on project %s", newMember.getDisplayName, newMember.getProjectName),
       contentGenerator.parseFile("templates/email/project/newMemberJoinProjectNotifier.mt", Locale.US), null)
   }

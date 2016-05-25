@@ -29,7 +29,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -75,9 +75,8 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> 
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        MHorizontalLayout toolbarLayout = new MHorizontalLayout();
         toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        toolbarLayout.setSpacing(true);
         return toolbarLayout;
     }
 

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.configuration.EnDecryptHelper;
 import com.esofthead.mycollab.core.IgnoreException;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.core.SessionExpireException;
@@ -191,7 +191,7 @@ public class MobileApplication extends MyCollabUI {
             public void onSuccess(String value) {
                 if (StringUtils.isNotBlank(value)) {
                     String[] loginParams = value.split("\\$");
-                    doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                    doLogin(loginParams[0], EnDecryptHelper.decryptText(loginParams[1]), false);
                 } else {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoLoginView(this));
                 }
@@ -244,7 +244,7 @@ public class MobileApplication extends MyCollabUI {
     }
 
     private void rememberPassword(String username, String password) {
-        String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
+        String storeVal = username + "$" + EnDecryptHelper.encryptText(password);
         LocalStorage.get().put(NAME_COOKIE, storeVal);
     }
 

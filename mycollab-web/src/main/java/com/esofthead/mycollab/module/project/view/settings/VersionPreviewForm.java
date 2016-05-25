@@ -32,7 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.DateViewField;
@@ -53,7 +53,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
     @Override
     public void setBean(Version bean) {
-        setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
+        setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_VERSION,
                 VersionDefaultFormLayoutFactory.getForm(), Version.Field.versionname.name()));
         setBeanFormFieldFactory(new ReadFormFieldFactory(this));
         super.setBean(bean);

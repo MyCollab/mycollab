@@ -18,7 +18,8 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.module.crm.view.CrmVerticalTabsheet;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet;

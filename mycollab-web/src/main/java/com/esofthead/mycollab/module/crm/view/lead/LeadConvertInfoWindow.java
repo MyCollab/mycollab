@@ -135,7 +135,7 @@ public class LeadConvertInfoWindow extends Window {
 
         MVerticalLayout infoLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true));
 
-        String createAccountTxt = FontAwesome.CHECK.getHtml() +  " Create Account: " + lead.getAccountname();
+        String createAccountTxt = FontAwesome.CHECK.getHtml() + " Create Account: " + lead.getAccountname();
         Label createAccountLbl = new Label(createAccountTxt, ContentMode.HTML);
         infoLayout.addComponent(createAccountLbl);
 
@@ -177,7 +177,7 @@ public class LeadConvertInfoWindow extends Window {
 
         public LeadOpportunityForm() {
             super();
-            this.setFormLayoutFactory(new IFormLayoutFactory() {
+            this.setFormLayoutFactory(new AbstractFormLayoutFactory() {
                 private static final long serialVersionUID = 1L;
 
                 private GridFormLayoutHelper informationLayout;
@@ -189,20 +189,21 @@ public class LeadConvertInfoWindow extends Window {
                 }
 
                 @Override
-                public void attachField(Object propertyId, Field<?> field) {
+                public Component onAttachField(Object propertyId, Field<?> field) {
                     if (propertyId.equals("opportunityname")) {
-                        informationLayout.addComponent(field, "Opportunity", 0, 0);
+                        return informationLayout.addComponent(field, "Opportunity", 0, 0);
                     } else if (propertyId.equals("expectedcloseddate")) {
-                        informationLayout.addComponent(field, "Expected Close Date", 1, 0);
+                        return informationLayout.addComponent(field, "Expected Close Date", 1, 0);
                     } else if (propertyId.equals("salesstage")) {
-                        informationLayout.addComponent(field, "Sales Stage", 0, 1);
+                        return informationLayout.addComponent(field, "Sales Stage", 0, 1);
                     } else if (propertyId.equals("campaignid")) {
-                        informationLayout.addComponent(field, "Campaign", 1, 1);
+                        return informationLayout.addComponent(field, "Campaign", 1, 1);
                     } else if (propertyId.equals("amount")) {
-                        informationLayout.addComponent(field, "Amount", 0, 2);
+                        return informationLayout.addComponent(field, "Amount", 0, 2);
                     } else if (propertyId.equals("currencyid")) {
-                        informationLayout.addComponent(field, "Currency", 1, 2);
+                        return informationLayout.addComponent(field, "Currency", 1, 2);
                     }
+                    return null;
                 }
             });
 

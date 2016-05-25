@@ -23,7 +23,5 @@ package com.esofthead.mycollab.module.billing;
 public class RegisterStatusConstants {
     public static final String ACTIVE = "Active";
     public static final String DELETE = "Delete";
-    public static final String VERIFICATING = "Verificating";
-    public static final String SENT_VERIFICATION_EMAIL = "SentVerificationEmail";
-
+    public static final String NOT_LOG_IN_YET = "NotLogIn";
 }

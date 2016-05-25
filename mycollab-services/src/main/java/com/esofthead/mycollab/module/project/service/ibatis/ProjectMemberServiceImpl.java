@@ -17,49 +17,41 @@
 
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.core.utils.ArrayUtils;
-import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.ProjectMemberExample;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMemberEvent;
 import com.esofthead.mycollab.module.project.esb.InviteProjectMembersEvent;
-import com.esofthead.mycollab.module.project.esb.NewProjectMemberJoinEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.user.UserExistedException;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
-import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.UserAccount;
-import com.esofthead.mycollab.module.user.esb.NewUserJoinEvent;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -173,75 +165,13 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public void acceptProjectInvitationByNewUser(String email, String password, Integer projectId, Integer projectRoleId,
-                                                 Integer sAccountId) {
-        SimpleProject project = projectService.findById(projectId, sAccountId);
-        if (project == null) {
-            throw new UserInvalidInputException("Project not found");
-        }
-        Date now = new GregorianCalendar().getTime();
-        try {
-            SimpleUser simpleUser = new SimpleUser();
-            simpleUser.setAccountId(sAccountId);
-            simpleUser.setFirstname("");
-            simpleUser.setLastname(StringUtils.extractNameFromEmail(email));
-            simpleUser.setRegisteredtime(now);
-            simpleUser.setRegisterstatus(RegisterStatusConstants.ACTIVE);
-            simpleUser.setPassword(PasswordEncryptHelper.encryptSaltPassword(password));
-            simpleUser.setUsername(email);
-            simpleUser.setEmail(email);
-            userMapper.insert(simpleUser);
-        } catch (DuplicateKeyException e) {
-            throw new UserExistedException("User existed " + email);
-        }
-
-        LOG.debug("Assign guest role for this user {}", email);
-        Integer systemGuestRoleId = roleService.getSystemRoleId(SimpleRole.GUEST, sAccountId);
-        if (systemGuestRoleId == null) {
-            LOG.error("Can not find guess role for account {}", sAccountId);
-        }
-
-        UserAccount userAccount = new UserAccount();
-        userAccount.setUsername(email);
-        userAccount.setAccountid(sAccountId);
-        userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
-        userAccount.setIsaccountowner(false);
-        userAccount.setRegisteredtime(now);
-        userAccount.setRoleid(systemGuestRoleId);
-
-        userAccountMapper.insert(userAccount);
-
-        ProjectMember member = new ProjectMember();
-        member.setProjectid(projectId);
-        member.setUsername(email);
-        member.setJoindate(now);
-        member.setSaccountid(sAccountId);
-        member.setBillingrate(project.getDefaultbillingrate());
-        member.setOvertimebillingrate(project.getDefaultovertimebillingrate());
-        if (projectRoleId == null || projectRoleId < 0) {
-            member.setIsadmin(true);
-            member.setProjectroleid(null);
-        } else {
-            member.setIsadmin(false);
-            member.setProjectroleid(projectRoleId);
-        }
-
-        member.setStatus(RegisterStatusConstants.ACTIVE);
-
-        LOG.debug("Start save project member {}", BeanUtility.printBeanObj(member));
-
-        saveWithSession(member, "");
-
-        asyncEventBus.post(new NewProjectMemberJoinEvent(email, projectId, sAccountId, true));
-        asyncEventBus.post(new NewUserJoinEvent(email, sAccountId));
-    }
-
-    @Override
     public boolean isUserBelongToProject(String username, Integer projectId, Integer sAccountId) {
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(projectId));
         criteria.setSaccountid(new NumberSearchField(sAccountId));
         criteria.setInvolvedMember(StringSearchField.and(username));
+        criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE,
+                ProjectMemberStatusConstants.NOT_ACCESS_YET));
         return (getTotalCount(criteria) > 0);
     }
 

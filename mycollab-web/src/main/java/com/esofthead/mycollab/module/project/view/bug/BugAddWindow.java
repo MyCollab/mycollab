@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.domain.MonitorItem;
+import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -33,8 +34,8 @@ import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.google.common.eventbus.AsyncEventBus;
@@ -76,7 +77,7 @@ public class BugAddWindow extends Window {
             super.setBean(item);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -168,37 +169,39 @@ public class BugAddWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (BugWithBLOBs.Field.summary.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0, 2, "100%");
                 } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PRIORITY),
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PRIORITY),
                             AppContext.getMessage(BugI18nEnum.FORM_PRIORITY_HELP), 0, 1);
                 } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
                 } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
                 } else if (SimpleBug.Field.components.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS),
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS),
                             AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 1, 2);
                 } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
                 } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
                             AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 3);
                 } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 4);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 4);
                 } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
                 } else if (BugWithBLOBs.Field.summary.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 5, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 5, 2, "100%");
                 } else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
                 } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 7, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 7, 2, "100%");
                 } else if (SimpleBug.Field.selected.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, "Notifiers", 0, 8, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS),
+                            AppContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP), 0, 8, 2, "100%");
                 }
+                return null;
             }
         }
     }

@@ -261,7 +261,8 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         LOG.info("Clone project members");
         ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(projectId));
-        searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+        searchCriteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE,
+                ProjectMemberStatusConstants.NOT_ACCESS_YET));
         List<SimpleProjectMember> members = projectMemberService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleProjectMember member : members) {
             member.setId(null);

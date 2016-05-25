@@ -41,49 +41,49 @@ public class CallDefaultFormLayoutFactory {
                 .layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
                 .header("Call Information").build();
 
-        callSection.addField(new TextDynaFieldBuilder().fieldName("subject")
+        callSection.fields(new TextDynaFieldBuilder().fieldName("subject")
                 .displayName(AppContext.getMessage(CallI18nEnum.FORM_SUBJECT))
                 .fieldIndex(0).mandatory(true).build());
 
-        callSection.addField(new TextDynaFieldBuilder().fieldName("status")
+        callSection.fields(new TextDynaFieldBuilder().fieldName("status")
                 .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
                 .fieldIndex(1).build());
 
-        callSection.addField(new DateTimeDynaFieldBuilder().fieldName("startdate")
+        callSection.fields(new DateTimeDynaFieldBuilder().fieldName("startdate")
                 .displayName(AppContext.getMessage(CallI18nEnum.FORM_START_DATE_TIME))
                 .fieldIndex(2).build());
 
-        callSection.addField(new TextDynaFieldBuilder().fieldName("type")
+        callSection.fields(new TextDynaFieldBuilder().fieldName("type")
                 .displayName(AppContext.getMessage(CallI18nEnum.FORM_RELATED))
                 .fieldIndex(3).build());
 
-        callSection.addField(new TextDynaFieldBuilder()
+        callSection.fields(new TextDynaFieldBuilder()
                 .fieldName("durationinseconds")
                 .displayName(AppContext.getMessage(CallI18nEnum.FORM_DURATION))
                 .fieldIndex(4).build());
 
-        callSection.addField(new TextDynaFieldBuilder().fieldName("purpose")
+        callSection.fields(new TextDynaFieldBuilder().fieldName("purpose")
                 .displayName(AppContext.getMessage(CallI18nEnum.FORM_PURPOSE))
                 .fieldIndex(5).build());
 
-        defaultForm.addSection(callSection);
+        defaultForm.sections(callSection);
 
         DynaSection descSection = new DynaSectionBuilder()
                 .layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
                 .header("Description").build();
-        descSection.addField(new TextAreaDynaFieldBuilder().fieldName("description")
+        descSection.fields(new TextAreaDynaFieldBuilder().fieldName("description")
                 .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
                 .fieldIndex(0).build());
-        defaultForm.addSection(descSection);
+        defaultForm.sections(descSection);
 
         DynaSection resultSection = new DynaSectionBuilder()
                 .layoutType(LayoutType.ONE_COLUMN).orderIndex(2)
                 .header("Result").build();
-        resultSection.addField(new TextAreaDynaFieldBuilder().fieldName("result")
+        resultSection.fields(new TextAreaDynaFieldBuilder().fieldName("result")
                 .displayName(AppContext.getMessage(CallI18nEnum.FORM_RESULT))
                 .fieldIndex(0).build());
 
-        defaultForm.addSection(resultSection);
+        defaultForm.sections(resultSection);
     }
 
     public static DynaForm getForm() {

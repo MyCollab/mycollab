@@ -42,7 +42,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -161,7 +161,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.CONTACT, ContactDefaultDynaFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.CONTACT, ContactDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

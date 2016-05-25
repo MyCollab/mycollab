@@ -366,9 +366,8 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         datePicker.getStyleCalendar().showNextMonth();
-                        datePicker.setLabelTime(AppContext
-                                .formatDate(datePicker.getStyleCalendar()
-                                        .getShowingDate()));
+                        datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar()
+                                .getShowingDate()));
                     }
                 });
 
@@ -379,9 +378,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         datePicker.getStyleCalendar().showPreviousMonth();
-                        datePicker.setLabelTime(AppContext
-                                .formatDate(datePicker.getStyleCalendar()
-                                        .getShowingDate()));
+                        datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
                     }
                 });
 
@@ -392,9 +389,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         datePicker.getStyleCalendar().showPreviousYear();
-                        datePicker.setLabelTime(AppContext
-                                .formatDate(datePicker.getStyleCalendar()
-                                        .getShowingDate()));
+                        datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
                     }
                 });
     }
@@ -479,20 +474,15 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     switch (viewMode) {
                         case WEEK:
                             calendar.add(java.util.Calendar.DATE, 7);
-                            calendar.set(java.util.Calendar.DAY_OF_WEEK,
-                                    calendar.getFirstDayOfWeek());
-                            String firstDateOfWeek = AppContext.formatDate(
-                                    calendar.getTime());
+                            calendar.set(java.util.Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+                            String firstDateOfWeek = AppContext.formatDate(calendar.getTime());
                             calendar.add(java.util.Calendar.DATE, 6);
-                            String endDateOfWeek = AppContext.formatDate(
-                                    calendar.getTime());
-                            dateHdr.setValue(firstDateOfWeek + " - "
-                                    + endDateOfWeek);
+                            String endDateOfWeek = AppContext.formatDate(calendar.getTime());
+                            dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
                             break;
                         case DAY:
                             calendar.add(java.util.Calendar.DATE, 1);
-                            dateHdr.setValue(AppContext.formatDate(
-                                    calendar.getTime()));
+                            dateHdr.setValue(AppContext.formatDate(calendar.getTime()));
                             break;
                         case MONTH:
                             break;
@@ -510,20 +500,15 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     switch (viewMode) {
                         case WEEK:
                             calendar.add(java.util.Calendar.DATE, -7);
-                            calendar.set(java.util.Calendar.DAY_OF_WEEK,
-                                    calendar.getFirstDayOfWeek());
-                            String firstDateOfWeek = AppContext.formatDate(
-                                    calendar.getTime());
+                            calendar.set(java.util.Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+                            String firstDateOfWeek = AppContext.formatDate(calendar.getTime());
                             calendar.add(java.util.Calendar.DATE, 6);
-                            String endDateOfWeek = AppContext.formatDate(
-                                    calendar.getTime());
-                            dateHdr.setValue(firstDateOfWeek + " - "
-                                    + endDateOfWeek);
+                            String endDateOfWeek = AppContext.formatDate(calendar.getTime());
+                            dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
                             break;
                         case DAY:
                             calendar.add(java.util.Calendar.DATE, -1);
-                            dateHdr.setValue(AppContext.formatDate(
-                                    calendar.getTime()));
+                            dateHdr.setValue(AppContext.formatDate(calendar.getTime()));
                             break;
                         case MONTH:
                             break;
@@ -536,11 +521,8 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
                 @Override
                 public void rangeSelect(RangeSelectEvent event) {
-                    if (AppContext
-                            .canWrite(RolePermissionCollections.CRM_MEETING)) {
-                        UI.getCurrent().addWindow(
-                                new QuickCreateEventWindow(event.getStart(),
-                                        event.getEnd()));
+                    if (AppContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
+                        UI.getCurrent().addWindow(new QuickCreateEventWindow(event.getStart(), event.getEnd()));
                     }
                 }
             });
@@ -554,15 +536,12 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     SimpleMeeting simpleMeeting = crmEvent.getSource();
                     simpleMeeting.setStartdate(event.getNewStart());
                     simpleMeeting.setEnddate(event.getNewEnd());
-                    MeetingService service = AppContextUtil
-                            .getSpringBean(MeetingService.class);
-                    service.updateWithSession(simpleMeeting,
-                            AppContext.getUsername());
+                    MeetingService service = AppContextUtil.getSpringBean(MeetingService.class);
+                    service.updateWithSession(simpleMeeting, AppContext.getUsername());
                     NotificationUtil.showNotification("Success", "Event: \""
                             + simpleMeeting.getSubject()
                             + "\" has been updated!", Type.HUMANIZED_MESSAGE);
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.GotoCalendar(this, null));
+                    EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                 }
             });
 
@@ -576,33 +555,25 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         SimpleMeeting simpleMeeting = crmEvent.getSource();
 
                         Date newStartDate = event.getNewStart();
-                        long rangeOfStartEnd = crmEvent.getEnd().getTime()
-                                - crmEvent.getStart().getTime();
+                        long rangeOfStartEnd = crmEvent.getEnd().getTime() - crmEvent.getStart().getTime();
                         long newEndDateTime;
                         if (crmEvent.getStart().compareTo(newStartDate) > 0) {
-                            newEndDateTime = newStartDate.getTime()
-                                    + rangeOfStartEnd;
+                            newEndDateTime = newStartDate.getTime() + rangeOfStartEnd;
                         } else {
-                            newEndDateTime = newStartDate.getTime()
-                                    - rangeOfStartEnd;
+                            newEndDateTime = newStartDate.getTime() - rangeOfStartEnd;
                         }
-                        java.util.Calendar calendar = java.util.Calendar
-                                .getInstance();
+                        java.util.Calendar calendar = java.util.Calendar.getInstance();
                         calendar.setTimeInMillis(newEndDateTime);
 
                         simpleMeeting.setStartdate(newStartDate);
                         simpleMeeting.setEnddate(calendar.getTime());
 
-                        MeetingService service = AppContextUtil
-                                .getSpringBean(MeetingService.class);
-                        service.updateWithSession(simpleMeeting,
-                                AppContext.getUsername());
+                        MeetingService service = AppContextUtil.getSpringBean(MeetingService.class);
+                        service.updateWithSession(simpleMeeting, AppContext.getUsername());
                         NotificationUtil.showNotification("Success",
                                 "Event: \"" + simpleMeeting.getSubject()
-                                        + "\" has been updated!",
-                                Type.HUMANIZED_MESSAGE);
-                        EventBusFactory.getInstance().post(
-                                new ActivityEvent.GotoCalendar(this, null));
+                                        + "\" has been updated!", Type.HUMANIZED_MESSAGE);
+                        EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                     }
                 }
             });
@@ -646,10 +617,8 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.setTime(date);
             int week = cal.get(java.util.Calendar.WEEK_OF_YEAR);
-            WeekClickHandler handler = (WeekClickHandler) calendarComponent
-                    .getHandler(WeekClick.EVENT_ID);
-            handler.weekClick(new WeekClick(calendarComponent, week, cal
-                    .get(GregorianCalendar.YEAR)));
+            WeekClickHandler handler = (WeekClickHandler) calendarComponent.getHandler(WeekClick.EVENT_ID);
+            handler.weekClick(new WeekClick(calendarComponent, week, cal.get(GregorianCalendar.YEAR)));
 
             cal.set(java.util.Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
             String firstDateOfWeek = AppContext.formatDate(cal.getTime());
@@ -741,8 +710,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             @Override
             public void setBean(MeetingWithBLOBs newDataSource) {
                 this.setFormLayoutFactory(new FormLayoutFactory());
-                this.setBeanFormFieldFactory(new EditFormFieldFactory(
-                        EditForm.this));
+                this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
                 super.setBean(newDataSource);
             }
 
@@ -750,53 +718,39 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 private static final long serialVersionUID = 1L;
 
                 public FormLayoutFactory() {
-                    super(meeting.getId() == null ? "New Meeting" : meeting
-                            .getSubject());
+                    super(meeting.getId() == null ? "New Meeting" : meeting.getSubject());
                 }
 
                 private Layout createButtonControls() {
                     final MHorizontalLayout layout = new MHorizontalLayout().withStyleName("addNewControl");
-                    Button saveBtn = new Button(
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_SAVE),
-                            new Button.ClickListener() {
-                                private static final long serialVersionUID = 1L;
+                    Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-                                @Override
-                                public void buttonClick(ClickEvent event) {
-                                    if (EditForm.this.validateForm()) {
-                                        MeetingService meetingService = AppContextUtil
-                                                .getSpringBean(MeetingService.class);
-                                        meetingService.saveWithSession(meeting,
-                                                AppContext.getUsername());
-                                        QuickCreateEventWindow.this.close();
-                                        EventBusFactory.getInstance().post(
-                                                new ActivityEvent.GotoCalendar(
-                                                        this, null));
-                                    }
-
-                                }
-                            });
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            if (EditForm.this.validateForm()) {
+                                MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
+                                meetingService.saveWithSession(meeting, AppContext.getUsername());
+                                EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
+                                close();
+                            }
+                        }
+                    });
                     saveBtn.setIcon(FontAwesome.SAVE);
                     saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
                     layout.addComponent(saveBtn);
-                    layout.setComponentAlignment(saveBtn,
-                            Alignment.MIDDLE_CENTER);
-                    Button cancelBtn = new Button(
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_CANCEL),
-                            new ClickListener() {
-                                private static final long serialVersionUID = 1L;
+                    layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
+                    Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-                                @Override
-                                public void buttonClick(ClickEvent event) {
-                                    QuickCreateEventWindow.this.close();
-                                }
-                            });
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            close();
+                        }
+                    });
                     cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
                     layout.addComponent(cancelBtn);
-                    layout.setComponentAlignment(cancelBtn,
-                            Alignment.MIDDLE_CENTER);
+                    layout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
                     return layout;
                 }
 
@@ -811,12 +765,10 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 }
             }
 
-            private class EditFormFieldFactory extends
-                    AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+            private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
                 private static final long serialVersionUID = 1L;
 
-                public EditFormFieldFactory(
-                        GenericBeanForm<MeetingWithBLOBs> form) {
+                public EditFormFieldFactory(GenericBeanForm<MeetingWithBLOBs> form) {
                     super(form);
                 }
 

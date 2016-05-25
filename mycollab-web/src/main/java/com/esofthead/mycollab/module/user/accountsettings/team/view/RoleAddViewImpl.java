@@ -34,7 +34,6 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -44,6 +43,8 @@ import com.vaadin.ui.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -103,12 +104,12 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 }
                 formAddLayout.setTitle(initFormTitle());
 
-                userInformationLayout = new RoleInformationLayout();
-                formAddLayout.addBody(userInformationLayout.getLayout());
+                wrappedLayoutFactory = new RoleInformationLayout();
+                formAddLayout.addBody(wrappedLayoutFactory.getLayout());
 
                 ComponentContainer bottomPanel = createBottomPanel();
                 if (bottomPanel != null) {
-                    formAddLayout.addBottomControls(bottomPanel);
+                    formAddLayout.addBottom(bottomPanel);
                 }
 
                 return formAddLayout;
@@ -123,7 +124,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             }
 
             private ComponentContainer createButtonControls() {
-                return new EditFormControlsGenerator<>(RoleAddViewImpl.EditForm.this).createButtonControls();
+                return generateEditFormControls(EditForm.this);
             }
 
             @Override

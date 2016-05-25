@@ -19,18 +19,15 @@ package com.esofthead.mycollab.module.project.view.page;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-public class PageFormLayoutFactory implements IFormLayoutFactory {
+public class PageFormLayoutFactory extends AbstractFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
     private GridFormLayoutHelper informationLayout;
@@ -46,13 +43,14 @@ public class PageFormLayoutFactory implements IFormLayoutFactory {
     }
 
     @Override
-    public void attachField(Object propertyId, Field<?> field) {
+    protected Component onAttachField(Object propertyId, Field<?> field) {
         if (propertyId.equals("subject")) {
-            informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_SUBJECT), 0, 0, 2, "100%");
+            return informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_SUBJECT), 0, 0, 2, "100%");
         } else if (propertyId.equals("content")) {
-            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
         } else if (propertyId.equals("status")) {
-            informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_VISIBILITY), 0, 2);
+            return informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_VISIBILITY), 0, 2);
         }
+        return null;
     }
 }

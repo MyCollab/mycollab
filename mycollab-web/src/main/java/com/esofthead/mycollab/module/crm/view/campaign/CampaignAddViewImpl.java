@@ -23,11 +23,14 @@ import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -49,7 +52,7 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign> im
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override
@@ -59,7 +62,7 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign> im
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.CAMPAIGN, CampaignDefaultDynaFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.CAMPAIGN, CampaignDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.configuration.EnDecryptHelper;
 import com.esofthead.mycollab.core.InvalidPasswordException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -127,12 +127,12 @@ public class PasswordChangeWindow extends Window {
             NotificationUtil.showErrorNotification(e.getMessage());
         }
 
-        user.setPassword(PasswordEncryptHelper.encryptSaltPassword(txtNewPassword.getValue()));
+        user.setPassword(EnDecryptHelper.encryptSaltPassword(txtNewPassword.getValue()));
 
         final UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());
 
-        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(PasswordChangeWindow.this, null));
+        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(PasswordChangeWindow.this));
         PasswordChangeWindow.this.close();
     }
 }

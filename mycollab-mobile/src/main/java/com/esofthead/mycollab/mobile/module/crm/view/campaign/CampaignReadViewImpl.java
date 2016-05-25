@@ -48,7 +48,6 @@ import com.vaadin.ui.HorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @ViewComponent
 public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
     private static final long serialVersionUID = 1718241963843463323L;

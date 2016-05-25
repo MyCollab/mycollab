@@ -16,33 +16,28 @@
  */
 package com.esofthead.mycollab.module.mail.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
 import com.esofthead.mycollab.core.persistence.service.IService;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface MailRelayService extends IService {
-	/**
-	 * 
-	 * @param toNames
-	 * @param toEmails
-	 * @param subject
-	 * @param bodyContent
-	 */
-	void saveRelayEmail(String[] toNames, String[] toEmails, String subject,
-			String bodyContent);
+    /**
+     * @param toNames
+     * @param toEmails
+     * @param subject
+     * @param bodyContent
+     */
+    void saveRelayEmail(String[] toNames, String[] toEmails, String subject, String bodyContent);
 
-	/**
-	 * 
-	 * @return
-	 */
-	List<RelayEmailWithBLOBs> getRelayEmails();
+    /**
+     * @return
+     */
+    List<RelayEmailWithBLOBs> getRelayEmails();
 
-	void cleanEmails();
+    void cleanEmails();
 }

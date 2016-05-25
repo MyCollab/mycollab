@@ -19,6 +19,7 @@ package com.esofthead.mycollab.core.utils;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.google.common.base.MoreObjects;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -42,6 +43,22 @@ public class FileUtils {
     public static File getUserFolder() {
         String userDir = MoreObjects.firstNonNull(System.getProperty("MYCOLLAB_APP_HOME"), System.getProperty("user.dir"));
         return new File(userDir);
+    }
+
+    public static String readFileAsPlainString(String fileName) {
+        try {
+            File pricingFile = FileUtils.getDesireFile(FileUtils.getUserFolder(), fileName, "src/main/conf/" + fileName);
+            InputStream pricingStream;
+            if (pricingFile != null) {
+                pricingStream = new FileInputStream(pricingFile);
+            } else {
+                pricingStream = FileUtils.class.getClassLoader().getResourceAsStream(fileName);
+            }
+
+            return IOUtils.toString(pricingStream, "UTF-8");
+        } catch (IOException e) {
+            throw new MyCollabException(e);
+        }
     }
 
     public static String getVolumeDisplay(Long volume) {

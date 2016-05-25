@@ -24,8 +24,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -33,20 +32,19 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
+
 /**
  * @author MyCollab Ltd.
  * @since 2.0
  */
 @ViewComponent
-public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
-        implements MeetingAddView {
-
+public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> implements MeetingAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? "New Meeting" : beanItem
-                .getSubject();
+        return (beanItem.getId() == null) ? "New Meeting" : beanItem.getSubject();
     }
 
     @Override
@@ -56,8 +54,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm)
-                .createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override
@@ -67,8 +64,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.MEETING,
-                MeetingDefaultFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
     }
 
     @Override
@@ -76,8 +72,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
         return new MeetingEditFormFieldFactory(editForm);
     }
 
-    private static class MeetingEditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+    private static class MeetingEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
         private static final long serialVersionUID = 1L;
 
         MeetingEditFormFieldFactory(GenericBeanForm<MeetingWithBLOBs> form) {

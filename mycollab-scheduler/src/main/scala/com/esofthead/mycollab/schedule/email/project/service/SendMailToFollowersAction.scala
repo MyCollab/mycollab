@@ -56,7 +56,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           contentGenerator.putVariable("userName", user.getDisplayName)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
             contentGenerator.parseString(getCreateSubject(context)),
             contentGenerator.parseFile("templates/email/project/itemCreatedNotifier.mt", context.getLocale,
               Locale.US), null)
@@ -84,7 +84,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           }
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
             contentGenerator.parseString(getUpdateSubject(context)),
             contentGenerator.parseFile("templates/email/project/itemUpdatedNotifier.mt", context.getLocale,
               Locale.US), null)
@@ -107,7 +107,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           contentGenerator.putVariable("comment", context.getEmailNotification)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val toRecipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, toRecipients,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, toRecipients,
             null, null, contentGenerator.parseString(getCommentSubject(context)),
             contentGenerator.parseFile("templates/email/project/itemCommentNotifier.mt", context.getLocale,
               Locale.US), null)

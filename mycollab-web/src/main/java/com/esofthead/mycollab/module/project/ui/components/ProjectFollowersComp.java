@@ -196,7 +196,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+            criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE));
             criteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
 
             ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);

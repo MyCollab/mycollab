@@ -63,7 +63,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMilestone> {
     @Override
     public void setBean(SimpleMilestone bean) {
-        this.setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(),
+        this.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(),
                 Milestone.Field.name.name()));
         this.setBeanFormFieldFactory(new MilestoneFormFieldFactory(this));
         super.setBean(bean);

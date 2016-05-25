@@ -21,7 +21,8 @@ import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.VerticalLayout;
@@ -30,26 +31,27 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
+public class MilestoneFormLayoutFactory extends AbstractFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
     private GridFormLayoutHelper informationLayout;
 
     @Override
-    public void attachField(Object propertyId, final Field<?> field) {
+    public Component onAttachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("name")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
         } else if (propertyId.equals("status")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 0, 1);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 0, 1);
         } else if (propertyId.equals("owner")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
         } else if (propertyId.equals("startdate")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
         } else if (propertyId.equals("enddate")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 4);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 4);
         } else if (propertyId.equals("description")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 7);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 7);
         }
+        return null;
     }
 
     @Override

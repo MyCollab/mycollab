@@ -16,17 +16,14 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.core.utils.TimezoneVal;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
-import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
-import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -103,10 +100,10 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         formLayoutHelper.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())), AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
         formLayoutHelper.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(),
                 ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
-        formLayoutHelper.addComponent(new Label(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()),
+        formLayoutHelper.addComponent(new Label(TimezoneVal.getDisplayName(user.getTimezone())),
                 AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
         formLayoutHelper.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage())
-                .getDisplayLanguage(AppContext.getUserLocale())),
+                        .getDisplayLanguage(AppContext.getUserLocale())),
                 AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 4);
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);
@@ -121,23 +118,8 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
     private Layout createTopPanel() {
         final PreviewFormControlsGenerator<User> controlGenerator = new PreviewFormControlsGenerator<>(previewForm);
-        Layout layout = controlGenerator.createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED |
+        return controlGenerator.createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED |
                 DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED, RolePermissionCollections.ACCOUNT_USER);
-        if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(user.getRegisterstatus())) {
-            final Button resendBtn = new Button("Resend Invitation", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                    userService.updateUserAccountStatus(user.getUsername(),
-                            user.getAccountId(), RegisterStatusConstants.VERIFICATING);
-                    controlGenerator.removeButtonIndex(0);
-                }
-            });
-            resendBtn.addStyleName(UIConstants.BUTTON_OPTION);
-            controlGenerator.insertToControlBlock(resendBtn);
-        }
-
-        return layout;
     }
 
     @Override
@@ -176,7 +158,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                     } else if (propertyId.equals("dateofbirth")) {
                         return new DateViewField(user.getDateofbirth());
                     } else if (propertyId.equals("timezone")) {
-                        return new DefaultViewField(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName());
+                        return new DefaultViewField(TimezoneVal.getDisplayName(user.getTimezone()));
                     } else if (propertyId.equals("facebookaccount")) {
                         return new UrlSocialNetworkLinkViewField(user.getFacebookaccount(), "https://www.facebook.com/" +
                                 user.getFacebookaccount());
@@ -192,7 +174,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             super.setBean(newDataSource);
         }
 
-        private class FormLayoutFactory implements IFormLayoutFactory {
+        private class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
             private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
@@ -207,24 +189,25 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
-                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
+                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
-                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
+                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
                 } else if (propertyId.equals("country")) {
-                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
+                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
                 } else if (propertyId.equals("workphone")) {
-                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
                 } else if (propertyId.equals("homephone")) {
-                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
                 } else if (propertyId.equals("facebookaccount")) {
-                    contactLayout.addComponent(field, "Facebook", 0, 2);
+                    return contactLayout.addComponent(field, "Facebook", 0, 2);
                 } else if (propertyId.equals("twitteraccount")) {
-                    contactLayout.addComponent(field, "Twitter", 0, 3);
+                    return contactLayout.addComponent(field, "Twitter", 0, 3);
                 } else if (propertyId.equals("skypecontact")) {
-                    contactLayout.addComponent(field, "Skype", 0, 4);
+                    return contactLayout.addComponent(field, "Skype", 0, 4);
                 }
+                return null;
             }
         }
     }

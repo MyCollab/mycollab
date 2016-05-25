@@ -33,7 +33,7 @@ mail.username=${smtpUserName}
 mail.password=${smtpPassword}
 mail.isTLS=${smtpTLSEnable}
 mail.isSSL=${smtpSSLEnable}
-mail.noreply=noreply@mycollab.com
+mail.notify=${mailNotify}
 
 #=====================================================
 #    ERROR REPORTING

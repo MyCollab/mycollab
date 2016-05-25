@@ -160,23 +160,20 @@ public final class StringUtils {
 
 
     public static boolean isValidEmail(String value) {
-        boolean isValid = false;
         try {
             //
             // Create InternetAddress object and validated the supplied
             // address which is this case is an email address.
             InternetAddress internetAddress = new InternetAddress(value);
             internetAddress.validate();
-            isValid = true;
+            return true;
         } catch (AddressException e) {
-            e.printStackTrace();
+            return false;
         }
-        return isValid;
     }
 
     public static boolean isValidPhoneNumber(String value) {
-        if (value != null && !value.trim().equals("")) {
-
+        if (StringUtils.isNotBlank(value)) {
             // validate phone numbers of format "1234567890"
             if (value.matches("\\d{10}"))
                 return true;

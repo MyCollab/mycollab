@@ -41,7 +41,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
@@ -156,7 +156,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY, OpportunityDefaultDynaFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.OPPORTUNITY, OpportunityDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

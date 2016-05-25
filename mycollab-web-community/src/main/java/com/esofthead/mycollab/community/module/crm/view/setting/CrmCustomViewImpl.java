@@ -21,8 +21,6 @@ import com.esofthead.mycollab.module.crm.view.setting.ICrmCustomView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 
-import java.util.List;
-
 /**
  * @author MyCollab Ltd.
  * @since 2.0
@@ -42,7 +40,7 @@ public class CrmCustomViewImpl extends NotPresentedView implements ICrmCustomVie
     }
 
     @Override
-    public List<DynaSection> getActiveSections() {
+    public DynaSection[] getActiveSections() {
         return null;
     }
 

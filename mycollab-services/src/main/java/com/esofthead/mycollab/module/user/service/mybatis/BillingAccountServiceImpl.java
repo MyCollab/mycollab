@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user.service.mybatis;
 
 import com.esofthead.mycollab.configuration.IDeploymentMode;
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.configuration.EnDecryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
@@ -126,7 +126,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     public void createDefaultAccountData(String username, String password, String timezoneId, Boolean isEmailVerified,
                                          Boolean isCreatedDefaultData, Integer sAccountId) {
         // Check whether user has registered to the system before
-        String encryptedPassword = PasswordEncryptHelper.encryptSaltPassword(password);
+        String encryptedPassword = EnDecryptHelper.encryptSaltPassword(password);
         UserExample ex = new UserExample();
         ex.createCriteria().andUsernameEqualTo(username);
         List<User> users = userMapper.selectByExample(ex);

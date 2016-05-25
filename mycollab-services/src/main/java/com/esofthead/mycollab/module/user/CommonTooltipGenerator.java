@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.core.utils.TimezoneVal;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -65,7 +65,7 @@ public class CommonTooltipGenerator {
             Tr trRow2 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
                     .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_TIMEZONE)))
                     .appendChild(new Td().setStyle("vertical-align: top;").appendText(
-                            TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()));
+                            TimezoneVal.valueOf(user.getTimezone()).getDisplayName(locale)));
             Tr trRow3 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
                     .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_COUNTRY)))
                     .appendChild(new Td().setStyle("vertical-align: top;").appendText(

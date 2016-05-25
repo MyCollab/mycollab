@@ -37,7 +37,7 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class DynaFormLayout implements IDynaFormLayout {
+public class DefaultDynaFormLayout implements IDynaFormLayout {
     private static final long serialVersionUID = 1L;
 
     private DynaForm dynaForm;
@@ -46,7 +46,7 @@ public class DynaFormLayout implements IDynaFormLayout {
     private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
     private Set<String> excludeFields;
 
-    public DynaFormLayout(String moduleName, DynaForm defaultForm, String... excludeField) {
+    public DefaultDynaFormLayout(String moduleName, DynaForm defaultForm, String... excludeField) {
         if (excludeField.length > 0) {
             this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
         } else {
@@ -57,7 +57,7 @@ public class DynaFormLayout implements IDynaFormLayout {
         this.dynaForm = (form != null) ? form : defaultForm;
     }
 
-    public DynaFormLayout(DynaForm dynaForm, String... excludeField) {
+    public DefaultDynaFormLayout(DynaForm dynaForm, String... excludeField) {
         if (excludeField.length > 0) {
             this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
         } else {
@@ -155,7 +155,7 @@ public class DynaFormLayout implements IDynaFormLayout {
     }
 
     @Override
-    public void attachField(Object propertyId, Field<?> field) {
+    public Component attachField(Object propertyId, Field<?> field) {
         AbstractDynaField dynaField = fieldMappings.get(propertyId);
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
@@ -164,7 +164,9 @@ public class DynaFormLayout implements IDynaFormLayout {
             if (componentWrapper != null) {
                 componentWrapper.addComponent(field);
             }
+            return field;
         }
+        return null;
     }
 
     @Override

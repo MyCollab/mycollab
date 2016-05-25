@@ -30,7 +30,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -79,7 +79,7 @@ public class LinkIssueWindow extends Window {
             super.setBean(newDataSource);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private GridFormLayoutHelper informationLayout;
 
             @Override
@@ -122,7 +122,7 @@ public class LinkIssueWindow extends Window {
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
-                        LinkIssueWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
@@ -132,14 +132,15 @@ public class LinkIssueWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, "This bug", 0, 0);
+                    return informationLayout.addComponent(field, "This bug", 0, 0);
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, "Bug", 0, 1);
+                    return informationLayout.addComponent(field, "Bug", 0, 1);
                 } else if (RelatedBug.Field.comment.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, "Comment", 0, 2);
+                    return informationLayout.addComponent(field, "Comment", 0, 2);
                 }
+                return null;
             }
         }
 

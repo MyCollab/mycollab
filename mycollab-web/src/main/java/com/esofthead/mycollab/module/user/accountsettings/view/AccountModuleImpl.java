@@ -164,7 +164,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
     @Override
     public void gotoUserProfilePage() {
-        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this, null));
+        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this));
     }
 
     @Override

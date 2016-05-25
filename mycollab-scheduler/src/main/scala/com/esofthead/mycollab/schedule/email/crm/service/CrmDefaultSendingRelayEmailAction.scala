@@ -73,7 +73,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
                     buildExtraTemplateVariables(context)
                     val userMail = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients = List(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(subject),
                         contentGenerator.parseFile(getCreateContentPath, context.getLocale, Locale.US), null)
                 }
@@ -106,7 +106,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
                     contentGenerator.putVariable("mapper", getItemFieldMapper)
                     val userMail = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients = List(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(subject),
                         contentGenerator.parseFile(getUpdateContentPath, context.getLocale, Locale.US), null)
                 }
@@ -141,7 +141,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
                 val subject = context.getMessage(getCommentSubjectKey, context.getChangeByUserFullName, getItemName)
                 val userMail = new MailRecipientField(user.getEmail, user.getUsername)
                 val recipients = List(userMail)
-                extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, seqAsJavaList
+                extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, seqAsJavaList
                     (recipients), null, null,
                     contentGenerator.parseString(subject), contentGenerator.parseFile(getNoteContentPath,
                         context.getLocale, Locale.US), null)

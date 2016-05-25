@@ -21,13 +21,16 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -39,8 +42,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> impl
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(AccountI18nEnum.NEW) :
-                beanItem.getAccountname();
+        return (beanItem.getId() == null) ? AppContext.getMessage(AccountI18nEnum.NEW) : beanItem.getAccountname();
     }
 
     @Override
@@ -50,7 +52,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> impl
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> impl
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.ACCOUNT, AccountDefaultDynaFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.ACCOUNT, AccountDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

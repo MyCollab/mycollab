@@ -32,7 +32,6 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -44,6 +43,8 @@ import com.vaadin.ui.TextField;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -72,7 +73,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override

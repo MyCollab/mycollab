@@ -85,7 +85,7 @@ object NewUserJoinCommand {
     contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(account.getSubdomain))
     contentGenerator.putVariable("newUser", newUser)
     contentGenerator.putVariable("formatter", new Formatter)
-    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
+    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
       null, null, String.format("%s has just joined on MyCollab workspace", newUser.getDisplayName),
       contentGenerator.parseFile("templates/email/user/newUserJoinAccountNotifier.mt", Locale.US), null)
   }

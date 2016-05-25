@@ -52,6 +52,7 @@ import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper;
 import com.esofthead.mycollab.vaadin.web.ui.NotificationComponent;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.web.AdWindow;
+import com.esofthead.mycollab.web.BuyPremiumSoftwareWindow;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.esofthead.mycollab.web.IDesktopModule;
 import com.google.common.eventbus.Subscribe;
@@ -325,10 +326,10 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
             if (licenseInfo != null) {
                 if (licenseInfo.isExpired()) {
-                    Button buyPremiumBtn = new Button("License is expired. Upgrade?", new ClickListener() {
+                    Button buyPremiumBtn = new Button("License is expired. Buy?", new ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
-                            UI.getCurrent().addWindow(new AdWindow());
+                            UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow());
                         }
                     });
                     buyPremiumBtn.setIcon(FontAwesome.SHOPPING_CART);
@@ -340,7 +341,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     Button buyPremiumBtn = new Button(String.format("Trial license: %d days left. Buy?", days), new ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
-                            UI.getCurrent().addWindow(new AdWindow());
+                            UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow());
                         }
                     });
                     buyPremiumBtn.setIcon(FontAwesome.SHOPPING_CART);

@@ -17,7 +17,6 @@
 
 package com.esofthead.mycollab.module.project.service;
 
-import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
@@ -57,8 +56,4 @@ public interface ProjectMemberService extends IDefaultService<Integer, ProjectMe
 
     void inviteProjectMembers(String[] email, Integer projectId, Integer projectRoleId,
                               String inviteUser, String inviteMessage, Integer sAccountId);
-
-    @CacheEvict
-    void acceptProjectInvitationByNewUser(String email, String password, Integer projectId,
-                                          Integer projectRoleId, @CacheKey Integer sAccountId);
 }

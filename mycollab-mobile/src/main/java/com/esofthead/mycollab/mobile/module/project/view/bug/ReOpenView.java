@@ -36,7 +36,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
@@ -113,7 +113,7 @@ class ReOpenView extends AbstractMobilePageView {
             super.setBean(newDataSource);
         }
 
-        static class FormLayoutFactory implements IFormLayoutFactory {
+        static class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -124,14 +124,15 @@ class ReOpenView extends AbstractMobilePageView {
             }
 
             @Override
-            public void attachField(Object propertyId, final Field<?> field) {
+            public Component onAttachField(Object propertyId, final Field<?> field) {
                 if (propertyId.equals("resolution")) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
                 } else if (propertyId.equals("assignuser")) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("comment")) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 2);
+                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 2);
                 }
+                return null;
             }
         }
 

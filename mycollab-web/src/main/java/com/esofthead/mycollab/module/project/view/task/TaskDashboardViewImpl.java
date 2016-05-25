@@ -43,6 +43,7 @@ import com.esofthead.mycollab.module.project.reporting.StreamResourceUtils;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.components.*;
 import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
@@ -52,6 +53,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
@@ -134,6 +136,8 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                     taskSearchPanel.setTotalCountNumber(totalTasks);
                 }
             };
+
+    private ApplicationEventListener<ShellEvent.AddQueryParam> addQueryHandler = QueryParamHandler.queryParamHandler();
 
     public TaskDashboardViewImpl() {
         this.withMargin(new MarginInfo(false, true, true, true));
@@ -245,6 +249,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     public void attach() {
         EventBusFactory.getInstance().register(searchHandler);
         EventBusFactory.getInstance().register(newTaskAddedHandler);
+        EventBusFactory.getInstance().register(addQueryHandler);
         super.attach();
     }
 
@@ -252,6 +257,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     public void detach() {
         EventBusFactory.getInstance().unregister(searchHandler);
         EventBusFactory.getInstance().unregister(newTaskAddedHandler);
+        EventBusFactory.getInstance().unregister(addQueryHandler);
         super.detach();
     }
 

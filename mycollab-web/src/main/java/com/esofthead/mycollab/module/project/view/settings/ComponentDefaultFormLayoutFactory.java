@@ -38,22 +38,22 @@ public class ComponentDefaultFormLayoutFactory {
         defaultForm = new DynaForm();
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).build();
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.componentname)
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Component.Field.componentname)
                 .displayName(AppContext.getMessage(GenericI18Enum.FORM_NAME))
                 .required(true).mandatory(true).fieldIndex(0).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.description)
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Component.Field.description)
                 .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
                 .fieldIndex(1).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.userlead)
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Component.Field.userlead)
                 .displayName(AppContext.getMessage(ComponentI18nEnum.FORM_LEAD))
                 .fieldIndex(2).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.id).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Component.Field.id).displayName(AppContext
                 .getMessage(BugI18nEnum.LIST)).fieldIndex(3).build());
 
-        defaultForm.addSection(mainSection);
+        defaultForm.sections(mainSection);
     }
 
     public static DynaForm getForm() {

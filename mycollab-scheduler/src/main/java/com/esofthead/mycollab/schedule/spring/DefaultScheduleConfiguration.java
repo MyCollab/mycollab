@@ -18,7 +18,6 @@ package com.esofthead.mycollab.schedule.spring;
 
 import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
-import com.esofthead.mycollab.schedule.email.user.service.SendUserInvitationEmailJob;
 import com.esofthead.mycollab.schedule.email.user.service.UserSignUpEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +38,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean sendRelayEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(SendingRelayEmailJob.class);
-        return bean;
-    }
-
-    @Bean
-    public JobDetailFactoryBean sendInviteUserEmailJob() {
-        JobDetailFactoryBean bean = new JobDetailFactoryBean();
-        bean.setJobClass(SendUserInvitationEmailJob.class);
         return bean;
     }
 
@@ -132,14 +124,6 @@ public class DefaultScheduleConfiguration {
     }
 
     @Bean
-    public CronTriggerFactoryBean sendInviteUserEmailTrigger() {
-        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
-        bean.setJobDetail(sendInviteUserEmailJob().getObject());
-        bean.setCronExpression("0 * * * * ?");
-        return bean;
-    }
-
-    @Bean
     public CronTriggerFactoryBean cleanUpTimelineCacheDataTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(cleanTimelineTrackingCacheJob().getObject());
@@ -178,7 +162,6 @@ public class DefaultScheduleConfiguration {
                 projectSendRelayNotificationEmailTrigger().getObject(),
                 projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
                 crmSendRelayNotificationEmailTrigger().getObject(),
-                sendInviteUserEmailTrigger().getObject(),
                 userSignUpNotificationEmailTrigger().getObject(),
                 cleanUpTimelineCacheDataTrigger().getObject(),
                 liveInstanceMonitorTrigger().getObject()

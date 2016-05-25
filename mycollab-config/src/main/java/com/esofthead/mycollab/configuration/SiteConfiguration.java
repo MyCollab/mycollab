@@ -40,7 +40,6 @@ public class SiteConfiguration {
     private String siteName;
     private String serverAddress;
     private int serverPort;
-    private String noreplyEmail;
     private EmailConfiguration emailConfiguration;
     private DatabaseConfiguration databaseConfiguration;
     private String cdnUrl;
@@ -89,8 +88,8 @@ public class SiteConfiguration {
         Integer port = Integer.parseInt(ApplicationProperties.getString(MAIL_PORT, "25"));
         Boolean isTls = Boolean.parseBoolean(ApplicationProperties.getString(MAIL_IS_TLS, "false"));
         Boolean isSsl = Boolean.parseBoolean(ApplicationProperties.getString(MAIL_IS_SSL, "false"));
-        instance.emailConfiguration = new EmailConfiguration(host, user, password, port, isTls, isSsl);
-        instance.noreplyEmail = ApplicationProperties.getString(MAIL_NOREPLY, "noreply@mycollab.com");
+        String noreplyEmail = ApplicationProperties.getString(MAIL_NOTIFY, "");
+        instance.emailConfiguration = new EmailConfiguration(host, user, password, port, isTls, isSsl, noreplyEmail);
 
         // load database configuration
         String driverClass = ApplicationProperties.getString(DB_DRIVER_CLASS);
@@ -163,8 +162,8 @@ public class SiteConfiguration {
         getInstance().emailConfiguration = conf;
     }
 
-    public static String getNoReplyEmail() {
-        return getInstance().noreplyEmail;
+    public static String getNotifyEmail() {
+        return getInstance().emailConfiguration.getNotifyEmail();
     }
 
     public static String getDefaultSiteName() {

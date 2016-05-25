@@ -22,9 +22,11 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.HumanTime;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.ui.components.HumanTimeConverter;
+import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.esofthead.mycollab.module.project.ui.components.TaskCompleteStatusSelection;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneComboBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -52,16 +54,29 @@ import java.util.Date;
 class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleTask> {
     private static final long serialVersionUID = 1L;
 
+    private ProjectSubscribersComp subscribersComp;
     private AttachmentUploadField attachmentUploadField;
 
-    TaskEditFormFieldFactory(GenericBeanForm<SimpleTask> form) {
+    TaskEditFormFieldFactory(GenericBeanForm<SimpleTask> form, Integer projectId) {
         super(form);
+        subscribersComp = new ProjectSubscribersComp(false, projectId, AppContext.getUsername());
     }
 
     @Override
     protected Field<?> onCreateField(final Object propertyId) {
         if (Task.Field.assignuser.equalTo(propertyId)) {
-            return new ProjectMemberSelectionField();
+            ProjectMemberSelectionField field = new ProjectMemberSelectionField();
+            field.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    Property property = valueChangeEvent.getProperty();
+                    SimpleProjectMember member = (SimpleProjectMember) property.getValue();
+                    if (member != null) {
+                        subscribersComp.addFollower(member.getUsername());
+                    }
+                }
+            });
+            return field;
         } else if (Task.Field.milestoneid.equalTo(propertyId)) {
             return new MilestoneComboBox();
         } else if (Task.Field.notes.equalTo(propertyId)) {
@@ -140,6 +155,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                 attachmentUploadField.getAttachments(attachmentPath);
             }
             return attachmentUploadField;
+        } else if (propertyId.equals("selected")) {
+            return subscribersComp;
         }
         return null;
     }
@@ -166,5 +183,9 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
 
     public AttachmentUploadField getAttachmentUploadField() {
         return attachmentUploadField;
+    }
+
+    public ProjectSubscribersComp getSubscribersComp() {
+        return subscribersComp;
     }
 }

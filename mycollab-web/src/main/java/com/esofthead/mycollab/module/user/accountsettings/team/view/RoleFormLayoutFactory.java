@@ -19,11 +19,13 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultReadViewLayout;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.WrappedFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
@@ -32,10 +34,10 @@ import com.vaadin.ui.Layout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
+public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
     private static final long serialVersionUID = 1L;
+
     private String title;
-    protected RoleInformationLayout userInformationLayout;
 
     public RoleFormLayoutFactory(String title) {
         this.title = title;
@@ -45,9 +47,9 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
     public ComponentContainer getLayout() {
         ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 
-        this.userInformationLayout = new RoleInformationLayout();
-        this.userInformationLayout.getLayout().setWidth("100%");
-        userAddLayout.addBody(userInformationLayout.getLayout());
+        wrappedLayoutFactory = new RoleInformationLayout();
+        wrappedLayoutFactory.getLayout().setWidth("100%");
+        userAddLayout.addBody(wrappedLayoutFactory.getLayout());
 
         Layout bottomPanel = this.createBottomPanel();
         if (bottomPanel != null) {
@@ -59,12 +61,8 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
     protected abstract Layout createBottomPanel();
 
-    @Override
-    public void attachField(Object propertyId, Field<?> field) {
-        this.userInformationLayout.attachField(propertyId, field);
-    }
 
-    public static class RoleInformationLayout implements IFormLayoutFactory {
+    public static class RoleInformationLayout extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
         private GridFormLayoutHelper informationLayout;
 
@@ -78,12 +76,13 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
         }
 
         @Override
-        public void attachField(Object propertyId, final Field<?> field) {
+        protected Component onAttachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("rolename")) {
-                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
+                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
             } else if (propertyId.equals("description")) {
-                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
             }
+            return null;
         }
     }
 }

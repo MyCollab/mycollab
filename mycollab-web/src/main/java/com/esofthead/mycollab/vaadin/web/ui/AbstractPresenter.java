@@ -149,10 +149,12 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         ScreenData pageAction = pageActionChain.pop();
         boolean isSuccess = go(container, pageAction);
 
-        if (pageActionChain.hasNext() && isSuccess) {
-            onHandleChain(container, pageActionChain);
-        } else {
-            onDefaultStopChain();
+        if (isSuccess) {
+            if (pageActionChain.hasNext()) {
+                onHandleChain(container, pageActionChain);
+            } else {
+                onDefaultStopChain();
+            }
         }
     }
 

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.PathUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -150,7 +150,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
                         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+                        criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
                         userPresenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
                     } else if (ProjectTypeConstants.FINANCE.equals(caption)) {
                         financePresenter.go(ProjectViewImpl.this, null);
@@ -178,7 +178,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             if (project.getContextask() == null || project.getContextask()) {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
                 searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+                searchCriteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
                 ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 int totalMembers = prjMemberService.getTotalCount(searchCriteria);
                 if (totalMembers < 2) {

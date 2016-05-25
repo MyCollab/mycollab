@@ -28,7 +28,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -97,7 +97,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting> 
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
     }
 
     @Override

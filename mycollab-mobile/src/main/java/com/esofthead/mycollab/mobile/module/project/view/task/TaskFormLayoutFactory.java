@@ -22,14 +22,14 @@ import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class TaskFormLayoutFactory implements IFormLayoutFactory {
+public class TaskFormLayoutFactory extends AbstractFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
     private GridFormLayoutHelper informationLayout;
@@ -40,38 +40,39 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
         layout.setMargin(false);
         layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(TaskI18nEnum.M_FORM_READ_TITLE)));
 
-        this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9);
-        layout.addComponent(this.informationLayout.getLayout());
-        layout.setComponentAlignment(this.informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9);
+        layout.addComponent(informationLayout.getLayout());
+        layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
         return layout;
     }
 
     @Override
-    public void attachField(Object propertyId, final Field<?> field) {
+    public Component onAttachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("taskname")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
         } else if (propertyId.equals("startdate")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 1);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 1);
         } else if (propertyId.equals("enddate")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 2);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 2);
         } else if (propertyId.equals("deadline")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 3);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 3);
         } else if (propertyId.equals("priority")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY), 0, 4);
+            return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY), 0, 4);
         } else if (propertyId.equals("assignuser")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 5);
+            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 5);
         } else if (Task.Field.milestoneid.equalTo(propertyId)) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PHASE), 0, 6);
+            return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PHASE), 0, 6);
         } else if (propertyId.equals("percentagecomplete")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 0, 7);
+            return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 0, 7);
         } else if (propertyId.equals("notes")) {
             field.setSizeUndefined();
-            this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_NOTES), 0, 8);
+            return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_NOTES), 0, 8);
         }
+        return null;
     }
 
     public void setPercent(String labelPercent) {
-        ((HorizontalLayout) this.informationLayout.getComponent(0, 5)).removeAllComponents();
-        ((HorizontalLayout) this.informationLayout.getComponent(0, 5)).addComponent(new Label(labelPercent));
+        ((HorizontalLayout) informationLayout.getComponent(0, 5)).removeAllComponents();
+        ((HorizontalLayout) informationLayout.getComponent(0, 5)).addComponent(new Label(labelPercent));
     }
 }

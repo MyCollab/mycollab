@@ -80,6 +80,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
                     TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class, fieldInfos);
                     criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                     EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskSearchPanel.this, criteria));
+                    EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, fieldInfos));
                 }
             });
             ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml()).withWidthUndefined();

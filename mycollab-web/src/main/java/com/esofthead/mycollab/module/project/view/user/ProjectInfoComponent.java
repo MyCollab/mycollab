@@ -155,7 +155,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             }
             clientDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
                     .appendText(project.getClientName()));
-            ELabel accountBtn = new ELabel(clientDiv.write(), ContentMode.HTML).withStyleName(UIConstants.BUTTON_BLOCK).withWidthUndefined();
+            ELabel accountBtn = new ELabel(clientDiv.write(), ContentMode.HTML).withStyleName(UIConstants.BUTTON_BLOCK)
+                    .withWidthUndefined();
             footer.addComponents(accountBtn);
         }
 
@@ -167,7 +168,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 }
             });
             tagBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-            tagBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            tagBtn.addStyleName(UIConstants.BUTTON_ACTION);
             tagBtn.setDescription("Tag management");
             tagBtn.setIcon(FontAwesome.TAGS);
             footer.addComponents(tagBtn);
@@ -180,7 +181,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             });
             favoriteBtn.setCaptionAsHtml(true);
             favoriteBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-            favoriteBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            favoriteBtn.addStyleName(UIConstants.BUTTON_ACTION);
             favoriteBtn.setIcon(FontAwesome.STAR);
             favoriteBtn.setDescription("Your favorite list");
             footer.addComponents(favoriteBtn);
@@ -192,7 +193,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 }
             });
             eventBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-            eventBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            eventBtn.addStyleName(UIConstants.BUTTON_ACTION);
             eventBtn.setIcon(FontAwesome.CALENDAR);
             eventBtn.setDescription("Calendar");
             footer.addComponents(eventBtn);
@@ -204,7 +205,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 }
             });
             ganttChartBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-            ganttChartBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            ganttChartBtn.addStyleName(UIConstants.BUTTON_ACTION);
             ganttChartBtn.setIcon(FontAwesome.BAR_CHART_O);
             ganttChartBtn.setDescription("Gantt chart");
             footer.addComponents(ganttChartBtn);

@@ -77,7 +77,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
                     contentGenerator.putVariable("userName", user.getDisplayName)
                     val userMail = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(getCreateSubject(context)),
                         contentGenerator.parseFile("templates/email/project/itemCreatedNotifier.mt", context.getLocale,
                             Locale.US), null)
@@ -105,7 +105,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
                     }
                     val userMail = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(getUpdateSubject(context)),
                         contentGenerator.parseFile("templates/email/project/itemUpdatedNotifier.mt",
                             context.getLocale, Locale.US), null)
@@ -127,7 +127,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
                     contentGenerator.putVariable("comment", context.getEmailNotification)
                     val userMail = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(getCommentSubject(context)),
                         contentGenerator.parseFile("templates/email/project/itemCommentNotifier.mt",
                             context.getLocale, Locale.US), null)

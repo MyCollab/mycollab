@@ -23,10 +23,13 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -53,7 +56,7 @@ public class PageAddViewImpl extends AbstractEditItemComp<Page> implements PageA
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return (new EditFormControlsGenerator<>(editForm)).createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override

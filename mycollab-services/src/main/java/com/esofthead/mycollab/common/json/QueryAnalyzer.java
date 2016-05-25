@@ -118,9 +118,11 @@ public class QueryAnalyzer {
 
     public static void main(String[] args) throws IOException {
         String query =
-                "W3sicHJlZml4T3BlciI6IkFORCIsInBhcmFtIjp7ImlkIjoiYXNzaWdudXNlciJ9LCJjb21wYXJlT3BlciI6ImJlbG9uZyB0byIsInZhcmlhYmxlSW5qZWN0b3IiOnsidmFsdWUiOlsibGluaGR1b25nQGVzb2Z0aGVhZC5jb20iLCJoYWluZ3V5ZW5AZXNvZnRoZWFkLmNvbSJdLCJjb2xsZWN0aW9uIjoidHJ1ZSJ9fSx7InByZWZpeE9wZXIiOiJBTkQiLCJwYXJhbSI6eyJpZCI6ImR1ZWRhdGUifSwiY29tcGFyZU9wZXIiOiJpcyBiZWZvcmUiLCJ2YXJpYWJsZUluamVjdG9yIjp7InZhbHVlIjoxNDYzNDE4MDAwMDAwLCJ0eXBlIjoiZGF0ZSJ9fV0";
-        System.out.println("Query: " + UrlEncodeDecoder.decode(query));
-        fromQueryParams(query, ProjectTypeConstants.TASK, new TaskSearchCriteria());
+                "W3sicHJlZml4T3BlciI6IkFORCIsInBhcmFtIjp7ImlkIjoidGFza25hbWUifSwiY29tcGFyZU9wZXIiOiJjb250YWlucyIsInZhcmlhYmxlSW5qZWN0b3IiOnsidmFsdWUiOiJhIn19XQ";
+        query = UrlEncodeDecoder.decode(query);
+        System.out.println("Query: " + query);
+        TaskSearchCriteria searchCriteria = fromQueryParams(query, ProjectTypeConstants.TASK, new TaskSearchCriteria());
+        System.out.println(BeanUtility.printBeanObj(searchCriteria));
 
     }
 }

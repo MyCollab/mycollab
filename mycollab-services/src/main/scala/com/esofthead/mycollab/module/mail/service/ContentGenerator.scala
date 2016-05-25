@@ -53,6 +53,7 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
       "twitter_url" -> SiteConfiguration.getTwitterUrl)
     putVariable("defaultUrls", defaultUrls)
     putVariable("current_year", new LocalDate().getYear)
+    putVariable("siteName", SiteConfiguration.getDefaultSiteName)
     putVariable("styles", MailStyles.instance())
   }
 

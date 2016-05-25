@@ -21,7 +21,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -69,7 +69,7 @@ public abstract class MassUpdateWindow<B> extends Window {
         center();
     }
 
-    abstract protected IFormLayoutFactory buildFormLayoutFactory();
+    abstract protected AbstractFormLayoutFactory buildFormLayoutFactory();
 
     abstract protected AbstractBeanFieldGroupEditFieldFactory<B> buildBeanFormFieldFactory();
 

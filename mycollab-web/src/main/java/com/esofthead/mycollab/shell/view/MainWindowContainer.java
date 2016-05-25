@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.shell.view;
 
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.configuration.EnDecryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -69,7 +69,7 @@ public class MainWindowContainer extends CssLayout {
                         String[] loginParams = value.split("\\$");
                         if (loginParams.length == 2) {
                             try {
-                                ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                                ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], EnDecryptHelper.decryptText(loginParams[1]), false);
                             } catch (UserInvalidInputException e) {
                                 navigateToLoginView();
                             }
@@ -101,7 +101,7 @@ public class MainWindowContainer extends CssLayout {
                     String[] loginParams = value.split("\\$");
                     if (loginParams.length == 2) {
                         try {
-                            ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                            ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], EnDecryptHelper.decryptText(loginParams[1]), false);
                         } catch (UserInvalidInputException e) {
                             navigateToLoginView();
                         }

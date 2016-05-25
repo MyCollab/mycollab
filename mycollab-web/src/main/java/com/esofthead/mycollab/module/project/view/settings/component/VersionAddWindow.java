@@ -27,12 +27,13 @@ import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd
@@ -46,7 +47,7 @@ public class VersionAddWindow extends Window implements IEditFormHandler<Version
         this.setModal(true);
         AdvancedEditBeanForm<Version> editForm = new AdvancedEditBeanForm<>();
         editForm.addFormHandler(this);
-        editForm.setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
+        editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_VERSION,
                 VersionDefaultFormLayoutFactory.getForm(), "id"));
         editForm.setBeanFormFieldFactory(new VersionEditFormFieldFactory(editForm));
         Version version = new Version();
@@ -54,7 +55,7 @@ public class VersionAddWindow extends Window implements IEditFormHandler<Version
         version.setSaccountid(AppContext.getAccountId());
         version.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
         editForm.setBean(version);
-        ComponentContainer buttonControls = new EditFormControlsGenerator<>(editForm).createButtonControls(true, false, true);
+        ComponentContainer buttonControls = generateEditFormControls(editForm, true, false, true);
         this.setContent(new MVerticalLayout(editForm, buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT));
         this.center();
     }

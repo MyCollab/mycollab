@@ -16,24 +16,15 @@
  */
 package com.esofthead.mycollab.html
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder
-import com.esofthead.mycollab.configuration.{SiteConfiguration, StorageFactory}
+import com.esofthead.mycollab.configuration.StorageFactory
 import com.hp.gagawa.java.elements.Img
 
 /**
- * @author MyCollab Ltd.
- * @since 4.6.0
- */
+  * @author MyCollab Ltd.
+  * @since 4.6.0
+  */
 object LinkUtils {
 
-    def newAvatar(avatarId: String): Img = new Img("", StorageFactory.getInstance.getAvatarPath(avatarId, 16)).setWidth("16").
-        setHeight("16").setStyle("display: inline-block; vertical-align: top;")
-
-    def generateUserAcceptLink(subDomain: String, accountId: Integer, username: String): String =
-        "%suser/confirm_invite/%s".format(SiteConfiguration.getSiteUrl(subDomain), UrlEncodeDecoder.encode("%s/%s/%s".format(accountId,
-            username, subDomain)))
-
-    def generateUserDenyLink(subDomain: String, accountId: Integer, username: String, inviterName: String, inviterEmail: String) =
-        "%suser/deny_invite/%s".format(SiteConfiguration.getSiteUrl(subDomain), UrlEncodeDecoder.encode("%s/%s/%s/%s/%s".format(accountId,
-            username, inviterName, inviterEmail, subDomain)))
+  def newAvatar(avatarId: String) = new Img("", StorageFactory.getInstance.getAvatarPath(avatarId, 16)).setWidth("16").
+    setHeight("16").setStyle("display: inline-block; vertical-align: top;")
 }

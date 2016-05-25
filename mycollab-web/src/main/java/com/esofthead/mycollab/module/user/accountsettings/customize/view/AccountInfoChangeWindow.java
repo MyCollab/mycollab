@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
@@ -28,9 +27,9 @@ import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.DateFormatField;
@@ -62,7 +61,7 @@ class AccountInfoChangeWindow extends Window {
         MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
         editForm = new AdvancedEditBeanForm<>();
-        editForm.setFormLayoutFactory(new IFormLayoutFactory() {
+        editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
             private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8, "200px");
 
             @Override
@@ -71,27 +70,28 @@ class AccountInfoChangeWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            public Component onAttachField(Object propertyId, Field<?> field) {
                 if (BillingAccount.Field.sitename.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
                 } else if (BillingAccount.Field.subdomain.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SITE_ADDRESS), 0, 1);
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SITE_ADDRESS), 0, 1);
                 } else if (BillingAccount.Field.defaulttimezone.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 2);
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 2);
                 } else if (BillingAccount.Field.defaultcurrencyid.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
                 } else if (BillingAccount.Field.defaultyymmddformat.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
                             AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 4);
                 } else if (BillingAccount.Field.defaultmmddformat.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
                             AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 5);
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
                             AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 6);
                 } else if (BillingAccount.Field.defaultlanguagetag.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
                 }
+                return null;
             }
         });
 
@@ -101,19 +101,11 @@ class AccountInfoChangeWindow extends Window {
                 if (BillingAccount.Field.subdomain.equalTo(propertyId)) {
                     return new SubDomainField();
                 } else if (BillingAccount.Field.defaulttimezone.equalTo(propertyId)) {
-                    TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField(false);
-                    if (billingAccount.getDefaulttimezone() != null) {
-                        cboTimezone.setTimeZone(TimezoneMapper.getTimezoneExt(billingAccount.getDefaulttimezone()));
-                    } else {
-                        if (AppContext.getUser().getTimezone() != null) {
-                            cboTimezone.setTimeZone(TimezoneMapper.getTimezoneExt(AppContext.getUser().getTimezone()));
-                        }
-                    }
-                    return cboTimezone;
+                    return new TimeZoneSelectionField(false);
                 } else if (BillingAccount.Field.defaultcurrencyid.equalTo(propertyId)) {
                     return new CurrencyComboBoxField();
                 } else if (BillingAccount.Field.defaultyymmddformat.equalTo(propertyId)) {
-                    return new DateFormatField("");
+                    return new DateFormatField(billingAccount.getDateFormatInstance().toPattern());
                 } else if (BillingAccount.Field.defaultmmddformat.equalTo(propertyId)) {
                     return new DateFormatField(billingAccount.getShortDateFormatInstance().toPattern());
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {

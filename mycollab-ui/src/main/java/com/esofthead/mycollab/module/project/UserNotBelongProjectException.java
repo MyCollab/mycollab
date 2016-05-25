@@ -14,12 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.ui;
+package com.esofthead.mycollab.module.project;
+
+import com.esofthead.mycollab.core.SecureAccessException;
 
 /**
  * @author MyCollab Ltd
- * @since 5.2.1
+ * @since 5.3.2
  */
-public interface IWrappedFormLayoutFactory extends IFormLayoutFactory {
-    IFormLayoutFactory getWrappedFactory();
+public class UserNotBelongProjectException extends SecureAccessException {
+    public UserNotBelongProjectException() {
+        super("");
+    }
+
+    public UserNotBelongProjectException(String message) {
+        super(message);
+    }
 }

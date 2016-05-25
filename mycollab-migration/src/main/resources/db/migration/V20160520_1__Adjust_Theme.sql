@@ -1,0 +1,1 @@
+UPDATE s_account_theme SET topMenuBg='009BCE', vTabsheetBg='FAFAFA', actionBtn='00B4F0', optionBtn='A4A4A4', dangerBtn='F87A77' WHERE isDefault='1'

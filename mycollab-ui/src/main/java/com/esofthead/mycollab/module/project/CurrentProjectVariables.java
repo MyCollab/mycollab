@@ -20,11 +20,13 @@ import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.file.PathUtils;
 import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
 import com.esofthead.mycollab.module.project.domain.*;
+import com.esofthead.mycollab.module.project.esb.NewProjectMemberJoinEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,9 +56,12 @@ public class CurrentProjectVariables {
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         SimpleProjectMember prjMember = prjMemberService.findMemberByUsername(AppContext.getUsername(), project.getId(), AppContext.getAccountId());
         if (prjMember != null) {
+            if (ProjectMemberStatusConstants.INACTIVE.equals(prjMember.getStatus())) {
+                throw new UserNotBelongProjectException("You are not belong to this project");
+            }
             if (!prjMember.isProjectOwner()) {
                 if (prjMember.getProjectroleid() == null) {
-                    throw new SecureAccessException("You are not belong to this project");
+                    throw new UserNotBelongProjectException("You are not belong to this project");
                 }
                 ProjectRolePermissionExample ex = new ProjectRolePermissionExample();
                 ex.createCriteria().andRoleidEqualTo(prjMember.getProjectroleid()).andProjectidEqualTo(CurrentProjectVariables.getProjectId());
@@ -69,6 +74,12 @@ public class CurrentProjectVariables {
                 }
             }
 
+            if (ProjectMemberStatusConstants.NOT_ACCESS_YET.equals(prjMember.getStatus())) {
+                prjMember.setStatus(ProjectMemberStatusConstants.ACTIVE);
+                prjMemberService.updateSelectiveWithSession(prjMember, AppContext.getUsername());
+                AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
+                asyncEventBus.post(new NewProjectMemberJoinEvent(prjMember.getUsername(), prjMember.getProjectid(), AppContext.getAccountId()));
+            }
             setProjectMember(prjMember);
             if (getProjectToggleMenu() == null) {
                 setProjectToggleMenu(true);

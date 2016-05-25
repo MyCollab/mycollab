@@ -105,7 +105,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         return message;
     }
 
-    class FormLayoutFactory implements IFormLayoutFactory {
+    class FormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -233,8 +233,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
-
+        protected Component onAttachField(Object propertyId, Field<?> field) {
+            return null;
         }
     }
 }

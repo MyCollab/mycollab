@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.utils.RandomPasswordGenerator;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
-import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.events.UserEvent;
@@ -28,11 +27,10 @@ import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.server.Page;
 import com.vaadin.ui.ComponentContainer;
@@ -52,28 +50,17 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<SimpleUser>() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<SimpleUser>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onSave(final SimpleUser item) {
                 save(item);
-                ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
-                if (!mailService.isMailSetupValid()) {
-                    UI.getCurrent().addWindow(new GetStartedInstructionWindow(item));
-                }
-                EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
             }
 
             @Override
             public void onCancel() {
                 EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-            }
-
-            @Override
-            public void onSaveAndNew(final SimpleUser item) {
-                save(item);
-                EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
             }
         });
     }
@@ -83,6 +70,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         if (user.getUsername() != null && user.getUsername().equals(AppContext.getUsername())) {
             isRefreshable = true;
         }
+
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
         user.setAccountId(AppContext.getAccountId());
         user.setSubdomain(AppContext.getSubDomain());
@@ -92,12 +80,17 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         }
 
         if (user.getUsername() == null) {
-            userService.saveUserAccount(user, AppContext.getAccountId(), AppContext.getUsername());
-            NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_TITLE),
-                    AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE));
+            if (user.getPassword() == null) {
+                user.setPassword(RandomPasswordGenerator.generateRandomPassword());
+            }
+            String userPassword = user.getPassword();
+            userService.saveUserAccount(user, user.getRoleid(), AppContext.getSubDomain(), AppContext.getAccountId(), AppContext.getUsername(), true);
+            UI.getCurrent().addWindow(new NewUserAddedWindow(user, userPassword));
         } else {
             userService.updateUserAccount(user, AppContext.getAccountId());
+            EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
         }
+
         if (isRefreshable) {
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }

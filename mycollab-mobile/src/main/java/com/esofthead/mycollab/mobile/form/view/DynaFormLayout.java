@@ -24,15 +24,13 @@ import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
@@ -111,13 +109,18 @@ public class DynaFormLayout implements IFormLayoutFactory {
     }
 
     @Override
-    public void attachField(Object propertyId, Field<?> field) {
+    public Component attachField(Object propertyId, Field<?> field) {
         AbstractDynaField dynaField = fieldMappings.get(propertyId);
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
             GridFormLayoutHelper gridLayout = sectionMappings.get(section);
-            gridLayout.addComponent(field, dynaField.getDisplayName(), 0, dynaField.getFieldIndex());
-
+            return gridLayout.addComponent(field, dynaField.getDisplayName(), 0, dynaField.getFieldIndex());
         }
+        return null;
+    }
+
+    @Override
+    public Set<String> bindFields() {
+        return fieldMappings.keySet();
     }
 }

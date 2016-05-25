@@ -53,9 +53,13 @@ public class DynaSection implements Comparable<DynaSection> {
         return fields.size();
     }
 
-    public void addField(AbstractDynaField field) {
-        fields.add(field);
-        field.setOwnSection(this);
+    public DynaSection fields(AbstractDynaField... dynaFields) {
+        for (AbstractDynaField dynaField: dynaFields) {
+            fields.add(dynaField);
+            dynaField.setOwnSection(this);
+        }
+
+        return this;
     }
 
     public AbstractDynaField getField(int index) {

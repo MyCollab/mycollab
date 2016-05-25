@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -52,12 +53,11 @@ public class ProjectMemberListPresenter extends AbstractPresenter<ProjectMemberL
             if (data.getParams() == null) {
                 criteria = new ProjectMemberSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+                criteria.setStatuses(new SetSearchField<String>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             } else {
                 criteria = (ProjectMemberSearchCriteria) data.getParams();
             }
-
             view.setSearchCriteria(criteria);
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

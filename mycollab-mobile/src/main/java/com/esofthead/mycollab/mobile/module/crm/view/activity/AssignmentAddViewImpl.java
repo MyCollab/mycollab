@@ -27,31 +27,27 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-
 @ViewComponent
-public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
-		AssignmentAddView {
-	private static final long serialVersionUID = 429332932454100255L;
+public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements AssignmentAddView {
+    private static final long serialVersionUID = 429332932454100255L;
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getSubject() != null ? beanItem.getSubject()
-				: AppContext.getMessage(TaskI18nEnum.NEW);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getSubject() != null ? beanItem.getSubject()
+                : AppContext.getMessage(TaskI18nEnum.NEW);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.TASK, AssignmentDefaultFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.TASK, AssignmentDefaultFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Task> initBeanFormFieldFactory() {
-		return new AssignmentEditFormFieldFactory(this.editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<Task> initBeanFormFieldFactory() {
+        return new AssignmentEditFormFieldFactory(this.editForm);
+    }
 
 }

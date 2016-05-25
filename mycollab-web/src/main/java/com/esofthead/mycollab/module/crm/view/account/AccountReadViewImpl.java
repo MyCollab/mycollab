@@ -36,7 +36,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -149,7 +149,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.ACCOUNT, AccountDefaultDynaFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.ACCOUNT, AccountDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

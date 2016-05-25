@@ -103,7 +103,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         informationLayout.addComponent(messageArea, AppContext.getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
 
         userAddLayout.addBody(informationLayout.getLayout());
-        userAddLayout.addBottomControls(createBottomPanel());
+        userAddLayout.addBottom(createBottomPanel());
         this.addComponent(userAddLayout);
     }
 

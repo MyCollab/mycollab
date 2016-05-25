@@ -34,7 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
@@ -52,7 +52,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponent> {
     @Override
     public void setBean(SimpleComponent bean) {
-        setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT, ComponentDefaultFormLayoutFactory.getForm(),
+        setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_COMPONENT, ComponentDefaultFormLayoutFactory.getForm(),
                 Component.Field.componentname.name()));
         setBeanFormFieldFactory(new ReadFormFieldFactory(this));
         super.setBean(bean);

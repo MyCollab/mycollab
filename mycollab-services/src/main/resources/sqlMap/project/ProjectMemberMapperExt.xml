@@ -25,9 +25,12 @@
         #ifnotnull($searchCriteria.id)
             ${searchCriteria.id.operation} m_prj_member.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
         #end
-        
-        #ifnotnull($searchCriteria.status)
-            ${searchCriteria.status.operation} m_prj_member.status = @{searchCriteria.status.value}
+
+        #ifnotnull($searchCriteria.statuses)
+            ${searchCriteria.statuses.operation} m_prj_member.status IN
+            #repeat(${searchCriteria.statuses.values} $status "," "(" ")")
+                @{status}
+            #end
         #end
         
         #ifnotnull($searchCriteria.projectId)
@@ -64,8 +67,11 @@
             ${searchCriteria.id.operation} m_prj_member.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
         #end
         
-        #ifnotnull($searchCriteria.status)
-            ${searchCriteria.status.operation} m_prj_member.status = @{searchCriteria.status.value}
+        #ifnotnull($searchCriteria.statuses)
+            ${searchCriteria.statuses.operation} m_prj_member.status IN
+            #repeat(${searchCriteria.statuses.values} $status "," "(" ")")
+                @{status}
+            #end
         #end
         
         #ifnotnull($searchCriteria.projectId)
@@ -114,7 +120,7 @@
               LEFT OUTER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
               LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
               LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
-              LEFT OUTER JOIN s_user_account ON (s_user_account.accountId=m_prj_project.sAccountId AND s_user_account.username=s_user.username AND s_user_account.registerStatus='Active')
+              LEFT OUTER JOIN s_user_account ON (s_user_account.accountId=m_prj_project.sAccountId AND s_user_account.username=s_user.username AND s_user_account.registerStatus <> 'Delete')
         ]]>
     </sql>
     

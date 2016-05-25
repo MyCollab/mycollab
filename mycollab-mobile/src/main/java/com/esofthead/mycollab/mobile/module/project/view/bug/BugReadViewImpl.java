@@ -250,8 +250,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 }
             } else if (propertyId.equals("severity")) {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
-                    String severityLink = FontAwesome.STAR.getHtml() + " " +
-                            AppContext.getMessage(BugSeverity.class, beanItem.getSeverity());
+                    String severityLink = FontAwesome.STAR.getHtml() + " " + AppContext.getMessage(BugSeverity.class, beanItem.getSeverity());
                     DefaultViewField lbPriority = new DefaultViewField(severityLink, ContentMode.HTML);
                     lbPriority.addStyleName("bug-severity-" + beanItem.getSeverity().toLowerCase());
                     return lbPriority;

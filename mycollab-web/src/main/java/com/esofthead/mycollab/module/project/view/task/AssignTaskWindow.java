@@ -32,9 +32,9 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -83,7 +83,7 @@ public class AssignTaskWindow extends Window {
             super.setBean(newDataSource);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -148,13 +148,13 @@ public class AssignTaskWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (Task.Field.assignuser.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    informationLayout.addComponent(field,
-                            AppContext.getMessage(TaskI18nEnum.FORM_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_COMMENT), 0, 1, 2, "100%");
                 }
+                return null;
             }
         }
 

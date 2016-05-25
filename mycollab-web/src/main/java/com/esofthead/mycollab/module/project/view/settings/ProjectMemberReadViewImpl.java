@@ -23,9 +23,7 @@ import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.NumberUtils;
-import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.*;
-import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
@@ -52,7 +50,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -149,7 +146,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         return new ProjectMemberFormFieldFactory(previewForm);
     }
 
-    protected class ProjectMemberReadLayoutFactory implements IFormLayoutFactory {
+    protected class ProjectMemberReadLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 8833593761607165873L;
 
         @Override
@@ -187,39 +184,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                             .LABEL_META_INFO).withWidth("100%");
             memberInfo.addComponent(memberSinceLabel);
 
-            if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(beanItem.getStatus())) {
-                final VerticalLayout waitingNotLayout = new VerticalLayout();
-                Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
-                infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
-                waitingNotLayout.addComponent(infoStatus);
-
-                ButtonLink resendInvitationLink = new ButtonLink("Resend Invitation", new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        ProjectMemberMapper projectMemberMapper = AppContextUtil.getSpringBean(ProjectMemberMapper.class);
-                        beanItem.setStatus(RegisterStatusConstants.VERIFICATING);
-                        projectMemberMapper.updateByPrimaryKeySelective(beanItem);
-                        waitingNotLayout.removeAllComponents();
-                        Label statusEmail = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
-                        statusEmail.addStyleName(UIConstants.LABEL_META_INFO);
-                        waitingNotLayout.addComponent(statusEmail);
-                    }
-                });
-                resendInvitationLink.setStyleName(UIConstants.BUTTON_LINK);
-                resendInvitationLink.addStyleName(UIConstants.LABEL_META_INFO);
-                waitingNotLayout.addComponent(resendInvitationLink);
-                memberInfo.addComponent(waitingNotLayout);
-            } else if (RegisterStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
+            if (ProjectMemberStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
                 Label lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(beanItem.getLastAccessTime())))
                         .withDescription(AppContext.formatDateTime(beanItem.getLastAccessTime()));
                 lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
                 memberInfo.addComponent(lastAccessTimeLbl);
-            } else if (RegisterStatusConstants.VERIFICATING.equals(beanItem.getStatus())) {
-                Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
-                infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
-                memberInfo.addComponent(infoStatus);
             }
 
             String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + new Span
@@ -243,8 +212,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
-
+        protected Component onAttachField(Object propertyId, Field<?> field) {
+            return null;
         }
 
     }

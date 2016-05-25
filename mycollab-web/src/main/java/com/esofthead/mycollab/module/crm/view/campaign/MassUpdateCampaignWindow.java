@@ -23,10 +23,11 @@ import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.MassUpdateWindow;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
@@ -38,12 +39,11 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
     private static final long serialVersionUID = 1L;
 
     public MassUpdateCampaignWindow(final String title, final CampaignListPresenter presenter) {
-        super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN),
-                new CampaignWithBLOBs(), presenter);
+        super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN), new CampaignWithBLOBs(), presenter);
     }
 
     @Override
-    protected IFormLayoutFactory buildFormLayoutFactory() {
+    protected AbstractFormLayoutFactory buildFormLayoutFactory() {
         return new MassUpdateContactFormLayoutFactory();
     }
 
@@ -52,7 +52,7 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
         return new CampaignEditFormFieldFactory<>(updateForm, false);
     }
 
-    private class MassUpdateContactFormLayoutFactory implements IFormLayoutFactory {
+    private class MassUpdateContactFormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper informationLayout;
@@ -74,17 +74,17 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
         }
 
         @Override
-        public void attachField(Object propertyId, final Field<?> field) {
+        protected Component onAttachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("assignuser")) {
-                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
-            }
-            if (propertyId.equals("status")) {
-                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 1, 0);
+                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+            } else if (propertyId.equals("status")) {
+                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 1, 0);
             } else if (propertyId.equals("type")) {
-                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_TYPE), 0, 1);
+                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_TYPE), 0, 1);
             } else if (propertyId.equals("currencyid")) {
-                campaignGoal.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_CURRENCY), 0, 0);
+                return campaignGoal.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_CURRENCY), 0, 0);
             }
+            return null;
         }
     }
 }

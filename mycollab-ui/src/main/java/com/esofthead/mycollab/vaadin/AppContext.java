@@ -24,7 +24,7 @@ import com.esofthead.mycollab.core.SessionExpireException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.core.utils.TimezoneVal;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
@@ -152,7 +152,7 @@ public class AppContext implements Serializable {
         VaadinSession.getCurrent().setLocale(userLocale);
         messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
 
-        userTimeZone = session.getTimezone() != null ? TimezoneMapper.getTimezone(session.getTimezone()) : TimeZone.getDefault();
+        userTimeZone = TimezoneVal.valueOf(session.getTimezone());
         billingAccount.getDateFormatInstance().setTimeZone(userTimeZone);
         billingAccount.getShortDateFormatInstance().setTimeZone(userTimeZone);
         billingAccount.getHumanDateFormatInstance().setTimeZone(userTimeZone);

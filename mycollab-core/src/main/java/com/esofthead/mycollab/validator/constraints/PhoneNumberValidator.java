@@ -25,7 +25,6 @@ import javax.validation.ConstraintValidatorContext;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("ucd")
 public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
 
     @Override

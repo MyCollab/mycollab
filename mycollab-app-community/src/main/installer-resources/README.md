@@ -40,6 +40,28 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.3.2
+-----------------------------
+
+**Important notes**
+
+* Spring framework 4.2.6.RELEASE
+* MySQL Connector 5.1.39
+
+**Library Upgrades**
+ 
+**Improvements & New Features**
+
+* Support DLS in timezone setting
+* Revise the invitation process simpler
+* Remove redundant libraries to reduce the download size
+* Other minor improvements
+
+**Bug Fixes**
+
+* Several email providers can not send email (Yahoo and several company email providers)
+* Return from forgot password throws error
+
 Version 5.3.1
 -----------------------------
 **Library Upgrades**
@@ -61,7 +83,6 @@ Version 5.3.1
 **Bug Fixes**
 
 * [Premium] Not edit hours in time edit window can cause the system error
-* [Premium] Gantt chart is more stable
 
 Version 5.3.0
 -----------------------------

@@ -19,7 +19,10 @@ package com.esofthead.mycollab.shell.view.components;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.support.domain.TestimonialForm;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -50,7 +53,7 @@ public class TestimonialWindow extends Window {
 
         final TestimonialForm entity = new TestimonialForm();
         final AdvancedEditBeanForm<TestimonialForm> editForm = new AdvancedEditBeanForm<>();
-        editForm.setFormLayoutFactory(new IFormLayoutFactory() {
+        editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
             GridFormLayoutHelper gridFormLayoutHelper;
 
             @Override
@@ -60,20 +63,21 @@ public class TestimonialWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            public Component onAttachField(Object propertyId, Field<?> field) {
                 if ("displayname".equals(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, "Name", 0, 0, 2, "100%");
+                    return gridFormLayoutHelper.addComponent(field, "Name", 0, 0, 2, "100%");
                 } else if ("company".equals(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, "Company", 0, 1);
+                    return gridFormLayoutHelper.addComponent(field, "Company", 0, 1);
                 } else if ("jobrole".equals(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, "Job Role", 1, 1);
+                    return gridFormLayoutHelper.addComponent(field, "Job Role", 1, 1);
                 } else if ("website".equals(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, "Website", 0, 2);
+                    return gridFormLayoutHelper.addComponent(field, "Website", 0, 2);
                 } else if ("email".equals(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, "Email", 1, 2);
+                    return gridFormLayoutHelper.addComponent(field, "Email", 1, 2);
                 } else if ("testimonial".equals(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, "Testimonial", 0, 3, 2, "100%");
+                    return gridFormLayoutHelper.addComponent(field, "Testimonial", 0, 3, 2, "100%");
                 }
+                return null;
             }
         });
         editForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupEditFieldFactory<TestimonialForm>(editForm) {
@@ -93,7 +97,7 @@ public class TestimonialWindow extends Window {
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                TestimonialWindow.this.close();
+                close();
             }
         });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
@@ -102,7 +106,7 @@ public class TestimonialWindow extends Window {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editForm.validateForm()) {
-                    TestimonialWindow.this.close();
+                    close();
                     NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
                     try {
                         RestTemplate restTemplate = new RestTemplate();

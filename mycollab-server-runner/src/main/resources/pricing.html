@@ -1,0 +1,178 @@
+<head>
+    <style>
+        /*Lets load up a Google Font*/
+
+        /*Basic Reset*/
+        * {margin: 0; padding: 0;}
+
+        /*Some fancy BG*/
+
+        .pricing_table {
+        width: 600px;
+        color: #fff;
+        font-size: 12px;
+        font-family: Ubuntu, arial, verdana;
+        line-height: 150%;
+        text-align: center;
+        margin: 20px auto 0 auto;
+        }
+        /*Only the direct LI child, not the .features li*/
+        .pricing_table>li {
+        background: linear-gradient(#666, #333);
+        width: 33.33%;
+        float: left;
+        list-style-type: none;
+        /*For smooth hover effects if .active is replaced by :hover*/
+        transition: all 0.2s;
+        }
+        .pricing_table>li.active {
+        background: linear-gradient(#F9B84A, #DB7224);
+        transform: scale(1.03);
+        box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.5);
+        }
+        .pricing_table h3 {
+        text-transform: uppercase;
+        padding: 15px 0;
+        font-size: 14px;
+        font-weight: bold;
+        color:#fff;
+        }
+        .pricing_table .price_body {
+        width: 125px;
+        height: 125px;
+        margin: 0 auto 15px auto;
+        border: 2px solid #fff;
+        border-radius: 100%;
+        display: table;
+        }
+        .pricing_table .price {
+        font-size: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        /*Lets vertically center align the price now*/
+        vertical-align: middle;
+        display: table-cell;
+        }
+        .pricing_table .price .price_figure {
+        display: block;
+        }
+        .pricing_table .price .price_term {
+        font-size: 11px;
+        font-weight: normal;
+        }
+
+        .pricing_table .features li {
+        list-style-type: none;
+        padding: 5px 0;
+        }
+
+        .pricing_table .footer {
+        padding: 10px;
+        background: #333;
+        margin-top: 10px;
+        }
+
+        .pricing_table .footer .action_button{
+        color: #fff;
+        font-size: 11px;
+        display: inline-block;
+        text-decoration: none;
+        font-weight: bold;
+        background: #000;
+        padding: 4px 20px;
+        border-radius: 15px;
+        background: linear-gradient(#666, #333);
+        }
+        .pricing_table li.active .footer .action_button {
+        background: linear-gradient(#F9B84A, #DB7224);
+        }
+
+
+        .clr {clear: both;}
+
+        .note {
+          color: green;
+          margin-top:20px;
+          text-align: center;
+          font-weight: 600;
+          font-size: 16px;
+        }
+
+    </style>
+
+</head>
+<body>
+<ul class="pricing_table">
+    <li>
+        <h3>Open Source</h3>
+
+        <div class="price_body">
+            <div class="price">
+                Free
+            </div>
+        </div>
+        <div class="features">
+            <ul>
+                <li>Forum support</li>
+                <li>Unlimited projects</li>
+                <li>Limited features</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <a href="https://www.mycollab.com/contact" class="action_button" target="_blank">Select</a>
+        </div>
+    </li>
+    <!-- Active/Hover styles -->
+    <li class="active">
+        <h3>Growing</h3>
+
+        <div class="price_body">
+            <div class="price">
+                <span class="price_figure">$390</span>
+                <span class="price_term">one-time payment</span>
+            </div>
+        </div>
+        <div class="features">
+            <ul>
+                <li>Less than 10 users</li>
+                <li>Forum, Email</li>
+                <li>Unlimited projects</li>
+                <li>All features</li>
+                <li>One year of support included</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <a href="https://www.mycollab.com/ee-registration/" class="action_button" target="_blank">Download</a>
+        </div>
+    </li>
+    <li>
+        <h3>Enterprise</h3>
+
+        <div class="price_body">
+            <div class="price">
+                <span class="price_figure">$1290</span>
+                <span class="price_term">one-time payment</span>
+            </div>
+        </div>
+        <div class="features">
+            <ul>
+                <li>More than 10 users</li>
+                <li>Forum, Email or Phone support</li>
+                <li>Unlimited projects</li>
+                <li>All features</li>
+                <li>One year of support included</li>
+                <li>Boost performance</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <a href="https://www.mycollab.com/ee-registration/" class="action_button" target="_blank">Download</a>
+        </div>
+    </li>
+    <!-- To prevent .pricing_table height collapse(as its children are floated) -->
+    <div class="clr"></div>
+</ul>
+<div class="note">
+    Renew MyCollab for 70% of the first year to keep it up-to-date.
+</div>
+
+</body>

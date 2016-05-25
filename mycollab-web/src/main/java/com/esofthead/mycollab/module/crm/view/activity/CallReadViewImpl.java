@@ -21,16 +21,14 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
-import com.esofthead.mycollab.module.crm.ui.format.CallFieldFormatter;
-import com.esofthead.mycollab.schedule.email.crm.CallRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -58,8 +56,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(RolePermissionCollections.CRM_CALL);
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_CALL);
     }
 
     @Override
@@ -99,7 +96,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.CALL, CallDefaultFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.CALL, CallDefaultFormLayoutFactory.getForm());
     }
 
     @Override

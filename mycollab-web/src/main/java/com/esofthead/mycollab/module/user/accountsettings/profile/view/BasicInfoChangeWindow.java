@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -79,7 +78,7 @@ class BasicInfoChangeWindow extends Window {
         birthdayField.setDate(user.getDateofbirth());
 
         passInfo.addComponent(timeZoneField, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
-        timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(user.getTimezone()));
+        timeZoneField.setValue(user.getTimezone());
 
         passInfo.addComponent(languageBox, AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
         languageBox.setValue(user.getLanguage());
@@ -141,7 +140,7 @@ class BasicInfoChangeWindow extends Window {
         user.setEmail(txtEmail.getValue());
         user.setDateofbirth(birthdayField.getDate());
         user.setLanguage((String) languageBox.getValue());
-        user.setTimezone(timeZoneField.getTimeZone().getId());
+        user.setTimezone(timeZoneField.getValue());
 
         final UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());

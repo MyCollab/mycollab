@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.form.view.builder.type;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,19 +31,14 @@ public class DynaForm {
         return sections.size();
     }
 
-    public void addSection(DynaSection section) {
-        sections.add(section);
-        section.setParentForm(this);
-        Collections.sort(sections);
-    }
-
-    public void addSections(Collection<DynaSection> sectionCol) {
-        for (DynaSection section : sectionCol) {
+    public DynaForm sections(DynaSection... sectionArr) {
+        for (DynaSection section : sectionArr) {
             sections.add(section);
             section.setParentForm(this);
         }
 
         Collections.sort(sections);
+        return this;
     }
 
     public DynaSection getSection(int index) {

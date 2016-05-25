@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.core.utils.TimezoneVal;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -109,10 +109,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
                 AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
         userFormLayout.addComponent(new Label(user.getEmail()), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 1);
-        userFormLayout.addComponent(new Label(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()),
+        userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(user.getTimezone())),
                 AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
-        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage())
-                        .getDisplayLanguage(AppContext.getUserLocale())),
+        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),
                 AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 3);
 
         Button btnChangePassword = new Button("Change", new Button.ClickListener() {
@@ -148,7 +147,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
             super.setBean(newDataSource);
         }
 
-        private class FormLayoutFactory implements IFormLayoutFactory {
+        private class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
             private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
@@ -196,24 +195,25 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
-                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
+                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
-                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
+                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
                 } else if (propertyId.equals("country")) {
-                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
+                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
                 } else if (propertyId.equals("workphone")) {
-                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
                 } else if (propertyId.equals("homephone")) {
-                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
                 } else if (propertyId.equals("facebookaccount")) {
-                    contactLayout.addComponent(field, "Facebook", 0, 2);
+                    return contactLayout.addComponent(field, "Facebook", 0, 2);
                 } else if (propertyId.equals("twitteraccount")) {
-                    contactLayout.addComponent(field, "Twitter", 0, 3);
+                    return contactLayout.addComponent(field, "Twitter", 0, 3);
                 } else if (propertyId.equals("skypecontact")) {
-                    contactLayout.addComponent(field, "Skype", 0, 4);
+                    return contactLayout.addComponent(field, "Skype", 0, 4);
                 }
+                return null;
             }
         }
 

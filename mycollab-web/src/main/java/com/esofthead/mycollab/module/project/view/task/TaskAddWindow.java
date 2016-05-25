@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.domain.MonitorItem;
+import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -26,10 +29,11 @@ import com.esofthead.mycollab.module.project.events.AssignmentEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -38,6 +42,10 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -60,18 +68,18 @@ public class TaskAddWindow extends Window {
         @Override
         public void setBean(final SimpleTask item) {
             this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new TaskEditFormFieldFactory(this));
+            this.setBeanFormFieldFactory(new TaskEditFormFieldFactory(this, item.getProjectid()));
             super.setBean(item);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
             @Override
             public ComponentContainer getLayout() {
                 VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
                 informationLayout.getLayout().setMargin(false);
                 informationLayout.getLayout().setSpacing(false);
                 layout.addComponent(informationLayout.getLayout());
@@ -101,10 +109,31 @@ public class TaskAddWindow extends Window {
                                 taskId = bean.getId();
                             }
 
-                            AttachmentUploadField uploadField = ((TaskEditFormFieldFactory) getFieldFactory()).getAttachmentUploadField();
+                            TaskEditFormFieldFactory taskEditFormFieldFactory = (TaskEditFormFieldFactory) fieldFactory;
+
+                            AttachmentUploadField uploadField = taskEditFormFieldFactory.getAttachmentUploadField();
                             String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bean.getProjectid(),
                                     ProjectTypeConstants.TASK, "" + taskId);
                             uploadField.saveContentsToRepo(attachPath);
+
+                            ProjectSubscribersComp subcribersComp = taskEditFormFieldFactory.getSubscribersComp();
+                            List<String> followers = subcribersComp.getFollowers();
+                            if (followers.size() > 0) {
+                                List<MonitorItem> monitorItems = new ArrayList<>();
+                                for (String follower : followers) {
+                                    MonitorItem monitorItem = new MonitorItem();
+                                    monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+                                    monitorItem.setSaccountid(AppContext.getAccountId());
+                                    monitorItem.setType(ProjectTypeConstants.TASK);
+                                    monitorItem.setTypeid(taskId);
+                                    monitorItem.setUser(follower);
+                                    monitorItem.setExtratypeid(bean.getProjectid());
+                                    monitorItems.add(monitorItem);
+                                }
+                                MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
+                                monitorItemService.saveMonitorItems(monitorItems);
+                            }
+
                             close();
                             EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(TaskAddWindow.this, taskId));
                             EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(TaskAddWindow.this,
@@ -132,27 +161,31 @@ public class TaskAddWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (Task.Field.taskname.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
                 } else if (Task.Field.startdate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 1);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 1);
                 } else if (Task.Field.enddate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 1, 1);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 1, 1);
                 } else if (Task.Field.deadline.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 2);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 2);
                 } else if (Task.Field.assignuser.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
                 } else if (Task.Field.priority.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY),
+                    return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY),
                             AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP), 0, 3);
                 } else if (Task.Field.milestoneid.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PHASE), 1, 3);
+                    return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PHASE), 1, 3);
                 } else if (Task.Field.notes.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 4, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 4, 2, "100%");
                 } else if (Task.Field.id.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 5, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 5, 2, "100%");
+                } else if (SimpleTask.Field.selected.equalTo(propertyId)) {
+                    return informationLayout.addComponent(field, AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS),
+                            AppContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP), 0, 6, 2, "100%");
                 }
+                return null;
             }
         }
     }

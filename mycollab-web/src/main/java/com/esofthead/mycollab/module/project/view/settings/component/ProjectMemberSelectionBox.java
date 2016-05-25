@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -46,7 +46,7 @@ public class ProjectMemberSelectionBox extends ComboBox {
 
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+        criteria.setStatuses(new SetSearchField<String>(ProjectMemberStatusConstants.ACTIVE));
         criteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
 
         ProjectMemberService userService = AppContextUtil.getSpringBean(ProjectMemberService.class);

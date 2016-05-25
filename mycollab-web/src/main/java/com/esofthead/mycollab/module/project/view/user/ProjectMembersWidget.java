@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -120,7 +121,8 @@ public class ProjectMembersWidget extends Depot {
     public void showInformation() {
         searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+        searchCriteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE,
+                ProjectMemberStatusConstants.NOT_ACCESS_YET));
         searchCriteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
         showMembers();
     }

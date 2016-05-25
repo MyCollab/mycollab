@@ -55,7 +55,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
 
             @Override
             public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this, null));
+                EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this));
             }
         }));
     }

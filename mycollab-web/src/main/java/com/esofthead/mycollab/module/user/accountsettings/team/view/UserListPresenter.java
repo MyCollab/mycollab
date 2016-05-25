@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -53,9 +52,7 @@ public class UserListPresenter extends AbstractPresenter<UserListView> {
         if (data == null) {
             criteria = new UserSearchCriteria();
             criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-            criteria.setRegisterStatuses(new SetSearchField<>(
-                    RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-                    RegisterStatusConstants.VERIFICATING));
+            criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.NOT_LOG_IN_YET));
         } else {
             criteria = (UserSearchCriteria) data.getParams();
         }

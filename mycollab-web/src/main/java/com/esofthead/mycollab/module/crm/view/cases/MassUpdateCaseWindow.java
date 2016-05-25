@@ -23,10 +23,11 @@ import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.MassUpdateWindow;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
@@ -42,7 +43,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
     }
 
     @Override
-    protected IFormLayoutFactory buildFormLayoutFactory() {
+    protected AbstractFormLayoutFactory buildFormLayoutFactory() {
         return new MassUpdateContactFormLayoutFactory();
     }
 
@@ -51,7 +52,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
         return new CaseEditFormFieldFactory<>(updateForm, false);
     }
 
-    private class MassUpdateContactFormLayoutFactory implements IFormLayoutFactory {
+    private class MassUpdateContactFormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper informationLayout;
@@ -59,33 +60,31 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
         @Override
         public ComponentContainer getLayout() {
             FormContainer formLayout = new FormContainer();
-
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
             formLayout.addSection(AppContext.getMessage(CaseI18nEnum.SECTION_CASE_INFORMATION), informationLayout.getLayout());
-
             formLayout.addComponent(buildButtonControls());
-
             return formLayout;
         }
 
         // priority, status, account name, origin, type, reason, assignuser
         @Override
-        public void attachField(Object propertyId, final Field<?> field) {
+        protected Component onAttachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("priority")) {
-                this.informationLayout.addComponent(field, "Priority", 0, 0);
+                return informationLayout.addComponent(field, "Priority", 0, 0);
             } else if (propertyId.equals("status")) {
-                this.informationLayout.addComponent(field, "Status", 1, 0);
+                return informationLayout.addComponent(field, "Status", 1, 0);
             } else if (propertyId.equals("accountid")) {
-                this.informationLayout.addComponent(field, "Account Name", 0, 1);
+                return informationLayout.addComponent(field, "Account Name", 0, 1);
             } else if (propertyId.equals("origin")) {
-                this.informationLayout.addComponent(field, "Origin", 1, 1);
+                return informationLayout.addComponent(field, "Origin", 1, 1);
             } else if (propertyId.equals("type")) {
-                this.informationLayout.addComponent(field, "Type", 0, 2);
+                return informationLayout.addComponent(field, "Type", 0, 2);
             } else if (propertyId.equals("reason")) {
-                this.informationLayout.addComponent(field, "Reason", 1, 2);
+                return informationLayout.addComponent(field, "Reason", 1, 2);
             } else if (propertyId.equals("assignuser")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 3, 2, "297px");
+                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 3, 2, "297px");
             }
+            return null;
         }
     }
 }

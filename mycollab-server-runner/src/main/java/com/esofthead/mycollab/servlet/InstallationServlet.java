@@ -113,6 +113,7 @@ public class InstallationServlet extends HttpServlet {
         templateContext.put("smtpPassword", smtpPassword);
         templateContext.put("smtpTLSEnable", tls);
         templateContext.put("smtpSSLEnable", ssl);
+        templateContext.put("mailNotify", smtpUserName);
 
         File confFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf", "src/main/conf");
         if (confFolder == null) {

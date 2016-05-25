@@ -28,7 +28,7 @@ public class MyCollabVersion {
     public static final String THEME_MOBILE_VERSION = "mycollab_20151229";
 
     public static String getVersion() {
-        return "5.3.0";
+        return "5.3.1";
     }
 
     static int[] getVersionNumbers(String ver) {

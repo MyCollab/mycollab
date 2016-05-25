@@ -32,7 +32,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -84,7 +84,7 @@ class AssignBugWindow extends Window {
             super.setBean(item);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -150,12 +150,13 @@ class AssignBugWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("assignuser")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    this.informationLayout.addComponent(field, "Comment", 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, "Comment", 0, 1, 2, "100%");
                 }
+                return null;
             }
         }
 

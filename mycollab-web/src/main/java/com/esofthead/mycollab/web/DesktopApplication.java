@@ -16,16 +16,10 @@
  */
 package com.esofthead.mycollab.web;
 
-import com.esofthead.mycollab.common.json.QueryAnalyzer;
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.configuration.EnDecryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.*;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
-import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -89,25 +83,6 @@ public class DesktopApplication extends MyCollabUI {
 
     private MainWindowContainer mainWindowContainer;
     private static List<String> ipLists = new ArrayList<>();
-
-    private ApplicationEventListener<ShellEvent.AddQueryParam> addQueryHandler = new ApplicationEventListener<ShellEvent.AddQueryParam>() {
-        @Subscribe
-        @Override
-        public void handle(ShellEvent.AddQueryParam event) {
-            List<SearchFieldInfo> searchFieldInfos = (List<SearchFieldInfo>) event.getData();
-            String query = QueryAnalyzer.toQueryParams(searchFieldInfos);
-            String fragment = Page.getCurrent().getUriFragment();
-            int index = fragment.indexOf("?");
-            if (index > 0) {
-                fragment = fragment.substring(0, index);
-            }
-
-            if (StringUtils.isNotBlank(query)) {
-                fragment += "?" + UrlEncodeDecoder.encode(query);
-                Page.getCurrent().setUriFragment(fragment, false);
-            }
-        }
-    };
 
     @Override
     protected void doInit(final VaadinRequest request) {
@@ -306,7 +281,6 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
-
         LOG.error("Error ", e);
         ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
                 AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),
@@ -334,7 +308,6 @@ public class DesktopApplication extends MyCollabUI {
         if (currentContext != null) {
             currentContext.clearSessionVariables();
             setCurrentFragmentUrl("");
-            EventBusFactory.getInstance().unregister(addQueryHandler);
         }
     }
 
@@ -355,8 +328,8 @@ public class DesktopApplication extends MyCollabUI {
         BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
         SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
-        LOG.info(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)) +
-                "-- and user " + BeanUtility.printBeanObj(user));
+        LOG.info(String.format("Get billing account successfully - Pricing: %s, User: %s - %s", "" + billingAccount.getBillingPlan().getPricing(),
+                user.getUsername(), user.getDisplayName()));
         AppContext.getInstance().setSessionVariables(user, billingAccount);
 
         UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
@@ -365,7 +338,6 @@ public class DesktopApplication extends MyCollabUI {
         UserAccountExample ex = new UserAccountExample();
         ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
         userAccountMapper.updateByExampleSelective(userAccount, ex);
-        EventBusFactory.getInstance().register(addQueryHandler);
         EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
     }
 
@@ -390,12 +362,12 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     private void rememberAccount(String username, String password) {
-        String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
+        String storeVal = username + "$" + EnDecryptHelper.encryptText(password);
         BrowserCookie.setCookie(ACCOUNT_COOKIE, storeVal);
     }
 
     private void rememberTempAccount(String username, String password) {
-        String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
+        String storeVal = username + "$" + EnDecryptHelper.encryptText(password);
         String setCookieVal = String.format("var now = new Date(); now.setTime(now.getTime() + 1 * 1800 * 1000); " +
                 "document.cookie = \"%s=%s; expires=\" + now.toUTCString() + \"; path=/\";", TEMP_ACCOUNT_COOKIE, storeVal);
         JavaScript.getCurrent().execute(setCookieVal);

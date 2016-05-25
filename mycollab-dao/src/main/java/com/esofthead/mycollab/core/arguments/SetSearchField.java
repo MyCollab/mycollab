@@ -36,14 +36,6 @@ public class SetSearchField<T> extends SearchField {
     public SetSearchField() {
     }
 
-    public static <T> SetSearchField and(T... vals) {
-        SetSearchField instance = new SetSearchField();
-        if (ArrayUtils.isNotEmpty(vals)) {
-            CollectionUtils.addAll(instance.getValues(), vals);
-        }
-        return instance;
-    }
-
     public SetSearchField(T... vals) {
         if (ArrayUtils.isNotEmpty(vals)) {
             CollectionUtils.addAll(values, vals);

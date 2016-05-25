@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -93,7 +94,7 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
                 if (AppContext.getMessage(ProjectMemberI18nEnum.LIST).equals(caption)) {
                     ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
-                    criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+                    criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
                     userPresenter.go(UserSettingViewImpl.this, new ScreenData.Search<>(criteria));
                 } else if (AppContext.getMessage(ProjectRoleI18nEnum.LIST).equals(caption)) {
                     ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();

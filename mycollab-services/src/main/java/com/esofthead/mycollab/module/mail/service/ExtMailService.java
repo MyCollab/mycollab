@@ -16,10 +16,31 @@
  */
 package com.esofthead.mycollab.module.mail.service;
 
+import com.esofthead.mycollab.common.domain.MailRecipientField;
+import com.esofthead.mycollab.core.persistence.service.IService;
+import com.esofthead.mycollab.module.mail.EmailAttachementSource;
+
+import java.util.List;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
-public interface ExtMailService extends IGenericMailService {
+public interface ExtMailService extends IService {
+    boolean isMailSetupValid();
+
+    /**
+     * @param fromEmail
+     * @param fromName
+     * @param toEmail
+     * @param ccEmail
+     * @param bccEmail
+     * @param subject
+     * @param html
+     * @param attachments
+     */
+    void sendHTMLMail(String fromEmail, String fromName,
+                      List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+                      List<MailRecipientField> bccEmail, String subject, String html,
+                      List<EmailAttachementSource> attachments);
 }

@@ -17,12 +17,9 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.html.LinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.events.UserEvent;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.MarginInfo;
@@ -65,15 +62,6 @@ class GetStartedInstructionWindow extends Window {
         Div roleInfoDiv = new Div().appendText("Your role is ").appendChild(new B().appendText(user.getRoleName()));
         Label roleInfoLbl = new Label(roleInfoDiv.write(), ContentMode.HTML);
         contentLayout.with(infoLbl, userInfoLbl, roleInfoLbl);
-
-        String acceptLinkVal = LinkUtils.generateUserAcceptLink(AppContext.getSubDomain(), AppContext.getAccountId(), user.getUsername());
-        Div acceptLinkDiv = new Div().appendText("Accept: ").appendChild(new A().setHref(acceptLinkVal).appendText(acceptLinkVal));
-        Label acceptLink = new Label(acceptLinkDiv.write(), ContentMode.HTML);
-
-        String denyLinkVal = LinkUtils.generateUserDenyLink(AppContext.getSubDomain(), AppContext.getAccountId(), user.getUsername(), AppContext.getUserDisplayName(), AppContext.getUsername());
-        Div denyLinkDiv = new Div().appendText("Deny: ").appendChild(new A().setHref(denyLinkVal).appendText(denyLinkVal));
-        Label denyLink = new Label(denyLinkDiv.write(), ContentMode.HTML);
-        contentLayout.with(acceptLink, denyLink);
 
         final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
         final Button addNewBtn = new Button("Create another user", new Button.ClickListener() {

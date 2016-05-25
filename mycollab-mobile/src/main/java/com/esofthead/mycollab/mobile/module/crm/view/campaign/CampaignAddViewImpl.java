@@ -27,19 +27,16 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @ViewComponent
 public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign> implements CampaignAddview {
     private static final long serialVersionUID = -345238804067938727L;
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getCampaignname() != null ? beanItem.getCampaignname()
-                : AppContext.getMessage(CampaignI18nEnum.NEW);
+        return beanItem.getCampaignname() != null ? beanItem.getCampaignname() : AppContext.getMessage(CampaignI18nEnum.NEW);
     }
 
     @Override
@@ -51,5 +48,4 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign> im
     protected AbstractBeanFieldGroupEditFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
         return new CampaignEditFormFieldFactory<>(editForm);
     }
-
 }

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.settings.component;
 
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -50,7 +50,7 @@ public class ProjectMemberListSelect extends ListSelect {
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         if (listActiveMembersOnly) {
-            criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+            criteria.setStatuses(new SetSearchField<String>(ProjectMemberStatusConstants.ACTIVE));
         }
 
         ProjectMemberService userService = AppContextUtil.getSpringBean(ProjectMemberService.class);

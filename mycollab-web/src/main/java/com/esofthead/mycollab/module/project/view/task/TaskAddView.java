@@ -22,6 +22,8 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 
+import java.util.List;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -31,4 +33,6 @@ public interface TaskAddView extends IFormAddView<SimpleTask> {
     HasEditFormHandlers<SimpleTask> getEditFormHandlers();
 
     AttachmentUploadField getAttachUploadField();
+
+    List<String> getFollowers();
 }

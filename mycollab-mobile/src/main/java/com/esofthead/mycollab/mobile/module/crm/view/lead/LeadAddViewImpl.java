@@ -27,12 +27,9 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.1
- *
  */
-
 @ViewComponent
 public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements LeadAddView {
     private static final long serialVersionUID = -1152988648403103949L;

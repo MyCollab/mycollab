@@ -18,6 +18,7 @@ package com.esofthead.mycollab.configuration;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -40,16 +41,17 @@ public class EmailConfiguration extends ValuedBean implements Cloneable {
     private Integer port = 25;
 
     private boolean isStartTls = false;
-
     private boolean isSsl = false;
+    private String notifyEmail;
 
-    EmailConfiguration(String host, String username, String password, int port, boolean isStartTls, boolean isSsl) {
+    EmailConfiguration(String host, String username, String password, int port, boolean isStartTls, boolean isSsl, String notifyEmail) {
         this.host = host;
         this.user = username;
         this.password = password;
         this.port = port;
         this.isStartTls = isStartTls;
         this.isSsl = isSsl;
+        this.notifyEmail = StringUtils.isBlank(notifyEmail) ? user: notifyEmail;
     }
 
     public String getHost() {
@@ -106,5 +108,13 @@ public class EmailConfiguration extends ValuedBean implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new MyCollabException(e);
         }
+    }
+
+    public String getNotifyEmail() {
+        return notifyEmail;
+    }
+
+    public void setNotifyEmail(String notifyEmail) {
+        this.notifyEmail = notifyEmail;
     }
 }

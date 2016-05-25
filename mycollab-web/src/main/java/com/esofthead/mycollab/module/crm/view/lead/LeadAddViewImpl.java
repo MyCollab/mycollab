@@ -24,10 +24,11 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -49,7 +50,7 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.LEAD, LeadDefaultDynaFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.LEAD, LeadDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

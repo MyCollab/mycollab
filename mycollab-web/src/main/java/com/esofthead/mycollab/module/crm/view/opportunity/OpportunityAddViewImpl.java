@@ -21,15 +21,16 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -51,7 +52,7 @@ public class OpportunityAddViewImpl extends AbstractEditItemComp<SimpleOpportuni
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class OpportunityAddViewImpl extends AbstractEditItemComp<SimpleOpportuni
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY, OpportunityDefaultDynaFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.OPPORTUNITY, OpportunityDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

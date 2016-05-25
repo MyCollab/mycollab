@@ -36,11 +36,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
 
@@ -97,7 +94,6 @@ class ApproveInputView extends AbstractMobilePageView {
             }
         });
         this.setRightComponent(approveBtn);
-
         this.setContent(this.editForm);
     }
 
@@ -112,23 +108,24 @@ class ApproveInputView extends AbstractMobilePageView {
             super.setBean(newDataSource);
         }
 
-        static class FormLayoutFactory implements IFormLayoutFactory {
+        static class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
             @Override
             public ComponentContainer getLayout() {
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
-                return this.informationLayout.getLayout();
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
+                return informationLayout.getLayout();
             }
 
             @Override
-            public void attachField(Object propertyId, final Field<?> field) {
+            public Component onAttachField(Object propertyId, final Field<?> field) {
                 if (propertyId.equals("assignuser")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    this.informationLayout.addComponent(field, "Comments", 0, 1);
+                    return informationLayout.addComponent(field, "Comments", 0, 1);
                 }
+                return null;
             }
         }
 

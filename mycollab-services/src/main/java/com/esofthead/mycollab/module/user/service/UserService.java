@@ -37,7 +37,7 @@ public interface UserService extends IDefaultService<String, User, UserSearchCri
     SimpleUser authentication(String username, String password, String subdomain, boolean isPasswordEncrypt);
 
     @CacheEvict
-    void saveUserAccount(SimpleUser user, @CacheKey Integer sAccountId, String inviteUser);
+    void saveUserAccount(User user, Integer roleId, String subDomain, @CacheKey Integer sAccountId, String inviteUser, boolean isSendInvitationEmail);
 
     @CacheEvict
     void updateUserAccount(SimpleUser user, @CacheKey Integer sAccountId);

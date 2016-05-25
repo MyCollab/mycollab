@@ -48,7 +48,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -63,9 +63,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        MHorizontalLayout toolbarLayout = new MHorizontalLayout();
         toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        toolbarLayout.setSpacing(true);
 
         Button relatedOpportunities = new Button();
         relatedOpportunities

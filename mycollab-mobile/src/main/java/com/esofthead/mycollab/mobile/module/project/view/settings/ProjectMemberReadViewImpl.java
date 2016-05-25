@@ -37,6 +37,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
@@ -125,7 +126,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         return null;
     }
 
-    class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
+    class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 8920529536882351151L;
 
         private GridFormLayoutHelper informationLayout;
@@ -146,14 +147,15 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        public Component onAttachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("memberFullName")) {
-                informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
+                return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
             } else if (propertyId.equals("email")) {
-                informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_EMAIL), 0, 1);
+                return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_EMAIL), 0, 1);
             } else if (propertyId.equals("roleName")) {
-                informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 2);
+                return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 2);
             }
+            return null;
         }
     }
 

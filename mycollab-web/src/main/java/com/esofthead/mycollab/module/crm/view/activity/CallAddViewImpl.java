@@ -24,12 +24,13 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -51,7 +52,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+        return generateEditFormControls(editForm);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.CALL, CallDefaultFormLayoutFactory.getForm());
+        return new DefaultDynaFormLayout(CrmTypeConstants.CALL, CallDefaultFormLayoutFactory.getForm());
     }
 
     @Override
@@ -89,7 +90,6 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                     tf.setRequired(true);
                     tf.setRequiredError("Subject must not be null");
                 }
-
                 return tf;
             } else if (propertyId.equals("assignuser")) {
                 return new ActiveUserComboBox();
@@ -101,8 +101,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 return new CallDurationField();
             } else if (propertyId.equals("purpose")) {
                 return new CallPurposeComboBox();
-            } else if (propertyId.equals("status")
-                    || propertyId.equals("calltype")) {
+            } else if (propertyId.equals("status") || propertyId.equals("calltype")) {
                 return callStatusField;
             } else if (propertyId.equals("type")) {
                 return new RelatedEditItemField(attachForm.getBean());
@@ -149,8 +148,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
         CallPurposeComboBox() {
             super();
             setCaption(null);
-            this.loadData("Prospecting", "Administrative",
-                    "Negotiation", "Project", "Support");
+            this.loadData("Prospecting", "Administrative", "Negotiation", "Project", "Support");
         }
     }
 

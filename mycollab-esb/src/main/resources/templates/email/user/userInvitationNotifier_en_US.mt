@@ -34,8 +34,17 @@ a {
         #parse("templates/email/logo.mt")
         <tr>
             <td style="padding: 10px 30px;">
-                <div>$formatter.formatUser($inviter) invites you to join MyCollab workspace.</div>
-                #linkBlock( $!urlAccept "Accept Invitation")
+                <div>Hello $invitee.displayName, <br>
+                You have a new account at <a href="$siteUrl">$siteName</a> <br>
+                Account details: <br>
+                Email: <a href="mail:$invitee.email">$invitee.email</a><br>
+                #if ($password)
+                    Password: $password
+                #else
+                    Password: &lt;&lt;Sent in the previous message&gt;&gt;
+                #end
+                </div>
+                #linkBlock( $!siteUrl "Go")
             </td>
          </tr>
          #parse("templates/email/footer_en_US.mt")

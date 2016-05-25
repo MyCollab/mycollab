@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.settings
 
 import com.esofthead.mycollab.common.UrlTokenizer
-import com.esofthead.mycollab.core.arguments.{NumberSearchField, StringSearchField}
+import com.esofthead.mycollab.core.arguments.{NumberSearchField, SetSearchField, StringSearchField}
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
@@ -44,7 +44,7 @@ class UserUrlResolver extends ProjectUrlResolver {
       val projectId = new UrlTokenizer(params(0)).getInt
       val memberSearchCriteria = new ProjectMemberSearchCriteria
       memberSearchCriteria.setProjectId(new NumberSearchField(projectId))
-      memberSearchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE))
+      memberSearchCriteria.setStatuses(new SetSearchField[String](ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Search(memberSearchCriteria))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }

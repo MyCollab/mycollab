@@ -34,7 +34,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @ViewComponent
 public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting> implements MeetingReadView {
     private static final long serialVersionUID = -2176361946750466546L;
@@ -79,8 +78,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting> 
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        MHorizontalLayout toolbarLayout = new MHorizontalLayout();
-        return toolbarLayout;
+        return new MHorizontalLayout();
     }
 
 }

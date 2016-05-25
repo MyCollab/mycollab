@@ -21,7 +21,7 @@ import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.core.utils.TimezoneVal;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.file.service.AccountFavIconService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
@@ -95,7 +95,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 AppContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
         gridFormLayoutHelper.addComponent(new Label(String.format("https://%s.mycollab.com", billingAccount
                 .getSubdomain())), AppContext.getMessage(AdminI18nEnum.FORM_SITE_ADDRESS), 0, 1);
-        gridFormLayoutHelper.addComponent(new Label(TimezoneMapper.getTimezoneExt(billingAccount.getDefaulttimezone()).getDisplayName()),
+        gridFormLayoutHelper.addComponent(new Label(TimezoneVal.getDisplayName(billingAccount.getDefaulttimezone())),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 2);
         Currency defaultCurrency = billingAccount.getCurrencyInstance();
         gridFormLayoutHelper.addComponent(new ELabel(defaultCurrency.getDisplayName(AppContext.getUserLocale())),

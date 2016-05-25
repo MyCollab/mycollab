@@ -50,7 +50,6 @@ import com.vaadin.ui.HorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @ViewComponent
 public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity> implements OpportunityReadView {
     private static final long serialVersionUID = 1588189344759887006L;

@@ -26,7 +26,8 @@ import scala.beans.BeanProperty
   */
 object ProjectMemberEvent {
 
-  class InviteProjectMembers(@BeanProperty var emails: java.util.List[String], @BeanProperty var roleId: Integer, @BeanProperty var roleName: String,
+  class InviteProjectMembers(@BeanProperty var emails: java.util.Collection[String], @BeanProperty var roleId: Integer,
+                             @BeanProperty var roleName: String,
                              @BeanProperty var inviteMessage: String) extends Serializable {}
 
   class Search(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}

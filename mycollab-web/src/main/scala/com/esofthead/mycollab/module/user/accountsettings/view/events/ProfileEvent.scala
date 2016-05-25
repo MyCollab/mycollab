@@ -24,6 +24,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
   */
 object ProfileEvent {
 
-  class GotoProfileView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+  class GotoProfileView(source: AnyRef) extends ApplicationEvent(source, null) {}
 
 }

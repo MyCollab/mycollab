@@ -16,14 +16,14 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
 import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfileFormLayoutFactory.UserInformationLayout;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -49,10 +49,13 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.fields.MPasswordField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -117,33 +120,30 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         private void displayRolePermission(Integer roleId) {
             if (this.getLayoutFactory() instanceof BasicFormLayoutFactory) {
                 ((BasicFormLayoutFactory) getLayoutFactory()).displayRolePermission(roleId);
+            } else if (this.getLayoutFactory() instanceof AdvancedFormLayoutFactory) {
+                ((AdvancedFormLayoutFactory) getLayoutFactory()).displayRolePermission(roleId);
             }
         }
 
-        private class BasicFormLayoutFactory implements IWrappedFormLayoutFactory {
+        private class BasicFormLayoutFactory extends WrappedFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
-            private IFormLayoutFactory formLayoutFactory;
-            private VerticalLayout rolePermissionLayout;
+            private RolePermissionContainer rolePermissionLayout;
 
             @Override
             public ComponentContainer getLayout() {
                 String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.VIEW_NEW_USER) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
-                formLayoutFactory = buildFormLayout();
-                formAddLayout.addHeaderRight(createButtonControls());
-                formAddLayout.addBody(formLayoutFactory.getLayout());
-                formAddLayout.addBottomControls(createBottomPanel());
+                wrappedLayoutFactory = buildFormLayout();
+                formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));
+                formAddLayout.addBody(wrappedLayoutFactory.getLayout());
+                formAddLayout.addBottom(createBottomPanel());
                 return formAddLayout;
             }
 
-            private ComponentContainer createButtonControls() {
-                return new EditFormControlsGenerator<>(editUserForm).createButtonControls();
-            }
-
             private Layout createBottomPanel() {
-                MVerticalLayout bottomPanel = new MVerticalLayout().withSpacing(false).withMargin(false);
+                MVerticalLayout bottomPanel = new MVerticalLayout().withMargin(false);
                 Button moreInfoBtn = new Button("More information...", new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -156,78 +156,34 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 moreInfoBtn.addStyleName(UIConstants.BUTTON_LINK);
                 MHorizontalLayout linkWrap = new MHorizontalLayout().withMargin(true).with(moreInfoBtn);
                 bottomPanel.with(linkWrap).withAlign(linkWrap, Alignment.MIDDLE_LEFT);
-
-                rolePermissionLayout = new VerticalLayout();
+                rolePermissionLayout = new RolePermissionContainer();
                 bottomPanel.addComponent(rolePermissionLayout);
                 return bottomPanel;
             }
 
-            private void displayRolePermission(Integer roleId) {
-                rolePermissionLayout.removeAllComponents();
-                PermissionMap permissionMap = null;
-                if (roleId != null && roleId > 0) {
-                    RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-                    SimpleRole role = roleService.findById(roleId, AppContext.getAccountId());
-                    if (role != null) {
-                        permissionMap = role.getPermissionMap();
-                    }
-                } else {
-                    permissionMap = PermissionMap.buildAdminPermissionCollection();
-                }
-
-                if (permissionMap != null) {
-                    rolePermissionLayout.addComponent(constructPermissionSectionView("Project", permissionMap,
-                            RolePermissionCollections.PROJECT_PERMISSION_ARR));
-
-                    rolePermissionLayout.addComponent(constructPermissionSectionView("Customer Management", permissionMap,
-                            RolePermissionCollections.CRM_PERMISSIONS_ARR));
-
-                    rolePermissionLayout.addComponent(constructPermissionSectionView("Document", permissionMap,
-                            RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
-
-                    rolePermissionLayout.addComponent(constructPermissionSectionView("Account Management", permissionMap,
-                            RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
-                }
+            void displayRolePermission(Integer roleId) {
+                rolePermissionLayout.displayRolePermission(roleId);
             }
 
-            protected ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
-                                                                        List<PermissionDefItem> defItems) {
-                GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
-                FormContainer permissionsPanel = new FormContainer();
-
-                for (int i = 0; i < defItems.size(); i++) {
-                    PermissionDefItem permissionDefItem = defItems.get(i);
-                    formHelper.addComponent(new Label(getValueFromPerPath(permissionMap,
-                            permissionDefItem.getKey())), permissionDefItem.getCaption(), i % 2, i / 2);
-                }
-                permissionsPanel.addSection(depotTitle, formHelper.getLayout());
-                return permissionsPanel;
-            }
-
-            private DynaFormLayout buildFormLayout() {
+            private DefaultDynaFormLayout buildFormLayout() {
                 DynaForm defaultForm = new DynaForm();
                 DynaSection mainSection = new DynaSectionBuilder().header(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION))
                         .layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
-                mainSection.addField(new TextDynaFieldBuilder().fieldName(User.Field.firstname).displayName(AppContext
+                mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.firstname).displayName(AppContext
                         .getMessage(UserI18nEnum.FORM_FIRST_NAME)).fieldIndex(0).build());
-                mainSection.addField(new TextDynaFieldBuilder().fieldName(User.Field.email).displayName(AppContext
+                mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.email).displayName(AppContext
                         .getMessage(UserI18nEnum.FORM_EMAIL)).fieldIndex(1).build());
-                mainSection.addField(new TextDynaFieldBuilder().fieldName(User.Field.lastname).displayName(AppContext
+                mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.lastname).displayName(AppContext
                         .getMessage(UserI18nEnum.FORM_LAST_NAME)).fieldIndex(2).build());
-                mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleUser.Field.roleid).displayName(AppContext
+                mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleUser.Field.roleid).displayName(AppContext
                         .getMessage(UserI18nEnum.FORM_ROLE)).fieldIndex(3).build());
-                defaultForm.addSection(mainSection);
-                return new DynaFormLayout(defaultForm);
-            }
-
-            @Override
-            public void attachField(Object propertyId, Field<?> field) {
-                formLayoutFactory.attachField(propertyId, field);
-            }
-
-            @Override
-            public IFormLayoutFactory getWrappedFactory() {
-                return formLayoutFactory;
+                if (user.getUsername() == null) {
+                    mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.password).displayName
+                            (AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).contextHelp(AppContext.getMessage
+                            (ShellI18nEnum.FORM_PASSWORD_HELP)).fieldIndex(4).build());
+                }
+                defaultForm.sections(mainSection);
+                return new DefaultDynaFormLayout(defaultForm);
             }
         }
 
@@ -249,33 +205,86 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     tf.setRequired(true);
                     tf.setRequiredError("This field must be not null");
                     return tf;
+                } else if (User.Field.password.equalTo(propertyId)) {
+                    return new MPasswordField();
                 }
 
                 return null;
             }
         }
 
-        private class AdvancedFormLayoutFactory implements IFormLayoutFactory {
+        private class AdvancedFormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
-            private UserInformationLayout userInformationLayout;
+            private GridFormLayoutHelper basicInformationLayout;
+            private GridFormLayoutHelper advancedInformationLayout;
+            private GridFormLayoutHelper contactInformationLayout;
+            private RolePermissionContainer rolePermissionLayout;
 
             @Override
             public ComponentContainer getLayout() {
                 String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.VIEW_NEW_USER) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
-                formAddLayout.addHeaderRight(createButtonControls());
-                userInformationLayout = new UserInformationLayout();
-                formAddLayout.addBody(userInformationLayout.getLayout());
+                formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));
+                FormContainer formContainer = new FormContainer();
+                basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
+                formContainer.addSection(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION),
+                        basicInformationLayout.getLayout());
+
+                contactInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
+                formContainer.addSection(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION),
+                        contactInformationLayout.getLayout());
+
+                advancedInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+                formContainer.addSection(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION),
+                        advancedInformationLayout.getLayout());
+                formAddLayout.addBody(formContainer);
+                rolePermissionLayout = new RolePermissionContainer();
+                formAddLayout.addBottom(rolePermissionLayout);
                 return formAddLayout;
             }
 
-            private ComponentContainer createButtonControls() {
-                return new EditFormControlsGenerator<>(editUserForm).createButtonControls();
+            void displayRolePermission(Integer roleId) {
+                rolePermissionLayout.displayRolePermission(roleId);
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
-                userInformationLayout.attachField(propertyId, field);
+            protected Component onAttachField(Object propertyId, Field<?> field) {
+                if (propertyId.equals("firstname")) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
+                } else if (propertyId.equals("lastname")) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
+                } else if (propertyId.equals("nickname")) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_NICK_NAME), 1, 0);
+                } else if (propertyId.equals("dateofbirth")) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 1, 1);
+                } else if (propertyId.equals("email")) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
+                } else if (propertyId.equals("roleid")) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 2);
+                } else if (propertyId.equals("timezone")) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
+                } else if (User.Field.password.equalTo(propertyId) && (user.getUsername() == null)) {
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD),
+                            AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD_HELP), 1, 3);
+                } else if (propertyId.equals("company")) {
+                    return advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 0);
+                } else if (propertyId.equals("country")) {
+                    return advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY),
+                            0, 1, 2, "100%");
+                } else if (propertyId.equals("website")) {
+                    return advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 1, 0);
+                } else if (propertyId.equals("workphone")) {
+                    return contactInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+                } else if (propertyId.equals("homephone")) {
+                    return contactInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+                } else if (propertyId.equals("facebookaccount")) {
+                    return contactInformationLayout.addComponent(field, "Facebook", 1, 0);
+                } else if (propertyId.equals("twitteraccount")) {
+                    return contactInformationLayout.addComponent(field, "Twitter", 1, 1);
+                } else if (propertyId.equals("skypecontact")) {
+                    return contactInformationLayout.addComponent(field, "Skype", 0, 2, 2, "262px");
+                }
+                return null;
             }
         }
 
@@ -290,7 +299,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             protected Field<?> onCreateField(Object propertyId) {
                 if (SimpleUser.Field.roleid.equalTo(propertyId)) {
                     return new AdminRoleSelectionField();
-                } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) || User.Field.lastname.equalTo(propertyId)) {
+                } else if (User.Field.email.equalTo(propertyId) ||
+                        User.Field.firstname.equalTo(propertyId) ||
+                        User.Field.lastname.equalTo(propertyId)) {
                     TextField tf = new TextField();
                     tf.setNullRepresentation("");
                     tf.setRequired(true);
@@ -299,15 +310,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 } else if (propertyId.equals("dateofbirth")) {
                     return new DateSelectionField();
                 } else if (propertyId.equals("timezone")) {
-                    TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField(false);
-                    if (user.getTimezone() != null) {
-                        cboTimezone.setTimeZone(TimezoneMapper.getTimezoneExt(user.getTimezone()));
-                    } else {
-                        if (AppContext.getUser().getTimezone() != null) {
-                            cboTimezone.setTimeZone(TimezoneMapper.getTimezoneExt(AppContext.getUser().getTimezone()));
-                        }
-                    }
-                    return cboTimezone;
+                    return new TimeZoneSelectionField(false);
                 } else if (propertyId.equals("country")) {
                     final CountryComboBox cboCountry = new CountryComboBox();
                     cboCountry.addValueChangeListener(new Property.ValueChangeListener() {
@@ -319,15 +322,12 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                         }
                     });
                     return cboCountry;
+                } else if (User.Field.password.equalTo(propertyId)) {
+                    return new MPasswordField();
                 }
                 return null;
             }
         }
-    }
-
-    private static String getValueFromPerPath(PermissionMap permissionMap, String permissionItem) {
-        final Integer perVal = permissionMap.get(permissionItem);
-        return AppContext.getMessage(PermissionFlag.toVal(perVal));
     }
 
     private class AdminRoleSelectionField extends CustomField<Integer> {
@@ -353,7 +353,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         @Override
         public void setPropertyDataSource(Property newDataSource) {
             Object value = newDataSource.getValue();
-            if (value == null || AppContext.isAdmin()) {
+            if (value == null) {
                 Object itemId = roleBox.getItemIds().iterator().next();
                 roleBox.setValue(itemId);
             } else if (value instanceof Integer) {
@@ -391,6 +391,61 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         @Override
         protected Component initContent() {
             return roleBox;
+        }
+    }
+
+    private static class RolePermissionContainer extends VerticalLayout {
+        private VerticalLayout permissionLayout;
+
+        RolePermissionContainer() {
+            this.setMargin(new MarginInfo(true, false, false, false));
+            this.addComponent(ELabel.h2("Permissions"));
+            permissionLayout = new VerticalLayout();
+            this.addComponent(permissionLayout);
+        }
+
+        private void displayRolePermission(Integer roleId) {
+            permissionLayout.removeAllComponents();
+            PermissionMap permissionMap = null;
+            if (roleId != null && roleId > 0) {
+                RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
+                SimpleRole role = roleService.findById(roleId, AppContext.getAccountId());
+                if (role != null) {
+                    permissionMap = role.getPermissionMap();
+                }
+            } else {
+                permissionMap = PermissionMap.buildAdminPermissionCollection();
+            }
+
+            if (permissionMap != null) {
+                permissionLayout.addComponent(constructPermissionSectionView("Project", permissionMap,
+                        RolePermissionCollections.PROJECT_PERMISSION_ARR));
+
+                permissionLayout.addComponent(constructPermissionSectionView("Customer Management", permissionMap,
+                        RolePermissionCollections.CRM_PERMISSIONS_ARR));
+
+                permissionLayout.addComponent(constructPermissionSectionView("Document", permissionMap,
+                        RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
+
+                permissionLayout.addComponent(constructPermissionSectionView("Account Management", permissionMap,
+                        RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
+            }
+        }
+
+        private ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
+                                                                  List<PermissionDefItem> defItems) {
+            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
+            FormContainer permissionsPanel = new FormContainer();
+
+            for (int i = 0; i < defItems.size(); i++) {
+                PermissionDefItem permissionDefItem = defItems.get(i);
+                Integer flag = permissionMap.getPermissionFlag(permissionDefItem.getKey());
+                SecurityI18nEnum permissionVal = PermissionFlag.toVal(flag);
+                formHelper.addComponent(new Label(AppContext.getMessage(permissionVal)), permissionDefItem.getCaption(),
+                        AppContext.getMessage(permissionVal.desc()), i % 2, i / 2);
+            }
+            permissionsPanel.addSection(depotTitle, formHelper.getLayout());
+            return permissionsPanel;
         }
     }
 }

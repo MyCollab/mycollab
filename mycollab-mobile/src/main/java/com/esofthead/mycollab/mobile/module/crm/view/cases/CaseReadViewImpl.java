@@ -43,6 +43,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -93,15 +94,13 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(RolePermissionCollections.CRM_CASE);
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_CASE);
     }
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        MHorizontalLayout toolbarLayout = new MHorizontalLayout();
         toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        toolbarLayout.setSpacing(true);
 
         Button relatedContacts = new Button();
         relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
@@ -133,8 +132,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
 
             @Override
             public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(
-                        new CaseEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateActivities)));
+                EventBusFactory.getInstance().post(new CaseEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateActivities)));
             }
         });
         toolbarLayout.addComponent(relatedActivities);

@@ -38,33 +38,33 @@ public class MilestoneDefaultFormLayoutFactory {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(
                 DynaSection.LayoutType.TWO_COLUMN).build();
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.name).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.name).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_NAME)).fieldIndex(0).mandatory(true).required(true).colSpan(true).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.startdate).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.startdate).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_START_DATE)).fieldIndex(1).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.enddate).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.enddate).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_END_DATE)).fieldIndex(2).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.owner).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.owner).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_ASSIGNEE)).fieldIndex(3)
                 .build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_STATUS)).contextHelp(AppContext.getMessage(MilestoneI18nEnum
                 .FORM_STATUS_FIELD_HELP)).fieldIndex(4).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(5).colSpan(true).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(AppContext
                 .getMessage(MilestoneI18nEnum.FORM_ASSIGNMENTS)).fieldIndex(6).colSpan(true).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.saccountid).displayName(AppContext
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.saccountid).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_ATTACHMENTS)).fieldIndex(7).colSpan(true).build());
 
-        defaultForm.addSection(mainSection);
+        defaultForm.sections(mainSection);
     }
 
     public static DynaForm getForm() {

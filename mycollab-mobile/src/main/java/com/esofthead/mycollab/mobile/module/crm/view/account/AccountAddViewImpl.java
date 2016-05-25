@@ -42,8 +42,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> impl
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
-                AccountDefaultDynaFormLayoutFactory.getForm());
+        return new DynaFormLayout(CrmTypeConstants.ACCOUNT, AccountDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

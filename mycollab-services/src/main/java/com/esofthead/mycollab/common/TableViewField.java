@@ -31,7 +31,7 @@ import java.io.IOException;
 @JsonSerialize(using = TableViewField.Serializer.class)
 @JsonDeserialize(using = TableViewField.DeSerializer.class)
 public class TableViewField {
-    private Enum descKey;
+    private Enum<?> descKey;
     private String field;
     private Integer defaultWidth;
 
@@ -39,17 +39,17 @@ public class TableViewField {
         this(null, field, defaultWidth);
     }
 
-    public TableViewField(Enum descKey, String field, Integer defaultWidth) {
+    public TableViewField(Enum<?> descKey, String field, Integer defaultWidth) {
         this.descKey = descKey;
         this.field = field;
         this.defaultWidth = defaultWidth;
     }
 
-    public Enum getDescKey() {
+    public Enum<?> getDescKey() {
         return descKey;
     }
 
-    public void setDescKey(Enum descKey) {
+    public void setDescKey(Enum<?> descKey) {
         this.descKey = descKey;
     }
 

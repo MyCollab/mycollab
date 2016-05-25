@@ -37,17 +37,6 @@ public class ProjectMemberServiceTest extends IntergrationServiceTest {
 
     @DataSet
     @Test
-    public void testAcceptProjectMemberAcceptInvitation() {
-        projectMemberService.acceptProjectInvitationByNewUser(
-                "baohan@esofthead.com", "123", 1, 1, 1);
-
-        SimpleProjectMember member = projectMemberService.findMemberByUsername(
-                "baohan@esofthead.com", 1, 1);
-        assertThat(member.getUsername()).isEqualTo("baohan@esofthead.com");
-    }
-
-    @DataSet
-    @Test
     public void testGetActiveMembersInproject() {
         List<SimpleUser> activeUsers = projectMemberService.getActiveUsersInProject(1, 1);
         assertThat(activeUsers.size()).isEqualTo(1);
@@ -75,8 +64,7 @@ public class ProjectMemberServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testGetUsersNotInProjects() {
-        List<SimpleUser> users = projectMemberService
-                .getUsersNotInProject(1, 1);
+        List<SimpleUser> users = projectMemberService.getUsersNotInProject(1, 1);
         assertThat(users.size()).isEqualTo(2);
         assertThat(users).extracting("username").contains("user2", "user3");
     }
@@ -84,8 +72,7 @@ public class ProjectMemberServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testFindMemberByUsername() {
-        SimpleProjectMember member = projectMemberService.findMemberByUsername(
-                "user1", 1, 1);
+        SimpleProjectMember member = projectMemberService.findMemberByUsername("user1", 1, 1);
         assertThat(member.getProjectid()).isEqualTo(1);
         assertThat(member.getStatus()).isEqualTo("Active");
         assertThat(member.getUsername()).isEqualTo("user1");

@@ -66,7 +66,7 @@ public class AddViewLayout extends CustomLayoutExt {
         addComponent(body, "addViewBody");
     }
 
-    public void addBottomControls(final ComponentContainer bottomControls) {
+    public void addBottom(final ComponentContainer bottomControls) {
         this.addComponent(bottomControls, "addViewBottomControls");
     }
 

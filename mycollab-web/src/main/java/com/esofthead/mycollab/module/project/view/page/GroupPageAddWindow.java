@@ -26,7 +26,10 @@ import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -87,7 +90,7 @@ class GroupPageAddWindow extends Window {
             super.setBean(item);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
             private GridFormLayoutHelper informationLayout;
@@ -137,13 +140,13 @@ class GroupPageAddWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("name")) {
-                    informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_GROUP), 0, 0);
+                    return informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_GROUP), 0, 0);
                 } else if (propertyId.equals("description")) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
                 }
-
+                return null;
             }
         }
     }

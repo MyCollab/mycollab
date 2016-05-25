@@ -38,13 +38,14 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
-import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
+
+import static com.esofthead.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
  * @author MyCollab Ltd.
@@ -74,7 +75,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return (new EditFormControlsGenerator<>(editForm)).createButtonControls(true, false, true);
+        return generateEditFormControls(editForm, true, false, true);
     }
 
     @Override
@@ -116,18 +117,17 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
     }
 
-    private class DecorFormLayourFactory implements IWrappedFormLayoutFactory {
+    private class DecorFormLayourFactory extends WrappedFormLayoutFactory {
         private static final long serialVersionUID = 1L;
-        private IFormLayoutFactory formLayoutFactory;
 
-        DecorFormLayourFactory(IFormLayoutFactory formLayoutFactory) {
-            this.formLayoutFactory = formLayoutFactory;
+        DecorFormLayourFactory(AbstractFormLayoutFactory formLayoutFactory) {
+            this.wrappedLayoutFactory = formLayoutFactory;
         }
 
         @Override
         public ComponentContainer getLayout() {
             VerticalLayout layout = new VerticalLayout();
-            layout.addComponent(formLayoutFactory.getLayout());
+            layout.addComponent(wrappedLayoutFactory.getLayout());
 
             FormContainer permissionsPanel = new FormContainer();
             projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections
@@ -137,16 +137,6 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
             layout.addComponent(permissionsPanel);
 
             return layout;
-        }
-
-        @Override
-        public void attachField(Object propertyId, Field<?> field) {
-            formLayoutFactory.attachField(propertyId, field);
-        }
-
-        @Override
-        public IFormLayoutFactory getWrappedFactory() {
-            return formLayoutFactory;
         }
     }
 
@@ -164,7 +154,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                     SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
                     projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
                             permissionMap, permissionPath)), AppContext.getMessage(permissionKey),
-                            AppContext.getMessage(permissionVal.desc()),i % 2, i / 2);
+                            AppContext.getMessage(permissionVal.desc()), i % 2, i / 2);
                 }
             }
         } else {

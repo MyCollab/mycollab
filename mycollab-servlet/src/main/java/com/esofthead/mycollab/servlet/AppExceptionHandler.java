@@ -124,8 +124,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
         String errorPage = "templates/page/500Page.mt";
         TemplateContext context = new TemplateContext();
 
-        Reader reader = LocalizationHelper.templateReader(errorPage,
-                response.getLocale());
+        Reader reader = LocalizationHelper.templateReader(errorPage, response.getLocale());
         Map<String, String> defaultUrls = new HashMap<>();
 
         defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());

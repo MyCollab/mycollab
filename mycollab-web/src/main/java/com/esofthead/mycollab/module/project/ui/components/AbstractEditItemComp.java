@@ -19,11 +19,13 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
 
 /**
  * @param <B>
@@ -55,10 +57,8 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView implement
         return this.editForm;
     }
 
-    private class FormLayoutFactory implements IWrappedFormLayoutFactory {
+    private class FormLayoutFactory extends WrappedFormLayoutFactory {
         private static final long serialVersionUID = 1L;
-
-        private IFormLayoutFactory informationLayout;
 
         @Override
         public ComponentContainer getLayout() {
@@ -70,25 +70,15 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView implement
             }
 
             formAddLayout.setTitle(initFormTitle());
-            informationLayout = initFormLayoutFactory();
-            formAddLayout.addBody(informationLayout.getLayout());
+            wrappedLayoutFactory = initFormLayoutFactory();
+            formAddLayout.addBody(wrappedLayoutFactory.getLayout());
 
             final ComponentContainer bottomPanel = createBottomPanel();
             if (bottomPanel != null) {
-                formAddLayout.addBottomControls(bottomPanel);
+                formAddLayout.addBottom(bottomPanel);
             }
 
             return formAddLayout;
-        }
-
-        @Override
-        public void attachField(Object propertyId, Field<?> field) {
-            informationLayout.attachField(propertyId, field);
-        }
-
-        @Override
-        public IFormLayoutFactory getWrappedFactory() {
-            return informationLayout;
         }
     }
 

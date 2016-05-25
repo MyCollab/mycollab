@@ -26,6 +26,7 @@ import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -34,9 +35,7 @@ import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd
@@ -46,13 +45,15 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         SuggestField.TokenHandler {
     private static final long serialVersionUID = 1L;
 
-    private List<String> inviteEmails;
+    private Set<String> inviteEmails;
     private SuggestField suggestField;
     private List<SimpleUser> candidateUsers;
+    private String lastQuery = "";
+    private boolean isFocusing = false;
 
     public InviteUserTokenField() {
         super();
-        inviteEmails = new ArrayList<>();
+        inviteEmails = new HashSet<>();
         this.setWidth("100%");
         this.addStyleName("member-token");
         suggestField = new SuggestField();
@@ -65,18 +66,37 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         suggestField.setSuggestionHandler(this);
         suggestField.setSuggestionConverter(new UserSuggestionConverter());
         suggestField.setTokenHandler(this);
-        suggestField.setMinimumQueryCharacters(0);
+        suggestField.setMinimumQueryCharacters(1);
         suggestField.setPopupWidth(400);
 
         addComponent(suggestField);
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+        suggestField.addBlurListener(new FieldEvents.BlurListener() {
+                                         @Override
+                                         public void blur(FieldEvents.BlurEvent blurEvent) {
+                                             isFocusing = false;
+                                             if (!"".equals(lastQuery) && StringUtils.isValidEmail(lastQuery) && !inviteEmails.contains(lastQuery)) {
+                                                 handleToken(lastQuery);
+                                             }
+                                         }
+                                     }
+        );
+
+        suggestField.addFocusListener(new FieldEvents.FocusListener() {
+                                          @Override
+                                          public void focus(FieldEvents.FocusEvent focusEvent) {
+                                              isFocusing = true;
+                                              lastQuery = "";
+                                          }
+                                      }
+        );
     }
 
     @Override
     public Object addNewItem(String value) {
+        lastQuery = "";
         if (StringUtils.isValidEmail(value) && !inviteEmails.contains(value)) {
-            inviteEmails.add(value);
             return value;
         } else {
             NotificationUtil.showNotification("Info", value + " is not a valid email or it is already in the list");
@@ -84,15 +104,19 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         return null;
     }
 
-    public List<String> getInviteEmails() {
+    public Collection<String> getInviteEmails() {
+        if (!"".equals(lastQuery) && StringUtils.isValidEmail(lastQuery) && !inviteEmails.contains(lastQuery)) {
+            inviteEmails.add(lastQuery);
+        }
         return inviteEmails;
     }
 
     @Override
     public List<Object> searchItems(String query) {
-        if ("".equals(query) || query == null) {
+        if (StringUtils.isBlank(query) || !isFocusing) {
             return Collections.emptyList();
         }
+        lastQuery = query;
         List<SimpleUser> result = new ArrayList<>();
         for (SimpleUser user : candidateUsers) {
             if (user.getEmail().contains(query) || user.getDisplayName().contains(query)) {
@@ -107,7 +131,10 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         if (token != null) {
             if (token instanceof String) {
                 String address = (String) token;
-                addToken(generateToken(address));
+                if (!inviteEmails.contains(address)) {
+                    addToken(generateToken(address));
+                    inviteEmails.add(address);
+                }
             } else if (token instanceof SimpleUser) {
                 SimpleUser user = (SimpleUser) token;
                 if (!inviteEmails.contains(user.getEmail())) {
@@ -119,6 +146,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
             } else {
                 throw new MyCollabException("Do not support token type " + token);
             }
+            lastQuery = "";
         }
     }
 
@@ -157,7 +185,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
 
     private class UserSuggestionConverter extends BeanSuggestionConverter {
         public UserSuggestionConverter() {
-            super(SimpleUser.class, "email", "displayName", "displayName");
+            super(SimpleUser.class, "email", "displayName", "email");
         }
 
         @Override
