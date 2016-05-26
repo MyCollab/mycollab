@@ -52,7 +52,7 @@ public class BugRowComponent extends MVerticalLayout {
 
     public BugRowComponent(final SimpleBug bug) {
         this.bug = bug;
-        withSpacing(true).withMargin(false).withWidth("100%").addStyleName(UIConstants.BORDER_LIST_ROW);
+        withSpacing(true).withMargin(false).withFullWidth().addStyleName(UIConstants.BORDER_LIST_ROW);
 
         bugSettingPopupBtn = new PopupButton();
         bugSettingPopupBtn.setIcon(FontAwesome.COGS);
@@ -63,7 +63,7 @@ public class BugRowComponent extends MVerticalLayout {
         final ToggleBugSummaryField bugWrapper = new ToggleBugSummaryField(bug);
 
         BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
-        MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
+        MHorizontalLayout headerLayout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false,
                 true, false, false));
         Component priorityField = popupFieldFactory.createPriorityPopupField(bug);
         Component assigneeField = popupFieldFactory.createAssigneePopupField(bug);

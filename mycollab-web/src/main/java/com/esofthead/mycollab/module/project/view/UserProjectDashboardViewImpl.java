@@ -42,7 +42,7 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
     @Override
     public void display() {
         removeAllComponents();
-        MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
 
         AllMilestoneTimelineWidget milestoneTimelineWidget = new AllMilestoneTimelineWidget();
         TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
@@ -50,7 +50,7 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
         UserUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new UserUnresolvedAssignmentWidget("Unresolved assignments in this week (0)");
         UserUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedAssignmentWidget("Unresolved assignments in next week (0)");
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(new MarginInfo(true,
-                true, false, false)).withWidth("100%").with(milestoneTimelineWidget,
+                true, false, false)).withFullWidth().with(milestoneTimelineWidget,
                 unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskStatusComponent);
 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false).withWidth("550px");

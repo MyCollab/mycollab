@@ -55,7 +55,7 @@ public class MobileAttachmentUtils {
     public static Component renderAttachmentRow(final Content attachment) {
         String docName = attachment.getPath();
         int lastIndex = docName.lastIndexOf("/");
-        MHorizontalLayout attachmentRow = new MHorizontalLayout().withSpacing(false).withWidth("100%").withStyleName("attachment-row");
+        MHorizontalLayout attachmentRow = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("attachment-row");
         attachmentRow.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         CssLayout thumbnailWrap = new CssLayout();

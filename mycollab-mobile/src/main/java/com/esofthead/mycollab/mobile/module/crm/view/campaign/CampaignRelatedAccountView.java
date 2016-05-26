@@ -69,7 +69,7 @@ public class CampaignRelatedAccountView extends AbstractRelatedListView<SimpleAc
         final NavigationBarQuickMenu addAccount = new NavigationBarQuickMenu();
         addAccount.setStyleName("add-btn");
 
-        MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
         Button newAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.NEW), new Button.ClickListener() {
             @Override

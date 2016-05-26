@@ -84,7 +84,7 @@ public class LogoEditWindow extends Window {
         originalImage = ImageUtil.scaleImage(originalImage, 650, 650);
 
         MHorizontalLayout previewBox = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, false))
-                .withWidth("100%");
+                .withFullWidth();
 
         final String logoPath = AppContext.getBillingAccount().getLogopath();
         Resource defaultPhoto = AccountAssetsResolver.createLogoResource(logoPath, 150);

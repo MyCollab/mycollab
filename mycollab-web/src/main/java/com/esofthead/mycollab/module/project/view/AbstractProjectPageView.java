@@ -49,7 +49,7 @@ public class AbstractProjectPageView extends AbstractPageView {
     }
 
     private ComponentContainer constructHeader() {
-        header = new MHorizontalLayout().with(headerText).withStyleName("hdr-view").withWidth("100%").withMargin(true);
+        header = new MHorizontalLayout().with(headerText).withStyleName("hdr-view").withFullWidth().withMargin(true);
         return header;
     }
 

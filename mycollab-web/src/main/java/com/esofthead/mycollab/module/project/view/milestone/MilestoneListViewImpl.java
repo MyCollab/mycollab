@@ -154,7 +154,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, AppContext.getMessage
                 (MilestoneI18nEnum.LIST));
 
-        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true)
+        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
     }
@@ -319,7 +319,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, 50);
 
-            MHorizontalLayout milestoneHeader = new MHorizontalLayout().withWidth("100%")
+            MHorizontalLayout milestoneHeader = new MHorizontalLayout().withFullWidth()
                     .with(toggleMilestoneSummaryField).expand(toggleMilestoneSummaryField);
 
             PopupButton taskSettingPopupBtn = new PopupButton();

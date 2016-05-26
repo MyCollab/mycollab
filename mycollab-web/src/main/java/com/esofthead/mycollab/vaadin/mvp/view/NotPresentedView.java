@@ -40,7 +40,7 @@ public class NotPresentedView extends AbstractPageView {
     private static final long serialVersionUID = 1L;
 
     public NotPresentedView() {
-        this.withSpacing(true).withWidth("100%");
+        this.withSpacing(true).withFullWidth();
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);

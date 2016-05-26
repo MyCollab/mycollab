@@ -70,7 +70,7 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
 
     @Override
     protected Component initContent() {
-        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         Button browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);

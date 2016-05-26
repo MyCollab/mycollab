@@ -91,12 +91,12 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
     }
 
     private void initContent() {
-        MHorizontalLayout contentWrapper = new MHorizontalLayout().withSpacing(false).withWidth("100%");
+        MHorizontalLayout contentWrapper = new MHorizontalLayout().withSpacing(false).withFullWidth();
         this.addComponent(contentWrapper);
 
 		/* Content cheat */
         MVerticalLayout mainContent = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true))
-                .withWidth("100%").withStyleName("readview-layout");
+                .withFullWidth().withStyleName("readview-layout");
         contentWrapper.with(mainContent).expand(mainContent);
 
         MVerticalLayout rightColumn = new MVerticalLayout().withMargin(new MarginInfo(true, false, true, false))
@@ -105,7 +105,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         contentWrapper.addComponent(rightColumn);
 
         MHorizontalLayout actionPanel = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
+                .withFullWidth().withStyleName(UIConstants.HEADER_VIEW);
         actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         Component headerText = ComponentUtils.header(CrmTypeConstants.ACTIVITY, "Calendar");

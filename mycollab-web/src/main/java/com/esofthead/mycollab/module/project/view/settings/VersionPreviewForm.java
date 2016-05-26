@@ -89,7 +89,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
         private DefaultBeanPagedList<BugService, BugSearchCriteria, SimpleBug> bugList;
 
         BugsComp(Version beanItem) {
-            withMargin(false).withWidth("100%");
+            withMargin(false).withFullWidth();
             MHorizontalLayout header = new MHorizontalLayout();
 
             final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);

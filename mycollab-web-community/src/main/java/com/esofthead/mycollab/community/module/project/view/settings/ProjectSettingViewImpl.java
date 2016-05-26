@@ -38,7 +38,7 @@ public class ProjectSettingViewImpl extends AbstractPageView implements ProjectS
         this.setSpacing(true);
         this.addStyleName("readview-layout");
 
-        mainBody = new MHorizontalLayout().withMargin(true).withWidth("100%");
+        mainBody = new MHorizontalLayout().withMargin(true).withFullWidth();
         this.addComponent(mainBody);
     }
 

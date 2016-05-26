@@ -84,7 +84,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
     public MessageListViewImpl() {
         super();
-        this.withSpacing(true).withMargin(true).withWidth("100%");
+        this.withSpacing(true).withMargin(true).withFullWidth();
 
         topMessagePanel = new TopMessagePanel();
         topMessagePanel.getSearchHandlers().addSearchHandler(new SearchHandler<MessageSearchCriteria>() {
@@ -142,7 +142,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         @Override
         public Component generateRow(AbstractBeanPagedList host, final SimpleMessage message, int rowIndex) {
             final MHorizontalLayout messageLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false,
-                    true, false)).withStyleName("message").withWidth("100%");
+                    true, false)).withStyleName("message").withFullWidth();
             if (message.getIsstick() != null && message.getIsstick()) {
                 messageLayout.addStyleName("important-message");
             }
@@ -151,7 +151,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     message.getFullPostedUserName());
             messageLayout.addComponent(userBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
 
             A labelLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(message.getProjectid(), message
                     .getId()), new Text(message.getTitle()));
@@ -232,7 +232,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             }
 
             if (notification.getComponentCount() > 0) {
-                MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth("100%")
+                MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withFullWidth()
                         .with(notification).withAlign(notification, Alignment.MIDDLE_RIGHT);
                 rowLayout.addComponent(messageFooter);
             }
@@ -300,9 +300,9 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         private MHorizontalLayout messagePanelBody;
 
         public TopMessagePanel() {
-            this.withWidth("100%").withStyleName("message-toppanel");
+            this.withFullWidth().withStyleName("message-toppanel");
             messagePanelBody = new MHorizontalLayout().withSpacing(false).withStyleName("message-toppanel-body")
-                    .withWidth("100%");
+                    .withFullWidth();
             messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             messageSearchPanel = new MessageSearchPanel();
@@ -323,7 +323,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             final AttachmentPanel attachments = new AttachmentPanel();
             final TextField titleField = new TextField();
 
-            MHorizontalLayout titleLayout = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout titleLayout = new MHorizontalLayout().withFullWidth();
             Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
             titleLbl.setWidthUndefined();
             titleField.setWidth("100%");
@@ -336,7 +336,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             addMessageWrapper.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
                     .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);
 
-            MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout controls = new MHorizontalLayout().withFullWidth();
 
             MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
             uploadExt.addComponent(attachments);

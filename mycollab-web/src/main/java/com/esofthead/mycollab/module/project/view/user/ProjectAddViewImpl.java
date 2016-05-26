@@ -98,7 +98,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
 
         @Override
         public ComponentContainer getLayout() {
-            MHorizontalLayout header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, false, true, false));
+            MHorizontalLayout header = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
             header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
             final AddViewLayout projectAddLayout = new AddViewLayout(header);
             projectInformationLayout = new ProjectInformationLayout();

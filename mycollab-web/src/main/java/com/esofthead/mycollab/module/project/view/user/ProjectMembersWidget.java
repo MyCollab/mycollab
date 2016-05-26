@@ -136,7 +136,7 @@ public class ProjectMembersWidget extends Depot {
 
         @Override
         public Component generateRow(AbstractBeanPagedList host, SimpleProjectMember member, int rowIndex) {
-            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-row");
+            MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("list-row");
             Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
             userAvatar.addStyleName(UIConstants.CIRCLE_BOX);
             layout.addComponent(userAvatar);

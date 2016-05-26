@@ -69,7 +69,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         ELabel headerLbl = ELabel.h2("").withWidthUndefined();
         this.previewLayout = layout;
 
-        header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin
+        header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin
                 (new MarginInfo(true, false, true, false));
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 

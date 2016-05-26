@@ -41,7 +41,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
 
     public ProjectPreviewFormControlsGenerator(final PreviewBeanForm<T> editForm) {
         this.previewForm = editForm;
-        editButtons = new MVerticalLayout().withWidth("100%");
+        editButtons = new MVerticalLayout().withFullWidth();
     }
 
     public void insertToControlBlock(Component button) {

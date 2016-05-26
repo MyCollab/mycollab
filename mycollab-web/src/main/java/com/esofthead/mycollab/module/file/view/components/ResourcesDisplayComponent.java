@@ -217,7 +217,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         public ResourcesContainer() {
             this.setId("resource-container");
-            withSpacing(true).withWidth("100%");
+            withSpacing(true).withFullWidth();
         }
 
         private void constructBody(Folder currentFolder) {
@@ -342,7 +342,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 return null;
             }
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                    .withWidth("100%").withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
+                    .withFullWidth().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
             layout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
                 @Override
                 public void layoutClick(LayoutEvents.LayoutClickEvent event) {
@@ -394,7 +394,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             MVerticalLayout informationLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
 
-            ELabel resourceLbl = ELabel.h3(resource.getName()).withWidth("100%").withStyleName("link", UIConstants.TEXT_ELLIPSIS);
+            ELabel resourceLbl = ELabel.h3(resource.getName()).withFullWidth().withStyleName("link", UIConstants.TEXT_ELLIPSIS);
             CssLayout resourceLinkLayout = new CssLayout(resourceLbl);
             resourceLinkLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
                 @Override

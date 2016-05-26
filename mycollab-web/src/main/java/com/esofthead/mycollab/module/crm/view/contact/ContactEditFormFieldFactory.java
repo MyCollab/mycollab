@@ -89,7 +89,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
 
         @Override
         protected Component initContent() {
-            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
 
             final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
             prefixSelect.setValue(attachForm.getBean().getPrefix());

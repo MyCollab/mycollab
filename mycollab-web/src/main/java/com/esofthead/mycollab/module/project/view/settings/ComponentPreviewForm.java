@@ -85,8 +85,8 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
         private DefaultBeanPagedList<BugService, BugSearchCriteria, SimpleBug> bugList;
 
         BugsComp(SimpleComponent beanItem) {
-            withMargin(false).withWidth("100%");
-            MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+            withMargin(false).withFullWidth();
+            MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
             final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);
             CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpen, true);

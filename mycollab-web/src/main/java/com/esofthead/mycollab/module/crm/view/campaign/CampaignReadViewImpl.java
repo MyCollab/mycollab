@@ -91,7 +91,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         associateActivityList = new ActivityRelatedItemListComp(true);
         activityComponent = new CrmActivityComponent(CrmTypeConstants.CAMPAIGN);
 
-        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 

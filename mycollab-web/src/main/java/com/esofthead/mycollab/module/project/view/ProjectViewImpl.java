@@ -160,7 +160,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
             contentWrapper.addStyleName("main-content");
-            MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(true).withWidth("100%").withStyleName
+            MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(true).withFullWidth().withStyleName
                     ("top-panel").withHeight("42px");
             contentWrapper.addComponentAsFirst(topPanel);
 

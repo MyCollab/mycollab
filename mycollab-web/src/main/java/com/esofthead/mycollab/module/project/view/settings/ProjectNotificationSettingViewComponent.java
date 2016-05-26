@@ -46,7 +46,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
     public ProjectNotificationSettingViewComponent(final ProjectNotificationSetting bean) {
         super(AppContext.getMessage(ProjectSettingI18nEnum.VIEW_TITLE));
 
-        MVerticalLayout bodyWrapper = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout bodyWrapper = new MVerticalLayout().withFullWidth();
         bodyWrapper.setSizeFull();
 
         MVerticalLayout body = new MVerticalLayout().withMargin(new MarginInfo(true, false, false, false));

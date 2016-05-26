@@ -79,7 +79,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         HorizontalLayout controlsBtnWrap = new HorizontalLayout();
         controlsBtnWrap.setWidth("100%");
 
-        MHorizontalLayout notesWrap = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
         Label noteLbl = new Label("Note: ");
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
@@ -143,7 +143,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             beanBlock.addStyleName("bean-block");
             beanBlock.setWidth("350px");
 
-            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel opportunityIcon = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));

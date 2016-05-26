@@ -130,7 +130,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel leadAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));

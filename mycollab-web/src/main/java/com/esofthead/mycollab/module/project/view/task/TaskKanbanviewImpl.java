@@ -380,7 +380,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         private Label header;
 
         public KanbanBlock(final OptionVal stage) {
-            this.withHeight("100%").withWidth("300px").withStyleName("kanban-block").withMargin(false);
+            this.withFullHeight().withWidth("300px").withStyleName("kanban-block").withMargin(false);
             this.optionVal = stage;
             final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
             this.setId(optionId);

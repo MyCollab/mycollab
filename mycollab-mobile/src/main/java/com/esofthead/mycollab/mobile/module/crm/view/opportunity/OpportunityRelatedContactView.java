@@ -69,7 +69,7 @@ public class OpportunityRelatedContactView extends AbstractRelatedListView<Simpl
         NavigationBarQuickMenu addContact = new NavigationBarQuickMenu();
         addContact.setStyleName("add-btn");
 
-        MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
         Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
             @Override

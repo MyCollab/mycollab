@@ -33,7 +33,7 @@ public class FileDashboardViewImpl extends AbstractPageView implements FileDashb
 
     @Override
     public void displayFiles() {
-        this.withMargin(new MarginInfo(false, true, false, true)).withWidth("100%");
+        this.withMargin(new MarginInfo(false, true, false, true)).withFullWidth();
         String rootPath = String.format("%d/.crm", AppContext.getAccountId());
         addComponent(new ResourcesDisplayComponent(new Folder(rootPath)));
     }

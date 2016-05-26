@@ -69,7 +69,7 @@ public class LeadRelatedCampaignView extends AbstractRelatedListView<SimpleCampa
         NavigationBarQuickMenu addCampaign = new NavigationBarQuickMenu();
         addCampaign.setStyleName("add-btn");
 
-        MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
         Button newCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.NEW), new Button.ClickListener() {
             @Override

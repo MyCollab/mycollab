@@ -485,7 +485,8 @@ public class V20160521_1__Adjust_Timezone_Data implements SpringJdbcMigration {
 
         final String[] keys = timeMap.keySet().toArray(new String[timeMap.size()]);
 
-
+        jdbcTemplate.execute("ALTER TABLE `s_user` ADD COLUMN `YYMMDDFormat` VARCHAR(45) NULL, ADD COLUMN " +
+                "`humanDateFormat` VARCHAR(45) NULL, ADD COLUMN `MMDDFormat` VARCHAR(45) NULL;");
 
         jdbcTemplate.batchUpdate("UPDATE s_user SET timezone=? WHERE timezone=?", new BatchPreparedStatementSetter() {
             @Override

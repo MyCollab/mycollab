@@ -54,13 +54,13 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
     private FollowingTicketSearchPanel searchPanel;
 
     public FollowingTicketViewImpl() {
-        this.withWidth("100%").withMargin(true);
+        this.withFullWidth().withMargin(true);
     }
 
     @Override
     public void initContent() {
         removeAllComponents();
-        MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
         ELabel layoutHeader = ELabel.h2(FontAwesome.EYE.getHtml() + " My Following Tickets").withWidthUndefined();
 

@@ -321,7 +321,7 @@ public class ActivityStreamPanel extends CssLayout {
         }
 
         private void feedBlocksPut(Date currentDate, Date nextDate, CssLayout currentBlock) {
-            MHorizontalLayout blockWrapper = new MHorizontalLayout().withSpacing(false).withWidth("100%").withStyleName
+            MHorizontalLayout blockWrapper = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName
                     ("feed-block-wrap");
 
             blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);

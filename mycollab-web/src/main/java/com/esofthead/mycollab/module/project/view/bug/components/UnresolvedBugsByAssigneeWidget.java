@@ -67,7 +67,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
         bodyContent.removeAllComponents();
         if (!groupItems.isEmpty()) {
             for (GroupItem item : groupItems) {
-                MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
+                MHorizontalLayout assigneeLayout = new MHorizontalLayout().withFullWidth();
                 assigneeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                 String assignUser = item.getGroupid();
                 String assignUserFullName = item.getGroupid() == null ? AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :

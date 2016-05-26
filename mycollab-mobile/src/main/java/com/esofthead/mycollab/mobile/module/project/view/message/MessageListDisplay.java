@@ -77,7 +77,7 @@ public class MessageListDisplay extends DefaultPagedBeanList<MessageService, Mes
 
             rightCol.addComponent(metadataRow);
 
-            MHorizontalLayout titleRow = new MHorizontalLayout().withWidth("100%").withStyleName("title-row");
+            MHorizontalLayout titleRow = new MHorizontalLayout().withFullWidth().withStyleName("title-row");
 
             A messageLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(CurrentProjectVariables
                     .getProjectId(), message.getId())).appendText(message.getTitle());

@@ -56,7 +56,7 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
 
         @Override
         public Component generateRow(final SimpleProjectMember member, int rowIndex) {
-            MHorizontalLayout mainLayout = new MHorizontalLayout().withMargin(true).withWidth("100%");
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withMargin(true).withFullWidth();
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
 
             VerticalLayout memberInfoLayout = new VerticalLayout();
@@ -92,7 +92,7 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
                     member.getTotalBillableLogTime())).setTitle("Billable hours") + "  " + FontAwesome.GIFT.getHtml() +
                     " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
-            Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withWidth("100%");
+            Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withFullWidth();
             memberWorkStatus.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(new MCssLayout(memberWorkStatus).withFullWidth());
 

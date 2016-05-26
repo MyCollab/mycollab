@@ -106,7 +106,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
 
         @Override
         public Component generateRow(final SimpleBug bug, int rowIndex) {
-            MVerticalLayout bugRowLayout = new MVerticalLayout().withWidth("100%");
+            MVerticalLayout bugRowLayout = new MVerticalLayout().withFullWidth();
 
             A bugLink = new A(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName
                     ())).appendText(String.format("[#%s] - %s", bug.getBugkey(), bug.getSummary()));

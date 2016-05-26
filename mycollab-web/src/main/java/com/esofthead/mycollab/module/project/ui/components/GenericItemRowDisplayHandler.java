@@ -45,7 +45,7 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
     @Override
     public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
-        MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withStyleName("border-bottom", UIConstants.HOVER_EFFECT_NOT_BOX);
+        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", UIConstants.HOVER_EFFECT_NOT_BOX);
         ELabel link = ELabel.h3("");
         if (ProjectTypeConstants.BUG.equals(item.getType()) || ProjectTypeConstants.TASK.equals(item.getType())) {
             link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
@@ -78,7 +78,7 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
         }
 
         ELabel footer = new ELabel(div.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO)
-                .withWidth("100%");
+                .withFullWidth();
         layout.with(link, descLbl, footer);
         return layout;
     }

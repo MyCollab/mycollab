@@ -150,7 +150,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     }
 
     private ComponentContainer createFooter() {
-        MHorizontalLayout footer = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout footer = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false, true, false, true));
         footer.setStyleName("footer");
         footer.setHeight("25px");
 

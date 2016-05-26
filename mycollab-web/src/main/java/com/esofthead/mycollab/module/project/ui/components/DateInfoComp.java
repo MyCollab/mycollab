@@ -50,7 +50,7 @@ public class DateInfoComp extends MVerticalLayout {
         this.addComponent(dateInfoHeader);
 
         MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
-                .withWidth("100%");
+                .withFullWidth();
         try {
             Date createdDate = (Date) PropertyUtils.getProperty(bean, "createdtime");
             ELabel createdDateLbl = new ELabel(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_DATE,

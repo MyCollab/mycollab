@@ -72,7 +72,7 @@ public class AccountRelatedLeadView extends AbstractRelatedListView<SimpleLead, 
         final NavigationBarQuickMenu addLead = new NavigationBarQuickMenu();
         addLead.setStyleName("add-btn");
 
-        MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
         Button newLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.NEW), new Button.ClickListener() {
             @Override

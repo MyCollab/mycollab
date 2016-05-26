@@ -79,9 +79,9 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
 
     @Override
     protected Component generateTopControls() {
-        MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withSpacing(false).withWidth("100%");
+        MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withSpacing(false).withFullWidth();
 
-        MHorizontalLayout notesWrap = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
         Label noteLbl = new Label("Note: ");
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
@@ -164,7 +164,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel contactAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));

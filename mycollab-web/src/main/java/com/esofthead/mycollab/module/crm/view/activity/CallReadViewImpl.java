@@ -80,7 +80,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
     protected void initRelatedComponents() {
         activityComponent = new CrmActivityComponent(CrmTypeConstants.CALL);
 
-        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 
         dateInfoComp = new DateInfoComp();

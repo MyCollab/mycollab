@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- For assistance related to logback-translator or configuration  -->
-<!-- files in general, please contact the logback user mailing list -->
-<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
-<!--                                                                -->
-<!-- For professional support please see                            -->
-<!--    http://www.qos.ch/shop/products/professionalSupport         -->
-<!--                                                                -->
 <configuration>
-
     <!-- Errors were reported during translation. -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
         <encoder>
             <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
@@ -19,19 +11,15 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%5p %c{1}:%L - %m%n</pattern>
         </layout>
-        <filter class="com.esofthead.mycollab.configuration.logging.LogFilter">
-            <level>ERROR</level>
-        </filter>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
-        <filter class="com.esofthead.mycollab.configuration.logging.ExceptionFilter"/>
     </appender>
     <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/mycollab.out</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePatternlog>logs/mycollab_%d{yyyy-MM-dd}.log</fileNamePatternlog>
+            <fileNamePattern>logs/mycollab_%d{yyyy-MM-dd}.log</fileNamePattern>
 
             <!-- keep 30 days' worth of history -->
             <maxHistory>30</maxHistory>
@@ -39,15 +27,13 @@
         <encoder>
             <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
-        <filter class="com.esofthead.mycollab.configuration.logging.LogFilter">
-            <level>ERROR</level>
-        </filter>
     </appender>
-    <logger name="org.springframework" leveld="INFO"/>
-    <logger name="com.esofthead" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.esofthead.mycollab.**.dao" level="INFO"/>
     <logger name="java.sql" level="INFO"/>
     <logger name="org.apache.ibatis" level="INFO"/>
     <logger name="org.mybatis.spring" level="INFO"/>
+    <logger name="com.esofthead" level="INFO"/>
     <logger name="org.eclipse.jetty" level="INFO"/>
     <root level="INFO">
         <appender-ref ref="stdout"/>

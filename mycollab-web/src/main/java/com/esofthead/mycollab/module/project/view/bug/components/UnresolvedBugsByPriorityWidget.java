@@ -80,7 +80,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                 for (GroupItem item : groupItems) {
                     if (priority.name().equals(item.getGroupid())) {
                         isFound = true;
-                        MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
+                        MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
                         priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));
@@ -98,7 +98,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                 }
 
                 if (!isFound) {
-                    MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
+                    MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                     priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     Button priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
                     priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));

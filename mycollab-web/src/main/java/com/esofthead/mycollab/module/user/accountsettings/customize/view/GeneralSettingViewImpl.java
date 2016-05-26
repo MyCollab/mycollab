@@ -133,7 +133,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
 
     private void buildLogoPanel() {
         FormContainer formContainer = new FormContainer();
-        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withMargin(true);
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(true);
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
         Label logoDesc = new Label("Logos are used in site menu and email notifications. Image type must be png or jpg format");
         leftPanel.with(logoDesc).withWidth("250px");
@@ -224,7 +224,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
 
     private void buildShortcutIconPanel() {
         FormContainer formContainer = new FormContainer();
-        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true));
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
         Label logoDesc = new Label("Favicon appears in web browsers bar, bookmarks. The icon should be format png, " +
                 "jpg and must be sizable to 32x32 pixels");

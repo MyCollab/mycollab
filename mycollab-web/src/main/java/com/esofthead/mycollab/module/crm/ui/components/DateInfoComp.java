@@ -48,7 +48,7 @@ public class DateInfoComp extends MVerticalLayout {
         dateInfoHeader.setStyleName("info-hdr");
         this.addComponent(dateInfoHeader);
 
-        MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withWidth("100%");
+        MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withFullWidth();
         try {
             Date createdDate = (Date) PropertyUtils.getProperty(bean, "createdtime");
             Label createdDateLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_DATE,

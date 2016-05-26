@@ -116,7 +116,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                 for (GroupItem item : groupItems) {
                     if (optionVal.getTypeval().equals(item.getGroupid())) {
                         isFound = true;
-                        MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
+                        MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                         statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         String statusCaption = AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
                         MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
@@ -134,7 +134,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                     }
                 }
                 if (!isFound) {
-                    MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
+                    MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                     statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     String statusCaption = AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
                     MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())

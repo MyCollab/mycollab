@@ -129,7 +129,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel accountAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));

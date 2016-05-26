@@ -131,7 +131,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         activityComponent = new CrmActivityComponent(CrmTypeConstants.OPPORTUNITY);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
 
         dateInfoComp = new DateInfoComp();
         basicInfo.addComponent(dateInfoComp);

@@ -51,7 +51,7 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView
     @Override
     protected void displayView() {
         this.removeAllComponents();
-        MHorizontalLayout contentLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
+        MHorizontalLayout contentLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
 
         MVerticalLayout myAssignmentsLayout = new MVerticalLayout().withMargin(new MarginInfo(true, true, true, false));
 

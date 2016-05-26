@@ -47,7 +47,7 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
     @Override
     public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
-        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withWidth("100%");
+        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
         Div issueDiv = new Div();
         issueDiv.appendText(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml());

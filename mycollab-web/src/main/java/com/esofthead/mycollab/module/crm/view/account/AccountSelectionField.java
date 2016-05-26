@@ -89,7 +89,7 @@ public class AccountSelectionField extends CustomField<Integer> implements Field
 
     @Override
     protected Component initContent() {
-        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         accountName.setNullRepresentation("");

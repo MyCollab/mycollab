@@ -47,6 +47,9 @@ Version 5.3.2
 
 * Spring framework 4.2.6.RELEASE
 * MySQL Connector 5.1.39
+* Jetty 9.2.17.v20160517
+* Jsoup 1.9.2
+* Other libraries
 
 **Library Upgrades**
  

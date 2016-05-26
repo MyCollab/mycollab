@@ -112,8 +112,8 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
 
         AssignmentsComp(SimpleMilestone milestone) {
             this.beanItem = milestone;
-            withMargin(false).withWidth("100%");
-            MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+            withMargin(false).withFullWidth();
+            MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
             final CheckBox openSelection = new CheckBox("Open", true);
             openSelection.addValueChangeListener(new Property.ValueChangeListener() {

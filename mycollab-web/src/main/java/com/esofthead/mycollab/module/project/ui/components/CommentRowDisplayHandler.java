@@ -48,14 +48,14 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
     @Override
     public Component generateRow(final SimpleComment comment, int rowIndex) {
         final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false))
-                .withWidth("100%").withStyleName("message");
+                .withFullWidth().withStyleName("message");
 
         ProjectMemberBlock memberBlock = new ProjectMemberBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
-        MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
+        MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
 
-        MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false).withWidth("100%");
+        MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false).withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(
@@ -106,7 +106,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
 
         List<Content> attachments = comment.getAttachments();
         if (!CollectionUtils.isEmpty(attachments)) {
-            MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth("100%");
+            MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withFullWidth();
             AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
             attachmentDisplay.setWidth("100%");
             messageFooter.with(attachmentDisplay).withAlign(attachmentDisplay, Alignment.MIDDLE_RIGHT);

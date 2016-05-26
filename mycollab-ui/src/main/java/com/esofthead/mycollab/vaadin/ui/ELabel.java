@@ -60,6 +60,11 @@ public class ELabel extends Label {
         return this;
     }
 
+    public ELabel withFullWidth() {
+        this.setWidth("100%");
+        return this;
+    }
+
     public ELabel withStyleName(String... styleNames) {
         for (String styleName : styleNames) {
             this.addStyleName(styleName);

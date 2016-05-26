@@ -57,7 +57,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         this.setMargin(new MarginInfo(false, true, true, true));
 
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withWidth("100%");
+                .withFullWidth();
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " " + AppContext.getMessage(RoleI18nEnum.DETAIL));

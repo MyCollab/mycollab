@@ -202,7 +202,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     }
 
     protected void feedBlocksPut(Date currentDate, Date nextDate, ComponentContainer currentBlock) {
-        MHorizontalLayout blockWrapper = new MHorizontalLayout().withSpacing(false).withWidth("100%").withStyleName
+        MHorizontalLayout blockWrapper = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName
                 ("feed-block-wrap");
 
         blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);

@@ -69,7 +69,7 @@ public class CampaignRelatedContactView extends AbstractRelatedListView<SimpleCo
         final NavigationBarQuickMenu addContact = new NavigationBarQuickMenu();
         addContact.setStyleName("add-btn");
 
-        MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
         Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
             @Override

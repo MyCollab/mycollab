@@ -116,7 +116,7 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
 
     @Override
     protected Component initContent() {
-        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         layout.with(contactName, browseBtn, clearBtn).expand(contactName);
         return layout;

@@ -80,7 +80,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting> 
     protected void initRelatedComponents() {
         activityComponent = new CrmActivityComponent(CrmTypeConstants.MEETING);
 
-        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 
         dateInfoComp = new DateInfoComp();

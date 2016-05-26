@@ -74,7 +74,7 @@ public class IssueListView extends AbstractMobilePageView {
 
         @Override
         public Component generateRow(ProjectGenericTask issue, int rowIndex) {
-            MVerticalLayout ticketLayout = new MVerticalLayout().withWidth("100%");
+            MVerticalLayout ticketLayout = new MVerticalLayout().withFullWidth();
             A issueLink;
             if (ProjectTypeConstants.BUG.equals(issue.getType())) {
                 issueLink = new A(ProjectLinkBuilder.generateBugPreviewFullLink(issue.getExtraTypeId(), issue.getProjectShortName()))

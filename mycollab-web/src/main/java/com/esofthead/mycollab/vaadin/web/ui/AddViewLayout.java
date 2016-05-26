@@ -40,7 +40,7 @@ public class AddViewLayout extends CustomLayoutExt {
 
         this.viewIcon = viewIcon;
 
-        header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, false, true, false));
+        header = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         titleLbl = ELabel.h2("");

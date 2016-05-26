@@ -63,7 +63,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
     private TabSheet tabSheet;
 
     public UserDashboardViewImpl() {
-        this.withMargin(false).withWidth("100%");
+        this.withMargin(false).withFullWidth();
 
         prjService = AppContextUtil.getSpringBean(ProjectService.class);
         prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
@@ -203,7 +203,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         removeAllComponents();
         Component headerWrapper = setupHeader();
 
-        MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout layout = new MVerticalLayout().withFullWidth();
         with(headerWrapper, layout).expand(layout);
 
         MHorizontalLayout headerComp = new MHorizontalLayout();

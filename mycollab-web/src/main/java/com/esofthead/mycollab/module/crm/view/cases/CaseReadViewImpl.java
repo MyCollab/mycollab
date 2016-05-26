@@ -103,7 +103,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         activityComponent = new CrmActivityComponent(CrmTypeConstants.CASE);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
 
         dateInfoComp = new DateInfoComp();
         basicInfo.addComponent(dateInfoComp);

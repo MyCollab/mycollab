@@ -115,7 +115,7 @@ public class GridFormLayoutHelper implements Serializable {
         if (StringUtils.isNotBlank(caption)) {
             Label captionLbl = new Label(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
-                    .withWidth(defaultCaptionWidth).withHeight("100%").withStyleName("gridform-caption").with(captionLbl).expand(captionLbl)
+                    .withWidth(defaultCaptionWidth).withFullHeight().withStyleName("gridform-caption").with(captionLbl).expand(captionLbl)
                     .withAlign(captionLbl, alignment);
             if (StringUtils.isNotBlank(contextHelp)) {
                 ELabel contextHelpLbl = new ELabel("&nbsp;" + FontAwesome.QUESTION_CIRCLE.getHtml(), ContentMode.HTML)

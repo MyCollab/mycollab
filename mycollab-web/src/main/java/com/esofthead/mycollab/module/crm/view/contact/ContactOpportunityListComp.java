@@ -128,7 +128,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel opportunityIcon = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));

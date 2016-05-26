@@ -42,7 +42,7 @@ public class AddViewLayout2 extends VerticalLayout {
 
         this.viewIcon = icon;
 
-        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
+        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         if (!(icon instanceof FontAwesome)) {

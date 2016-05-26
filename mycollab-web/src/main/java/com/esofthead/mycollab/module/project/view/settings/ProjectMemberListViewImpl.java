@@ -79,7 +79,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
     public ProjectMemberListViewImpl() {
         super();
         this.setMargin(new MarginInfo(false, true, true, true));
-        MHorizontalLayout viewHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
+        MHorizontalLayout viewHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER, AppContext.getMessage(ProjectMemberI18nEnum.LIST));
@@ -190,7 +190,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         memberAvatar.setWidthUndefined();
         blockContent.addComponent(memberAvatar);
 
-        MVerticalLayout blockTop = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withWidth("100%");
+        MVerticalLayout blockTop = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withFullWidth();
 
         MHorizontalLayout buttonControls = new MHorizontalLayout();
 
@@ -239,13 +239,13 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
 
         A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member
                 .getUsername())).appendText(member.getMemberFullName()).setTitle(member.getMemberFullName());
-        ELabel memberNameLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withWidth("100%");
+        ELabel memberNameLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
 
         blockTop.with(memberNameLbl, ELabel.hr());
 
         String roleLink = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                 ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()));
-        ELabel memberRole = new ELabel("", ContentMode.HTML).withWidth("100%").withStyleName(UIConstants.TEXT_ELLIPSIS);
+        ELabel memberRole = new ELabel("", ContentMode.HTML).withFullWidth().withStyleName(UIConstants.TEXT_ELLIPSIS);
         if (member.isProjectOwner()) {
             memberRole.setValue(roleLink + "style=\"color: #B00000;\">" + "Project Owner" + "</a>");
         } else {

@@ -76,7 +76,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
                 for (GroupItem item : groupItems) {
                     if (status.name().equals(item.getGroupid())) {
                         isFound = true;
-                        MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
+                        MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                         statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         ButtonI18nComp statusLink = new ButtonI18nComp(status.name(), status, listener);
                         statusLink.setWidth("110px");
@@ -92,7 +92,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
 
                 if (!isFound && !status.name().equals(OptionI18nEnum.BugStatus.Resolved.name()) &&
                         !status.name().equals(OptionI18nEnum.BugStatus.Verified.name())) {
-                    MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
+                    MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                     statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     Button statusLink = new ButtonI18nComp(status.name(), status, listener);
                     statusLink.setWidth("110px");

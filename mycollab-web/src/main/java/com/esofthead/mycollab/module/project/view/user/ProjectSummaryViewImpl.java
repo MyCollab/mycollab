@@ -41,7 +41,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         contentWrapper.setWidth("100%");
         this.addComponent(contentWrapper);
 
-        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
         contentWrapper.addComponent(layout);
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
 

@@ -128,7 +128,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         activityComponent = new CrmActivityComponent(CrmTypeConstants.ACCOUNT);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
 
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();

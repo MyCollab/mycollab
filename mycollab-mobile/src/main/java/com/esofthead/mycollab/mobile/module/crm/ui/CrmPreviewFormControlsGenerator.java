@@ -40,7 +40,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
     public CrmPreviewFormControlsGenerator(final AdvancedPreviewBeanForm<T> editForm) {
         this.previewForm = editForm;
-        editButtons = new MVerticalLayout().withWidth("100%");
+        editButtons = new MVerticalLayout().withFullWidth();
     }
 
     public void insertToControlBlock(Button button) {

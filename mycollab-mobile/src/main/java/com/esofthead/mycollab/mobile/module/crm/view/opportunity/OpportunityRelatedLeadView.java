@@ -70,7 +70,7 @@ public class OpportunityRelatedLeadView extends AbstractRelatedListView<SimpleLe
         NavigationBarQuickMenu addLead = new NavigationBarQuickMenu();
         addLead.setStyleName("add-btn");
 
-        MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
         Button newLead = new Button(AppContext.getMessage(LeadI18nEnum.NEW), new Button.ClickListener() {
             @Override

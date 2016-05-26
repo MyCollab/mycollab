@@ -42,7 +42,7 @@ public class AccountSettingContainer extends AbstractPageView {
     public AccountSettingContainer() {
         settingTab = new TabSheetDecorator();
         this.addComponent(settingTab);
-        this.setWidth("100%");
+        this.withFullWidth();
         this.buildComponents();
     }
 

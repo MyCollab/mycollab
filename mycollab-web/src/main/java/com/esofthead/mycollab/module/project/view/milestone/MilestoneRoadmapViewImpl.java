@@ -198,7 +198,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private void initUI() {
         headerText = ELabel.h2("");
 
-        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true)
+        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
                 .with(headerText, createHeaderRight())
                 .withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);

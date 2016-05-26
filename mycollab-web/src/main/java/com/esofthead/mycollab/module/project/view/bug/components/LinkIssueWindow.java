@@ -58,7 +58,7 @@ public class LinkIssueWindow extends Window {
         this.setModal(true);
 
         this.hostedBug = bug;
-        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false).withWidth("100%");
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false).withFullWidth();
 
         editForm = new RelatedBugEditForm();
         relatedBug = new RelatedBug();

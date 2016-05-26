@@ -71,7 +71,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
     public MessageReadViewImpl() {
         super();
 
-        header = new MHorizontalLayout().withMargin(true).withStyleName("hdr-view").withWidth("100%");
+        header = new MHorizontalLayout().withMargin(true).withStyleName("hdr-view").withFullWidth();
         previewForm = new AdvancedPreviewBeanForm<>();
 
         contentWrapper = new MCssLayout().withStyleName(UIConstants.CONTENT_WRAPPER);
@@ -111,7 +111,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         @Override
         public ComponentContainer getLayout() {
             header.removeAllComponents();
-            MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withWidth("100%");
+            MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withFullWidth();
 
             Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -164,7 +164,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)
                     .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT).expand(headerText);
 
-            MHorizontalLayout messageLayout = new MHorizontalLayout().withStyleName("message").withWidth("100%");
+            MHorizontalLayout messageLayout = new MHorizontalLayout().withStyleName("message").withFullWidth();
 
             if (message.getIsstick() != null && message.getIsstick()) {
                 messageLayout.addStyleName("important-message");
@@ -175,9 +175,9 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
 
             messageLayout.addComponent(userBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(true).withWidth("100%").withStyleName("message-container");
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(true).withFullWidth().withStyleName("message-container");
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = new ELabel(AppContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
@@ -208,7 +208,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
                         .getAttachmentDisplayComponent(message.getProjectid(), ProjectTypeConstants.MESSAGE, message.getId());
 
-                MVerticalLayout messageFooter = new MVerticalLayout().withWidth("100%")
+                MVerticalLayout messageFooter = new MVerticalLayout().withFullWidth()
                         .with(attachmentField, attachmentDisplayComp);
 
                 rowLayout.addComponent(messageFooter);

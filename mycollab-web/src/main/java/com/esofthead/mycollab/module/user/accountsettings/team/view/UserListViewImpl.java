@@ -83,7 +83,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         super();
         this.setMargin(new MarginInfo(false, true, false, true));
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withWidth("100%");
+                .withFullWidth();
         Button createBtn = new Button("Invite user", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -184,7 +184,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
             blockContent.addStyleName("inactive");
         }
-        MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
         memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
         blockTop.addComponent(memberAvatar);
@@ -281,12 +281,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         Label memberEmailLabel = new ELabel(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
                 member.getUsername()), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants
-                .LABEL_META_INFO).withWidth("100%");
+                .LABEL_META_INFO).withFullWidth();
         memberInfo.addComponent(memberEmailLabel);
 
         ELabel memberSinceLabel = new ELabel("Member since: " + AppContext.formatPrettyTime(member.getRegisteredtime()))
                 .withDescription(AppContext.formatDateTime(member.getRegisteredtime())).withStyleName(UIConstants
-                        .LABEL_META_INFO).withWidth("100%");
+                        .LABEL_META_INFO).withFullWidth();
         memberInfo.addComponent(memberSinceLabel);
 
         ELabel lastAccessTimeLbl = new ELabel("Logged in " + AppContext.formatPrettyTime(member.getLastaccessedtime()))

@@ -76,7 +76,7 @@ public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActiv
         final NavigationBarQuickMenu addActivity = new NavigationBarQuickMenu();
         addActivity.setStyleName("add-btn");
 
-        MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
         Button addTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
             @Override

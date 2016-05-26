@@ -90,8 +90,8 @@ public abstract class EntityImportWindow<E> extends Window {
         private ComboBox fileformatComboBox;
 
         public FileConfigurationLayout() {
-            MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
-            MHorizontalLayout informationLayout = new MHorizontalLayout().withWidth("100%");
+            MVerticalLayout layout = new MVerticalLayout().withFullWidth();
+            MHorizontalLayout informationLayout = new MHorizontalLayout().withFullWidth();
 
             CssLayout fileUploadLayout = fileUploadLayout();
             CssLayout fileInfomationLayout = fileConfigurationLayout();
@@ -206,7 +206,7 @@ public abstract class EntityImportWindow<E> extends Window {
             title.addStyleName("h3");
             bodyLayout.with(title).withAlign(title, Alignment.TOP_LEFT);
 
-            MVerticalLayout informationLayout = new MVerticalLayout().withWidth("100%");
+            MVerticalLayout informationLayout = new MVerticalLayout().withFullWidth();
 
             GridFormLayoutHelper gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
             gridLayout.getLayout().setWidth("100%");
@@ -272,7 +272,7 @@ public abstract class EntityImportWindow<E> extends Window {
             bodyLayoutWapper.setHeight("100%");
             bodyLayoutWapper.addStyleName(UIConstants.BOX);
 
-            final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(true).withHeight("100%");
+            final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(true).withFullHeight();
 
             Label title = new Label("Step 1:");
             title.addStyleName("h3");
@@ -339,7 +339,7 @@ public abstract class EntityImportWindow<E> extends Window {
             titleHorizontal.addComponent(title);
             bodyLayout.addComponent(titleHorizontal);
 
-            columnMappingCrmLayout = new MVerticalLayout().withWidth("100%");
+            columnMappingCrmLayout = new MVerticalLayout().withFullWidth();
 
             Label infoLabel = new Label("Map the columns to Module fields");
             infoLabel.addStyleName(ValoTheme.LABEL_H4);

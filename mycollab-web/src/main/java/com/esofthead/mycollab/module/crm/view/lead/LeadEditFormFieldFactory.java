@@ -93,7 +93,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
 
         @Override
         protected Component initContent() {
-            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
 
             final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
             prefixSelect.setValue(attachForm.getBean().getPrefixname());

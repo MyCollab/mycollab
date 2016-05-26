@@ -80,7 +80,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
 
         @Override
         public Component generateRow(final SimpleProjectMember member, int rowIndex) {
-            MHorizontalLayout mainLayout = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withFullWidth();
             mainLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
                 private static final long serialVersionUID = -6886497684142268213L;
 
@@ -128,7 +128,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
                     member.getTotalBillableLogTime())).setTitle("Billable hours") + "  " + FontAwesome.GIFT.getHtml() +
                     " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
-            Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withWidth("100%");
+            Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withFullWidth();
             memberWorkStatus.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(new MCssLayout(memberWorkStatus).withFullWidth());
 

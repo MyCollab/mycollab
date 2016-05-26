@@ -240,7 +240,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         private ToggleBugSummaryField toggleBugSummaryField;
 
         void displayBugHeader(final SimpleBug bug) {
-            MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withWidth("100%").withMargin(false);
+            MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withFullWidth().withMargin(false);
             toggleBugSummaryField = new ToggleBugSummaryField(bug);
             toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
@@ -262,7 +262,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                                 relatedBug.getRelatedType())).withStyleName(UIConstants.ARROW_BTN).withWidthUndefined();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
                         MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
-                                .expand(toggleRelatedBugField).withWidth("100%");
+                                .expand(toggleRelatedBugField).withFullWidth();
                         header.with(bugContainer);
                     } else {
                         Enum relatedEnum = OptionI18nEnum.BugRelation.valueOf(relatedBug.getRelatedType()).getReverse();
@@ -270,7 +270,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                                 .withWidthUndefined();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
                         MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
-                                .expand(toggleRelatedBugField).withWidth("100%");
+                                .expand(toggleRelatedBugField).withFullWidth();
                         header.with(bugContainer);
                     }
                 }

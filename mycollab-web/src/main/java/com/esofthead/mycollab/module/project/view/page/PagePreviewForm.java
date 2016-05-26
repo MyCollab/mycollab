@@ -46,7 +46,7 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
 
         @Override
         public ComponentContainer getLayout() {
-            layout = new MVerticalLayout().withStyleName("border-bottom").withWidth("100%");
+            layout = new MVerticalLayout().withStyleName("border-bottom").withFullWidth();
             return layout;
         }
 

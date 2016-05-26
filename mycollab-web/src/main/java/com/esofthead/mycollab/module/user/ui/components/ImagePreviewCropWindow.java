@@ -72,7 +72,7 @@ public class ImagePreviewCropWindow extends Window {
         originalImage = ImageUtil.scaleImage(originalImage, 650, 650);
 
         MHorizontalLayout previewBox = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false,
-                true, true, false)).withWidth("100%");
+                true, true, false)).withFullWidth();
 
         previewPhoto = new VerticalLayout();
         previewPhoto.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

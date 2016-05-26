@@ -28,7 +28,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class ContainerHorizontalViewField extends CustomField {
     private static final long serialVersionUID = 1L;
 
-    private MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+    private MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
 
     public void addComponentField(Component component) {
         layout.addComponent(component);

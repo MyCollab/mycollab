@@ -70,7 +70,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         this.setWidth("100%");
         this.addStyleName("accountViewContainer");
 
-        MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
+        MHorizontalLayout topPanel = new MHorizontalLayout().withFullWidth().withStyleName("top-panel")
                 .withMargin(new MarginInfo(true, true, true, false));
         AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 

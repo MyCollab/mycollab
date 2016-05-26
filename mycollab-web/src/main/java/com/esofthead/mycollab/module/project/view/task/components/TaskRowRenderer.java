@@ -54,7 +54,7 @@ public class TaskRowRenderer extends MVerticalLayout {
 
     public TaskRowRenderer(final SimpleTask task) {
         this.task = task;
-        withSpacing(true).withMargin(false).withWidth("100%").addStyleName(UIConstants.BORDER_LIST_ROW);
+        withSpacing(true).withMargin(false).withFullWidth().addStyleName(UIConstants.BORDER_LIST_ROW);
 
         taskSettingPopupBtn = new PopupButton();
         taskSettingPopupBtn.setIcon(FontAwesome.COGS);
@@ -63,7 +63,7 @@ public class TaskRowRenderer extends MVerticalLayout {
         taskSettingPopupBtn.setContent(filterBtnLayout);
 
         toogleTaskField = new ToggleTaskSummaryField(task);
-        MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
+        MHorizontalLayout headerLayout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false,
                 true, false, false));
 
         TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);

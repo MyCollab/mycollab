@@ -74,7 +74,7 @@ public class GridFormLayoutHelper implements Serializable {
         if (StringUtils.isNotBlank(caption)) {
             Label captionLbl = new Label(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
-                    .withWidth(this.defaultCaptionWidth).withHeight("100%").withStyleName("gridform-caption").with(captionLbl)
+                    .withWidth(this.defaultCaptionWidth).withFullHeight().withStyleName("gridform-caption").with(captionLbl)
                     .withAlign(captionLbl, alignment);
             layout.addComponent(captionWrapper, 2 * columns, rows);
         }

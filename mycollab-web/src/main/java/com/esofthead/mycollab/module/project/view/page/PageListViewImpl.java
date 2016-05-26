@@ -110,7 +110,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     public PageListViewImpl() {
         this.setMargin(new MarginInfo(false, true, true, true));
 
-        headerLayout = new MHorizontalLayout().withWidth("100%")
+        headerLayout = new MHorizontalLayout().withFullWidth()
                 .withMargin(new MarginInfo(true, false, true, false));
         headerLayout.setHeightUndefined();
 
@@ -239,7 +239,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     }
 
     private Layout displayFolderBlock(final Folder resource) {
-        MVerticalLayout container = new MVerticalLayout().withWidth("100%").withStyleName("page-item-block");
+        MVerticalLayout container = new MVerticalLayout().withFullWidth().withStyleName("page-item-block");
 
         A folderHtml = new A(ProjectLinkBuilder.generatePageFolderFullLink(CurrentProjectVariables
                 .getProjectId(), resource.getPath())).appendText(FontAwesome.FOLDER_OPEN.getHtml() + " " + resource.getName());
@@ -308,7 +308,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     }
 
     private Layout displayPageBlock(final Page resource) {
-        MVerticalLayout container = new MVerticalLayout().withWidth("100%").withStyleName("page-item-block");
+        MVerticalLayout container = new MVerticalLayout().withFullWidth().withStyleName("page-item-block");
         A pageHtml = new A(ProjectLinkBuilder.generatePageFullLink(CurrentProjectVariables.getProjectId(), resource
                 .getPath())).appendText(FontAwesome.FILE_WORD_O.getHtml() + " " + resource.getSubject());
         ELabel pageLink = ELabel.h3(pageHtml.write());

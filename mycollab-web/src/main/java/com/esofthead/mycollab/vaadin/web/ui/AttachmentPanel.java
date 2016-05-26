@@ -70,7 +70,7 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
     }
 
     private void displayFileName(File file, final String fileName) {
-        final MHorizontalLayout fileAttachmentLayout = new MHorizontalLayout().withWidth("100%");
+        final MHorizontalLayout fileAttachmentLayout = new MHorizontalLayout().withFullWidth();
         Button removeBtn = new Button(null, new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 

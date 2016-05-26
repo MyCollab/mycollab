@@ -54,12 +54,12 @@ class CrmCommentInput extends MHorizontalLayout {
 
     CrmCommentInput(final ReloadableComponent component, final String typeVal) {
         super();
-        this.withMargin(new MarginInfo(true, true, false, true)).withWidth("100%").withStyleName("message");
+        this.withMargin(new MarginInfo(true, true, false, true)).withFullWidth().withStyleName("message");
 
         SimpleUser currentUser = AppContext.getUser();
         UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());
 
-        MVerticalLayout textAreaWrap = new MVerticalLayout().withWidth("100%")
+        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth()
                 .withStyleName("message-container");
         this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
@@ -71,7 +71,7 @@ class CrmCommentInput extends MHorizontalLayout {
 
         final AttachmentPanel attachments = new AttachmentPanel();
 
-        final MHorizontalLayout controlsLayout = new MHorizontalLayout().withWidth("100%");
+        final MHorizontalLayout controlsLayout = new MHorizontalLayout().withFullWidth();
         controlsLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 
         final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);

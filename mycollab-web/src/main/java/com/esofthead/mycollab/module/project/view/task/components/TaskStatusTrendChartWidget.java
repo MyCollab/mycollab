@@ -65,7 +65,7 @@ public class TaskStatusTrendChartWidget extends Depot {
     private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC);
 
     public TaskStatusTrendChartWidget() {
-        super("Resolving trend in 30 days", new MVerticalLayout().withWidth("100%"));
+        super("Resolving trend in 30 days", new MVerticalLayout().withFullWidth());
         setContentBorder(true);
     }
 

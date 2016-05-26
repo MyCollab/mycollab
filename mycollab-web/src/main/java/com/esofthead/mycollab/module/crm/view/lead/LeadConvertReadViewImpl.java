@@ -127,7 +127,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         associateActivityList = new ActivityRelatedItemListComp(false);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
 
         dateInfoComp = new DateInfoComp();
         basicInfo.addComponent(dateInfoComp);

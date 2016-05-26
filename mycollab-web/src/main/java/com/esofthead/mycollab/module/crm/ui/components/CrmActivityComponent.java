@@ -108,7 +108,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         });
 
         MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName(UIConstants.FORM_SECTION, UIConstants.HOVER_EFFECT_NOT_BOX).withWidth("100%")
+                .withStyleName(UIConstants.FORM_SECTION, UIConstants.HOVER_EFFECT_NOT_BOX).withFullWidth()
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new CrmCommentInput(this, type);
@@ -173,14 +173,14 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
 
     private Component buildCommentBlock(final SimpleComment comment) {
         final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withWidth("100%").withStyleName("message");
+                .withFullWidth().withStyleName("message");
 
         ProjectMemberBlock memberBlock = new ProjectMemberBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
-        MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
+        MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
 
-        MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(
@@ -230,7 +230,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
 
         List<Content> attachments = comment.getAttachments();
         if (!CollectionUtils.isEmpty(attachments)) {
-            MVerticalLayout messageFooter = new MVerticalLayout().withMargin(false).withSpacing(false).withWidth("100%");
+            MVerticalLayout messageFooter = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
             AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
             attachmentDisplay.setWidth("100%");
             messageFooter.with(attachmentDisplay);
@@ -249,15 +249,15 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         List<AuditChangeItem> changeItems = auditLog.getChangeItems();
         if (CollectionUtils.isNotEmpty(changeItems)) {
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                    .withWidth("100%").withStyleName("message");
+                    .withFullWidth().withStyleName("message");
 
             ProjectMemberBlock memberBlock = new ProjectMemberBlock(auditLog.getPosteduser(), auditLog.getPostedUserAvatarId(),
                     auditLog.getPostedUserFullName());
             layout.addComponent(memberBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = new ELabel(AppContext.getMessage(

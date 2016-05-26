@@ -112,7 +112,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
         try {
             if (CollectionUtils.isEmpty(currentListData) && isDisplayEmptyListText) {
                 Label noItemLbl = new Label(AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
-                MVerticalLayout widgetFooter = new MVerticalLayout().withWidth("100%");
+                MVerticalLayout widgetFooter = new MVerticalLayout().withFullWidth();
                 widgetFooter.addStyleName("widget-footer");
                 widgetFooter.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER);
                 contentLayout.addComponent(widgetFooter);

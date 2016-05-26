@@ -50,7 +50,7 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
 
     @Override
     public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
-        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withWidth("100%");
+        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         Div issueDiv = new Div();

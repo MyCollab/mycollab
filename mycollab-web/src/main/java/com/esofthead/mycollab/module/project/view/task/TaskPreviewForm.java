@@ -165,8 +165,8 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
         @Override
         protected Component initContent() {
-            MHorizontalLayout contentLayout = new MHorizontalLayout().withWidth("100%");
-            tasksLayout = new VerticalRemoveInlineComponentMarker().withWidth("100%").withMargin(new MarginInfo(false, true, true, false));
+            MHorizontalLayout contentLayout = new MHorizontalLayout().withFullWidth();
+            tasksLayout = new VerticalRemoveInlineComponentMarker().withFullWidth().withMargin(new MarginInfo(false, true, true, false));
             contentLayout.with(tasksLayout).expand(tasksLayout);
 
             Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {

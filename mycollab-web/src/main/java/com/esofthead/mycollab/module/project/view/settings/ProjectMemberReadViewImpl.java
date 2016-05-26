@@ -75,7 +75,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
 
-        bottomLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
+        bottomLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         this.addHeaderRightContent(createButtonControls());
         this.with(previewForm, bottomLayout);
     }
@@ -159,7 +159,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             MVerticalLayout memberInfo = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
 
-            ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withWidth("100%");
+            ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withFullWidth();
             memberInfo.addComponent(memberLink);
 
             String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
@@ -181,7 +181,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(beanItem.getJoindate())))
                     .withDescription(AppContext.formatDateTime(beanItem.getJoindate())).withStyleName(UIConstants
-                            .LABEL_META_INFO).withWidth("100%");
+                            .LABEL_META_INFO).withFullWidth();
             memberInfo.addComponent(memberSinceLabel);
 
             if (ProjectMemberStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
@@ -306,7 +306,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
-            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withWidth("100%");
+            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             A taskLink = new A().setId("tag" + TOOLTIP_ID);

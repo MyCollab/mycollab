@@ -57,7 +57,7 @@ public class PasswordChangeWindow extends Window {
     }
 
     private void initUI() {
-        final MVerticalLayout mainLayout = new MVerticalLayout().withWidth("100%");
+        final MVerticalLayout mainLayout = new MVerticalLayout().withFullWidth();
 
         final Label lbInstruct1 = new Label(AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
         mainLayout.addComponent(lbInstruct1);

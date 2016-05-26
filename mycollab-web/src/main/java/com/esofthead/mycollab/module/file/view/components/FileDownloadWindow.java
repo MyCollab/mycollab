@@ -64,7 +64,7 @@ public class FileDownloadWindow extends Window {
     }
 
     private void constructBody() {
-        final MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
+        final MVerticalLayout layout = new MVerticalLayout().withFullWidth();
         CssLayout iconWrapper = new CssLayout();
         final ELabel iconEmbed = ELabel.fontIcon(FileAssetsUtil.getFileIconResource(content.getName()));
         iconEmbed.addStyleName("icon-48px");

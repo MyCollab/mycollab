@@ -104,7 +104,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
 
         @Override
         public Component generateRow(final SimpleTask task, int rowIndex) {
-            MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%");
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth();
 
             A taskLink = new A(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(), task
                     .getProjectShortname())).appendText(String.format("[#%s] - %s", task.getTaskkey(), task.getTaskname()));
