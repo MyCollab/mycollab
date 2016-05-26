@@ -1,6 +1,6 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPLv3-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-5.3.1-brightgreen.svg)](https://community.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-5.3.2-brightgreen.svg)](https://community.mycollab.com/)
 [![SourceForge](https://img.shields.io/sourceforge/dt/mycollab.svg)](https://www.mycollab.com/ce-registration/)
 
 
@@ -96,16 +96,16 @@ MyCollab requires a running Java Runtime Environment (7 or greater), Java comman
 
 ## Installation
 
-The current MyCollab version is 5.3.1 released on 18th May, 2016. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.3.2 released on 28th May, 2016. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
-2. Follow installation guideline at https://community.mycollab.com/installing-mycollab/
+2. Follow installation guideline at https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/installing-mycollab/
 
-If you need to understand the more MyCollab advanced configuration settings, please visit the link https://community.mycollab.com/administration/configuration/. You will finish reading and understanding in a matter of minutes.
+If you need to understand the more MyCollab advanced configuration settings, please visit the link https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/advanced-configuration/. You will finish reading and understanding in a matter of minutes.
 
 If you want to customize MyCollab, following links are useful to you:
-* Setup MyCollab projects with IntelliJ https://community.mycollab.com/developing/setup-intellij-projects/
-* How to customize MyCollab https://community.mycollab.com/developing/how-to-customize-mycollab/
+* Setup MyCollab projects with IntelliJ https://community.mycollab.com/docs/developing-mycollab/setup-mycollab-projects-with-intellij-ide/
+* How to customize MyCollab https://community.mycollab.com/docs/developing-mycollab/customize-mycollab/
 
 ## Support
 Contact the MyCollab team at:
