@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
@@ -38,6 +40,10 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.ComponentContainer;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -113,7 +119,24 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
 
         if (item.getId() == null) {
             item.setLogby(AppContext.getUsername());
-            taskService.saveWithSession(item, AppContext.getUsername());
+            int taskId = taskService.saveWithSession(item, AppContext.getUsername());
+
+            List<String> followers = view.getFollowers();
+            if (followers.size() > 0) {
+                List<MonitorItem> monitorItems = new ArrayList<>();
+                for (String follower : followers) {
+                    MonitorItem monitorItem = new MonitorItem();
+                    monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+                    monitorItem.setSaccountid(AppContext.getAccountId());
+                    monitorItem.setType(ProjectTypeConstants.TASK);
+                    monitorItem.setTypeid(taskId);
+                    monitorItem.setUser(follower);
+                    monitorItem.setExtratypeid(CurrentProjectVariables.getProjectId());
+                    monitorItems.add(monitorItem);
+                }
+                MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
+                monitorItemService.saveMonitorItems(monitorItems);
+            }
         } else {
             taskService.updateWithSession(item, AppContext.getUsername());
         }

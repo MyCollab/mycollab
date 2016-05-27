@@ -156,8 +156,7 @@ if [ "$1" = "--start" ] ; then
   shift
   touch "$MYCOLLAB_OUT"
   cd ..
-  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar
- ####>> "$MYCOLLAB_OUT" 2>&1 "&"
+  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar &
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
     echo $! > "$MYCOLLAB_PID"

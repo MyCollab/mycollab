@@ -14,7 +14,7 @@ For further information, please visit:
 
 Contact the MyCollab team at:
 
-* Our Q&A page [https://www.mycollab.com/qa/](https://www.mycollab.com/qa/)
+* Our Q&A page [https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/frequently-questions-and-answers/](https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/frequently-questions-and-answers/)
 * Our web form [https://www.mycollab.com/contact/](https://www.mycollab.com/contact/)
 
 System requirements
@@ -25,16 +25,16 @@ MyCollab requires a running Java Runtime Environment (7 or greater), Java comman
 
 Please have a look at MyCollab requirements
 
-* [https://community.mycollab.com/installing-mycollab/](https://community.mycollab.com/installing-mycollab/)
+* [https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/installing-mycollab/](https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/installing-mycollab/)
 
 Installation
 ============
 
 1. Download MyCollab Binary File mycollab-x.xxx-dist
-2. Follow installation guideline at [https://community.mycollab.com/installing-mycollab/](https://community.mycollab.com/installing-mycollab/)
-3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [https://community.mycollab.com/administration/upgrade/](https://community.mycollab.com/administration/upgrade/) will instruct steps to make your bug easily
+2. Follow installation guideline at [https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/frequently-questions-and-answers/](https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/frequently-questions-and-answers/)
+3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/upgrade-mycollab-manually/](https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/upgrade-mycollab-manually/) will instruct steps to make your bug easily
 
-If you want to understand more MyCollab advanced configuration settings, please visit the link [https://community.mycollab.com/administration/configuration/](https://community.mycollab.com/administration/configuration/). You will finish reading and
+If you want to understand more MyCollab advanced configuration settings, please visit the link [https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/advanced-configuration/](https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/advanced-configuration/). You will finish reading and
 understanding in a matter of minutes.
 
 Last changelog
@@ -43,15 +43,13 @@ Last changelog
 Version 5.3.2
 -----------------------------
 
-**Important notes**
+**Library Upgrades**
 
 * Spring framework 4.2.6.RELEASE
 * MySQL Connector 5.1.39
 * Jetty 9.2.17.v20160517
 * Jsoup 1.9.2
 * Other libraries
-
-**Library Upgrades**
  
 **Improvements & New Features**
 
