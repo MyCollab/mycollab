@@ -18,7 +18,6 @@ package com.esofthead.mycollab.i18n;
 
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyorExt;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import org.slf4j.Logger;
@@ -92,11 +91,11 @@ public class LocalizationHelper {
                 try {
                     return defaultMessage.getMessage(key, objects);
                 } catch (Exception e1) {
-                    LOG.error("Can not find resource key " + cls + "---" + option, e);
+                    LOG.debug("Can not find resource key " + cls + "---" + option, e);
                     return "Undefined";
                 }
             } else {
-                LOG.error("Error", e);
+                LOG.debug("Error", e);
                 return "Undefined";
             }
         }
@@ -104,19 +103,18 @@ public class LocalizationHelper {
 
     private static Map<String, String> cacheFile = new HashMap<>();
 
-    public static String templatePath(String fileTemplatePath, Locale locale) {
-        String key = (locale != null) ? (fileTemplatePath + locale.toString())
-                : (fileTemplatePath + Locale.US.toString());
+    private static String templatePath(String fileTemplatePath, Locale locale) {
+        String key = (locale != null) ? (fileTemplatePath + locale.toString()) : (fileTemplatePath + Locale.US.toString());
         String filePath = cacheFile.get(key);
         if (filePath != null) {
             return filePath;
         } else {
-            int index = fileTemplatePath.indexOf("mt");
+            int index = fileTemplatePath.indexOf("html");
             if (index == -1) {
                 throw new MyCollabException("File type is not supported " + fileTemplatePath);
             }
             filePath = fileTemplatePath.substring(0, index - 1);
-            filePath = String.format("%s_%s.mt", filePath, locale);
+            filePath = String.format("%s_%s.html", filePath, locale);
             cacheFile.put(key, filePath);
             return filePath;
         }
@@ -138,17 +136,17 @@ public class LocalizationHelper {
         try {
             return new InputStreamReader(resourceStream, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            return new InputStreamReader(resourceStream);
+            throw new MyCollabException("Not support UTF-8 encoding");
         }
     }
 
     public static Reader templateReader(String fileTemplatePath, Locale currentLocale, Locale defaultLocale) {
-        Reader reader = LocalizationHelper.templateReader(fileTemplatePath, currentLocale);
+        Reader reader = templateReader(fileTemplatePath, currentLocale);
         if (reader == null) {
             if (defaultLocale == null) {
                 throw new MyCollabException("Can not find file " + fileTemplatePath + " in locale " + currentLocale);
             }
-            reader = LocalizationHelper.templateReader(fileTemplatePath, defaultLocale);
+            reader = templateReader(fileTemplatePath, defaultLocale);
             if (reader == null) {
                 throw new MyCollabException("Can not find file " + fileTemplatePath + " in locale " +
                         currentLocale + " and default locale " + defaultLocale);
@@ -158,14 +156,14 @@ public class LocalizationHelper {
     }
 
     public static final Locale[] getAvailableLocales() {
-        Locale[] locales = Locale.getAvailableLocales();
-        return locales;
+        return Locale.getAvailableLocales();
     }
 
     public final static Locale getLocaleInstance(String languageTag) {
         try {
-            return Locale.forLanguageTag(languageTag);
+            return (languageTag == null) ? Locale.US : Locale.forLanguageTag(languageTag);
         } catch (Exception e) {
+            LOG.error("Invalid language {}", languageTag);
             return Locale.US;
         }
     }

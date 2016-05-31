@@ -20,12 +20,11 @@ import java.util.Locale
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder
 import com.esofthead.mycollab.common.domain.MailRecipientField
-import com.esofthead.mycollab.configuration.{LocaleHelper, SiteConfiguration}
+import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.i18n.LocalizationHelper
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum
-import com.esofthead.mycollab.module.user.domain.User
 import com.esofthead.mycollab.module.user.esb.RequestToResetPasswordEvent
 import com.esofthead.mycollab.module.user.service.UserService
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
@@ -59,8 +58,7 @@ import org.springframework.stereotype.Component
       extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, lst, null, null,
         contentGenerator.parseString(LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
           SiteConfiguration.getDefaultSiteName)),
-        contentGenerator.parseFile("templates/email/user/userRecoveryPasswordNotifier.mt", locale,
-          Locale.US), null)
+        contentGenerator.parseFile("templates/email/user/userRecoveryPasswordNotifier.html", locale, Locale.US), null)
     }
   }
 }

@@ -109,7 +109,7 @@ class AccountInfoChangeWindow extends Window {
                 } else if (BillingAccount.Field.defaultmmddformat.equalTo(propertyId)) {
                     return new DateFormatField(billingAccount.getShortDateFormatInstance().toPattern());
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {
-                    return new DateFormatField(billingAccount.getHumanDateFormatInstance().toPattern());
+                    return new DateFormatField(billingAccount.getLongDateFormatInstance().toPattern());
                 } else if (BillingAccount.Field.defaultlanguagetag.equalTo(propertyId)) {
                     return new LanguageComboBox();
                 }

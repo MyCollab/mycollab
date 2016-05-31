@@ -25,7 +25,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public interface TaskKanbanview extends PageView, IKanbanView {
+public interface TaskKanbanView extends PageView, IKanbanView {
     HasSearchHandlers<TaskSearchCriteria> getSearchHandlers();
 
     void display();

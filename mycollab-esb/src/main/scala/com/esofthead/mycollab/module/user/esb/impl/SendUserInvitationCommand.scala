@@ -50,7 +50,6 @@ import org.springframework.stereotype.Component
       Arrays.asList(new MailRecipientField(event.invitee, event.invitee)), null, null,
       contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
         UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getDefaultSiteName)),
-      contentGenerator.parseFile("templates/email/user/userInvitationNotifier.mt",
-        Locale.US), null)
+      contentGenerator.parseFile("templates/email/user/userInvitationNotifier.html", Locale.US), null)
   }
 }

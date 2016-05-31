@@ -40,6 +40,26 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.3.3
+-----------------------------
+
+**Library Upgrades**
+
+* Joda Time 2.9.4
+* Other libraries
+
+**Improvements & New Features**
+
+* Apply the date formats in report and tooltip
+* Support localization for languages easier
+* Other improvements
+
+**Bug Fixes**
+
+* [Premium] Timelog window causes error in several special cases
+* Can not search projects in the project list view
+* Timezone on several date fields are not correct
+
 Version 5.3.2
 -----------------------------
 

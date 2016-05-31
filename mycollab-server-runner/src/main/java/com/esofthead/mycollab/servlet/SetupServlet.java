@@ -44,7 +44,7 @@ public class SetupServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
 
         VelocityContext context = new VelocityContext();
-        Reader reader = FileUtils.getReader("templates/page/SetupFresh.mt");
+        Reader reader = FileUtils.getReader("templates/page/SetupFresh.html");
 
         String postUrl = "/install";
         context.put("redirectURL", postUrl);

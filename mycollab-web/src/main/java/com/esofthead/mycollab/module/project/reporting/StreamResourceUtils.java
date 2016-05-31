@@ -30,11 +30,9 @@ import com.esofthead.mycollab.reporting.ReportStreamSource;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.StreamResource;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,11 +50,8 @@ public class StreamResourceUtils {
                 new RpFieldsBuilder(fields), exportType, SimpleTask.class, AppContextUtil.getSpringBean(ProjectTaskService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override
-            protected Map<String, Object> initReportParameters() {
-                Map<String, Object> parameters = new HashMap<>();
-                parameters.put("siteUrl", AppContext.getSiteUrl());
+            protected void initReportParameters(Map<String, Object> parameters) {
                 parameters.put(SimpleReportTemplateExecutor.CRITERIA, variableInjector.eval());
-                return parameters;
             }
         };
         return new StreamResource(streamSource, exportType.getDefaultFileName());
@@ -72,11 +67,8 @@ public class StreamResourceUtils {
                 RpFieldsBuilder(fields), exportType, SimpleBug.class, AppContextUtil.getSpringBean(BugService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override
-            protected Map<String, Object> initReportParameters() {
-                Map<String, Object> parameters = new HashMap<>();
-                parameters.put("siteUrl", AppContext.getSiteUrl());
+            protected void initReportParameters(Map<String, Object> parameters) {
                 parameters.put(SimpleReportTemplateExecutor.CRITERIA, variableInjector.eval());
-                return parameters;
             }
         };
         return new StreamResource(streamSource, exportType.getDefaultFileName());

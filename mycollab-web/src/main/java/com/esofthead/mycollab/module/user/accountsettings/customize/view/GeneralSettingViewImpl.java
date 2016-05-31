@@ -114,9 +114,9 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
                 AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 1);
 
-        String defaultLongDateFormat = billingAccount.getHumanDateFormatInstance().toPattern();
+        String defaultLongDateFormat = billingAccount.getLongDateFormatInstance().toPattern();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
-                billingAccount.getHumanDateFormatInstance().format(now), defaultLongDateFormat)),
+                billingAccount.getLongDateFormatInstance().format(now), defaultLongDateFormat)),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
                 AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 2);
 

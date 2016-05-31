@@ -72,7 +72,7 @@ var stickytooltip = {
   }
 }
 
-function overIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) {
+function overIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale, dateFormat) {
   stickytooltip.isShow = true
   var idDIVserverdata = "div14" + uid;
   var idStickyToolTipDiv = "div1" + uid;
@@ -84,7 +84,7 @@ function overIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) {
       $.ajax({
               type: 'POST',
               url: url,
-              data : { type: type, typeId: typeId , sAccountId : sAccountId, siteURL: siteURL , timeZone: timeZone, locale:locale},
+              data : { type: type, typeId: typeId , sAccountId : sAccountId, siteURL: siteURL , timeZone: timeZone, locale:locale, dateFormat:dateFormat},
               success: function(data) {
                 if(data.trim()!= "null") {
                   lastSuccessTime=new Date()
@@ -98,7 +98,7 @@ function overIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) {
   }, 2000);
 }
 
-function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) {
+function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale, dateFormat) {
   stickytooltip.isShow = true
   var idDIVserverdata = "div14" + uid;
   var idStickyToolTipDiv = "div1" + uid;
@@ -111,7 +111,7 @@ function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone
       $.ajax({
              type: 'POST',
              url: url,
-             data : { type: type, typeId: typeId , sAccountId : sAccountId, siteURL: siteURL , timeZone: timeZone, locale:locale},
+             data : { type: type, typeId: typeId , sAccountId : sAccountId, siteURL: siteURL , timeZone: timeZone, locale:locale, dateFormat: dateFormat},
              success: function(data) {
                if(data.trim()!= "null") {
                  lastSuccessTime=new Date()

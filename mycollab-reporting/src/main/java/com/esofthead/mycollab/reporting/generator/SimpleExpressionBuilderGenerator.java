@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.reporting.generator;
 
-import com.esofthead.mycollab.reporting.AbstractReportTemplate;
+import com.esofthead.mycollab.reporting.ReportStyles;
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 
@@ -34,7 +34,7 @@ public class SimpleExpressionBuilderGenerator implements ComponentBuilderGenerat
     }
 
     @Override
-    public ComponentBuilder getCompBuilder(AbstractReportTemplate reportTemplate) {
-        return cmp.text(expression).setStyle(reportTemplate.getRootStyle());
+    public ComponentBuilder getCompBuilder(ReportStyles reportStyles) {
+        return cmp.text(expression).setStyle(reportStyles.getRootStyle());
     }
 }

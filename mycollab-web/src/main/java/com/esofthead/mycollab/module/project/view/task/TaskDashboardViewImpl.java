@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.json.QueryAnalyzer;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -359,7 +360,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         currentPage = 0;
         int pages = totalTasks / 20;
         if (currentPage < pages) {
-            Button moreBtn = new Button("More", new Button.ClickListener() {
+            Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_MORE), new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     int totalTasks = projectTaskService.getTotalCount(baseCriteria);

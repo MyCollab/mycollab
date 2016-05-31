@@ -67,7 +67,10 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd
@@ -280,11 +283,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 (MilestoneService.class));
         ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
             @Override
-            protected Map<String, Object> initReportParameters() {
-                Map<String, Object> parameters = new HashMap<>();
-                parameters.put("siteUrl", AppContext.getSiteUrl());
+            protected void initReportParameters(Map<String, Object> parameters) {
                 parameters.put(SimpleReportTemplateExecutor.CRITERIA, baseCriteria);
-                return parameters;
             }
         };
         return new StreamResource(streamSource, exportType.getDefaultFileName());

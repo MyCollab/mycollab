@@ -29,10 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ColumnBuilderClassMapper {
     private static Map<Class, Map<String, ComponentBuilderGenerator>> mapInjection = new ConcurrentHashMap<>();
 
-    static {
-        ReportTemplateFactory.getTemplate(Locale.US);
-    }
-
     public static void put(Class cls, Map<String, ComponentBuilderGenerator> columns) {
         mapInjection.put(cls, columns);
     }

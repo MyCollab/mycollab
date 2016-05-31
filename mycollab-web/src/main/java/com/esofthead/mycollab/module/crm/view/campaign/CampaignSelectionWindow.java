@@ -85,12 +85,11 @@ public class CampaignSelectionWindow extends Window {
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         fieldSelection.fireValueChange(campaign);
-                        CampaignSelectionWindow.this.close();
+                        close();
                     }
                 });
-                campaignLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
-                        AppContext.getUserLocale(), campaign,
-                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+                campaignLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(),
+                        AppContext.getDateFormat().toPattern(), campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return campaignLink;
             }
         });

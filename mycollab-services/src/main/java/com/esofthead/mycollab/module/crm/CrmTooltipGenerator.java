@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm;
 
 import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
@@ -32,7 +31,6 @@ import com.hp.gagawa.java.elements.Tr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -132,7 +130,8 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateToolTipContact(Locale locale, SimpleContact contact, String siteURL, TimeZone userTimeZone) {
+    public static String generateToolTipContact(Locale locale, String dateFormat, SimpleContact contact, String siteURL,
+                                                TimeZone userTimeZone) {
         if (contact == null) {
             return generateTolltipNull(locale);
         }
@@ -159,16 +158,12 @@ public class CrmTooltipGenerator {
             Tr trRow3 = new Tr();
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, ContactI18nEnum.FORM_EMAIL));
 
-            String contactEmailLink = (contact.getEmail() != null) ? String
-                    .format("mailto:%s", contact.getEmail()) : "";
+            String contactEmailLink = (contact.getEmail() != null) ? String.format("mailto:%s", contact.getEmail()) : "";
             Td cell32 = buildCellLink(contactEmailLink, contact.getEmail());
 
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
                     ContactI18nEnum.FORM_BIRTHDAY));
-            String birthday = DateTimeUtils.convertToStringWithUserTimeZone(
-                    contact.getBirthday(),
-                    LocaleHelper.getDateFormatInstance(locale).getDateFormat(),
-                    userTimeZone);
+            String birthday = DateTimeUtils.convertToStringWithUserTimeZone(contact.getBirthday(), dateFormat, userTimeZone);
             Td cell34 = buildCellValue(birthday);
 
             trRow3.appendChild(cell31, cell32, cell33, cell34);
@@ -209,15 +204,13 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateTooltipCampaign(Locale locale, SimpleCampaign campaign, String siteURl, TimeZone userTimeZone) {
+    public static String generateTooltipCampaign(Locale locale, String dateFormat, SimpleCampaign campaign, String siteURl, TimeZone userTimeZone) {
         if (campaign == null)
             return generateTolltipNull(locale);
 
         try {
             TooltipBuilder tooltipBuilder = new TooltipBuilder();
             tooltipBuilder.appendTitle(campaign.getCampaignname());
-
-            String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
@@ -372,15 +365,13 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateTooltipOpportunity(Locale locale, SimpleOpportunity opportunity, String siteURl, TimeZone userTimeZone) {
+    public static String generateTooltipOpportunity(Locale locale, String dateFormat, SimpleOpportunity opportunity, String siteURl, TimeZone userTimeZone) {
         if (opportunity == null)
             return generateTolltipNull(locale);
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
             tooltipManager.appendTitle(opportunity.getOpportunityname());
-
-            String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CURRENCY));
@@ -517,14 +508,12 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateToolTipMeeting(Locale locale, SimpleMeeting meeting, String siteURl, TimeZone userTimeZone) {
+    public static String generateToolTipMeeting(Locale locale, String dateTimeFormat, SimpleMeeting meeting, String siteUrl, TimeZone userTimeZone) {
         if (meeting == null)
             return generateTolltipNull(locale);
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
             tooltipManager.appendTitle(meeting.getSubject());
-
-            String dateTimeFormat = LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat();
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, MeetingI18nEnum.FORM_START_DATE_TIME));
@@ -560,13 +549,13 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateToolTipCall(Locale locale, SimpleCall call, String siteURL, TimeZone userTimeZone) {
+    public static String generateToolTipCall(Locale locale, String dateFormat, SimpleCall call, String siteURL,
+                                             TimeZone userTimeZone) {
         if (call == null)
             return generateTolltipNull(locale);
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
             tooltipManager.appendTitle(call.getSubject());
-            String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, CallI18nEnum.FORM_START_DATE_TIME));
@@ -612,8 +601,8 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateToolTipCrmTask(Locale locale, SimpleTask task,
-                                                String siteURL, TimeZone userTimeZone) {
+    public static String generateToolTipCrmTask(Locale locale, String dateFormat, SimpleTask task, String siteURL,
+                                                TimeZone userTimeZone) {
         if (task == null)
             return generateTolltipNull(locale);
 
@@ -621,13 +610,9 @@ public class CrmTooltipGenerator {
             TooltipBuilder tooltipManager = new TooltipBuilder();
             tooltipManager.appendTitle(task.getSubject());
 
-            String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
-
             Tr trRow1 = new Tr();
-            Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_START_DATE));
-            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(
-                    task.getStartdate(), dateFormat, userTimeZone);
+            Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
+            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(task.getStartdate(), dateFormat, userTimeZone);
             Td cell12 = buildCellValue(startDate);
             Td cell13 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS));
             Td cell14 = buildCellValue(task.getStatus());
@@ -635,39 +620,27 @@ public class CrmTooltipGenerator {
             tooltipManager.appendRow(trRow1);
 
             Tr trRow2 = new Tr();
-            Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_DUE_DATE));
-            String duedate = DateTimeUtils.convertToStringWithUserTimeZone(
-                    task.getDuedate(), dateFormat, userTimeZone);
-            Td cell22 = buildCellValue(duedate);
-            Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
-                    TaskI18nEnum.FORM_CONTACT));
-            String contactLink = (task.getContactid() != null) ? CrmLinkGenerator
-                    .generateContactPreviewFullLink(siteURL,
-                            task.getContactid()) : "";
+            Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE));
+            String dueDate = DateTimeUtils.convertToStringWithUserTimeZone(task.getDuedate(), dateFormat, userTimeZone);
+            Td cell22 = buildCellValue(dueDate);
+            Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_CONTACT));
+            String contactLink = (task.getContactid() != null) ? CrmLinkGenerator.generateContactPreviewFullLink(siteURL, task.getContactid()) : "";
             Td cell24 = buildCellLink(contactLink, task.getContactName());
             trRow2.appendChild(cell21, cell22, cell23, cell24);
             tooltipManager.appendRow(trRow2);
 
             Tr trRow3 = new Tr();
-            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
-                    TaskI18nEnum.FORM_PRIORITY));
+            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_PRIORITY));
             Td cell32 = buildCellValue(task.getPriority());
-            Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_ASSIGNEE));
-            String assignUserLink = (task.getAssignuser() != null) ? AccountLinkGenerator
-                    .generatePreviewFullUserLink(siteURL, task.getAssignuser())
-                    : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(
-                    task.getAssignUserAvatarId(), 16);
-            Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink,
-                    task.getAssignUserFullName());
+            Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
+            String assignUserLink = (task.getAssignuser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, task.getAssignuser()) : "";
+            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16);
+            Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink, task.getAssignUserFullName());
             trRow3.appendChild(cell31, cell32, cell33, cell34);
             tooltipManager.appendRow(trRow3);
 
             Tr trRow4 = new Tr();
-            Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_DESCRIPTION));
+            Td cell41 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DESCRIPTION));
             Td cell42 = buildCellValue(trimHtmlTags(task.getDescription()));
             cell42.setAttribute("colspan", "3");
             trRow4.appendChild(cell41, cell42);

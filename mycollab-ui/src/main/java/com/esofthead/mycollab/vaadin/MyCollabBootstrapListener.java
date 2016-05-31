@@ -58,7 +58,7 @@ public class MyCollabBootstrapListener implements BootstrapListener {
                 .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-2.1.4.min.js\"></script>",
                         SiteConfiguration.getCdnUrl()));
         response.getDocument().head()
-                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip-1.0.1.js?v=%s\"></script>",
+                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip-1.0.2.js?v=%s\"></script>",
                         SiteConfiguration.getCdnUrl(), MyCollabVersion.getVersion()));
 
         Element div1 = response.getDocument().body().appendElement("div");

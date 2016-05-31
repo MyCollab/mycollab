@@ -24,12 +24,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
  */
 public class AccountLinkBuilder {
     public static String generatePreviewFullUserLink(String username) {
-        return AccountLinkGenerator.generatePreviewFullUserLink(
-                AppContext.getSiteUrl(), username);
+        return AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), username);
     }
 
     public static String generatePreviewFullRoleLink(Integer userRoleId) {
-        return AccountLinkGenerator.generatePreviewFullRoleLink(
-                AppContext.getSiteUrl(), userRoleId);
+        return AccountLinkGenerator.generatePreviewFullRoleLink(AppContext.getSiteUrl(), userRoleId);
     }
 }

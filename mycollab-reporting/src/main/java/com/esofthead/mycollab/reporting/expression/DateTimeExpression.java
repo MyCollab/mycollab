@@ -16,12 +16,10 @@
  */
 package com.esofthead.mycollab.reporting.expression;
 
-import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * @author MyCollab Ltd.
@@ -36,9 +34,8 @@ public class DateTimeExpression extends SimpleFieldExpression {
 
     @Override
     public String evaluate(ReportParameters reportParameters) {
-        Locale locale = reportParameters.getLocale();
         Date date = reportParameters.getFieldValue(field);
-        return DateTimeUtils.formatDate(date, LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat());
+        return DateTimeUtils.formatDate(date, "DD/mm/yyyy");
     }
 
 }

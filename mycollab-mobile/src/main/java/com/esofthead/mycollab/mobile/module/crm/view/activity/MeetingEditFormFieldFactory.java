@@ -26,49 +26,46 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class MeetingEditFormFieldFactory extends
-		AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+public class MeetingEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
 
-	public MeetingEditFormFieldFactory(GenericBeanForm<MeetingWithBLOBs> form) {
-		super(form);
-	}
+    public MeetingEditFormFieldFactory(GenericBeanForm<MeetingWithBLOBs> form) {
+        super(form);
+    }
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("subject")) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Subject must not be null");
-			}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("subject")) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Subject must not be null");
+            }
 
-			return tf;
-		} else if (propertyId.equals("status")) {
-			return new MeetingStatusComboBox();
-		} else if (propertyId.equals("startdate")) {
-			return new DatePicker();
-		} else if (propertyId.equals("enddate")) {
-			return new DatePicker();
-		} else if (propertyId.equals("description")) {
-			TextArea descArea = new TextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
-		} else if (propertyId.equals("typeid")) {
-			return new RelatedItemSelectionField(attachForm.getBean());
-		} else if (propertyId.equals("type")) {
-			return new DummyCustomField<String>();
-		} else if (propertyId.equals("isrecurrence")) {
-			return null;
-		}
-		return null;
-	}
+            return tf;
+        } else if (propertyId.equals("status")) {
+            return new MeetingStatusComboBox();
+        } else if (propertyId.equals("startdate")) {
+            return new DatePicker();
+        } else if (propertyId.equals("enddate")) {
+            return new DatePicker();
+        } else if (propertyId.equals("description")) {
+            TextArea descArea = new TextArea();
+            descArea.setNullRepresentation("");
+            return descArea;
+        } else if (propertyId.equals("typeid")) {
+            return new RelatedItemSelectionField(attachForm.getBean());
+        } else if (propertyId.equals("type")) {
+            return new DummyCustomField<String>();
+        } else if (propertyId.equals("isrecurrence")) {
+            return null;
+        }
+        return null;
+    }
 
 }

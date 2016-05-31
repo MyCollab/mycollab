@@ -12,6 +12,9 @@
         <result column="inviteUser" jdbcType="VARCHAR" property="inviteUser" />
         <result column="inviteUserFullName" jdbcType="VARCHAR" property="inviteUserFullName" />
         <result column="lastModuleVisit" jdbcType="VARCHAR" property="lastModuleVisit" />
+        <result column="dateFormat" jdbcType="VARCHAR" property="dateFormat" />
+        <result column="shortDateFormat" jdbcType="VARCHAR" property="shortDateFormat" />
+        <result column="longDateFormat" jdbcType="VARCHAR" property="longDateFormat" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -115,7 +118,8 @@
             s_user.facebookAccount, s_user.twitterAccount, s_user.skypeContact,
             s_user.password, s_user.avatarId, s_user.status, s_user.requestAd,
             s_user.YYMMDDFormat, s_user.humanDateFormat, s_user.MMDDFormat,
-            s_account.subdomain AS subdomain,
+            s_account.subdomain AS subdomain, s_account.defaultYYMMDDFormat AS dateFormat,
+            s_account.defaultMMDDFormat AS shortDateFormat, s_account.defaultHumanDateFormat AS longDateFormat,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  displayName,
             s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
             s_user_account.registerStatus, s_user_account.registeredTime, s_user_account.inviteUser, s_user_account.lastAccessedTime,

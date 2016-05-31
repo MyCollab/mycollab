@@ -114,8 +114,8 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
             public Object generateCell(Table table, Object itemId, Object columnId) {
                 SimpleProject project = tableItem.getBeanByIndex(itemId);
                 LabelLink b = new LabelLink(project.getName(), ProjectLinkBuilder.generateProjectFullLink(project.getId()));
-                b.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), project,
-                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+                b.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
+                        project, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 MHorizontalLayout layout = new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project
                         .getShortname(), project.getId(), project.getAvatarid(), 32), b)
                         .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false).withFullHeight();

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.reporting.generator;
 
-import com.esofthead.mycollab.reporting.AbstractReportTemplate;
+import com.esofthead.mycollab.reporting.ReportStyles;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 
 /**
@@ -24,5 +24,5 @@ import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
  * @since 5.2.12
  */
 public interface ComponentBuilderGenerator {
-    ComponentBuilder getCompBuilder(AbstractReportTemplate reportTemplate);
+    ComponentBuilder getCompBuilder(ReportStyles reportStyles);
 }

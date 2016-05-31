@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
+import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -38,24 +38,24 @@ import java.util.Date;
  */
 public class DateSelectionField extends GridLayout {
 
-    private DateFieldExt dateStart = new DateFieldExt();
-    private DateFieldExt dateEnd = new DateFieldExt();
+    private PopupDateFieldExt dateStart = new PopupDateFieldExt();
+    private PopupDateFieldExt dateEnd = new PopupDateFieldExt();
 
     private DateSelectionComboBox dateSelectionBox;
 
-    public DateFieldExt getDateStart() {
+    public PopupDateFieldExt getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(DateFieldExt dateStart) {
+    public void setDateStart(PopupDateFieldExt dateStart) {
         this.dateStart = dateStart;
     }
 
-    public DateFieldExt getDateEnd() {
+    public PopupDateFieldExt getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(DateFieldExt dateEnd) {
+    public void setDateEnd(PopupDateFieldExt dateEnd) {
         this.dateEnd = dateEnd;
     }
 

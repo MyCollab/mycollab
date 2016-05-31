@@ -156,18 +156,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <!-- copy *application* jars to izpack staging lib -->
-                        <id>copy-product-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${installer.staging.dir}/lib</outputDirectory>
-                            <excludeScope>provided</excludeScope>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>unpack</id>
                         <phase>package</phase>
                         <goals>
@@ -180,14 +168,39 @@
                                     <artifactId>mycollab-localization</artifactId>
                                     <version>5.3.2</version>
                                     <type>jar</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/alternateLocation</outputDirectory>
-                                    <destFileName>optional-new-name.jar</destFileName>
-                                    <excludes>resources/**</excludes>
+                                    <includes>**/*.properties</includes>
+                                    <excludes>**/pom.properties</excludes>
+                                    <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.esofthead.mycollab</groupId>
+                                    <artifactId>mycollab-scheduler</artifactId>
+                                    <version>5.3.2</version>
+                                    <type>jar</type>
+                                    <includes>**/*.mt</includes>
+                                    <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.esofthead.mycollab</groupId>
+                                    <artifactId>mycollab-servlet</artifactId>
+                                    <version>5.3.2</version>
+                                    <type>jar</type>
+                                    <includes>**/*.mt</includes>
+                                    <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
-                            <excludes>**/*.properties</excludes>
-                            <outputDirectory>${project.build.directory}/wars</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- copy *application* jars to izpack staging lib -->
+                        <id>copy-product-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${installer.staging.dir}/lib</outputDirectory>
+                            <excludeScope>provided</excludeScope>
                         </configuration>
                     </execution>
                 </executions>

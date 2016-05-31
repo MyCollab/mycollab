@@ -18,7 +18,6 @@ package com.esofthead.mycollab.schedule.email.format
 
 import java.util.Date
 
-import com.esofthead.mycollab.configuration.LocaleHelper
 import com.esofthead.mycollab.core.utils.{DateTimeUtils, StringUtils, TimezoneVal}
 import com.esofthead.mycollab.schedule.email.MailContext
 import com.hp.gagawa.java.elements.Span
@@ -40,8 +39,7 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
       if (value == null) {
         new Span().write
       } else {
-        new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], LocaleHelper.getDateFormatInstance
-        (context.getLocale).getDateFormat, TimezoneVal.valueOf(context.getUser.getTimezone))).write
+        new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], context.user.getDateFormat, TimezoneVal.valueOf(context.getUser.getTimezone))).write
       }
     } catch {
       case e: Any =>
@@ -55,7 +53,6 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
       new Span().write
     }
 
-    DateTimeUtils.convertToStringWithUserTimeZone(value, LocaleHelper.getDateFormatInstance(context.getLocale).getDateFormat,
-      context.getTimeZone)
+    DateTimeUtils.convertToStringWithUserTimeZone(value, context.user.getDateFormat, context.getTimeZone)
   }
 }

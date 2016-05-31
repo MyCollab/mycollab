@@ -84,7 +84,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
     }
 
     private void responsePage404(HttpServletResponse response) throws IOException {
-        String pageNotFoundTemplate = "templates/page/404Page.mt";
+        String pageNotFoundTemplate = "templates/page/404Page.html";
         TemplateContext context = new TemplateContext();
 
         Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, response.getLocale());
@@ -121,7 +121,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
             LOG.error("Exception in mycollab", throwable);
         }
 
-        String errorPage = "templates/page/500Page.mt";
+        String errorPage = "templates/page/500Page.html";
         TemplateContext context = new TemplateContext();
 
         Reader reader = LocalizationHelper.templateReader(errorPage, response.getLocale());

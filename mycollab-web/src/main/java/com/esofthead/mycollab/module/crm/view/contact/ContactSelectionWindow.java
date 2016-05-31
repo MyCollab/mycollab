@@ -58,7 +58,6 @@ public class ContactSelectionWindow extends Window {
             public void onSearch(ContactSearchCriteria criteria) {
                 tableItem.setSearchCriteria(criteria);
             }
-
         });
         layout.addComponent(contactSimpleSearchPanel);
         layout.addComponent(tableItem);
@@ -86,10 +85,10 @@ public class ContactSelectionWindow extends Window {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         fieldSelection.fireValueChange(contact);
-                        ContactSelectionWindow.this.close();
+                        close();
                     }
                 });
-                b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(),
+                b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
                         contact, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
             }

@@ -27,8 +27,7 @@ import com.esofthead.mycollab.vaadin.web.ui.KeyCaptionComboBox;
  * @since 1.0
  */
 public class PermissionComboBoxFactory {
-    public static KeyCaptionComboBox createPermissionSelection(
-            Class<? extends PermissionFlag> flag) {
+    public static KeyCaptionComboBox createPermissionSelection(Class<? extends PermissionFlag> flag) {
         if (AccessPermissionFlag.class.isAssignableFrom(flag)) {
             return new AccessPermissionComboBox();
         } else if (BooleanPermissionFlag.class.isAssignableFrom(flag)) {

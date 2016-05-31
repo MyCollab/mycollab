@@ -20,8 +20,8 @@ import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
@@ -51,7 +51,7 @@ public class VersionEditFormFieldFactory extends AbstractBeanFieldGroupEditField
         } else if (Version.Field.description.equalTo(propertyId)) {
             return new RichTextArea();
         } else if (Version.Field.duedate.equalTo(propertyId)) {
-            final DateFieldExt dateField = new DateFieldExt();
+            final PopupDateFieldExt dateField = new PopupDateFieldExt();
             dateField.setResolution(Resolution.DAY);
             return dateField;
         }

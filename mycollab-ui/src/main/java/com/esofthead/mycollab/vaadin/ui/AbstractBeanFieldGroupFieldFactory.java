@@ -99,7 +99,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                     ((AbstractTextField) formField).setNullRepresentation("");
                 } else if (formField instanceof RichTextArea) {
                     ((RichTextArea) formField).setNullRepresentation("");
-                } else if (formField instanceof DateField) {
+                } else if (formField instanceof DateField && !(formField instanceof PopupDateFieldExt)) {
                     ((DateField) formField).setTimeZone(AppContext.getUserTimeZone());
                     ((DateField) formField).setDateFormat(AppContext.getDateFormat().toPattern());
                 }

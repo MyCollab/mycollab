@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
@@ -281,7 +282,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         private SimpleTask parentTask;
 
         SelectChildTaskWindow(SimpleTask parentTask) {
-            super("Select Task");
+            super(AppContext.getMessage(TaskI18nEnum.ACTION_SELECT_TASK));
             this.setWidth("800px");
             this.setModal(true);
             this.setResizable(false);
@@ -317,7 +318,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         if (item.getId().equals(parentTask.getId())) {
-                            NotificationUtil.showErrorNotification("Can not assign the parent task to itself");
+                            NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));
                         } else {
                             item.setParenttaskid(parentTask.getId());
                             ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);

@@ -34,8 +34,8 @@ import com.esofthead.mycollab.module.project.view.task.components.TaskPriorityCo
 import com.esofthead.mycollab.module.project.view.task.components.TaskStatusComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.Property;
@@ -112,14 +112,14 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                 public void blur(FieldEvents.BlurEvent event) {
                     HumanTime humanTime = HumanTime.eval(field.getValue());
                     Integer duration = new Integer(humanTime.getDelta() + "");
-                    DateFieldExt startDateField = (DateFieldExt) fieldGroup.getField(Task.Field.startdate.name());
+                    PopupDateFieldExt startDateField = (PopupDateFieldExt) fieldGroup.getField(Task.Field.startdate.name());
                     Date startDateVal = startDateField.getValue();
                     if (duration > 0 && startDateVal != null) {
                         int durationIndays = duration / (int) DateTimeUtils.MILLISECONDS_IN_A_DAY;
                         if (durationIndays > 0) {
                             LocalDate startDateJoda = new LocalDate(startDateVal);
                             LocalDate endDateJoda = BusinessDayTimeUtils.plusDays(startDateJoda, durationIndays);
-                            DateFieldExt endDateField = (DateFieldExt) fieldGroup.getField(Task.Field.enddate.name());
+                            PopupDateFieldExt endDateField = (PopupDateFieldExt) fieldGroup.getField(Task.Field.enddate.name());
                             endDateField.setValue(endDateJoda.toDate());
                         }
                     }
@@ -129,7 +129,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
         } else if (Task.Field.originalestimate.equalTo(propertyId) || Task.Field.remainestimate.equalTo(propertyId)) {
             return new DoubleField();
         } else if (Task.Field.startdate.equalTo(propertyId)) {
-            final DateFieldExt startDateField = new DateFieldExt();
+            final PopupDateFieldExt startDateField = new PopupDateFieldExt();
             startDateField.addValueChangeListener(new Property.ValueChangeListener() {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
@@ -138,7 +138,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             });
             return startDateField;
         } else if (Task.Field.enddate.equalTo(propertyId)) {
-            DateFieldExt endDateField = new DateFieldExt();
+            PopupDateFieldExt endDateField = new PopupDateFieldExt();
             endDateField.addValueChangeListener(new Property.ValueChangeListener() {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
@@ -162,8 +162,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
     }
 
     private void calculateDurationBaseOnStartAndEndDates() {
-        DateFieldExt startDateField = (DateFieldExt) fieldGroup.getField(Task.Field.startdate.name());
-        DateFieldExt endDateField = (DateFieldExt) fieldGroup.getField(Task.Field.enddate.name());
+        PopupDateFieldExt startDateField = (PopupDateFieldExt) fieldGroup.getField(Task.Field.startdate.name());
+        PopupDateFieldExt endDateField = (PopupDateFieldExt) fieldGroup.getField(Task.Field.enddate.name());
         TextField durationField = (TextField) fieldGroup.getField(Task.Field.duration.name());
         Date startDate = null;
         Date endDate = null;

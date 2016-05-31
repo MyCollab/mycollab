@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.reporting.AbstractReportTemplate;
+import com.esofthead.mycollab.reporting.ReportStyles;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
 import com.esofthead.mycollab.reporting.expression.DateExpression;
 import com.esofthead.mycollab.reporting.expression.HumanTimeExpression;
@@ -421,7 +421,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
         ratingBuilder.add(imgBuilder);
         map.put(Risk.Field.level.name(), new ComponentBuilderGenerator() {
             @Override
-            public ComponentBuilder getCompBuilder(AbstractReportTemplate reportTemplate) {
+            public ComponentBuilder getCompBuilder(ReportStyles reportStyles) {
                 return ratingBuilder;
             }
         });
@@ -575,9 +575,9 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
         map.put(SimpleItemTimeLogging.Field.summary.name(), new ComponentBuilderGenerator() {
             @Override
-            public ComponentBuilder getCompBuilder(AbstractReportTemplate abstractReportTemplate) {
+            public ComponentBuilder getCompBuilder(ReportStyles abstractReportStyles) {
                 return cmp.verticalList(new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr)
-                        .getCompBuilder(abstractReportTemplate), cmp.text(noteExpr));
+                        .getCompBuilder(abstractReportStyles), cmp.text(noteExpr));
             }
         });
         return map;

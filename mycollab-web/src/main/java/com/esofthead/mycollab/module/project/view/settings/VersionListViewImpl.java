@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.TableViewField;
@@ -119,9 +118,8 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
                 } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
                     b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
-                b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(
-                        AppContext.getUserLocale(), bugVersion, AppContext.getSiteUrl(),
-                        AppContext.getUserTimeZone()));
+                b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
+                        bugVersion, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
 
             }

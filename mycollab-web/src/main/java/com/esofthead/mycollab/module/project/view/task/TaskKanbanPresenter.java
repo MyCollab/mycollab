@@ -35,10 +35,10 @@ import com.vaadin.ui.ComponentContainer;
  * @since 5.1.1
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class TaskKanbanPresenter extends ProjectGenericPresenter<TaskKanbanview> {
+public class TaskKanbanPresenter extends ProjectGenericPresenter<TaskKanbanView> {
 
     public TaskKanbanPresenter() {
-        super(TaskKanbanview.class);
+        super(TaskKanbanView.class);
     }
 
     @Override

@@ -171,6 +171,7 @@ public class TagViewComponent extends CssLayout {
             tagLink.setStyleName(UIConstants.BUTTON_LINK);
             this.addComponent(tagLink);
             Button deleteBtn = new Button(FontAwesome.TIMES);
+            deleteBtn.setDescription("Delete tag");
             deleteBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {

@@ -25,17 +25,17 @@ import com.esofthead.mycollab.vaadin.AppContext;
 public class TooltipHelper {
     public static final String TOOLTIP_ID = "mycollabtip";
 
-    public static String userHoverJsFunction(String user) {
-        String arg3 = "'" + TOOLTIP_ID + "'";
-        String arg4 = "'" + user + "'";
-        String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-        String arg6 = "'" + AppContext.getSiteUrl() + "'";
-        String arg7 = AppContext.getUser().getTimezone();
-        String arg8 = "'" + AppContext.getAccountId() + "'";
-        String arg9 = "'" + AppContext.getUserLocale().toString() + "'";
+    public static String userHoverJsFunction(String username) {
+        String uidVal = "'" + TOOLTIP_ID + "'";
+        String usernameVal = "'" + username + "'";
+        String urlVal = "'" + AppContext.getSiteUrl() + "tooltip/'";
+        String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
+        String timezoneVal = "'" + AppContext.getUser().getTimezone() + "'";
+        String accountIdVal = "'" + AppContext.getAccountId() + "'";
+        String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
 
-        return String.format("return showUserTooltip(%s,%s,%s,%s,%s,%s,%s);", arg3, arg4, arg5,
-                arg6, arg7, arg8, arg9);
+        return String.format("return showUserTooltip(%s,%s,%s,%s,%s,%s,%s);", uidVal, usernameVal, urlVal,
+                siteUrlVal, timezoneVal, accountIdVal, localeVal);
     }
 
     public static String projectHoverJsFunction(String type, String typeId) {
@@ -45,11 +45,12 @@ public class TooltipHelper {
         String urlVal = "'" + AppContext.getSiteUrl() + "tooltip/'";
         String accountIdVal = "'" + AppContext.getAccountId() + "'";
         String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
-        String timezoneVal = AppContext.getUser().getTimezone();
+        String timezoneVal = "'" + AppContext.getAccountId() + "'";
         String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
+        String dateFormatVal = "'" + AppContext.getDateFormat().toPattern() + "'";
 
-        return String.format("return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", uidVal, typeVal, typeIdVal,
-                urlVal, accountIdVal, siteUrlVal, timezoneVal, localeVal);
+        return String.format("return overIt(%s,%s,%s,%s,%s,%s,%s,%s,%s);", uidVal, typeVal, typeIdVal,
+                urlVal, accountIdVal, siteUrlVal, timezoneVal, localeVal, dateFormatVal);
     }
 
     public static String crmHoverJsFunction(String type, String typeId) {
@@ -59,10 +60,11 @@ public class TooltipHelper {
         String urlVal = "'" + AppContext.getSiteUrl() + "tooltip/'";
         String accountIdVal = "'" + AppContext.getAccountId() + "'";
         String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
-        String timezoneVal = AppContext.getUser().getTimezone();
+        String timezoneVal = "'" + AppContext.getAccountId() + "'";
         String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
-        return String.format("return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
-                uidVal, typeVal, typeIdVal, urlVal, accountIdVal, siteUrlVal, timezoneVal, localeVal);
+        String dateFormatVal = "'" + AppContext.getDateFormat().toPattern() + "'";
+        return String.format("return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s,%s);",
+                uidVal, typeVal, typeIdVal, urlVal, accountIdVal, siteUrlVal, timezoneVal, localeVal, dateFormatVal);
     }
 
     public static String itemMouseLeaveJsFunction() {

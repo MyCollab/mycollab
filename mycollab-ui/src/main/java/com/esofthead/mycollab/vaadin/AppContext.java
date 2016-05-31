@@ -155,7 +155,7 @@ public class AppContext implements Serializable {
         userTimeZone = TimezoneVal.valueOf(session.getTimezone());
         billingAccount.getDateFormatInstance().setTimeZone(userTimeZone);
         billingAccount.getShortDateFormatInstance().setTimeZone(userTimeZone);
-        billingAccount.getHumanDateFormatInstance().setTimeZone(userTimeZone);
+        billingAccount.getLongDateFormatInstance().setTimeZone(userTimeZone);
         billingAccount.getDateTimeFormatInstance().setTimeZone(userTimeZone);
         MyCollabSession.putSessionVariable(USER_VAL, userSession);
     }
@@ -289,7 +289,7 @@ public class AppContext implements Serializable {
         try {
             return getInstance().session.getUsername();
         } catch (Exception e) {
-            return "";
+            throw new SessionExpireException("Can not get username of the current session");
         }
     }
 
@@ -333,7 +333,7 @@ public class AppContext implements Serializable {
     }
 
     public static final SimpleDateFormat getLongDateFormat() {
-        return getInstance().billingAccount.getHumanDateFormatInstance();
+        return getInstance().billingAccount.getLongDateFormatInstance();
     }
 
     public static final Currency getDefaultCurrency() {

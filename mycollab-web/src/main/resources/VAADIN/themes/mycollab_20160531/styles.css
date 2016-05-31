@@ -1591,6 +1591,10 @@ a:visited, a:link {
 	color: #0083ce;
 }
 
+a:hover {
+	text-decoration: underline;
+}
+
 a.completed {
 	color: black;
 	text-decoration: line-through;
@@ -1610,6 +1614,10 @@ a.pending {
 
 .v-button.v-button-link, .v-button.v-button-link:hover {
 	color: #0083ce;
+}
+
+.v-button.v-button-link:hover {
+	text-decoration: underline;
 }
 
 .v-table-cell-wrapper {
@@ -1706,6 +1714,10 @@ a.pending {
 	margin-right: 5px;
 	color: #ffffff;
 	background-color: #25c278;
+}
+
+.field-note:hover {
+	background-color: #21ad6b;
 }
 
 .arrow-btn {
@@ -2092,6 +2104,7 @@ div.v-window {
 
 .block-popupedit:hover {
 	color: #ffffff;
+	text-decoration: none;
 }
 
 .block-popupedit .nonValue .hide {
@@ -2378,7 +2391,7 @@ div.v-window {
 }
 
 .v-popupview:hover {
-	color: #006DAC;
+	color: #005d93;
 }
 
 .flex {
@@ -13937,6 +13950,11 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	color: #333333 !important;
 }
 
+.v-button.v-button-link.xbreadcrumbbutton:hover {
+	text-decoration: none;
+	font-weight: bold;
+}
+
 .v-button-xbreadcrumbbutton-home span.v-button-caption {
 	padding-left: 18px;
 }
@@ -14249,6 +14267,10 @@ a:visited, a:link {
 	color: #0083ce;
 }
 
+a:hover {
+	text-decoration: underline;
+}
+
 a.completed {
 	color: black;
 	text-decoration: line-through;
@@ -14268,6 +14290,10 @@ a.pending {
 
 .v-button.v-button-link, .v-button.v-button-link:hover {
 	color: #0083ce;
+}
+
+.v-button.v-button-link:hover {
+	text-decoration: underline;
 }
 
 .v-table-cell-wrapper {
@@ -14364,6 +14390,10 @@ a.pending {
 	margin-right: 5px;
 	color: #ffffff;
 	background-color: #25c278;
+}
+
+.field-note:hover {
+	background-color: #21ad6b;
 }
 
 .arrow-btn {
@@ -14750,6 +14780,7 @@ div.v-window {
 
 .block-popupedit:hover {
 	color: #ffffff;
+	text-decoration: none;
 }
 
 .block-popupedit .nonValue .hide {
@@ -15036,7 +15067,7 @@ div.v-window {
 }
 
 .v-popupview:hover {
-	color: #006DAC;
+	color: #005d93;
 }
 
 .flex {
@@ -15557,7 +15588,12 @@ div.v-csslayout.followers-container .v-checkbox {
 	display: flex;
 	margin: 0px 3px 3px 0px;
 	background-color: #fef0c9;
+	border-radius: 6px;
 	height: 30px;
+}
+
+.v-csslayout.tag-block:hover, .v-csslayout.tag-block:hover .v-button.remove-btn-sup {
+	background-color: #fee9b0;
 }
 
 .v-csslayout.tag-block .v-button.link:focus .v-button-wrap, .v-csslayout.tag-block .v-button-wrap, .v-csslayout.tag-block .v-pressed .v-button-wrap {

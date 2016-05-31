@@ -60,8 +60,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       final Object columnId) {
+            public Object generateCell(final Table source, final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
                 final CheckBoxDecor cb = new CheckBoxDecor("", contact.isSelected());
                 cb.addValueChangeListener(new ValueChangeListener() {
@@ -84,13 +83,12 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       final Object columnId) {
+            public Object generateCell(final Table source, final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
 
                 LabelLink b = new LabelLink(contact.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId()));
-                b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), contact,
-                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+                b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
+                        contact, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
             }
         });
@@ -99,8 +97,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
                 return new Label(AppContext.formatDateTime(contact.getCreatedtime()));
 
@@ -111,8 +108,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
                 return new EmailLink(contact.getEmail());
             }
@@ -122,13 +118,10 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
                 if (contact.getAccountName() != null) {
-                    LabelLink b = new LabelLink(contact.getAccountName(),
-                            CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()));
-                    return b;
+                    return new LabelLink(contact.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()));
                 } else {
                     return new Label();
                 }
@@ -139,8 +132,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
                 return new Label(AppContext.formatDate(contact.getBirthday()));
             }
@@ -150,8 +142,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
                 return new UserLink(contact.getAssignuser(), contact.getAssignUserAvatarId(), contact.getAssignUserFullName());
             }

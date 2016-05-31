@@ -34,8 +34,7 @@ public class PrintButton extends Button {
     public PrintButton() {
         setIcon(FontAwesome.PRINT);
         formReportStreamSource = new FormReportStreamSource(new FormReportTemplateExecutor(""));
-        printWindowOpener = new BrowserWindowOpener(new StreamResource(formReportStreamSource, UUID.randomUUID()
-                .toString() + ".pdf"));
+        printWindowOpener = new BrowserWindowOpener(new StreamResource(formReportStreamSource, UUID.randomUUID().toString() + ".pdf"));
         printWindowOpener.extend(this);
     }
 

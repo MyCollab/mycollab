@@ -162,11 +162,11 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
 
     protected def getBeanInContext(context: MailContext[B]): B
 
-    private def getCreateContentPath: String = "templates/email/crm/itemCreatedNotifier.mt"
+    private def getCreateContentPath: String = "templates/email/crm/itemCreatedNotifier.html"
 
-    private def getUpdateContentPath: String = "templates/email/crm/itemUpdatedNotifier.mt"
+    private def getUpdateContentPath: String = "templates/email/crm/itemUpdatedNotifier.html"
 
-    private def getNoteContentPath: String = "templates/email/crm/itemAddNoteNotifier.mt"
+    private def getNoteContentPath: String = "templates/email/crm/itemAddNoteNotifier.html"
 
     protected def buildExtraTemplateVariables(context: MailContext[B])
 

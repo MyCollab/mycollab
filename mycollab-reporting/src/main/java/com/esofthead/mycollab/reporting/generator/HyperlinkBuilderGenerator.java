@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.reporting.generator;
 
-import com.esofthead.mycollab.reporting.AbstractReportTemplate;
+import com.esofthead.mycollab.reporting.ReportStyles;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.definition.expression.DRIExpression;
@@ -56,9 +56,9 @@ public class HyperlinkBuilderGenerator implements ComponentBuilderGenerator {
     }
 
     @Override
-    public ComponentBuilder getCompBuilder(AbstractReportTemplate reportTemplate) {
+    public ComponentBuilder getCompBuilder(ReportStyles reportStyles) {
         ComponentBuilder compBuilder = cmp.text(title).setHyperLink(hyperLink(href))
-                .setStyle(reportTemplate.getUnderlineStyle());
+                .setStyle(reportStyles.getUnderlineStyle());
 
         if (style != null) {
             compBuilder.setStyle(style);

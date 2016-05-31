@@ -16,12 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.reporting.spring;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
-import com.esofthead.mycollab.reporting.ReportTemplateFactory;
+import com.esofthead.mycollab.reporting.ReportStyles;
 import com.esofthead.mycollab.reporting.expression.DateExpression;
 import com.esofthead.mycollab.reporting.expression.DateTimeExpression;
 import com.esofthead.mycollab.reporting.expression.MailExpression;
@@ -41,7 +40,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -282,7 +284,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
         ConditionalStyleBuilder overDueStyle = DynamicReports.stl.conditionalStyle(overDueExpr).setForegroundColor(Color.RED);
         ConditionalStyleBuilder isCompleteStyle = DynamicReports.stl.conditionalStyle(isCompleteExpr).setStrikeThrough(true);
 
-        StyleBuilder styleBuilder = DynamicReports.stl.style(ReportTemplateFactory.getTemplate(Locale.US)
+        StyleBuilder styleBuilder = DynamicReports.stl.style(ReportStyles.instance()
                 .getUnderlineStyle()).addConditionalStyle(overDueStyle)
                 .addConditionalStyle(isCompleteStyle);
 

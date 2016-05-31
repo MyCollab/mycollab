@@ -26,9 +26,9 @@ import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.I18nValueListSelect;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.ValueListSelect;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -308,15 +308,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             } else if (param instanceof DateParam) {
                 String compareItem = (String) compareSelectionBox.getValue();
                 if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
-                    DateFieldExt field1 = new DateFieldExt();
+                    PopupDateFieldExt field1 = new PopupDateFieldExt();
                     field1.setValue((Date) Array.get(searchFieldInfo.eval(), 0));
                     field1.setWidth(width);
-                    DateFieldExt field2 = new DateFieldExt();
+                    PopupDateFieldExt field2 = new PopupDateFieldExt();
                     field2.setValue((Date) Array.get(searchFieldInfo.eval(), 1));
                     field2.setWidth(width);
                     valueBox.with(field1, field2);
                 } else {
-                    DateFieldExt field = new DateFieldExt();
+                    PopupDateFieldExt field = new PopupDateFieldExt();
                     field.setValue((Date) searchFieldInfo.eval());
                     field.setWidth(width);
                     valueBox.addComponent(field);
@@ -429,14 +429,14 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 valueBox.addComponent(tempTextField);
             } else if (field instanceof DateParam) {
                 if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
-                    DateFieldExt field1 = new DateFieldExt();
-                    DateFieldExt field2 = new DateFieldExt();
+                    PopupDateFieldExt field1 = new PopupDateFieldExt();
+                    PopupDateFieldExt field2 = new PopupDateFieldExt();
                     field1.setWidth(width);
                     field2.setWidth(width);
                     valueBox.addComponent(field1);
                     valueBox.addComponent(field2);
                 } else {
-                    DateFieldExt tempDateField = new DateFieldExt();
+                    PopupDateFieldExt tempDateField = new PopupDateFieldExt();
                     tempDateField.setWidth(width);
                     valueBox.addComponent(tempDateField);
                 }
@@ -488,8 +488,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     if (Array.getLength(value) == 0) {
                         return null;
                     }
-                } else if (Collection.class.isAssignableFrom(value.getClass())){
-                    if (((Collection)value).size() == 0) {
+                } else if (Collection.class.isAssignableFrom(value.getClass())) {
+                    if (((Collection) value).size() == 0) {
                         return null;
                     }
                 }

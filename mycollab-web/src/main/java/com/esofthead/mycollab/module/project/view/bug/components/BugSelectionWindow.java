@@ -103,8 +103,8 @@ public class BugSelectionWindow extends Window {
                     b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
 
-                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), bug, AppContext.getSiteUrl(),
-                        AppContext.getUserTimeZone(), false));
+                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
+                        bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
                 return b;
             }
         });

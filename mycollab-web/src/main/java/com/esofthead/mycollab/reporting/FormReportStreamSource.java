@@ -17,9 +17,7 @@
 package com.esofthead.mycollab.reporting;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.vaadin.AppContext;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,9 +45,7 @@ public class FormReportStreamSource<B> extends ReportStreamSource {
     }
 
     @Override
-    protected Map<String, Object> initReportParameters() {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("siteUrl", AppContext.getSiteUrl());
+    protected void initReportParameters(Map<String, Object> parameters) {
         if (bean != null) {
             parameters.put("bean", bean);
         } else {
@@ -57,6 +53,5 @@ public class FormReportStreamSource<B> extends ReportStreamSource {
         }
 
         parameters.put("layout", formReportLayout);
-        return parameters;
     }
 }

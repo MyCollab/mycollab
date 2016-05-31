@@ -19,12 +19,15 @@ package com.esofthead.mycollab.reporting;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.StreamResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -113,5 +116,13 @@ public abstract class ReportStreamSource implements StreamResource.StreamSource 
         return in;
     }
 
-    protected abstract Map<String, Object> initReportParameters();
+    private Map<String, Object> initReportParameters() {
+        Map<String, Object> parameters = new ConcurrentHashMap<>();
+        parameters.put("siteUrl", AppContext.getSiteUrl());
+        parameters.put("user", AppContext.getUser());
+        initReportParameters(parameters);
+        return parameters;
+    }
+
+    protected abstract void initReportParameters(Map<String, Object> parameters);
 }

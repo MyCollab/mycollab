@@ -90,10 +90,10 @@ public class OpportunitySelectionWindow extends Window {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         fieldSelection.fireValueChange(opportunity);
-                        OpportunitySelectionWindow.this.close();
+                        close();
                     }
                 });
-                b.setDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(),
+                b.setDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
                         opportunity, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
             }

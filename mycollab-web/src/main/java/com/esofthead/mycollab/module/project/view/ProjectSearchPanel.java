@@ -21,7 +21,6 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -157,7 +156,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         private static final long serialVersionUID = 1L;
 
         public ProjectAdvancedSearchLayout() {
-            super(ProjectSearchPanel.this, ProjectTypeConstants.RISK);
+            super(ProjectSearchPanel.this, ProjectTypeConstants.PROJECT);
         }
 
         @Override
@@ -177,14 +176,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-
             return null;
-        }
-
-        @Override
-        protected ProjectSearchCriteria fillUpSearchCriteria() {
-            ProjectSearchCriteria searchCriteria = super.fillUpSearchCriteria();
-            return searchCriteria;
         }
     }
 }

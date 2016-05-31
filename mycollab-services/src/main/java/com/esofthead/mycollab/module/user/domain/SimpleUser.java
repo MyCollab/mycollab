@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.user.domain;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.security.PermissionMap;
+import com.google.common.base.MoreObjects;
 
 /**
  * @author MyCollab Ltd.
@@ -44,6 +45,9 @@ public class SimpleUser extends User {
     private String lastModuleVisit;
     private String inviteUserFullName;
     private String displayName;
+    private String dateFormat;
+    private String shortDateFormat;
+    private String longDateFormat;
 
     public PermissionMap getPermissionMaps() {
         return permissionMaps;
@@ -123,6 +127,30 @@ public class SimpleUser extends User {
 
     public void setInviteUser(String inviteUser) {
         this.inviteUser = inviteUser;
+    }
+
+    public String getDateFormat() {
+        return MoreObjects.firstNonNull(dateFormat, "MM/dd/yyyy");
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public String getShortDateFormat() {
+        return MoreObjects.firstNonNull(shortDateFormat, "MM/dd");
+    }
+
+    public void setShortDateFormat(String shortDateFormat) {
+        this.shortDateFormat = shortDateFormat;
+    }
+
+    public String getLongDateFormat() {
+        return MoreObjects.firstNonNull(longDateFormat, "E, dd MMM yyyy");
+    }
+
+    public void setLongDateFormat(String longDateFormat) {
+        this.longDateFormat = longDateFormat;
     }
 
     public String getDisplayName() {

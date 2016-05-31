@@ -21,7 +21,6 @@ import com.esofthead.mycollab.reporting.*;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
-import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
@@ -82,8 +81,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
         }
         return new StreamResource(new ReportStreamSource(reportTemplateExecutor) {
             @Override
-            protected Map<String, Object> initReportParameters() {
-                return parameters;
+            protected void initReportParameters(Map<String, Object> parameters) {
             }
         }, exportType.getDefaultFileName());
     }

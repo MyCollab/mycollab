@@ -45,7 +45,7 @@ public class SimpleBillingAccount extends BillingAccount {
     private SimpleDateFormat shortDateFormatInstance;
 
     @NotBindable
-    private SimpleDateFormat humanDateFormatInstance;
+    private SimpleDateFormat longDateFormatInstance;
 
     @NotBindable
     private Currency currencyInstance;
@@ -80,11 +80,11 @@ public class SimpleBillingAccount extends BillingAccount {
         return shortDateFormatInstance;
     }
 
-    public SimpleDateFormat getHumanDateFormatInstance() {
-        if (humanDateFormatInstance == null) {
-            humanDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, dd MMM yyyy"));
+    public SimpleDateFormat getLongDateFormatInstance() {
+        if (longDateFormatInstance == null) {
+            longDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, dd MMM yyyy"));
         }
-        return humanDateFormatInstance;
+        return longDateFormatInstance;
     }
 
     public SimpleDateFormat getDateTimeFormatInstance() {

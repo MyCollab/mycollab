@@ -37,7 +37,7 @@ import java.util.Map;
  */
 class PageGeneratorUtil {
     static void responeUserNotExistPage(HttpServletResponse response, String username, String loginURL) throws IOException {
-        String pageNotFoundTemplate = "templates/page/UserNotExistPage.mt";
+        String pageNotFoundTemplate = "templates/page/UserNotExistPage.html";
         TemplateContext context = new TemplateContext();
 
         Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, Locale.US);

@@ -19,6 +19,8 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.PopupDateField;
 
+import java.util.Date;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.5.4
@@ -27,7 +29,15 @@ public class PopupDateFieldExt extends PopupDateField {
     private static final long serialVersionUID = 1L;
 
     public PopupDateFieldExt() {
-        super();
+        this(null);
+    }
+
+    public PopupDateFieldExt(Date value) {
+        this(null, value);
+    }
+
+    public PopupDateFieldExt(String caption, Date value) {
+        super(null, value);
         this.setTimeZone(AppContext.getUserTimeZone());
         this.setDateFormat(AppContext.getDateFormat().toPattern());
     }

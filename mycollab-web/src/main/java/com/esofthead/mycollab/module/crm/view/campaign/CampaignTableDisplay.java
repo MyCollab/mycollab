@@ -50,7 +50,6 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
 
     public CampaignTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(null, requiredColumn, displayColumns);
-
     }
 
     public CampaignTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
@@ -83,8 +82,8 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
 
                 LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
-                b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(), campaign,
-                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+                b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
+                        campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 b.setStyleName(UIConstants.BUTTON_LINK);
 
                 if ("Complete".equals(campaign.getStatus())) {
