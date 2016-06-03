@@ -55,7 +55,7 @@ import java.util.List;
 public class TaskAddWindow extends Window {
     public TaskAddWindow(SimpleTask task) {
         setCaption(task.getId() == null ? AppContext.getMessage(TaskI18nEnum.NEW) : AppContext.getMessage(TaskI18nEnum.DETAIL));
-        this.setWidth("800px");
+        this.setWidth("1200px");
         this.setModal(true);
         this.setResizable(false);
 

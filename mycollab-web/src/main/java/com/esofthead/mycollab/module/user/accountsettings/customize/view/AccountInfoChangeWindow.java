@@ -105,11 +105,11 @@ class AccountInfoChangeWindow extends Window {
                 } else if (BillingAccount.Field.defaultcurrencyid.equalTo(propertyId)) {
                     return new CurrencyComboBoxField();
                 } else if (BillingAccount.Field.defaultyymmddformat.equalTo(propertyId)) {
-                    return new DateFormatField(billingAccount.getDateFormatInstance().toPattern());
+                    return new DateFormatField(billingAccount.getDateFormatInstance());
                 } else if (BillingAccount.Field.defaultmmddformat.equalTo(propertyId)) {
-                    return new DateFormatField(billingAccount.getShortDateFormatInstance().toPattern());
+                    return new DateFormatField(billingAccount.getShortDateFormatInstance());
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {
-                    return new DateFormatField(billingAccount.getLongDateFormatInstance().toPattern());
+                    return new DateFormatField(billingAccount.getLongDateFormatInstance());
                 } else if (BillingAccount.Field.defaultlanguagetag.equalTo(propertyId)) {
                     return new LanguageComboBox();
                 }

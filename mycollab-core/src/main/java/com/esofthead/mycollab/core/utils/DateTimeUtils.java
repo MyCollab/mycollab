@@ -20,13 +20,14 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,7 +42,6 @@ public class DateTimeUtils {
     private static final Logger LOG = LoggerFactory.getLogger(DateTimeUtils.class);
 
     private static DateTimeZone utcZone = DateTimeZone.UTC;
-    private static Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
     public static final long MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
@@ -132,7 +132,7 @@ public class DateTimeUtils {
      * @return
      */
     public static Date subtractOrAddDayDuration(Date date, int duration) {
-        LocalDate localDate = new LocalDate(date);
+        DateTime localDate = new DateTime(date);
         return localDate.plusDays(duration).toDate();
     }
 
@@ -145,27 +145,12 @@ public class DateTimeUtils {
             return "";
         }
 
-        SimpleDateFormat simpleDateFormat = getDateFormat(dateFormat);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
         if (timezone != null) {
-            simpleDateFormat.setTimeZone(timezone);
+            formatter = formatter.withZone(DateTimeZone.forTimeZone(timezone));
         }
 
-        return simpleDateFormat.format(date);
-    }
-
-    public static final SimpleDateFormat getDateFormat(String format) {
-        SimpleDateFormat dateFormat = dateFormats.get(format);
-        if (dateFormat != null) {
-            return dateFormat;
-        } else {
-            try {
-                dateFormat = new SimpleDateFormat(format);
-                dateFormats.put(format, dateFormat);
-                return dateFormat;
-            } catch (Exception e) {
-                return null;
-            }
-        }
+        return formatter.print(new DateTime(date));
     }
 
     /**
@@ -229,13 +214,5 @@ public class DateTimeUtils {
             }
         }
         return max;
-    }
-
-    public static final DateFormat getFullDateFormat(String dateFormat) {
-        DateFormat format = getDateFormat(dateFormat);
-        if (format == null) {
-            format = getDateFormat("yyyy-MM-dd");
-        }
-        return format;
     }
 }

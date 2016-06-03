@@ -118,7 +118,7 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
                 } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
                     b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
-                b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
+                b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(AppContext.getUserLocale(), AppContext.getDateFormat(),
                         bugVersion, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
 

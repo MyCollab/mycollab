@@ -60,7 +60,7 @@ public class BugAddWindow extends Window {
         } else {
             setCaption("Edit bug");
         }
-        this.setWidth("800px");
+        this.setWidth("1200px");
         this.setModal(true);
         this.setResizable(false);
 

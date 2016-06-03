@@ -26,7 +26,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.DateTimePickerField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -94,9 +94,9 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
             } else if (propertyId.equals("status")) {
                 return new MeetingStatusComboBox();
             } else if (propertyId.equals("startdate")) {
-                return new DateTimePickerField();
+                return new DateTimeOptionField();
             } else if (propertyId.equals("enddate")) {
-                return new DateTimePickerField();
+                return new DateTimeOptionField();
             } else if (propertyId.equals("description")) {
                 return new RichTextArea();
             } else if (propertyId.equals("type")) {

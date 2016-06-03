@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.TimezoneVal;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
@@ -102,21 +103,21 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
 
         Date now = new GregorianCalendar().getTime();
-        String defaultFullDateFormat = billingAccount.getDateFormatInstance().toPattern();
+        String defaultFullDateFormat = billingAccount.getDateFormatInstance();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
-                billingAccount.getDateFormatInstance().format(now), defaultFullDateFormat)),
+                DateTimeUtils.formatDate(now, billingAccount.getDateFormatInstance()), defaultFullDateFormat)),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
                 AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 0);
 
-        String defaultShortDateFormat = billingAccount.getShortDateFormatInstance().toPattern();
+        String defaultShortDateFormat = billingAccount.getShortDateFormatInstance();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
-                billingAccount.getShortDateFormatInstance().format(now), defaultShortDateFormat)),
+                DateTimeUtils.formatDate(now, billingAccount.getShortDateFormatInstance()), defaultShortDateFormat)),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
                 AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 1);
 
-        String defaultLongDateFormat = billingAccount.getLongDateFormatInstance().toPattern();
+        String defaultLongDateFormat = billingAccount.getLongDateFormatInstance();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
-                billingAccount.getLongDateFormatInstance().format(now), defaultLongDateFormat)),
+                DateTimeUtils.formatDate(now, billingAccount.getLongDateFormatInstance()), defaultLongDateFormat)),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
                 AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 2);
 

@@ -26,7 +26,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.DateTimePickerField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -109,7 +109,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
             } else if (propertyId.equals("typeid")) {
                 return new DummyCustomField<String>();
             } else if (propertyId.equals("startdate")) {
-                return new DateTimePickerField();
+                return new DateTimeOptionField();
             }
             return null;
         }

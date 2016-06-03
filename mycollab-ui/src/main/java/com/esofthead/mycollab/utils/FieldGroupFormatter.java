@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Span;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -253,8 +254,8 @@ public class FieldGroupFormatter {
         public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
             String content;
             if (StringUtils.isNotBlank(value)) {
-                Date formatDate = DateTimeUtils.parseDateByW3C(value);
-                content = AppContext.formatDateTime(formatDate);
+                Date date = DateTimeUtils.parseDateByW3C(value);
+                content = AppContext.formatDateTime(date);
             } else {
                 content = msgIfBlank;
             }

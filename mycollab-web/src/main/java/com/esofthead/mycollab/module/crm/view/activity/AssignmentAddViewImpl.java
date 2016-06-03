@@ -28,7 +28,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.DateTimePickerField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -85,9 +85,9 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
         @Override
         protected Field<?> onCreateField(Object propertyId) {
             if (Task.Field.startdate.equalTo(propertyId)) {
-                return new DateTimePickerField();
+                return new DateTimeOptionField();
             } else if (Task.Field.duedate.equalTo(propertyId)) {
-                return new DateTimePickerField();
+                return new DateTimeOptionField();
             } else if (Task.Field.status.equalTo(propertyId)) {
                 return new TaskStatusComboBox();
             } else if (Task.Field.priority.equalTo(propertyId)) {

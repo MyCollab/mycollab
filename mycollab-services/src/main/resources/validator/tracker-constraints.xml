@@ -1,31 +1,49 @@
 <constraint-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping
+                     xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping
 	http://jboss.org/xml/ns/javax/validation/mapping/validation-mapping-1.0.xsd"
-    xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
+                     xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
     <default-package>com.esofthead.mycollab.module.tracker.domain</default-package>
 
-    <bean class="Bug" ignore-annotations="false" >
+    <bean class="Bug" ignore-annotations="false">
+        <class>
+            <constraint annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>Start date must be less than end date</message>
+                <element name="firstDateField">startdate</element>
+                <element name="lastDateField">enddate</element>
+            </constraint>
+            <constraint annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>Start date must be less than deadline date</message>
+                <element name="firstDateField">startdate</element>
+                <element name="lastDateField">duedate</element>
+            </constraint>
+            <constraint
+                    annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>End date must be less than deadline date</message>
+                <element name="firstDateField">enddate</element>
+                <element name="lastDateField">duedate</element>
+            </constraint>
+        </class>
         <field name="summary">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>Summary must not be null</message>
             </constraint>
         </field>
     </bean>
-    
+
     <bean class="Component" ignore-annotations="false">
-		<field name="componentname">
-			<constraint annotation="javax.validation.constraints.NotNull">
-				<message>Component name must not be null</message>
-			</constraint>
-		</field>
-	</bean>
-	
-	<bean class="Version" ignore-annotations="false">
-		<field name="versionname">
-			<constraint annotation="javax.validation.constraints.NotNull">
-				<message>Version name must not be null</message>
-			</constraint>
-		</field>
-	</bean>
-    
+        <field name="componentname">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Component name must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="Version" ignore-annotations="false">
+        <field name="versionname">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Version name must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
 </constraint-mappings>

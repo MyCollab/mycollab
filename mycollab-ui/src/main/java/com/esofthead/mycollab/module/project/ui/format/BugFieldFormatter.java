@@ -42,9 +42,9 @@ public final class BugFieldFormatter extends FieldGroupFormatter {
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugResolution.class));
         generateFieldDisplayHandler("estimateremaintime", BugI18nEnum.FORM_REMAIN_ESTIMATE);
         generateFieldDisplayHandler("estimatetime", BugI18nEnum.FORM_ORIGINAL_ESTIMATE);
-        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("duedate", GenericI18Enum.FORM_DUE_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, DATETIME_FIELD);
+        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, DATETIME_FIELD);
+        generateFieldDisplayHandler("duedate", GenericI18Enum.FORM_DUE_DATE, DATETIME_FIELD);
         generateFieldDisplayHandler("createdTime", GenericI18Enum.FORM_CREATED_TIME, PRETTY_DATE_TIME_FIELD);
         generateFieldDisplayHandler("loguserFullName",
                 BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());

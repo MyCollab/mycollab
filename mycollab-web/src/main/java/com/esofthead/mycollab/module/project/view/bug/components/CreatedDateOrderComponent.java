@@ -78,7 +78,7 @@ public class CreatedDateOrderComponent extends BugGroupOrderComponent {
         GroupComponent(DateTime startDate) {
             initComponent();
             DateTime maxValue = startDate.dayOfWeek().withMaximumValue();
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat().toPattern());
+            DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat());
             String monDayStr = formatter.print(startDate);
             String sundayStr = formatter.print(maxValue);
             durationLbl = String.format("%s - %s", monDayStr, sundayStr);

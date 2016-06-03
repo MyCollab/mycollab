@@ -45,10 +45,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.field.DateViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.I18nFormViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.*;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
@@ -93,11 +90,11 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 return new ProjectUserFormLinkField(beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(), beanItem.getAssignUserFullName());
             } else if (Task.Field.startdate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getStartdate());
+                return new DateTimeOptionViewField(beanItem.getStartdate());
             } else if (Task.Field.enddate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getEnddate());
+                return new DateTimeOptionViewField(beanItem.getEnddate());
             } else if (Task.Field.deadline.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getDeadline());
+                return new DateTimeOptionViewField(beanItem.getDeadline());
             } else if (Task.Field.milestoneid.equalTo(propertyId)) {
                 return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "", beanItem.getMilestoneName());
             } else if (Task.Field.id.equalTo(propertyId)) {

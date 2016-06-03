@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.core.utils.RandomPasswordGenerator;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -77,6 +78,10 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
         if (user.getStatus() == null) {
             user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
+        }
+
+        if (user.getRegisterstatus() == null) {
+            user.setRegisterstatus(RegisterStatusConstants.NOT_LOG_IN_YET);
         }
 
         if (user.getUsername() == null) {

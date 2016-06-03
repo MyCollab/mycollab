@@ -21,7 +21,6 @@ import com.esofthead.mycollab.core.utils.CurrencyUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.google.common.base.MoreObjects;
 
-import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -34,18 +33,6 @@ public class SimpleBillingAccount extends BillingAccount {
 
     @NotBindable
     private BillingPlan billingPlan;
-
-    @NotBindable
-    private SimpleDateFormat dateTimeFormatInstance;
-
-    @NotBindable
-    private SimpleDateFormat dateFormatInstance;
-
-    @NotBindable
-    private SimpleDateFormat shortDateFormatInstance;
-
-    @NotBindable
-    private SimpleDateFormat longDateFormatInstance;
 
     @NotBindable
     private Currency currencyInstance;
@@ -66,33 +53,20 @@ public class SimpleBillingAccount extends BillingAccount {
         super.setDefaultlanguagetag(defaultlanguagetag);
     }
 
-    public SimpleDateFormat getDateFormatInstance() {
-        if (dateFormatInstance == null) {
-            dateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy"));
-        }
-        return dateFormatInstance;
+    public String getDateFormatInstance() {
+        return MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy");
     }
 
-    public SimpleDateFormat getShortDateFormatInstance() {
-        if (shortDateFormatInstance == null) {
-            shortDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaultmmddformat(), "MM/dd"));
-        }
-        return shortDateFormatInstance;
+    public String getShortDateFormatInstance() {
+        return MoreObjects.firstNonNull(getDefaultmmddformat(), "MM/dd");
     }
 
-    public SimpleDateFormat getLongDateFormatInstance() {
-        if (longDateFormatInstance == null) {
-            longDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, dd MMM yyyy"));
-        }
-        return longDateFormatInstance;
+    public String getLongDateFormatInstance() {
+        return MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, dd MMM yyyy");
     }
 
-    public SimpleDateFormat getDateTimeFormatInstance() {
-        if (dateTimeFormatInstance == null) {
-            String defaultTimeFormat = MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy");
-            dateTimeFormatInstance = new SimpleDateFormat(defaultTimeFormat + " HH:mm:ss Z");
-        }
-        return dateTimeFormatInstance;
+    public String getDateTimeFormatInstance() {
+        return MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy") + " KK:mm a";
     }
 
     public Locale getLocaleInstance() {

@@ -39,7 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.field.DateTimePickerField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
@@ -788,9 +788,9 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     } else if (propertyId.equals("status")) {
                         return new MeetingStatusComboBox();
                     } else if (propertyId.equals("startdate")) {
-                        return new DateTimePickerField();
+                        return new DateTimeOptionField();
                     } else if (propertyId.equals("enddate")) {
-                        return new DateTimePickerField();
+                        return new DateTimeOptionField();
                     } else if (propertyId.equals("description")) {
                         return new RichTextArea();
                     } else if (propertyId.equals("type")) {

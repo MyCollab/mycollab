@@ -36,9 +36,9 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
 
     private TaskFieldFormatter() {
         generateFieldDisplayHandler("taskname", GenericI18Enum.FORM_NAME);
-        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("deadline", GenericI18Enum.FORM_DUE_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, DATETIME_FIELD);
+        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, DATETIME_FIELD);
+        generateFieldDisplayHandler("deadline", GenericI18Enum.FORM_DUE_DATE, DATETIME_FIELD);
         generateFieldDisplayHandler("priority", TaskI18nEnum.FORM_PRIORITY,
                 new I18nHistoryFieldFormat(OptionI18nEnum.TaskPriority.class));
         generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS,

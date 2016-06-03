@@ -92,7 +92,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                     b.addStyleName("bug-" + bug.getPriority().toLowerCase());
                 }
 
-                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat().toPattern(),
+                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat(),
                         bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
 
                 if (bug.isCompleted()) {

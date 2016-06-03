@@ -42,11 +42,14 @@ import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -153,10 +156,6 @@ public class AppContext implements Serializable {
         messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
 
         userTimeZone = TimezoneVal.valueOf(session.getTimezone());
-        billingAccount.getDateFormatInstance().setTimeZone(userTimeZone);
-        billingAccount.getShortDateFormatInstance().setTimeZone(userTimeZone);
-        billingAccount.getLongDateFormatInstance().setTimeZone(userTimeZone);
-        billingAccount.getDateTimeFormatInstance().setTimeZone(userTimeZone);
         MyCollabSession.putSessionVariable(USER_VAL, userSession);
     }
 
@@ -320,19 +319,19 @@ public class AppContext implements Serializable {
         return getInstance().userTimeZone;
     }
 
-    public static final SimpleDateFormat getDateTimeFormat() {
+    public static final String getDateTimeFormat() {
         return getInstance().billingAccount.getDateTimeFormatInstance();
     }
 
-    public static final SimpleDateFormat getDateFormat() {
+    public static final String getDateFormat() {
         return getInstance().billingAccount.getDateFormatInstance();
     }
 
-    public static final SimpleDateFormat getShortDateFormat() {
+    public static final String getShortDateFormat() {
         return getInstance().billingAccount.getShortDateFormatInstance();
     }
 
-    public static final SimpleDateFormat getLongDateFormat() {
+    public static final String getLongDateFormat() {
         return getInstance().billingAccount.getLongDateFormatInstance();
     }
 
@@ -428,19 +427,31 @@ public class AppContext implements Serializable {
     }
 
     /**
-     * @param date
+     * @param date is the UTC date value
      * @return
      */
     public static String formatDateTime(Date date) {
-        return date == null ? "" : getDateTimeFormat().format(date);
+//        return date == null ? "" : DateTimeUtils.formatDate(date, AppContext.getDateTimeFormat(), AppContext.getUserTimeZone());
+        if (date == null) {
+            return "";
+        } else {
+            DateTime jodaDate = new DateTime(date).toDateTime(DateTimeZone.forTimeZone(AppContext.getUserTimeZone()));
+            if (jodaDate.getHourOfDay() > 0 || jodaDate.getMinuteOfHour() > 0) {
+                DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getDateTimeFormat());
+                return formatter.print(jodaDate);
+            } else {
+                DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getDateFormat());
+                return formatter.print(jodaDate);
+            }
+        }
     }
 
     /**
-     * @param date
+     * @param date is the UTC date value
      * @return
      */
     public static String formatDate(Date date) {
-        return date == null ? "" : getDateFormat().format(date);
+        return date == null ? "" : DateTimeUtils.formatDate(date, AppContext.getDateFormat(), AppContext.getUserTimeZone());
     }
 
     /**
@@ -457,7 +468,7 @@ public class AppContext implements Serializable {
     }
 
     public static String formatShortDate(Date date) {
-        return date == null ? "" : getShortDateFormat().format(date);
+        return date == null ? "" : DateTimeUtils.formatDate(date, AppContext.getShortDateFormat(), AppContext.getUserTimeZone());
     }
 
     public static String formatDuration(Date date) {
