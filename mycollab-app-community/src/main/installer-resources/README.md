@@ -46,6 +46,7 @@ Version 5.3.3
 **Library Upgrades**
 
 * Joda Time 2.9.4
+* Jackson 2.6.6
 * Other libraries
 
 **Improvements & New Features**

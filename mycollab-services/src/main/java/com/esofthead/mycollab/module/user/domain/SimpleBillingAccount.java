@@ -31,6 +31,10 @@ import java.util.Locale;
 public class SimpleBillingAccount extends BillingAccount {
     private static final long serialVersionUID = 1L;
 
+    public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
+    public static final String DEFAULT_SHORT_DATE_FORMAT = "MM/dd";
+    public static final String DEFAULT_LONG_DATE_FORMAT = "E, dd MMM yyyy";
+
     @NotBindable
     private BillingPlan billingPlan;
 
@@ -54,19 +58,19 @@ public class SimpleBillingAccount extends BillingAccount {
     }
 
     public String getDateFormatInstance() {
-        return MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy");
+        return MoreObjects.firstNonNull(getDefaultyymmddformat(), DEFAULT_DATE_FORMAT);
     }
 
     public String getShortDateFormatInstance() {
-        return MoreObjects.firstNonNull(getDefaultmmddformat(), "MM/dd");
+        return MoreObjects.firstNonNull(getDefaultmmddformat(), DEFAULT_SHORT_DATE_FORMAT);
     }
 
     public String getLongDateFormatInstance() {
-        return MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, dd MMM yyyy");
+        return MoreObjects.firstNonNull(getDefaulthumandateformat(), DEFAULT_LONG_DATE_FORMAT);
     }
 
     public String getDateTimeFormatInstance() {
-        return MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy") + " KK:mm a";
+        return MoreObjects.firstNonNull(getDefaultyymmddformat(), DEFAULT_DATE_FORMAT) + " KK:mm a";
     }
 
     public Locale getLocaleInstance() {

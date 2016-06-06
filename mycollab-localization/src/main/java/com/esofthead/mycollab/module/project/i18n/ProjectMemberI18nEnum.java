@@ -17,11 +17,8 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project-people")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("project-people")
 public enum ProjectMemberI18nEnum {
     LIST,
     DETAIL,

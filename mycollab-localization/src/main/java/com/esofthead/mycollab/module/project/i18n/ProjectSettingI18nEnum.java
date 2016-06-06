@@ -17,17 +17,14 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project-setting")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@BaseName("project-setting")
 public enum ProjectSettingI18nEnum {
-	VIEW_TITLE,
-	WIDGET_CUSTOMIZE_FEATURES,
-	DIALOG_UPDATE_SUCCESS,
-	OPT_DEFAULT_SETTING,
-	OPT_NONE_SETTING,
-	OPT_MINIMUM_SETTING,
-	OPT_MAXIMUM_SETTING
+    VIEW_TITLE,
+    WIDGET_CUSTOMIZE_FEATURES,
+    DIALOG_UPDATE_SUCCESS,
+    OPT_DEFAULT_SETTING,
+    OPT_NONE_SETTING,
+    OPT_MINIMUM_SETTING,
+    OPT_MAXIMUM_SETTING
 }

@@ -17,11 +17,8 @@
 package com.esofthead.mycollab.module.crm.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm-common")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("crm-common")
 public enum CrmCommonI18nEnum {
     WIDGET_ACTIVITY_CREATE_ACTION,
     WIDGET_ACTIVITY_UPDATE_ACTION,

@@ -116,8 +116,7 @@ import org.springframework.stereotype.Component
       contentGenerator.putVariable("urlAccept", ProjectLinkGenerator.generateProjectFullLink(SiteConfiguration.getSiteUrl(subDomain), event.projectId))
       val subject = contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
         ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT, project.getName, SiteConfiguration.getDefaultSiteName))
-      val content = contentGenerator.parseFile("templates/email/project/memberInvitationNotifier.html",
-        Locale.US)
+      val content = contentGenerator.parseFile("mailMemberInvitationNotifier.html", Locale.US)
       val toUser = util.Arrays.asList(new MailRecipientField(inviteeEmail, inviteeEmail))
       extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName,
         toUser, null, null, subject, content, null)

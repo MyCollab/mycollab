@@ -139,7 +139,7 @@ class BasicInfoChangeWindow extends Window {
         user.setLastname(txtLastName.getValue());
         user.setEmail(txtEmail.getValue());
         user.setDateofbirth(birthdayField.getDate());
-        user.setLanguage((String) languageBox.getValue());
+        user.setLanguage(languageBox.getValue());
         user.setTimezone(timeZoneField.getValue());
 
         final UserService userService = AppContextUtil.getSpringBean(UserService.class);

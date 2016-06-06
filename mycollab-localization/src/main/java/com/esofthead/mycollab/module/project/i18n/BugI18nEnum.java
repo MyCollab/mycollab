@@ -17,17 +17,12 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project-bug")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("project-bug")
 public enum BugI18nEnum {
     BUTTON_RESOLVED,
     BUTTON_WONT_FIX,
-    BUTTON_START_PROGRESS,
     BUTTON_WONTFIX,
-    BUTTON_STOP_PROGRESS,
     BUTTON_APPROVE_CLOSE,
 
     ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG,

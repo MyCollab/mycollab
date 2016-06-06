@@ -63,6 +63,11 @@ public class DateFormatField extends CustomField<String> {
     }
 
     @Override
+    public String getValue() {
+        return dateInput.getValue();
+    }
+
+    @Override
     public void commit() throws SourceException, Validator.InvalidValueException {
         setInternalValue(dateInput.getValue());
         super.commit();

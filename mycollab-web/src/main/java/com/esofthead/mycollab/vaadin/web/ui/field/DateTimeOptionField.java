@@ -130,6 +130,7 @@ public class DateTimeOptionField extends CustomField<Date> {
 
     private void toggleHideTimeOption(boolean isHideOption) {
         this.hideTimeOption = isHideOption;
+        trickModified = true;
         container.removeAllComponents();
         if (hideTimeOption) {
             toggleTimeBtn.setCaption("Set time");

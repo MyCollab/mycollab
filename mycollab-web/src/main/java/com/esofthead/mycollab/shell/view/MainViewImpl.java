@@ -152,7 +152,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     private ComponentContainer createFooter() {
         MHorizontalLayout footer = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false, true, false, true));
         footer.setStyleName("footer");
-        footer.setHeight("25px");
+        footer.setHeight("30px");
 
         Div companyInfoDiv = new Div().appendText("Powered by ").appendChild(new A("https://www.mycollab.com",
                 "_blank").appendText("MyCollab")).appendText(" &copy; " + new LocalDate().getYear());

@@ -18,7 +18,13 @@ package com.esofthead.mycollab.module.user.ui.components;
 
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.ui.ComboBox;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.vaadin.data.Property;
+import com.vaadin.data.Validator;
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Locale;
 
@@ -26,18 +32,65 @@ import java.util.Locale;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class LanguageComboBox extends ComboBox {
+public class LanguageComboBox extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
+    private ComboBox languageBox = new ComboBox();
+    private Label languageCode;
+
     public LanguageComboBox() {
-        super();
-        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+        languageBox.setNullSelectionAllowed(false);
+        languageBox.setImmediate(true);
+        languageBox.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
+
+        languageCode = new ELabel().withStyleName(UIConstants.LABEL_META_INFO);
 
         Locale[] supportedLanguage = LocalizationHelper.getAvailableLocales();
         for (Locale locale : supportedLanguage) {
             String language = locale.getLanguage();
-            this.addItem(language);
-            this.setItemCaption(language, locale.getDisplayLanguage(AppContext.getUserLocale()));
+            languageBox.addItem(language);
+            languageBox.setItemCaption(language, locale.getDisplayLanguage(AppContext.getUserLocale()));
         }
+        languageBox.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                String value = (String) valueChangeEvent.getProperty().getValue();
+                languageCode.setValue(value != null ? value : "");
+            }
+        });
+    }
+
+    @Override
+    protected Component initContent() {
+        return new MHorizontalLayout(languageBox, languageCode).alignAll(Alignment.MIDDLE_LEFT);
+    }
+
+    @Override
+    public Class<? extends String> getType() {
+        return String.class;
+    }
+
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        languageBox.setValue(newDataSource.getValue());
+        super.setPropertyDataSource(newDataSource);
+    }
+
+    @Override
+    public void commit() throws SourceException, Validator.InvalidValueException {
+        String value = (String) languageBox.getValue();
+        setInternalValue(value);
+        super.commit();
+    }
+
+    @Override
+    public void setValue(String newFieldValue) throws ReadOnlyException, Converter.ConversionException {
+        languageBox.setValue(newFieldValue);
+        super.setValue(newFieldValue);
+    }
+
+    @Override
+    public String getValue() {
+        return (String) languageBox.getValue();
     }
 }

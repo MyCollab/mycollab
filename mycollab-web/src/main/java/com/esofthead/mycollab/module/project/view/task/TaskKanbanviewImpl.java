@@ -491,7 +491,7 @@ public class TaskKanbanViewImpl extends AbstractPageView implements TaskKanbanVi
             hideColumnBtn.setEnabled(canExecute);
             popupContent.addOption(hideColumnBtn);
 
-            Button changeColorBtn = new Button(AppContext.getMessage(TaskI18nEnum.ACTION_CHANG_COLOR), new Button.ClickListener() {
+            Button changeColorBtn = new Button(AppContext.getMessage(TaskI18nEnum.ACTION_CHANGE_COLOR), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     ColumnColorPickerWindow popup = new ColumnColorPickerWindow(Color.CYAN);

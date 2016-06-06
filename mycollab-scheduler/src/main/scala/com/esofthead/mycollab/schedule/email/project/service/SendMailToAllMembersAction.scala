@@ -79,7 +79,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
             null, null, contentGenerator.parseString(getCreateSubject(context)),
-            contentGenerator.parseFile("templates/email/project/itemCreatedNotifier.html", context.getLocale, Locale.US), null)
+            contentGenerator.parseFile("mailProjectItemCreatedNotifier.html", context.getLocale, Locale.US), null)
         }
       }
     }
@@ -106,8 +106,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
             null, null, contentGenerator.parseString(getUpdateSubject(context)),
-            contentGenerator.parseFile("templates/email/project/itemUpdatedNotifier.html",
-              context.getLocale, Locale.US), null)
+            contentGenerator.parseFile("mailProjectItemUpdatedNotifier.html", context.getLocale, Locale.US), null)
         }
       }
     }
@@ -128,8 +127,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
             null, null, contentGenerator.parseString(getCommentSubject(context)),
-            contentGenerator.parseFile("templates/email/project/itemCommentNotifier.html",
-              context.getLocale, Locale.US), null)
+            contentGenerator.parseFile("mailProjectItemCommentNotifier.html", context.getLocale, Locale.US), null)
         }
       }
     }

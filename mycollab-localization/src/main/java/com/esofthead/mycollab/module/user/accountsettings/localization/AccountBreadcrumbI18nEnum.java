@@ -17,17 +17,14 @@
 package com.esofthead.mycollab.module.user.accountsettings.localization;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/account-breadcrumb")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@BaseName("account-breadcrumb")
 public enum AccountBreadcrumbI18nEnum {
-	VIEW_PROFILE,
-	VIEW_BILLING,
-	VIEW_USERS,
-	VIEW_ROLES,
-	VIEW_SETTING,
+    VIEW_PROFILE,
+    VIEW_BILLING,
+    VIEW_USERS,
+    VIEW_ROLES,
+    VIEW_SETTING,
     VIEW_SETUP,
     BUTTON_CANCEL_ACCOUNT,
 }

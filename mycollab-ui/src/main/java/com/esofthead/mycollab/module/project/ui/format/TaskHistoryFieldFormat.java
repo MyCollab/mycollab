@@ -38,8 +38,7 @@ public final class TaskHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum
-                .FORM_EMPTY));
+        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override

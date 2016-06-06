@@ -17,8 +17,6 @@
 package com.esofthead.mycollab.common.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
 /**
  * @author MyCollab Ltd.
@@ -26,8 +24,7 @@ import ch.qos.cal10n.LocaleData;
  */
 public class OptionI18nEnum {
 
-    @BaseName("localization/common-generic-status")
-    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    @BaseName("common-generic-status")
     public enum StatusI18nEnum {
         Open, Closed, Archived, Pending, InProgress
     }

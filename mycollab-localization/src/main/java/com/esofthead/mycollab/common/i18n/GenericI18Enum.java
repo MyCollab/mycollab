@@ -17,11 +17,8 @@
 package com.esofthead.mycollab.common.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/common-generic")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("common-generic")
 public enum GenericI18Enum {
     NOTIFICATION_GOTO_FIRST_RECORD,
     NOTIFICATION_GOTO_LAST_RECORD,

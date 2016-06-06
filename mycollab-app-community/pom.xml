@@ -168,7 +168,7 @@
                                     <artifactId>mycollab-localization</artifactId>
                                     <version>5.3.2</version>
                                     <type>jar</type>
-                                    <includes>**/*.properties</includes>
+                                    <includes>localization/*.properties</includes>
                                     <excludes>**/pom.properties</excludes>
                                     <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
                                 </artifactItem>
@@ -177,7 +177,7 @@
                                     <artifactId>mycollab-scheduler</artifactId>
                                     <version>5.3.2</version>
                                     <type>jar</type>
-                                    <includes>**/*.mt</includes>
+                                    <includes>templates/email/*.html</includes>
                                     <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
@@ -185,7 +185,7 @@
                                     <artifactId>mycollab-servlet</artifactId>
                                     <version>5.3.2</version>
                                     <type>jar</type>
-                                    <includes>**/*.mt</includes>
+                                    <includes>templates/page/*.html</includes>
                                     <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
                                 </artifactItem>
                             </artifactItems>

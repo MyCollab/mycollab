@@ -123,8 +123,8 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     }
 
     @Override
-    public void createDefaultAccountData(String username, String password, String timezoneId, Boolean isEmailVerified,
-                                         Boolean isCreatedDefaultData, Integer sAccountId) {
+    public void createDefaultAccountData(String username, String password, String timezoneId, String language, Boolean
+                                         isEmailVerified, Boolean isCreatedDefaultData, Integer sAccountId) {
         // Check whether user has registered to the system before
         String encryptedPassword = EnDecryptHelper.encryptSaltPassword(password);
         UserExample ex = new UserExample();
@@ -150,6 +150,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
             user.setUsername(username);
             user.setRegisteredtime(now);
             user.setLastaccessedtime(now);
+            user.setLanguage(language);
 
             if (isEmailVerified) {
                 user.setStatus(UserStatusConstants.EMAIL_VERIFIED);

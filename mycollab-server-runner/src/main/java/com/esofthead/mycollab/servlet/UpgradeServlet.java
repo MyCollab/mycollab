@@ -46,8 +46,7 @@ public class UpgradeServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
 
         Reader reader = ServerInstance.getInstance().isUpgrading() ? FileUtils.getReader
-                ("templates/page/WaitingUpgrade.html")
-                : FileUtils.getReader("templates/page/NoUpgrade.html");
+                ("pageWaitingUpgrade.html") : FileUtils.getReader("pageNoUpgrade.html");
 
         VelocityContext context = new VelocityContext();
         Map<String, String> defaultUrls = new HashMap<>();

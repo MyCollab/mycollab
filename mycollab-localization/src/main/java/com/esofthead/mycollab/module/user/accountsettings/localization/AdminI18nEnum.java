@@ -17,11 +17,8 @@
 package com.esofthead.mycollab.module.user.accountsettings.localization;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/account-admin")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("account-admin")
 public enum AdminI18nEnum {
     VIEW_PROFILE,
     VIEW_BILLING,

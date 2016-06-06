@@ -48,7 +48,7 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
     @Autowired var userService: UserService = _
     @Autowired var extMailService: ExtMailService = _
     @Autowired var contentGenerator: IContentGenerator = _
-    private val CONFIRM_EMAIL_TEMPLATE: String = "templates/email/billing/confirmUserSignUpNotification.html"
+    private val CONFIRM_EMAIL_TEMPLATE: String = "mailConfirmUserSignUpNotification.html"
 
     @SuppressWarnings(Array("unchecked"))
     @throws(classOf[JobExecutionException])

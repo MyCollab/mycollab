@@ -17,15 +17,12 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.10
  */
-@BaseName("localization/project-invoice")
-@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
+@BaseName("project-invoice")
 public enum InvoiceI18nEnum {
     SINGLE,
     LIST,

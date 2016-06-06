@@ -17,16 +17,13 @@
 package com.esofthead.mycollab.common.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/common-webexception")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("common-webexception")
 public enum ErrorI18nEnum {
     SUB_DOMAIN_IS_NOT_EXISTED,
     NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS,
     ERROR_USER_IS_NOT_EXISTED,
     EXISTING_DOMAIN_REGISTER_ERROR,
     FIELD_MUST_NOT_NULL,
-	NO_ACCESS_PERMISSION
+    NO_ACCESS_PERMISSION
 }

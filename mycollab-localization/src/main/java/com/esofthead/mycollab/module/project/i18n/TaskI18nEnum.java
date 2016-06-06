@@ -20,8 +20,7 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project-task")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("project-task")
 public enum TaskI18nEnum {
     NEW,
     DETAIL,
@@ -35,14 +34,11 @@ public enum TaskI18nEnum {
     ACTION_HIDE_COLUMNS,
     ACTION_SHOW_COLUMN,
     ACTION_SHOW_COLUMNS,
-    ACTION_CHANG_COLOR,
+    ACTION_CHANGE_COLOR,
 
     FORM_PHASE,
     FORM_COMMENT,
-    FORM_NOTES_ATTACHMENT,
     FORM_TASK_KEY,
-    FORM_ACTUAL_START_DATE,
-    FORM_ACTUAL_END_DATE,
     FORM_DURATION,
     FORM_PRIORITY,
     FORM_PRIORITY_HELP,
@@ -84,6 +80,8 @@ public enum TaskI18nEnum {
     VAL_UPDATE_THIS_WEEK,
     VAL_NEW_LAST_WEEK,
     VAL_UPDATE_LAST_WEEK,
+
+    DELETED_TASK,
 
     ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF
 }

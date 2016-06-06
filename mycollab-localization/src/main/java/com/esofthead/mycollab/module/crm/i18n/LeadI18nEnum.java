@@ -17,11 +17,8 @@
 package com.esofthead.mycollab.module.crm.i18n;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
-import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm-lead")
-@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+@BaseName("crm-lead")
 public enum LeadI18nEnum {
     NEW,
     LIST,
