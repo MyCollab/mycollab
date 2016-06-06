@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.db.migration.service;
 
 import com.esofthead.mycollab.configuration.IDeploymentMode;
+import com.zaxxer.hikari.pool.HikariPool;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.internal.metadatatable.MetaDataTableImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +55,15 @@ public class DbMigrationRunner {
             } else {
                 flyway.setLocations("db/migration");
             }
-            MetaDataTableImpl a;
-            flyway.migrate();
+            boolean doMigrateLoop = true;
+            while (doMigrateLoop) {
+                try {
+                    flyway.migrate();
+                    doMigrateLoop = false;
+                } catch (HikariPool.PoolInitializationException e) {
+                    LOG.info("Error: {}", e.getMessage());
+                }
+            }
         } catch (Exception e) {
             LOG.error("Error while migrate database", e);
             System.exit(-1);

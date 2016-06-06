@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -23,6 +24,7 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
+import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -42,14 +44,15 @@ public class LanguageComboBox extends CustomField<String> {
         languageBox.setNullSelectionAllowed(false);
         languageBox.setImmediate(true);
         languageBox.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
+        languageBox.setFilteringMode(FilteringMode.CONTAINS);
 
         languageCode = new ELabel().withStyleName(UIConstants.LABEL_META_INFO);
 
         Locale[] supportedLanguage = LocalizationHelper.getAvailableLocales();
         for (Locale locale : supportedLanguage) {
-            String language = locale.getLanguage();
+            String language = locale.toLanguageTag();
             languageBox.addItem(language);
-            languageBox.setItemCaption(language, locale.getDisplayLanguage(AppContext.getUserLocale()));
+            languageBox.setItemCaption(language, locale.getDisplayName(AppContext.getUserLocale()));
         }
         languageBox.addValueChangeListener(new ValueChangeListener() {
             @Override

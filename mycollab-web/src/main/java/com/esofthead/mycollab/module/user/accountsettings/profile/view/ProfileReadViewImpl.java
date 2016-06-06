@@ -33,10 +33,11 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.UrlLinkViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.UrlSocialNetworkLinkViewField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -108,13 +109,14 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         userFormLayout.getLayout().addStyleName(UIConstants.GRIDFORM_BORDERLESS);
         userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
                 AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
-        userFormLayout.addComponent(new Label(user.getEmail()), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 1);
+        userFormLayout.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank")
+                .write(), ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 1);
         userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(user.getTimezone())),
                 AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
         userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),
                 AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 3);
 
-        Button btnChangePassword = new Button("Change", new Button.ClickListener() {
+        Button btnChangePassword = new Button(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -230,14 +232,13 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                 if (propertyId.equals("website")) {
                     return new UrlLinkViewField(user.getWebsite());
                 } else if (propertyId.equals("facebookaccount")) {
-                    return new UrlSocialNetworkLinkViewField(user.getFacebookaccount(),
-                            String.format("https://www.facebook.com/%s", user.getFacebookaccount()));
+                    return new UrlLinkViewField(String.format("https://www.facebook.com/%s", user.getFacebookaccount()),
+                            user.getFacebookaccount());
                 } else if (propertyId.equals("twitteraccount")) {
-                    return new UrlSocialNetworkLinkViewField(user.getTwitteraccount(),
-                            String.format("https://www.twitter.com/%s", user.getTwitteraccount()));
+                    return new UrlLinkViewField(String.format("https://www.twitter.com/%s", user.getTwitteraccount()),
+                            user.getTwitteraccount());
                 } else if (propertyId.equals("skypecontact")) {
-                    return new UrlSocialNetworkLinkViewField(
-                            user.getSkypecontact(), String.format("skype:%s?chat", user.getSkypecontact()));
+                    return new UrlLinkViewField(String.format("skype:%s?chat", user.getSkypecontact()), user.getSkypecontact());
                 }
                 return null;
             }

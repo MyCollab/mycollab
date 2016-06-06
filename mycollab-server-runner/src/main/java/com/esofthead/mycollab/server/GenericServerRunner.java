@@ -215,6 +215,7 @@ public abstract class GenericServerRunner {
         dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
         dsProperties.setProperty("useServerPrepStmts", "true");
         dsProperties.setProperty("maximumPoolSize", "20");
+        dsProperties.setProperty("initializationFailFast", "false");
         dataSource.setDataSourceProperties(dsProperties);
         return dataSource;
     }

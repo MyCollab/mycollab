@@ -19,14 +19,12 @@ package com.esofthead.mycollab.i18n;
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyorExt;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -128,7 +126,19 @@ public class LocalizationHelper {
      */
     public static Reader templateReader(String fileTemplatePath, Locale locale) {
         String templatePath = templatePath(fileTemplatePath, locale);
-        InputStream resourceStream = LocalizationHelper.class.getClassLoader().getResourceAsStream(templatePath);
+        File i18nFile = FileUtils.getDesireFile(new File(FileUtils.getUserFolder(), "i18n"), templatePath);
+
+        InputStream resourceStream;
+        if (i18nFile != null) {
+            try {
+                resourceStream = new FileInputStream(i18nFile);
+            } catch (FileNotFoundException e) {
+                resourceStream = LocalizationHelper.class.getClassLoader().getResourceAsStream(templatePath);
+            }
+        } else {
+            resourceStream = LocalizationHelper.class.getClassLoader().getResourceAsStream(templatePath);
+        }
+
         if (resourceStream == null) {
             return null;
         }

@@ -45,8 +45,8 @@ public class RoundNumberField extends CustomField<Number> {
 
         if (value != null) {
             double d = value.doubleValue();
-            d = Math.round(d*100);
-            d = d/100;
+            d = Math.round(d * 100);
+            d = d / 100;
             label.setValue(d + "");
         } else {
             label.setValue("");

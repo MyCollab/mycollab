@@ -16,12 +16,11 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui.field;
 
-import com.vaadin.server.ExternalResource;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Link;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -32,9 +31,15 @@ public class UrlLinkViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
     private String url;
+    private String caption;
 
     public UrlLinkViewField(String url) {
+        this(url, url);
+    }
+
+    public UrlLinkViewField(String url, String caption) {
         this.url = url;
+        this.caption = caption;
     }
 
     @Override
@@ -49,9 +54,8 @@ public class UrlLinkViewField extends CustomField<String> {
             lbl.setContentMode(ContentMode.HTML);
             return lbl;
         } else {
-            final Link link = new Link(url, new ExternalResource(url));
-            link.setTargetName("_blank");
-            return link;
+            final A link = new A(url).appendText(caption).setTarget("_blank");
+            return new Label(link.write(), ContentMode.HTML);
         }
     }
 }

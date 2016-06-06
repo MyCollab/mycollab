@@ -52,7 +52,7 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
         } else if (ClassUtils.instanceOf(data, TaskScreenData.Edit.class, TaskScreenData.Add.class)) {
             presenter = PresenterResolver.getPresenter(TaskAddPresenter.class);
         } else if (data instanceof TaskScreenData.GotoKanbanView) {
-            presenter = PresenterResolver.getPresenter(TaskKanbanPresenter.class);
+            presenter = PresenterResolver.getPresenter(TaskKanbanBoardPresenter.class);
         } else if (data == null || data instanceof TaskScreenData.GotoDashboard) {
             presenter = PresenterResolver.getPresenter(TaskDashboardPresenter.class);
         } else {

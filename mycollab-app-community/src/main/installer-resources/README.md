@@ -55,11 +55,12 @@ Version 5.3.3
 * Allow project member can set time for task and issue
 * Apply the date formats in report and tooltip
 * Support localization for languages easier
+* Support running as startup scripts in Linux OS
 * Other improvements
 
 **Bug Fixes**
 
-* [Premium] Timelog window causes error in several special cases
+* [Premium] Time-log window causes error in several special cases
 * Can not search projects in the project list view
 * Timezone on several date fields are not correct
 * Not check validate dates in the issue entry

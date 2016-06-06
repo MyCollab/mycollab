@@ -40,7 +40,7 @@ public class DateFormatField extends CustomField<String> {
         this.dateFormat = initialFormat;
         dateInput = new TextField(null, initialFormat);
         dateInput.setImmediate(true);
-        dateInput.setTextChangeEventMode(AbstractTextField.TextChangeEventMode.LAZY);
+        dateInput.setTextChangeEventMode(AbstractTextField.TextChangeEventMode.EAGER);
         now = new DateTime();
         dateExample = new Label();
         dateFormatInstance = DateTimeFormat.forPattern(dateFormat);
@@ -50,7 +50,8 @@ public class DateFormatField extends CustomField<String> {
             @Override
             public void textChange(FieldEvents.TextChangeEvent event) {
                 try {
-                    dateFormatInstance = DateTimeFormat.forPattern(dateFormat);
+                    String newFormat = event.getText();
+                    dateFormatInstance = DateTimeFormat.forPattern(newFormat);
                     dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
                 } catch (Exception e) {
                     NotificationUtil.showErrorNotification("Invalid format");
