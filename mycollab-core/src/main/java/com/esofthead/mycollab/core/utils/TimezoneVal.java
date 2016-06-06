@@ -62,7 +62,7 @@ public class TimezoneVal implements Comparable<TimezoneVal> {
 
     public TimezoneVal(String id) {
         this.id = id;
-        this.timezone = TimeZone.getTimeZone(id);
+        this.timezone = (id != null) ? TimeZone.getTimeZone(id) : TimeZone.getDefault();
         String timeZoneId = timezone.getID();
         int index = timeZoneId.indexOf('/');
         location = (index > -1) ? timeZoneId.substring(index + 1, timeZoneId.length()) : timeZoneId;

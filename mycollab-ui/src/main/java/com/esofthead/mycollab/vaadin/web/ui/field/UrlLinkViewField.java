@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui.field;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author MyCollab Ltd.
@@ -49,7 +49,7 @@ public class UrlLinkViewField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        if (StringUtils.isBlank(url)) {
+        if (StringUtils.isBlank(url) || StringUtils.isBlank(caption)) {
             Label lbl = new Label("&nbsp;");
             lbl.setContentMode(ContentMode.HTML);
             return lbl;

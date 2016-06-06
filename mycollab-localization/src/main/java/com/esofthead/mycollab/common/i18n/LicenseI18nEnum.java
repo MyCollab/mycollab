@@ -14,25 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-localization.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.accountsettings.localization;
+package com.esofthead.mycollab.common.i18n;
 
 import ch.qos.cal10n.BaseName;
 
-@BaseName("account-admin")
-public enum AdminI18nEnum {
-    VIEW_PROFILE,
-    VIEW_BILLING,
-    VIEW_SETTING,
-    VIEW_THEME,
-    VIEW_USERS_AND_ROLES,
-    VIEW_SETUP,
-
-    FORM_SITE_NAME,
-    FORM_SITE_ADDRESS,
-    FORM_DEFAULT_TIMEZONE,
-    FORM_DEFAULT_CURRENCY,
-    FORM_DEFAULT_LANGUAGE,
-    FORM_DEFAULT_YYMMDD_FORMAT,
-    FORM_DEFAULT_MMDD_FORMAT,
-    FORM_DEFAULT_HUMAN_DATE_FORMAT,
+@BaseName("common-license")
+public enum LicenseI18nEnum {
+    EXPIRE_NOTIFICATION,
+    TRIAL_NOTIFICATION,
 }

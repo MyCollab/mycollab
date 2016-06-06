@@ -173,22 +173,11 @@ public final class StringUtils {
     }
 
     public static boolean isValidPhoneNumber(String value) {
-        if (StringUtils.isNotBlank(value)) {
-            // validate phone numbers of format "1234567890"
-            if (value.matches("\\d{10}"))
-                return true;
-                // validating phone number with -, . or spaces
-            else if (value.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}"))
-                return true;
-                // validating phone number with extension length from 3 to 5
-            else if (value.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
-                return true;
-                // validating phone number where area code is in braces ()
-            else // return false if nothing matches the input
-                return value.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}");
-        } else {
-            return true;
-        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Hello: " + isValidPhoneNumber("123-456-7890 ext123"));
     }
 
 }

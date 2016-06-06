@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>mycollab-core</name>
     <artifactId>mycollab-core</artifactId>
@@ -19,9 +19,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab.external</groupId>
+            <groupId>com.mycollab.external</groupId>
             <artifactId>image4j-core</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2</version>
         </dependency>
 
         <dependency>
@@ -49,7 +49,7 @@
         </dependency>
 
         <dependency>
-            <groupId> org.apache.jackrabbit</groupId>
+            <groupId>org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-spi-commons</artifactId>
             <version>${jackrabbitVersion}</version>
         </dependency>

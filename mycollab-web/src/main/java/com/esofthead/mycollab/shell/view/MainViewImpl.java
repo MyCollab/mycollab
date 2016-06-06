@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.LicenseI18nEnum;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
@@ -326,7 +327,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
             if (licenseInfo != null) {
                 if (licenseInfo.isExpired()) {
-                    Button buyPremiumBtn = new Button("License is expired. Buy?", new ClickListener() {
+                    Button buyPremiumBtn = new Button(AppContext.getMessage(LicenseI18nEnum.EXPIRE_NOTIFICATION), new ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
                             UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow());
@@ -338,7 +339,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 } else if (licenseInfo.isTrial()) {
                     Duration dur = new Duration(new DateTime(), new DateTime(licenseInfo.getExpireDate()));
                     int days = dur.toStandardDays().getDays();
-                    Button buyPremiumBtn = new Button(String.format("Trial license: %d days left. Buy?", days), new ClickListener() {
+                    Button buyPremiumBtn = new Button(AppContext.getMessage(LicenseI18nEnum.TRIAL_NOTIFICATION, days), new ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
                             UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow());
@@ -415,7 +416,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         generalSettingBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
         accountPopupContent.addOption(generalSettingBtn);
 
-        Button themeCustomizeBtn = new Button("Make Theme", new ClickListener() {
+        Button themeCustomizeBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_THEME), new ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 accountMenu.setPopupVisible(false);
@@ -445,6 +446,13 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         BrowserWindowOpener supportOpener = new BrowserWindowOpener(supportRes);
         supportOpener.extend(supportBtn);
         accountPopupContent.addOption(supportBtn);
+
+        Button translateBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_TRANSLATE));
+        translateBtn.setIcon(FontAwesome.PENCIL);
+        ExternalResource translateRes = new ExternalResource("https://community.mycollab.com/docs/developing-mycollab/internalization-and-localization/");
+        BrowserWindowOpener translateOpener = new BrowserWindowOpener(translateRes);
+        translateOpener.extend(translateBtn);
+        accountPopupContent.addOption(translateBtn);
 
         if (!SiteConfiguration.isCommunityEdition()) {
             Button myAccountBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
