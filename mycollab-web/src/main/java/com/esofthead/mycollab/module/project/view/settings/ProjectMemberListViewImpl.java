@@ -256,11 +256,13 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         }
         blockTop.addComponent(memberRole);
 
-        Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
-                member.getUsername()), ContentMode.HTML);
-        memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
-        memberEmailLabel.setWidth("100%");
-        blockTop.addComponent(memberEmailLabel);
+        if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
+            Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
+                    member.getUsername()), ContentMode.HTML);
+            memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
+            memberEmailLabel.setWidth("100%");
+            blockTop.addComponent(memberEmailLabel);
+        }
 
         ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(member.getJoindate())))
                 .withDescription(AppContext.formatDateTime(member.getJoindate()));

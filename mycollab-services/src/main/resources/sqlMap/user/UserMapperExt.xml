@@ -15,6 +15,7 @@
         <result column="dateFormat" jdbcType="VARCHAR" property="dateFormat" />
         <result column="shortDateFormat" jdbcType="VARCHAR" property="shortDateFormat" />
         <result column="longDateFormat" jdbcType="VARCHAR" property="longDateFormat" />
+        <result column="showEmailPublicly" jdbcType="BIT" property="showEmailPublicly" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -120,6 +121,7 @@
             s_user.YYMMDDFormat, s_user.humanDateFormat, s_user.MMDDFormat,
             s_account.subdomain AS subdomain, s_account.defaultYYMMDDFormat AS dateFormat,
             s_account.defaultMMDDFormat AS shortDateFormat, s_account.defaultHumanDateFormat AS longDateFormat,
+            s_account.displayEmailPublicly AS showEmailPublicly,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  displayName,
             s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
             s_user_account.registerStatus, s_user_account.registeredTime, s_user_account.inviteUser, s_user_account.lastAccessedTime,

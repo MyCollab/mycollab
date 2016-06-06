@@ -327,6 +327,10 @@ public class AppContext implements Serializable {
         return getInstance().billingAccount.getDateFormatInstance();
     }
 
+    public static final Boolean showEmailPublicly() {
+        return getInstance().billingAccount.getDisplayemailpublicly();
+    }
+
     public static final String getShortDateFormat() {
         return getInstance().billingAccount.getShortDateFormatInstance();
     }

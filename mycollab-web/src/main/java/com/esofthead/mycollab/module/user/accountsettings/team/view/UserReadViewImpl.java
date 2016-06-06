@@ -78,16 +78,13 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
         CssLayout userWrapper = new CssLayout();
         String nickName = user.getNickname();
-        ELabel userName = ELabel.h2(user.getDisplayName() + (StringUtils.isEmpty(nickName) ? "" : (String.format(" ( " +
-                "%s )", nickName))));
+        ELabel userName = ELabel.h2(user.getDisplayName() + (StringUtils.isEmpty(nickName) ? "" : (String.format(" ( %s )", nickName))));
         userWrapper.addComponent(userName);
 
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
-
-        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("80px");
-        formLayoutHelper.getLayout().addStyleName(UIConstants.GRIDFORM_BORDERLESS);
-        basicLayout.addComponent(formLayoutHelper.getLayout());
+        MVerticalLayout infoLayout = new MVerticalLayout().withMargin(false);
+        basicLayout.addComponent(infoLayout);
 
         Node roleDiv;
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
@@ -96,15 +93,20 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             roleDiv = new A(AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid())).appendText(user.getRoleName());
         }
 
-        formLayoutHelper.addComponent(new Label(roleDiv.write(), ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
-        formLayoutHelper.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())), AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
-        formLayoutHelper.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(),
-                ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
-        formLayoutHelper.addComponent(new Label(TimezoneVal.getDisplayName(user.getTimezone())),
-                AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
-        formLayoutHelper.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage())
-                        .getDisplayLanguage(AppContext.getUserLocale())),
-                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 4);
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_ROLE)).withWidth
+                ("80px").withStyleName("meta-color"), new Label(roleDiv.write(), ContentMode.HTML)).withMargin(new MarginInfo(true, false, true, false)));
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY)).withWidth("80px").withStyleName("meta-color"),
+                new Label(AppContext.formatDate(user.getDateofbirth()))).withMargin(new MarginInfo(false, false, true, false)));
+
+        if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
+            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_EMAIL)).withWidth("80px").withStyleName("meta-color"),
+                    new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(), ContentMode.HTML)).withMargin(new MarginInfo(false, false, true, false)));
+        }
+
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)).withWidth("80px").withStyleName("meta-color"),
+                new Label(TimezoneVal.getDisplayName(user.getTimezone()))).withMargin(new MarginInfo(false, false, true, false)));
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)).withWidth("80px").withStyleName("meta-color"),
+                new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale()))).withMargin(new MarginInfo(false, false, true, false)));
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);
 

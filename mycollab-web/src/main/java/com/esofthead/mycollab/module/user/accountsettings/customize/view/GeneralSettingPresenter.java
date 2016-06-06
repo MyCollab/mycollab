@@ -19,9 +19,11 @@ package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.security.BooleanPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
@@ -37,10 +39,14 @@ public class GeneralSettingPresenter extends AbstractPresenter<GeneralSettingVie
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        AccountSettingContainer customizeContainer = (AccountSettingContainer) container;
-        customizeContainer.gotoSubView("General Settings");
-        view.displayView();
-        AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
-        breadcrumb.gotoGeneralSetting();
+        if (AppContext.isAdmin()) {
+            AccountSettingContainer customizeContainer = (AccountSettingContainer) container;
+            customizeContainer.gotoSubView("General Settings");
+            view.displayView();
+            AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
+            breadcrumb.gotoGeneralSetting();
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
     }
 }

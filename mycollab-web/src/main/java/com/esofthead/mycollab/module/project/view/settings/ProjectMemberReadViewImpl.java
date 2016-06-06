@@ -173,11 +173,13 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             memberRole.setSizeUndefined();
             memberInfo.addComponent(memberRole);
 
-            Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
-                    beanItem.getUsername()), ContentMode.HTML);
-            memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
-            memberEmailLabel.setWidth("100%");
-            memberInfo.addComponent(memberEmailLabel);
+            if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
+                Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
+                        beanItem.getUsername()), ContentMode.HTML);
+                memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
+                memberEmailLabel.setWidth("100%");
+                memberInfo.addComponent(memberEmailLabel);
+            }
 
             ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(beanItem.getJoindate())))
                     .withDescription(AppContext.formatDateTime(beanItem.getJoindate())).withStyleName(UIConstants

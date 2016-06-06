@@ -52,7 +52,8 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         ProjectUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new ProjectUnresolvedAssignmentWidget();
 
         leftPanel.addComponent(milestoneTimelineWidget);
-        leftPanel.with(milestoneTimelineWidget, unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskOverdueWidget);
+        leftPanel.with(milestoneTimelineWidget, unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget,
+                taskOverdueWidget);
 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false).withWidth("500px");
         ProjectMembersWidget membersWidget = new ProjectMembersWidget();

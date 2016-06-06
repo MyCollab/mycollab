@@ -62,7 +62,7 @@ class AccountInfoChangeWindow extends Window {
         this.setContent(content);
         editForm = new AdvancedEditBeanForm<>();
         editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
-            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8, "200px");
+            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9, "200px");
 
             @Override
             public ComponentContainer getLayout() {
@@ -90,6 +90,9 @@ class AccountInfoChangeWindow extends Window {
                             AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 6);
                 } else if (BillingAccount.Field.defaultlanguagetag.equalTo(propertyId)) {
                     return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
+                } else if (BillingAccount.Field.displayemailpublicly.equalTo(propertyId)) {
+                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY),
+                            AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY_HELP), 0, 8);
                 }
                 return null;
             }
@@ -140,7 +143,7 @@ class AccountInfoChangeWindow extends Window {
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                AccountInfoChangeWindow.this.close();
+                close();
             }
         });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);

@@ -55,7 +55,8 @@ Version 5.3.3
 * Allow project member can set time for task and issue
 * Apply the date formats in report and tooltip
 * Support localization for languages easier
-* Support running as startup scripts in Linux OS
+* Support running MyCollab as startup scripts in Linux OS
+* Allow the site owner can allow other users can not see email
 * Other improvements
 
 **Bug Fixes**

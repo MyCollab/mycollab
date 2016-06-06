@@ -45,16 +45,18 @@ public class CommonTooltipGenerator {
             }
 
             Div div = new Div();
-            H3 userFullName = new H3().setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
+            H3 userFullName = new H3().setStyle("line-height: normal;");
             userFullName.setStyle("padding-left:10px;").appendText(user.getDisplayName());
             div.appendChild(userFullName);
 
             Table table = new Table();
-            table.setStyle("padding-left:10px; width :380px; color: #5a5a5a; font-size:11px;");
-            Tr trRow1 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+            table.setStyle("padding-left:10px; width:380px; color: #5a5a5a; font-size:12px;");
+
+            String userEmail = (Boolean.TRUE.equals(user.getShowEmailPublicly())) ? user.getEmail() : "&lt;&lt;Hidden&gt;&gt;";
+            Tr trRow1 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;color:#999")
                     .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_EMAIL)))
                     .appendChild(new Td().setStyle("vertical-align: top;").appendChild(
-                            new A().setHref("mailto:" + user.getEmail()).appendText(StringUtils.trimHtmlTags(user.getEmail()))));
+                            new A().setHref("mailto:" + user.getEmail()).appendText(userEmail)));
 
             Td trRow1_value = new Td().setStyle("width:150px;text-align: right; vertical-align: top;")
                     .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 100))
@@ -62,22 +64,22 @@ public class CommonTooltipGenerator {
             trRow1_value.setAttribute("rowspan", "5");
             trRow1.appendChild(new Td().setStyle("width: 0px; vertical-align: top; text-align: right;").appendChild(trRow1_value));
 
-            Tr trRow2 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+            Tr trRow2 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;color:#999")
                     .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_TIMEZONE)))
                     .appendChild(new Td().setStyle("vertical-align: top;").appendText(
                             TimezoneVal.valueOf(user.getTimezone()).getDisplayName(locale)));
-            Tr trRow3 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+            Tr trRow3 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;color:#999")
                     .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_COUNTRY)))
                     .appendChild(new Td().setStyle("vertical-align: top;").appendText(
                             StringUtils.trimHtmlTags(user.getCountry())));
 
-            Tr trRow4 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+            Tr trRow4 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;color:#999")
                     .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_WORK_PHONE)))
                     .appendChild(new Td().setStyle("vertical-align: top;")
                             .appendText(StringUtils.trimHtmlTags(user.getWorkphone())));
 
             Tr trRow5 = new Tr().appendChild(
-                    new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+                    new Td().setStyle("width: 110px; vertical-align: top; text-align: right;color:#999")
                             .appendText(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_LAST_ACCESSED_TIME)))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
                             .appendText(DateTimeUtils.getPrettyDateValue(user.getLastaccessedtime(), locale)));
@@ -93,7 +95,7 @@ public class CommonTooltipGenerator {
     private static String generateTolltipNull(Locale locale) {
         Div div = new Div();
         Table table = new Table();
-        table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
+        table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:12px;");
 
         Tr trRow1 = new Tr().appendChild(new Td().setStyle("vertical-align: top; text-align: left;").appendText(
                 LocalizationHelper.getMessage(locale, GenericI18Enum.TOOLTIP_NO_ITEM_EXISTED)));

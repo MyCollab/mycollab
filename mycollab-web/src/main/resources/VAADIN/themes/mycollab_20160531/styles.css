@@ -1625,6 +1625,10 @@ a.pending {
 	white-space: initial;
 }
 
+.meta-color {
+	color: #999;
+}
+
 .meta-info {
 	color: #999;
 	font-size: 13px;
@@ -14299,6 +14303,10 @@ a.pending {
 .v-table-cell-wrapper {
 	height: 100%;
 	white-space: initial;
+}
+
+.meta-color {
+	color: #999;
 }
 
 .meta-info {

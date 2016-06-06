@@ -18,6 +18,7 @@ package com.esofthead.mycollab.i18n;
 
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyorExt;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -176,5 +177,9 @@ public class LocalizationHelper {
             LOG.error("Invalid language {}", languageTag);
             return Locale.US;
         }
+    }
+
+    public static final Enum localizeYesNo(Boolean value) {
+        return Boolean.TRUE.equals(value) ? GenericI18Enum.BUTTON_YES : GenericI18Enum.BUTTON_NO;
     }
 }

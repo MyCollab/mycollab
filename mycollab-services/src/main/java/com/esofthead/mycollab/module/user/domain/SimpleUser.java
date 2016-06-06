@@ -48,6 +48,7 @@ public class SimpleUser extends User {
     private String dateFormat;
     private String shortDateFormat;
     private String longDateFormat;
+    private Boolean showEmailPublicly;
 
     public PermissionMap getPermissionMaps() {
         return permissionMaps;
@@ -151,6 +152,14 @@ public class SimpleUser extends User {
 
     public void setLongDateFormat(String longDateFormat) {
         this.longDateFormat = longDateFormat;
+    }
+
+    public Boolean getShowEmailPublicly() {
+        return showEmailPublicly;
+    }
+
+    public void setShowEmailPublicly(Boolean showEmailPublicly) {
+        this.showEmailPublicly = showEmailPublicly;
     }
 
     public String getDisplayName() {

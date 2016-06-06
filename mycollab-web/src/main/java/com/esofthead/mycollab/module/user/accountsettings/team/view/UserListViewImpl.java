@@ -199,15 +199,14 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         buttonControls.setVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
-            Button resendBtn = new Button("Resend the invitation", new ClickListener() {
+            Button resendBtn = new Button(AppContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), null,
                             member.getInviteUser(), AppContext.getSubDomain(), AppContext.getAccountId());
                     AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
                     asyncEventBus.post(invitationEvent);
-                    NotificationUtil.showNotification("Success!", "The invitation is sent to " + member
-                            .getDisplayName() + " successfully");
+                    NotificationUtil.showNotification("Success!", "The invitation is sent to " + member.getDisplayName() + " successfully");
                 }
             });
             resendBtn.addStyleName(UIConstants.BUTTON_LINK);
@@ -282,10 +281,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             memberInfo.addComponent(lbl);
         }
 
-        Label memberEmailLabel = new ELabel(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
-                member.getUsername()), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants
-                .LABEL_META_INFO).withFullWidth();
-        memberInfo.addComponent(memberEmailLabel);
+        if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
+            Label memberEmailLabel = new ELabel(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
+                    member.getUsername()), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants
+                    .LABEL_META_INFO).withFullWidth();
+            memberInfo.addComponent(memberEmailLabel);
+        }
 
         ELabel memberSinceLabel = new ELabel("Member since: " + AppContext.formatPrettyTime(member.getRegisteredtime()))
                 .withDescription(AppContext.formatDateTime(member.getRegisteredtime())).withStyleName(UIConstants

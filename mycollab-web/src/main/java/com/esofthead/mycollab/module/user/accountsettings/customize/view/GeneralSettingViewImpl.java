@@ -91,7 +91,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
 
         generalSettingHeader.with(headerLbl, editBtn).alignAll(Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4, "200px");
+        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5, "200px");
         gridFormLayoutHelper.addComponent(new Label(billingAccount.getSitename()),
                 AppContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
         gridFormLayoutHelper.addComponent(new Label(String.format("https://%s.mycollab.com", billingAccount
@@ -124,6 +124,10 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         gridFormLayoutHelper.addComponent(new Label(LocalizationHelper.getLocaleInstance(billingAccount
                         .getDefaultlanguagetag()).getDisplayLanguage(AppContext.getUserLocale())),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 1, 3);
+
+        gridFormLayoutHelper.addComponent(new Label(AppContext.getMessage(LocalizationHelper.localizeYesNo(billingAccount.getDisplayemailpublicly()))),
+                AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY),
+                AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY_HELP), 0, 4, 2, "100%");
 
 
         formContainer.addSection(new CssLayout(generalSettingHeader), gridFormLayoutHelper.getLayout());
