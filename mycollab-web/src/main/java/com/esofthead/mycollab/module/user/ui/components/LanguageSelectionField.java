@@ -34,13 +34,13 @@ import java.util.Locale;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class LanguageComboBox extends CustomField<String> {
+public class LanguageSelectionField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
     private ComboBox languageBox = new ComboBox();
     private Label languageCode;
 
-    public LanguageComboBox() {
+    public LanguageSelectionField() {
         languageBox.setNullSelectionAllowed(false);
         languageBox.setImmediate(true);
         languageBox.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);

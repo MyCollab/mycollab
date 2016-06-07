@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.BillingAccountExample;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
+import com.esofthead.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -76,7 +76,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
         final TimeZoneSelectionField timeZoneSelectionField = formLayoutHelper.addComponent(new TimeZoneSelectionField(false)
                 , AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 6);
         timeZoneSelectionField.setValue(TimeZone.getDefault().getID());
-        final LanguageComboBox languageBox = formLayoutHelper.addComponent(new LanguageComboBox(),
+        final LanguageSelectionField languageBox = formLayoutHelper.addComponent(new LanguageSelectionField(),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
         languageBox.setValue(Locale.US.getLanguage());
         content.with(formLayoutHelper.getLayout());

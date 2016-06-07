@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Recovery password</title>
+    <title>MyCollab Invitation</title>
     <style>
 a {
   color: $styles.link_color;
@@ -35,21 +35,20 @@ a {
     #parse("mailLogo.html")
     <tr>
         <td style="padding: 10px 30px;">
-            <br>
-            <div style="display: block; border-bottom: 1px solid rgb(212, 212, 212); padding-bottom: 5px; margin-bottom: 10px;">
-                Hi <b>$!username</b>,
+            <div>Hello $invitee.displayName, <br>
+                You have a new account at <a href="$siteUrl">$siteName</a> <br>
+                Account details: <br>
+                Email: <a href="mail:$invitee.email">$invitee.email</a><br>
+                #if ($password)
+                Password: $password
+                #else
+                Password: &lt;&lt;Sent in the previous message&gt;&gt;
+                #end
             </div>
-            <span style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">We has received a password change request for this email. If you made this request, then please click on link below:</span><br>
-
-            #linkBlock( $!urlRecoveryPassword "Change password")
-
-            <p style="text-align: left; word-wrap: break-word; white-space: normal; word-break: normal;">If you did not
-                ask to change your password, then please ignore this email. Another user may have entered your username
-                by mistake. No change will be made to your account.</p>
-            <br>
+            #linkBlock( $!siteUrl "Go")
         </td>
     </tr>
-    #parse("mailFooter_en_US.html")
+    #parse("mailFooter_en-US.html")
 </table>
 </body>
 </html>

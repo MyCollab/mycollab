@@ -85,6 +85,8 @@ import org.springframework.stereotype.Component
       if (projectMember != null) {
         if (ProjectMemberStatusConstants.ACTIVE != projectMember.getStatus) {
           projectMember.setStatus(ProjectMemberStatusConstants.NOT_ACCESS_YET)
+        } else {
+          return
         }
         if (event.projectRoleId == null || event.projectRoleId < 0) {
           projectMember.setIsadmin(true)

@@ -89,6 +89,6 @@ object NewProjectMemberJoinCommand {
     })
     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
       null, null, String.format("%s has just joined on project %s", newMember.getDisplayName, newMember.getProjectName),
-      contentGenerator.parseFile("projectNewMemberJoinProjectNotifier.html", Locale.US), null)
+      contentGenerator.parseFile("mailProjectNewMemberJoinProjectNotifier.html", Locale.US), null)
   }
 }

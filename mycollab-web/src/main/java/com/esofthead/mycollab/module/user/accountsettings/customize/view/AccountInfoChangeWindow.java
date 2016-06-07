@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18n
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
+import com.esofthead.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -114,7 +114,7 @@ class AccountInfoChangeWindow extends Window {
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {
                     return new DateFormatField(billingAccount.getLongDateFormatInstance());
                 } else if (BillingAccount.Field.defaultlanguagetag.equalTo(propertyId)) {
-                    return new LanguageComboBox();
+                    return new LanguageSelectionField();
                 }
                 return null;
             }

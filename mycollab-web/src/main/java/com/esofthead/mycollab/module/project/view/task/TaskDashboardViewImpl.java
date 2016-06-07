@@ -67,6 +67,7 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.peter.buttongroup.ButtonGroup;
@@ -266,16 +267,19 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         baseCriteria = new TaskSearchCriteria();
         baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
+        statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
+
         OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
         List<OptionVal> options = optionValService.findOptionValsExcludeClosed(ProjectTypeConstants.TASK,
                 CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
 
-        SetSearchField<String> statuses = new SetSearchField<>();
-        for (OptionVal option : options) {
-            statuses.addValue(option.getTypeval());
+        if (CollectionUtils.isNotEmpty(options)) {
+            SetSearchField<String> statuses = new SetSearchField<>();
+            for (OptionVal option : options) {
+                statuses.addValue(option.getTypeval());
+            }
+            statisticSearchCriteria.setStatuses(statuses);
         }
-        statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
-        statisticSearchCriteria.setStatuses(statuses);
 
         if (StringUtils.isNotBlank(query)) {
             try {

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
+import com.esofthead.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
@@ -50,7 +50,7 @@ class BasicInfoChangeWindow extends Window {
     private TextField txtEmail = new TextField();
     private DateSelectionField birthdayField = new DateSelectionField();
     private TimeZoneSelectionField timeZoneField = new TimeZoneSelectionField(false);
-    private LanguageComboBox languageBox = new LanguageComboBox();
+    private LanguageSelectionField languageBox = new LanguageSelectionField();
 
     private final User user;
 

@@ -103,7 +103,7 @@ public class LocalizationHelper {
     private static Map<String, String> cacheFile = new HashMap<>();
 
     private static String templatePath(String fileTemplatePath, Locale locale) {
-        String key = (locale != null) ? (fileTemplatePath + locale.toString()) : (fileTemplatePath + Locale.US.toString());
+        String key = (locale != null) ? (fileTemplatePath + locale.toLanguageTag()) : (fileTemplatePath + Locale.US.toLanguageTag().toString());
         String filePath = cacheFile.get(key);
         if (filePath != null) {
             return filePath;
@@ -113,7 +113,7 @@ public class LocalizationHelper {
                 throw new MyCollabException("File type is not supported " + fileTemplatePath);
             }
             filePath = fileTemplatePath.substring(0, index - 1);
-            filePath = String.format("%s_%s.html", filePath, locale);
+            filePath = String.format("%s_%s.html", filePath, locale.toLanguageTag());
             cacheFile.put(key, filePath);
             return filePath;
         }
