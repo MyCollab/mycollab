@@ -190,6 +190,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         headerLayout.setWidth("100%");
 
         final PopupButton modulePopup = new PopupButton("");
+
         modulePopup.setHeightUndefined();
         modulePopup.setDirection(Alignment.BOTTOM_LEFT);
         modulePopup.setIcon(AccountAssetsResolver.createLogoResource(AppContext.getBillingAccount().getLogopath(), 150));
@@ -440,6 +441,14 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         }
 
         accountPopupContent.addSeparator();
+
+        Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
+        helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
+        ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/meet-mycollab/");
+        BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
+        helpOpener.extend(helpBtn);
+        accountPopupContent.addOption(helpBtn);
+
         Button supportBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SUPPORT));
         supportBtn.setIcon(FontAwesome.LIFE_SAVER);
         ExternalResource supportRes = new ExternalResource("http://support.mycollab.com/");
@@ -481,7 +490,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         accountPopupContent.addOption(aboutBtn);
 
         Button releaseNotesBtn = new Button("Release Notes");
-        ExternalResource releaseNotesRes = new ExternalResource("https://community.mycollab.com/releases/");
+        ExternalResource releaseNotesRes = new ExternalResource("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/releases/");
         BrowserWindowOpener releaseNotesOpener = new BrowserWindowOpener(releaseNotesRes);
         releaseNotesOpener.extend(releaseNotesBtn);
 
@@ -503,7 +512,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         accountMenu.setContent(accountPopupContent);
         accountLayout.addComponent(accountMenu);
-
         return accountLayout;
     }
 }

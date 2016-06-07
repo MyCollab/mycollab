@@ -166,7 +166,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                     ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid()));
             ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO);
             if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
-                memberRole.setValue(memberRoleLinkPrefix + "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
+                memberRole.setValue(memberRoleLinkPrefix + "style=\"color: #B00000;\">" + "Project Owner" + "</a>");
             } else {
                 memberRole.setValue(memberRoleLinkPrefix + "style=\"color:gray;font-size:12px;\">" + beanItem.getRoleName() + "</a>");
             }

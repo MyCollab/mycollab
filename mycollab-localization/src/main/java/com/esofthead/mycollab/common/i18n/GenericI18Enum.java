@@ -85,6 +85,7 @@ public enum GenericI18Enum {
     ACTION_MORE,
     ACTION_CHANGE,
     ACTION_TRANSLATE,
+    ACTION_HELP,
 
     TABLE_SELECTED_ITEM_TITLE,
 

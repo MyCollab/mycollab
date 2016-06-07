@@ -26,5 +26,5 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: hainguyen@esofthead.com
     build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true compile"
+    build_command:   "mvn -f -DskipTests=true compile"
     branch_pattern: Release_5.2.0
