@@ -356,8 +356,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                 @Override
                 public void buttonClick(ClickEvent event) {
                     AskToAddMoreMembersWindow.this.close();
-                    EventBusFactory.getInstance().post(
-                            new ProjectMemberEvent.GotoInviteMembers(this, null));
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
                 }
             });
             addNewMembersBtn.setStyleName(UIConstants.BUTTON_ACTION);

@@ -29,6 +29,7 @@ import com.esofthead.mycollab.core.SimpleLogging;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
@@ -179,31 +180,35 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                             LOG.error("Error while getting property {}", dynaField.getFieldName(), e);
                         }
 
-                        if (dynaField.isColSpan()) {
-                            HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(dynaField.getDisplayName())
-                                            .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
-                                    cmp.text(fieldGroupFormatter.getFieldDisplayHandler
-                                            (dynaField.getFieldName()).getFormat().toString(value, false, "")));
-                            titleContent.add(newRow);
-                            columnIndex = 0;
-                        } else {
-                            if (columnIndex == 0) {
-                                tmpRow = cmp.horizontalList().add(cmp.text(dynaField.getDisplayName()).setFixedWidth(FORM_CAPTION).setStyle
-                                                (reportStyles.getFormCaptionStyle()),
-                                        cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
-                                                .getFormat().toString(value, false, "")));
-                                titleContent.add(tmpRow);
-                            } else {
-                                tmpRow.add(cmp.text(dynaField.getDisplayName()).setFixedWidth(FORM_CAPTION).setStyle
-                                                (reportStyles.getFormCaptionStyle()),
-                                        cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
-                                                .getFormat().toString(value, false, "")));
-                            }
-
-                            columnIndex++;
-                            if (columnIndex == 2) {
+                        try {
+                            if (dynaField.isColSpan()) {
+                                HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(dynaField.getDisplayName())
+                                                .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
+                                        cmp.text(fieldGroupFormatter.getFieldDisplayHandler
+                                                (dynaField.getFieldName()).getFormat().toString(value, false, "")));
+                                titleContent.add(newRow);
                                 columnIndex = 0;
+                            } else {
+                                if (columnIndex == 0) {
+                                    tmpRow = cmp.horizontalList().add(cmp.text(dynaField.getDisplayName()).setFixedWidth(FORM_CAPTION).setStyle
+                                                    (reportStyles.getFormCaptionStyle()),
+                                            cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
+                                                    .getFormat().toString(value, false, "")));
+                                    titleContent.add(tmpRow);
+                                } else {
+                                    tmpRow.add(cmp.text(dynaField.getDisplayName()).setFixedWidth(FORM_CAPTION).setStyle
+                                                    (reportStyles.getFormCaptionStyle()),
+                                            cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
+                                                    .getFormat().toString(value, false, "")));
+                                }
+
+                                columnIndex++;
+                                if (columnIndex == 2) {
+                                    columnIndex = 0;
+                                }
                             }
+                        } catch (Exception e) {
+                            LOG.error("Error while generate field " + BeanUtility.printBeanObj(dynaField));
                         }
                     }
                 }

@@ -20,6 +20,7 @@ import com.esofthead.mycollab.configuration.FileStorage;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.servlet.GenericHttpServlet;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ import java.io.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(urlPatterns = "/avatar/*", name = "userAvatarFSServlet")
+@WebServlet(urlPatterns = "file/avatar/*", name = "userAvatarFSServlet")
 public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(UserAvatarHttpServletRequestHandler.class);
 
@@ -44,48 +45,40 @@ public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
         }
 
         String path = request.getPathInfo();
-        String username;
-        int size;
 
         if (path != null) {
-            String[] params = path.split("/");
-            if (params.length >= 3) {
-                username = params[1];
-                size = Integer.parseInt(params[2]);
+            path = FilenameUtils.getBaseName(path);
+            int lastIndex = path.lastIndexOf("_");
+            if (lastIndex > 0) {
+                String username = path.substring(0, lastIndex);
+                int size = Integer.valueOf(path.substring(lastIndex + 1, path.length()));
+                FileStorage fileStorage = (FileStorage) StorageFactory.getInstance();
+                File avatarFile = fileStorage.getAvatarFile(username, size);
+                InputStream avatarInputStream;
+                if (avatarFile != null) {
+                    avatarInputStream = new FileInputStream(avatarFile);
+                } else {
+                    String userAvatarPath = String.format("assets/icons/default_user_avatar_%d.png", size);
+                    avatarInputStream = UserAvatarHttpServletRequestHandler.class.getClassLoader().getResourceAsStream(userAvatarPath);
+                    if (avatarInputStream == null) {
+                        LOG.error("Error to get avatar", new MyCollabException("Invalid request for avatar " + path));
+                        return;
+                    }
+                }
 
-                if (size <= 0) {
-                    LOG.error("Error to get avatar", new MyCollabException(String.format("Invalid request for avatar %s", path)));
-                    return;
+                response.setHeader("Content-Type", "image/png");
+                response.setHeader("Content-Length", String.valueOf(avatarInputStream.available()));
+
+                try (BufferedInputStream input = new BufferedInputStream(avatarInputStream);
+                     BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+                    byte[] buffer = new byte[8192];
+                    int length;
+                    while ((length = input.read(buffer)) > 0) {
+                        output.write(buffer, 0, length);
+                    }
                 }
             } else {
-                LOG.error("Error to get avatar", new MyCollabException(String.format("Invalid request for avatar %s", path)));
-                return;
-            }
-
-            FileStorage fileStorage = (FileStorage) StorageFactory.getInstance();
-            File avatarFile = fileStorage.getAvatarFile(username, size);
-            InputStream avatarInputStream;
-            if (avatarFile != null) {
-                avatarInputStream = new FileInputStream(avatarFile);
-            } else {
-                String userAvatarPath = String.format("assets/icons/default_user_avatar_%d.png", size);
-                avatarInputStream = UserAvatarHttpServletRequestHandler.class.getClassLoader().getResourceAsStream(userAvatarPath);
-                if (avatarInputStream == null) {
-                    LOG.error("Error to get avatar", new MyCollabException("Invalid request for avatar " + path));
-                    return;
-                }
-            }
-
-            response.setHeader("Content-Type", "image/png");
-            response.setHeader("Content-Length", String.valueOf(avatarInputStream.available()));
-
-            try (BufferedInputStream input = new BufferedInputStream(avatarInputStream);
-                 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-                byte[] buffer = new byte[8192];
-                int length;
-                while ((length = input.read(buffer)) > 0) {
-                    output.write(buffer, 0, length);
-                }
+                LOG.error("Invalid path " + path);
             }
         }
     }

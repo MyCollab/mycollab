@@ -152,6 +152,7 @@ public class VerticalTabsheet extends CustomComponent {
                 button.setIcon(resource);
             }
             button.setStyleName(TAB_STYLENAME);
+            button.addStyleName(UIConstants.TEXT_ELLIPSIS);
             button.setWidth("90%");
 
             if (button.getLevel() > 0) {

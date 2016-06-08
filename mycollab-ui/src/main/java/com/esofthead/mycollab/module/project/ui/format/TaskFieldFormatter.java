@@ -45,6 +45,7 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
                 new I18nHistoryFieldFormat(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class));
         generateFieldDisplayHandler("isestimated", TaskI18nEnum.FORM_IS_ESTIMATED);
         generateFieldDisplayHandler("remainestimate", TaskI18nEnum.FORM_REMAIN_ESTIMATE);
+        generateFieldDisplayHandler(Task.Field.originalestimate.name(), TaskI18nEnum.FORM_ORIGINAL_ESTIMATE);
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
         generateFieldDisplayHandler("milestoneid", TaskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
         generateFieldDisplayHandler("percentagecomplete", TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);

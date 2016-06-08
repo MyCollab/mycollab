@@ -113,7 +113,7 @@ public class GridFormLayoutHelper implements Serializable {
 
     public GridCellWrapper buildCell(String caption, String contextHelp, int columns, int rows, int colSpan, String width, Alignment alignment) {
         if (StringUtils.isNotBlank(caption)) {
-            Label captionLbl = new Label(caption);
+            ELabel captionLbl = new ELabel(caption).withStyleName(UIConstants.TEXT_ELLIPSIS).withDescription(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
                     .withWidth(defaultCaptionWidth).withFullHeight().withStyleName("gridform-caption").with(captionLbl).expand(captionLbl)
                     .withAlign(captionLbl, alignment);
@@ -143,7 +143,6 @@ public class GridFormLayoutHelper implements Serializable {
     public GridCellWrapper getComponentWrapper(String caption) {
         return fieldCaptionMappings.get(caption);
     }
-
 
     public GridLayout getLayout() {
         return layout;

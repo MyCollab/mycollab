@@ -73,7 +73,7 @@ public class FileRawContentServiceImpl implements RawContentService {
         try {
             File file = new File(baseFolder, objectPath);
             return new FileInputStream(file);
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             throw new MyCollabException(e);
         }
     }
