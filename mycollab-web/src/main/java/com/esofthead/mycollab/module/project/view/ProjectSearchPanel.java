@@ -96,7 +96,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
                             callSearchAction();
                         }
                     });
-            nameField.setInputPrompt("Query by project name");
+            nameField.setInputPrompt(AppContext.getMessage(ProjectI18nEnum.ACTION_QUERY_BY_PROJECT_NAME));
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 

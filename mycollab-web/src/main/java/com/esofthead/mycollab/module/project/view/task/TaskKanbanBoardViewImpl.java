@@ -153,15 +153,15 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         addNewColumnBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(addNewColumnBtn);
 
-        Button deleteColumBtn = new Button("Delete columns", new Button.ClickListener() {
+        Button deleteColumnBtn = new Button("Delete columns", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 UI.getCurrent().addWindow(new DeleteColumnWindow(TaskKanbanBoardViewImpl.this, ProjectTypeConstants.TASK));
             }
         });
-        deleteColumBtn.setIcon(FontAwesome.TRASH_O);
-        deleteColumBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        deleteColumBtn.setStyleName(UIConstants.BUTTON_DANGER);
+        deleteColumnBtn.setIcon(FontAwesome.TRASH_O);
+        deleteColumnBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
+        deleteColumnBtn.setStyleName(UIConstants.BUTTON_DANGER);
 
         Button advanceDisplayBtn = new Button("List", new Button.ClickListener() {
             @Override
@@ -240,7 +240,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         if (displayHiddenColumns) {
             toggleShowColumsBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMNS));
         } else {
-            toggleShowColumsBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMNS));
+            toggleShowColumsBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMNS));
         }
     }
 
@@ -460,7 +460,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             boolean canExecute = CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS);
 
             OptionPopupContent popupContent = new OptionPopupContent();
-            Button renameColumnBtn = new Button("Rename column", new Button.ClickListener() {
+            Button renameColumnBtn = new Button(AppContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);
@@ -514,11 +514,11 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             changeColorBtn.setEnabled(canExecute);
             popupContent.addOption(changeColorBtn);
 
-            Button deleteColumnBtn = new Button("Delete column", new Button.ClickListener() {
+            Button deleteColumnBtn = new Button(AppContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMN), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     if (getTaskComponentCount() > 0) {
-                        NotificationUtil.showErrorNotification("Can not delete column because it has tasks");
+                        NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_DELETE_COLUMN_HAS_TASK));
                     } else {
                         ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                                 AppContext.getSiteName()),
@@ -576,8 +576,8 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             if (Boolean.FALSE.equals(optionVal.getIsshow())) {
                 hideColumnBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMN));
                 hideColumnBtn.setIcon(FontAwesome.TOGGLE_ON);
-                ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(UIConstants.FIELD_NOTE).withDescription
-                        ("This column is invisible by default. Change its value by clicking the button menu, and select 'Show column'");
+                ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(UIConstants.FIELD_NOTE)
+                        .withDescription(AppContext.getMessage(TaskI18nEnum.OPT_INVISIBLE_COLUMN_DESCRIPTION));
                 buttonControls.addComponent(invisibleLbl, 0);
                 buttonControls.withAlign(invisibleLbl, Alignment.MIDDLE_LEFT);
             } else {
@@ -688,8 +688,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                             OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
                             if (optionValService.isExistedOptionVal(ProjectTypeConstants.TASK, columnNameField
                                     .getValue(), "status", optionVal.getExtraid(), AppContext.getAccountId())) {
-                                NotificationUtil.showErrorNotification(String.format("There is already the column " +
-                                        "name '%s' in the board", columnNameField.getValue()));
+                                NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_THERE_IS_ALREADY_COLUMN_NAME, columnNameField.getValue()));
                             } else {
                                 taskService.massUpdateStatuses(optionVal.getTypeval(), columnNameField.getValue(), optionVal.getExtraid(),
                                         AppContext.getAccountId());
@@ -698,7 +697,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                                 KanbanBlock.this.updateComponentCount();
                             }
                         } else {
-                            NotificationUtil.showErrorNotification("Column name must be not null");
+                            NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_COLUMN_NAME_NOT_NULL));
                         }
 
                         RenameColumnWindow.this.close();

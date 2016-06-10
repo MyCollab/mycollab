@@ -36,9 +36,9 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -61,7 +61,7 @@ public class ReOpenWindow extends Window {
     private VersionMultiSelectField affectedVersionsSelect;
 
     public ReOpenWindow(final SimpleBug bugValue) {
-        super("Reopen bug '" + bugValue.getSummary() + "'");
+        super(AppContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bugValue.getSummary()));
         this.bug = BeanUtility.deepClone(bugValue);
         this.setResizable(false);
         this.setModal(true);
@@ -165,7 +165,8 @@ public class ReOpenWindow extends Window {
                     return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
                             AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2,
+                            "100%");
                 }
                 return null;
             }

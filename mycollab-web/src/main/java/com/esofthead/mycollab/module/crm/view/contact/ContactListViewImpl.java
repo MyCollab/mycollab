@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
@@ -46,8 +47,7 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new ContactListCustomizeWindow(
-                        ContactListView.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new ContactListCustomizeWindow(tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);
@@ -69,8 +69,7 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
 
     @Override
     protected AbstractPagedBeanTable<ContactSearchCriteria, SimpleContact> createBeanTable() {
-        return new ContactTableDisplay(
-                ContactListView.VIEW_DEF_ID, ContactTableFieldDef.selected(),
+        return new ContactTableDisplay(CrmTypeConstants.CONTACT, ContactTableFieldDef.selected(),
                 Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.title(),
                         ContactTableFieldDef.account(), ContactTableFieldDef.email(), ContactTableFieldDef.phoneOffice()));
     }

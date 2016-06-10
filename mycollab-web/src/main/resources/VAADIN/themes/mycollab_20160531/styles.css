@@ -1717,11 +1717,11 @@ a.pending {
 	padding: 3px 5px;
 	margin-right: 5px;
 	color: #ffffff;
-	background-color: #25c278;
+	background-color: #39d98e;
 }
 
 .field-note:hover {
-	background-color: #21ad6b;
+	background-color: #28d082;
 }
 
 .arrow-btn {
@@ -1729,7 +1729,7 @@ a.pending {
 	text-align: center;
 	padding: 0 10px;
 	color: #ffffff;
-	background-color: #25c278;
+	background-color: #39d98e;
 	position: relative;
 	display: inline-block;
 	margin-right: 10px;
@@ -1743,7 +1743,7 @@ a.pending {
 	height: 0px;
 	border-style: solid;
 	border-width: 10px 0 10px 10px;
-	border-color: transparent transparent transparent #25c278;
+	border-color: transparent transparent transparent #39d98e;
 }
 
 .v-multifileupload-ext .v-verticallayout {
@@ -14397,11 +14397,11 @@ a.pending {
 	padding: 3px 5px;
 	margin-right: 5px;
 	color: #ffffff;
-	background-color: #25c278;
+	background-color: #39d98e;
 }
 
 .field-note:hover {
-	background-color: #21ad6b;
+	background-color: #28d082;
 }
 
 .arrow-btn {
@@ -14409,7 +14409,7 @@ a.pending {
 	text-align: center;
 	padding: 0 10px;
 	color: #ffffff;
-	background-color: #25c278;
+	background-color: #39d98e;
 	position: relative;
 	display: inline-block;
 	margin-right: 10px;
@@ -14423,7 +14423,7 @@ a.pending {
 	height: 0px;
 	border-style: solid;
 	border-width: 10px 0 10px 10px;
-	border-color: transparent transparent transparent #25c278;
+	border-color: transparent transparent transparent #39d98e;
 }
 
 .v-multifileupload-ext .v-verticallayout {
@@ -15246,11 +15246,11 @@ div.v-window {
 	font-size: 1.2em;
 }
 
-.activity-comp .section .v-select-optiongroup-sortDirection .v-select-option {
+.v-select-optiongroup-sortDirection .v-select-option {
 	display: inline-block;
 }
 
-.activity-comp .section .v-select-optiongroup-sortDirection .v-select-option.v-radiobutton {
+.v-select-optiongroup-sortDirection .v-select-option.v-radiobutton {
 	padding-right: 10px;
 	font-size: 14px;
 	color: black;

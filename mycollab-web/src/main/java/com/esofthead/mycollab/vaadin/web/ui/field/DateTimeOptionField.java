@@ -62,9 +62,7 @@ public class DateTimeOptionField extends CustomField<Date> {
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 Date date = (Date) valueChangeEvent.getProperty().getValue();
                 if (date != null) {
-                    if (popupDateField.getPropertyDataSource() == null) {
-                        trickModified = true;
-                    }
+                    trickModified = true;
                     popupDateField.setPropertyDataSource(new ObjectProperty(date));
                 }
             }

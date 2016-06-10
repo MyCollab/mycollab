@@ -23,6 +23,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
@@ -56,7 +57,7 @@ public class ApproveInputWindow extends Window {
     private final SimpleBug bug;
 
     public ApproveInputWindow(SimpleBug bug) {
-        super("Approve bug '" + bug.getSummary() + "'");
+        super(AppContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
         this.setResizable(false);
         this.setModal(true);
         this.setWidth("750px");
@@ -95,7 +96,7 @@ public class ApproveInputWindow extends Window {
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
 
-                final Button approveBtn = new Button("Approve & Close", new Button.ClickListener() {
+                final Button approveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -151,7 +152,7 @@ public class ApproveInputWindow extends Window {
                 if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, "Comments", 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
                 }
                 return null;
             }

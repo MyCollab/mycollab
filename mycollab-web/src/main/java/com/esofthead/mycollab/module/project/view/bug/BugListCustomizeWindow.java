@@ -30,7 +30,6 @@ import java.util.Collection;
 public class BugListCustomizeWindow extends CustomizedTableWindow {
     private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings("rawtypes")
     public BugListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
         super(viewId, table);
     }
@@ -39,7 +38,7 @@ public class BugListCustomizeWindow extends CustomizedTableWindow {
     protected Collection<TableViewField> getAvailableColumns() {
         return Arrays.asList(BugTableFieldDef.assignUser(),
                 BugTableFieldDef.createdTime(), BugTableFieldDef.description(),
-                BugTableFieldDef.duedate(), BugTableFieldDef.environment(),
+                BugTableFieldDef.dueDate(), BugTableFieldDef.environment(),
                 BugTableFieldDef.logBy(), BugTableFieldDef.priority(),
                 BugTableFieldDef.resolution(), BugTableFieldDef.status(),
                 BugTableFieldDef.summary());

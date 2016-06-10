@@ -26,8 +26,8 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.SimpleLogging;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberBlock;
@@ -92,17 +92,19 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatter(type);
-        headerLbl = new ELabel("Change history");
+        headerLbl = new ELabel("");
 
         final OptionGroup sortDirection = new OptionGroup();
         sortDirection.addStyleName("sortDirection");
-        sortDirection.addItems("Newest", "Oldest");
-        sortDirection.setValue("Newest");
+        String oldestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
+        final String newestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
+        sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
+        sortDirection.setValue(newestFirstDirection);
         sortDirection.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 Object value = sortDirection.getValue();
-                isAscending = "Newest".equals(value);
+                isAscending = newestFirstDirection.equals(value);
                 displayActivities();
             }
         });
@@ -292,7 +294,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
     }
 
     private void setTotalNums(int nums) {
-        headerLbl.setValue("Change history (" + nums + ")");
+        headerLbl.setValue(AppContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, nums));
     }
 
     @Override

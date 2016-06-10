@@ -25,6 +25,4 @@ import com.esofthead.mycollab.vaadin.web.ui.IListView;
  * @since 1.0
  */
 public interface OpportunityListView extends IListView<OpportunitySearchCriteria, SimpleOpportunity> {
-    String VIEW_DEF_ID = "crm-opportunity-list";
-
 }

@@ -18,15 +18,10 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
@@ -44,8 +39,6 @@ public class AccountListDashlet extends Depot {
     private static final long serialVersionUID = 1L;
     private AccountTableDisplay tableItem;
 
-    public static final String VIEW_DEF_ID = "crm-account-dashlet";
-
     public AccountListDashlet() {
         super("My Accounts", new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
@@ -58,7 +51,7 @@ public class AccountListDashlet extends Depot {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                UI.getCurrent().addWindow(new AccountListCustomizeWindow(AccountListDashlet.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new AccountListCustomizeWindow(tableItem));
 
             }
         });

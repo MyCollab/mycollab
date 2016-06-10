@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
 import java.util.Arrays;
@@ -29,8 +30,8 @@ import java.util.Collection;
 public class AccountListCustomizeWindow extends CustomizedTableWindow {
     private static final long serialVersionUID = 1L;
 
-    public AccountListCustomizeWindow(String viewId, AccountTableDisplay table) {
-        super(viewId, table);
+    public AccountListCustomizeWindow(AccountTableDisplay table) {
+        super(CrmTypeConstants.ACCOUNT, table);
     }
 
     protected Collection<TableViewField> getAvailableColumns() {

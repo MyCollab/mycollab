@@ -237,7 +237,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
     private static class AskCreateNewProjectWindow extends Window {
         AskCreateNewProjectWindow() {
-            super("Question");
+            super(AppContext.getMessage(GenericI18Enum.OPT_QUESTION));
             this.setWidth("600px");
             this.setResizable(false);
             this.setModal(true);
@@ -245,17 +245,17 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
             MVerticalLayout content = new MVerticalLayout();
             this.setContent(content);
 
-            content.with(new Label("You do not have any active project. Do you want to create a new one?"));
+            content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_TO_ADD_PROJECT)));
 
             MHorizontalLayout btnControls = new MHorizontalLayout();
-            Button skipBtn = new Button("Skip", new Button.ClickListener() {
+            Button skipBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     close();
                 }
             });
             skipBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            Button createNewBtn = new Button("New Project", new Button.ClickListener() {
+            Button createNewBtn = new Button(AppContext.getMessage(ProjectI18nEnum.NEW), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     close();

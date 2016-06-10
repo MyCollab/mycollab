@@ -86,8 +86,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
                                         CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                        commentService.removeWithSession(comment,
-                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
                                         CommentRowDisplayHandler.this.owner.removeRow(layout);
                                     }
                                 }

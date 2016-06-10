@@ -129,7 +129,7 @@ class ResolvedInputView extends AbstractMobilePageView {
                 } else if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 2);
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 2);
                 }
                 return null;
             }

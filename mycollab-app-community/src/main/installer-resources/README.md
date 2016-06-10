@@ -40,6 +40,20 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.3.4
+-----------------------------
+
+**Library Upgrades**
+
+**Improvements & New Features**
+
+* Allow to customize the report fields
+* Support German language (Contributor: Marco Gantenbein)
+* Other minor improvements
+
+**Bug Fixes**
+
+
 Version 5.3.3
 -----------------------------
 

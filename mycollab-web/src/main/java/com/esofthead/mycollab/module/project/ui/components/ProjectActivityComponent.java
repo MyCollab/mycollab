@@ -90,17 +90,19 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatter(type);
-        headerLbl = new ELabel("Change history");
+        headerLbl = new ELabel(AppContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));
 
         final OptionGroup sortDirection = new OptionGroup();
         sortDirection.addStyleName("sortDirection");
-        sortDirection.addItems("Newest", "Oldest");
-        sortDirection.setValue("Newest");
+        String oldestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
+        final String newestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
+        sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
+        sortDirection.setValue(newestFirstDirection);
         sortDirection.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 Object value = sortDirection.getValue();
-                isAscending = "Newest".equals(value);
+                isAscending = newestFirstDirection.equals(value);
                 displayActivities();
             }
         });
@@ -290,7 +292,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     }
 
     private void setTotalNums(int nums) {
-        headerLbl.setValue("Change history (" + nums + ")");
+        headerLbl.setValue(AppContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, nums));
     }
 
     @Override

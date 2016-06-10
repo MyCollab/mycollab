@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
@@ -30,8 +31,8 @@ import java.util.Collection;
 public class CaseListCustomizeWindow extends CustomizedTableWindow {
     private static final long serialVersionUID = 1L;
 
-    public CaseListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
-        super(viewId, table);
+    public CaseListCustomizeWindow(AbstractPagedBeanTable table) {
+        super(CrmTypeConstants.CASE, table);
     }
 
     @Override

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -163,7 +164,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             final TextField searchField = new TextField();
-            searchField.setInputPrompt("Search");
+            searchField.setInputPrompt(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchField.setWidth("200px");
             Button searchBtn = new Button("", new Button.ClickListener() {
                 @Override

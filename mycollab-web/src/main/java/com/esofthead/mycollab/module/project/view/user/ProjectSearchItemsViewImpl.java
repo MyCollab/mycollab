@@ -21,9 +21,11 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericItem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericItemService;
 import com.esofthead.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
 import com.esofthead.mycollab.spring.AppContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -36,7 +38,6 @@ import com.vaadin.server.FontAwesome;
  */
 @ViewComponent
 public class ProjectSearchItemsViewImpl extends AbstractPageView implements ProjectSearchItemsView {
-    private static final String headerTitle = FontAwesome.SEARCH.getHtml() + " Search for '%s' (Found: %d)";
 
     public ProjectSearchItemsViewImpl() {
         this.withMargin(true);
@@ -58,6 +59,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
         criteria.setPrjKeys(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         criteria.setTxtValue(StringSearchField.and(value));
         int foundNum = searchItemsTable.setSearchCriteria(criteria);
-        headerLbl.setValue(String.format(headerTitle, value, foundNum));
+        headerLbl.setValue(String.format(FontAwesome.SEARCH.getHtml() + " " + AppContext.getMessage(ProjectI18nEnum.OPT_SEARCH_TERM)
+                , value, foundNum));
     }
 }

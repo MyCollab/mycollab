@@ -19,6 +19,7 @@ package com.esofthead.mycollab.reporting;
 import com.esofthead.mycollab.common.TableViewField;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ import java.util.List;
 public class RpFieldsBuilder {
     private List<TableViewFieldDecorator> viewFields;
 
-    public RpFieldsBuilder(List<TableViewField> fields) {
+    public RpFieldsBuilder(Collection<TableViewField> fields) {
         viewFields = new ArrayList<>();
 
         for (TableViewField field : fields) {

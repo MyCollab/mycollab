@@ -17,7 +17,9 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
@@ -45,12 +47,12 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
     @Override
     public void setNavigatorVisibility(boolean visibility) {
         if (!visibility) {
-            navigatorWrapper.setWidth("60px");
-            navigatorContainer.setWidth("60px");
+            navigatorWrapper.setWidth("70px");
+            navigatorContainer.setWidth("70px");
             this.hideTabsCaption();
 
             toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_RIGHT);
-            toogleBtn.setDescription("Expand menu");
+            toogleBtn.setDescription(AppContext.getMessage(ProjectI18nEnum.ACTION_EXPAND_MENU));
             toogleBtn.setCaption("");
         } else {
             navigatorWrapper.setWidth("200px");
@@ -59,14 +61,15 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
 
             toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_LEFT);
             toogleBtn.setDescription("");
-            toogleBtn.setCaption("Collapse menu");
+            toogleBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU));
         }
 
         CurrentProjectVariables.setProjectToggleMenu(visibility);
     }
 
     public void addToggleNavigatorControl() {
-        Button btn = this.addButtonOnNavigatorContainer("button", "Collapse menu", FontAwesome.CARET_SQUARE_O_LEFT);
+        Button btn = this.addButtonOnNavigatorContainer("button", AppContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU),
+                FontAwesome.CARET_SQUARE_O_LEFT);
         if (btn != null) {
             toogleBtn = btn;
             toogleBtn.addClickListener(new Button.ClickListener() {

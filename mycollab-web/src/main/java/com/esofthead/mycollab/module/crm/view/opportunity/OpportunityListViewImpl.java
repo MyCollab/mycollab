@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
@@ -47,8 +48,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new OpportunityListCustomizeWindow(
-                        OpportunityListView.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new OpportunityListCustomizeWindow(tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);
@@ -71,7 +71,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
     @Override
     protected AbstractPagedBeanTable<OpportunitySearchCriteria, SimpleOpportunity> createBeanTable() {
         return new OpportunityTableDisplay(
-                OpportunityListView.VIEW_DEF_ID,
+                CrmTypeConstants.OPPORTUNITY,
                 OpportunityTableFieldDef.selected(), Arrays.asList(
                 OpportunityTableFieldDef.opportunityName(), OpportunityTableFieldDef.accountName(),
                 OpportunityTableFieldDef.saleStage(), OpportunityTableFieldDef.amount(),

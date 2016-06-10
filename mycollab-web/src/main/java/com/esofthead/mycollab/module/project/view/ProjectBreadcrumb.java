@@ -731,12 +731,12 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         return super.getComponentCount();
     }
 
-    private static Button generateBreadcrumbLink(String linkname) {
-        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkname), linkname);
+    private static Button generateBreadcrumbLink(String linkName) {
+        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkName), linkName);
     }
 
-    private static Button generateBreadcrumbLink(String linkname, Button.ClickListener listener) {
-        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkname), linkname, listener);
+    private static Button generateBreadcrumbLink(String linkName, Button.ClickListener listener) {
+        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkName), linkName, listener);
     }
 
     private static class BreadcrumbLabelStringGenerator implements LabelStringGenerator {

@@ -27,6 +27,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -44,7 +45,7 @@ public class CrmPreviewFormControlsGenerator<T> {
     public static final int PRINT_BTN_PRESENTED = 128;
 
     private AdvancedPreviewBeanForm<T> previewForm;
-    private SplitButton optionBtn;
+    private PopupButton optionBtn;
     private MHorizontalLayout layout;
 
     public CrmPreviewFormControlsGenerator(AdvancedPreviewBeanForm<T> editForm) {
@@ -65,8 +66,9 @@ public class CrmPreviewFormControlsGenerator<T> {
 
         editButtons.setWidthUndefined();
         editButtons.addStyleName(UIConstants.BUTTON_OPTION);
-        optionBtn = new SplitButton(editButtons);
-        optionBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        optionBtn = new PopupButton();
+        optionBtn.addStyleName(UIConstants.BOX);
+        optionBtn.setIcon(FontAwesome.ELLIPSIS_H);
     }
 
     public void insertToControlBlock(Button button) {
@@ -156,7 +158,7 @@ public class CrmPreviewFormControlsGenerator<T> {
                 }
             });
             printBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            printBtn.setDescription("Print");
+            printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_PRINT));
             printBtn.setEnabled(canRead);
             editBtns.addComponent(printBtn);
         }
@@ -178,10 +180,6 @@ public class CrmPreviewFormControlsGenerator<T> {
 
         optionBtn.setContent(popupButtonsControl);
 
-        if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED | (buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            layout.addComponent(optionBtn);
-        }
-
         ButtonGroup navigationBtns = new ButtonGroup();
         navigationBtns.setStyleName("navigation-btns");
 
@@ -195,7 +193,7 @@ public class CrmPreviewFormControlsGenerator<T> {
                     previewForm.fireGotoPrevious(item);
                 }
             });
-            previousItem.setStyleName(UIConstants.BUTTON_ACTION);
+            previousItem.setStyleName(UIConstants.BUTTON_OPTION);
             previousItem.setIcon(FontAwesome.CHEVRON_LEFT);
             previousItem.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
             navigationBtns.addButton(previousItem);
@@ -210,7 +208,7 @@ public class CrmPreviewFormControlsGenerator<T> {
                     previewForm.fireGotoNextItem(item);
                 }
             });
-            nextItemBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            nextItemBtn.setStyleName(UIConstants.BUTTON_OPTION);
             nextItemBtn.setIcon(FontAwesome.CHEVRON_RIGHT);
             nextItemBtn.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
             navigationBtns.addButton(nextItemBtn);
@@ -218,6 +216,10 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         layout.addComponent(navigationBtns);
+        if (popupButtonsControl.getComponentCount() > 0) {
+            optionBtn.setContent(popupButtonsControl);
+            layout.addComponent(optionBtn);
+        }
         return layout;
     }
 }

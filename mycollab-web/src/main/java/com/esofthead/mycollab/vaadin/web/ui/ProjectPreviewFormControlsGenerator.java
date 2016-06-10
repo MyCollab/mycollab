@@ -26,6 +26,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -48,7 +49,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
     private AdvancedPreviewBeanForm<T> previewForm;
 
-    private SplitButton optionBtn;
+    private PopupButton optionBtn;
     private OptionPopupContent popupButtonsControl;
     private MHorizontalLayout editButtons;
     private MHorizontalLayout layout;
@@ -63,18 +64,9 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
     }
 
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
-        Button optionParentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_OPTION), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                optionBtn.setPopupVisible(true);
-            }
-        });
-
-        optionBtn = new SplitButton(optionParentBtn);
-        optionBtn.setWidthUndefined();
-        optionBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        optionBtn = new PopupButton();
+        optionBtn.addStyleName(UIConstants.BOX);
+        optionBtn.setIcon(FontAwesome.ELLIPSIS_H);
 
         if (permissionItem != null) {
             boolean canWrite = CurrentProjectVariables.canWrite(permissionItem);
@@ -159,7 +151,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                     }
                 });
                 printBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                printBtn.setDescription("Print");
+                printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_PRINT));
                 printBtn.setEnabled(canRead);
                 editButtons.addComponent(printBtn);
             }
@@ -182,12 +174,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
             layout.with(editButtons);
 
-            if (popupButtonsControl.getComponentCount() > 0) {
-                optionBtn.setContent(popupButtonsControl);
-                layout.addComponent(optionBtn);
-            }
-
-
             if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
                 ButtonGroup navigationBtns = new ButtonGroup();
                 Button previousItem = new Button(null, new Button.ClickListener() {
@@ -201,7 +187,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 });
                 previousItem.setIcon(FontAwesome.CHEVRON_LEFT);
                 previousItem.setCaptionAsHtml(true);
-                previousItem.setStyleName(UIConstants.BUTTON_ACTION);
+                previousItem.setStyleName(UIConstants.BUTTON_OPTION);
                 previousItem.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
                 previousItem.setEnabled(canRead);
                 navigationBtns.addButton(previousItem);
@@ -216,12 +202,17 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                     }
                 });
                 nextItemBtn.setIcon(FontAwesome.CHEVRON_RIGHT);
-                nextItemBtn.setStyleName(UIConstants.BUTTON_ACTION);
+                nextItemBtn.setStyleName(UIConstants.BUTTON_OPTION);
                 nextItemBtn.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
                 nextItemBtn.setEnabled(canRead);
                 navigationBtns.addButton(nextItemBtn);
 
                 layout.addComponent(navigationBtns);
+            }
+
+            if (popupButtonsControl.getComponentCount() > 0) {
+                optionBtn.setContent(popupButtonsControl);
+                layout.addComponent(optionBtn);
             }
         }
 

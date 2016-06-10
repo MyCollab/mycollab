@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
@@ -30,8 +31,8 @@ import java.util.Collection;
 public class LeadListCustomizeWindow extends CustomizedTableWindow {
     private static final long serialVersionUID = 1L;
 
-    public LeadListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
-        super(viewId, table);
+    public LeadListCustomizeWindow(AbstractPagedBeanTable table) {
+        super(CrmTypeConstants.LEAD, table);
     }
 
     @Override

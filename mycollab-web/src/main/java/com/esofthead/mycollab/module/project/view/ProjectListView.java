@@ -26,5 +26,4 @@ import com.esofthead.mycollab.vaadin.web.ui.InitializingView;
  * @since 5.2.12
  */
 public interface ProjectListView extends IListView<ProjectSearchCriteria, SimpleProject>, InitializingView {
-    String VIEW_DEF_ID = "project-list";
 }

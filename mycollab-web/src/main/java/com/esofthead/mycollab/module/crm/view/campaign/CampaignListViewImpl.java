@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -28,8 +27,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -50,8 +47,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(
-                        new CampaignListCustomizeWindow(CampaignListView.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new CampaignListCustomizeWindow(tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);
@@ -75,7 +71,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
     @Override
     protected AbstractPagedBeanTable<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
         CampaignTableDisplay campaignTableDisplay = new CampaignTableDisplay(
-                CampaignListView.VIEW_DEF_ID, CampaignTableFieldDef.selected(),
+                CrmTypeConstants.CAMPAIGN, CampaignTableFieldDef.selected(),
                 Arrays.asList(CampaignTableFieldDef.campaignname(),
                         CampaignTableFieldDef.status(),
                         CampaignTableFieldDef.type(),

@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -81,9 +82,8 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
     }
 
     private void generateDisplayTable() {
-        tableItem = new DefaultPagedBeanTable<>(
-                AppContextUtil.getSpringBean(ProjectService.class),
-                SimpleProject.class, VIEW_DEF_ID,
+        tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ProjectService.class),
+                SimpleProject.class, ProjectTypeConstants.PROJECT,
                 ProjectTableFieldDef.selected(), Arrays.asList(ProjectTableFieldDef.projectName(),
                 ProjectTableFieldDef.lead(), ProjectTableFieldDef.client(), ProjectTableFieldDef.startDate(),
                 ProjectTableFieldDef.homePage(), ProjectTableFieldDef.status()));
@@ -227,7 +227,7 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                UI.getCurrent().addWindow(new ProjectListCustomizeWindow(VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new ProjectListCustomizeWindow(tableItem));
 
             }
         });

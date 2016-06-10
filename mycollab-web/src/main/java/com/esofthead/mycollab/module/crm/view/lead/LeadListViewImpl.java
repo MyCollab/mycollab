@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
@@ -46,8 +47,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(
-                        new LeadListCustomizeWindow(LeadListView.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);
@@ -72,7 +72,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
     @Override
     protected AbstractPagedBeanTable<LeadSearchCriteria, SimpleLead> createBeanTable() {
         return new LeadTableDisplay(
-                LeadListView.VIEW_DEF_ID, LeadTableFieldDef.selected(),
+                CrmTypeConstants.LEAD, LeadTableFieldDef.selected(),
                 Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
                         LeadTableFieldDef.accountName(),
                         LeadTableFieldDef.phoneoffice(), LeadTableFieldDef.email(),

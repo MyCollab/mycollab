@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -98,7 +99,8 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
-            final PopupView addPopupView = new PopupView("Modify", new MVerticalLayout());
+            final PopupView addPopupView = new PopupView(AppContext.getMessage(GenericI18Enum.ACTION_MODIFY), new MVerticalLayout
+                    ());
             addPopupView.addPopupVisibilityListener(new PopupView.PopupVisibilityListener() {
                 @Override
                 public void popupVisibilityChange(PopupView.PopupVisibilityEvent event) {
@@ -106,7 +108,8 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                     if (event.isPopupVisible()) {
                         MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
                         popupComponent.removeAllComponents();
-                        popupComponent.with(new ELabel("Modify watchers").withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
+                        popupComponent.with(new ELabel(AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))
+                                .withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
                     } else {
                         MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
                         ModifyWatcherPopup popup = (ModifyWatcherPopup) popupComponent.getComponent(1);

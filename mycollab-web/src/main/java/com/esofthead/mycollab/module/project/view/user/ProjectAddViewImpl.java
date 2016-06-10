@@ -112,7 +112,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
         private MHorizontalLayout buildHeaderTitle() {
             ELabel titleLbl = ELabel.h2(project.getName());
             UploadImageField uploadImageField = new UploadImageField(this);
-            uploadImageField.setButtonCaption("Change logo");
+            uploadImageField.setButtonCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_CHANGE_LOGO));
 
             MVerticalLayout logoLayout = new MVerticalLayout(ProjectAssetsUtil.buildProjectLogo(project.getShortname(),
                     project.getId(), project.getAvatarid(), 100),

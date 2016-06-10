@@ -202,7 +202,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 }
             }
         };
-        logoUploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CHANGE));
+        logoUploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE));
         logoUploadField.addStyleName("upload-field");
         logoUploadField.setSizeUndefined();
         logoUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
@@ -273,7 +273,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 }
             }
         };
-        favIconUploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CHANGE));
+        favIconUploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE));
         favIconUploadField.addStyleName("upload-field");
         favIconUploadField.setSizeUndefined();
         favIconUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);

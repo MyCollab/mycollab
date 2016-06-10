@@ -38,10 +38,14 @@ public class OnDemandFileDownloader extends FileDownloader {
     }
 
     @Override
-    public boolean handleConnectorRequest(VaadinRequest request,
-                                          VaadinResponse response, String path) throws IOException {
-        getResource().setFilename(lazyStreamSource.getFilename());
-        return super.handleConnectorRequest(request, response, path);
+    public boolean handleConnectorRequest(VaadinRequest request, VaadinResponse response, String path) throws IOException {
+        try {
+            getResource().setFilename(lazyStreamSource.getFilename());
+            return super.handleConnectorRequest(request, response, path);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private StreamResource getResource() {

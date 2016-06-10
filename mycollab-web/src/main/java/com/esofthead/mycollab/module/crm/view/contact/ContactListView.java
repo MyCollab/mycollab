@@ -25,6 +25,4 @@ import com.esofthead.mycollab.vaadin.web.ui.IListView;
  * @since 1.0.0
  */
 public interface ContactListView extends IListView<ContactSearchCriteria, SimpleContact> {
-
-    String VIEW_DEF_ID = "crm-contact-list";
 }

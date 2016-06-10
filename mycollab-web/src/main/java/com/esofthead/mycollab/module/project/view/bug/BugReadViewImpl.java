@@ -296,7 +296,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<>(previewForm);
-        MButton linkBtn = new MButton("Dependencies", new Button.ClickListener() {
+        MButton linkBtn = new MButton(AppContext.getMessage(BugI18nEnum.OPT_BUG_DEPENDENCIES), new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 UI.getCurrent().addWindow(new LinkIssueWindow(beanItem));

@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -160,8 +161,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
             contentWrapper.addStyleName("main-content");
-            MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(true).withFullWidth().withStyleName
-                    ("top-panel").withHeight("42px");
+            MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(true).withFullWidth().withStyleName("top-panel").withHeight("42px");
             contentWrapper.addComponentAsFirst(topPanel);
 
             CssLayout navigatorWrapper = myProjectTab.getNavigatorWrapper();
@@ -330,7 +330,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
     private static class AskToAddMoreMembersWindow extends Window {
         AskToAddMoreMembersWindow() {
-            super("Question");
+            super(AppContext.getMessage(GenericI18Enum.OPT_QUESTION));
             this.setWidth("600px");
             this.setResizable(false);
             this.setModal(true);
@@ -338,9 +338,9 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             MVerticalLayout content = new MVerticalLayout();
             this.setContent(content);
 
-            content.with(new Label("There is very few users in your project. Do you want to invite additional members?"));
+            content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_ASK_TO_ADD_MEMBERS)));
             MHorizontalLayout btnControls = new MHorizontalLayout();
-            Button skipBtn = new Button("Skip", new ClickListener() {
+            Button skipBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
                     ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
@@ -352,7 +352,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             });
             skipBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
-            Button addNewMembersBtn = new Button("Add Members", new ClickListener() {
+            Button addNewMembersBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_ADD_MEMBERS), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
                     AskToAddMoreMembersWindow.this.close();

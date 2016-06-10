@@ -36,6 +36,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskS
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -328,11 +329,12 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
-                progressInfoLbl = new ELabel(String.format("%d of %d issue(s) resolved. Progress (%d%%)",
+                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                                 * 100 / totalAssignments)).withStyleName(UIConstants.LABEL_META_INFO);
             } else {
-                progressInfoLbl = new ELabel("No issue").withStyleName(UIConstants.LABEL_META_INFO);
+                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
+                        .withStyleName(UIConstants.LABEL_META_INFO);
             }
 
             final MVerticalLayout issueLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
@@ -341,14 +343,14 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             progressLayout.with(progressInfoLbl);
 
             if (totalAssignments > 0) {
-                final Button viewIssuesBtn = new Button("View issues");
+                final Button viewIssuesBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
                 Button.ClickListener viewIssuesListener = new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         showIssues = !showIssues;
                         if (showIssues) {
                             issueLayout.setVisible(true);
-                            viewIssuesBtn.setCaption("Hide issues");
+                            viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_HIDE_ASSIGNMENTS));
                             ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
                             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
@@ -384,7 +386,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
                             }
                         } else {
-                            viewIssuesBtn.setCaption("View issues");
+                            viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
                             issueLayout.removeAllComponents();
                             issueLayout.setVisible(false);
                         }

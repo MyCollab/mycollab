@@ -236,7 +236,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     private static class ParentTaskComp extends MHorizontalLayout {
         ParentTaskComp(Integer parentTaskId, SimpleTask childTask) {
-            ELabel titleLbl = new ELabel("Parent task").withStyleName(UIConstants.ARROW_BTN).withWidthUndefined();
+            ELabel titleLbl = new ELabel(AppContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(UIConstants.ARROW_BTN)
+                    .withWidthUndefined();
             with(titleLbl);
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             SimpleTask parentTask = taskService.findById(parentTaskId, AppContext.getAccountId());

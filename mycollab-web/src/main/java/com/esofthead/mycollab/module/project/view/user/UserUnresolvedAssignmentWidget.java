@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -23,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.view.UserDashboardView;
 import com.esofthead.mycollab.spring.AppContextUtil;
@@ -46,10 +48,10 @@ public class UserUnresolvedAssignmentWidget extends Depot {
     private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
     private String title = "";
 
-    public UserUnresolvedAssignmentWidget(String title) {
-        super(title, new CssLayout());
+    public UserUnresolvedAssignmentWidget() {
+        super("", new CssLayout());
         this.setWidth("100%");
-        final CheckBox myItemsSelection = new CheckBox("My Items");
+        final CheckBox myItemsSelection = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
         myItemsSelection.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -68,7 +70,7 @@ public class UserUnresolvedAssignmentWidget extends Depot {
                 new GenericTaskRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
-                return "No assignment";
+                return AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT);
             }
         };
         this.addHeaderElement(myItemsSelection);
@@ -76,28 +78,28 @@ public class UserUnresolvedAssignmentWidget extends Depot {
     }
 
     public void displayUnresolvedAssignmentsThisWeek() {
-        title = "Unresolved assignments in this week (%d)";
+        title = AppContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_THIS_WEEK);
         searchCriteria = new ProjectGenericTaskSearchCriteria();
         searchCriteria.setIsOpenned(new SearchField());
         UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
         searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
         LocalDate now = new LocalDate();
-        Date[] bounceDateofWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
-        RangeDateSearchField range = new RangeDateSearchField(bounceDateofWeek[0], bounceDateofWeek[1]);
+        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
+        RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
     }
 
     public void displayUnresolvedAssignmentsNextWeek() {
-        title = "Unresolved assignments in next week (%d)";
+        title = AppContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_NEXT_WEEK);
         searchCriteria = new ProjectGenericTaskSearchCriteria();
         UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
         searchCriteria.setIsOpenned(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
         LocalDate now = new LocalDate();
         now = now.plusDays(7);
-        Date[] bounceDateofWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
-        RangeDateSearchField range = new RangeDateSearchField(bounceDateofWeek[0], bounceDateofWeek[1]);
+        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
+        RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
     }

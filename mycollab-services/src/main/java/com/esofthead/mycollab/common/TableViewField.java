@@ -45,6 +45,27 @@ public class TableViewField {
         this.defaultWidth = defaultWidth;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TableViewField)) return false;
+
+        TableViewField that = (TableViewField) o;
+
+        if (!descKey.equals(that.descKey)) return false;
+        if (!field.equals(that.field)) return false;
+        return defaultWidth.equals(that.defaultWidth);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = descKey.hashCode();
+        result = 31 * result + field.hashCode();
+        result = 31 * result + defaultWidth.hashCode();
+        return result;
+    }
+
     public Enum<?> getDescKey() {
         return descKey;
     }

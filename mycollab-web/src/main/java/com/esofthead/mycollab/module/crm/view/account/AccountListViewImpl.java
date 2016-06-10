@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
@@ -43,8 +44,7 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
 
     @Override
     protected AbstractPagedBeanTable<AccountSearchCriteria, SimpleAccount> createBeanTable() {
-        return new AccountTableDisplay(
-                AccountListView.VIEW_DEF_ID, AccountTableFieldDef.selected(),
+        return new AccountTableDisplay(CrmTypeConstants.ACCOUNT, AccountTableFieldDef.selected(),
                 Arrays.asList(AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),
                         AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email(),
                         AccountTableFieldDef.assignUser()));
@@ -81,8 +81,7 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new AccountListCustomizeWindow(
-                        AccountListView.VIEW_DEF_ID, (AccountTableDisplay) tableItem));
+                UI.getCurrent().addWindow(new AccountListCustomizeWindow((AccountTableDisplay) tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);

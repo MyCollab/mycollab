@@ -111,16 +111,18 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         footer.addStyleName(UIConstants.FLEX_DISPLAY);
 
         ELabel createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project
-                .getCreatedtime()), ContentMode.HTML).withDescription("Created time")
+                .getCreatedtime()), ContentMode.HTML).withDescription(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
                 .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
         footer.addComponents(createdTimeLbl);
 
         billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
-                ContentMode.HTML).withDescription("Billable hours").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+                ContentMode.HTML).withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS))
+                .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
         footer.addComponents(billableHoursLbl);
 
         nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours(),
-                ContentMode.HTML).withDescription("Non billable hours").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+                ContentMode.HTML).withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS))
+                .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
         footer.addComponents(nonBillableHoursLbl);
 
         if (project.getLead() != null) {
@@ -352,18 +354,18 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                     ProjectService prjService = AppContextUtil.getSpringBean(ProjectService.class);
                     prjService.updateWithSession(project, AppContext.getUsername());
                     if (project.getIstemplate()) {
-                        markProjectTemplateBtn.setCaption("Unmark template");
+                        markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_UNMARK_TEMPLATE));
                     } else {
-                        markProjectTemplateBtn.setCaption("Mark as Template");
+                        markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_MARK_TEMPLATE));
                     }
                 }
             });
             markProjectTemplateBtn.setIcon(FontAwesome.STICKY_NOTE);
             Boolean isTemplate = MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
             if (isTemplate) {
-                markProjectTemplateBtn.setCaption("Unmark template");
+                markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_UNMARK_TEMPLATE));
             } else {
-                markProjectTemplateBtn.setCaption("Mark as Template");
+                markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_MARK_TEMPLATE));
             }
             markProjectTemplateBtn.setEnabled(AppContext.canAccess(RolePermissionCollections.CREATE_NEW_PROJECT));
             popupButtonsControl.addOption(markProjectTemplateBtn);

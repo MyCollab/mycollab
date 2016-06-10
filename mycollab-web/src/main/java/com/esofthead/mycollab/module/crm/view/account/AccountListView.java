@@ -25,5 +25,4 @@ import com.esofthead.mycollab.vaadin.web.ui.IListView;
  * @since 1.0
  */
 public interface AccountListView extends IListView<AccountSearchCriteria, SimpleAccount> {
-    String VIEW_DEF_ID = "crm-account-list";
 }

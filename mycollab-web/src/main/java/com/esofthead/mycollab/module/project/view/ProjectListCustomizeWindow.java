@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
@@ -30,8 +31,8 @@ import java.util.Collection;
 public class ProjectListCustomizeWindow extends CustomizedTableWindow {
     private static final long serialVersionUID = 1L;
 
-    public ProjectListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
-        super(viewId, table);
+    public ProjectListCustomizeWindow(AbstractPagedBeanTable table) {
+        super(ProjectTypeConstants.PROJECT, table);
     }
 
     @Override

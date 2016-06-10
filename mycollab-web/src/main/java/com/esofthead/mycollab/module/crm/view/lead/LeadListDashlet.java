@@ -37,7 +37,6 @@ import java.util.Arrays;
  * @since 1.0
  */
 public class LeadListDashlet extends Depot {
-    public static final String VIEW_DEF_ID = "crm-lead-dashlet";
 
     private LeadTableDisplay tableItem;
 
@@ -54,7 +53,7 @@ public class LeadListDashlet extends Depot {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                UI.getCurrent().addWindow(new LeadListCustomizeWindow(LeadListDashlet.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem));
 
             }
         });

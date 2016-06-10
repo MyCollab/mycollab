@@ -16,11 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -29,8 +27,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -51,7 +47,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new CaseListCustomizeWindow(CaseListView.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new CaseListCustomizeWindow(tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);
@@ -75,7 +71,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
     @Override
     protected AbstractPagedBeanTable<CaseSearchCriteria, SimpleCase> createBeanTable() {
         return new CaseTableDisplay(
-                CaseListView.VIEW_DEF_ID, CaseTableFieldDef.selected(),
+                CrmTypeConstants.CASE, CaseTableFieldDef.selected(),
                 Arrays.asList(CaseTableFieldDef.subject(),
                         CaseTableFieldDef.account(), CaseTableFieldDef.priority(),
                         CaseTableFieldDef.status(), CaseTableFieldDef.assignUser(),

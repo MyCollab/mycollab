@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.domain.Tag;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.TagI18nEnum;
 import com.esofthead.mycollab.common.service.TagService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -72,7 +73,7 @@ public class TagViewComponent extends CssLayout {
     }
 
     private Button createAddTagBtn() {
-        final Button addTagBtn = new Button("Add tag", FontAwesome.PLUS_CIRCLE);
+        final Button addTagBtn = new Button(AppContext.getMessage(TagI18nEnum.ACTION_ADD), FontAwesome.PLUS_CIRCLE);
         addTagBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -87,7 +88,7 @@ public class TagViewComponent extends CssLayout {
     private HorizontalLayout createSaveTagComp() {
         final MHorizontalLayout layout = new MHorizontalLayout();
         final SuggestField field = new SuggestField();
-        field.setInputPrompt("Enter tag name");
+        field.setInputPrompt(AppContext.getMessage(TagI18nEnum.OPT_ENTER_TAG_NAME));
         field.setMinimumQueryCharacters(2);
         field.setSuggestionConverter(new TagSuggestionConverter());
         field.setSuggestionHandler(new SuggestField.SuggestionHandler() {
@@ -98,7 +99,7 @@ public class TagViewComponent extends CssLayout {
             }
         });
 
-        Button addBtn = new Button("Add", new Button.ClickListener() {
+        Button addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 String tagName = (field.getValue() == null) ? tagQuery : field.getValue().toString().trim();
@@ -119,7 +120,7 @@ public class TagViewComponent extends CssLayout {
                         TagViewComponent.this.addComponent(createAddTagBtn());
                     }
                 } else {
-                    NotificationUtil.showWarningNotification("The tag value must have more than 2 characters");
+                    NotificationUtil.showWarningNotification(AppContext.getMessage(TagI18nEnum.ERROR_TAG_NAME_HAS_MORE_2_CHARACTERS));
                 }
                 tagQuery = "";
             }
@@ -171,7 +172,7 @@ public class TagViewComponent extends CssLayout {
             tagLink.setStyleName(UIConstants.BUTTON_LINK);
             this.addComponent(tagLink);
             Button deleteBtn = new Button(FontAwesome.TIMES);
-            deleteBtn.setDescription("Delete tag");
+            deleteBtn.setDescription(AppContext.getMessage(TagI18nEnum.ACTION_DELETE));
             deleteBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {

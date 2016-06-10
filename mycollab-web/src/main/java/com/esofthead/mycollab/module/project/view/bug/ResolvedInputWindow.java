@@ -66,7 +66,7 @@ public class ResolvedInputWindow extends Window {
     private VersionMultiSelectField fixedVersionSelect;
 
     public ResolvedInputWindow(SimpleBug bugValue) {
-        super("Resolve bug '" + bugValue.getSummary() + "'");
+        super(AppContext.getMessage(BugI18nEnum.OPT_RESOLVE_BUG, bugValue.getSummary()));
         this.bug = BeanUtility.deepClone(bugValue);
         this.setWidth("900px");
         this.setResizable(false);
@@ -124,16 +124,14 @@ public class ResolvedInputWindow extends Window {
                                     relatedBug.setRelatedid(selectedBug.getId());
                                     relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
                                 } else {
-                                    NotificationUtil.showErrorNotification("You must select the duplicated bug for " +
-                                            "the resolution 'Duplicate'");
+                                    NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_DUPLICATE_BUG_SELECT));
                                     return;
                                 }
                             } else if (BugResolution.InComplete.name().equals(bug.getResolution()) ||
                                     BugResolution.CannotReproduce.name().equals(bug.getResolution()) ||
                                     BugResolution.Invalid.name().equals(bug.getResolution())) {
                                 if (StringUtils.isBlank(commentValue)) {
-                                    NotificationUtil.showErrorNotification("Comment must be not blank for the " +
-                                            "resolution " + bug.getResolution());
+                                    NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_COMMENT_NOT_BLANK_FOR_RESOLUTION, bug.getResolution()));
                                     return;
                                 }
                             }
@@ -197,7 +195,7 @@ public class ResolvedInputWindow extends Window {
                     return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
                             AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 2);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 3, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 3, 2, "100%");
                 }
                 return null;
             }

@@ -40,10 +40,8 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
-import com.esofthead.mycollab.module.project.reporting.StreamResourceUtils;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.components.*;
-import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -61,17 +59,13 @@ import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
-import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -148,7 +142,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        groupWrapLayout.addComponent(new Label("Sort:"));
+        groupWrapLayout.addComponent(new Label("Sort"));
         final ComboBox sortCombo = new ValueComboBox(false, DESCENDING, ASCENDING);
         sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -165,7 +159,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         sortDirection = SearchCriteria.DESC;
         groupWrapLayout.addComponent(sortCombo);
 
-        groupWrapLayout.addComponent(new Label("Group by:"));
+        groupWrapLayout.addComponent(new Label("Group by"));
         final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, GROUP_CREATED_DATE,
                 PLAIN_LIST, GROUP_USER);
         groupCombo.addValueChangeListener(new Property.ValueChangeListener() {
@@ -180,25 +174,21 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
         taskSearchPanel.addHeaderRight(groupWrapLayout);
 
-        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
-                .withDescription("Export to PDF");
-        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
-        pdfFileDownloader.extend(exportPdfBtn);
-
-        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
-        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
-        excelFileDownloader.extend(exportExcelBtn);
-
-        MButton exportCsvBtn = new MButton("").withIcon(FontAwesome.FILE_TEXT_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to CSV");
-        FileDownloader csvFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.CSV));
-        csvFileDownloader.extend(exportCsvBtn);
-
-        ButtonGroup exportButtonGroup = new ButtonGroup();
-        exportButtonGroup.addButton(exportPdfBtn);
-        exportButtonGroup.addButton(exportExcelBtn);
-        exportButtonGroup.addButton(exportCsvBtn);
-
-        groupWrapLayout.with(exportButtonGroup);
+        Button printBtn = new Button("", new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(new TaskCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return baseCriteria;
+                    }
+                }));
+            }
+        });
+        printBtn.setIcon(FontAwesome.PRINT);
+        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        groupWrapLayout.addComponent(printBtn);
 
         Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -386,15 +376,6 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
     private void displayKanbanView() {
         EventBusFactory.getInstance().post(new TaskEvent.GotoKanbanView(this, null));
-    }
-
-    private StreamResource buildStreamSource(ReportExportType exportType) {
-        return StreamResourceUtils.buildTaskStreamResource(exportType, new LazyValueInjector() {
-            @Override
-            protected Object doEval() {
-                return baseCriteria;
-            }
-        });
     }
 
     @Override

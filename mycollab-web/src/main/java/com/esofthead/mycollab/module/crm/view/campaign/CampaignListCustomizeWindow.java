@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
@@ -30,8 +31,8 @@ import java.util.Collection;
 public class CampaignListCustomizeWindow extends CustomizedTableWindow {
     private static final long serialVersionUID = 1L;
 
-    public CampaignListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
-        super(viewId, table);
+    public CampaignListCustomizeWindow(AbstractPagedBeanTable table) {
+        super(CrmTypeConstants.CAMPAIGN, table);
     }
 
     @Override

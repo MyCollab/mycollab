@@ -212,7 +212,7 @@ public class SimpleTask extends Task {
     }
 
     public enum Field {
-        selected, assignUserFullName, taskListName;
+        selected, logByFullName, assignUserFullName, milestoneName;
 
         public boolean equalTo(Object value) {
             return name().equals(value);

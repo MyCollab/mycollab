@@ -25,5 +25,4 @@ import com.esofthead.mycollab.vaadin.web.ui.IListView;
  * @since 1.0.0
  */
 public interface CampaignListView extends IListView<CampaignSearchCriteria, SimpleCampaign> {
-    String VIEW_DEF_ID = "crm-campaign-list";
 }

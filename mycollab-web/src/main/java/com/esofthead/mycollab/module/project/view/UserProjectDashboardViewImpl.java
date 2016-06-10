@@ -23,8 +23,8 @@ import com.esofthead.mycollab.module.project.view.user.TaskStatusComponent;
 import com.esofthead.mycollab.module.project.view.user.UserUnresolvedAssignmentWidget;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -47,8 +47,8 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
         AllMilestoneTimelineWidget milestoneTimelineWidget = new AllMilestoneTimelineWidget();
         TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
         ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
-        UserUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new UserUnresolvedAssignmentWidget("Unresolved assignments in this week (0)");
-        UserUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedAssignmentWidget("Unresolved assignments in next week (0)");
+        UserUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new UserUnresolvedAssignmentWidget();
+        UserUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedAssignmentWidget();
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(new MarginInfo(true,
                 true, false, false)).withFullWidth().with(milestoneTimelineWidget,
                 unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskStatusComponent);
