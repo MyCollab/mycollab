@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -81,7 +82,10 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         versionTimeLogComp.displayTime(beanItem);
-        tagViewComponent.display(ProjectTypeConstants.BUG_VERSION, beanItem.getId());
+
+        if (!SiteConfiguration.isCommunityEdition()) {
+            tagViewComponent.display(ProjectTypeConstants.BUG_VERSION, beanItem.getId());
+        }
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(UIConstants.LINK_COMPLETED);
@@ -96,8 +100,12 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected ComponentContainer createExtraControls() {
-        tagViewComponent = new TagViewComponent();
-        return tagViewComponent;
+        if (SiteConfiguration.isCommunityEdition()) {
+            return null;
+        } else {
+            tagViewComponent = new TagViewComponent();
+            return tagViewComponent;
+        }
     }
 
     @Override

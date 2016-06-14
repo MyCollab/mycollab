@@ -17,12 +17,15 @@
 package com.esofthead.mycollab.common.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1.1
  */
 @BaseName("common-file")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum FileI18nEnum {
     EXCEL,
     PDF,
@@ -33,5 +36,9 @@ public enum FileI18nEnum {
     NOT_ATTACH_FILE_WARNING,
     IMPORT_FILE_SUCCESS,
     CHOOSE_SUPPORT_FILE_TYPES_WARNING,
-    OPT_MY_DOCUMENTS
+    OPT_MY_DOCUMENTS,
+    OPT_FAVICON_FORMAT_DESCRIPTION,
+    ACTION_CHANGE_LOGO,
+    ERROR_INVALID_SUPPORTED_IMAGE_FORMAT,
+    ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT
 }

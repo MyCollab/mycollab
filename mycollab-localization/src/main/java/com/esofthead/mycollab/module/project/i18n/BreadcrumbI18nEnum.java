@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("project-breadcrumb")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum BreadcrumbI18nEnum {
     FRA_TASK_DASHBOARD,
     FRA_TIME_TRACKING,

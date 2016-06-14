@@ -16,12 +16,14 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.db.query.LazyValueInjector;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -40,10 +42,6 @@ import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.ReportStreamSource;
-import com.esofthead.mycollab.reporting.RpFieldsBuilder;
-import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -56,22 +54,17 @@ import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
-import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.teemu.VaadinIcons;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author MyCollab Ltd
@@ -232,26 +225,21 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
-        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
-                .withDescription("Export to PDF");
-        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
-        pdfFileDownloader.extend(exportPdfBtn);
-
-        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
-        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
-        excelFileDownloader.extend(exportExcelBtn);
-
-        MButton exportCsvBtn = new MButton("").withIcon(FontAwesome.FILE_TEXT_O).withStyleName(UIConstants
-                .BUTTON_OPTION).withDescription("Export to Csv");
-        FileDownloader csvFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.CSV));
-        csvFileDownloader.extend(exportCsvBtn);
-
-        ButtonGroup exportButtonGroup = new ButtonGroup();
-        exportButtonGroup.addButton(exportPdfBtn);
-        exportButtonGroup.addButton(exportExcelBtn);
-        exportButtonGroup.addButton(exportCsvBtn);
-
-        layout.with(exportButtonGroup);
+        Button printBtn = new Button("", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(new MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return baseCriteria;
+                    }
+                }));
+            }
+        });
+        printBtn.setIcon(FontAwesome.PRINT);
+        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        layout.addComponent(printBtn);
 
         Button kanbanBtn = new Button("Board", new Button.ClickListener() {
             @Override
@@ -273,22 +261,6 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         layout.with(viewButtons);
 
         return layout;
-    }
-
-    private StreamResource buildStreamSource(ReportExportType exportType) {
-        List fields = Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.status(),
-                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.id(),
-                MilestoneTableFieldDef.assignee());
-        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
-                new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, AppContextUtil.getSpringBean
-                (MilestoneService.class));
-        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
-            @Override
-            protected void initReportParameters(Map<String, Object> parameters) {
-                parameters.put(SimpleReportTemplateExecutor.CRITERIA, baseCriteria);
-            }
-        };
-        return new StreamResource(streamSource, exportType.getDefaultFileName());
     }
 
     private static class MilestoneBlock extends MVerticalLayout {

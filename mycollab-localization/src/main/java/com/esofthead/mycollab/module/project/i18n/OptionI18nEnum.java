@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 import com.esofthead.mycollab.core.MyCollabException;
 
 /**
@@ -47,36 +49,43 @@ public class OptionI18nEnum {
             InvoiceStatus.Sent, InvoiceStatus.Scheduled};
 
     @BaseName("project-milestone-status")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum MilestoneStatus {
         Future, Closed, InProgress
     }
 
     @BaseName("project-invoice-status")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum InvoiceStatus {
         Paid, Sent, Scheduled, All
     }
 
     @BaseName("project-task-priority")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum TaskPriority {
         Urgent, High, Medium, Low, None
     }
 
     @BaseName("project-bug-status")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum BugStatus {
         Open, Verified, Resolved, ReOpen
     }
 
     @BaseName("project-bug-priority")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum BugPriority {
         Blocker, Critical, Major, Minor, Trivial
     }
 
     @BaseName("project-bug-severity")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum BugSeverity {
         Critical, Major, Minor, Trivial
     }
 
     @BaseName("project-bug-resolution")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum BugResolution {
         Fixed,
         Won_Fix,
@@ -88,6 +97,7 @@ public class OptionI18nEnum {
     }
 
     @BaseName("project-bug-related")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum BugRelation {
         Related, Duplicated, Block, DependsOn, Duplicate, Relation;
 

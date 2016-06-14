@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -60,11 +59,5 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
         }
 
         presenter.go(view, data);
-    }
-
-    @Override
-    public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
-        ScreenData<?> pageAction = pageActionChain.peek();
-        onGo(container, pageAction);
     }
 }

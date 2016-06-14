@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.user.accountsettings.localization;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("account-billing")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum BillingI18nEnum {
     VIEW_CHANGE_BILLING_PLAN_TITLE,
     BUTTON_CANCEL_ACCOUNT,

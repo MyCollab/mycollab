@@ -14,18 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-localization.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.crm.i18n;
+package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("crm-activity")
+@BaseName("project-client")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
-public enum ActivityI18nEnum {
-    TAB_CALENDAR_TITLE,
-    TAB_ACTIVITY_TITLE,
-    FORM_SUBJECT,
-    M_TITLE_RELATED_ACTIVITIES,
-    M_VIEW_LIST_TITLE
+public enum ClientI18nEnum {
+    NEW,
+    DETAIL,
+    LIST,
+    SINGLE,
+    OPT_NUM_PROJECTS,
+    OPT_REMOVE_CLIENT,
+    OPT_QUERY_BY_CLIENT_NAME
 }

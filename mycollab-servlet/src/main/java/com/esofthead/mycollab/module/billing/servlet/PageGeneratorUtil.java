@@ -36,12 +36,8 @@ import java.util.Map;
  * @since 4.0
  */
 class PageGeneratorUtil {
-    static void responeUserNotExistPage(HttpServletResponse response, String username, String loginURL) throws IOException {
-        String pageNotFoundTemplate = "pageUserNotExist.html";
+    static void responseUserNotExistPage(HttpServletResponse response, String username, String loginURL) throws IOException {
         TemplateContext context = new TemplateContext();
-
-        Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, Locale.US);
-
         context.put("loginURL", loginURL);
         context.put("username", username);
         Map<String, String> defaultUrls = new HashMap<>();
@@ -55,6 +51,7 @@ class PageGeneratorUtil {
 
         StringWriter writer = new StringWriter();
         VelocityEngine templateEngine = AppContextUtil.getSpringBean(VelocityEngine.class);
+        Reader reader = LocalizationHelper.templateReader("pageUserNotExist.html", Locale.US);
         templateEngine.evaluate(context.getVelocityContext(), writer, "log task", reader);
 
         String html = writer.toString();

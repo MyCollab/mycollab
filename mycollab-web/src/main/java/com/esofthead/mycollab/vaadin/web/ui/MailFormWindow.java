@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.module.mail.EmailAttachementSource;
+import com.esofthead.mycollab.module.mail.EmailAttachmentSource;
 import com.esofthead.mycollab.module.mail.FileEmailAttachmentSource;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.spring.AppContextUtil;
@@ -224,7 +224,7 @@ public class MailFormWindow extends Window {
                             .getSpringBean(ExtMailService.class);
 
                     List<File> listFile = attachments.files();
-                    List<EmailAttachementSource> emailAttachmentSource = null;
+                    List<EmailAttachmentSource> emailAttachmentSource = null;
                     if (listFile != null && listFile.size() > 0) {
                         emailAttachmentSource = new ArrayList<>();
                         for (File file : listFile) {

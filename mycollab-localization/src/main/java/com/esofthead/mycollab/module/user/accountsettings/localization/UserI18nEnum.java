@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.user.accountsettings.localization;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("account-user")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum UserI18nEnum {
     MAIL_RECOVERY_PASSWORD_SUBJECT,
     MAIL_INVITE_USER_SUBJECT,

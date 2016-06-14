@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone
 import com.esofthead.mycollab.common.TableViewField
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.module.project.domain.{Milestone, SimpleMilestone}
-import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum
+import com.esofthead.mycollab.module.project.i18n.{MilestoneI18nEnum, TimeTrackingI18nEnum}
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants
 
 /**
@@ -33,5 +33,6 @@ object MilestoneTableFieldDef {
   val startdate = new TableViewField(GenericI18Enum.FORM_START_DATE, Milestone.Field.startdate.name(), UIConstants.TABLE_DATE_WIDTH)
   val enddate = new TableViewField(GenericI18Enum.FORM_END_DATE, Milestone.Field.enddate.name(), UIConstants.TABLE_DATE_WIDTH)
   val assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, SimpleMilestone.Field.ownerFullName.name(), UIConstants.TABLE_M_LABEL_WIDTH)
-
+  val billableHours = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "totalBillableHours", UIConstants.TABLE_M_LABEL_WIDTH)
+  val nonBillableHours = new TableViewField(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "totalNonBillableHours", UIConstants.TABLE_M_LABEL_WIDTH)
 }

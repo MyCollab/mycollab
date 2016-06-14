@@ -45,6 +45,7 @@ public class ReportStyles {
     private StyleBuilder boldCenteredStyle;
     private StyleBuilder h2Style;
     private StyleBuilder h3Style;
+    private StyleBuilder h4Style;
     private StyleBuilder columnTitleStyle;
     private StyleBuilder formCaptionStyle;
     private StyleBuilder borderStyle;
@@ -61,7 +62,8 @@ public class ReportStyles {
         formCaptionStyle = stl.style(rootStyle).setForegroundColor(metaColor)
                 .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT).setVerticalTextAlignment(VerticalTextAlignment.TOP);
         h2Style = stl.style(rootStyle).setFontSize(18);
-        h3Style = stl.style(rootStyle).setFontSize(14);
+        h3Style = stl.style(rootStyle).setFontSize(16);
+        h4Style = stl.style(rootStyle).setFontSize(14);
 
         columnTitleStyle = stl.style(rootStyle).setVerticalTextAlignment(VerticalTextAlignment.MIDDLE)
                 .setHorizontalTextAlignment(HorizontalTextAlignment.LEFT).setBorder(stl.pen1Point())
@@ -102,6 +104,10 @@ public class ReportStyles {
 
     public StyleBuilder getH3Style() {
         return h3Style;
+    }
+
+    public StyleBuilder getH4Style() {
+        return h4Style;
     }
 
     public Color getBorderColor() {

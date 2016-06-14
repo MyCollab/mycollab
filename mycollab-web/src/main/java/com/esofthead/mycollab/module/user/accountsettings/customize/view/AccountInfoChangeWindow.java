@@ -52,7 +52,7 @@ class AccountInfoChangeWindow extends Window {
     private AdvancedEditBeanForm<SimpleBillingAccount> editForm;
 
     AccountInfoChangeWindow() {
-        super("Change account info");
+        super(AppContext.getMessage(AdminI18nEnum.OPT_CHANGE_ACCOUNT_INFO));
         this.setModal(true);
         this.setResizable(false);
         this.setWidth("700px");

@@ -18,8 +18,8 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.db.query.LazyValueInjector;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -39,10 +39,6 @@ import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
-import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
-import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
-import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
@@ -52,10 +48,8 @@ import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.google.common.eventbus.Subscribe;
-import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -63,9 +57,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.teemu.VaadinIcons;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
@@ -89,20 +81,14 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     private CssLayout closeContainer;
     private Label closedHeader;
 
-    private List<SimpleMilestone> milestones;
+    private MilestoneSearchCriteria baseCriteria;
 
     private ApplicationEventListener<MilestoneEvent.NewMilestoneAdded> newMilestoneHandler = new
             ApplicationEventListener<MilestoneEvent.NewMilestoneAdded>() {
                 @Override
                 @Subscribe
                 public void handle(MilestoneEvent.NewMilestoneAdded event) {
-                    MilestoneListViewImpl.this.removeAllComponents();
-                    MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-                    searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                    MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-                    List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new
-                            BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
-                    displayMilestones(milestoneList);
+                    displayMilestones();
                 }
             };
 
@@ -122,7 +108,17 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     protected void displayView() {
         initUI();
         constructBody();
+        displayMilestones();
+    }
 
+    private void displayMilestones() {
+        closeContainer.removeAllComponents();
+        inProgressContainer.removeAllComponents();
+        futureContainer.removeAllComponents();
+        baseCriteria = new MilestoneSearchCriteria();
+        baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+        MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
+        List<SimpleMilestone> milestones = milestoneService.findAbsoluteListByCriteria(baseCriteria, 0, Integer.MAX_VALUE);
         int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
 
         for (SimpleMilestone milestone : milestones) {
@@ -142,12 +138,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         updateClosedMilestoneNumber(totalClosedMilestones);
         updateFutureMilestoneNumber(totalFutureMilestones);
         updateInProgressMilestoneNumber(totalInprogressMilestones);
-    }
-
-    @Override
-    public void displayMilestones(final List<SimpleMilestone> milestones) {
-        this.milestones = milestones;
-        this.lazyLoadView();
     }
 
     private void initUI() {
@@ -178,26 +168,21 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
-        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
-                .withDescription("Export to PDF");
-        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
-        pdfFileDownloader.extend(exportPdfBtn);
-
-        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
-        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
-        excelFileDownloader.extend(exportExcelBtn);
-
-        MButton exportCsvBtn = new MButton("").withIcon(FontAwesome.FILE_TEXT_O).withStyleName(UIConstants
-                .BUTTON_OPTION).withDescription("Export to Csv");
-        FileDownloader csvFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.CSV));
-        csvFileDownloader.extend(exportCsvBtn);
-
-        ButtonGroup exportButtonGroup = new ButtonGroup();
-        exportButtonGroup.addButton(exportPdfBtn);
-        exportButtonGroup.addButton(exportExcelBtn);
-        exportButtonGroup.addButton(exportCsvBtn);
-
-        layout.with(exportButtonGroup);
+        Button printBtn = new Button("", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(new MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return baseCriteria;
+                    }
+                }));
+            }
+        });
+        printBtn.setIcon(FontAwesome.PRINT);
+        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        layout.addComponent(printBtn);
 
         Button kanbanBtn = new Button("Board");
         kanbanBtn.setDescription("Board View");
@@ -219,12 +204,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         layout.with(viewButtons);
 
         return layout;
-    }
-
-    @Override
-    public void showNoItemView() {
-        removeAllComponents();
-        this.addComponent(new MilestoneListNoItemView());
     }
 
     private void constructBody() {
@@ -352,10 +331,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
                                         MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
-                                        projectTaskService.removeWithSession(milestone,
-                                                AppContext.getUsername(), AppContext.getAccountId());
-                                        milestones.remove(milestone);
-                                        displayMilestones(milestones);
+                                        projectTaskService.removeWithSession(milestone, AppContext.getUsername(), AppContext.getAccountId());
+                                        displayMilestones();
                                     }
                                 }
                             });
@@ -397,40 +374,5 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
             this.addComponent(metaBlock);
         }
-    }
-
-    @Override
-    public void enableActionControls(int numOfSelectedItem) {
-
-    }
-
-    @Override
-    public void disableActionControls() {
-
-    }
-
-    @Override
-    public HasSearchHandlers<MilestoneSearchCriteria> getSearchHandlers() {
-        return null;
-    }
-
-    @Override
-    public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        return null;
-    }
-
-    @Override
-    public HasMassItemActionHandler getPopupActionHandlers() {
-        return null;
-    }
-
-    @Override
-    public HasSelectableItemHandlers<SimpleMilestone> getSelectableItemHandlers() {
-        return null;
-    }
-
-    @Override
-    public AbstractPagedBeanTable<MilestoneSearchCriteria, SimpleMilestone> getPagedBeanTable() {
-        return null;
     }
 }

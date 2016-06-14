@@ -56,7 +56,7 @@ public class ConfirmEmailHandler extends GenericHttpServlet {
                     userServices.updateWithSession(user, username);
                     response.sendRedirect(request.getContextPath() + "/");
                 } else {
-                    PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
+                    PageGeneratorUtil.responseUserNotExistPage(response, username, request.getContextPath() + "/");
                 }
             } else {
                 throw new ResourceNotFoundException();

@@ -140,7 +140,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
         };
         map.put(Milestone.Field.name.name(), new HyperlinkBuilderGenerator(milestoneNameExpr, milestoneHrefExpr));
         map.put(Milestone.Field.status.name(), new SimpleExpressionBuilderGenerator(new I18nExpression("status",
-                com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class)));
+                OptionI18nEnum.MilestoneStatus.class)));
         map.put(Milestone.Field.startdate.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Milestone.Field.startdate.name())));
         map.put(Milestone.Field.enddate.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Milestone.Field.enddate.name())));
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>(SimpleMilestone.Field.ownerFullName.name());
@@ -174,6 +174,24 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
         map.put(Milestone.Field.id.name(), new SimpleExpressionBuilderGenerator(progressExpr));
+
+
+        map.put(SimpleMilestone.Field.totalBillableHours.name(), new SimpleExpressionBuilderGenerator(new AbstractSimpleExpression<Double>() {
+            @Override
+            public Double evaluate(ReportParameters reportParameters) {
+                Double taskBillableHours = reportParameters.getFieldValue(SimpleMilestone.Field.totalTaskBillableHours.name());
+                Double bugBillableHours = reportParameters.getFieldValue(SimpleMilestone.Field.totalBugBillableHours.name());
+                return taskBillableHours + bugBillableHours;
+            }
+        }));
+        map.put(SimpleMilestone.Field.totalNonBillableHours.name(), new SimpleExpressionBuilderGenerator(new AbstractSimpleExpression<Double>() {
+            @Override
+            public Double evaluate(ReportParameters reportParameters) {
+                Double taskNonBillableHours = reportParameters.getFieldValue(SimpleMilestone.Field.totalTaskNonBillableHours.name());
+                Double bugNonBillableHours = reportParameters.getFieldValue(SimpleMilestone.Field.totalBugNonBillableHours.name());
+                return taskNonBillableHours + bugNonBillableHours;
+            }
+        }));
         return map;
     }
 

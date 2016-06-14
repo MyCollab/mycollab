@@ -18,42 +18,27 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.core.SecureAccessException;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
-import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
-import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.vaadin.ui.ComponentContainer;
-
-import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class MilestoneListPresenter extends ProjectGenericListPresenter<MilestoneListView, MilestoneSearchCriteria, SimpleMilestone>
-        implements ListCommand<MilestoneSearchCriteria> {
+public class MilestoneListPresenter extends ProjectGenericPresenter<MilestoneListView> {
     private static final long serialVersionUID = 1L;
-
-    private final MilestoneService milestoneService;
 
     public MilestoneListPresenter() {
         super(MilestoneListView.class);
-        milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-    }
-
-    @Override
-    protected void postInitView() {
-        // Override to prevent setting up search handlers
     }
 
     @Override
@@ -64,45 +49,12 @@ public class MilestoneListPresenter extends ProjectGenericListPresenter<Mileston
             milestoneContainer.removeAllComponents();
             milestoneContainer.addComponent(view);
 
-            MilestoneSearchCriteria searchCriteria;
-
-            if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
-                searchCriteria = new MilestoneSearchCriteria();
-                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            } else {
-                searchCriteria = (MilestoneSearchCriteria) data.getParams();
-            }
-
-            int totalCount = milestoneService.getTotalCount(searchCriteria);
-
-            if (totalCount > 0) {
-                doSearch(searchCriteria);
-            } else {
-                view.showNoItemView();
-            }
+            view.lazyLoadView();
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoMilestoneList();
         } else {
             throw new SecureAccessException();
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void doSearch(MilestoneSearchCriteria searchCriteria) {
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(
-                searchCriteria, 0, Integer.MAX_VALUE));
-        view.displayMilestones(milestones);
-    }
-
-    @Override
-    public ISearchableService<MilestoneSearchCriteria> getSearchService() {
-        return milestoneService;
-    }
-
-    @Override
-    protected void deleteSelectedItems() {
-        throw new UnsupportedOperationException("This presenter doesn't support this operation");
     }
 }

@@ -17,13 +17,18 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.10
  */
 @BaseName("project-invoice")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum InvoiceI18nEnum {
+    NEW,
+    EDIT,
     SINGLE,
     LIST,
 
@@ -39,5 +44,6 @@ public enum InvoiceI18nEnum {
     FORM_AMOUNT,
     FORM_NOTE,
     FIX_PRICE,
-    TIME_MATERIAL
+    TIME_MATERIAL,
+    OPT_NO_INVOICE
 }

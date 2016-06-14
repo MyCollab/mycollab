@@ -21,6 +21,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("project-task")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum TaskI18nEnum {
     NEW,
     DETAIL,
@@ -56,6 +57,8 @@ public enum TaskI18nEnum {
     FORM_REMAIN_ESTIMATE_HELP,
     FORM_STATUS_HELP,
     FORM_PARENT_TASK,
+    FORM_COLUMN_COLOR,
+    FORM_COLUMN_DEFAULT_FOR_NEW_PROJECT,
 
     DIALOG_ASSIGN_TASK_TITLE,
 

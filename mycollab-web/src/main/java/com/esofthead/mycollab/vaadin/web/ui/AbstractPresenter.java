@@ -19,8 +19,12 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.SecureAccessException;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
+import com.esofthead.mycollab.module.user.accountsettings.view.AccountModulePresenter;
 import com.esofthead.mycollab.security.PermissionChecker;
 import com.esofthead.mycollab.security.PermissionMap;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
@@ -99,24 +103,30 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     @Override
     public boolean go(ComponentContainer container, ScreenData<?> data) {
-        initView();
+        if (!AppContext.getInstance().getIsValidAccount() && (!(this instanceof AccountModulePresenter)
+                && ModuleHelper.getCurrentModule() != null && !ModuleHelper.isCurrentAccountModule())) {
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+            return true;
+        } else {
+            initView();
 
-        if (view == null) {
-            LOG.error("Can not find view " + viewClass);
-            return false;
-        }
-
-        if (checkPermissionAccessIfAny()) {
-            try {
-                onGo(container, data);
-            } catch (Throwable e) {
-                onErrorStopChain(e);
+            if (view == null) {
+                LOG.error("Can not find view " + viewClass);
                 return false;
             }
-        } else {
-            NotificationUtil.showMessagePermissionAlert();
+
+            if (checkPermissionAccessIfAny()) {
+                try {
+                    onGo(container, data);
+                } catch (Throwable e) {
+                    onErrorStopChain(e);
+                    return false;
+                }
+            } else {
+                NotificationUtil.showMessagePermissionAlert();
+            }
+            return true;
         }
-        return true;
     }
 
     protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
@@ -145,7 +155,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
+    public final void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
         ScreenData pageAction = pageActionChain.pop();
         boolean isSuccess = go(container, pageAction);
 

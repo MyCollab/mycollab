@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.crm.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("crm-opportunity")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum OpportunityI18nEnum {
     LIST,
     NEW,

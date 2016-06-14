@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -138,25 +137,6 @@ public class AppExceptionHandler extends GenericHttpServlet {
         String html = writer.toString();
         PrintWriter out = response.getWriter();
         out.println(html);
-    }
-
-    private String printRequest(HttpServletRequest request) {
-        StringBuilder builder = new StringBuilder();
-        String subDomain;
-        if (deploymentMode.isDemandEdition()) {
-            subDomain = request.getServerName().split("\\.")[0];
-        } else {
-            subDomain = request.getServerName();
-        }
-        builder.append(String.format("Request: %s--- Agent: %s-- Sub domain: %s", ((Request) request).getUri(),
-                request.getHeader("User-Agent"), subDomain));
-        builder.append("\n Parameters: ");
-        Enumeration<String> params = request.getParameterNames();
-        while (params.hasMoreElements()) {
-            String param = params.nextElement();
-            builder.append(String.format("\n    param: %s----%s", param, request.getParameter(param)));
-        }
-        return builder.toString();
     }
 
     private static <T> T getExceptionType(Throwable e, Class<T> exceptionType) {

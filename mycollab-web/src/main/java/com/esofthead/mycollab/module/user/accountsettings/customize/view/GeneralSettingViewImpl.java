@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
+import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -79,7 +80,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         this.addComponent(formContainer);
 
         MHorizontalLayout generalSettingHeader = new MHorizontalLayout();
-        Label headerLbl = new Label("General Settings for your site");
+        Label headerLbl = new Label(AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
 
         Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
             @Override
@@ -140,7 +141,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         FormContainer formContainer = new FormContainer();
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(true);
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        Label logoDesc = new Label("Logos are used in site menu and email notifications. Image type must be png or jpg format");
+        Label logoDesc = new Label(AppContext.getMessage(AdminI18nEnum.OPT_LOGO_FORMAT_DESCRIPTION));
         leftPanel.with(logoDesc).withWidth("250px");
 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
@@ -189,7 +190,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 if (mimeType.equals("image/jpeg")) {
                     imageData = ImageUtil.convertJpgToPngFormat(imageData);
                     if (imageData == null) {
-                        throw new UserInvalidInputException("Do not support image format");
+                        throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
                     } else {
                         mimeType = "image/png";
                     }
@@ -198,7 +199,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 if (mimeType.equals("image/png")) {
                     UI.getCurrent().addWindow(new LogoEditWindow(imageData));
                 } else {
-                    throw new UserInvalidInputException("Upload file does not have valid image format. The supported formats are jpg/png");
+                    throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
                 }
             }
         };
@@ -231,8 +232,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         FormContainer formContainer = new FormContainer();
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        Label logoDesc = new Label("Favicon appears in web browsers bar, bookmarks. The icon should be format png, " +
-                "jpg and must be sizable to 32x32 pixels");
+        Label logoDesc = new Label(AppContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION));
         leftPanel.with(logoDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
         final Image favIconRes = new Image("", new ExternalResource(StorageFactory.getInstance().getFavIconPath(billingAccount.getId(),
@@ -250,7 +250,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 if (mimeType.equals("image/jpeg")) {
                     imageData = ImageUtil.convertJpgToPngFormat(imageData);
                     if (imageData == null) {
-                        throw new UserInvalidInputException("Do not support image format");
+                        throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
                     } else {
                         mimeType = "image/png";
                     }
@@ -269,7 +269,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                         throw new MyCollabException(e);
                     }
                 } else {
-                    throw new UserInvalidInputException("Upload file does not have valid image format. The supported formats are jpg/png");
+                    throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
                 }
             }
         };

@@ -52,6 +52,9 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -173,7 +176,13 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.setProject(project);
 
-            topPanel.with(breadCrumb).withAlign(breadCrumb, Alignment.MIDDLE_LEFT).expand(breadCrumb);
+            Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
+            helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
+            helpBtn.addStyleName(UIConstants.BUTTON_LINK);
+            ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/project-management/introduction/");
+            BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
+            helpOpener.extend(helpBtn);
+            topPanel.with(breadCrumb, helpBtn).alignAll(Alignment.MIDDLE_LEFT).expand(breadCrumb);
 
             if (project.getContextask() == null || project.getContextask()) {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();

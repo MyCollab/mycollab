@@ -57,9 +57,7 @@ public class HyperlinkBuilderGenerator implements ComponentBuilderGenerator {
 
     @Override
     public ComponentBuilder getCompBuilder(ReportStyles reportStyles) {
-        ComponentBuilder compBuilder = cmp.text(title).setHyperLink(hyperLink(href))
-                .setStyle(reportStyles.getUnderlineStyle());
-
+        ComponentBuilder compBuilder = cmp.text(title).setHyperLink(hyperLink(href)).setStyle(reportStyles.getUnderlineStyle());
         if (style != null) {
             compBuilder.setStyle(style);
         }

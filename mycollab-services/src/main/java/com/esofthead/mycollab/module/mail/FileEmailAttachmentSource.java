@@ -16,28 +16,34 @@
  */
 package com.esofthead.mycollab.module.mail;
 
-import java.io.File;
-
 import org.apache.commons.mail.EmailAttachment;
+
+import java.io.File;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class FileEmailAttachmentSource implements EmailAttachementSource {
-	private File file;
+public class FileEmailAttachmentSource implements EmailAttachmentSource {
+    private File file;
+    private String name;
 
-	public FileEmailAttachmentSource(File file) {
-		this.file = file;
-	}
+    public FileEmailAttachmentSource(File file) {
+        this(file, null);
+    }
 
-	@Override
-	public EmailAttachment getAttachmentObj() {
-		EmailAttachment attachment = new EmailAttachment();
-		attachment.setPath(file.getPath());
-		attachment.setDisposition(EmailAttachment.ATTACHMENT);
-		attachment.setName(file.getName());
-		return attachment;
-	}
+    public FileEmailAttachmentSource(File file, String name) {
+        this.file = file;
+        this.name = name;
+    }
+
+    @Override
+    public EmailAttachment getAttachmentObj() {
+        EmailAttachment attachment = new EmailAttachment();
+        attachment.setPath(file.getPath());
+        attachment.setDisposition(EmailAttachment.ATTACHMENT);
+        attachment.setName((name == null) ? file.getName() : name);
+        return attachment;
+    }
 
 }

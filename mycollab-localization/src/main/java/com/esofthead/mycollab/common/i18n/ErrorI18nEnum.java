@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.common.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("common-webexception")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum ErrorI18nEnum {
     SUB_DOMAIN_IS_NOT_EXISTED,
     NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS,

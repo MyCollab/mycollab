@@ -16,11 +16,13 @@
  */
 package com.esofthead.mycollab.community.module.project.view.bug;
 
+import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -135,18 +137,18 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleBug bug) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + bug.getBillableHours())
-                .withDescription("Billable hours").build();
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createNonbillableHoursPopupField(SimpleBug bug) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
-                .withDescription("Non billable hours").build();
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createFollowersPopupField(SimpleBug bug) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + bug.getNumFollowers())
-                .withDescription("Followers").build();
+                .withDescription(AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)).build();
     }
 }

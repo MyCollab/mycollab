@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.crm.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 /**
  * @author MyCollab Ltd.
@@ -25,6 +27,7 @@ import ch.qos.cal10n.BaseName;
 public class OptionI18nEnum {
 
     @BaseName("crm-accounttype")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum AccountType {
         Analyst,
         Competitor,

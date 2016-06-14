@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("project-timetracking")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum TimeTrackingI18nEnum {
     BUTTON_LOG_TIME,
     BUTTON_LINK_TASK,
@@ -40,7 +43,6 @@ public enum TimeTrackingI18nEnum {
     FORM_SUMMARY,
     FORM_IS_BILLABLE,
     FORM_IS_OVERTIME,
-    FORM_PROJECT,
     FORM_WEEK,
     FORM_WHO,
 
@@ -55,10 +57,14 @@ public enum TimeTrackingI18nEnum {
     TIME_EXPLAIN_HELP,
     SUB_INFO_TIME,
     OPT_BILLABLE_HOURS,
+    OPT_BILLABLE_HOURS_VALUE,
     OPT_NON_BILLABLE_HOURS,
+    OPT_NON_BILLABLE_HOURS_VALUE,
     OPT_REMAIN_HOURS,
+    OPT_TOTAL_HOURS_VALUE,
     OPT_TOTAL_SPENT_HOURS,
     OPT_REMAINING_WORK_HOURS,
+    OPT_COST,
 
     M_FORM_BILLABLE_HOURS,
     M_FORM_NON_BILLABLE_HOURS,

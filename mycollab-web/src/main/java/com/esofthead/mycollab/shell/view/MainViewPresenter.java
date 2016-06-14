@@ -45,21 +45,25 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
         // url
         String url = ((DesktopApplication) UI.getCurrent()).getCurrentFragmentUrl();
         view.display();
-        if (!StringUtils.isBlank(url)) {
-            if (url.startsWith("/")) {
-                url = url.substring(1);
-            }
-            DesktopApplication.rootUrlResolver.resolveFragment(url);
+        if (!AppContext.getInstance().getIsValidAccount()) {
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
         } else {
-            SimpleUser pref = AppContext.getUser();
-            if (ModuleNameConstants.CRM.equals(pref.getLastModuleVisit())) {
-                EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
-            } else if (ModuleNameConstants.ACCOUNT.equals(pref.getLastModuleVisit())) {
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, null));
-            } else if (ModuleNameConstants.FILE.equals(pref.getLastModuleVisit())) {
-                EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
+            if (!StringUtils.isBlank(url)) {
+                if (url.startsWith("/")) {
+                    url = url.substring(1);
+                }
+                DesktopApplication.rootUrlResolver.resolveFragment(url);
             } else {
-                EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
+                SimpleUser pref = AppContext.getUser();
+                if (ModuleNameConstants.CRM.equals(pref.getLastModuleVisit())) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
+                } else if (ModuleNameConstants.ACCOUNT.equals(pref.getLastModuleVisit())) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, null));
+                } else if (ModuleNameConstants.FILE.equals(pref.getLastModuleVisit())) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
+                } else {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
+                }
             }
         }
     }

@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.common.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("common-generic")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum GenericI18Enum {
     NOTIFICATION_GOTO_FIRST_RECORD,
     NOTIFICATION_GOTO_LAST_RECORD,
@@ -82,6 +85,8 @@ public enum GenericI18Enum {
     BUTTON_RESET,
     BUTTON_UPDATE_OTHER_FIELDS,
 
+    ACTION_BROWSE,
+    ACTION_NEXT,
     ACTION_MORE,
     ACTION_CHANGE,
     ACTION_TRANSLATE,
@@ -92,6 +97,7 @@ public enum GenericI18Enum {
     ACTION_EXPORT,
     ACTION_PREVIEW,
     ACTION_SELECT_COLUMNS,
+    ACTION_CLICK_TO_EDIT,
 
     TABLE_SELECTED_ITEM_TITLE,
 

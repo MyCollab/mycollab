@@ -178,7 +178,9 @@ public class SimpleMilestone extends Milestone {
     }
 
     public enum Field {
-        numOpenTasks, numTasks, numOpenBugs, numBugs, ownerFullName;
+        numOpenTasks, numTasks, numOpenBugs, numBugs, ownerFullName, totalTaskBillableHours,
+        totalTaskNonBillableHours, totalBugBillableHours, totalBugNonBillableHours, totalBillableHours, totalNonBillableHours;
+
         public boolean equalTo(Object value) {
             return name().equals(value);
         }

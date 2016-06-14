@@ -115,7 +115,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
         }
 
-        tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
+        if (!SiteConfiguration.isCommunityEdition()) {
+            tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
+        }
+
         activityComponent.loadActivities("" + beanItem.getId());
         followerSheet.displayFollowers(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
@@ -183,8 +186,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected ComponentContainer createExtraControls() {
-        tagViewComponent = new TagViewComponent();
-        return tagViewComponent;
+        if (SiteConfiguration.isCommunityEdition()) {
+            return null;
+        } else {
+            tagViewComponent = new TagViewComponent();
+            return tagViewComponent;
+        }
     }
 
     @Override

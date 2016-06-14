@@ -218,7 +218,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected void onPreviewItem() {
-        tagViewComponent.display(ProjectTypeConstants.BUG, beanItem.getId());
+        if (!SiteConfiguration.isCommunityEdition()) {
+            tagViewComponent.display(ProjectTypeConstants.BUG, beanItem.getId());
+        }
         activityComponent.loadActivities("" + beanItem.getId());
         bugTimeLogList.displayTime(beanItem);
         bugFollowersList.displayFollowers(beanItem);
@@ -337,8 +339,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     }
 
     protected ComponentContainer createExtraControls() {
-        tagViewComponent = new TagViewComponent();
-        return tagViewComponent;
+        if (SiteConfiguration.isCommunityEdition()) {
+            return null;
+        } else {
+            tagViewComponent = new TagViewComponent();
+            return tagViewComponent;
+        }
     }
 
     @Override

@@ -19,14 +19,18 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.db.query.VariableInjector;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.reporting.CustomizeReportOutputWindow;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import org.joda.time.LocalDate;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -41,16 +45,21 @@ public class MilestoneCustomizeReportOutputWindow extends CustomizeReportOutputW
 
     @Override
     protected Collection<TableViewField> getDefaultColumns() {
-        return null;
+        return Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.startdate(),
+                MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.status(), MilestoneTableFieldDef.assignee());
     }
 
     @Override
     protected Collection<TableViewField> getAvailableColumns() {
-        return null;
+        return Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.startdate(),
+                MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.status(), MilestoneTableFieldDef.assignee(),
+                MilestoneTableFieldDef.billableHours(), MilestoneTableFieldDef.nonBillableHours());
     }
 
     @Override
     protected Object[] buildSampleData() {
-        return new Object[0];
+        return new Object[]{"Milestone 1", AppContext.formatDate(new LocalDate().minusDays(30).toDate()), AppContext
+                .formatDate(new LocalDate().plusDays(7).toDate()), OptionI18nEnum.MilestoneStatus.InProgress.name(),
+                "John Adam", "10", "2"};
     }
 }

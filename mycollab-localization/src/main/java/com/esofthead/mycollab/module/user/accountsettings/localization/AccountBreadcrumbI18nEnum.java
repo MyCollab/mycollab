@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.user.accountsettings.localization;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("account-breadcrumb")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum AccountBreadcrumbI18nEnum {
     VIEW_PROFILE,
     VIEW_BILLING,

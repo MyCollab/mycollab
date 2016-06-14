@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.view.IKanbanView;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.AppContextUtil;
@@ -47,7 +48,7 @@ public class AddNewColumnWindow extends Window {
     private static final Color DEFAULT_COLOR = Color.decode("#fdde86");
 
     public AddNewColumnWindow(final IKanbanView kanbanView, final String type, final String fieldGroup) {
-        super("Add column");
+        super(AppContext.getMessage(TaskI18nEnum.ACTION_NEW_COLUMN));
         this.setWidth("800px");
         this.setModal(true);
         this.setResizable(false);
@@ -63,10 +64,10 @@ public class AddNewColumnWindow extends Window {
                 DEFAULT_COLOR.getGreen(), DEFAULT_COLOR.getBlue()));
         final TextArea description = new TextArea();
 
-        gridFormLayoutHelper.addComponent(stageField, "Stage name", 0, 0);
-        gridFormLayoutHelper.addComponent(defaultProject, "Default for new projects", 0, 1);
-        gridFormLayoutHelper.addComponent(colorPicker, "Color", 0, 2);
-        gridFormLayoutHelper.addComponent(description, "Description", 0, 3);
+        gridFormLayoutHelper.addComponent(stageField, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+        gridFormLayoutHelper.addComponent(defaultProject, AppContext.getMessage(TaskI18nEnum.FORM_COLUMN_DEFAULT_FOR_NEW_PROJECT), 0, 1);
+        gridFormLayoutHelper.addComponent(colorPicker, AppContext.getMessage(TaskI18nEnum.FORM_COLUMN_COLOR), 0, 2);
+        gridFormLayoutHelper.addComponent(description, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 3);
 
         Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override

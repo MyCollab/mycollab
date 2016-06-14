@@ -21,6 +21,7 @@ import com.esofthead.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePopupFieldFactory;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -80,12 +81,12 @@ public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactor
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleMilestone milestone) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + (milestone.getTotalBugBillableHours() + milestone.getTotalTaskBillableHours()))
-                .withDescription("Billable hours").build();
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createNonBillableHoursPopupField(SimpleMilestone milestone) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + (milestone.getTotalBugNonBillableHours() + milestone.getTotalTaskNonBillableHours()))
-                .withDescription("Billable hours").build();
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 }

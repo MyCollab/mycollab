@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.configuration.EmailConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.mail.DefaultMailer;
-import com.esofthead.mycollab.module.mail.EmailAttachementSource;
+import com.esofthead.mycollab.module.mail.EmailAttachmentSource;
 import com.esofthead.mycollab.module.mail.IMailer;
 import com.esofthead.mycollab.module.mail.NullMailer;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
@@ -54,8 +54,7 @@ public class ExtMailServiceImpl implements ExtMailService {
     public void sendHTMLMail(String fromEmail, String fromName,
                              List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                              List<MailRecipientField> bccEmail, String subject, String html,
-                             List<EmailAttachementSource> attachments) {
+                             List<? extends EmailAttachmentSource> attachments) {
         getMailer().sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html, attachments);
     }
-
 }

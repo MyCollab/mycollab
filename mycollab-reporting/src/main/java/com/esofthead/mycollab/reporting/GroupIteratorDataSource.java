@@ -32,8 +32,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class GroupIteratorDataSource<SearchService extends ISearchableService<S>, S extends SearchCriteria>
-        implements JRDataSource {
+public class GroupIteratorDataSource<SearchService extends ISearchableService<S>, S extends SearchCriteria> implements JRDataSource {
     private static final int ITEMS_PER_PAGE = 20;
     private static final Logger LOG = LoggerFactory.getLogger(GroupIteratorDataSource.class);
 

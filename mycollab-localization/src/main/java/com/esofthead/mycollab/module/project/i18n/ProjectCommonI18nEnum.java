@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.project.i18n;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("project-common")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum ProjectCommonI18nEnum {
     WIDGET_ACTIVE_PROJECTS_TITLE,
     WIDGET_ARCHIVE_PROJECTS_TITLE,
@@ -43,6 +46,7 @@ public enum ProjectCommonI18nEnum {
     BUTTON_ACTIVE_PROJECTS,
     BUTTON_ARCHIVE_PROJECTS,
     BUTTON_ALL_PROJECTS,
+    ACTION_NEW_ASSIGNMENT,
 
     DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE,
     DIALOG_CONFIRM_PROJECT_ARCHIVE_MESSAGE,
@@ -69,7 +73,9 @@ public enum ProjectCommonI18nEnum {
     ITEM_CREATED_PEOPLE,
     ITEM_ASSIGN_PEOPLE,
 
+    OPT_ASSIGNMENT_LIST,
     OPT_RESOLVING_TREND_IN_DURATION,
+    ERROR_NOT_EDIT_CELL_IN_GANTT_HELP,
 
     M_VIEW_PROJECT_LIST,
     M_VIEW_PROJECT_ACTIVITIES,

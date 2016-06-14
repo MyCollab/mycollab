@@ -40,6 +40,7 @@ import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.google.common.eventbus.Subscribe;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import org.joda.time.DateTime;
@@ -98,6 +99,7 @@ public class AppContext implements Serializable {
     private transient IMessageConveyor messageHelper;
     private Locale userLocale = Locale.US;
     private TimeZone userTimeZone;
+    private Boolean isValidAccount = true;
     private static GoogleAnalyticsService googleAnalyticsService = AppContextUtil.getSpringBean(GoogleAnalyticsService.class);
 
     public AppContext() {
@@ -165,6 +167,14 @@ public class AppContext implements Serializable {
         MyCollabSession.removeSessionVariable(USER_VAL);
         MyCollabSession.removeCurrentUIVariable(PRESENTER_VAL);
         MyCollabSession.removeCurrentUIVariable(VIEW_MANAGER_VAL);
+    }
+
+    public void setIsValidAccount(Boolean isValidAccount) {
+        this.isValidAccount = isValidAccount;
+    }
+
+    public Boolean getIsValidAccount() {
+        return isValidAccount;
     }
 
     public static String getSiteName() {

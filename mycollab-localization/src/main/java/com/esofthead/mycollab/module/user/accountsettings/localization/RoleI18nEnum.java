@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.user.accountsettings.localization;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("account-role")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum RoleI18nEnum {
     LIST,
     NEW,

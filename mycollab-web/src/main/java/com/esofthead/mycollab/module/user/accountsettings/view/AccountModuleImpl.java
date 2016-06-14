@@ -172,7 +172,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         if (serviceMenuContainer == null) {
             serviceMenuContainer = new MHorizontalLayout();
             serviceMenu = new ServiceMenu();
-            serviceMenu.addService("Projects", new Button.ClickListener() {
+            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
@@ -199,7 +199,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
             });
 
 
-            serviceMenu.addService("People", new Button.ClickListener() {
+            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));

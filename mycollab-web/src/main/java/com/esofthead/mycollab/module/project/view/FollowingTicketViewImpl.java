@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
@@ -23,6 +25,7 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.AppContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -62,9 +65,10 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
         removeAllComponents();
         MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
-        ELabel layoutHeader = ELabel.h2(FontAwesome.EYE.getHtml() + " My Following Tickets").withWidthUndefined();
+        ELabel layoutHeader = ELabel.h2(FontAwesome.EYE.getHtml() + " " + AppContext.getMessage(FollowerI18nEnum
+                .OPT_MY_FOLLOWING_TICKETS, 0)).withWidthUndefined();
 
-        Button exportBtn = new Button("Export", new Button.ClickListener() {
+        Button exportBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override

@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.module.user.accountsettings.localization;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("account-admin")
+@LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum AdminI18nEnum {
     VIEW_PROFILE,
     VIEW_BILLING,
@@ -26,6 +29,8 @@ public enum AdminI18nEnum {
     VIEW_THEME,
     VIEW_USERS_AND_ROLES,
     VIEW_SETUP,
+
+    ACTION_RESET_DEFAULT_THEME,
 
     FORM_SITE_NAME,
     FORM_SITE_ADDRESS,
@@ -36,5 +41,10 @@ public enum AdminI18nEnum {
     FORM_DEFAULT_MMDD_FORMAT,
     FORM_DEFAULT_HUMAN_DATE_FORMAT,
     FORM_SHOW_EMAIL_PUBLICLY,
-    FORM_SHOW_EMAIL_PUBLICLY_HELP
+    FORM_SHOW_EMAIL_PUBLICLY_HELP,
+
+    OPT_CHANGE_ACCOUNT_INFO,
+    OPT_GENERAL_SETTINGS,
+    OPT_CONFIRM_RESET_DEFAULT_THEME,
+    OPT_LOGO_FORMAT_DESCRIPTION
 }

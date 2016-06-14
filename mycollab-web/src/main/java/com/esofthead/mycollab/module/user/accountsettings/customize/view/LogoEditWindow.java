@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
+import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
@@ -65,7 +66,7 @@ public class LogoEditWindow extends Window {
     private byte[] scaleImageData;
 
     public LogoEditWindow(byte[] imageData) {
-        super("Edit logo");
+        super(AppContext.getMessage(FileI18nEnum.ACTION_CHANGE_LOGO));
         this.setModal(true);
         this.setResizable(false);
         this.setWidth("800px");
@@ -97,7 +98,7 @@ public class LogoEditWindow extends Window {
 
         Label lbPreview = new Label("<p style='margin: 0px;'><strong>To the below is what your logo will look like.</strong></p><p " +
                 "style='margin-top: 0px;'>To make adjustment, you can drag around and resize the selection square below. " +
-                "When you are happy with your photo, click the &ldquo;Accept&ldquo; button.</p>", ContentMode.HTML);
+                "When you are happy with your photo, click the <strong>Accept</strong> button.</p>", ContentMode.HTML);
         previewBoxRight.addComponent(lbPreview);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout();

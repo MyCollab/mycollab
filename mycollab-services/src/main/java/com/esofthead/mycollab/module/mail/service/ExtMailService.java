@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.mail.service;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.core.persistence.service.IService;
-import com.esofthead.mycollab.module.mail.EmailAttachementSource;
+import com.esofthead.mycollab.module.mail.EmailAttachmentSource;
 
 import java.util.List;
 
@@ -42,5 +42,5 @@ public interface ExtMailService extends IService {
     void sendHTMLMail(String fromEmail, String fromName,
                       List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                       List<MailRecipientField> bccEmail, String subject, String html,
-                      List<EmailAttachementSource> attachments);
+                      List<? extends EmailAttachmentSource> attachments);
 }
