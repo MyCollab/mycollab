@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.shell.view;
 
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
@@ -54,6 +55,6 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         container.removeAllComponents();
         container.addComponent(view);
-        AppContext.addFragment("user/login", "Login Page");
+        AppContext.addFragment("user/login", AppContext.getMessage(ShellI18nEnum.OPT_LOGIN_PAGE));
     }
 }

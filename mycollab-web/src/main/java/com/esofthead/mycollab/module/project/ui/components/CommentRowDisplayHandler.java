@@ -62,7 +62,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                 GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
                 withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
-        timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
+        timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
             Button msgDeleteBtn = new Button();

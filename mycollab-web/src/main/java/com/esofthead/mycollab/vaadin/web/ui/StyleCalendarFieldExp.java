@@ -47,7 +47,7 @@ public class StyleCalendarFieldExp extends StyleCalendarField {
         } else {
             Date selectedDate = (Date) value;
             Date[] bounceDateofWeek = DateTimeUtils
-                    .getBounceDateofWeek(selectedDate);
+                    .getBounceDatesOfWeek(selectedDate);
             return AppContext.formatDate(bounceDateofWeek[0])
                     + " - "
                     + AppContext.formatDate(bounceDateofWeek[1]);

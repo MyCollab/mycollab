@@ -81,7 +81,7 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
         searchCriteria.setIsOpenned(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         LocalDate now = new LocalDate();
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
+        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
@@ -94,7 +94,7 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         LocalDate now = new LocalDate();
         now = now.plusDays(7);
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
+        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();

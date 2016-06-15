@@ -153,7 +153,7 @@ public class ProjectMembersWidget extends Depot {
             } else {
                 roleVal = member.getRoleName();
             }
-            ELabel memberRole = new ELabel(roleVal, ContentMode.HTML).withDescription("Role").withStyleName(UIConstants.LABEL_META_INFO);
+            ELabel memberRole = new ELabel(roleVal, ContentMode.HTML).withDescription("Role").withStyleName(UIConstants.META_INFO);
             footer.addComponent(memberRole);
 
             String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + "&nbsp;" + new Span
@@ -164,7 +164,7 @@ public class ProjectMembersWidget extends Depot {
                     member.getTotalBillableLogTime())).setTitle("Billable hours") + "&nbsp;&nbsp;" + FontAwesome.GIFT.getHtml() +
                     "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
-            ELabel memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO);
+            ELabel memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withStyleName(UIConstants.META_INFO);
             footer.addComponent(memberWorkStatus);
 
             content.addComponent(footer);

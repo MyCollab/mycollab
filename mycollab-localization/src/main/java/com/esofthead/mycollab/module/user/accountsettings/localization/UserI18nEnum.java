@@ -23,6 +23,12 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("account-user")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum UserI18nEnum {
+    SINGLE,
+    LIST,
+    LIST_VALUE,
+    DETAIL,
+    NEW,
+
     MAIL_RECOVERY_PASSWORD_SUBJECT,
     MAIL_INVITE_USER_SUBJECT,
     MAIL_CONFIRM_PASSWORD_SUBJECT,
@@ -51,10 +57,6 @@ public enum UserI18nEnum {
     SECTION_CONTACT_INFORMATION,
     SECTION_ADVANCED_INFORMATION,
 
-    VIEW_LIST_TITLE,
-    VIEW_DETAIL_USER,
-    VIEW_NEW_USER,
-
     FORM_FIRST_NAME,
     FORM_LAST_NAME,
     FORM_NICK_NAME,
@@ -67,5 +69,7 @@ public enum UserI18nEnum {
     FORM_COUNTRY,
     FORM_WEBSITE,
     FORM_HOME_PHONE,
-    FORM_WORK_PHONE
+    FORM_WORK_PHONE,
+
+    OPT_PROFILE
 }

@@ -179,7 +179,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
             helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
             helpBtn.addStyleName(UIConstants.BUTTON_LINK);
-            ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/project-management/introduction/");
+            ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/project-management/");
             BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
             helpOpener.extend(helpBtn);
             topPanel.with(breadCrumb, helpBtn).alignAll(Alignment.MIDDLE_LEFT).expand(breadCrumb);

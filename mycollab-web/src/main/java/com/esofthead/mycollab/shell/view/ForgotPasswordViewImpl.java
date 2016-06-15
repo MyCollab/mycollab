@@ -73,6 +73,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
                         } else {
                             userService.requestToResetPassword(user.getUsername());
                             NotificationUtil.showNotification("Success", AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
+                            EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
                         }
                     } else {
                         NotificationUtil.showErrorNotification(String.format("%s is not a valid email", username));

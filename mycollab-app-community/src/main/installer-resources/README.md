@@ -45,13 +45,23 @@ Version 5.3.4
 
 **Library Upgrades**
 
+* Spring 4.3.0.RELEASE 
+
 **Improvements & New Features**
 
+* [Premium] The new user workload report
+* [Premium] Add invoice activity to the activity stream
+* [Premium] Add time entry to the activity stream
+* [Premium] Allow to add the new assignment in calendar view
+* Allow customizing project features when create the new project
 * Allow to customize the report fields
+* Externalize more strings for localization
 * Support German language (Contributor: Marco Gantenbein)
 * Other minor improvements
 
 **Bug Fixes**
+
+* [Premium] Can not quickly edit value in the popup field
 
 
 Version 5.3.3

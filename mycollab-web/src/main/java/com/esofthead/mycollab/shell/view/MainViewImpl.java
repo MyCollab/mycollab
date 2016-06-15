@@ -293,11 +293,11 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     Duration dur = new Duration(new DateTime(billingAccount.getCreatedtime()), new DateTime());
                     int daysLeft = dur.toStandardDays().getDays();
                     if (daysLeft > 30) {
-                        informLbl.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-                                + " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+                        informLbl.setValue("<div class='informBlock'>Trial<br></div><div class='informBlock'>&gt;&gt;</div>");
 //                        AppContext.getInstance().setIsValidAccount(false);
                     } else {
-                        informLbl.setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
+                        informLbl.setValue(String.format("<div class='informBlock'>Trial ending<br>%d days " +
+                                "left</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
                     }
                 }
             }

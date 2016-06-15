@@ -84,7 +84,7 @@ public class UserUnresolvedAssignmentWidget extends Depot {
         UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
         searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
         LocalDate now = new LocalDate();
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
+        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
@@ -98,7 +98,7 @@ public class UserUnresolvedAssignmentWidget extends Depot {
         searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
         LocalDate now = new LocalDate();
         now = now.plusDays(7);
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDateofWeek(now.toDate());
+        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();

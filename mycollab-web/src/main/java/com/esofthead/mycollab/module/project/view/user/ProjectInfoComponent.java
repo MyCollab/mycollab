@@ -107,7 +107,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
         MHorizontalLayout footer = new MHorizontalLayout();
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        footer.addStyleName(UIConstants.LABEL_META_INFO);
+        footer.addStyleName(UIConstants.META_INFO);
         footer.addStyleName(UIConstants.FLEX_DISPLAY);
 
         ELabel createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project

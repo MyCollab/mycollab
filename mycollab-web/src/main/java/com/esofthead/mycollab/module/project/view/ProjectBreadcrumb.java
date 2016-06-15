@@ -29,14 +29,12 @@ import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.events.*;
 import com.esofthead.mycollab.module.project.i18n.*;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.web.ui.CommonUIFactory;
 import com.esofthead.mycollab.vaadin.web.ui.utils.LabelStringGenerator;
@@ -67,8 +65,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
             @Override
             public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
-                        new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoDashboard(this, null));
             }
         });
         this.addLink(homeBtn);

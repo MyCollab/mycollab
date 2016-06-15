@@ -129,7 +129,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);
         if (SimpleBug.isOverdue(bug)) {
             bugLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
                     .formatDuration(bug.getDuedate())));
         } else if (SimpleBug.isCompleted(bug)) {
             bugLink.setCSSClass("completed");

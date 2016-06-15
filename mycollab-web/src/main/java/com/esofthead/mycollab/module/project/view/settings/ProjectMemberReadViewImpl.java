@@ -164,7 +164,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                     ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid()));
-            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO);
+            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.META_INFO);
             if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
                 memberRole.setValue(memberRoleLinkPrefix + "style=\"color: #B00000;\">" + "Project Owner" + "</a>");
             } else {
@@ -176,20 +176,20 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
                 Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
                         beanItem.getUsername()), ContentMode.HTML);
-                memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
+                memberEmailLabel.addStyleName(UIConstants.META_INFO);
                 memberEmailLabel.setWidth("100%");
                 memberInfo.addComponent(memberEmailLabel);
             }
 
             ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(beanItem.getJoindate())))
                     .withDescription(AppContext.formatDateTime(beanItem.getJoindate())).withStyleName(UIConstants
-                            .LABEL_META_INFO).withFullWidth();
+                            .META_INFO).withFullWidth();
             memberInfo.addComponent(memberSinceLabel);
 
             if (ProjectMemberStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
                 Label lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(beanItem.getLastAccessTime())))
                         .withDescription(AppContext.formatDateTime(beanItem.getLastAccessTime()));
-                lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
+                lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
                 memberInfo.addComponent(lastAccessTimeLbl);
             }
 
@@ -202,7 +202,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                     " " + new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
             Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
-            memberWorkStatus.addStyleName(UIConstants.LABEL_META_INFO);
+            memberWorkStatus.addStyleName(UIConstants.META_INFO);
             memberInfo.addComponent(memberWorkStatus);
             memberInfo.setWidth("100%");
 

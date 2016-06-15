@@ -34,8 +34,12 @@ import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.web.ui.ServiceMenu;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
@@ -74,7 +78,14 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                 .withMargin(new MarginInfo(true, true, true, false));
         AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
-        topPanel.addComponent(breadcrumb);
+        Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
+        helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
+        helpBtn.addStyleName(UIConstants.BUTTON_LINK);
+        ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/account-management/");
+        BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
+        helpOpener.extend(helpBtn);
+
+        topPanel.with(breadcrumb, helpBtn).expand(breadcrumb);
 
         accountTab = new UserVerticalTabsheet();
         accountTab.setSizeFull();

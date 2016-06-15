@@ -185,11 +185,11 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.TOP_RIGHT);
         headerContent.with(headerContentTop);
         MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel("Email:").withStyleName
-                (UIConstants.LABEL_META_INFO), new ELabel(new A(String.format("mailto:%s", AppContext.getUsername()))
+                (UIConstants.META_INFO), new ELabel(new A(String.format("mailto:%s", AppContext.getUsername()))
                 .appendText(AppContext.getUsername()).write(), ContentMode.HTML));
-        metaInfoLayout.with(new ELabel("Member since: ").withStyleName(UIConstants.LABEL_META_INFO),
+        metaInfoLayout.with(new ELabel("Member since: ").withStyleName(UIConstants.META_INFO),
                 new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getRegisteredtime())));
-        metaInfoLayout.with(new ELabel("Logged in: ").withStyleName(UIConstants.LABEL_META_INFO),
+        metaInfoLayout.with(new ELabel("Logged in: ").withStyleName(UIConstants.META_INFO),
                 new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getLastaccessedtime())));
         metaInfoLayout.alignAll(Alignment.TOP_LEFT);
         headerContent.addComponent(metaInfoLayout);

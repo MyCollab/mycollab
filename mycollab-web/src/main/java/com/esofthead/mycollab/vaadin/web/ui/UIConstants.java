@@ -53,7 +53,9 @@ public class UIConstants {
     public static final String BUTTON_ICON_ONLY = "button-icon-only";
 
     public static final String INLINE_HELP = "inline-help";
-    public static final String LABEL_META_INFO = "meta-info";
+    public static final String META_INFO = "meta-info";
+    public static final String META_COLOR = "meta-color";
+    public static final String TEXT_ALIGN_RIGHT="text-align-right";
     public static final String LABEL_OVERDUE = "overdue";
 
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";

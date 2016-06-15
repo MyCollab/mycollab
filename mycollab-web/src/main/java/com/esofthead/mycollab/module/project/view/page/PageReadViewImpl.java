@@ -201,7 +201,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             MVerticalLayout header = new MVerticalLayout().withMargin(false);
             ELabel titleLbl = ELabel.h3(beanItem.getSubject());
             header.with(titleLbl);
-            Div footer = new Div().setStyle("width:100%").setCSSClass(UIConstants.LABEL_META_INFO);
+            Div footer = new Div().setStyle("width:100%").setCSSClass(UIConstants.META_INFO);
             Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
                     AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
                     .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));

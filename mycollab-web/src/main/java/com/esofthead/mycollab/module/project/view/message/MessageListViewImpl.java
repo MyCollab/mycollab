@@ -163,7 +163,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             leftHeader.addComponent(new ELabel(labelLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3
                     + " " + ValoTheme.LABEL_NO_MARGIN));
             ELabel timePostLbl = new ELabel().prettyDateTime(message.getPosteddate());
-            timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
+            timePostLbl.setStyleName(UIConstants.META_INFO);
 
             Button deleteBtn = new Button("", new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;

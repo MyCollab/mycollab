@@ -59,8 +59,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
         formLayoutHelper.getLayout().setWidth("600px");
         final TextField adminField = formLayoutHelper.addComponent(new TextField(), "Admin email", 0, 0);
         final PasswordField passwordField = formLayoutHelper.addComponent(new PasswordField(), "Admin password", 0, 1);
-        final PasswordField retypePasswordField = formLayoutHelper.addComponent(new PasswordField(), "Retype Admin " +
-                "password", 0, 2);
+        final PasswordField retypePasswordField = formLayoutHelper.addComponent(new PasswordField(), "Retype Admin password", 0, 2);
         final DateFormatField dateFormatField = formLayoutHelper.addComponent(new DateFormatField(SimpleBillingAccount.DEFAULT_DATE_FORMAT),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
                 AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 3);
@@ -78,7 +77,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
         timeZoneSelectionField.setValue(TimeZone.getDefault().getID());
         final LanguageSelectionField languageBox = formLayoutHelper.addComponent(new LanguageSelectionField(),
                 AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
-        languageBox.setValue(Locale.US.getLanguage());
+        languageBox.setValue(Locale.US.toLanguageTag());
         content.with(formLayoutHelper.getLayout());
 
         Button installBtn = new Button("Setup", new Button.ClickListener() {
@@ -104,7 +103,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
                     NotificationUtil.showErrorNotification("Invalid date format");
                     return;
                 }
-                String language = (String) languageBox.getValue();
+                String language = languageBox.getValue();
                 String timezoneDbId = timeZoneSelectionField.getValue();
                 BillingAccountMapper billingAccountMapper = AppContextUtil.getSpringBean(BillingAccountMapper.class);
                 BillingAccountExample ex = new BillingAccountExample();

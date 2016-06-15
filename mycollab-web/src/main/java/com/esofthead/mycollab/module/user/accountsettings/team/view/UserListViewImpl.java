@@ -99,7 +99,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
 
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(UserI18nEnum.VIEW_LIST_TITLE, 0));
+        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(UserI18nEnum.LIST_VALUE, 0));
 
         final Button sortBtn = new Button();
         sortBtn.addClickListener(new Button.ClickListener() {
@@ -173,7 +173,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
         List<SimpleUser> userAccountList = userService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
                 Integer.MAX_VALUE));
-        headerText.updateTitle(AppContext.getMessage(UserI18nEnum.VIEW_LIST_TITLE, userAccountList.size()));
+        headerText.updateTitle(AppContext.getMessage(UserI18nEnum.LIST_VALUE, userAccountList.size()));
 
         for (SimpleUser userAccount : userAccountList) {
             contentLayout.addComponent(generateMemberBlock(userAccount));
@@ -284,18 +284,18 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
             Label memberEmailLabel = new ELabel(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
                     member.getUsername()), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants
-                    .LABEL_META_INFO).withFullWidth();
+                    .META_INFO).withFullWidth();
             memberInfo.addComponent(memberEmailLabel);
         }
 
         ELabel memberSinceLabel = new ELabel("Member since: " + AppContext.formatPrettyTime(member.getRegisteredtime()))
                 .withDescription(AppContext.formatDateTime(member.getRegisteredtime())).withStyleName(UIConstants
-                        .LABEL_META_INFO).withFullWidth();
+                        .META_INFO).withFullWidth();
         memberInfo.addComponent(memberSinceLabel);
 
         ELabel lastAccessTimeLbl = new ELabel("Logged in " + AppContext.formatPrettyTime(member.getLastaccessedtime()))
                 .withDescription(AppContext.formatDateTime(member.getLastaccessedtime()));
-        lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
+        lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
         memberInfo.addComponent(lastAccessTimeLbl);
         blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);

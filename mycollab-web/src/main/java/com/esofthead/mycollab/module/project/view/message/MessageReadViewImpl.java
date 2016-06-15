@@ -184,7 +184,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                     AppContext.formatPrettyTime(message.getPosteddate())), ContentMode.HTML).withDescription
                     (AppContext.formatDateTime(message.getPosteddate()));
             timePostLbl.setSizeUndefined();
-            timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
+            timePostLbl.setStyleName(UIConstants.META_INFO);
 
             messageHeader.with(timePostLbl).expand(timePostLbl);
 

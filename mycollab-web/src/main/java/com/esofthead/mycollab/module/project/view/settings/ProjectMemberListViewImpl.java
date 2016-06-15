@@ -259,21 +259,21 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
             Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
                     member.getUsername()), ContentMode.HTML);
-            memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
+            memberEmailLabel.addStyleName(UIConstants.META_INFO);
             memberEmailLabel.setWidth("100%");
             blockTop.addComponent(memberEmailLabel);
         }
 
         ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(member.getJoindate())))
                 .withDescription(AppContext.formatDateTime(member.getJoindate()));
-        memberSinceLabel.addStyleName(UIConstants.LABEL_META_INFO);
+        memberSinceLabel.addStyleName(UIConstants.META_INFO);
         memberSinceLabel.setWidth("100%");
         blockTop.addComponent(memberSinceLabel);
 
         if (ProjectMemberStatusConstants.ACTIVE.equals(member.getStatus())) {
             ELabel lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(member.getLastAccessTime())))
                     .withDescription(AppContext.formatDateTime(member.getLastAccessTime()));
-            lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
+            lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
             blockTop.addComponent(lastAccessTimeLbl);
         }
 
@@ -286,7 +286,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                 " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
         Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
-        memberWorkStatus.addStyleName(UIConstants.LABEL_META_INFO);
+        memberWorkStatus.addStyleName(UIConstants.META_INFO);
         blockTop.addComponent(memberWorkStatus);
 
         blockContent.addComponent(blockTop);

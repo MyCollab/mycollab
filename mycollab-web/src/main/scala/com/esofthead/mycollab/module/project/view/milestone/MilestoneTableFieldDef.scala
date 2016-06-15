@@ -28,11 +28,11 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
   */
 object MilestoneTableFieldDef {
   val id = new TableViewField(GenericI18Enum.FORM_PROGRESS, Milestone.Field.id.name(), UIConstants.TABLE_M_LABEL_WIDTH)
-  val milestonename = new TableViewField(GenericI18Enum.FORM_NAME, Milestone.Field.name.name(), UIConstants.TABLE_X_LABEL_WIDTH)
-  val status = new TableViewField(GenericI18Enum.FORM_STATUS, Milestone.Field.status.name(), UIConstants.TABLE_S_LABEL_WIDTH)
-  val startdate = new TableViewField(GenericI18Enum.FORM_START_DATE, Milestone.Field.startdate.name(), UIConstants.TABLE_DATE_WIDTH)
-  val enddate = new TableViewField(GenericI18Enum.FORM_END_DATE, Milestone.Field.enddate.name(), UIConstants.TABLE_DATE_WIDTH)
+  val milestoneName = new TableViewField(GenericI18Enum.FORM_NAME, Milestone.Field.name.name(), UIConstants.TABLE_X_LABEL_WIDTH)
+  val status = new TableViewField(GenericI18Enum.FORM_STATUS, Milestone.Field.status.name(), UIConstants.TABLE_M_LABEL_WIDTH)
+  val startDate = new TableViewField(GenericI18Enum.FORM_START_DATE, Milestone.Field.startdate.name(), UIConstants.TABLE_DATE_WIDTH)
+  val endDate = new TableViewField(GenericI18Enum.FORM_END_DATE, Milestone.Field.enddate.name(), UIConstants.TABLE_DATE_WIDTH)
   val assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, SimpleMilestone.Field.ownerFullName.name(), UIConstants.TABLE_M_LABEL_WIDTH)
-  val billableHours = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "totalBillableHours", UIConstants.TABLE_M_LABEL_WIDTH)
-  val nonBillableHours = new TableViewField(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "totalNonBillableHours", UIConstants.TABLE_M_LABEL_WIDTH)
+  val billableHours = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "totalBillableHours", UIConstants.TABLE_X_LABEL_WIDTH)
+  val nonBillableHours = new TableViewField(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "totalNonBillableHours", UIConstants.TABLE_X_LABEL_WIDTH)
 }

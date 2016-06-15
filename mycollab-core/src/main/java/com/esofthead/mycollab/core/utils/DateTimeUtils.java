@@ -184,7 +184,7 @@ public class DateTimeUtils {
      * @return array of two date elements, first is the first day of week, and
      * the second is the end week date
      */
-    public static Date[] getBounceDateofWeek(Date date) {
+    public static Date[] getBounceDatesOfWeek(Date date) {
         Calendar calendar = new GregorianCalendar();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setTime(date);

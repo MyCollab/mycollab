@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -46,7 +45,7 @@ public class LanguageSelectionField extends CustomField<String> {
         languageBox.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
         languageBox.setFilteringMode(FilteringMode.CONTAINS);
 
-        languageCode = new ELabel().withStyleName(UIConstants.LABEL_META_INFO);
+        languageCode = new ELabel().withStyleName(UIConstants.META_INFO);
 
         Locale[] supportedLanguage = LocalizationHelper.getAvailableLocales();
         for (Locale locale : supportedLanguage) {

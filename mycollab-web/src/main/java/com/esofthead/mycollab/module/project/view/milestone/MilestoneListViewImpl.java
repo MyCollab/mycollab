@@ -251,8 +251,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private StreamResource buildStreamSource(ReportExportType exportType) {
-        List fields = Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.status(),
-                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.id(),
+        List fields = Arrays.asList(MilestoneTableFieldDef.milestoneName(), MilestoneTableFieldDef.status(),
+                MilestoneTableFieldDef.startDate(), MilestoneTableFieldDef.endDate(), MilestoneTableFieldDef.id(),
                 MilestoneTableFieldDef.assignee());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
                 new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, AppContextUtil.getSpringBean
@@ -355,10 +355,10 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName(UIConstants.LABEL_META_INFO);
+                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
                 progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
-                        .withStyleName(UIConstants.LABEL_META_INFO);
+                        .withStyleName(UIConstants.META_INFO);
             }
             this.addComponent(progressInfoLbl);
 

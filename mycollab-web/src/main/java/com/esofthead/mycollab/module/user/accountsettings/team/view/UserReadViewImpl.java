@@ -94,18 +94,19 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         }
 
         infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_ROLE)).withWidth
-                ("80px").withStyleName("meta-color"), new Label(roleDiv.write(), ContentMode.HTML)).withMargin(new MarginInfo(true, false, true, false)));
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY)).withWidth("80px").withStyleName("meta-color"),
+                ("80px").withStyleName(UIConstants.META_COLOR), new Label(roleDiv.write(), ContentMode.HTML)).withMargin(new MarginInfo(true, false, true, false)));
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY)).withWidth
+                ("80px").withStyleName(UIConstants.META_COLOR),
                 new Label(AppContext.formatDate(user.getDateofbirth()))).withMargin(new MarginInfo(false, false, true, false)));
 
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
-            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_EMAIL)).withWidth("80px").withStyleName("meta-color"),
+            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_EMAIL)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
                     new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(), ContentMode.HTML)).withMargin(new MarginInfo(false, false, true, false)));
         }
 
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)).withWidth("80px").withStyleName("meta-color"),
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
                 new Label(TimezoneVal.getDisplayName(user.getTimezone()))).withMargin(new MarginInfo(false, false, true, false)));
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)).withWidth("80px").withStyleName("meta-color"),
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
                 new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale()))).withMargin(new MarginInfo(false, false, true, false)));
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);

@@ -94,7 +94,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
 
         inviteUserTokenField = new InviteUserTokenField();
         informationLayout.addComponent(new MVerticalLayout(inviteUserTokenField, new ELabel(AppContext.getMessage
-                        (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withStyleName(UIConstants.LABEL_META_INFO)).withMargin(false),
+                        (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withStyleName(UIConstants.META_INFO)).withMargin(false),
                 AppContext.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
         informationLayout.addComponent(roleComboBox, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 

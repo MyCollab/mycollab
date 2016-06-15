@@ -253,7 +253,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                 ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
                 AppContext.formatPrettyTime(resource.getCreatedTime()
                         .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getCreatedTime().getTime()));
-        lastUpdateInfo.addStyleName(UIConstants.LABEL_META_INFO);
+        lastUpdateInfo.addStyleName(UIConstants.META_INFO);
         container.addComponent(lastUpdateInfo);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout();
@@ -320,7 +320,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                         CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
                 AppContext.formatPrettyTime(resource.getLastUpdatedTime().getTime())), ContentMode.HTML)
                 .withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
-        lastUpdateInfo.addStyleName(UIConstants.LABEL_META_INFO);
+        lastUpdateInfo.addStyleName(UIConstants.META_INFO);
         container.addComponent(lastUpdateInfo);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout();

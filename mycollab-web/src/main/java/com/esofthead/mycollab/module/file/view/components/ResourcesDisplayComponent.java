@@ -424,14 +424,14 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 ELabel createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime
                         (resource.getCreated().getTime()), ContentMode.HTML)
                         .withDescription(AppContext.formatDateTime(resource.getCreated().getTime()))
-                        .withStyleName(UIConstants.LABEL_META_INFO);
+                        .withStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(createdTimeLbl);
             }
 
             if (resource instanceof Content) {
                 ELabel lbl = new ELabel(FontAwesome.ARCHIVE.getHtml() + " " + FileUtils.getVolumeDisplay(resource
                         .getSize()), ContentMode.HTML)
-                        .withStyleName(UIConstants.LABEL_META_INFO);
+                        .withStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(lbl);
             }
             informationLayout.addComponent(moreInfoAboutResLayout);
@@ -443,18 +443,18 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             if (StringUtils.isBlank(resource.getCreatedUser())) {
                 UserLink usernameLbl = new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
                         AppContext.getUser().getDisplayName());
-                usernameLbl.addStyleName(UIConstants.LABEL_META_INFO);
+                usernameLbl.addStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(usernameLbl);
             } else {
                 UserService userService = AppContextUtil.getSpringBean(UserService.class);
                 SimpleUser user = userService.findUserByUserNameInAccount(resource.getCreatedUser(), AppContext.getAccountId());
                 if (user != null) {
                     UserLink userLink = new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName());
-                    userLink.addStyleName(UIConstants.LABEL_META_INFO);
+                    userLink.addStyleName(UIConstants.META_INFO);
                     moreInfoAboutResLayout.addComponent(userLink);
                 } else {
                     Label usernameLbl = new Label(resource.getCreatedBy());
-                    usernameLbl.addStyleName(UIConstants.LABEL_META_INFO);
+                    usernameLbl.addStyleName(UIConstants.META_INFO);
                     moreInfoAboutResLayout.addComponent(usernameLbl);
                 }
             }

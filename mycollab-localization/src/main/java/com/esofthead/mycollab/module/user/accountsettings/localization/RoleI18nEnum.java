@@ -23,6 +23,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("account-role")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum RoleI18nEnum {
+    SINGLE,
     LIST,
     NEW,
     DETAIL,

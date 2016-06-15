@@ -166,7 +166,7 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
             taskLink.setCSSClass("completed");
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            issueDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+            issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
                     .formatDuration(genericTask.getDueDate())));
         }
         return issueDiv.write();

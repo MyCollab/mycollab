@@ -20,6 +20,7 @@ import java.util.{Arrays, Locale}
 
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.configuration.SiteConfiguration
+import com.esofthead.mycollab.core.SimpleLogging
 import com.esofthead.mycollab.i18n.LocalizationHelper
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -43,13 +44,17 @@ import org.springframework.stereotype.Component
   @Subscribe
   def execute(event: SendUserInvitationEvent): Unit = {
     val inviteeUser = userService.findUserByUserNameInAccount(event.invitee, event.sAccountId)
-    contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(inviteeUser.getSubdomain))
-    contentGenerator.putVariable("invitee", inviteeUser)
-    contentGenerator.putVariable("password", event.password)
-    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName,
-      Arrays.asList(new MailRecipientField(event.invitee, event.invitee)), null, null,
-      contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
-        UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getDefaultSiteName)),
-      contentGenerator.parseFile("mailUserInvitationNotifier.html", Locale.US), null)
+    if (inviteeUser != null) {
+      contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(inviteeUser.getSubdomain))
+      contentGenerator.putVariable("invitee", inviteeUser)
+      contentGenerator.putVariable("password", event.password)
+      extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName,
+        Arrays.asList(new MailRecipientField(event.invitee, event.invitee)), null, null,
+        contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
+          UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getDefaultSiteName)),
+        contentGenerator.parseFile("mailUserInvitationNotifier.html", Locale.US), null)
+    } else {
+     SimpleLogging.error("Can not find the user with username %s in account %s".format(event.invitee, event.sAccountId))
+    }
   }
 }

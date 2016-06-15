@@ -82,9 +82,6 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskDashboardViewImpl.class);
 
-    static final String DESCENDING = "Descending";
-    static final String ASCENDING = "Ascending";
-
     static final String GROUP_DUE_DATE = "Due Date";
     static final String GROUP_START_DATE = "Start Date";
     static final String GROUP_CREATED_DATE = "Created Date";
@@ -143,12 +140,13 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new Label("Sort"));
-        final ComboBox sortCombo = new ValueComboBox(false, DESCENDING, ASCENDING);
+        final ComboBox sortCombo = new ValueComboBox(false, AppContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
+                AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
         sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 String sortValue = (String) sortCombo.getValue();
-                if (ASCENDING.equals(sortValue)) {
+                if (AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
                     sortDirection = SearchCriteria.ASC;
                 } else {
                     sortDirection = SearchCriteria.DESC;

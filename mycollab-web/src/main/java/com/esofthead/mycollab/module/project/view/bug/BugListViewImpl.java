@@ -79,9 +79,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(BugListViewImpl.class);
 
-    static final String DESCENDING = "Descending";
-    static final String ASCENDING = "Ascending";
-
     private int currentPage = 0;
 
     private String groupByState;
@@ -133,12 +130,13 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new Label("Sort"));
-        final ComboBox sortCombo = new ValueComboBox(false, DESCENDING, ASCENDING);
+        final ComboBox sortCombo = new ValueComboBox(false, AppContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
+                AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
         sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 String sortValue = (String) sortCombo.getValue();
-                if (ASCENDING.equals(sortValue)) {
+                if (AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
                     sortDirection = SearchCriteria.ASC;
                 } else {
                     sortDirection = SearchCriteria.DESC;

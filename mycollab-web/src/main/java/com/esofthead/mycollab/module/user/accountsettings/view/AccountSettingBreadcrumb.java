@@ -19,7 +19,9 @@ package com.esofthead.mycollab.module.user.accountsettings.view;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.user.accountsettings.localization.AccountBreadcrumbI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.Role;
@@ -62,60 +64,60 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
 
     public void gotoProfile() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_PROFILE)));
-        AppContext.addFragment("account/preview", "Profile");
+        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.OPT_PROFILE)));
+        AppContext.addFragment("account/preview", AppContext.getMessage(UserI18nEnum.OPT_PROFILE));
     }
 
     public void gotoSetup() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_SETUP)));
-        AppContext.addFragment("account/setup", "Setup");
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETUP)));
+        AppContext.addFragment("account/setup", AppContext.getMessage(AdminI18nEnum.VIEW_SETUP));
     }
 
     public void gotoBillingPage() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_BILLING)));
-        AppContext.addFragment("account/billing", "Billing");
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING)));
+        AppContext.addFragment("account/billing", AppContext.getMessage(AdminI18nEnum.VIEW_BILLING));
     }
 
     public void gotoCancelAccountPage() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_BILLING), new Button.ClickListener() {
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null));
             }
         }));
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.BUTTON_CANCEL_ACCOUNT)));
-        AppContext.addFragment("account/cancel_account", "Cancel Account");
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT)));
+        AppContext.addFragment("account/cancel_account", AppContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT));
     }
 
     public void gotoUserList() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS)));
-        AppContext.addFragment("account/user/list", "Users");
+        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST)));
+        AppContext.addFragment("account/user/list", AppContext.getMessage(UserI18nEnum.LIST));
     }
 
     public void gotoUserRead(SimpleUser user) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS), new GotoUserListListener()));
+        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
         this.addLink(generateBreadcrumbLink(user.getDisplayName()));
 
         AppContext.addFragment("account/user/preview/" + UrlEncodeDecoder.encode(user.getUsername()),
-                "Preview User " + user.getDisplayName());
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, AppContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
     }
 
     public void gotoUserAdd() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS), new GotoUserListListener()));
+        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        AppContext.addFragment("account/user/add", "Invite New User");
+        AppContext.addFragment("account/user/add", AppContext.getMessage(AdminI18nEnum.ACTION_INVITE_NEW_USER));
     }
 
     public void gotoUserEdit(final SimpleUser user) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS), new GotoUserListListener()));
+        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(user.getDisplayName(), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -128,19 +130,20 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         }));
         this.setLinkEnabled(true, 2);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        AppContext.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()), "Edit User " + user.getUsername());
+        AppContext.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, AppContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
     }
 
     public void gotoGeneralSetting() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING)));
-        AppContext.addFragment("account/setting/general", AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING));
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
+        AppContext.addFragment("account/setting/general", AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
     }
 
     public void gotoMakeTheme() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING)));
-        AppContext.addFragment("account/setting/theme", AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING));
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
+        AppContext.addFragment("account/setting/theme", AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
     }
 
     private static class GotoUserListListener implements Button.ClickListener {
@@ -154,29 +157,30 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
 
     public void gotoRoleList() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES)));
-        AppContext.addFragment("account/role/list", "Roles");
+        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST)));
+        AppContext.addFragment("account/role/list", AppContext.getMessage(RoleI18nEnum.LIST));
     }
 
     public void gotoRoleAdd() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES), new GotoRoleListListener()));
+        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        AppContext.addFragment("account/role/add", "New Role");
+        AppContext.addFragment("account/role/add", AppContext.getMessage(RoleI18nEnum.NEW));
     }
 
     public void gotoRoleRead(SimpleRole role) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES), new GotoRoleListListener()));
+        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(role.getRolename()));
-        AppContext.addFragment("account/role/preview/" + UrlEncodeDecoder.encode(role.getId()), "Preview Role " + role.getRolename());
+        AppContext.addFragment("account/role/preview/" + UrlEncodeDecoder.encode(role.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, AppContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     public void gotoRoleEdit(final Role role) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES), new GotoRoleListListener()));
+        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(role.getRolename(), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -188,7 +192,8 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         }));
         this.setLinkEnabled(true, 2);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        AppContext.addFragment("account/role/edit/" + UrlEncodeDecoder.encode(role.getId()), "Edit Role: " + role.getRolename());
+        AppContext.addFragment("account/role/edit/" + UrlEncodeDecoder.encode(role.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, AppContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     private static class GotoRoleListListener implements Button.ClickListener {
@@ -200,12 +205,12 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         }
     }
 
-    private static Button generateBreadcrumbLink(String linkname) {
-        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkname), linkname);
+    private static Button generateBreadcrumbLink(String linkName) {
+        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkName), linkName);
     }
 
-    private static Button generateBreadcrumbLink(String linkname, Button.ClickListener listener) {
-        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkname), linkname, listener);
+    private static Button generateBreadcrumbLink(String linkName, Button.ClickListener listener) {
+        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkName), linkName, listener);
     }
 
     private static class BreadcrumbLabelStringGenerator implements LabelStringGenerator {

@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -48,11 +50,11 @@ public class AccountSettingContainer extends AbstractPageView {
 
     private void buildComponents() {
         generalSettingPresenter = PresenterResolver.getPresenter(GeneralSettingPresenter.class);
-        settingTab.addTab(this.generalSettingPresenter.getView(), "General Settings");
+        settingTab.addTab(generalSettingPresenter.getView(), AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
 
         if (!SiteConfiguration.isCommunityEdition()) {
             themeCustomizePresenter = PresenterResolver.getPresenter(IThemeCustomizePresenter.class);
-            settingTab.addTab(this.themeCustomizePresenter.getView(), "Theme");
+            settingTab.addTab(this.themeCustomizePresenter.getView(), AppContext.getMessage(AdminI18nEnum.OPT_THEME));
         }
 
         settingTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
@@ -62,9 +64,11 @@ public class AccountSettingContainer extends AbstractPageView {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 TabSheet.Tab tab = ((TabSheetDecorator) event.getTabSheet()).getSelectedTabInfo();
                 String caption = tab.getCaption();
-                if ("General Settings".equals(caption) && !"General Settings".equals(selectedTabId)) {
+                if (AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS).equals(caption)
+                        && !AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS).equals(selectedTabId)) {
                     generalSettingPresenter.go(AccountSettingContainer.this, null);
-                } else if ("Theme".equals(caption) && !"Theme".equals(selectedTabId)) {
+                } else if (AppContext.getMessage(AdminI18nEnum.OPT_THEME).equals(caption)
+                        && !AppContext.getMessage(AdminI18nEnum.OPT_THEME).equals(selectedTabId)) {
                     themeCustomizePresenter.go(AccountSettingContainer.this, null);
                 }
                 selectedTabId = "";

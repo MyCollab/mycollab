@@ -1629,6 +1629,10 @@ a.pending {
 	color: #999;
 }
 
+.text-align-right {
+	text-align: right;
+}
+
 .meta-info {
 	color: #999;
 	font-size: 13px;
@@ -14307,6 +14311,10 @@ a.pending {
 
 .meta-color {
 	color: #999;
+}
+
+.text-align-right {
+	text-align: right;
 }
 
 .meta-info {

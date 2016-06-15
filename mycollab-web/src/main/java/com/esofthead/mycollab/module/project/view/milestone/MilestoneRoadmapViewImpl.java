@@ -303,10 +303,10 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName(UIConstants.LABEL_META_INFO);
+                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
                 progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
-                        .withStyleName(UIConstants.LABEL_META_INFO);
+                        .withStyleName(UIConstants.META_INFO);
             }
 
             final MVerticalLayout issueLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));

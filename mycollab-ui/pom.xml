@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.vaadin.addon</groupId>
             <artifactId>easyuploads</artifactId>
-            <version>7.4.3</version>
+            <version>7.4.4</version>
         </dependency>
 
         <dependency>

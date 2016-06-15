@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
+import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.security.BooleanPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -41,7 +42,7 @@ public class GeneralSettingPresenter extends AbstractPresenter<GeneralSettingVie
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (AppContext.isAdmin()) {
             AccountSettingContainer customizeContainer = (AccountSettingContainer) container;
-            customizeContainer.gotoSubView("General Settings");
+            customizeContainer.gotoSubView(AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
             view.displayView();
             AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
             breadcrumb.gotoGeneralSetting();

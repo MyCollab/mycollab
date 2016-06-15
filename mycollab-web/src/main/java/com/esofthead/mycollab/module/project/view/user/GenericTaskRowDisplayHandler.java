@@ -90,7 +90,7 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
             issueDiv.appendChild(new Span().appendText(" - Due in " + AppContext.formatDuration(genericTask.getDueDate()))
-                    .setCSSClass(UIConstants.LABEL_META_INFO));
+                    .setCSSClass(UIConstants.META_INFO));
         }
 
         MHorizontalLayout iconsLayout = new MHorizontalLayout().with(new ELabel(ProjectAssetsManager.getAsset

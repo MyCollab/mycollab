@@ -77,7 +77,7 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
                     userLink, lastUpdatedOn);
         }
 
-        ELabel footer = new ELabel(div.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO)
+        ELabel footer = new ELabel(div.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO)
                 .withFullWidth();
         layout.with(link, descLbl, footer);
         return layout;

@@ -125,7 +125,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         Div milestoneDiv = new Div().appendChild(milestoneLink);
         if (milestone.isOverdue()) {
             milestoneLink.setCSSClass("overdue");
-            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
                     .formatDuration(milestone.getEnddate())));
         } else if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
             milestoneLink.setCSSClass("completed");

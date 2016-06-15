@@ -132,7 +132,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
             @Override
             public ComponentContainer getLayout() {
-                String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.VIEW_NEW_USER) : user.getDisplayName();
+                String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
                 wrappedLayoutFactory = buildFormLayout();
@@ -222,7 +222,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
             @Override
             public ComponentContainer getLayout() {
-                String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.VIEW_NEW_USER) : user.getDisplayName();
+                String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
                 formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));
                 FormContainer formContainer = new FormContainer();

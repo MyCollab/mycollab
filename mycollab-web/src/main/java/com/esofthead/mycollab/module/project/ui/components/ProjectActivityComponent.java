@@ -187,7 +187,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                 GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
                 withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
-        timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
+        timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
             Button msgDeleteBtn = new Button();
@@ -264,7 +264,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                     GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
                     AppContext.formatPrettyTime(auditLog.getPosteddate())), ContentMode.HTML).
                     withDescription(AppContext.formatDateTime(auditLog.getPosteddate()));
-            timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
+            timePostLbl.setStyleName(UIConstants.META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
             rowLayout.addComponent(messageHeader);

@@ -25,7 +25,6 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -37,7 +36,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
@@ -94,7 +92,7 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
             issueDiv.appendChild(new Span().appendText(" - Due in " + AppContext.formatDuration(genericTask.getDueDate()))
-                    .setCSSClass(UIConstants.LABEL_META_INFO));
+                    .setCSSClass(UIConstants.META_INFO));
         }
 
         Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);

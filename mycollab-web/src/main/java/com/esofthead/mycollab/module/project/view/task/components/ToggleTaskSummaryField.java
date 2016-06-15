@@ -131,7 +131,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(taskLink);
         if (task.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
                     .formatDuration(task.getDeadline())));
         } else if (task.isCompleted()) {
             taskLink.setCSSClass("completed");

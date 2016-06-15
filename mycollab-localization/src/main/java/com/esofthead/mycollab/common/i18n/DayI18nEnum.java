@@ -42,5 +42,11 @@ public enum DayI18nEnum {
     OPT_THURSDAY,
     OPT_FRIDAY,
     OPT_SATURDAY,
-    OPT_SUNDAY
+    OPT_SUNDAY,
+    OPT_TODAY,
+    OPT_WEEK,
+    OPT_MONTH,
+    OPT_DATE,
+    OPT_FROM,
+    OPT_TO
 }
