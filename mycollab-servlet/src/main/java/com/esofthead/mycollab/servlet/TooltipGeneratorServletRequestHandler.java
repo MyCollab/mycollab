@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
+import com.esofthead.mycollab.module.user.AdminTypeConstants;
 import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -153,7 +154,7 @@ public class TooltipGeneratorServletRequestHandler extends GenericHttpServlet {
                 com.esofthead.mycollab.module.crm.domain.SimpleTask crmTask = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateToolTipCrmTask(locale, dateFormat,
                         crmTask, siteURL, timeZone);
-            } else if ("User".equals(type)) {
+            } else if (AdminTypeConstants.USER.equals(type)) {
                 UserService service = AppContextUtil.getSpringBean(UserService.class);
                 SimpleUser user = service.findUserByUserNameInAccount(username, sAccountId);
                 html = CommonTooltipGenerator.generateTooltipUser(locale, user, siteURL, timeZone);

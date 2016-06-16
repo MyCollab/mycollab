@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.shell.view;
 
+import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -72,11 +73,12 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
                             NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
                         } else {
                             userService.requestToResetPassword(user.getUsername());
-                            NotificationUtil.showNotification("Success", AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
+                            NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS),
+                                    AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
                             EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
                         }
                     } else {
-                        NotificationUtil.showErrorNotification(String.format("%s is not a valid email", username));
+                        NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.NOT_VALID_EMAIL, username));
                     }
                 }
             });

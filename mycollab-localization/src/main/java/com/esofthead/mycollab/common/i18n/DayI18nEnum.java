@@ -48,5 +48,8 @@ public enum DayI18nEnum {
     OPT_MONTH,
     OPT_DATE,
     OPT_FROM,
-    OPT_TO
+    OPT_TO,
+    OPT_DAILY,
+    OPT_WEEKLY,
+    OPT_MONTHLY
 }

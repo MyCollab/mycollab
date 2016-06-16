@@ -160,7 +160,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             this.getFinishButton().setStyleName(UIConstants.BUTTON_ACTION);
             this.footer.setMargin(new MarginInfo(true, true, false, false));
 
-            Button newProjectFromTemplateBtn = new Button("New project from template", new Button.ClickListener() {
+            Button newProjectFromTemplateBtn = new Button(AppContext.getMessage(ProjectI18nEnum.OPT_CREATE_PROJECT_FROM_TEMPLATE), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     ProjectAddWindow.this.close();

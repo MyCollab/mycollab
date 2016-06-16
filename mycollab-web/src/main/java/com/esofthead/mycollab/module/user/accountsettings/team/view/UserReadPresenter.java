@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -101,7 +102,7 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+        if (AppContext.canRead(RolePermissionCollections.ACCOUNT_USER)) {
             String username = (String) data.getParams();
 
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
@@ -115,11 +116,10 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
                 AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
                 breadcrumb.gotoUserRead(user);
             } else {
-                NotificationUtil.showErrorNotification(String.format("There is no user %s in this account", username));
+                NotificationUtil.showErrorNotification(AppContext.getMessage(UserI18nEnum.ERROR_NO_USER_IN_ACCOUNT, username));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
-
     }
 }

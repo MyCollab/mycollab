@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -31,9 +32,9 @@ import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -66,8 +67,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
             @Override
             public void onDelete(final Role role) {
                 if (Boolean.TRUE.equals(role.getIssystemrole())) {
-                    NotificationUtil.showErrorNotification(String.format("Can not delete role %s because it is the system role.",
-                            role.getRolename()));
+                    NotificationUtil.showErrorNotification(AppContext.getMessage(RoleI18nEnum.ERROR_CAN_NOT_DELETE_SYSTEM_ROLE, role.getRolename()));
                 } else {
                     ConfirmDialogExt.show(UI.getCurrent(),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),

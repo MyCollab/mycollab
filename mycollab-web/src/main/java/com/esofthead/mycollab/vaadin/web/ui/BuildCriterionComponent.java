@@ -18,6 +18,7 @@ package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.common.domain.SaveSearchResult;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
+import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.json.QueryAnalyzer;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
@@ -159,7 +160,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
 
         if (CollectionUtils.isEmpty(fieldInfos)) {
-            throw new UserInvalidInputException("You must select at least one search criteria");
+            throw new UserInvalidInputException(AppContext.getMessage(ErrorI18nEnum.SELECT_AT_LEAST_ONE_CRITERIA));
         }
 
         SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
@@ -525,7 +526,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                             hostSearchLayout.callSearchAction();
                         } catch (Exception e) {
                             LOG.error("Error of invalid query", e);
-                            NotificationUtil.showErrorNotification("This query is invalid");
+                            NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.QUERY_SEARCH_IS_INVALID));
                         }
 
                         if (filterBox.getComponentCount() <= 3) {

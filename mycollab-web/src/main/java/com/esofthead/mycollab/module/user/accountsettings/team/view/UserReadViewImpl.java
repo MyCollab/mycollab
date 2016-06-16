@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import com.esofthead.mycollab.core.utils.TimezoneVal;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -88,7 +89,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
         Node roleDiv;
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
-            roleDiv = new Div().appendText("Account Owner");
+            roleDiv = new Div().appendText(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         } else {
             roleDiv = new A(AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid())).appendText(user.getRoleName());
         }
@@ -152,7 +153,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                         return new EmailViewField(user.getEmail());
                     } else if (propertyId.equals("roleid")) {
                         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
-                            return new DefaultViewField("Account Owner");
+                            return new DefaultViewField(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
                         } else {
                             return new LinkViewField(user.getRoleName(), AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid()));
                         }

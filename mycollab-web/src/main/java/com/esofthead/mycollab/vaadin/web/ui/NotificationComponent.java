@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -106,7 +107,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 }
             }
         } else {
-            Label noItemLbl = new Label("There is no notification right now");
+            Label noItemLbl = new Label(AppContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION));
             notificationContainer.addComponent(noItemLbl);
             notificationContainer.setComponentAlignment(noItemLbl, Alignment.MIDDLE_CENTER);
         }
@@ -149,14 +150,14 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             NewUpdateAvailableNotification updateNo = (NewUpdateAvailableNotification) item;
             Notification no;
             if (AppContext.isAdmin()) {
-                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), "There" +
-                        " is the new MyCollab version " + ((NewUpdateAvailableNotification) item).getVersion() + " "
+                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), AppContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION,
+                        ((NewUpdateAvailableNotification) item).getVersion()) + " "
                         + new A("javascript:com.mycollab.scripts.upgrade('" + updateNo.getVersion() + "','" + updateNo.getAutoDownloadLink() + "','" + updateNo.getManualDownloadLink() + "')")
-                        .appendText("Upgrade"),
+                        .appendText(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)),
                         Notification.Type.TRAY_NOTIFICATION);
             } else {
-                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), "There" +
-                        " is the new MyCollab version " + ((NewUpdateAvailableNotification) item).getVersion(), Notification.Type.TRAY_NOTIFICATION);
+                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), AppContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION,
+                        ((NewUpdateAvailableNotification) item).getVersion()), Notification.Type.TRAY_NOTIFICATION);
             }
 
             no.setHtmlContentAllowed(true);
@@ -187,8 +188,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         if (item instanceof NewUpdateAvailableNotification) {
             final NewUpdateAvailableNotification notification = (NewUpdateAvailableNotification) item;
             Span spanEl = new Span();
-            spanEl.appendText("There is the new MyCollab version " + notification.getVersion() + " . For the " +
-                    "enhancements and security purpose, the system administrator should upgrade to the latest version");
+            spanEl.appendText(AppContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, notification.getVersion()));
             Label lbl = new Label(FontAwesome.INFO_CIRCLE.getHtml() + " " + spanEl.write(), ContentMode.HTML);
             lbl.setWidth("100%");
             CssLayout lblWrapper = new CssLayout();
@@ -196,7 +196,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             wrapper.addComponent(lblWrapper);
             wrapper.expand(lblWrapper);
             if (AppContext.isAdmin()) {
-                Button upgradeBtn = new Button("Upgrade", new Button.ClickListener() {
+                Button upgradeBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         UI.getCurrent().addWindow(new UpgradeConfirmWindow(notification.getVersion(), notification.getManualDownloadLink(), notification.getInstallerFile()));
@@ -207,8 +207,9 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 wrapper.addComponent(upgradeBtn);
             }
         } else if (item instanceof RequestUploadAvatarNotification) {
-            wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " Let people recognize you", ContentMode.HTML));
-            Button uploadAvatarBtn = new Button("Upload your avatar", new Button.ClickListener() {
+            wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage
+                    (ShellI18nEnum.OPT_REQUEST_UPLOAD_AVATAR), ContentMode.HTML));
+            Button uploadAvatarBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
@@ -218,7 +219,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             uploadAvatarBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.add(uploadAvatarBtn);
         } else if (item instanceof SmtpSetupNotification) {
-            Button smtpBtn = new Button("Setup", new Button.ClickListener() {
+            Button smtpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SETUP), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
@@ -226,8 +227,8 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 }
             });
             smtpBtn.setStyleName(UIConstants.BUTTON_BLOCK);
-            Label lbl = new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " Your members can not receive any mail " +
-                    "notification without a proper SMTP setting", ContentMode.HTML);
+            Label lbl = new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage
+                    (ShellI18nEnum.ERROR_NO_SMTP_SETTING), ContentMode.HTML);
             MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);
         } else {

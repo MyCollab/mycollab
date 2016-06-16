@@ -17,6 +17,9 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -45,10 +48,10 @@ public class UserPermissionManagementViewImpl extends AbstractPageView implement
 
     private void buildComponents() {
         userPresenter = PresenterResolver.getPresenter(UserPresenter.class);
-        groupTab.addTab(userPresenter.getView(), "Users");
+        groupTab.addTab(userPresenter.getView(), AppContext.getMessage(UserI18nEnum.LIST));
 
         rolePresenter = PresenterResolver.getPresenter(RolePresenter.class);
-        groupTab.addTab(rolePresenter.getView(), "Roles");
+        groupTab.addTab(rolePresenter.getView(), AppContext.getMessage(RoleI18nEnum.LIST));
 
         groupTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;
@@ -57,9 +60,9 @@ public class UserPermissionManagementViewImpl extends AbstractPageView implement
             public void selectedTabChange(SelectedTabChangeEvent event) {
                 Tab tab = ((TabSheetDecorator) event.getTabSheet()).getSelectedTabInfo();
                 String caption = tab.getCaption();
-                if ("Users".equals(caption)) {
+                if (AppContext.getMessage(UserI18nEnum.LIST).equals(caption)) {
                     userPresenter.go(UserPermissionManagementViewImpl.this, null);
-                } else if ("Roles".equals(caption)) {
+                } else if (AppContext.getMessage(RoleI18nEnum.LIST).equals(caption)) {
                     rolePresenter.go(UserPermissionManagementViewImpl.this, null);
                 }
             }

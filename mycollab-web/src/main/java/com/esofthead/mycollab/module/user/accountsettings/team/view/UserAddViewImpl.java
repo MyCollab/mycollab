@@ -23,6 +23,8 @@ import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
 import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -399,7 +401,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
         RolePermissionContainer() {
             this.setMargin(new MarginInfo(true, false, false, false));
-            this.addComponent(ELabel.h2("Permissions"));
+            this.addComponent(ELabel.h2(AppContext.getMessage(RolePermissionI18nEnum.LIST)));
             permissionLayout = new VerticalLayout();
             this.addComponent(permissionLayout);
         }
@@ -418,8 +420,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             }
 
             if (permissionMap != null) {
-                permissionLayout.addComponent(constructPermissionSectionView("Project", permissionMap,
-                        RolePermissionCollections.PROJECT_PERMISSION_ARR));
+                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(ProjectI18nEnum.SINGLE),
+                        permissionMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
 
                 permissionLayout.addComponent(constructPermissionSectionView("Customer Management", permissionMap,
                         RolePermissionCollections.CRM_PERMISSIONS_ARR));

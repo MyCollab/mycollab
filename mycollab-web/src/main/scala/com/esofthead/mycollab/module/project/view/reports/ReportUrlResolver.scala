@@ -37,7 +37,6 @@ class ReportUrlResolver extends ProjectUrlResolver {
     }
   }
 
-
   /**
     * @param params
     */

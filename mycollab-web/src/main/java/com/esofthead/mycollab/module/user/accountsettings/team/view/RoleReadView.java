@@ -28,5 +28,4 @@ import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 public interface RoleReadView extends IPreviewView<SimpleRole> {
 
     HasPreviewFormHandlers<Role> getPreviewFormHandlers();
-
 }

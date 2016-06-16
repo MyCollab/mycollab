@@ -23,6 +23,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("common-license")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum LicenseI18nEnum {
+    ACTION_BUY_LICENSE,
     ACTION_ENTER_LICENSE,
     ACTION_CHANGE_LICENSE,
     OPT_LICENSE_EXPIRE_DATE,

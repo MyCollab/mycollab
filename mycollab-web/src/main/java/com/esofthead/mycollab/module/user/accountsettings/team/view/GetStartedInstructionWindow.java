@@ -16,9 +16,12 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.events.UserEvent;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
@@ -57,7 +60,7 @@ class GetStartedInstructionWindow extends Window {
         Label userInfoLbl = new Label(userInfoDiv.write(), ContentMode.HTML);
 
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
-            user.setRoleName("Account Owner");
+            user.setRoleName(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         }
         Div roleInfoDiv = new Div().appendText("Your role is ").appendChild(new B().appendText(user.getRoleName()));
         Label roleInfoLbl = new Label(roleInfoDiv.write(), ContentMode.HTML);
@@ -75,7 +78,7 @@ class GetStartedInstructionWindow extends Window {
             }
         });
         addNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        Button doneBtn = new Button("Done", new Button.ClickListener() {
+        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override

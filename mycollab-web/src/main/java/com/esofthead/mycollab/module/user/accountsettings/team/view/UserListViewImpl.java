@@ -20,21 +20,18 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.LazyValueInjector;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.esofthead.mycollab.module.user.accountsettings.view.UserTableFieldDef;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.esb.SendUserInvitationEvent;
 import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.ReportStreamSource;
-import com.esofthead.mycollab.reporting.RpFieldsBuilder;
-import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,9 +46,7 @@ import com.esofthead.mycollab.vaadin.web.ui.SearchTextField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.google.common.eventbus.AsyncEventBus;
 import com.hp.gagawa.java.elements.A;
-import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -59,15 +54,11 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -87,7 +78,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         this.setMargin(new MarginInfo(false, true, false, true));
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withFullWidth();
-        Button createBtn = new Button("Invite user", new Button.ClickListener() {
+        Button createBtn = new Button(AppContext.getMessage(UserI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -134,20 +125,22 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         };
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
-        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
-                .withDescription("Export to PDF");
-        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
-        pdfFileDownloader.extend(exportPdfBtn);
+        Button printBtn = new Button("", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(new UserCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return searchCriteria;
+                    }
+                }));
+            }
+        });
+        printBtn.setIcon(FontAwesome.PRINT);
+        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
-        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
-        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
-        excelFileDownloader.extend(exportExcelBtn);
-
-        ButtonGroup exportButtonGroup = new ButtonGroup();
-        exportButtonGroup.addButton(exportPdfBtn);
-        exportButtonGroup.addButton(exportExcelBtn);
-
-        header.with(headerText, sortBtn, searchTextField, exportButtonGroup, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
+        header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
 
         contentLayout = new CssLayout();
@@ -155,7 +148,6 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         this.addComponent(contentLayout);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void setSearchCriteria(UserSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
@@ -171,8 +163,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         }
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        List<SimpleUser> userAccountList = userService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
-                Integer.MAX_VALUE));
+        List<SimpleUser> userAccountList = userService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         headerText.updateTitle(AppContext.getMessage(UserI18nEnum.LIST_VALUE, userAccountList.size()));
 
         for (SimpleUser userAccount : userAccountList) {
@@ -206,7 +197,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                             member.getInviteUser(), AppContext.getSubDomain(), AppContext.getAccountId());
                     AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
                     asyncEventBus.post(invitationEvent);
-                    NotificationUtil.showNotification("Success!", "The invitation is sent to " + member.getDisplayName() + " successfully");
+                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS), AppContext
+                            .getMessage(UserI18nEnum.OPT_SEND_INVITATION_SUCCESSFULLY, member.getDisplayName()));
                 }
             });
             resendBtn.addStyleName(UIConstants.BUTTON_LINK);
@@ -241,8 +233,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                                    userService.pendingUserAccounts(Collections.singletonList(member.getUsername()),
-                                            AppContext.getAccountId());
+                                    userService.pendingUserAccounts(Collections.singletonList(member.getUsername()), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                                 }
                             }
@@ -273,7 +264,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             }
             memberInfo.addComponent(memberRole);
         } else if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
-            Label memberRole = new Label("<a style=\"color: #B00000;\">Account Owner</a>", ContentMode.HTML);
+            Label memberRole = new Label(String.format("<a style=\"color: #B00000;\">%s</a>", AppContext.getMessage
+                    (RoleI18nEnum.OPT_ACCOUNT_OWNER)), ContentMode.HTML);
             memberInfo.addComponent(memberRole);
         } else {
             Label lbl = new Label();
@@ -288,33 +280,18 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             memberInfo.addComponent(memberEmailLabel);
         }
 
-        ELabel memberSinceLabel = new ELabel("Member since: " + AppContext.formatPrettyTime(member.getRegisteredtime()))
+        ELabel memberSinceLabel = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext
+                .formatPrettyTime(member.getRegisteredtime())))
                 .withDescription(AppContext.formatDateTime(member.getRegisteredtime())).withStyleName(UIConstants
                         .META_INFO).withFullWidth();
         memberInfo.addComponent(memberSinceLabel);
 
-        ELabel lastAccessTimeLbl = new ELabel("Logged in " + AppContext.formatPrettyTime(member.getLastaccessedtime()))
-                .withDescription(AppContext.formatDateTime(member.getLastaccessedtime()));
+        ELabel lastAccessTimeLbl = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext.formatPrettyTime
+                (member.getLastaccessedtime()))).withDescription(AppContext.formatDateTime(member.getLastaccessedtime()));
         lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
         memberInfo.addComponent(lastAccessTimeLbl);
         blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);
         return blockContent;
-    }
-
-    private StreamResource buildStreamSource(ReportExportType exportType) {
-        List fields = Arrays.asList(UserTableFieldDef.username(), UserTableFieldDef.rolename(),
-                UserTableFieldDef.email(), UserTableFieldDef.birthday(),
-                UserTableFieldDef.officephone(), UserTableFieldDef.homephone(), UserTableFieldDef.company());
-        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Users",
-                new RpFieldsBuilder(fields), exportType, SimpleUser.class, AppContextUtil.getSpringBean
-                (UserService.class));
-        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
-            @Override
-            protected void initReportParameters(Map<String, Object> parameters) {
-                parameters.put(SimpleReportTemplateExecutor.CRITERIA, searchCriteria);
-            }
-        };
-        return new StreamResource(streamSource, exportType.getDefaultFileName());
     }
 }

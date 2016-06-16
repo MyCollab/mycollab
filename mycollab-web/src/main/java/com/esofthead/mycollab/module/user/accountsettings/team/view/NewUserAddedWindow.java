@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.spring.AppContextUtil;
@@ -39,7 +40,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 public class NewUserAddedWindow extends Window {
     public NewUserAddedWindow(final SimpleUser user, String uncryptPassword) {
-        super("Create a new user");
+        super(AppContext.getMessage(UserI18nEnum.NEW));
         this.setModal(true);
         this.setResizable(false);
         this.setClosable(false);
@@ -48,18 +49,18 @@ public class NewUserAddedWindow extends Window {
         MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
 
-        ELabel infoLbl = new ELabel(FontAwesome.CHECK_CIRCLE.getHtml() + " A new user named " + user.getDisplayName() +
-                " has been created", ContentMode.HTML);
+        ELabel infoLbl = new ELabel(FontAwesome.CHECK_CIRCLE.getHtml() + AppContext.getMessage(UserI18nEnum.OPT_NEW_USER_CREATED,
+                user.getDisplayName()), ContentMode.HTML);
         content.with(infoLbl);
 
-        String signinInstruction = String.format("Signin MyCollab website at <a href='%s'>%s</a>", AppContext.getSiteUrl(), AppContext.getSiteUrl());
+        String signinInstruction = AppContext.getMessage(UserI18nEnum.OPT_SIGN_IN_MSG, AppContext.getSiteUrl(), AppContext.getSiteUrl());
         content.with(new MVerticalLayout(new Label(signinInstruction, ContentMode.HTML),
                 new ELabel(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL)).withStyleName(UIConstants.META_INFO),
                 new Label("    " + user.getUsername()),
                 new ELabel(AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).withStyleName(UIConstants.META_INFO),
-                new Label(uncryptPassword != null ? "    " + uncryptPassword : "    User will set the own password")));
+                new Label("    " + (uncryptPassword != null ? uncryptPassword : AppContext.getMessage(UserI18nEnum.OPT_USER_SET_OWN_PASSWORD)))));
 
-        Button sendEmailBtn = new Button("Send Email", new Button.ClickListener() {
+        Button sendEmailBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
@@ -76,7 +77,7 @@ public class NewUserAddedWindow extends Window {
         content.with(new ELabel(AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE)).withStyleName
                 (UIConstants.META_INFO));
 
-        Button createMoreUserBtn = new Button("Create another user", new Button.ClickListener() {
+        Button createMoreUserBtn = new Button(AppContext.getMessage(UserI18nEnum.OPT_CREATE_ANOTHER_USER), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
@@ -85,7 +86,7 @@ public class NewUserAddedWindow extends Window {
         });
         createMoreUserBtn.addStyleName(UIConstants.BUTTON_LINK);
 
-        Button doneBtn = new Button("Done", new Button.ClickListener() {
+        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));

@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.UserScreenData;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -42,7 +43,7 @@ public class UserPresenter extends AbstractPresenter<UserContainer> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         UserPermissionManagementView groupContainer = (UserPermissionManagementView) container;
-        groupContainer.gotoSubView("Users");
+        groupContainer.gotoSubView(AppContext.getMessage(UserI18nEnum.LIST));
 
         if (data == null) {
             UserListPresenter listPresenter = PresenterResolver.getPresenter(UserListPresenter.class);

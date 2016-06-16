@@ -539,7 +539,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     simpleMeeting.setEnddate(event.getNewEnd());
                     MeetingService service = AppContextUtil.getSpringBean(MeetingService.class);
                     service.updateWithSession(simpleMeeting, AppContext.getUsername());
-                    NotificationUtil.showNotification("Success", "Event: \""
+                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS), "Event: \""
                             + simpleMeeting.getSubject()
                             + "\" has been updated!", Type.HUMANIZED_MESSAGE);
                     EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
@@ -571,7 +571,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
                         MeetingService service = AppContextUtil.getSpringBean(MeetingService.class);
                         service.updateWithSession(simpleMeeting, AppContext.getUsername());
-                        NotificationUtil.showNotification("Success",
+                        NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS),
                                 "Event: \"" + simpleMeeting.getSubject()
                                         + "\" has been updated!", Type.HUMANIZED_MESSAGE);
                         EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));

@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -26,14 +27,14 @@ import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
+import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
+import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -70,7 +71,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
 
             @Override
             protected String getReportTitle() {
-                return "Roles";
+                return AppContext.getMessage(RoleI18nEnum.LIST);
             }
 
             @Override
@@ -88,7 +89,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
             for (SimpleRole item : currentDataList) {
                 if (item.isSelected()) {
                     if (Boolean.TRUE.equals(item.getIssystemrole())) {
-                        NotificationUtil.showErrorNotification(String.format("Can not delete role %s because it is the system role.",
+                        NotificationUtil.showErrorNotification(AppContext.getMessage(RoleI18nEnum.ERROR_CAN_NOT_DELETE_SYSTEM_ROLE,
                                 item.getRolename()));
                     } else {
                         keyList.add(item);

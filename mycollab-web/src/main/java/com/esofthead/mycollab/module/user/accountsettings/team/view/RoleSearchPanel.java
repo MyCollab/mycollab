@@ -100,7 +100,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
                             callSearchAction();
                         }
                     });
-            nameField.setInputPrompt("Query by role name");
+            nameField.setInputPrompt(AppContext.getMessage(RoleI18nEnum.OPT_QUERY_BY_ROLE_NAME));
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 

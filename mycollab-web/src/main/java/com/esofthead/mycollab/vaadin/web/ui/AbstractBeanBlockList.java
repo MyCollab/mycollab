@@ -58,8 +58,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
             "gray-block", "orange-block", "brown-block", "maroon-block",
             "green-block", "olive-block"};
 
-    public AbstractBeanBlockList(BlockDisplayHandler<T> blockDisplayHandler,
-                                 int defaultNumberSearchItems) {
+    public AbstractBeanBlockList(BlockDisplayHandler<T> blockDisplayHandler, int defaultNumberSearchItems) {
         this(defaultNumberSearchItems);
         this.setBlockDisplayHandler(blockDisplayHandler);
     }
@@ -211,8 +210,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
             searchRequest.setCurrentPage(totalPage);
         }
 
-        if (this.controlBarWrapper != null
-                && this.controlBarWrapper.getParent() == this) {
+        if (this.controlBarWrapper != null && this.controlBarWrapper.getParent() == this) {
             this.removeComponent(this.controlBarWrapper);
         }
 

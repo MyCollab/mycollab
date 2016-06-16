@@ -16,19 +16,12 @@
  */
 package com.esofthead.mycollab.module.user;
 
-import com.esofthead.mycollab.core.MyCollabException;
-
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
+ * @author MyCollab Ltd
+ * @since 5.3.4
  */
-public class UserExistedException extends MyCollabException {
-	private static final long serialVersionUID = 1L;
+public class AdminTypeConstants {
+    public static final String USER = "User";
 
-	public UserExistedException(String message) {
-		super(message);
-	}
-
+    public static final String ROLE = "Role";
 }

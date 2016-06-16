@@ -161,7 +161,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             });
             addNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-            Button doneBtn = new Button("Done", new Button.ClickListener() {
+            Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override

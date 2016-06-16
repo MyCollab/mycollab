@@ -23,6 +23,8 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("project-role-permission")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum RolePermissionI18nEnum {
+    LIST,
+
     Message,
     Milestone,
     Task,

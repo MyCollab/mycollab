@@ -153,7 +153,8 @@ public class SimpleProjectMember extends ProjectMember {
     }
 
     public enum Field {
-        roleName, memberFullName;
+        roleName, memberFullName, totalBillableLogTime, totalNonBillableLogTime, projectName, numOpenTasks, numOpenBugs;
+
         public boolean equalTo(Object value) {
             return name().equals(value);
         }

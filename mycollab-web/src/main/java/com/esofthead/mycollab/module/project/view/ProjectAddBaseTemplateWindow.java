@@ -47,7 +47,7 @@ import java.util.List;
  */
 public class ProjectAddBaseTemplateWindow extends Window {
     public ProjectAddBaseTemplateWindow() {
-        super("Create project from template ...");
+        super(AppContext.getMessage(ProjectI18nEnum.OPT_CREATE_PROJECT_FROM_TEMPLATE));
         this.setModal(true);
         this.setClosable(true);
         this.setResizable(false);
@@ -58,9 +58,9 @@ public class ProjectAddBaseTemplateWindow extends Window {
         Button helpBtn = new Button("");
         helpBtn.setIcon(FontAwesome.QUESTION_CIRCLE);
         helpBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        helpBtn.setDescription("To mark a template project, select a project and choose 'Mark as template'");
+        helpBtn.setDescription(AppContext.getMessage(ProjectI18nEnum.OPT_MARK_TEMPLATE_HELP));
         gridFormLayoutHelper.addComponent(new MHorizontalLayout().withFullWidth().with(templateProjectComboBox,
-                helpBtn).expand(templateProjectComboBox), "Template", 0, 0);
+                helpBtn).expand(templateProjectComboBox), AppContext.getMessage(ProjectI18nEnum.FORM_TEMPLATE), 0, 0);
         final TextField prjNameField = new TextField();
         gridFormLayoutHelper.addComponent(prjNameField, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 1);
         final TextField prjKeyField = new TextField();
@@ -72,7 +72,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
             public void buttonClick(Button.ClickEvent clickEvent) {
                 SimpleProject templatePrj = (SimpleProject) templateProjectComboBox.getValue();
                 if (templatePrj == null) {
-                    NotificationUtil.showErrorNotification("You must choose a template project");
+                    NotificationUtil.showErrorNotification(AppContext.getMessage(ProjectI18nEnum.ERROR_MUST_CHOOSE_TEMPLATE_PROJECT));
                     return;
                 }
                 String newPrjName = prjNameField.getValue();

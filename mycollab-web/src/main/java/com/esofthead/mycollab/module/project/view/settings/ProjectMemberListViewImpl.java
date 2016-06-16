@@ -21,21 +21,20 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.LazyValueInjector;
 import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
-import com.esofthead.mycollab.module.project.view.ProjectMemberTableFieldDef;
-import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.ReportStreamSource;
-import com.esofthead.mycollab.reporting.RpFieldsBuilder;
-import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -48,24 +47,18 @@ import com.esofthead.mycollab.vaadin.web.ui.SearchTextField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
-import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -122,19 +115,21 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
         viewHeader.addComponent(searchTextField);
 
-        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
-                .withDescription("Export to PDF");
-        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
-        pdfFileDownloader.extend(exportPdfBtn);
-
-        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
-        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
-        excelFileDownloader.extend(exportExcelBtn);
-
-        ButtonGroup exportButtonGroup = new ButtonGroup();
-        exportButtonGroup.addButton(exportPdfBtn);
-        exportButtonGroup.addButton(exportExcelBtn);
-        viewHeader.addComponent(exportButtonGroup);
+        Button printBtn = new Button("", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(new ProjectMemberCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return searchCriteria;
+                    }
+                }));
+            }
+        });
+        printBtn.setIcon(FontAwesome.PRINT);
+        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        viewHeader.addComponent(printBtn);
 
         Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -264,26 +259,28 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
             blockTop.addComponent(memberEmailLabel);
         }
 
-        ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(member.getJoindate())))
+        ELabel memberSinceLabel = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext.formatPrettyTime(member.getJoindate())))
                 .withDescription(AppContext.formatDateTime(member.getJoindate()));
         memberSinceLabel.addStyleName(UIConstants.META_INFO);
         memberSinceLabel.setWidth("100%");
         blockTop.addComponent(memberSinceLabel);
 
         if (ProjectMemberStatusConstants.ACTIVE.equals(member.getStatus())) {
-            ELabel lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(member.getLastAccessTime())))
+            ELabel lastAccessTimeLbl = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext.formatPrettyTime(member.getLastAccessTime())))
                     .withDescription(AppContext.formatDateTime(member.getLastAccessTime()));
             lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
             blockTop.addComponent(lastAccessTimeLbl);
         }
 
-        String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + new Span
-                ().appendText("" + member.getNumOpenTasks()).setTitle("Open tasks") + "  " + ProjectAssetsManager.getAsset
-                (ProjectTypeConstants.BUG).getHtml() + " " + new Span().appendText("" + member.getNumOpenBugs())
-                .setTitle("Open bugs") + " " +
+        String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + new Span()
+                .appendText("" + member.getNumOpenTasks()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)) +
+                "  " + ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() + " " + new Span()
+                .appendText("" + member.getNumOpenBugs()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)) +
                 " " + FontAwesome.MONEY.getHtml() + " " + new Span().appendText("" + NumberUtils.roundDouble(2,
-                member.getTotalBillableLogTime())).setTitle("Billable hours") + "  " + FontAwesome.GIFT.getHtml() +
-                " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
+                member.getTotalBillableLogTime())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) +
+                "  " + FontAwesome.GIFT.getHtml() +
+                " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
+                .setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
         Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
         memberWorkStatus.addStyleName(UIConstants.META_INFO);
@@ -292,20 +289,5 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         blockContent.addComponent(blockTop);
         blockContent.setExpandRatio(blockTop, 1.0f);
         return blockContent;
-    }
-
-    private StreamResource buildStreamSource(ReportExportType exportType) {
-        List fields = Arrays.asList(ProjectMemberTableFieldDef.memberName(), ProjectMemberTableFieldDef.roleName(),
-                ProjectMemberTableFieldDef.billingRate(), ProjectMemberTableFieldDef.overtimeRate());
-        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Project Members",
-                new RpFieldsBuilder(fields), exportType, SimpleProjectMember.class, AppContextUtil.getSpringBean
-                (ProjectMemberService.class));
-        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
-            @Override
-            protected void initReportParameters(Map<String, Object> parameters) {
-                parameters.put(SimpleReportTemplateExecutor.CRITERIA, searchCriteria);
-            }
-        };
-        return new StreamResource(streamSource, exportType.getDefaultFileName());
     }
 }

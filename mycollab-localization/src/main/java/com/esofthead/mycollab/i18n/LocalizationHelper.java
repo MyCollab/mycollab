@@ -29,6 +29,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 
 /**
  * Wrapper class to get localization string.
@@ -66,13 +67,7 @@ public class LocalizationHelper {
             IMessageConveyor messageConveyor = getMessageConveyor(locale);
             return messageConveyor.getMessage(key, objects);
         } catch (Exception e) {
-            try {
-                return defaultMessage.getMessage(key, objects);
-            } catch (Exception e1) {
-                LOG.error("Can not find resource key " + key, e);
-                return "Undefined";
-            }
-
+            return defaultMessage.getMessage(key, objects);
         }
     }
 
@@ -85,7 +80,7 @@ public class LocalizationHelper {
             key = Enum.valueOf(cls, option);
             IMessageConveyor messageConveyor = getMessageConveyor(locale);
             return messageConveyor.getMessage(key, objects);
-        } catch (Exception e) {
+        } catch (MissingResourceException e) {
             if (key != null) {
                 try {
                     return defaultMessage.getMessage(key, objects);
