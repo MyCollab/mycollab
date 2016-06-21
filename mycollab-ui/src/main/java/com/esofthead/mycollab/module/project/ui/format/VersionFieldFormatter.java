@@ -18,8 +18,8 @@ package com.esofthead.mycollab.module.project.ui.format;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
 
 /**
  * @author MyCollab Ltd

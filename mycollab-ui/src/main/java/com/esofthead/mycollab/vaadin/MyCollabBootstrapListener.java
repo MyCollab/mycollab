@@ -27,7 +27,7 @@ import com.vaadin.server.BootstrapListener;
 import com.vaadin.server.BootstrapPageResponse;
 import org.jsoup.nodes.Element;
 
-import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
+import static com.esofthead.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.

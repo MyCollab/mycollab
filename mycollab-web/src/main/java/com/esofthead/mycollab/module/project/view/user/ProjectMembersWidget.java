@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
+import com.esofthead.mycollab.vaadin.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -50,7 +50,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Collections;
 
-import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
+import static com.esofthead.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.

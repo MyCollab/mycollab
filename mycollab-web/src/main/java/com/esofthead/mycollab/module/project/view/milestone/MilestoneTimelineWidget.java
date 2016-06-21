@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
+import com.esofthead.mycollab.vaadin.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.*;
@@ -45,7 +45,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 import java.util.Collections;
 import java.util.List;
 
-import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
+import static com.esofthead.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd

@@ -16,11 +16,21 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.spring.AppContextUtil;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.FileTemplateLoader;
+import freemarker.cache.MultiTemplateLoader;
+import freemarker.cache.TemplateLoader;
+import freemarker.template.Configuration;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 
 import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
@@ -54,6 +64,7 @@ public class SiteConfiguration {
     private String googleUrl;
     private String linkedinUrl;
     private PullMethod pullMethod;
+    private Configuration freemarkerConfiguration;
 
     public static void loadConfiguration() {
         TimeZone.setDefault(DateTimeZone.UTC.toTimeZone());
@@ -113,6 +124,30 @@ public class SiteConfiguration {
         instance.twitterUrl = ApplicationProperties.getString(TWITTER_URL, "https://twitter.com/mycollabdotcom");
         instance.googleUrl = ApplicationProperties.getString(GOOGLE_URL, "https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub");
         instance.linkedinUrl = ApplicationProperties.getString(LINKEDIN_URL, "http://www.linkedin.com/company/mycollab");
+
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_24);
+        configuration.setDefaultEncoding("UTF-8");
+        try {
+            List<TemplateLoader> loaders = new ArrayList<>();
+            File i18nFolder = new File(FileUtils.getUserFolder(), "i18n");
+            File confFolder1 = new File(FileUtils.getUserFolder(), "conf");
+            File confFolder2 = new File(FileUtils.getUserFolder(), "src/main/conf");
+            if (i18nFolder.exists()) {
+                loaders.add(new FileTemplateLoader(i18nFolder));
+            }
+            if (confFolder1.exists()) {
+                loaders.add(new FileTemplateLoader(confFolder1));
+            }
+            if (confFolder2.exists()) {
+                loaders.add(new FileTemplateLoader(confFolder2));
+            }
+            loaders.add(new ClassTemplateLoader(SiteConfiguration.class.getClassLoader(), ""));
+            configuration.setTemplateLoader(new MultiTemplateLoader(loaders.toArray(new TemplateLoader[loaders.size()])));
+            instance.freemarkerConfiguration = configuration;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     private static SiteConfiguration getInstance() {
@@ -218,6 +253,10 @@ public class SiteConfiguration {
 
     public static int getServerPort() {
         return getInstance().serverPort;
+    }
+
+    public static Configuration freemarkerConfiguration() {
+        return getInstance().freemarkerConfiguration;
     }
 
     public enum PullMethod {

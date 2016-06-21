@@ -69,22 +69,18 @@ public class ProjectServiceTest extends IntergrationServiceTest {
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @DataSet
     @Test
     public void testGetListProjectsByCriteria() {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List projects = projectService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List projects = projectService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(projects.size()).isEqualTo(4);
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @DataSet
     @Test
     public void testGetListProjectsByUsername() {

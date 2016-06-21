@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.utils.HistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;

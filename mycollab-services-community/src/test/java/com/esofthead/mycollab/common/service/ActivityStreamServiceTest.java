@@ -39,7 +39,6 @@ public class ActivityStreamServiceTest extends IntergrationServiceTest {
     @Autowired
     protected ActivityStreamService activityStreamService;
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchActivityStreams() {
@@ -47,13 +46,11 @@ public class ActivityStreamServiceTest extends IntergrationServiceTest {
         searchCriteria.setModuleSet(new SetSearchField<>("aa", "bb"));
         searchCriteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleActivityStream> activities = activityStreamService
-                .findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
-
+        List<SimpleActivityStream> activities = activityStreamService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
+                Integer.MAX_VALUE));
         assertThat(activities.size()).isEqualTo(3);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testQueryActivityWithComments() {

@@ -20,11 +20,8 @@ import java.io._
 import java.util.Locale
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
-import com.esofthead.mycollab.core.utils.FileUtils
-import com.esofthead.mycollab.i18n.LocalizationHelper
 import com.esofthead.mycollab.schedule.email.MailStyles
-import com.esofthead.mycollab.template.velocity.TemplateContext
-import org.apache.velocity.app.VelocityEngine
+import freemarker.template.Configuration
 import org.joda.time.LocalDate
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,12 +36,12 @@ import org.springframework.stereotype.Component
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ContentGenerator extends IContentGenerator with InitializingBean {
-  private var templateContext: TemplateContext = _
-  @Autowired private val templateEngine: VelocityEngine = null
+  private var templateContext: java.util.HashMap[String, Any] = _
+  @Autowired private val templateEngine: Configuration = null
 
   @throws(classOf[Exception])
   def afterPropertiesSet() {
-    templateContext = new TemplateContext
+    templateContext = new java.util.HashMap[String, Any]()
     val defaultUrls = Map[String, String](
       "cdn_url" -> SiteConfiguration.getCdnUrl,
       "facebook_url" -> SiteConfiguration.getFacebookUrl,
@@ -62,31 +59,16 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
     value match {
       case map: Map[_, _] => templateContext.put(key, mapAsJavaMap(map))
       case list: List[_] => templateContext.put(key, seqAsJavaList(list))
-      case _ => templateContext.put(key, value)
+      case _ => templateContext += (key -> value)
     }
   }
 
-  override def parseFile(templateFilePath: String): String = {
-    val writer = new StringWriter
-    val reader = FileUtils.getReader(templateFilePath)
-    templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
-    writer.toString
-  }
+  override def parseFile(templateFilePath: String): String = parseFile(templateFilePath, null)
 
-  override def parseFile(templateFilePath: String, currentLocale: Locale): String =
-    this.parseFile(templateFilePath, currentLocale, null)
-
-  override def parseFile(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String = {
+  override def parseFile(templateFilePath: String, locale: Locale): String = {
     val writer = new StringWriter
-    val reader = LocalizationHelper.templateReader(templateFilePath, currentLocale, defaultLocale)
-    templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
-    writer.toString
-  }
-
-  override def parseString(subject: String): String = {
-    val writer = new StringWriter
-    val reader = new StringReader(subject)
-    templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
+    val template = templateEngine.getTemplate(templateFilePath, locale)
+    template.process(templateContext, writer)
     writer.toString
   }
 }

@@ -20,7 +20,8 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
 
 /**
  * @author MyCollab Ltd.

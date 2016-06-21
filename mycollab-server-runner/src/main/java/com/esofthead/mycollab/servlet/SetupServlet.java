@@ -16,9 +16,10 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import com.esofthead.mycollab.core.utils.FileUtils;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.joda.time.LocalDate;
 
 import javax.servlet.ServletException;
@@ -27,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,11 +43,11 @@ public class SetupServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
 
-        VelocityContext context = new VelocityContext();
-        Reader reader = FileUtils.getReader("pageSetupFresh.html");
+        Configuration configuration = SiteConfiguration.freemarkerConfiguration();
+        Map<String, Object> context = new HashMap<>();
 
         String postUrl = "/install";
-        context.put("redirectURL", postUrl);
+        context.put("postUrl", postUrl);
 
         Map<String, String> defaultUrls = new HashMap<>();
         defaultUrls.put("cdn_url", "/assets/");
@@ -59,9 +59,12 @@ public class SetupServlet extends HttpServlet {
         context.put("current_year", new LocalDate().getYear());
 
         StringWriter writer = new StringWriter();
-        VelocityEngine voEngine = new VelocityEngine();
-
-        voEngine.evaluate(context, writer, "log task", reader);
+        Template template = configuration.getTemplate("pageSetupFresh.ftl");
+        try {
+            template.process(context, writer);
+        } catch (TemplateException e) {
+            throw new IOException(e);
+        }
 
         PrintWriter out = response.getWriter();
         out.print(writer.toString());

@@ -90,6 +90,11 @@ public class UserUnresolvedAssignmentWidget extends Depot {
         updateSearchResult();
     }
 
+    public void displayNoUnresolvedAssignmentsThisWeek() {
+        title = AppContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_THIS_WEEK);
+        this.setTitle(String.format(title, 0));
+    }
+
     public void displayUnresolvedAssignmentsNextWeek() {
         title = AppContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_NEXT_WEEK);
         searchCriteria = new ProjectGenericTaskSearchCriteria();
@@ -102,6 +107,11 @@ public class UserUnresolvedAssignmentWidget extends Depot {
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
+    }
+
+    public void displayNoUnresolvedAssignmentsNextWeek() {
+        title = AppContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_NEXT_WEEK);
+        this.setTitle(String.format(title, 0));
     }
 
     private void updateSearchResult() {

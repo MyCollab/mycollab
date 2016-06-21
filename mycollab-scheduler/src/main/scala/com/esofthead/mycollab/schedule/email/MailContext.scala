@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+  * This file is part of mycollab-scheduler.
+  *
+  * mycollab-scheduler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * mycollab-scheduler is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package com.esofthead.mycollab.schedule.email
 
 import java.util.{Locale, TimeZone}
@@ -45,4 +61,13 @@ class MailContext[B](@BeanProperty val emailNotification: SimpleRelayEmailNotifi
   def getType: String = emailNotification.getType
 
   @varargs def getMessage(key: Enum[_], params: AnyRef*): String = LocalizationHelper.getMessage(locale, key, params: _*)
+
+  def getFieldName(fieldMapper: ItemFieldMapper, fieldName: String): String = {
+    val fieldFormat = fieldMapper.getField(fieldName)
+    if (fieldFormat != null) {
+      getMessage(fieldFormat.displayName)
+    } else {
+      ""
+    }
+  }
 }

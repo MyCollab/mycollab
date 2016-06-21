@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.user.ui.format.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 
 /**
  * @author MyCollab Ltd

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.schedule.email.project.service
 
-import java.util.Locale
-
 import com.esofthead.mycollab.common.NotificationType
 import com.esofthead.mycollab.common.domain.{MailRecipientField, SimpleRelayEmailNotification}
 import com.esofthead.mycollab.common.service.AuditLogService
@@ -78,8 +76,8 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-            null, null, contentGenerator.parseString(getCreateSubject(context)),
-            contentGenerator.parseFile("mailProjectItemCreatedNotifier.html", context.getLocale, Locale.US), null)
+            null, null, getCreateSubject(context),
+            contentGenerator.parseFile("mailProjectItemCreatedNotifier.ftl", context.getLocale), null)
         }
       }
     }
@@ -105,8 +103,8 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-            null, null, contentGenerator.parseString(getUpdateSubject(context)),
-            contentGenerator.parseFile("mailProjectItemUpdatedNotifier.html", context.getLocale, Locale.US), null)
+            null, null, getUpdateSubject(context),
+            contentGenerator.parseFile("mailProjectItemUpdatedNotifier.ftl", context.getLocale), null)
         }
       }
     }
@@ -126,8 +124,8 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-            null, null, contentGenerator.parseString(getCommentSubject(context)),
-            contentGenerator.parseFile("mailProjectItemCommentNotifier.html", context.getLocale, Locale.US), null)
+            null, null, getCommentSubject(context),
+            contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.getLocale), null)
         }
       }
     }

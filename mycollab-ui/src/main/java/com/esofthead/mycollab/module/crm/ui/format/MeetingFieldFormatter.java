@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.ui.format;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 
 /**
  * @author MyCollab Ltd

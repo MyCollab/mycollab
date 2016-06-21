@@ -16,11 +16,12 @@
  */
 package com.esofthead.mycollab.servlet;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.FileUtils;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -101,7 +104,8 @@ public class InstallationServlet extends HttpServlet {
             LOG.warn("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
         }
 
-        VelocityContext templateContext = new VelocityContext();
+        Configuration configuration = SiteConfiguration.freemarkerConfiguration();
+        Map<String, Object> templateContext = new HashMap<>();
         templateContext.put("sitename", sitename);
         templateContext.put("serveraddress", serverAddress);
         templateContext.put("dbUrl", dbUrl);
@@ -129,12 +133,9 @@ public class InstallationServlet extends HttpServlet {
         }
 
         try {
-            File templateFile = new File(confFolder, "mycollab.properties.template");
-            FileReader templateReader = new FileReader(templateFile);
-
             StringWriter writer = new StringWriter();
-            VelocityEngine engine = new VelocityEngine();
-            engine.evaluate(templateContext, writer, "log task", templateReader);
+            Template template = configuration.getTemplate("mycollab.properties.template");
+            template.process(templateContext, writer);
 
             FileOutputStream outStream = new FileOutputStream(new File(confFolder, "mycollab.properties"));
             outStream.write(writer.toString().getBytes());

@@ -32,13 +32,6 @@ trait IContentGenerator {
 
   /**
     *
-    * @param subject
-    * @return
-    */
-  def parseString(subject: String): String
-
-  /**
-    *
     * @param templateFilePath
     * @return
     */
@@ -51,13 +44,4 @@ trait IContentGenerator {
     * @return
     */
   def parseFile(templateFilePath: String, currentLocale: Locale): String
-
-  /**
-    *
-    * @param templateFilePath
-    * @param currentLocale
-    * @param defaultLocale
-    * @return
-    */
-  def parseFile(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String
 }

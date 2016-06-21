@@ -95,7 +95,10 @@ public class ApplicationProperties {
                 InputStream propStreams = Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES);
                 if (propStreams == null) {
                     // Probably we are running testing
-                    properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("default-mycollab-test.properties"));
+                    InputStream propStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("default-mycollab-test.properties");
+                    if (propStream != null) {
+                        properties.load(propStream);
+                    }
                 }
             }
         } catch (Exception e) {

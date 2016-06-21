@@ -72,6 +72,9 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
             taskStatusComponent.showProjectTasksByStatus(prjKeys);
             unresolvedAssignmentThisWeekWidget.displayUnresolvedAssignmentsThisWeek();
             unresolvedAssignmentNextWeekWidget.displayUnresolvedAssignmentsNextWeek();
+        } else {
+            unresolvedAssignmentThisWeekWidget.displayNoUnresolvedAssignmentsThisWeek();
+            unresolvedAssignmentNextWeekWidget.displayNoUnresolvedAssignmentsNextWeek();
         }
     }
 }

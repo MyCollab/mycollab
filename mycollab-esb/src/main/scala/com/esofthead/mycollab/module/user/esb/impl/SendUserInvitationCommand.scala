@@ -50,9 +50,9 @@ import org.springframework.stereotype.Component
       contentGenerator.putVariable("password", event.password)
       extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName,
         Arrays.asList(new MailRecipientField(event.invitee, event.invitee)), null, null,
-        contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
-          UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getDefaultSiteName)),
-        contentGenerator.parseFile("mailUserInvitationNotifier.html", Locale.US), null)
+        LocalizationHelper.getMessage(Locale.US, UserI18nEnum.MAIL_INVITE_USER_SUBJECT,
+          SiteConfiguration.getDefaultSiteName),
+        contentGenerator.parseFile("mailUserInvitationNotifier.ftl", Locale.US), null)
     } else {
      SimpleLogging.error("Can not find the user with username %s in account %s".format(event.invitee, event.sAccountId))
     }

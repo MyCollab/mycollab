@@ -27,25 +27,25 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Service
 
 /**
- * @author MyCollab Ltd.
- * @since 4.6.0
- */
+  * @author MyCollab Ltd.
+  * @since 4.6.0
+  */
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectPageRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[Page] with ProjectPageRelayEmailNotificationAction {
-    @Autowired var pageService: PageService = _
+  @Autowired var pageService: PageService = _
 
-    protected def getBeanInContext(context: MailContext[Page]): Page = pageService.getPage(context.getTypeid, context.user.getUsername)
+  protected def getBeanInContext(context: MailContext[Page]): Page = pageService.getPage(context.getTypeid, context.user.getUsername)
 
-    protected def buildExtraTemplateVariables(context: MailContext[Page]) {}
+  protected def buildExtraTemplateVariables(context: MailContext[Page]) {}
 
-    protected def getItemName: String = StringUtils.trim(bean.getSubject, 100)
+  protected def getItemName: String = StringUtils.trim(bean.getSubject, 100)
 
-    protected def getCreateSubject(context: MailContext[Page]): String = null
+  protected def getCreateSubject(context: MailContext[Page]): String = null
 
-    protected def getUpdateSubject(context: MailContext[Page]): String = null
+  protected def getUpdateSubject(context: MailContext[Page]): String = null
 
-    protected def getCommentSubject(context: MailContext[Page]): String = null
+  protected def getCommentSubject(context: MailContext[Page]): String = null
 
-    protected def getItemFieldMapper: ItemFieldMapper = null
+  protected def getItemFieldMapper: ItemFieldMapper = null
 }

@@ -78,8 +78,8 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     @Override
                     public void call(JsonArray arguments) {
                         String version = arguments.getString(0);
-                        String manualDownloadLink = arguments.getString(1);
-                        String installerFile = arguments.getString(2);
+                        String installerFile = arguments.getString(1);
+                        String manualDownloadLink = arguments.getString(2);
                         UI.getCurrent().addWindow(new UpgradeConfirmWindow(version, manualDownloadLink, installerFile));
                     }
                 });

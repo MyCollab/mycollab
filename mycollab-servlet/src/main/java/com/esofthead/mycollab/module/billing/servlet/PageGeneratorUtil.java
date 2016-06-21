@@ -17,15 +17,14 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.template.velocity.TemplateContext;
-import org.apache.velocity.app.VelocityEngine;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
@@ -36,8 +35,8 @@ import java.util.Map;
  * @since 4.0
  */
 class PageGeneratorUtil {
-    static void responseUserNotExistPage(HttpServletResponse response, String username, String loginURL) throws IOException {
-        TemplateContext context = new TemplateContext();
+    static void responseUserNotExistPage(HttpServletResponse response, String username, String loginURL) throws IOException, TemplateException {
+        Map<String, Object> context = new HashMap<>();
         context.put("loginURL", loginURL);
         context.put("username", username);
         Map<String, String> defaultUrls = new HashMap<>();
@@ -50,9 +49,9 @@ class PageGeneratorUtil {
         context.put("defaultUrls", defaultUrls);
 
         StringWriter writer = new StringWriter();
-        VelocityEngine templateEngine = AppContextUtil.getSpringBean(VelocityEngine.class);
-        Reader reader = LocalizationHelper.templateReader("pageUserNotExist.html", Locale.US);
-        templateEngine.evaluate(context.getVelocityContext(), writer, "log task", reader);
+        Configuration templateEngine = AppContextUtil.getSpringBean(Configuration.class);
+        Template template = templateEngine.getTemplate("pageUserNotExist.ftl", Locale.US);
+        template.process(context, writer);
 
         String html = writer.toString();
         PrintWriter out = response.getWriter();

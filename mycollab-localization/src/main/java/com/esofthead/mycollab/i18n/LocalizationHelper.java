@@ -19,17 +19,13 @@ package com.esofthead.mycollab.i18n;
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyorExt;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 
 /**
  * Wrapper class to get localization string.
@@ -80,7 +76,7 @@ public class LocalizationHelper {
             key = Enum.valueOf(cls, option);
             IMessageConveyor messageConveyor = getMessageConveyor(locale);
             return messageConveyor.getMessage(key, objects);
-        } catch (MissingResourceException e) {
+        } catch (Exception e) {
             if (key != null) {
                 try {
                     return defaultMessage.getMessage(key, objects);
@@ -93,72 +89,6 @@ public class LocalizationHelper {
                 return "Undefined";
             }
         }
-    }
-
-    private static Map<String, String> cacheFile = new HashMap<>();
-
-    private static String templatePath(String fileTemplatePath, Locale locale) {
-        String key = (locale != null) ? (fileTemplatePath + locale.toLanguageTag()) : (fileTemplatePath + Locale.US.toLanguageTag().toString());
-        String filePath = cacheFile.get(key);
-        if (filePath != null) {
-            return filePath;
-        } else {
-            int index = fileTemplatePath.indexOf("html");
-            if (index == -1) {
-                throw new MyCollabException("File type is not supported " + fileTemplatePath);
-            }
-            filePath = fileTemplatePath.substring(0, index - 1);
-            filePath = String.format("%s_%s.html", filePath, locale.toLanguageTag());
-            cacheFile.put(key, filePath);
-            return filePath;
-        }
-    }
-
-    /**
-     * @param fileTemplatePath the path of template file
-     * @param locale           locale associates with the template file
-     * @return the reader of <code>fileTemplatePath</code> if it is found.
-     * Otherwise, return null
-     */
-    public static Reader templateReader(String fileTemplatePath, Locale locale) {
-        String templatePath = templatePath(fileTemplatePath, locale);
-        File i18nFile = FileUtils.getDesireFile(new File(FileUtils.getUserFolder(), "i18n"), templatePath);
-
-        InputStream resourceStream;
-        if (i18nFile != null) {
-            try {
-                resourceStream = new FileInputStream(i18nFile);
-            } catch (FileNotFoundException e) {
-                resourceStream = LocalizationHelper.class.getClassLoader().getResourceAsStream(templatePath);
-            }
-        } else {
-            resourceStream = LocalizationHelper.class.getClassLoader().getResourceAsStream(templatePath);
-        }
-
-        if (resourceStream == null) {
-            return null;
-        }
-
-        try {
-            return new InputStreamReader(resourceStream, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new MyCollabException("Not support UTF-8 encoding");
-        }
-    }
-
-    public static Reader templateReader(String fileTemplatePath, Locale currentLocale, Locale defaultLocale) {
-        Reader reader = templateReader(fileTemplatePath, currentLocale);
-        if (reader == null) {
-            if (defaultLocale == null) {
-                throw new MyCollabException("Can not find file " + fileTemplatePath + " in locale " + currentLocale);
-            }
-            reader = templateReader(fileTemplatePath, defaultLocale);
-            if (reader == null) {
-                throw new MyCollabException("Can not find file " + fileTemplatePath + " in locale " +
-                        currentLocale + " and default locale " + defaultLocale);
-            }
-        }
-        return reader;
     }
 
     public static final Locale[] getAvailableLocales() {

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.shell.view.components;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.IgnoreException;
 import com.esofthead.mycollab.server.jetty.ServerInstance;
@@ -68,15 +69,15 @@ public class UpgradeConfirmWindow extends Window {
         content.with(new Label(manualInstallLink.write(), ContentMode.HTML));
 
         Div manualUpgradeHowtoLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Manual upgrade: ")
-                .appendChild(new A("https://community.mycollab.com/administration/upgrade/", "_blank").appendText("Link"));
+                .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/upgrade-mycollab-automatically/", "_blank").appendText("Link"));
         content.with(new Label(manualUpgradeHowtoLink.write(), ContentMode.HTML));
 
         Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Release Notes: ")
-                .appendChild(new A("https://community.mycollab.com/releases/", "_blank").appendText("Link"));
+                .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/releases/", "_blank").appendText("Link"));
         content.with(new Label(releaseNoteLink.write(), ContentMode.HTML));
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
-        Button skipBtn = new Button("Skip", new Button.ClickListener() {
+        Button skipBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 UpgradeConfirmWindow.this.close();

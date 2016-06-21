@@ -56,10 +56,9 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           contentGenerator.putVariable("userName", user.getDisplayName)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
-            contentGenerator.parseString(getCreateSubject(context)),
-            contentGenerator.parseFile("mailProjectItemCreatedNotifier.html", context.getLocale,
-              Locale.US), null)
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+            null, null, getCreateSubject(context),
+            contentGenerator.parseFile("mailProjectItemCreatedNotifier.ftl", context.getLocale), null)
         }
       }
     }
@@ -84,10 +83,9 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           }
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
-            contentGenerator.parseString(getUpdateSubject(context)),
-            contentGenerator.parseFile("mailProjectItemUpdatedNotifier.html", context.getLocale,
-              Locale.US), null)
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+            null, null, getUpdateSubject(context),
+            contentGenerator.parseFile("mailProjectItemUpdatedNotifier.ftl", context.getLocale), null)
         }
       }
     }
@@ -108,9 +106,8 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val toRecipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, toRecipients,
-            null, null, contentGenerator.parseString(getCommentSubject(context)),
-            contentGenerator.parseFile("mailProjectItemCommentNotifier.html", context.getLocale,
-              Locale.US), null)
+            null, null, getCommentSubject(context),
+            contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.getLocale), null)
         }
       }
     }

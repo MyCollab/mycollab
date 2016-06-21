@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.utils.HistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

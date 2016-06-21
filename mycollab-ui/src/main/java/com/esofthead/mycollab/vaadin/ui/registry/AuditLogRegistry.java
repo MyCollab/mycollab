@@ -19,7 +19,8 @@ package com.esofthead.mycollab.vaadin.ui.registry;
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.spring.AppContextUtil;
-import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.DefaultFieldDisplayHandler;
+import com.esofthead.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -60,7 +61,7 @@ public class AuditLogRegistry implements InitializingBean {
                 if (CollectionUtils.isNotEmpty(changeItems)) {
                     for (AuditChangeItem item : changeItems) {
                         String fieldName = item.getField();
-                        FieldGroupFormatter.FieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
+                        DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
                         if (fieldDisplayHandler != null) {
                             isAppended = true;
                             str.append(fieldDisplayHandler.generateLogItem(item));

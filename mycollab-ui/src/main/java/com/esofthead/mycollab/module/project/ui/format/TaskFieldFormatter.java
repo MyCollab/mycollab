@@ -23,9 +23,10 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFormatter;
-import com.esofthead.mycollab.utils.HistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
+import com.esofthead.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
 
 /**
  * @author MyCollab Ltd

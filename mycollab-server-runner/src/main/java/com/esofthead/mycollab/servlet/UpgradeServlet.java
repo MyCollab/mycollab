@@ -17,10 +17,10 @@
 package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.server.jetty.ServerInstance;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.joda.time.LocalDate;
 
 import javax.servlet.ServletException;
@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,10 +44,12 @@ public class UpgradeServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
 
-        Reader reader = ServerInstance.getInstance().isUpgrading() ? FileUtils.getReader
-                ("pageWaitingUpgrade.html") : FileUtils.getReader("pageNoUpgrade.html");
+        Configuration configuration = SiteConfiguration.freemarkerConfiguration();
 
-        VelocityContext context = new VelocityContext();
+        Template template = ServerInstance.getInstance().isUpgrading() ? configuration.getTemplate("pageWaitingUpgrade.ftl") :
+                configuration.getTemplate("pageNoUpgrade.ftl");
+
+        Map<String, Object> context = new HashMap<>();
         Map<String, String> defaultUrls = new HashMap<>();
         defaultUrls.put("cdn_url", "/assets/");
         defaultUrls.put("app_url", "/");
@@ -61,8 +62,11 @@ public class UpgradeServlet extends HttpServlet {
         context.put("defaultUrls", defaultUrls);
 
         StringWriter writer = new StringWriter();
-        VelocityEngine voEngine = new VelocityEngine();
-        voEngine.evaluate(context, writer, "log task", reader);
+        try {
+            template.process(context, writer);
+        } catch (TemplateException e) {
+            throw new IOException(e);
+        }
         PrintWriter out = response.getWriter();
         out.print(writer.toString());
     }

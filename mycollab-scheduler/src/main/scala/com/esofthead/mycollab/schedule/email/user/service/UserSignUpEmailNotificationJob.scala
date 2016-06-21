@@ -48,7 +48,6 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
     @Autowired var userService: UserService = _
     @Autowired var extMailService: ExtMailService = _
     @Autowired var contentGenerator: IContentGenerator = _
-    private val CONFIRM_EMAIL_TEMPLATE: String = "mailConfirmUserSignUpNotification.html"
 
     @SuppressWarnings(Array("unchecked"))
     @throws(classOf[JobExecutionException])
@@ -79,9 +78,8 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
             contentGenerator.putVariable("linkConfirm", confirmLink)
             extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName,
                 Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null,
-                contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
-                    UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-                contentGenerator.parseFile(CONFIRM_EMAIL_TEMPLATE, Locale.US), null)
+                LocalizationHelper.getMessage(Locale.US, UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT),
+                contentGenerator.parseFile("mailConfirmUserSignUpNotification.ftl", Locale.US), null)
         } catch {
             case e: Exception => LOG.error("Can not send confirm email ", e)
         }

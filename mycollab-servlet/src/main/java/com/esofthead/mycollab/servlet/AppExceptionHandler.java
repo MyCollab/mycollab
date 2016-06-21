@@ -20,8 +20,9 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
-import com.esofthead.mycollab.template.velocity.TemplateContext;
-import com.esofthead.mycollab.template.velocity.service.TemplateEngine;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
@@ -36,7 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(AppExceptionHandler.class);
 
     @Autowired
-    private TemplateEngine templateEngine;
+    private Configuration templateEngine;
 
     @Autowired
     private IDeploymentMode deploymentMode;
@@ -82,27 +82,23 @@ public class AppExceptionHandler extends GenericHttpServlet {
         }
     }
 
-    private void responsePage404(HttpServletResponse response) throws IOException {
-        String pageNotFoundTemplate = "page404.html";
-        TemplateContext context = new TemplateContext();
-
-        Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, response.getLocale());
-
+    private void responsePage404(HttpServletResponse response) throws IOException, TemplateException {
+        Map<String, Object> context = new HashMap<>();
         Map<String, String> defaultUrls = new HashMap<>();
-
         defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
         defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
         context.put("defaultUrls", defaultUrls);
 
         StringWriter writer = new StringWriter();
-        templateEngine.evaluate(context, writer, "log task", reader);
+        Template template = templateEngine.getTemplate("page404.ftl", response.getLocale());
+        template.process(context, writer);
 
         String html = writer.toString();
         PrintWriter out = response.getWriter();
         out.println(html);
     }
 
-    private void responsePage500(HttpServletResponse response, Throwable throwable) throws IOException {
+    private void responsePage500(HttpServletResponse response, Throwable throwable) throws IOException, TemplateException {
         if (throwable != null) {
             DataIntegrityViolationException integrityViolationException = getExceptionType(throwable,
                     DataIntegrityViolationException.class);
@@ -120,19 +116,16 @@ public class AppExceptionHandler extends GenericHttpServlet {
             LOG.error("Exception in mycollab", throwable);
         }
 
-        String errorPage = "page500.html";
-        TemplateContext context = new TemplateContext();
-
-        Reader reader = LocalizationHelper.templateReader(errorPage, response.getLocale());
+        Map<String, Object> context = new HashMap<>();
         Map<String, String> defaultUrls = new HashMap<>();
 
         defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
         defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
         context.put("defaultUrls", defaultUrls);
 
-
         StringWriter writer = new StringWriter();
-        templateEngine.evaluate(context, writer, "log task", reader);
+        Template template = templateEngine.getTemplate("page500.ftl", response.getLocale());
+        template.process(context, writer);
 
         String html = writer.toString();
         PrintWriter out = response.getWriter();

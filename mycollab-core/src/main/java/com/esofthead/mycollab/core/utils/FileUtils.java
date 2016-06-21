@@ -94,14 +94,6 @@ public class FileUtils {
         return null;
     }
 
-    public static Reader getReader(String templateFile) {
-        try {
-            return new InputStreamReader(FileUtils.class.getClassLoader().getResourceAsStream(templateFile), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return new InputStreamReader(FileUtils.class.getClassLoader().getResourceAsStream(templateFile));
-        }
-    }
-
     public static void mkdirs(File file) {
         if (file.exists()) {
             return;

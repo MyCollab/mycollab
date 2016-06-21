@@ -95,10 +95,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         @Override
         public int compare(PageResource o1, PageResource o2) {
-            String name1 = (o1 instanceof Folder) ? ((Folder) o1).getName()
-                    : ((Page) o1).getSubject();
-            String name2 = (o2 instanceof Folder) ? ((Folder) o2).getName()
-                    : ((Page) o2).getSubject();
+            String name1 = (o1 instanceof Folder) ? ((Folder) o1).getName() : ((Page) o1).getSubject();
+            String name2 = (o2 instanceof Folder) ? ((Folder) o2).getName() : ((Page) o2).getSubject();
             return name1.compareTo(name2);
         }
     };

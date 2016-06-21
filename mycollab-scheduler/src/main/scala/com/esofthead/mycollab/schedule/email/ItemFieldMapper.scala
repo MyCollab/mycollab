@@ -46,5 +46,5 @@ class ItemFieldMapper {
 
     def hasField(fieldName: String): Boolean = fieldNameMap.contains(fieldName)
 
-    def getFieldLabel(fieldName: String): FieldFormat = fieldNameMap(fieldName)
+    def getField(fieldName: String): FieldFormat = fieldNameMap(fieldName)
 }

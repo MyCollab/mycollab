@@ -14,22 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
-  * This file is part of mycollab-scheduler.
-  *
-  * mycollab-scheduler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * mycollab-scheduler is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
-  */
 package com.esofthead.mycollab.schedule.email.project.service
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
@@ -48,18 +32,18 @@ import com.esofthead.mycollab.schedule.email.format._
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.AppContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span, Text}
+import com.hp.gagawa.java.elements.{Span, Text}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
 /**
   * @author MyCollab Ltd.
   * @since 4.6.0
   */
-@Service
+@Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAction[SimpleTask] with ProjectTaskRelayEmailNotificationAction {
   private val LOG = LoggerFactory.getLogger(classOf[ProjectTaskRelayEmailNotificationActionImpl])
@@ -75,7 +59,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
   private val mapper = new TaskFieldNameMapper
 
   protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
-    val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
+    val projectHyperLink = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
     val emailNotification = context.getEmailNotification
 
@@ -95,7 +79,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
     }
 
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("titles", List(currentProject))
+    contentGenerator.putVariable("projectHyperLink", projectHyperLink)
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
@@ -210,9 +194,9 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
       val task = context.getWrappedBean.asInstanceOf[SimpleTask]
       if (task.getParenttaskid != null) {
         val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
-        val tasklistlink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.getParentTaskKey,
+        val parentTaskLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.getParentTaskKey,
           task.getProjectShortname)
-        val link = FormatUtils.newA(tasklistlink, task.getTaskname)
+        val link = FormatUtils.newA(parentTaskLink, task.getTaskname)
         FormatUtils.newLink(img, link).write
       }
       else {
@@ -248,9 +232,9 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
       val task = context.getWrappedBean.asInstanceOf[SimpleTask]
       if (task.getMilestoneid != null) {
         val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
-        val tasklistlink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, task.getProjectid,
+        val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, task.getProjectid,
           task.getMilestoneid)
-        val link = FormatUtils.newA(tasklistlink, task.getMilestoneName)
+        val link = FormatUtils.newA(milestoneLink, task.getMilestoneName)
         FormatUtils.newLink(img, link).write
       }
       else {
