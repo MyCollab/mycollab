@@ -180,13 +180,15 @@
     </select>
     
     <select id="getProjectsUserInvolved" parameterType="map" resultMap="SimpleProjectResult" lang="velocity">
-        SELECT m_prj_project.id, m_prj_project.name
+        <![CDATA[
+        SELECT m_prj_project.id, m_prj_project.name, m_prj_project.shortname, m_prj_project.avatarId
         FROM m_prj_project
-        WHERE m_prj_project.sAccountId = @{_parameter.sAccountId} AND 
+        WHERE m_prj_project.sAccountId = @{_parameter.sAccountId} AND m_prj_project.projectStatus='Open'AND
             EXISTS (SELECT 1
                         FROM m_prj_member WHERE m_prj_member.projectId = m_prj_project.id
                             AND m_prj_member.username=@{_parameter.username}
                             LIMIT 1)
+        ]]>
     </select>
 
     <select id="getUserProjectKeys" resultType="java.lang.Integer" lang="velocity">

@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,4 +57,6 @@ public interface ProjectMemberService extends IDefaultService<Integer, ProjectMe
 
     void inviteProjectMembers(String[] email, Integer projectId, Integer projectRoleId,
                               String inviteUser, String inviteMessage, Integer sAccountId);
+
+    List<SimpleProjectMember> findMembersHourlyInProject(Integer projectId, Integer sAccountId, Date start, Date end);
 }

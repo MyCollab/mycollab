@@ -389,4 +389,31 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             }
         }
     }
+
+    private class CustomizeFeatureStep implements FormWizardStep {
+        @Override
+        public boolean commit() {
+            return false;
+        }
+
+        @Override
+        public String getCaption() {
+            return null;
+        }
+
+        @Override
+        public Component getContent() {
+            return null;
+        }
+
+        @Override
+        public boolean onAdvance() {
+            return false;
+        }
+
+        @Override
+        public boolean onBack() {
+            return false;
+        }
+    }
 }

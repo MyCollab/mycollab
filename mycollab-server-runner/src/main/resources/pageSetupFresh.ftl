@@ -54,7 +54,7 @@ h3 {
                 <table style="width:100%">
                     <tr>
                         <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">MYCOLLAB SETUP </div>
-                            <h3 sytle="margin-top"></h3>
+                            <h3 style="margin-top"></h3>
                         </td>
                         <td style="display: inline-block; vertical-align: top; width:100%">
                             <form>
@@ -103,8 +103,8 @@ h3 {
                                         <tr>
                                             <td><input id="dbUserName"/></td>
                                         </tr>
-                                        <tr><td><h4>Database user name</h4></td></tr>
-
+                                        <tr>
+                                            <td><h4>Database user name</h4></td></tr>
                                         <tr>
                                             <td><label for="dbPassword">Password:</label></td>
                                         </tr>
@@ -145,52 +145,60 @@ h3 {
                                             <td><input id="smtpUserName" placeholder="Example: mycollab@gmail.com"/></td>
                                         </tr>
                                         <tr>
-                                        <td><h4>Username or account of your email service.
-                                        <ul>
-                                        <li>If you use Gmail, username is &lt;username&gt;@gmail.com</li>
-                                        <li>If you use Outlook, username is &lt;username&gt;@outlook.com</li>
-                                        <li>If you use Office365, username is &lt;username&gt;@yourdomainname</li>
-                                        <li>Other email, please consult your email service provider</li>
-                                        </h4>
-                                        </ul>
-                                        </td></tr>
-
+                                            <td><h4>Username or account of your email service.</h4>
+                                                <ul>
+                                                    <li>If you use Gmail, username is &lt;username&gt;@gmail.com</li>
+                                                    <li>If you use Outlook, username is &lt;username&gt;@outlook.com</li>
+                                                    <li>If you use Office365, username is &lt;username&gt;@yourdomainname</li>
+                                                    <li>Other email, please consult your email service provider</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td ><label for="smtpPassword">Password:</label></td>
                                         </tr>
                                         <tr>
                                             <td><input id="smtpPassword" type="password"/></td>
                                         </tr>
-                                        <tr><td><h4>Password of your email account<h4></td></tr>
-
+                                        <tr>
+                                            <td><h4>Password of your email account<h4>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td><label for="smtpHost">Server name:</label></td>
                                         </tr>
                                         <tr>
                                             <td><input id="smtpHost"/></td>
                                         </tr>
-                                        <tr><td><h4>SMTP server address
-                                        <ul><li>If you use Gmail, the value is smtp.gmail.com</li>
-                                        <li>If you use Outlook, the value is smtp-mail.outlook.com</li>
-                                        <li>If you use Office365, the value is smtp.office365.com</li>
-                                        </ul></h4>
-                                        </td></tr>
-
+                                        <tr>
+                                            <td>
+                                                <h4>SMTP server address</h4>
+                                                <ul>
+                                                    <li>If you use Gmail, the value is smtp.gmail.com</li>
+                                                    <li>If you use Outlook, the value is smtp-mail.outlook.com</li>
+                                                    <li>If you use Office365, the value is smtp.office365.com</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td><label for="smtpPort">Port:</label></td>
                                         </tr>
                                         <tr>
                                             <td><input id="smtpPort"/></td>
                                         </tr>
-                                        <tr><td><h4>If you use Gmail, Outlook or Office365, the port value is 587.<h4></td></tr>
-
+                                        <tr>
+                                            <td>
+                                                <h4>If you use Gmail, Outlook or Office365, the port value is 587.<h4>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td><label for="tls" >STARTTLS:</label><input id="tls" type="checkbox"/> <label for="ssl" >or SSL/TLS: </label><input id="ssl" type="checkbox"/></td>
                                         </tr>
-                                        <tr><td><h4>Some email services like Gmail, Outlook, Office365 require STARTTLS enables, other services like Yahoo may require TSL/SSL enable<h4>
+                                        <tr>
+                                            <td>
+                                                <h4>Some email services like Gmail, Outlook, Office365 require STARTTLS enables, other services like Yahoo may require TSL/SSL enable<h4>
                                             </td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </form>
@@ -212,22 +220,22 @@ h3 {
 <script>
 
 function databaseValidate(){
-    if ($('#databaseName').val() == ""){
+    if ($('#databaseName').val() == "") {
         alert("Database schema name must be not null");
         return;
     }
 
-    if ($('#dbUserName').val() == ""){
+    if ($('#dbUserName').val() == "") {
         alert("Database username must be not null");
         return;
     }
 
-    if ($('#dbPassword').val() == ""){
+    if ($('#dbPassword').val() == "") {
         alert("Database user password must be not null");
         return;
     }
 
-    if ($('#databaseServer').val() == ""){
+    if ($('#databaseServer').val() == "") {
         alert("Database server address must be not null");
         return;
     }
@@ -387,9 +395,9 @@ function updateInfoAction(){
                     tls : tlsStatus,
                     ssl: sslStatus
                 },
-          success: function(res){
-             if(res!=null){
-                if(res.length > 0){
+          success: function(res) {
+             if (res!=null) {
+                if(res.length > 0) {
                     $('#setupBtn').html('<span>Setup</span>');
                     alert(res);
                 } else {

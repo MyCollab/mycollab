@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.common.dao.GroupItemMapper">
-    <resultMap id="BaseResultMap"
-        type="com.esofthead.mycollab.common.domain.GroupItem">
-
+    <resultMap id="BaseResultMap" type="com.esofthead.mycollab.common.domain.GroupItem">
         <result column="groupid" jdbcType="VARCHAR" property="groupid" />
-
         <result column="groupname" jdbcType="VARCHAR" property="groupname" />
-
-        <result column="value" jdbcType="INTEGER" property="value" />
-
+        <result column="value" jdbcType="DOUBLE" property="value" />
         <result column="extraValue" jdbcType="VARCHAR" property="extraValue" />
-        
         <result column="countNum" jdbcType="INTEGER" property="countNum" />
     </resultMap>
 </mapper>

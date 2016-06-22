@@ -42,6 +42,7 @@ public class LanguageSelectionField extends CustomField<String> {
     public LanguageSelectionField() {
         languageBox.setNullSelectionAllowed(false);
         languageBox.setImmediate(true);
+        languageBox.setWidth("200px");
         languageBox.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
         languageBox.setFilteringMode(FilteringMode.CONTAINS);
 

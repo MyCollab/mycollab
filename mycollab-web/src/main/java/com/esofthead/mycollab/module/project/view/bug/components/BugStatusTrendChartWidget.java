@@ -103,9 +103,9 @@ public class BugStatusTrendChartWidget extends Depot {
                             Date date = formatter.parseDateTime(item.getGroupname()).toDate();
                             Integer val = openMap.get(date);
                             if (val == null) {
-                                openMap.put(date, item.getValue());
+                                openMap.put(date, item.getValue().intValue());
                             } else {
-                                openMap.put(date, val + item.getValue());
+                                openMap.put(date, val + item.getValue().intValue());
                             }
                         }
                     }

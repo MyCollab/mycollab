@@ -126,7 +126,8 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                         statusLink.setWidth("110px");
 
                         statusLayout.addComponent(statusLink);
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
+                                .getValue().intValue(), false);
                         indicator.setWidth("100%");
                         statusLayout.with(indicator).expand(indicator);
 

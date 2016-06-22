@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.dao.BillingAccountMapper;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.DateFormatField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.web.DesktopApplication;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -55,6 +57,8 @@ public class SetupNewInstanceView extends MVerticalLayout {
         this.with(content);
         content.with(ELabel.h2("Last step, you are almost there!").withWidthUndefined());
         content.with(ELabel.h3("All fields are required *").withStyleName("overdue").withWidthUndefined());
+        content.with(new ELabel(AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), ContentMode.HTML)
+                .withStyleName(UIConstants.META_COLOR));
         GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8, "200px");
         formLayoutHelper.getLayout().setWidth("600px");
         final TextField adminField = formLayoutHelper.addComponent(new TextField(), "Admin email", 0, 0);

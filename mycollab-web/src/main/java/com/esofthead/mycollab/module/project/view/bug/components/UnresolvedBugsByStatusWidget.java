@@ -83,7 +83,8 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
                         statusLink.setIcon(FontAwesome.FLAG);
                         statusLink.setStyleName(UIConstants.BUTTON_LINK);
 
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
+                                .getValue().intValue(), false);
                         indicator.setWidth("100%");
                         statusLayout.with(statusLink, indicator).expand(indicator);
                         bodyContent.addComponent(statusLayout);

@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,4 +42,7 @@ public interface ProjectMemberMapperExt extends ISearchableDAO<ProjectMemberSear
     List<SimpleUser> getActiveUsersInProjects(@Param("projectIds") List<Integer> projectIds, @Param("sAccountId") Integer sAccountId);
 
     SimpleUser getActiveUserOfProject(@Param("username") String username, @Param("projectId") Integer projectId);
+
+    List<SimpleProjectMember> findMembersHourlyInProject(@Param("projectId") Integer projectId, @Param("sAccountId") Integer sAccountId,
+                                                         @Param("start") Date start, @Param("end") Date end);
 }

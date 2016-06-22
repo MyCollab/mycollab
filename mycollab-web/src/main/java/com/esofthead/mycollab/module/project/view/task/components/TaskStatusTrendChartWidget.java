@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.ui.chart.GenericChartWrapper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -94,7 +93,7 @@ public class TaskStatusTrendChartWidget extends Depot {
             dataset = new TimeSeriesCollection();
             if (groupItems != null) {
                 Set<Map.Entry<String, List<GroupItem>>> entries = groupItems.entrySet();
-                Map<Date, Integer> openMap = new HashMap<>(30);
+                Map<Date, Double> openMap = new HashMap<>(30);
                 for (Map.Entry<String, List<GroupItem>> entry : entries) {
                     if (com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed.name().equals(entry.getKey())) {
                         TimeSeries series = new TimeSeries(entry.getKey());
@@ -105,7 +104,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                     } else {
                         for (GroupItem item : entry.getValue()) {
                             Date date = formatter.parseDateTime(item.getGroupname()).toDate();
-                            Integer val = openMap.get(date);
+                            Double val = openMap.get(date);
                             if (val == null) {
                                 openMap.put(date, item.getValue());
                             } else {
@@ -116,13 +115,12 @@ public class TaskStatusTrendChartWidget extends Depot {
                 }
 
                 TimeSeries series = new TimeSeries("Unresolved");
-                for (Map.Entry<Date, Integer> entry : openMap.entrySet()) {
+                for (Map.Entry<Date, Double> entry : openMap.entrySet()) {
                     series.add(new Day(entry.getKey()), entry.getValue());
                 }
                 dataset.addSeries(series);
 
-                JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset,
-                        false, true, false);
+                JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset, false, true, false);
                 chart.setBackgroundPaint(Color.white);
 
                 XYPlot plot = (XYPlot) chart.getPlot();

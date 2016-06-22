@@ -88,7 +88,8 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                         priorityLink.setStyleName(UIConstants.BUTTON_LINK);
                         priorityLink.addStyleName("bug-" + priority.name().toLowerCase());
 
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
+                                .getValue().intValue(), false);
                         indicator.setWidth("100%");
 
                         priorityLayout.with(priorityLink, indicator).expand(indicator);

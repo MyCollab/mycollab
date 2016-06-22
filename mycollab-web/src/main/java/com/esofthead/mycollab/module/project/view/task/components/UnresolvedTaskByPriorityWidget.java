@@ -114,7 +114,8 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                         priorityLink.addStyleName("task-" + priority.name().toLowerCase());
 
                         priorityLayout.addComponent(priorityLink);
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
+                                .getValue().intValue(), false);
                         indicator.setWidth("100%");
                         priorityLayout.with(indicator).expand(indicator);
 

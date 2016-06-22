@@ -51,6 +51,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -188,5 +189,10 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     @Override
     public SimpleUser getActiveUserOfProject(String username, Integer projectId, @CacheKey Integer sAccountId) {
         return projectMemberMapperExt.getActiveUserOfProject(username, projectId);
+    }
+
+    @Override
+    public List<SimpleProjectMember> findMembersHourlyInProject(Integer projectId, Integer sAccountId, Date start, Date end) {
+        return projectMemberMapperExt.findMembersHourlyInProject(projectId, sAccountId, start, end);
     }
 }

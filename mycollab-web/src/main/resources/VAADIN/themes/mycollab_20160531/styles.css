@@ -2513,6 +2513,18 @@ div.v-window {
 	font-size: 0.9em !important;
 }
 
+.stylecalendarfield {
+	border: 1px solid #e9e9e9 !important;
+	height: 30px;
+	font-size: 14px;
+}
+
+.v-filterselect-no-input [class*="input"] {
+	background-image: none !important;
+	box-shadow: none !important;
+	background-color: #fff;
+}
+
 table {
 	table-layout: auto;
 	word-break: break-through;
@@ -15197,6 +15209,18 @@ div.v-window {
 	font-size: 0.9em !important;
 }
 
+.stylecalendarfield {
+	border: 1px solid #e9e9e9 !important;
+	height: 30px;
+	font-size: 14px;
+}
+
+.v-filterselect-no-input [class*="input"] {
+	background-image: none !important;
+	box-shadow: none !important;
+	background-color: #fff;
+}
+
 .form .section {
 	padding: 25px 5px 5px 5px;
 	color: #006DAC;
@@ -16370,6 +16394,148 @@ div.v-button.token-field {
 	top: 0;
 	z-index: 0;
 	background: transparent;
+}
+
+.alump-dbar {
+	height: 24px;
+	display: inline-block;
+	overflow-x: visible;
+	white-space: nowrap;
+}
+
+.alump-dbar.alump-dbar-uninitialized {
+	color: red;
+	background-color: white;
+	font-weight: bold;
+}
+
+.alump-dbar .alump-dbar-value {
+	padding: 0px 5px 0px 12px;
+	line-height: normal;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 100%;
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+.alump-dbar .alump-dbar-part {
+	transition: width 2s;
+	-moz-transition: width 2s;
+	-webkit-transition: width 2s;
+	-o-transition: width 2s;
+}
+
+.alump-dbar .alump-dbar-left {
+	display: inline-block;
+	min-width: 30px;
+	text-align: left;
+	padding: 5px 0px 5px 0px;
+	vertical-align: middle;
+	border-radius: 15px 0px 0px 15px;
+}
+
+.alump-dbar .alump-dbar-middle {
+	display: inline-block;
+	min-width: 30px;
+	text-align: left;
+	padding: 5px 0px 5px 0px;
+	vertical-align: middle;
+}
+
+.alump-dbar .alump-dbar-right {
+	display: inline-block;
+	min-width: 30px;
+	text-align: left;
+	padding: 5px 0px 5px 0px;
+	vertical-align: middle;
+	border-radius: 0px 15px 15px 0px;
+}
+
+.alump-dbar .alump-dbar-only {
+	display: inline-block;
+	min-width: 30px;
+	text-align: left;
+	padding: 5px 0px 5px 0px;
+	vertical-align: middle;
+	border-radius: 15px 15px 15px 15px;
+}
+
+.alump-dbar .alump-dbar-part-1 {
+	background-color: #800000;
+	color: white;
+	text-shadow: 1px 1px 1px #000000, -0.5px -0.5px 0.5px #000000;
+}
+
+.alump-dbar .alump-dbar-part-2 {
+	background-color: #000080;
+	color: white;
+	text-shadow: 1px 1px 1px #000000, -0.5px -0.5px 0.5px #000000;
+}
+
+.alump-dbar .alump-dbar-part-3 {
+	background-color: #008000;
+	color: white;
+	text-shadow: 1px 1px 1px #000000, -0.5px -0.5px 0.5px #000000;
+}
+
+.alump-dbar .alump-dbar-part-4 {
+	background-color: #808000;
+	color: white;
+	text-shadow: 1px 1px 1px #000000, -0.5px -0.5px 0.5px #000000;
+}
+
+.alump-dbar .alump-dbar-part-5 {
+	background-color: #008080;
+	color: white;
+	text-shadow: 1px 1px 1px #000000, -0.5px -0.5px 0.5px #000000;
+}
+
+.alump-dbar .alump-dbar-part-6 {
+	background-color: #800080;
+	color: white;
+	text-shadow: 1px 1px 1px #000000, -0.5px -0.5px 0.5px #000000;
+}
+
+.alump-dbar .alump-dbar-part-7 {
+	background-color: black;
+	color: white;
+	text-shadow: 1px 1px 1px #000000, -0.5px -0.5px 0.5px #000000;
+}
+
+.alump-dbar .alump-dbar-part-8 {
+	background-color: #ff4040;
+	color: black;
+	text-shadow: 1px 1px 1px #ffffff, -0.5px -0.5px 0.5px #ffffff;
+}
+
+.alump-dbar .alump-dbar-part-9 {
+	background-color: #8080ff;
+	color: black;
+	text-shadow: 1px 1px 1px #ffffff, -0.5px -0.5px 0.5px #ffffff;
+}
+
+.alump-dbar .alump-dbar-part-10 {
+	background-color: #40ff40;
+	color: black;
+	text-shadow: 1px 1px 1px #ffffff, -0.5px -0.5px 0.5px #ffffff;
+}
+
+.alump-dbar-tooltip {
+	height: auto;
+	position: absolute;
+	background-color: #ffff80;
+	color: black;
+	z-index: 100;
+	padding: 3px;
+	box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
+	-webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
+	transition: left 0.5s;
+	-moz-transition: left 0.5s;
+	-webkit-transition: left 0.5s;
+	-o-transition: left 0.5s;
 }
 
 html {

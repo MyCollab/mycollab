@@ -18,21 +18,21 @@ package com.esofthead.mycollab.schedule.email.project.service
 
 import com.esofthead.mycollab.common.MonitorTypeConstants
 import com.esofthead.mycollab.common.i18n.{GenericI18Enum, OptionI18nEnum}
+import com.esofthead.mycollab.core.SimpleLogging
 import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.html.{FormatUtils, LinkUtils}
 import com.esofthead.mycollab.module.mail.MailUtils
-import com.esofthead.mycollab.module.project.ProjectLinkGenerator
 import com.esofthead.mycollab.module.project.domain.{Risk, SimpleRisk}
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum
-import com.esofthead.mycollab.module.project.service.{ProjectService, RiskService}
+import com.esofthead.mycollab.module.project.service.{MilestoneService, ProjectService, RiskService}
+import com.esofthead.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
 import com.esofthead.mycollab.module.user.AccountLinkGenerator
-import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.email.format._
 import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.AppContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Span, Text}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
@@ -96,9 +96,12 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
     put(Risk.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
     put(Risk.Field.probalitity, RiskI18nEnum.FORM_PROBABILITY)
     put(Risk.Field.consequence, RiskI18nEnum.FORM_CONSEQUENCE)
+    put(Risk.Field.startdate, new DateFieldFormat(Risk.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
+    put(Risk.Field.enddate, new DateFieldFormat(Risk.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
     put(Risk.Field.datedue, new DateFieldFormat(Risk.Field.datedue.name, GenericI18Enum.FORM_DUE_DATE))
     put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name, GenericI18Enum.FORM_STATUS,
       classOf[OptionI18nEnum.StatusI18nEnum]))
+    put(Risk.Field.milestoneid, new MilestoneFieldFormat(Risk.Field.milestoneid.name, RiskI18nEnum.FORM_PHASE))
     put(Risk.Field.assigntouser, new AssigneeFieldFormat(Risk.Field.assigntouser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(Risk.Field.raisedbyuser, new RaisedByFieldFormat(Risk.Field.raisedbyuser.name, RiskI18nEnum.FORM_RAISED_BY))
     put(Risk.Field.response, RiskI18nEnum.FORM_RESPONSE, isColSpan = true)
@@ -141,13 +144,13 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
 
   class RaisedByFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
     def formatField(context: MailContext[_]): String = {
-      val risk: SimpleRisk = context.getWrappedBean.asInstanceOf[SimpleRisk]
+      val risk = context.getWrappedBean.asInstanceOf[SimpleRisk]
       if (risk.getRaisedbyuser != null) {
-        val userAvatarLink: String = MailUtils.getAvatarLink(risk.getRaisedByUserAvatarId, 16)
-        val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-        val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid),
+        val userAvatarLink = MailUtils.getAvatarLink(risk.getRaisedByUserAvatarId, 16)
+        val img = FormatUtils.newImg("avatar", userAvatarLink)
+        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid),
           risk.getRaisedbyuser)
-        val link: A = FormatUtils.newA(userLink, risk.getRaisedByUserFullName)
+        val link = FormatUtils.newA(userLink, risk.getRaisedByUserFullName)
         FormatUtils.newLink(img, link).write
       }
       else {
@@ -159,17 +162,56 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
       if (StringUtils.isBlank(value)) {
         return new Span().write
       }
-      val userService: UserService = AppContextUtil.getSpringBean(classOf[UserService])
-      val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
+      val userService = AppContextUtil.getSpringBean(classOf[UserService])
+      val user = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
       if (user != null) {
-        val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-        val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+        val userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid, 16)
+        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
           user.getUsername)
-        val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-        val link: A = FormatUtils.newA(userLink, user.getDisplayName)
+        val img = FormatUtils.newImg("avatar", userAvatarLink)
+        val link = FormatUtils.newA(userLink, user.getDisplayName)
         FormatUtils.newLink(img, link).write
       } else
         value
+    }
+  }
+
+  class MilestoneFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
+
+    def formatField(context: MailContext[_]): String = {
+      val risk = context.getWrappedBean.asInstanceOf[SimpleRisk]
+      if (risk.getMilestoneid != null) {
+        val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
+        val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, risk.getProjectid,
+          risk.getMilestoneid)
+        val link = FormatUtils.newA(milestoneLink, risk.getMilestoneName)
+        FormatUtils.newLink(img, link).write
+      }
+      else {
+        new Span().write
+      }
+    }
+
+    def formatField(context: MailContext[_], value: String): String = {
+      if (StringUtils.isBlank(value)) {
+        return new Span().write
+      }
+      try {
+        val milestoneId = value.toInt
+        val milestoneService = AppContextUtil.getSpringBean(classOf[MilestoneService])
+        val milestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
+        if (milestone != null) {
+          val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
+          val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
+            milestone.getProjectid, milestone.getId)
+          val link = FormatUtils.newA(milestoneLink, milestone.getName)
+          return FormatUtils.newLink(img, link).write
+        }
+      }
+      catch {
+        case e: Exception => SimpleLogging.error("Error", e)
+      }
+      value
     }
   }
 

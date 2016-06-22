@@ -42,6 +42,11 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
 
     public DefaultGenericSearchPanel(boolean canSwitchToAdvanceLayout) {
         this.canSwitchToAdvanceLayout = canSwitchToAdvanceLayout;
+    }
+
+    @Override
+    public void attach() {
+        super.attach();
         moveToBasicSearchLayout();
     }
 

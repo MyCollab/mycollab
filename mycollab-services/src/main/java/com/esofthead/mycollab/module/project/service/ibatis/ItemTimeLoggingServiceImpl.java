@@ -155,8 +155,8 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
 
     private void cleanCache(Integer sAccountId) {
         asyncEventBus.post(new CleanCacheEvent(sAccountId, new Class[]{ProjectService.class, MilestoneService.class,
-                ProjectTaskService.class, BugService.class, ComponentService.class, VersionService.class, RiskService
-                .class, ItemTimeLoggingService.class
+                ProjectTaskService.class, BugService.class, ComponentService.class, VersionService.class, RiskService.class,
+                ItemTimeLoggingService.class, ProjectMemberService.class
         }));
     }
 

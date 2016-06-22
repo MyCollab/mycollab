@@ -36,6 +36,10 @@ import static com.esofthead.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
  */
 public class ProjectMemberLink extends Label {
     public ProjectMemberLink(String username, String userAvatarId, String displayName) {
+        this(CurrentProjectVariables.getProjectId(), username, userAvatarId, displayName);
+    }
+
+    public ProjectMemberLink(Integer projectId, String username, String userAvatarId, String displayName) {
         if (StringUtils.isBlank(username)) {
             return;
         }
@@ -43,7 +47,7 @@ public class ProjectMemberLink extends Label {
 
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(userAvatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX);
-        A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(), username))
+        A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(projectId, username))
                 .appendText(StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());

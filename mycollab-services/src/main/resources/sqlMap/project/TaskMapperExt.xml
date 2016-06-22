@@ -271,17 +271,17 @@
         GROUP BY m_prj_task.status
     </select>
 
-    <select id="getAssignedDefectsSummary" parameterType="TaskSearchCriteria" resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
-            lang="velocity">
+    <select id="getAssignedDefectsSummary" parameterType="TaskSearchCriteria"
+            resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_prj_task.assignUser AS groupid, COUNT(IFNULL(m_prj_task.assignUser, '')) AS value,
-        s_user.avatarId AS extraValue, concat(s_user.firstname, ' ',
-        LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
+            s_user.avatarId AS extraValue, concat(s_user.firstname, ' ',
+            LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
         FROM m_prj_task
-        LEFT OUTER JOIN s_user ON (m_prj_task.assignUser = s_user.username)
+            LEFT OUTER JOIN s_user ON (m_prj_task.assignUser = s_user.username)
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria"/>
+            #end
         #end
         GROUP BY m_prj_task.assignUser
     </select>

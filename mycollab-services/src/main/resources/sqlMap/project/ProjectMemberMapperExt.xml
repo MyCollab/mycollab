@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-    namespace="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt">
 
-    <resultMap id="ProjectMemberResult"
-        extends="com.esofthead.mycollab.module.project.dao.ProjectMemberMapper.BaseResultMap"
+    <resultMap id="ProjectMemberResult" extends="com.esofthead.mycollab.module.project.dao.ProjectMemberMapper.BaseResultMap"
         type="com.esofthead.mycollab.module.project.domain.SimpleProjectMember">
         <result column="memberAvatarId" jdbcType="VARCHAR" property="memberAvatarId" />
         <result column="memberFullName" jdbcType="VARCHAR" property="memberFullName" />
@@ -145,9 +143,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="ProjectMemberSearchCriteria"
-        resultMap="ProjectMemberResult" lang="velocity">
-
+    <select id="findPagableListByCriteria" parameterType="ProjectMemberSearchCriteria" resultMap="ProjectMemberResult" lang="velocity">
         <include refid="selectMember" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -157,16 +153,12 @@
         <include refid="orderStatement" />
     </select>
 
-    <select id="findMemberById" parameterType="java.lang.Integer"
-        resultMap="ProjectMemberResult" lang="velocity">
-
+    <select id="findMemberById" parameterType="java.lang.Integer" resultMap="ProjectMemberResult" lang="velocity">
         <include refid="selectMember" />
         WHERE m_prj_member.id=@{memberId, jdbcType=NUMERIC}
-
     </select>
 
-    <select id="findMemberByUsername" parameterType="map"
-        resultMap="ProjectMemberResult" lang="velocity">
+    <select id="findMemberByUsername" parameterType="map" resultMap="ProjectMemberResult" lang="velocity">
         <![CDATA[
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
             m_prj_member.joinDate, m_prj_member.projectRoleId,
@@ -259,12 +251,39 @@
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_member
 
         #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
+    </select>
+
+    <select id="findMembersHourlyInProject" parameterType="map" resultMap="ProjectMemberResult" lang="velocity">
+        <![CDATA[
+        SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
+            m_prj_member.joinDate, m_prj_member.projectRoleId,
+            m_prj_member.isAdmin, m_prj_member.status, s_user.email as email,
+            m_prj_member.billingRate, m_prj_member.overtimeBillingRate,
+            m_prj_role.rolename, m_prj_member.sAccountId,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId,
+            NULL AS numOpenBugs,
+            NULL AS numOpenTasks,
+            NULL AS lastAccessTime, m_prj_project.name AS projectName,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+                FROM m_prj_time_logging
+                WHERE m_prj_time_logging.projectId = m_prj_member.projectId
+                    AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=1
+                    AND m_prj_time_logging.logForDay BETWEEN @{start} AND @{end}) AS totalBillableLogTime,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+                FROM m_prj_time_logging
+                WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username
+                    AND m_prj_time_logging.isBillable=0 AND m_prj_time_logging.logForDay BETWEEN @{start} AND @{end}) AS totalNonBillableLogTime
+        FROM m_prj_member
+            INNER JOIN s_user ON (m_prj_member.username=s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_member.projectid=m_prj_project.id)
+	        LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
+        WHERE m_prj_member.projectId=@{projectId, jdbcType=NUMERIC}
+        ]]>
     </select>
 </mapper>    

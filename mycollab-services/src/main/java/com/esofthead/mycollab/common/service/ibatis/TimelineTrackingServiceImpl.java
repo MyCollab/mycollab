@@ -165,7 +165,7 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
                 for (Map map : timelineItems) {
                     String groupVal = (String) map.get("groupid");
                     GroupItem item = new GroupItem();
-                    item.setValue(((BigDecimal) map.get("value")).intValue());
+                    item.setValue(((BigDecimal) map.get("value")).doubleValue());
                     item.setGroupid((String) map.get("groupid"));
                     item.setGroupname((String) map.get("groupname"));
                     Object obj = items.get(groupVal);

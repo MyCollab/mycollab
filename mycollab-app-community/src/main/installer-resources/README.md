@@ -46,12 +46,14 @@ Version 5.3.4
 **Library Upgrades**
 
 * Spring 4.3.0.RELEASE 
+* Flyway 4.0.2
 
 **Improvements & New Features**
 
 * [Premium] Allow to add the new assignment in calendar view
+* [Premium] The new Hourly weekly report
+* [Premium] Allow customizing project features when create the new project
 * Change the template engine from Velocity to Freemarker
-* Allow customizing project features when create the new project
 * Allow to customize the report fields
 * Externalize more strings for localization
 * Support German language (Contributor: Marco Gantenbein)

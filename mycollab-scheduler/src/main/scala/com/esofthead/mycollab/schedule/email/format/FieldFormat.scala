@@ -36,5 +36,4 @@ abstract class FieldFormat(@BeanProperty var fieldName: String, @BeanProperty va
     type Type = Value
     val DEFAULT, DATE, DATE_TIME, CURRENCY = Value
   }
-
 }

@@ -252,9 +252,9 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         val milestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
         if (milestone != null) {
           val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
-          val taskListLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, milestone
-            .getProjectid, milestone.getId)
-          val link = FormatUtils.newA(taskListLink, milestone.getName)
+          val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
+            milestone.getProjectid, milestone.getId)
+          val link = FormatUtils.newA(milestoneLink, milestone.getName)
           return FormatUtils.newLink(img, link).write
         }
       }

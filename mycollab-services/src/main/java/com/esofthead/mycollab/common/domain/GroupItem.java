@@ -27,7 +27,7 @@ public class GroupItem extends ValuedBean {
 
     private String groupid;
     private String groupname;
-    private Integer value;
+    private Double value;
     private String extraValue;
     private Integer countNum;
 
@@ -39,11 +39,11 @@ public class GroupItem extends ValuedBean {
         this.groupid = groupid;
     }
 
-    public int getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

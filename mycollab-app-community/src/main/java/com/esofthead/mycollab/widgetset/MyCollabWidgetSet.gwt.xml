@@ -44,4 +44,6 @@
     <inherits name="com.ejt.vaadin.loginform.WidgetSet" />
 
     <inherits name="org.vaadin.sliderpanel.WidgetSet" />
+
+    <inherits name="org.vaadin.addons.comboboxmultiselect.WidgetSet" />
 </module>
