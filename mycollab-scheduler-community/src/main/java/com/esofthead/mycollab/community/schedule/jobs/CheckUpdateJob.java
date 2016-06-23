@@ -19,8 +19,8 @@ package com.esofthead.mycollab.community.schedule.jobs;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.core.NewUpdateAvailableNotification;
 import com.esofthead.mycollab.core.NotificationBroadcaster;
+import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean;
-import com.google.gson.Gson;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -56,8 +56,7 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject("https://api.mycollab.com/api/checkupdate?version=" +
                 MyCollabVersion.getVersion(), String.class);
-        Gson gson = new Gson();
-        final Properties props = gson.fromJson(result, Properties.class);
+        final Properties props = JsonDeSerializer.fromJson(result, Properties.class);
         String version = props.getProperty("version");
         if (MyCollabVersion.isEditionNewer(version)) {
             if (!isDownloading) {

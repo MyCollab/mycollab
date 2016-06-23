@@ -18,7 +18,7 @@ package com.esofthead.mycollab.common.domain;
 
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,7 +72,7 @@ public class SimpleAuditLog extends AuditLog {
 
     private List<AuditChangeItem> parseChangeItems() {
         return JsonDeSerializer.fromJson(
-                this.getChangeset(), new TypeToken<List<AuditChangeItem>>() {
-                }.getType());
+                this.getChangeset(), new TypeReference<List<AuditChangeItem>>() {
+                });
     }
 }

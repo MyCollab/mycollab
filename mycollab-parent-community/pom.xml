@@ -21,7 +21,6 @@
         <jettyVersion>9.2.17.v20160517</jettyVersion>
         <mysqlVersion>5.1.39</mysqlVersion>
         <junitVersion>4.12</junitVersion>
-        <gsonVersion>2.7</gsonVersion>
         <jackrabbitVersion>2.12.1</jackrabbitVersion>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.7</scala.version>

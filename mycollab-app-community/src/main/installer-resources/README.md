@@ -52,10 +52,10 @@ Version 5.3.4
 
 * [Premium] Allow to add the new assignment in calendar view
 * [Premium] The new Hourly weekly report
-* [Premium] Allow customizing project features when create the new project
 * Change the template engine from Velocity to Freemarker
 * Allow to customize the report fields
 * Externalize more strings for localization
+* Reduce the SQL queries in schedule task by caching objects
 * Support German language (Contributor: Marco Gantenbein)
 * Other minor improvements
 
@@ -63,7 +63,6 @@ Version 5.3.4
 
 * [Premium] Can not quickly edit value in the popup field
 * Send emails to project assignments are not successfully in a few special cases
-
 
 Version 5.3.3
 -----------------------------

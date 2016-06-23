@@ -19,6 +19,7 @@ package com.esofthead.mycollab.schedule.email.project.service
 import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.module.page.domain.Page
 import com.esofthead.mycollab.module.page.service.PageService
+import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,7 +36,8 @@ import org.springframework.stereotype.Service
 class ProjectPageRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[Page] with ProjectPageRelayEmailNotificationAction {
   @Autowired var pageService: PageService = _
 
-  protected def getBeanInContext(context: MailContext[Page]): Page = pageService.getPage(context.getTypeid, context.user.getUsername)
+  protected def getBeanInContext(notification: ProjectRelayEmailNotification): Page =
+    pageService.getPage(notification.getTypeid, "")
 
   protected def buildExtraTemplateVariables(context: MailContext[Page]) {}
 

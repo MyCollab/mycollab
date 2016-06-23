@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
@@ -28,6 +27,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -49,7 +49,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
 
     private AdvancedPreviewBeanForm<T> previewForm;
 
-    private SplitButton optionBtn;
+    private PopupButton optionBtn;
     private OptionPopupContent popupButtonsControl;
     private MHorizontalLayout editButtons;
     private MHorizontalLayout layout;
@@ -64,18 +64,9 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
     }
 
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
-        Button optionParentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_OPTION), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                optionBtn.setPopupVisible(true);
-            }
-        });
-
-        optionBtn = new SplitButton(optionParentBtn);
-        optionBtn.setWidthUndefined();
-        optionBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        optionBtn = new PopupButton();
+        optionBtn.addStyleName(UIConstants.BOX);
+        optionBtn.setIcon(FontAwesome.ELLIPSIS_H);
 
 
         if (permissionItem != null) {
@@ -133,27 +124,6 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                 editButtons.addComponent(deleteBtn);
             }
 
-            if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-                Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        optionBtn.setPopupVisible(false);
-                        T item = previewForm.getBean();
-                        previewForm.fireCloneForm(item);
-                    }
-                });
-                cloneBtn.setIcon(FontAwesome.ROAD);
-                cloneBtn.setEnabled(canWrite);
-                popupButtonsControl.addOption(cloneBtn);
-            }
-
-            if (popupButtonsControl.getComponentCount() > 0) {
-                optionBtn.setContent(popupButtonsControl);
-                editButtons.with(optionBtn);
-            }
-
             layout.with(editButtons);
 
             if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
@@ -188,6 +158,27 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                 nextItemBtn.setEnabled(canRead);
                 navigationBtns.addButton(nextItemBtn);
                 layout.with(navigationBtns);
+            }
+
+            if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
+                Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        optionBtn.setPopupVisible(false);
+                        T item = previewForm.getBean();
+                        previewForm.fireCloneForm(item);
+                    }
+                });
+                cloneBtn.setIcon(FontAwesome.ROAD);
+                cloneBtn.setEnabled(canWrite);
+                popupButtonsControl.addOption(cloneBtn);
+            }
+
+            if (popupButtonsControl.getComponentCount() > 0) {
+                optionBtn.setContent(popupButtonsControl);
+                layout.with(optionBtn);
             }
         }
         return layout;

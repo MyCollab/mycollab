@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.form.view.builder.type;
 
-import com.esofthead.mycollab.core.utils.JsonDeSerializer.Exclude;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -38,31 +36,22 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
     public static final String TEXTAREA_FIELD_4 = "textarea4";
     public static final String TEXTAREA_FIELD_5 = "textarea5";
 
-    @Exclude
     private int fieldIndex;
 
-    @Exclude
     private String fieldName;
 
-    @Exclude
     private String displayName;
 
-    @Exclude
     private String contextHelp;
 
-    @Exclude
     private boolean isMandatory = false;
 
-    @Exclude
     private boolean isRequired = false;
 
-    @Exclude
     private boolean isCustom = false;
 
-    @Exclude
     private boolean isColSpan = false;
 
-    @Exclude
     private DynaSection ownSection;
 
     public String getFieldName() {

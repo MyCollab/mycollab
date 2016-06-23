@@ -25,69 +25,66 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator
 import com.esofthead.mycollab.module.crm.domain.{MeetingWithBLOBs, SimpleMeeting}
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum
 import com.esofthead.mycollab.module.crm.service.MeetingService
-import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.format.DateTimeFieldFormat
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
-import com.hp.gagawa.java.elements.Img
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
 /**
- * @author MyCollab Ltd.
- * @since 4.6.0
- */
+  * @author MyCollab Ltd.
+  * @since 4.6.0
+  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class MeetingRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAction[SimpleMeeting] with MeetingRelayEmailNotificationAction {
-    @Autowired var meetingService: MeetingService = _
-    private val mapper = new MeetingFieldNameMapper
+  @Autowired var meetingService: MeetingService = _
+  private val mapper = new MeetingFieldNameMapper
 
-    protected def buildExtraTemplateVariables(context: MailContext[SimpleMeeting]) {
-        val summary = bean.getSubject
-        val summaryLink = CrmLinkGenerator.generateMeetingPreviewFullLink(siteUrl, bean.getId)
-        val emailNotification = context.getEmailNotification
+  protected def buildExtraTemplateVariables(context: MailContext[SimpleMeeting]) {
+    val summary = bean.getSubject
+    val summaryLink = CrmLinkGenerator.generateMeetingPreviewFullLink(siteUrl, bean.getId)
+    val emailNotification = context.getEmailNotification
 
-        val user = userService.findUserByUserNameInAccount(emailNotification.getChangeby, context.getSaccountid)
-        val avatarId = if (user != null) user.getAvatarid else ""
-        val userAvatar = LinkUtils.newAvatar(avatarId)
+    val avatarId = if (changeUser != null) changeUser.getAvatarid else ""
+    val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum = emailNotification.getAction match {
-            case MonitorTypeConstants.CREATE_ACTION => MeetingI18nEnum.MAIL_CREATE_ITEM_HEADING
-            case MonitorTypeConstants.UPDATE_ACTION => MeetingI18nEnum.MAIL_UPDATE_ITEM_HEADING
-            case MonitorTypeConstants.ADD_COMMENT_ACTION => MeetingI18nEnum.MAIL_COMMENT_ITEM_HEADING
-        }
-
-        contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-        contentGenerator.putVariable("summary", summary)
-        contentGenerator.putVariable("summaryLink", summaryLink)
+    val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+    val actionEnum = emailNotification.getAction match {
+      case MonitorTypeConstants.CREATE_ACTION => MeetingI18nEnum.MAIL_CREATE_ITEM_HEADING
+      case MonitorTypeConstants.UPDATE_ACTION => MeetingI18nEnum.MAIL_UPDATE_ITEM_HEADING
+      case MonitorTypeConstants.ADD_COMMENT_ACTION => MeetingI18nEnum.MAIL_COMMENT_ITEM_HEADING
     }
 
-    protected def getCreateSubjectKey: Enum[_] = MeetingI18nEnum.MAIL_CREATE_ITEM_SUBJECT
+    contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
+    contentGenerator.putVariable("summary", summary)
+    contentGenerator.putVariable("summaryLink", summaryLink)
+  }
 
-    protected def getUpdateSubjectKey: Enum[_] = MeetingI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
+  protected def getCreateSubjectKey: Enum[_] = MeetingI18nEnum.MAIL_CREATE_ITEM_SUBJECT
 
-    protected def getCommentSubjectKey: Enum[_] = MeetingI18nEnum.MAIL_COMMENT_ITEM_SUBJECT
+  protected def getUpdateSubjectKey: Enum[_] = MeetingI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
 
-    protected def getItemName: String = StringUtils.trim(bean.getSubject, 100)
+  protected def getCommentSubjectKey: Enum[_] = MeetingI18nEnum.MAIL_COMMENT_ITEM_SUBJECT
 
-    protected def getItemFieldMapper: ItemFieldMapper = mapper
+  protected def getItemName: String = StringUtils.trim(bean.getSubject, 100)
 
-    protected def getBeanInContext(context: MailContext[SimpleMeeting]): SimpleMeeting = meetingService.findById(context.getTypeid.toInt,
-        context.getSaccountid)
+  protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    class MeetingFieldNameMapper extends ItemFieldMapper {
-        put(MeetingWithBLOBs.Field.subject, MeetingI18nEnum.FORM_SUBJECT, isColSpan = true)
-        put(MeetingWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
-        put(MeetingWithBLOBs.Field.startdate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.startdate.name,
-            MeetingI18nEnum.FORM_START_DATE_TIME))
-        put(MeetingWithBLOBs.Field.location, MeetingI18nEnum.FORM_LOCATION)
-        put(MeetingWithBLOBs.Field.enddate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.enddate.name,
-            MeetingI18nEnum.FORM_END_DATE_TIME))
-        put(MeetingWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
-    }
+  protected def getBeanInContext(notification: SimpleRelayEmailNotification): SimpleMeeting =
+    meetingService.findById(notification.getTypeid.toInt, notification.getSaccountid)
+
+  class MeetingFieldNameMapper extends ItemFieldMapper {
+    put(MeetingWithBLOBs.Field.subject, MeetingI18nEnum.FORM_SUBJECT, isColSpan = true)
+    put(MeetingWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
+    put(MeetingWithBLOBs.Field.startdate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.startdate.name,
+      MeetingI18nEnum.FORM_START_DATE_TIME))
+    put(MeetingWithBLOBs.Field.location, MeetingI18nEnum.FORM_LOCATION)
+    put(MeetingWithBLOBs.Field.enddate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.enddate.name,
+      MeetingI18nEnum.FORM_END_DATE_TIME))
+    put(MeetingWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+  }
 
 }

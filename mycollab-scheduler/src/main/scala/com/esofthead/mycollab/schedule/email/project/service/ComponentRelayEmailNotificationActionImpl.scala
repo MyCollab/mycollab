@@ -22,13 +22,13 @@ import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.html.{FormatUtils, LinkUtils}
 import com.esofthead.mycollab.module.mail.MailUtils
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
+import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum
-import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.tracker.domain.{Component, SimpleComponent}
 import com.esofthead.mycollab.module.tracker.service.ComponentService
 import com.esofthead.mycollab.module.user.AccountLinkGenerator
 import com.esofthead.mycollab.module.user.service.UserService
-import com.esofthead.mycollab.schedule.email.format.{FieldFormat, I18nFieldFormat, WebItem}
+import com.esofthead.mycollab.schedule.email.format.{FieldFormat, I18nFieldFormat}
 import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.AppContextUtil
@@ -46,18 +46,13 @@ import org.springframework.stereotype.Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ComponentRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleComponent] with ComponentRelayEmailNotificationAction {
   @Autowired var componentService: ComponentService = _
-  @Autowired var projectService: ProjectService = _
   private val mapper: ComponentFieldNameMapper = new ComponentFieldNameMapper
 
   protected def buildExtraTemplateVariables(context: MailContext[SimpleComponent]) {
     val emailNotification = context.getEmailNotification
-    val project = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
-    val projectHyperLink = new WebItem(project.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
     val summary = bean.getComponentname
     val summaryLink = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-    val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
-      bean.getProjectid, emailNotification.getSaccountid)
 
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -70,7 +65,6 @@ class ComponentRelayEmailNotificationActionImpl extends SendMailToAllMembersActi
     }
 
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("projectHyperLink", projectHyperLink)
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
@@ -78,8 +72,8 @@ class ComponentRelayEmailNotificationActionImpl extends SendMailToAllMembersActi
   protected def getUpdateSubject(context: MailContext[SimpleComponent]): String = context.getMessage(
     ComponentI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getBeanInContext(context: MailContext[SimpleComponent]): SimpleComponent = componentService.findById(context.getTypeid.toInt,
-    context.getSaccountid)
+  protected def getBeanInContext(notification: ProjectRelayEmailNotification): SimpleComponent =
+    componentService.findById(notification.getTypeid.toInt, notification.getSaccountid)
 
   protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
 

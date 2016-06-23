@@ -22,9 +22,9 @@ import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.html.{FormatUtils, LinkUtils}
 import com.esofthead.mycollab.module.mail.MailUtils
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
-import com.esofthead.mycollab.module.project.domain.{Milestone, SimpleMilestone}
+import com.esofthead.mycollab.module.project.domain.{Milestone, ProjectRelayEmailNotification, SimpleMilestone}
 import com.esofthead.mycollab.module.project.i18n.{MilestoneI18nEnum, OptionI18nEnum}
-import com.esofthead.mycollab.module.project.service.{MilestoneService, ProjectService}
+import com.esofthead.mycollab.module.project.service.MilestoneService
 import com.esofthead.mycollab.module.user.AccountLinkGenerator
 import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.email.format._
@@ -47,8 +47,6 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
 
   @Autowired var milestoneService: MilestoneService = _
 
-  @Autowired var projectService: ProjectService = _
-
   private val mapper = new MilestoneFieldNameMapper
 
   override protected def getItemName: String = StringUtils.trim(bean.getName, 100)
@@ -64,8 +62,8 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
 
   override protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-  override protected def getBeanInContext(context: MailContext[SimpleMilestone]): SimpleMilestone = milestoneService.
-    findById(context.getTypeid.toInt, context.getSaccountid)
+  override protected def getBeanInContext(notification: ProjectRelayEmailNotification): SimpleMilestone =
+    milestoneService.findById(notification.getTypeid.toInt, notification.getSaccountid)
 
   class MilestoneFieldNameMapper extends ItemFieldMapper {
     put(Milestone.Field.name, GenericI18Enum.FORM_NAME, isColSpan = true)
@@ -114,20 +112,14 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
 
   override protected def buildExtraTemplateVariables(context: MailContext[SimpleMilestone]) {
     val emailNotification = context.getEmailNotification
-    val relatedProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
-
-    val projectHyperLink = new WebItem(relatedProject.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl,
-      bean.getProjectid))
 
     val summary = bean.getName
     val summaryLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
 
-    val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
-      bean.getProjectid, emailNotification.getSaccountid)
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
-
     val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+
     val actionEnum = emailNotification.getAction match {
       case MonitorTypeConstants.CREATE_ACTION => MilestoneI18nEnum.MAIL_CREATE_ITEM_HEADING
       case MonitorTypeConstants.UPDATE_ACTION => MilestoneI18nEnum.MAIL_UPDATE_ITEM_HEADING
@@ -135,7 +127,6 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
     }
 
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("projectHyperLink", projectHyperLink)
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }

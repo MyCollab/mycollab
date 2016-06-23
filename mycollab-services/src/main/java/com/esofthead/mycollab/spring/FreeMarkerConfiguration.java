@@ -19,7 +19,7 @@ package com.esofthead.mycollab.spring;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 import java.io.IOException;
@@ -28,12 +28,11 @@ import java.io.IOException;
  * @author MyCollab Ltd
  * @since 5.3.4
  */
-@Service
+@Component
 public class FreeMarkerConfiguration extends FreeMarkerConfigurationFactoryBean {
 
     @Override
     protected Configuration newConfiguration() throws IOException, TemplateException {
-        setPreTemplateLoaders();
         return SiteConfiguration.freemarkerConfiguration();
     }
 }

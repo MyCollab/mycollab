@@ -24,7 +24,7 @@ import com.esofthead.mycollab.html.LinkUtils
 import com.esofthead.mycollab.module.mail.MailUtils
 import com.esofthead.mycollab.module.project.domain._
 import com.esofthead.mycollab.module.project.i18n.{BugI18nEnum, OptionI18nEnum}
-import com.esofthead.mycollab.module.project.service.{MilestoneService, ProjectMemberService, ProjectNotificationSettingService}
+import com.esofthead.mycollab.module.project.service.{MilestoneService, ProjectNotificationSettingService}
 import com.esofthead.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
 import com.esofthead.mycollab.module.tracker.domain.{BugWithBLOBs, SimpleBug}
 import com.esofthead.mycollab.module.tracker.service.BugService
@@ -35,7 +35,7 @@ import com.esofthead.mycollab.schedule.email.format._
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.AppContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span, Text}
+import com.hp.gagawa.java.elements.{Span, Text}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -52,21 +52,15 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
   private val LOG = LoggerFactory.getLogger(classOf[BugRelayEmailNotificationActionImpl])
 
   @Autowired var bugService: BugService = _
-
-  @Autowired var projectMemberService: ProjectMemberService = _
-
   @Autowired var projectNotificationService: ProjectNotificationSettingService = _
 
   private val mapper = new BugFieldNameMapper
 
   protected def buildExtraTemplateVariables(context: MailContext[SimpleBug]) {
-    val projectHyperLink = new WebItem(bean.getProjectname, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
     val emailNotification = context.getEmailNotification
 
     val summary = "#" + bean.getBugkey + " - " + bean.getSummary
     val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean.getBugkey, bean.getProjectShortName)
-    val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
-      bean.getProjectid, emailNotification.getSaccountid)
 
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -79,12 +73,12 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
     }
 
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("projectHyperLink", projectHyperLink)
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
 
-  protected def getBeanInContext(context: MailContext[SimpleBug]): SimpleBug = bugService.findById(context.getTypeid.toInt, context.getSaccountid)
+  protected def getBeanInContext(notification: ProjectRelayEmailNotification): SimpleBug =
+    bugService.findById(notification.getTypeid.toInt, notification.getSaccountid)
 
   protected def getItemName: String = StringUtils.trim(bean.getSummary, 100)
 
@@ -192,7 +186,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
   class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
     def formatField(context: MailContext[_]): String = {
-      val bug: SimpleBug = context.getWrappedBean.asInstanceOf[SimpleBug]
+      val bug = context.getWrappedBean.asInstanceOf[SimpleBug]
       if (bug.getAssignuser != null) {
         val userAvatarLink = MailUtils.getAvatarLink(bug.getAssignUserAvatarId, 16)
         val img = newImg("avatar", userAvatarLink)
@@ -226,12 +220,12 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
   class LogUserFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
     def formatField(context: MailContext[_]): String = {
-      val bug: SimpleBug = context.getWrappedBean.asInstanceOf[SimpleBug]
+      val bug = context.getWrappedBean.asInstanceOf[SimpleBug]
       if (bug.getLogby != null) {
-        val userAvatarLink: String = MailUtils.getAvatarLink(bug.getLoguserAvatarId, 16)
-        val img: Img = newImg("avatar", userAvatarLink)
-        val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(bug.getSaccountid), bug.getLogby)
-        val link: A = newA(userLink, bug.getLoguserFullName)
+        val userAvatarLink = MailUtils.getAvatarLink(bug.getLoguserAvatarId, 16)
+        val img = newImg("avatar", userAvatarLink)
+        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(bug.getSaccountid), bug.getLogby)
+        val link = newA(userLink, bug.getLoguserFullName)
         newLink(img, link).write
       }
       else
@@ -242,13 +236,13 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
       if (StringUtils.isBlank(value))
         return new Span().write
 
-      val userService: UserService = AppContextUtil.getSpringBean(classOf[UserService])
-      val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
+      val userService = AppContextUtil.getSpringBean(classOf[UserService])
+      val user = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
       if (user != null) {
-        val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-        val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
-        val img: Img = newImg("avatar", userAvatarLink)
-        val link: A = newA(userLink, user.getDisplayName)
+        val userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid, 16)
+        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+        val img = newImg("avatar", userAvatarLink)
+        val link = newA(userLink, user.getDisplayName)
         newLink(img, link).write
       } else
         value

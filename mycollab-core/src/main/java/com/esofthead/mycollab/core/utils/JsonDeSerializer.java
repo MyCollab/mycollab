@@ -16,113 +16,85 @@
  */
 package com.esofthead.mycollab.core.utils;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.Type;
-
 import com.esofthead.mycollab.core.MyCollabException;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Utility to serialize and deserialize java object to json data format and vice
  * versa.
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class JsonDeSerializer {
-	private static final Gson gson;
+    private static final ObjectMapper objMapper;
 
-	static {
-		gson = new GsonBuilder().setExclusionStrategies(new MyExclusionStrategy()).create();
-	}
+    static {
+        objMapper = new ObjectMapper();
+    }
 
-	/**
-	 * Convert object <code>o</code> to json format
-	 * 
-	 * @param o
-	 * @return
-	 */
-	public static String toJson(Object o) {
-		return gson.toJson(o);
-	}
+    /**
+     * Convert object <code>o</code> to json format
+     *
+     * @param o
+     * @return
+     */
+    public static String toJson(Object o) {
+        try {
+            return objMapper.writeValueAsString(o);
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 
-	/**
-	 * Convert json value <code>value</code> to java object has class type
-	 * <code>type</code>
-	 * 
-	 * @param value
-	 * @param type
-	 * @return
-	 */
-	public static <T> T fromJson(String value, Class<T> type) {
-		T ins = gson.fromJson(value, type);
-		if (ins == null) {
-			try {
-				return type.newInstance();
-			} catch (Exception e) {
-				throw new MyCollabException(e);
-			}
-		}
+    /**
+     * Convert json value <code>value</code> to java object has class type
+     * <code>type</code>
+     *
+     * @param value
+     * @param type
+     * @return
+     */
+    public static <T> T fromJson(String value, Class<T> type) {
+        try {
+            T ins = objMapper.readValue(value, type);
+            if (ins == null) {
+                try {
+                    return type.newInstance();
+                } catch (Exception e) {
+                    throw new MyCollabException(e);
+                }
+            }
 
-		return ins;
-	}
+            return ins;
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 
-	/**
-	 * Convert json value <code>value</code> to java object has class type
-	 * <code>type</code>
-	 * 
-	 * @param value
-	 * @param type
-	 *            The specific genericized type of src. You can obtain this type
-	 *            by using the {@link com.google.gson.reflect.TypeToken} class.
-	 *            For example, to get the type for {@code Collection<Foo>}, you
-	 *            should use:
-	 * 
-	 *            <pre>
-	 * Type typeOfT = new TypeToken&lt;Collection&lt;Foo&gt;&gt;() {
-	 * }.getType();
-	 * </pre>
-	 * @return
-	 */
-	public static <T> T fromJson(String value, Type type) {
-		T ins = gson.fromJson(value, type);
-		if (ins == null) {
-			try {
-				return null;
-			} catch (Exception e) {
-				throw new MyCollabException(e);
-			}
-		}
+    /**
+     * Convert json value <code>value</code> to java object has class type
+     * <code>type</code>
+     *
+     * @param value
+     * @param type
+     * @return
+     */
+    public static <T> T fromJson(String value, TypeReference type) {
+        try {
+            T ins = objMapper.readValue(value, type);
+            if (ins == null) {
+                try {
+                    return null;
+                } catch (Exception e) {
+                    throw new MyCollabException(e);
+                }
+            }
 
-		return ins;
-	}
-
-	/**
-	 * Annotation to exclude class parameter in serialization process
-	 * 
-	 * @author MyCollab Ltd.
-	 * 
-	 */
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ ElementType.FIELD })
-	public @interface Exclude {
-		// Field tag only annotation
-	}
-
-	private static class MyExclusionStrategy implements ExclusionStrategy {
-
-		public boolean shouldSkipClass(Class<?> clazz) {
-			return false;
-		}
-
-		public boolean shouldSkipField(FieldAttributes f) {
-			return f.getAnnotation(Exclude.class) != null;
-		}
-	}
+            return ins;
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 }

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 /**
@@ -25,9 +27,11 @@ import java.io.Serializable;
 public class ValuedBean implements Cloneable, Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @NotBindable
     private boolean selected = false;
 
+    @JsonIgnore
     @NotBindable
     private Object extraData;
 

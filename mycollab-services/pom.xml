@@ -94,12 +94,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${gsonVersion}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.mycollab.external</groupId>
             <artifactId>image4j-core</artifactId>
             <version>0.7.2</version>

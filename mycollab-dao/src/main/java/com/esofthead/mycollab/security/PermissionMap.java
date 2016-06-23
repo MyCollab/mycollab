@@ -18,6 +18,7 @@ package com.esofthead.mycollab.security;
 
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class PermissionMap extends ValuedBean {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("perMap")
     private Map<String, Integer> perMap = new HashMap<>();
 
     /**

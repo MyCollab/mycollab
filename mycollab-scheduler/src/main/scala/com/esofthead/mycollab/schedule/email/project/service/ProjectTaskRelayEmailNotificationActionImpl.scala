@@ -50,23 +50,15 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
 
   @Autowired var projectTaskService: ProjectTaskService = _
 
-  @Autowired var projectService: ProjectService = _
-
-  @Autowired var projectMemberService: ProjectMemberService = _
-
   @Autowired var projectNotificationService: ProjectNotificationSettingService = _
 
   private val mapper = new TaskFieldNameMapper
 
   protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
-    val projectHyperLink = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
-
     val emailNotification = context.getEmailNotification
 
     val summary = "#" + bean.getTaskkey + " - " + bean.getTaskname
     val summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getTaskkey, bean.getProjectShortname)
-    val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid,
-      emailNotification.getSaccountid)
 
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -79,12 +71,12 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
     }
 
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("projectHyperLink", projectHyperLink)
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
 
-  protected def getBeanInContext(context: MailContext[SimpleTask]): SimpleTask = projectTaskService.findById(context.getTypeid.toInt, context.getSaccountid)
+  protected def getBeanInContext(notification: ProjectRelayEmailNotification): SimpleTask =
+    projectTaskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
 
   protected def getItemName: String = StringUtils.trim(bean.getTaskname, 100)
 

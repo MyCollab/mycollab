@@ -39,7 +39,8 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
       if (value == null) {
         new Span().write
       } else {
-        new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], context.user.getDateFormat, TimezoneVal.valueOf(context.getUser.getTimezone))).write
+        new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], context.user.getDateFormat,
+          TimezoneVal.valueOf(context.getUser.getTimezone))).write
       }
     } catch {
       case e: Any =>
