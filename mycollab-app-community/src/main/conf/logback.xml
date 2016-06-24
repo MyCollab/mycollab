@@ -29,7 +29,7 @@
         </encoder>
     </appender>
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.esofthead.mycollab.**.dao" level="INFO"/>
+    <logger name="com.esofthead.mycollab" level="INFO"/>
     <logger name="java.sql" level="INFO"/>
     <logger name="org.apache.ibatis" level="INFO"/>
     <logger name="org.mybatis.spring" level="INFO"/>

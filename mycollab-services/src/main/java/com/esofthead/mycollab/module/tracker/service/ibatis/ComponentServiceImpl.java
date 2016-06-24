@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
-import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -45,7 +44,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @Traceable(nameField = "componentname", extraFieldName = "projectid")
-@Watchable(userFieldName = "userlead", extraTypeId = "projectid")
 public class ComponentServiceImpl extends DefaultService<Integer, Component, ComponentSearchCriteria> implements ComponentService {
     static {
         ClassInfoMap.put(ComponentServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT));

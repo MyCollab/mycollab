@@ -120,8 +120,8 @@ public class BugServiceTest extends IntergrationServiceTest {
         List<GroupItem> assignedDefectsSummary = bugService.getAssignedDefectsSummary(criteria);
 
         assertThat(assignedDefectsSummary.size()).isEqualTo(2);
-        assertThat(assignedDefectsSummary).extracting("groupid", "value", "extraValue").contains(tuple("admin", 1, null),
-                tuple("user1", 2, null));
+        assertThat(assignedDefectsSummary).extracting("groupid", "value", "extraValue").contains(tuple("admin", 1.0, null),
+                tuple("user1", 2.0, null));
     }
 
     @DataSet
@@ -144,7 +144,7 @@ public class BugServiceTest extends IntergrationServiceTest {
         BugSearchCriteria criteria = new BugSearchCriteria();
         List<GroupItem> groupitems = bugService.getStatusSummary(criteria);
         assertThat(groupitems.size()).isEqualTo(1);
-        assertThat(groupitems).extracting("groupid", "value", "extraValue").contains(tuple("1", 3, null));
+        assertThat(groupitems).extracting("groupid", "value", "extraValue").contains(tuple("1", 3.0, null));
     }
 
     @Test

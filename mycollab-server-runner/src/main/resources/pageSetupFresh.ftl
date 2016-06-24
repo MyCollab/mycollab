@@ -119,7 +119,11 @@ h3 {
                                         <tr>
                                             <td><input id="databaseServer" placeholder="Example: localhost"/></td>
                                         </tr>
-                                        <tr><td><h4>You can get this info from your web host. If you use local Mysql, the address usually is <i>localhost:3306</i>.<h4></td></tr>
+                                        <tr>
+                                            <td>
+                                                <h4>You can get this info from your web host. If you use local Mysql, the address usually is <i>localhost:3306</i>.<h4>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </form>
@@ -145,13 +149,14 @@ h3 {
                                             <td><input id="smtpUserName" placeholder="Example: mycollab@gmail.com"/></td>
                                         </tr>
                                         <tr>
-                                            <td><h4>Username or account of your email service.</h4>
+                                            <td><h4>Username or account of your email service.
                                                 <ul>
                                                     <li>If you use Gmail, username is &lt;username&gt;@gmail.com</li>
                                                     <li>If you use Outlook, username is &lt;username&gt;@outlook.com</li>
                                                     <li>If you use Office365, username is &lt;username&gt;@yourdomainname</li>
                                                     <li>Other email, please consult your email service provider</li>
                                                 </ul>
+                                                </h4>
                                             </td>
                                         </tr>
                                         <tr>
@@ -172,12 +177,13 @@ h3 {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <h4>SMTP server address</h4>
+                                                <h4>SMTP server address
                                                 <ul>
                                                     <li>If you use Gmail, the value is smtp.gmail.com</li>
                                                     <li>If you use Outlook, the value is smtp-mail.outlook.com</li>
                                                     <li>If you use Office365, the value is smtp.office365.com</li>
                                                 </ul>
+                                                </h4>
                                             </td>
                                         </tr>
                                         <tr>

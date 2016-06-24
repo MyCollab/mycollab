@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.event.TimelineTrackingUpdateEvent;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.common.service.TagService;
 import com.esofthead.mycollab.common.service.TimelineTrackingService;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -65,6 +66,7 @@ import java.util.concurrent.locks.Lock;
 @Service
 @Transactional
 @Traceable(nameField = "summary", extraFieldName = "projectid")
+@Watchable(userFieldName = "assignuser")
 public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements BugService {
     static {
         ClassInfo bugInfo = new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);

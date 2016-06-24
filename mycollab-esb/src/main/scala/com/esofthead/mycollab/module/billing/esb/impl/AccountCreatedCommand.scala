@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.billing.esb.impl
 
 import java.util
-import java.util.GregorianCalendar
+import java.util.{GregorianCalendar, Timer, TimerTask}
 
 import com.esofthead.mycollab.common.NotificationType
 import com.esofthead.mycollab.common.domain.OptionVal
@@ -138,14 +138,14 @@ import org.springframework.stereotype.Component
     message.setSaccountid(accountId)
     message.setProjectid(projectId)
     message.setTitle("Thank you for using MyCollab!")
-    message.setPosteddate(now.toDate)
+    message.setPosteddate(now.toLocalDate.toDate)
     messageService.saveWithSession(message, initialUser)
 
     val milestone: Milestone = new Milestone()
     milestone.setCreateduser(initialUser)
-    milestone.setDeadline(now.plusDays(14).toDate)
-    milestone.setStartdate(now.toDate)
-    milestone.setEnddate(now.plusDays(14).toDate)
+    milestone.setDeadline(now.plusDays(14).toLocalDate.toDate)
+    milestone.setStartdate(now.toLocalDate.toDate)
+    milestone.setEnddate(now.plusDays(14).toLocalDate.toDate)
     milestone.setName("Sample milestone")
     milestone.setOwner(initialUser)
     milestone.setProjectid(projectId)
@@ -161,31 +161,31 @@ import org.springframework.stereotype.Component
     taskA.setPriority(TaskPriority.Medium.name())
     taskA.setSaccountid(accountId)
     taskA.setStatus(StatusI18nEnum.Open.name())
-    taskA.setStartdate(now.toDate())
-    taskA.setEnddate(now.plusDays(3).toDate)
+    taskA.setStartdate(now.toLocalDate.toDate)
+    taskA.setEnddate(now.plusDays(3).toLocalDate.toDate)
     val taskAId = taskService.saveWithSession(taskA, initialUser)
 
     val taskB = BeanUtility.deepClone(taskA)
     taskB.setTaskname("Task B")
     taskB.setId(null)
     taskB.setMilestoneid(sampleMilestoneId)
-    taskB.setStartdate(now.plusDays(2).toDate)
-    taskB.setEnddate(now.plusDays(4).toDate)
+    taskB.setStartdate(now.plusDays(2).toLocalDate.toDate)
+    taskB.setEnddate(now.plusDays(4).toLocalDate.toDate)
     taskService.saveWithSession(taskB, initialUser)
 
     val taskC = BeanUtility.deepClone(taskA)
     taskC.setId(null)
     taskC.setTaskname("Task C")
-    taskC.setStartdate(now.plusDays(3).toDate)
-    taskC.setEnddate(now.plusDays(5).toDate)
+    taskC.setStartdate(now.plusDays(3).toLocalDate.toDate)
+    taskC.setEnddate(now.plusDays(5).toLocalDate.toDate)
     taskC.setParenttaskid(taskAId)
     taskService.saveWithSession(taskC, initialUser)
 
     val taskD = BeanUtility.deepClone(taskA)
     taskD.setId(null)
     taskD.setTaskname("Task D")
-    taskD.setStartdate(now.toDate)
-    taskD.setEnddate(now.plusDays(2).toDate)
+    taskD.setStartdate(now.toLocalDate.toDate)
+    taskD.setEnddate(now.plusDays(2).toLocalDate.toDate)
     taskService.saveWithSession(taskD, initialUser)
 
     val component = new com.esofthead.mycollab.module.tracker.domain.Component()
@@ -202,7 +202,7 @@ import org.springframework.stereotype.Component
     version.setCreateduser(initialUser)
     version.setVersionname("Version 1")
     version.setDescription("Sample version")
-    version.setDuedate(now.plusDays(21).toDate)
+    version.setDuedate(now.plusDays(21).toLocalDate.toDate)
     version.setProjectid(projectId)
     version.setSaccountid(accountId)
     version.setStatus(StatusI18nEnum.Open.name())
@@ -212,7 +212,7 @@ import org.springframework.stereotype.Component
     bugA.setDescription("Sample bug")
     bugA.setEnvironment("All platforms")
     bugA.setAssignuser(initialUser)
-    bugA.setDuedate(now.plusDays(2).toDate)
+    bugA.setDuedate(now.plusDays(2).toLocalDate.toDate)
     bugA.setLogby(initialUser)
     bugA.setMilestoneid(sampleMilestoneId)
     bugA.setSummary("Bug A")
@@ -245,5 +245,13 @@ import org.springframework.stereotype.Component
     folder.setDescription("Sample folder")
     folder.setPath(PathUtils.getProjectDocumentPath(accountId, projectId) + "/" + StringUtils.generateSoftUniqueId())
     pageService.createFolder(folder, initialUser)
+
+    val timer = new Timer("Set member notification")
+    timer.schedule(new TimerTask {
+      override def run(): Unit = {
+        projectNotificationSetting.setLevel(NotificationType.Default.name())
+        projectNotificationSettingService.updateWithSession(projectNotificationSetting, initialUser)
+      }
+    }, 90000)
   }
 }

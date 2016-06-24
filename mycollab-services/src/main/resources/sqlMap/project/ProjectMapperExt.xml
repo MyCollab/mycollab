@@ -560,13 +560,11 @@
         s_relay_email_notification.changeComment,
         m_prj_risk.projectId AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
-        notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-        notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
+        NULL AS notifiers_firstname, NULL AS notifiers_lastname,
+        NULL AS notifiers_username, NULL AS notifiers_timezone,
+        NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
             INNER JOIN m_prj_risk ON (s_relay_email_notification.type="Project-Risk" AND m_prj_risk.id=s_relay_email_notification.typeId))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -579,13 +577,11 @@
         s_relay_email_notification.changeComment,
         m_tracker_component.projectId AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email, notifier.language AS notifiers_language,
-        s_relay_email_notification.sAccountId AS notifiers_accountId
+        NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
+        NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
+        NULL AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
             INNER JOIN m_tracker_component ON (s_relay_email_notification.type="Project-Component" AND m_tracker_component.id=s_relay_email_notification.typeId))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -598,13 +594,11 @@
         s_relay_email_notification.changeComment,
         m_tracker_version.projectId AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email, notifier.language AS notifiers_language,
-        s_relay_email_notification.sAccountId AS notifiers_accountId
+        NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
+        NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
+        NULL AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
             INNER JOIN m_tracker_version ON (s_relay_email_notification.type="Project-Version" AND m_tracker_version.id=s_relay_email_notification.typeId))
         ]]>
     </select>
