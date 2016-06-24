@@ -68,7 +68,6 @@
             </div>
             <#include "pageFooter.ftl">
         </div>
-
     </div>
 </div>
 <input type="hidden" id="username" value="${username}">

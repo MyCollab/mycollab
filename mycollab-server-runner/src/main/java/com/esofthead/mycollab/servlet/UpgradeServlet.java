@@ -50,13 +50,9 @@ public class UpgradeServlet extends HttpServlet {
                 configuration.getTemplate("pageNoUpgrade.ftl");
 
         Map<String, Object> context = new HashMap<>();
-        Map<String, String> defaultUrls = new HashMap<>();
+        Map<String, String> defaultUrls = SiteConfiguration.defaultUrls();
         defaultUrls.put("cdn_url", "/assets/");
         defaultUrls.put("app_url", "/");
-        defaultUrls.put("facebook_url", SiteConfiguration.getFacebookUrl());
-        defaultUrls.put("google_url", SiteConfiguration.getGoogleUrl());
-        defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
-        defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
 
         context.put("current_year", new LocalDate().getYear());
         context.put("defaultUrls", defaultUrls);

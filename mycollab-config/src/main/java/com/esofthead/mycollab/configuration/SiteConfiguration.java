@@ -29,9 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
 
@@ -63,6 +61,7 @@ public class SiteConfiguration {
     private String twitterUrl;
     private String googleUrl;
     private String linkedinUrl;
+
     private PullMethod pullMethod;
     private Configuration freemarkerConfiguration;
 
@@ -257,6 +256,15 @@ public class SiteConfiguration {
 
     public static Configuration freemarkerConfiguration() {
         return getInstance().freemarkerConfiguration;
+    }
+
+    public static Map<String, String> defaultUrls() {
+        Map<String, String> defaultUrls = new HashMap<>();
+        defaultUrls.put("facebook_url", SiteConfiguration.getFacebookUrl());
+        defaultUrls.put("google_url", SiteConfiguration.getGoogleUrl());
+        defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
+        defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
+        return defaultUrls;
     }
 
     public enum PullMethod {

@@ -39,13 +39,9 @@ class PageGeneratorUtil {
         Map<String, Object> context = new HashMap<>();
         context.put("loginURL", loginURL);
         context.put("username", username);
-        Map<String, String> defaultUrls = new HashMap<>();
+        Map<String, String> defaultUrls = SiteConfiguration.defaultUrls();
         defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
         defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
-        defaultUrls.put("facebook_url", SiteConfiguration.getFacebookUrl());
-        defaultUrls.put("google_url", SiteConfiguration.getGoogleUrl());
-        defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
-        defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
         context.put("defaultUrls", defaultUrls);
 
         StringWriter writer = new StringWriter();

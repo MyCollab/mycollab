@@ -113,7 +113,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
   }
 
   def sendNotificationForCommentAction(notification: SimpleRelayEmailNotification) {
-    val notifiers: List[SimpleUser] = getListNotifyUserWithFilter(notification, MonitorTypeConstants.ADD_COMMENT_ACTION)
+    val notifiers = getListNotifyUserWithFilter(notification, MonitorTypeConstants.ADD_COMMENT_ACTION)
     if ((notifiers != null) && notifiers.nonEmpty) {
       onInitAction(notification)
 

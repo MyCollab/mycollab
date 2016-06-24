@@ -23,7 +23,7 @@
         <junitVersion>4.12</junitVersion>
         <jackrabbitVersion>2.12.1</jackrabbitVersion>
         <scala.binary.version>2.11</scala.binary.version>
-        <scala.version>2.11.7</scala.version>
+        <scala.version>2.11.8</scala.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.inceptionYear>2011</project.inceptionYear>
         <sonar.language>java</sonar.language>

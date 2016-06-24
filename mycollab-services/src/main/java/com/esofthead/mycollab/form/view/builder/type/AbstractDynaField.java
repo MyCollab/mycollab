@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.form.view.builder.type;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -36,22 +38,31 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
     public static final String TEXTAREA_FIELD_4 = "textarea4";
     public static final String TEXTAREA_FIELD_5 = "textarea5";
 
+    @JsonIgnore
     private int fieldIndex;
 
+    @JsonIgnore
     private String fieldName;
 
+    @JsonIgnore
     private String displayName;
 
+    @JsonIgnore
     private String contextHelp;
 
-    private boolean isMandatory = false;
+    @JsonIgnore
+    private Boolean isMandatory = false;
 
-    private boolean isRequired = false;
+    @JsonIgnore
+    private Boolean isRequired = false;
 
-    private boolean isCustom = false;
+    @JsonIgnore
+    private Boolean isCustom = false;
 
-    private boolean isColSpan = false;
+    @JsonIgnore
+    private Boolean isColSpan = false;
 
+    @JsonIgnore
     private DynaSection ownSection;
 
     public String getFieldName() {
@@ -78,11 +89,11 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
         this.fieldIndex = fieldIndex;
     }
 
-    public boolean isRequired() {
+    public Boolean isRequired() {
         return isRequired;
     }
 
-    public void setRequired(boolean isRequired) {
+    public void setRequired(Boolean isRequired) {
         this.isRequired = isRequired;
     }
 
@@ -102,27 +113,27 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
         this.displayName = displayName;
     }
 
-    public boolean isCustom() {
+    public Boolean isCustom() {
         return isCustom;
     }
 
-    public void setCustom(boolean isCustom) {
+    public void setCustom(Boolean isCustom) {
         this.isCustom = isCustom;
     }
 
-    public boolean isMandatory() {
+    public Boolean isMandatory() {
         return isMandatory;
     }
 
-    public void setMandatory(boolean isMandatory) {
+    public void setMandatory(Boolean isMandatory) {
         this.isMandatory = isMandatory;
     }
 
-    public boolean isColSpan() {
+    public Boolean isColSpan() {
         return isColSpan;
     }
 
-    public void setColSpan(boolean isColSpan) {
+    public void setColSpan(Boolean isColSpan) {
         this.isColSpan = isColSpan;
     }
 

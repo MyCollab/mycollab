@@ -117,7 +117,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
         }
 
         Map<String, Object> context = new HashMap<>();
-        Map<String, String> defaultUrls = new HashMap<>();
+        Map<String, String> defaultUrls = SiteConfiguration.defaultUrls();
 
         defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
         defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
