@@ -18,6 +18,7 @@ package com.esofthead.mycollab.common.service;
 
 import com.esofthead.mycollab.common.domain.AggregateTag;
 import com.esofthead.mycollab.common.domain.Tag;
+import com.esofthead.mycollab.common.domain.TagExample;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
@@ -37,4 +38,6 @@ public interface TagService extends ICrudService<Integer, Tag> {
 
     @Cacheable
     List<AggregateTag> findTagsInProject(Integer projectId, @CacheKey Integer accountId);
+
+    int deleteByExample(TagExample example);
 }

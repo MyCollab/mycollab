@@ -94,11 +94,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
-        timesheetComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
 
         if (SiteConfiguration.isCommunityEdition()) {
             addToSideBar(dateInfoComp, peopleInfoComp, followerSheet);
         } else {
+            timesheetComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
             addToSideBar(dateInfoComp, peopleInfoComp, timesheetComp, followerSheet);
         }
     }
@@ -115,15 +115,18 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
         }
 
-        if (!SiteConfiguration.isCommunityEdition()) {
+        if (tagViewComponent != null) {
             tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
+        }
+
+        if (timesheetComp != null) {
+            timesheetComp.displayTime(beanItem);
         }
 
         activityComponent.loadActivities("" + beanItem.getId());
         followerSheet.displayFollowers(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
         dateInfoComp.displayEntryDateTime(beanItem);
-        timesheetComp.displayTime(beanItem);
     }
 
     @Override

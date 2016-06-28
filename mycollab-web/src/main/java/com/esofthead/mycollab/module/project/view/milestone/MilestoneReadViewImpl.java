@@ -98,10 +98,11 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.MILESTONE, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
-        milestoneTimeLogComp = new MilestoneTimeLogComp();
+
         if (SiteConfiguration.isCommunityEdition()) {
             addToSideBar(dateInfoComp, peopleInfoComp);
         } else {
+            milestoneTimeLogComp = new MilestoneTimeLogComp();
             addToSideBar(dateInfoComp, peopleInfoComp, milestoneTimeLogComp);
         }
     }
@@ -118,14 +119,16 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected void onPreviewItem() {
-        if (!SiteConfiguration.isCommunityEdition()) {
+        if (tagViewComponent != null) {
             tagViewComponent.display(ProjectTypeConstants.MILESTONE, beanItem.getId());
+        }
+        if (milestoneTimeLogComp != null) {
+            milestoneTimeLogComp.displayTime(beanItem);
         }
         ((MilestonePreviewFormLayout) previewLayout).displayHeader(beanItem);
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
-        milestoneTimeLogComp.displayTime(beanItem);
     }
 
     @Override

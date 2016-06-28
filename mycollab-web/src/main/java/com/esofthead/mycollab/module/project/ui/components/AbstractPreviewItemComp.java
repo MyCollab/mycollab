@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.domain.FavoriteItem;
 import com.esofthead.mycollab.common.service.FavoriteItemService;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -43,7 +44,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
     protected B beanItem;
-    private FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
     private boolean isDisplaySideBar = true;
 
     protected AdvancedPreviewBeanForm<B> previewForm;
@@ -80,16 +80,19 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             headerLbl.setValue(headerText);
         }
 
-        favoriteBtn = new Button(FontAwesome.STAR);
-        favoriteBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                toggleFavorite();
-            }
-        });
+        if (SiteConfiguration.isCommunityEdition()) {
+            header.with(headerLbl).expand(headerLbl);
+        } else {
+            favoriteBtn = new Button(FontAwesome.STAR);
+            favoriteBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    toggleFavorite();
+                }
+            });
 
-        Label spaceLbl = new Label();
-        header.with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);
+            header.with(headerLbl, favoriteBtn);
+        }
 
         this.addComponent(header);
         ComponentContainer extraComp;
@@ -165,6 +168,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
     private boolean isFavorite() {
         try {
+            FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
             return favoriteItemService.isUserFavorite(AppContext.getUsername(), getType(),
                     PropertyUtils.getProperty(beanItem, "id").toString());
         } catch (Exception e) {

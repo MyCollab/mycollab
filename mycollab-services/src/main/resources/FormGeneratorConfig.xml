@@ -5,40 +5,25 @@
 <generatorConfiguration>
 
     <context id="MySQL" targetRuntime="MyBatis3">
-
         <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_base"
-            driverClass="com.mysql.jdbc.Driver" password="esofthead321"
-            userId="root" />
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_base" driverClass="com.mysql.jdbc.Driver"
+                        password="esofthead321" userId="root" />
 
-        <javaModelGenerator targetPackage="com.esofthead.mycollab.form.domain"
-            targetProject="src/main/java">
-
-            <property name="rootClass"
-                value="com.esofthead.mycollab.core.arguments.ValuedBean" />
+        <javaModelGenerator targetPackage="com.esofthead.mycollab.form.domain" targetProject="src/main/java">
+            <property name="rootClass" value="com.esofthead.mycollab.core.arguments.ValuedBean" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="."
-            targetProject="src/main/resources/sqlMap/form" />
+        <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/form" />
 
-        <javaClientGenerator targetPackage="com.esofthead.mycollab.form.dao"
-            targetProject="src/main/java" type="XMLMAPPER">
-
+        <javaClientGenerator targetPackage="com.esofthead.mycollab.form.dao" targetProject="src/main/java" type="XMLMAPPER">
             <property name="exampleMethodVisibility" value="public" />
-
-            <property name="rootInterface"
-                value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table domainObjectName="FormSection" schema="mycollab"
-            tableName="m_form_section" />
-
-        <table domainObjectName="FormSectionField" schema="mycollab"
-            tableName="m_form_section_field" />
-
-        <table domainObjectName="FormCustomFieldValue" schema="mycollab"
-            tableName="m_form_custom_field_value" />
+        <table schema="mycollab" tableName="m_form_section" domainObjectName="FormSection"/>
+        <table schema="mycollab" tableName="m_form_section_field" domainObjectName="FormSectionField"/>
+        <table schema="mycollab" tableName="m_form_custom_field_value" domainObjectName="FormCustomFieldValue"/>
     </context>
 
 </generatorConfiguration>

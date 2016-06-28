@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="MySQL" targetRuntime="MyBatis3">
+        <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
+
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_base"
+                        driverClass="com.mysql.jdbc.Driver" password="esofthead321" userId="root" />
+
+        <javaModelGenerator targetPackage="com.esofthead.mycollab.module.project.domain" targetProject="src/main/java">
+            <property name="rootClass" value="com.esofthead.mycollab.core.arguments.ValuedBean" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="." targetProject="../mycollab-services-pro/src/main/resources/sqlMapExt/project" />
+
+        <javaClientGenerator targetPackage="com.esofthead.mycollab.pro.module.project.dao"
+                             targetProject="../mycollab-services-pro/src/main/java" type="XMLMAPPER">
+            <property name="exampleMethodVisibility" value="public" />
+            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+        </javaClientGenerator>
+
+        <table domainObjectName="Invoice" schema="mycollab" tableName="m_prj_invoice" />
+        <table domainObjectName="Risk" schema="mycollab" tableName="m_prj_risk" />
+        <table domainObjectName="StandupReport" schema="mycollab" tableName="m_prj_standup" />
+        <table domainObjectName="ItemTimeLogging" schema="mycollab" tableName="m_prj_time_logging" />
+    </context>
+
+</generatorConfiguration>

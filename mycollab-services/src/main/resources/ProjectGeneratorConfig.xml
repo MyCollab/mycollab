@@ -25,17 +25,13 @@
         <table domainObjectName="Milestone" schema="mycollab" tableName="m_prj_milestone" />
         <table domainObjectName="Project" schema="mycollab" tableName="m_prj_project" />
         <table domainObjectName="ProjectNotificationSetting" schema="mycollab" tableName="m_prj_notifications" />
-        <table domainObjectName="Risk" schema="mycollab" tableName="m_prj_risk" />
-        <table domainObjectName="StandupReport" schema="mycollab" tableName="m_prj_standup" />
         <table domainObjectName="ProjectRole" schema="mycollab" tableName="m_prj_role" />
         <table domainObjectName="ProjectRolePermission" schema="mycollab" tableName="m_prj_role_permission" />
-        <table domainObjectName="ItemTimeLogging" schema="mycollab" tableName="m_prj_time_logging" />
         <table domainObjectName="Task" schema="mycollab" tableName="m_prj_task" />
         <table domainObjectName="ProjectMember" schema="mycollab" tableName="m_prj_member" />
         <table domainObjectName="Predecessor" schema="mycollab" tableName="m_prj_predecessor" />
         <table domainObjectName="ProjectCustomizeView" schema="mycollab" tableName="m_prj_customize_view" />
         <table domainObjectName="KanbanBoard" schema="mycollab" tableName="m_prj_kanban_board" />
-        <table domainObjectName="Invoice" schema="mycollab" tableName="m_prj_invoice" />
     </context>
 
 </generatorConfiguration>

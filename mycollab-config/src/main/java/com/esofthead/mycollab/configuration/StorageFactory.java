@@ -53,10 +53,6 @@ public class StorageFactory {
         }
     }
 
-    static {
-
-    }
-
     public static Storage getInstance() {
         return _instance.storage;
     }

@@ -208,21 +208,25 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         bugFollowersList = new ProjectFollowersComp<>(ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
-        bugTimeLogList = ViewManager.getCacheComponent(BugTimeLogSheet.class);
+
         if (SiteConfiguration.isCommunityEdition()) {
             addToSideBar(dateInfoComp, peopleInfoComp, bugFollowersList);
         } else {
+            bugTimeLogList = ViewManager.getCacheComponent(BugTimeLogSheet.class);
             addToSideBar(dateInfoComp, peopleInfoComp, bugTimeLogList, bugFollowersList);
         }
     }
 
     @Override
     protected void onPreviewItem() {
-        if (!SiteConfiguration.isCommunityEdition()) {
+        if (tagViewComponent != null) {
             tagViewComponent.display(ProjectTypeConstants.BUG, beanItem.getId());
         }
+        if (bugTimeLogList != null) {
+            bugTimeLogList.displayTime(beanItem);
+        }
         activityComponent.loadActivities("" + beanItem.getId());
-        bugTimeLogList.displayTime(beanItem);
+
         bugFollowersList.displayFollowers(beanItem);
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);

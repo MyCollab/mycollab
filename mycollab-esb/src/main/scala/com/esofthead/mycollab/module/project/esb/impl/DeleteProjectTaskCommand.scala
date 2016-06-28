@@ -16,8 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl
 
-import com.esofthead.mycollab.common.dao.{CommentMapper, TagMapper}
+import com.esofthead.mycollab.common.dao.CommentMapper
 import com.esofthead.mycollab.common.domain.{CommentExample, TagExample}
+import com.esofthead.mycollab.common.service.TagService
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.file.AttachmentUtils
@@ -37,7 +38,7 @@ import org.springframework.stereotype.Component
   @Autowired private val resourceService: ResourceService = null
   @Autowired private val commentMapper: CommentMapper = null
   @Autowired private val predecessorMapper: PredecessorMapper = null
-  @Autowired private val tagMapper: TagMapper = null
+  @Autowired private val tagService: TagService = null
 
   @AllowConcurrentEvents
   @Subscribe
@@ -72,6 +73,6 @@ import org.springframework.stereotype.Component
   private def removeRelatedTags(taskId: Integer): Unit = {
     val ex = new TagExample
     ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.TASK).andTypeidEqualTo(taskId + "")
-    tagMapper.deleteByExample(ex)
+    tagService.deleteByExample(ex)
   }
 }

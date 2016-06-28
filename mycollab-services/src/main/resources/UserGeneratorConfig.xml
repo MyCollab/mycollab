@@ -11,48 +11,26 @@
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_base"
                         driverClass="com.mysql.jdbc.Driver" password="esofthead321" userId="root"/>
 
-        <javaModelGenerator targetPackage="com.esofthead.mycollab.module.user.domain"
-                            targetProject="src/main/java">
-            <property name="rootClass"
-                      value="com.esofthead.mycollab.core.arguments.ValuedBean"/>
+        <javaModelGenerator targetPackage="com.esofthead.mycollab.module.user.domain" targetProject="src/main/java">
+            <property name="rootClass" value="com.esofthead.mycollab.core.arguments.ValuedBean"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="."
-                         targetProject="src/main/resources/sqlMap/user"/>
+        <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/user"/>
 
-        <javaClientGenerator targetPackage="com.esofthead.mycollab.module.user.dao"
-                             targetProject="src/main/java" type="XMLMAPPER">
-
+        <javaClientGenerator targetPackage="com.esofthead.mycollab.module.user.dao" targetProject="src/main/java" type="XMLMAPPER">
             <property name="exampleMethodVisibility" value="public"/>
-
-            <property name="rootInterface"
-                      value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO"/>
+            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table domainObjectName="BillingAccount" schema="mycollab"
-               tableName="s_account"/>
-
-        <table domainObjectName="BillingPlan" schema="mycollab"
-               tableName="s_billing_plan"/>
-
-        <table domainObjectName="Role" schema="mycollab" tableName="s_roles"/>
-
-        <table domainObjectName="User" schema="mycollab" tableName="s_user"/>
-
-        <table domainObjectName="UserAccount" schema="mycollab"
-               tableName="s_user_account"/>
-
-        <table domainObjectName="RolePermission" schema="mycollab"
-               tableName="s_role_permission"/>
-
-        <table domainObjectName="UserPermission" schema="mycollab"
-               tableName="s_user_permission"/>
-
-        <table schema="mycollab" tableName="s_user_tracking"
-               domainObjectName="UserTracking"/>
-
-        <table domainObjectName="AccountTheme" schema="mycollab"
-               tableName="s_account_theme"/>
+        <table schema="mycollab" tableName="s_account" domainObjectName="BillingAccount"/>
+        <table schema="mycollab" tableName="s_billing_plan" domainObjectName="BillingPlan"/>
+        <table schema="mycollab" tableName="s_roles" domainObjectName="Role"/>
+        <table schema="mycollab" tableName="s_user" domainObjectName="User"/>
+        <table schema="mycollab" tableName="s_user_account" domainObjectName="UserAccount"/>
+        <table schema="mycollab" tableName="s_role_permission" domainObjectName="RolePermission"/>
+        <table schema="mycollab" tableName="s_user_permission" domainObjectName="UserPermission"/>
+        <table schema="mycollab" tableName="s_user_tracking" domainObjectName="UserTracking"/>
+        <table schema="mycollab" tableName="s_account_theme" domainObjectName="AccountTheme"/>
     </context>
 
 </generatorConfiguration>

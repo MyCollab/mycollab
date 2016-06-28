@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>mycollab-services</name>
     <artifactId>mycollab-services</artifactId>
@@ -100,14 +100,14 @@
         </dependency>
 
         <dependency>
-            <groupId> org.apache.jackrabbit</groupId>
+            <groupId>org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-spi-commons</artifactId>
             <version>${jackrabbitVersion}</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
+            <!--
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -125,31 +125,109 @@
                     </dependency>
                 </dependencies>
                 <executions>
-<!--
-                     <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase>
-                        <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile>
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>User
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/UserGeneratorConfig.xml</configurationFile>
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Common
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CommonGeneratorConfig.xml</configurationFile>
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Project
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/ProjectGeneratorConfig.xml</configurationFile>
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Tracker
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/TrackerGeneratorConfig.xml</configurationFile>
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Ecm
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/EcmGeneratorConfig.xml</configurationFile>
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Form
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/FormGeneratorConfig.xml</configurationFile>
-                        <overwrite>true</overwrite> </configuration> </execution>
--->
+                    <execution>
+                        <id>Crm Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>User Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/UserGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Common Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/CommonGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Common Artifacts Premium Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/CommonGeneratorPremiumConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Project Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/ProjectGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Project Artifacts Premium Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/ProjectGeneratorPremiumConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Tracker Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/TrackerGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Ecm Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/EcmGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Form Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/FormGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
+            -->
         </plugins>
     </build>
 

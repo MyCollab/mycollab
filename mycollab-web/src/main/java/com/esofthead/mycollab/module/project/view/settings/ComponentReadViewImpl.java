@@ -90,8 +90,12 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_COMPONENT, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
-        componentTimeLogComp = new ComponentTimeLogComp();
-        addToSideBar(dateInfoComp, peopleInfoComp, componentTimeLogComp);
+        if (SiteConfiguration.isCommunityEdition()) {
+            addToSideBar(dateInfoComp, peopleInfoComp);
+        } else {
+            componentTimeLogComp = new ComponentTimeLogComp();
+            addToSideBar(dateInfoComp, peopleInfoComp, componentTimeLogComp);
+        }
     }
 
     @Override
@@ -99,9 +103,13 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
-        componentTimeLogComp.displayTime(beanItem);
-        if (!SiteConfiguration.isCommunityEdition()) {
+
+        if (tagViewComponent != null) {
             tagViewComponent.display(ProjectTypeConstants.BUG_COMPONENT, beanItem.getId());
+        }
+
+        if (componentTimeLogComp != null) {
+            componentTimeLogComp.displayTime(beanItem);
         }
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {

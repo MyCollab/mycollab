@@ -42,8 +42,7 @@ public class JSonDeSerializerTest {
 
 		String json = JsonDeSerializer.toJson(map);
 
-		PermissionMap permissionMap = JsonDeSerializer.fromJson(json,
-				PermissionMap.class);
+		PermissionMap permissionMap = JsonDeSerializer.fromJson(json, PermissionMap.class);
 		assertThat(permissionMap.get("a")).isEqualTo(new Integer(1));
 	}
 }

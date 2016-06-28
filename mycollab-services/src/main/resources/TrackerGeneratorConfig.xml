@@ -3,10 +3,7 @@
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-
-    <context
-        id="MySQL"
-        targetRuntime="MyBatis3" >
+    <context id="MySQL" targetRuntime="MyBatis3" >
         
         <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
 
@@ -25,58 +22,21 @@
                 value="com.esofthead.mycollab.core.arguments.ValuedBean" />
         </javaModelGenerator>
 
-        <sqlMapGenerator
-            targetPackage="."
-            targetProject="src/main/resources/sqlMap/tracker" />
+        <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/tracker" />
 
         <javaClientGenerator
             targetPackage="com.esofthead.mycollab.module.tracker.dao"
             targetProject="src/main/java"
             type="XMLMAPPER" >
-
-            <property
-                name="exampleMethodVisibility"
-                value="public" />
-
-            <property
-                name="rootInterface"
-                value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+            <property name="exampleMethodVisibility" value="public" />
+            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table
-            domainObjectName="Bug"
-            schema="mycollab"
-            tableName="m_tracker_bug" />
-
-        <table
-            domainObjectName="Component"
-            schema="mycollab"
-            tableName="m_tracker_component" />
-
-        <table
-            domainObjectName="MetaData"
-            schema="mycollab"
-            tableName="m_tracker_metadata" />
-
-        <table
-            domainObjectName="RelatedBug"
-            schema="mycollab"
-            tableName="m_tracker_related_bug" />
-
-        <table
-            domainObjectName="BugRelatedItem"
-            schema="mycollab"
-            tableName="m_tracker_bug_related_item" />
-
-        <table
-            domainObjectName="Version"
-            schema="mycollab"
-            tableName="m_tracker_version" />
-
-        <table
-            domainObjectName="Query"
-            schema="mycollab"
-            tableName="m_tracker_query" />
+        <table domainObjectName="Bug" schema="mycollab" tableName="m_tracker_bug" />
+        <table domainObjectName="Component" schema="mycollab" tableName="m_tracker_component" />
+        <table domainObjectName="RelatedBug" schema="mycollab" tableName="m_tracker_related_bug" />
+        <table domainObjectName="BugRelatedItem" schema="mycollab" tableName="m_tracker_bug_related_item" />
+        <table domainObjectName="Version" schema="mycollab" tableName="m_tracker_version" />
     </context>
 
 </generatorConfiguration>

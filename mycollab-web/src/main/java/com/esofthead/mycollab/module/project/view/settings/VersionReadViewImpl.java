@@ -73,18 +73,25 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                 CurrentProjectVariables.getProjectId());
 
         dateInfoComp = new DateInfoComp();
-        versionTimeLogComp = new VersionTimeLogComp();
-        addToSideBar(dateInfoComp, versionTimeLogComp);
+        if (SiteConfiguration.isCommunityEdition()) {
+            addToSideBar(dateInfoComp);
+        } else {
+            versionTimeLogComp = new VersionTimeLogComp();
+            addToSideBar(dateInfoComp, versionTimeLogComp);
+        }
     }
 
     @Override
     protected void onPreviewItem() {
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
-        versionTimeLogComp.displayTime(beanItem);
 
-        if (!SiteConfiguration.isCommunityEdition()) {
+        if (tagViewComponent != null) {
             tagViewComponent.display(ProjectTypeConstants.BUG_VERSION, beanItem.getId());
+        }
+
+        if (versionTimeLogComp != null) {
+            versionTimeLogComp.displayTime(beanItem);
         }
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {

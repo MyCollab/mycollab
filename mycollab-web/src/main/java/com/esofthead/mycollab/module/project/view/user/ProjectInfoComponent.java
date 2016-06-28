@@ -310,16 +310,18 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createVersionBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
             popupButtonsControl.addOption(createVersionBtn);
 
-            Button createRiskBtn = new Button(AppContext.getMessage(RiskI18nEnum.NEW), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null));
-                }
-            });
-            createRiskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS));
-            createRiskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
-            popupButtonsControl.addOption(createRiskBtn);
+            if (!SiteConfiguration.isCommunityEdition()) {
+                Button createRiskBtn = new Button(AppContext.getMessage(RiskI18nEnum.NEW), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        controlsBtn.setPopupVisible(false);
+                        EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null));
+                    }
+                });
+                createRiskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS));
+                createRiskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
+                popupButtonsControl.addOption(createRiskBtn);
+            }
 
             popupButtonsControl.addSeparator();
             Button inviteMemberBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new Button.ClickListener() {
