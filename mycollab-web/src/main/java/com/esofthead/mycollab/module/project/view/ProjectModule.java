@@ -48,6 +48,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Collections;
@@ -143,38 +144,28 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             OptionPopupContent contentLayout = new OptionPopupContent();
             contentLayout.setWidth("550px");
 
-            final Button sortBtn = new Button();
-            sortBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    isSortAsc = !isSortAsc;
-                    if (searchCriteria != null) {
-                        if (isSortAsc) {
-                            sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
-                        } else {
-                            sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
-                        }
-                        displayResults();
+            final MButton sortBtn = new MButton(FontAwesome.SORT_ALPHA_ASC);
+            sortBtn.withListener(clickEvent -> {
+                isSortAsc = !isSortAsc;
+                if (searchCriteria != null) {
+                    if (isSortAsc) {
+                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+                    } else {
+                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
                     }
+                    displayResults();
                 }
-            });
-            sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-            sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             final TextField searchField = new TextField();
             searchField.setInputPrompt(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchField.setWidth("200px");
-            Button searchBtn = new Button("", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    searchCriteria.setProjectName(StringSearchField.and(searchField.getValue()));
-                    displayResults();
-                }
-            });
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
+            MButton searchBtn = new MButton("", clickEvent -> {
+                searchCriteria.setProjectName(StringSearchField.and(searchField.getValue()));
+                displayResults();
+            }).withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
 
             MHorizontalLayout popupHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                     .withFullWidth().withStyleName("border-bottom");

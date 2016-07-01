@@ -56,11 +56,8 @@ import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
-import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -127,38 +124,35 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             myProjectTab.setNavigatorStyleName("sidebar-menu");
             myProjectTab.setContainerStyleName("tab-content");
 
-            myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-                @Override
-                public void selectedTabChange(SelectedTabChangeEvent event) {
-                    Tab tab = ((ProjectVerticalTabsheet) event.getSource()).getSelectedTab();
-                    String caption = ((TabImpl) tab).getTabId();
-                    if (ProjectTypeConstants.MESSAGE.equals(caption)) {
-                        messagePresenter.go(ProjectViewImpl.this, null);
-                    } else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
-                        milestonesPresenter.go(ProjectViewImpl.this, new MilestoneScreenData.Roadmap());
-                    } else if (ProjectTypeConstants.TASK.equals(caption)) {
-                        taskPresenter.go(ProjectViewImpl.this, null);
-                    } else if (ProjectTypeConstants.BUG.equals(caption)) {
-                        bugPresenter.go(ProjectViewImpl.this, null);
-                    } else if (ProjectTypeConstants.RISK.equals(caption)) {
-                        RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
-                        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
-                        riskPresenter.go(ProjectViewImpl.this, new RiskScreenData.Search(searchCriteria));
-                    } else if (ProjectTypeConstants.FILE.equals(caption)) {
-                        filePresenter.go(ProjectViewImpl.this, new FileScreenData.GotoDashboard());
-                    } else if (ProjectTypeConstants.PAGE.equals(caption)) {
-                        pagePresenter.go(ProjectViewImpl.this,
-                                new PageScreenData.Search(PathUtils.getProjectDocumentPath(AppContext.getAccountId(), project.getId())));
-                    } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
-                        dashboardPresenter.go(ProjectViewImpl.this, null);
-                    } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
-                        ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
-                        userPresenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
-                    } else if (ProjectTypeConstants.FINANCE.equals(caption)) {
-                        financePresenter.go(ProjectViewImpl.this, null);
-                    }
+            myProjectTab.addSelectedTabChangeListener(selectedTabChangeEvent -> {
+                Tab tab = ((ProjectVerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
+                String caption = ((TabImpl) tab).getTabId();
+                if (ProjectTypeConstants.MESSAGE.equals(caption)) {
+                    messagePresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
+                    milestonesPresenter.go(ProjectViewImpl.this, new MilestoneScreenData.Roadmap());
+                } else if (ProjectTypeConstants.TASK.equals(caption)) {
+                    taskPresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.BUG.equals(caption)) {
+                    bugPresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.RISK.equals(caption)) {
+                    RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
+                    searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                    riskPresenter.go(ProjectViewImpl.this, new RiskScreenData.Search(searchCriteria));
+                } else if (ProjectTypeConstants.FILE.equals(caption)) {
+                    filePresenter.go(ProjectViewImpl.this, new FileScreenData.GotoDashboard());
+                } else if (ProjectTypeConstants.PAGE.equals(caption)) {
+                    pagePresenter.go(ProjectViewImpl.this,
+                            new PageScreenData.Search(PathUtils.getProjectDocumentPath(AppContext.getAccountId(), project.getId())));
+                } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
+                    dashboardPresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
+                    ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+                    criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                    criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
+                    userPresenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
+                } else if (ProjectTypeConstants.FINANCE.equals(caption)) {
+                    financePresenter.go(ProjectViewImpl.this, null);
                 }
             });
 
@@ -348,28 +342,21 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             this.setContent(content);
 
             content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_ASK_TO_ADD_MEMBERS)));
-            MHorizontalLayout btnControls = new MHorizontalLayout();
-            Button skipBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-                    SimpleProject project = CurrentProjectVariables.getProject();
-                    project.setContextask(false);
-                    projectService.updateSelectiveWithSession(project, AppContext.getUsername());
-                    AskToAddMoreMembersWindow.this.close();
-                }
-            });
-            skipBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
-            Button addNewMembersBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_ADD_MEMBERS), new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    AskToAddMoreMembersWindow.this.close();
-                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
-                }
-            });
-            addNewMembersBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            btnControls.with(skipBtn, addNewMembersBtn);
+            MButton skipBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> {
+                ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
+                SimpleProject project = CurrentProjectVariables.getProject();
+                project.setContextask(false);
+                projectService.updateSelectiveWithSession(project, AppContext.getUsername());
+                close();
+            }).withStyleName(UIConstants.BUTTON_OPTION);
+
+            MButton addNewMembersBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.ACTION_ADD_MEMBERS), clickEvent -> {
+                close();
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
+            }).withStyleName(UIConstants.BUTTON_ACTION);
+
+            MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, addNewMembersBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);
         }
     }

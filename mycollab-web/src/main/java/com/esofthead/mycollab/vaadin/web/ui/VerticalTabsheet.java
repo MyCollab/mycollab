@@ -126,23 +126,17 @@ public class VerticalTabsheet extends CustomComponent {
         if (!hasTab(id)) {
             final ButtonTabImpl button = new ButtonTabImpl(id, level, caption, link);
 
-            button.addClickListener(new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    if (!event.isCtrlKey() && !event.isMetaKey()) {
-                        if (selectedButton != button) {
-                            clearTabSelection(true);
-                            selectedButton = button;
-                            selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
-                            selectedComp = compMap.get(button.getTabId());
-                        }
-                        fireTabChangeEvent(new SelectedTabChangeEvent(VerticalTabsheet.this));
-                    } else {
-                        Page.getCurrent().open(button.link, "_blank", false);
+            button.addClickListener(clickEvent -> {
+                if (!clickEvent.isCtrlKey() && !clickEvent.isMetaKey()) {
+                    if (selectedButton != button) {
+                        clearTabSelection(true);
+                        selectedButton = button;
+                        selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+                        selectedComp = compMap.get(button.getTabId());
                     }
-
+                    fireTabChangeEvent(new SelectedTabChangeEvent(VerticalTabsheet.this));
+                } else {
+                    Page.getCurrent().open(button.link, "_blank", false);
                 }
             });
 

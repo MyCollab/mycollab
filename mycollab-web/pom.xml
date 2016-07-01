@@ -125,7 +125,7 @@
         <dependency>
             <groupId>com.rometools</groupId>
             <artifactId>rome</artifactId>
-            <version>1.6.0</version>
+            <version>1.6.1</version>
         </dependency>
 
         <dependency>
@@ -290,7 +290,6 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-sass-compiler</artifactId>
             <version>0.9.13</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

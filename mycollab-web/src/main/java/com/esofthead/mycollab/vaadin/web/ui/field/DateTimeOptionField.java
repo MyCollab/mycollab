@@ -83,18 +83,11 @@ public class DateTimeOptionField extends CustomField<Date> {
         timeFormatComboBox.loadData("AM", "PM");
         timeFormatComboBox.setNullSelectionAllowed(false);
 
-        toggleTimeBtn = new Button("");
+        toggleTimeBtn = new Button("", clickEvent -> toggleHideTimeOption(!hideTimeOption));
         toggleTimeBtn.addStyleName(UIConstants.BUTTON_LINK);
 
         container = new MHorizontalLayout();
         container.addStyleName(UIConstants.FLEX_DISPLAY);
-
-        toggleTimeBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                toggleHideTimeOption(!hideTimeOption);
-            }
-        });
 
         if (hideTimeOption) {
             toggleTimeBtn.setCaption("Set time");

@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Ul;
 import com.vaadin.data.Property;
@@ -26,6 +28,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -63,14 +66,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         componentsText.setWidth("100%");
 
         componentPopupSelection = new PopupButton();
-        componentPopupSelection.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                initContentPopup();
-            }
-        });
+        componentPopupSelection.addClickListener(clickEvent -> initContentPopup());
 
         popupContent = new MVerticalLayout();
         componentPopupSelection.setContent(popupContent);
@@ -91,14 +87,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         content.with(multiSelectComp);
 
         if (canAddNew) {
-            Button newBtn = new Button("New", new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    requestAddNewComp();
-                }
-            });
-            newBtn.setStyleName(UIConstants.BUTTON_LINK);
-            newBtn.setWidthUndefined();
+            MButton newBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> requestAddNewComp())
+                    .withStyleName(UIConstants.BUTTON_LINK);
             content.with(newBtn);
         }
         content.expand(multiSelectComp);
@@ -148,19 +138,16 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         final ItemSelectionComp<T> chkItem = new ItemSelectionComp<>(item, itemName);
         chkItem.setImmediate(true);
 
-        chkItem.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                final Boolean value = chkItem.getValue();
+        chkItem.addValueChangeListener(valueChangeEvent -> {
+            final Boolean value = chkItem.getValue();
 
-                if (value && !selectedItems.contains(item)) {
-                    selectedItems.add(item);
-                } else {
-                    selectedItems.remove(item);
-                }
-
-                displaySelectedItems();
+            if (value && !selectedItems.contains(item)) {
+                selectedItems.add(item);
+            } else {
+                selectedItems.remove(item);
             }
+
+            displaySelectedItems();
         });
         return chkItem;
     }
@@ -210,7 +197,6 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     public static class ItemSelectionComp<T> extends CheckBox {
         private static final long serialVersionUID = 1L;
 
-        @SuppressWarnings("unused")
         private T item;
 
         public ItemSelectionComp(T item, String caption) {

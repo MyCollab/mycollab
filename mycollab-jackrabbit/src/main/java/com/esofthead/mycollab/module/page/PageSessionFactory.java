@@ -50,8 +50,7 @@ public class PageSessionFactory extends JcrSessionFactory {
             }
         }
         if (createNamespace) {
-            session.getWorkspace().getNamespaceRegistry()
-                    .registerNamespace("wiki", "http://www.esofthead.com/wiki");
+            session.getWorkspace().getNamespaceRegistry().registerNamespace("wiki", "http://www.esofthead.com/wiki");
             LOG.debug("Successfully created Mycollab content namespace.");
         }
         if (session.getRootNode() == null) {
@@ -65,87 +64,70 @@ public class PageSessionFactory extends JcrSessionFactory {
         session.logout();
     }
 
-    @SuppressWarnings("unchecked")
-    private NodeTypeTemplate createWikiPageType(NodeTypeManager manager)
-            throws RepositoryException {
+    private NodeTypeTemplate createWikiPageType(NodeTypeManager manager) throws RepositoryException {
         LOG.info("Register mycollab content type");
         NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
         // Create content node type
-        NodeTypeTemplate pageTypeTemplate = manager
-                .createNodeTypeTemplate(hierachyNode);
+        NodeTypeTemplate pageTypeTemplate = manager.createNodeTypeTemplate(hierachyNode);
 
         pageTypeTemplate.setAbstract(false);
         pageTypeTemplate.setMixin(false);
         pageTypeTemplate.setName("wiki:page");
         pageTypeTemplate.setPrimaryItemName("page");
-        pageTypeTemplate
-                .setDeclaredSuperTypeNames(new String[]{NodeType.NT_HIERARCHY_NODE});
+        pageTypeTemplate.setDeclaredSuperTypeNames(new String[]{NodeType.NT_HIERARCHY_NODE});
         pageTypeTemplate.setQueryable(true);
         pageTypeTemplate.setOrderableChildNodes(false);
         LOG.debug("PROPERTY {} {}",
                 pageTypeTemplate.getDeclaredPropertyDefinitions().length,
                 pageTypeTemplate.getDeclaredChildNodeDefinitions().length);
 
-        PropertyDefinitionTemplate subjectPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate subjectPropertyTemplate = manager.createPropertyDefinitionTemplate();
         subjectPropertyTemplate.setMultiple(false);
         subjectPropertyTemplate.setName("wiki:subject");
         subjectPropertyTemplate.setMandatory(true);
         subjectPropertyTemplate.setRequiredType(PropertyType.STRING);
-        pageTypeTemplate.getPropertyDefinitionTemplates().add(
-                subjectPropertyTemplate);
+        pageTypeTemplate.getPropertyDefinitionTemplates().add(subjectPropertyTemplate);
 
-        PropertyDefinitionTemplate contentPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate contentPropertyTemplate = manager.createPropertyDefinitionTemplate();
         contentPropertyTemplate.setMultiple(false);
         contentPropertyTemplate.setName("wiki:content");
         contentPropertyTemplate.setMandatory(true);
         contentPropertyTemplate.setRequiredType(PropertyType.STRING);
-        pageTypeTemplate.getPropertyDefinitionTemplates().add(
-                contentPropertyTemplate);
+        pageTypeTemplate.getPropertyDefinitionTemplates().add(contentPropertyTemplate);
 
-        PropertyDefinitionTemplate lockPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate lockPropertyTemplate = manager.createPropertyDefinitionTemplate();
         lockPropertyTemplate.setMultiple(false);
         lockPropertyTemplate.setName("wiki:isLock");
         lockPropertyTemplate.setMandatory(false);
         lockPropertyTemplate.setRequiredType(PropertyType.BOOLEAN);
-        pageTypeTemplate.getPropertyDefinitionTemplates().add(
-                lockPropertyTemplate);
+        pageTypeTemplate.getPropertyDefinitionTemplates().add(lockPropertyTemplate);
 
-        PropertyDefinitionTemplate statusPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate statusPropertyTemplate = manager.createPropertyDefinitionTemplate();
         statusPropertyTemplate.setMultiple(false);
         statusPropertyTemplate.setName("wiki:status");
         statusPropertyTemplate.setMandatory(true);
         statusPropertyTemplate.setRequiredType(PropertyType.STRING);
-        pageTypeTemplate.getPropertyDefinitionTemplates().add(
-                statusPropertyTemplate);
+        pageTypeTemplate.getPropertyDefinitionTemplates().add(statusPropertyTemplate);
 
-        PropertyDefinitionTemplate categoryPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate categoryPropertyTemplate = manager.createPropertyDefinitionTemplate();
         categoryPropertyTemplate.setMultiple(false);
         categoryPropertyTemplate.setName("wiki:category");
         categoryPropertyTemplate.setMandatory(false);
         categoryPropertyTemplate.setRequiredType(PropertyType.STRING);
-        pageTypeTemplate.getPropertyDefinitionTemplates().add(
-                categoryPropertyTemplate);
+        pageTypeTemplate.getPropertyDefinitionTemplates().add(categoryPropertyTemplate);
 
-        PropertyDefinitionTemplate createdPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate createdPropertyTemplate = manager.createPropertyDefinitionTemplate();
         createdPropertyTemplate.setMultiple(false);
         createdPropertyTemplate.setName("wiki:createdUser");
         createdPropertyTemplate.setMandatory(true);
         createdPropertyTemplate.setRequiredType(PropertyType.STRING);
-        pageTypeTemplate.getPropertyDefinitionTemplates().add(
-                createdPropertyTemplate);
+        pageTypeTemplate.getPropertyDefinitionTemplates().add(createdPropertyTemplate);
 
         return pageTypeTemplate;
     }
 
     @SuppressWarnings("unchecked")
-    private NodeTypeTemplate createWikiFolderType(NodeTypeManager manager)
-            throws RepositoryException {
+    private NodeTypeTemplate createWikiFolderType(NodeTypeManager manager) throws RepositoryException {
         // Create content node type
         NodeTypeTemplate folderTypeTemplate = manager.createNodeTypeTemplate();
 
@@ -153,37 +135,30 @@ public class PageSessionFactory extends JcrSessionFactory {
         folderTypeTemplate.setMixin(false);
         folderTypeTemplate.setName("wiki:folder");
         folderTypeTemplate.setPrimaryItemName("folder");
-        folderTypeTemplate
-                .setDeclaredSuperTypeNames(new String[]{NodeType.NT_FOLDER});
+        folderTypeTemplate.setDeclaredSuperTypeNames(new String[]{NodeType.NT_FOLDER});
         folderTypeTemplate.setQueryable(true);
         folderTypeTemplate.setOrderableChildNodes(false);
 
-        PropertyDefinitionTemplate createdPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate createdPropertyTemplate = manager.createPropertyDefinitionTemplate();
         createdPropertyTemplate.setMultiple(false);
         createdPropertyTemplate.setName("wiki:createdUser");
         createdPropertyTemplate.setMandatory(true);
         createdPropertyTemplate.setRequiredType(PropertyType.STRING);
-        folderTypeTemplate.getPropertyDefinitionTemplates().add(
-                createdPropertyTemplate);
+        folderTypeTemplate.getPropertyDefinitionTemplates().add(createdPropertyTemplate);
 
-        PropertyDefinitionTemplate namePropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate namePropertyTemplate = manager.createPropertyDefinitionTemplate();
         namePropertyTemplate.setMultiple(false);
         namePropertyTemplate.setName("wiki:name");
         namePropertyTemplate.setMandatory(true);
         namePropertyTemplate.setRequiredType(PropertyType.STRING);
-        folderTypeTemplate.getPropertyDefinitionTemplates().add(
-                namePropertyTemplate);
+        folderTypeTemplate.getPropertyDefinitionTemplates().add(namePropertyTemplate);
 
-        PropertyDefinitionTemplate descPropertyTemplate = manager
-                .createPropertyDefinitionTemplate();
+        PropertyDefinitionTemplate descPropertyTemplate = manager.createPropertyDefinitionTemplate();
         descPropertyTemplate.setMultiple(false);
         descPropertyTemplate.setName("wiki:description");
         descPropertyTemplate.setMandatory(true);
         descPropertyTemplate.setRequiredType(PropertyType.STRING);
-        folderTypeTemplate.getPropertyDefinitionTemplates().add(
-                descPropertyTemplate);
+        folderTypeTemplate.getPropertyDefinitionTemplates().add(descPropertyTemplate);
         return folderTypeTemplate;
     }
 }

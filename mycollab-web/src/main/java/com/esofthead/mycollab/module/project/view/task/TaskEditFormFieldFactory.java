@@ -66,14 +66,11 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
     protected Field<?> onCreateField(final Object propertyId) {
         if (Task.Field.assignuser.equalTo(propertyId)) {
             ProjectMemberSelectionField field = new ProjectMemberSelectionField();
-            field.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    Property property = valueChangeEvent.getProperty();
-                    SimpleProjectMember member = (SimpleProjectMember) property.getValue();
-                    if (member != null) {
-                        subscribersComp.addFollower(member.getUsername());
-                    }
+            field.addValueChangeListener(valueChangeEvent -> {
+                Property property = valueChangeEvent.getProperty();
+                SimpleProjectMember member = (SimpleProjectMember) property.getValue();
+                if (member != null) {
+                    subscribersComp.addFollower(member.getUsername());
                 }
             });
             return field;

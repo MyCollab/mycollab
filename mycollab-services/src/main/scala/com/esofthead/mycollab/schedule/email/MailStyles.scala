@@ -26,7 +26,7 @@ import scala.collection.mutable._
   */
 class MailStyles {
   private val styles = Map("footer_background" -> "#3A3A3A", "font" -> "13px Arial, 'Times New Roman', sans-serif",
-    "background" -> "#FFFFFF", "link_color" -> "#006DAC", "border_color" -> "#e5e5e5", "meta_color" -> "#999",
+    "background" -> "#f5faff", "link_color" -> "#006DAC", "border_color" -> "#e5e5e5", "meta_color" -> "#999",
     "action_color" -> "#24a2e3")
 
   def get(name: String): String = {

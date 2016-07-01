@@ -54,24 +54,18 @@ public class ProjectSubscribersComp extends CustomField {
         CssLayout container = new CssLayout();
         container.setStyleName("followers-container");
         final CheckBox selectAllCheckbox = new CheckBox("All", defaultSelectAll);
-        selectAllCheckbox.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                boolean val = selectAllCheckbox.getValue();
-                for (FollowerCheckbox followerCheckbox : memberSelections) {
-                    followerCheckbox.setValue(val);
-                }
+        selectAllCheckbox.addValueChangeListener(valueChangeEvent -> {
+            boolean val = selectAllCheckbox.getValue();
+            for (FollowerCheckbox followerCheckbox : memberSelections) {
+                followerCheckbox.setValue(val);
             }
         });
         container.addComponent(selectAllCheckbox);
         for (SimpleUser user : members) {
             final FollowerCheckbox memberCheckbox = new FollowerCheckbox(user);
-            memberCheckbox.addValueChangeListener(new ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    if (!memberCheckbox.getValue()) {
-                        selectAllCheckbox.setValue(false);
-                    }
+            memberCheckbox.addValueChangeListener(valueChangeEvent -> {
+                if (!memberCheckbox.getValue()) {
+                    selectAllCheckbox.setValue(false);
                 }
             });
             if (defaultSelectAll || selectedUsers.contains(user.getUsername())) {

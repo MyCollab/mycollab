@@ -180,9 +180,9 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            ELabel timePostLbl = new ELabel(AppContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
-                    AppContext.formatPrettyTime(message.getPosteddate())), ContentMode.HTML).withDescription
-                    (AppContext.formatDateTime(message.getPosteddate()));
+            ELabel timePostLbl = ELabel.html(AppContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
+                    AppContext.formatPrettyTime(message.getPosteddate())))
+                    .withDescription(AppContext.formatDateTime(message.getPosteddate()));
             timePostLbl.setSizeUndefined();
             timePostLbl.setStyleName(UIConstants.META_INFO);
 

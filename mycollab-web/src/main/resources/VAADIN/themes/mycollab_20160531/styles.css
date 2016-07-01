@@ -995,7 +995,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.6.6";
+	content: "7.6.7";
 }
 
 .v-widget {
@@ -14044,16 +14044,6 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 	background-image: none;
 }
 
-.v-button.v-button-graybtn {
-	color: white;
-	font-weight: normal;
-}
-
-.v-button.v-button-redbtn {
-	color: white;
-	font-weight: normal;
-}
-
 .v-button.v-button-greenbtn {
 	color: white;
 	font-weight: normal;
@@ -17661,7 +17651,7 @@ div.v-ratingstars-bar {
 	font-weight: 600;
 }
 
-.billing-plan .greenbtn, .billing-plan .graybtn {
+.billing-plan .greenbtn, .billing-plan .graybtn, .billing-plan .redbtn {
 	margin-bottom: 15px;
 	margin-top: 15px;
 }

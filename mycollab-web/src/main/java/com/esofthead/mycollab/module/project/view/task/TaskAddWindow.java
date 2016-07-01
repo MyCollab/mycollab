@@ -42,6 +42,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
@@ -88,70 +89,56 @@ public class TaskAddWindow extends Window {
                 MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 buttonControls.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 
-                Button updateAllBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
-                        EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskAddWindow.this, EditForm.this.bean));
-                        close();
-                    }
-                });
-                updateAllBtn.addStyleName(UIConstants.BUTTON_LINK);
+                MButton updateAllBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
+                    EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskAddWindow.this, EditForm.this.bean));
+                    close();
+                }).withStyleName(UIConstants.BUTTON_LINK);
 
-                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
-                        if (EditForm.this.validateForm()) {
-                            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                            Integer taskId;
-                            if (bean.getId() == null) {
-                                taskId = taskService.saveWithSession(bean, AppContext.getUsername());
-                            } else {
-                                taskService.updateWithSession(bean, AppContext.getUsername());
-                                taskId = bean.getId();
-                            }
-
-                            TaskEditFormFieldFactory taskEditFormFieldFactory = (TaskEditFormFieldFactory) fieldFactory;
-
-                            AttachmentUploadField uploadField = taskEditFormFieldFactory.getAttachmentUploadField();
-                            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bean.getProjectid(),
-                                    ProjectTypeConstants.TASK, "" + taskId);
-                            uploadField.saveContentsToRepo(attachPath);
-
-                            ProjectSubscribersComp subcribersComp = taskEditFormFieldFactory.getSubscribersComp();
-                            List<String> followers = subcribersComp.getFollowers();
-                            if (followers.size() > 0) {
-                                List<MonitorItem> monitorItems = new ArrayList<>();
-                                for (String follower : followers) {
-                                    MonitorItem monitorItem = new MonitorItem();
-                                    monitorItem.setMonitorDate(new GregorianCalendar().getTime());
-                                    monitorItem.setSaccountid(AppContext.getAccountId());
-                                    monitorItem.setType(ProjectTypeConstants.TASK);
-                                    monitorItem.setTypeid(taskId);
-                                    monitorItem.setUser(follower);
-                                    monitorItem.setExtratypeid(bean.getProjectid());
-                                    monitorItems.add(monitorItem);
-                                }
-                                MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
-                                monitorItemService.saveMonitorItems(monitorItems);
-                            }
-
-                            close();
-                            EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(TaskAddWindow.this, taskId));
-                            EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(TaskAddWindow.this,
-                                    ProjectTypeConstants.TASK, taskId));
+                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                    if (EditForm.this.validateForm()) {
+                        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                        Integer taskId;
+                        if (bean.getId() == null) {
+                            taskId = taskService.saveWithSession(bean, AppContext.getUsername());
+                        } else {
+                            taskService.updateWithSession(bean, AppContext.getUsername());
+                            taskId = bean.getId();
                         }
-                    }
-                });
-                saveBtn.setIcon(FontAwesome.SAVE);
-                saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        TaskEditFormFieldFactory taskEditFormFieldFactory = (TaskEditFormFieldFactory) fieldFactory;
+
+                        AttachmentUploadField uploadField = taskEditFormFieldFactory.getAttachmentUploadField();
+                        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bean.getProjectid(),
+                                ProjectTypeConstants.TASK, "" + taskId);
+                        uploadField.saveContentsToRepo(attachPath);
+
+                        ProjectSubscribersComp subcribersComp = taskEditFormFieldFactory.getSubscribersComp();
+                        List<String> followers = subcribersComp.getFollowers();
+                        if (followers.size() > 0) {
+                            List<MonitorItem> monitorItems = new ArrayList<>();
+                            for (String follower : followers) {
+                                MonitorItem monitorItem = new MonitorItem();
+                                monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+                                monitorItem.setSaccountid(AppContext.getAccountId());
+                                monitorItem.setType(ProjectTypeConstants.TASK);
+                                monitorItem.setTypeid(taskId);
+                                monitorItem.setUser(follower);
+                                monitorItem.setExtratypeid(bean.getProjectid());
+                                monitorItems.add(monitorItem);
+                            }
+                            MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
+                            monitorItemService.saveMonitorItems(monitorItems);
+                        }
+
                         close();
+                        EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(TaskAddWindow.this, taskId));
+                        EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(TaskAddWindow.this,
+                                ProjectTypeConstants.TASK, taskId));
                     }
-                });
-                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+                }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
+
+                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                        .withStyleName(UIConstants.BUTTON_OPTION);
                 buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
 
                 layout.addComponent(buttonControls);

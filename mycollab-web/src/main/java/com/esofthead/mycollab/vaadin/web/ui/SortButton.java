@@ -31,14 +31,8 @@ public class SortButton extends Button {
     public SortButton() {
         super();
         this.setIcon(FontAwesome.CARET_DOWN);
-        this.addClickListener(new Button.ClickListener() {
-
-            private static final long serialVersionUID = 4326727093112639245L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                SortButton.this.toggleSortOrder();
-            }
+        this.addClickListener(clickEvent -> {
+            toggleSortOrder();
         });
     }
 

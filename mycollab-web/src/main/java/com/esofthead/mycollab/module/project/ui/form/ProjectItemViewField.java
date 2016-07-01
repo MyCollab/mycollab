@@ -25,7 +25,6 @@ import com.esofthead.mycollab.vaadin.TooltipHelper;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -62,9 +61,8 @@ public class ProjectItemViewField extends CustomField<String> {
         milestoneLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(type, typeId + ""));
         milestoneLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         div.appendChild(milestoneLink);
-        ELabel label = new ELabel(div.write(), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
-        return new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset(type).getHtml(), ContentMode.HTML).withWidthUndefined(),
-                label).expand(label);
+        ELabel label = ELabel.html(div.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        return new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(type)).withWidthUndefined(), label).expand(label);
     }
 
     @Override

@@ -117,16 +117,16 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
 
         MHorizontalLayout metaInfo = new MHorizontalLayout();
 
-        Label projectMemberBtn = new ELabel(FontAwesome.USERS.getHtml() + " " + currentProject.getNumActiveMembers(),
-                ContentMode.HTML).withDescription("Active members").withStyleName(UIConstants.META_INFO);
+        Label projectMemberBtn = ELabel.html(FontAwesome.USERS.getHtml() + " " + currentProject.getNumActiveMembers())
+                .withDescription("Active members").withStyleName(UIConstants.META_INFO);
 
         metaInfo.addComponent(projectMemberBtn);
-        Label createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(currentProject.getCreatedtime()),
-                ContentMode.HTML).withDescription("Created time").withStyleName(UIConstants.META_INFO);
+        Label createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime
+                (currentProject.getCreatedtime())).withDescription("Created time").withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(createdTimeLbl);
 
-        Label billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, currentProject.getTotalBillableHours()),
-                ContentMode.HTML).withDescription("Billable hours").withStyleName(UIConstants.META_INFO);
+        Label billableHoursLbl = ELabel.html(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, currentProject.getTotalBillableHours()))
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(billableHoursLbl);
 
         Label nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,

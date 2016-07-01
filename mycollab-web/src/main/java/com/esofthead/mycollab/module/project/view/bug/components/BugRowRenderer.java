@@ -54,10 +54,10 @@ public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<S
         String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
 
-        rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML)
-                        .withWidthUndefined(), new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined(),
-                new ELabel(statusSpan.write(), ContentMode.HTML).withWidthUndefined(),
-                new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
+        rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)).withWidthUndefined(),
+                ELabel.html(priorityLink.write()).withWidthUndefined(),
+                ELabel.html(statusSpan.write()).withWidthUndefined(),
+                ELabel.html(img.write()).withWidthUndefined(),
                 toggleBugSummaryField).expand(toggleBugSummaryField);
         return rowComp;
     }

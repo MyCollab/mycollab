@@ -69,18 +69,8 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
         final CheckBox includeClosedMilestone = new CheckBox("Closed phase");
         includeClosedMilestone.setValue(false);
 
-        noDateSetMilestone.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                displayTimelines(noDateSetMilestone.getValue(), includeClosedMilestone.getValue());
-            }
-        });
-        includeClosedMilestone.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                displayTimelines(noDateSetMilestone.getValue(), includeClosedMilestone.getValue());
-            }
-        });
+        noDateSetMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(noDateSetMilestone.getValue(), includeClosedMilestone.getValue()));
+        includeClosedMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(noDateSetMilestone.getValue(), includeClosedMilestone.getValue()));
         headerLayout.with(titleLbl, noDateSetMilestone, includeClosedMilestone).expand(titleLbl).withAlign
                 (noDateSetMilestone, Alignment.MIDDLE_RIGHT).withAlign(includeClosedMilestone, Alignment.MIDDLE_RIGHT);
 
@@ -159,6 +149,6 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
             ul.appendChild(li);
         }
 
-        timelineContainer.addComponent(new ELabel(ul.write(), ContentMode.HTML).withWidthUndefined());
+        timelineContainer.addComponent(ELabel.html(ul.write()).withWidthUndefined());
     }
 }

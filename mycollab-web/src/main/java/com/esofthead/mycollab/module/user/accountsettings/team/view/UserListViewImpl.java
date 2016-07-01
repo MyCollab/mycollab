@@ -206,39 +206,28 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         }
 
         Button editBtn = new Button("", FontAwesome.EDIT);
-        editBtn.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member));
-            }
-        });
+        editBtn.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member)));
         editBtn.addStyleName(UIConstants.BUTTON_LINK);
         buttonControls.with(editBtn);
 
-        Button deleteBtn = new Button();
-        deleteBtn.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        Button deleteBtn = new Button("", clickEvent -> {
+            ConfirmDialogExt.show(UI.getCurrent(),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    new ConfirmDialog.Listener() {
+                        private static final long serialVersionUID = 1L;
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                                    userService.pendingUserAccounts(Collections.singletonList(member.getUsername()), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
-                                }
+                        @Override
+                        public void onClose(ConfirmDialog dialog) {
+                            if (dialog.isConfirmed()) {
+                                UserService userService = AppContextUtil.getSpringBean(UserService.class);
+                                userService.pendingUserAccounts(Collections.singletonList(member.getUsername()), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                             }
-                        });
-            }
+                        }
+                    });
         });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.addStyleName(UIConstants.BUTTON_LINK);

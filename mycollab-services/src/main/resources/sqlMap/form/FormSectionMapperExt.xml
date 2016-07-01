@@ -23,7 +23,7 @@
     FROM m_form_section
         LEFT OUTER JOIN m_form_section_field ON (m_form_section_field.sectionId=m_form_section.id)
         
-    WHERE m_form_section.sAccountId=#{accountId,jdbcType=INTEGER} AND m_form_section.module=#{modueName,jdbcType=VARCHAR}    
+    WHERE m_form_section.sAccountId=#{accountId,jdbcType=INTEGER} AND m_form_section.module=#{moduleName,jdbcType=VARCHAR}
         
     ]]>
     </select>

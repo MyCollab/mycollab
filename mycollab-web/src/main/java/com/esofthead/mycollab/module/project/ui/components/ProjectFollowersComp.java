@@ -99,24 +99,20 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
-            final PopupView addPopupView = new PopupView(AppContext.getMessage(GenericI18Enum.ACTION_MODIFY), new MVerticalLayout
-                    ());
-            addPopupView.addPopupVisibilityListener(new PopupView.PopupVisibilityListener() {
-                @Override
-                public void popupVisibilityChange(PopupView.PopupVisibilityEvent event) {
-                    PopupView.Content content = addPopupView.getContent();
-                    if (event.isPopupVisible()) {
-                        MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
-                        popupComponent.removeAllComponents();
-                        popupComponent.with(new ELabel(AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))
-                                .withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
-                    } else {
-                        MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
-                        ModifyWatcherPopup popup = (ModifyWatcherPopup) popupComponent.getComponent(1);
-                        List<MonitorItem> unsavedItems = popup.getUnsavedItems();
-                        monitorItemService.saveMonitorItems(unsavedItems);
-                        loadWatchers();
-                    }
+            final PopupView addPopupView = new PopupView(AppContext.getMessage(GenericI18Enum.ACTION_MODIFY), new MVerticalLayout());
+            addPopupView.addPopupVisibilityListener(popupVisibilityEvent -> {
+                PopupView.Content content = addPopupView.getContent();
+                if (popupVisibilityEvent.isPopupVisible()) {
+                    MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
+                    popupComponent.removeAllComponents();
+                    popupComponent.with(new ELabel(AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))
+                            .withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
+                } else {
+                    MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
+                    ModifyWatcherPopup popup = (ModifyWatcherPopup) popupComponent.getComponent(1);
+                    List<MonitorItem> unsavedItems = popup.getUnsavedItems();
+                    monitorItemService.saveMonitorItems(unsavedItems);
+                    loadWatchers();
                 }
             });
             header.addComponent(addPopupView);
@@ -175,16 +171,13 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             addComponent(userAvatarBtn);
             this.addStyleName("removeable-btn");
             this.setWidthUndefined();
-            this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    if (event.getClickedComponent() == userAvatarBtn) {
-                    } else if (!hasEditPermission()) {
-                        NotificationUtil.showMessagePermissionAlert();
-                    } else {
-                        unFollowItem(user.getUsername());
-                        ((ComponentContainer) FollowerComp.this.getParent()).removeComponent(FollowerComp.this);
-                    }
+            this.addLayoutClickListener(layoutClickEvent -> {
+                if (layoutClickEvent.getClickedComponent() == userAvatarBtn) {
+                } else if (!hasEditPermission()) {
+                    NotificationUtil.showMessagePermissionAlert();
+                } else {
+                    unFollowItem(user.getUsername());
+                    ((ComponentContainer) FollowerComp.this.getParent()).removeComponent(FollowerComp.this);
                 }
             });
         }
@@ -242,20 +235,17 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                         isWatching = true;
                     }
                 }
-                isSelectedBox.addValueChangeListener(new Property.ValueChangeListener() {
-                    @Override
-                    public void valueChange(Property.ValueChangeEvent event) {
-                        if (isSelectedBox.getValue()) {
-                            if (!isWatching) {
-                                unsavedMembers.add(member);
-                            }
+                isSelectedBox.addValueChangeListener(valueChangeEvent -> {
+                    if (isSelectedBox.getValue()) {
+                        if (!isWatching) {
+                            unsavedMembers.add(member);
+                        }
+                    } else {
+                        if (isWatching) {
+                            unFollowItem(member.getUsername());
+                            isWatching = false;
                         } else {
-                            if (isWatching) {
-                                unFollowItem(member.getUsername());
-                                isWatching = false;
-                            } else {
-                                unsavedMembers.remove(member);
-                            }
+                            unsavedMembers.remove(member);
                         }
                     }
                 });

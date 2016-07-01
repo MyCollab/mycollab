@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.user.domain;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.CurrencyUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
+import com.esofthead.mycollab.module.billing.AccountStatusConstants;
 import com.google.common.base.MoreObjects;
 
 import java.util.Currency;
@@ -85,5 +86,9 @@ public class SimpleBillingAccount extends BillingAccount {
             currencyInstance = CurrencyUtils.getInstance(getDefaultcurrencyid());
         }
         return currencyInstance;
+    }
+
+    public Boolean isNotActive() {
+        return !AccountStatusConstants.ACTIVE.equals(getStatus());
     }
 }

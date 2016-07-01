@@ -530,37 +530,26 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         }
 
                         if (filterBox.getComponentCount() <= 3) {
-                            Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL));
+                            Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
+                                    clickEvent -> {
+                                        List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
+                                        SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
+                                        data.setSaveuser(AppContext.getUsername());
+                                        data.setSaccountid(AppContext.getAccountId());
+                                        data.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
+                                        saveSearchResultService.updateWithSession(data, AppContext.getUsername());
+                                    });
                             updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
                             updateBtn.setIcon(FontAwesome.REFRESH);
-                            updateBtn.addClickListener(new Button.ClickListener() {
-                                private static final long serialVersionUID = 1L;
 
-                                @Override
-                                public void buttonClick(ClickEvent event) {
-                                    List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
-                                    SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-                                    data.setSaveuser(AppContext.getUsername());
-                                    data.setSaccountid(AppContext.getAccountId());
-                                    data.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
-                                    saveSearchResultService.updateWithSession(data, AppContext.getUsername());
-
+                            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                                SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
+                                saveSearchResultService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                searchContainer.removeAllComponents();
+                                if (filterBox.getComponentCount() > 2) {
+                                    filterBox.removeComponent(filterBox.getComponent(1));
                                 }
-                            });
-
-                            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void buttonClick(ClickEvent event) {
-                                    SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-                                    saveSearchResultService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    searchContainer.removeAllComponents();
-                                    if (filterBox.getComponentCount() > 2) {
-                                        filterBox.removeComponent(filterBox.getComponent(1));
-                                    }
-                                    buildQuerySelectComponent();
-                                }
+                                buildQuerySelectComponent();
                             });
                             deleteBtn.setStyleName(UIConstants.BUTTON_DANGER);
                             deleteBtn.setIcon(FontAwesome.TRASH_O);

@@ -102,8 +102,7 @@ public class GenericTaskTableDisplay extends DefaultPagedBeanTable<ProjectGeneri
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
                 ProjectGenericTask task = getBeanByIndex(itemId);
                 return new ELabel().prettyDate(task.getDueDate());
             }

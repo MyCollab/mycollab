@@ -34,6 +34,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -69,53 +70,43 @@ public class AddNewColumnWindow extends Window {
         gridFormLayoutHelper.addComponent(colorPicker, AppContext.getMessage(TaskI18nEnum.FORM_COLUMN_COLOR), 0, 2);
         gridFormLayoutHelper.addComponent(description, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 3);
 
-        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                OptionVal optionVal = new OptionVal();
-                optionVal.setCreatedtime(new GregorianCalendar().getTime());
-                optionVal.setCreateduser(AppContext.getUsername());
-                optionVal.setDescription(description.getValue());
-                com.vaadin.shared.ui.colorpicker.Color color = colorPicker.getColor();
-                String cssColor = color.getCSS();
-                if (cssColor.startsWith("#")) {
-                    cssColor = cssColor.substring(1);
-                }
-                optionVal.setColor(cssColor);
-                if (defaultProject.getValue()) {
-                    optionVal.setIsdefault(true);
-                } else {
-                    optionVal.setIsdefault(false);
-                    optionVal.setExtraid(CurrentProjectVariables.getProjectId());
-                }
-                optionVal.setSaccountid(AppContext.getAccountId());
-                optionVal.setType(type);
-                optionVal.setTypeval(stageField.getValue());
-                optionVal.setFieldgroup(fieldGroup);
-                OptionValService optionService = AppContextUtil.getSpringBean(OptionValService.class);
-                int optionValId = optionService.saveWithSession(optionVal, AppContext.getUsername());
-
-                if (optionVal.getIsdefault()) {
-                    optionVal.setId(null);
-                    optionVal.setIsdefault(false);
-                    optionVal.setRefoption(optionValId);
-                    optionVal.setExtraid(CurrentProjectVariables.getProjectId());
-                    optionService.saveWithSession(optionVal, AppContext.getUsername());
-                }
-                kanbanView.addColumn(optionVal);
-                close();
+        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            OptionVal optionVal = new OptionVal();
+            optionVal.setCreatedtime(new GregorianCalendar().getTime());
+            optionVal.setCreateduser(AppContext.getUsername());
+            optionVal.setDescription(description.getValue());
+            com.vaadin.shared.ui.colorpicker.Color color = colorPicker.getColor();
+            String cssColor = color.getCSS();
+            if (cssColor.startsWith("#")) {
+                cssColor = cssColor.substring(1);
             }
-        });
-        saveBtn.setIcon(FontAwesome.SAVE);
-        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
-
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                close();
+            optionVal.setColor(cssColor);
+            if (defaultProject.getValue()) {
+                optionVal.setIsdefault(true);
+            } else {
+                optionVal.setIsdefault(false);
+                optionVal.setExtraid(CurrentProjectVariables.getProjectId());
             }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            optionVal.setSaccountid(AppContext.getAccountId());
+            optionVal.setType(type);
+            optionVal.setTypeval(stageField.getValue());
+            optionVal.setFieldgroup(fieldGroup);
+            OptionValService optionService = AppContextUtil.getSpringBean(OptionValService.class);
+            int optionValId = optionService.saveWithSession(optionVal, AppContext.getUsername());
+
+            if (optionVal.getIsdefault()) {
+                optionVal.setId(null);
+                optionVal.setIsdefault(false);
+                optionVal.setRefoption(optionValId);
+                optionVal.setExtraid(CurrentProjectVariables.getProjectId());
+                optionService.saveWithSession(optionVal, AppContext.getUsername());
+            }
+            kanbanView.addColumn(optionVal);
+            close();
+        }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
+
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
         MHorizontalLayout controls = new MHorizontalLayout().with(cancelBtn, saveBtn).withMargin(
                 new MarginInfo(false, true, false, false));

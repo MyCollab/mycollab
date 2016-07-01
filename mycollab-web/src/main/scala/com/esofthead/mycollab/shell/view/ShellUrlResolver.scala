@@ -27,6 +27,9 @@ import org.apache.commons.lang3.StringUtils
   * @author MyCollab Ltd
   * @since 5.0.9
   */
+object ShellUrlResolver {
+  val ROOT = new ShellUrlResolver
+}
 class ShellUrlResolver extends UrlResolver {
   this.addSubResolver("crm", new CrmUrlResolver().build)
   this.addSubResolver("project", new ProjectUrlResolver().build)

@@ -17,17 +17,23 @@
 package com.esofthead.mycollab.shell.view.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.IgnoreException;
 import com.esofthead.mycollab.server.jetty.ServerInstance;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -46,7 +52,7 @@ public class UpgradeConfirmWindow extends Window {
     private String installerFilePath;
 
     public UpgradeConfirmWindow(final String version, String manualDownloadLink, final String installerFilePath) {
-        super("A new update is ready to install");
+        super(AppContext.getMessage(ShellI18nEnum.OPT_NEW_UPGRADE_IS_READY));
         this.setModal(true);
         this.setResizable(false);
         this.center();
@@ -58,10 +64,8 @@ public class UpgradeConfirmWindow extends Window {
         MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
 
-        String headerTemplate = "MyCollab just got better . For the " +
-                "enhancements and security purpose, you should upgrade to the latest version";
-        Div titleDiv = new Div().appendText(String.format(headerTemplate, version)).setStyle("font-weight:bold");
-        content.with(new Label(titleDiv.write(), ContentMode.HTML));
+        Div titleDiv = new Div().appendText(AppContext.getMessage(ShellI18nEnum.OPT_REQUEST_UPGRADE, version)).setStyle("font-weight:bold");
+        content.with(ELabel.html(titleDiv.write()));
 
         Div manualInstallLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Manual install: ")
                 .appendChild(new A(manualDownloadLink, "_blank")
@@ -76,27 +80,18 @@ public class UpgradeConfirmWindow extends Window {
                 .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/releases/", "_blank").appendText("Link"));
         content.with(new Label(releaseNoteLink.write(), ContentMode.HTML));
 
-        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
-        Button skipBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                UpgradeConfirmWindow.this.close();
-            }
-        });
-        skipBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        MButton skipBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-        Button autoUpgradeBtn = new Button("Auto Upgrade", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                close();
-                navigateToWaitingUpgradePage();
-            }
-        });
+        MButton autoUpgradeBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_AUTO_UPGRADE), clickEvent -> {
+            close();
+            navigateToWaitingUpgradePage();
+        }).withStyleName(UIConstants.BUTTON_ACTION);
         if (installerFilePath == null) {
             autoUpgradeBtn.setEnabled(false);
         }
-        autoUpgradeBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        buttonControls.with(skipBtn, autoUpgradeBtn);
+
+        MHorizontalLayout buttonControls = new MHorizontalLayout(skipBtn, autoUpgradeBtn).withMargin(true);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
     }
 
@@ -104,27 +99,21 @@ public class UpgradeConfirmWindow extends Window {
         if (installerFilePath != null) {
             final File installerFile = new File(installerFilePath);
             if (installerFile.exists()) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ServerInstance.getInstance().preUpgrade();
-                        final String locUrl = SiteConfiguration.getSiteUrl(AppContext.getSubDomain()) + "it/upgrade";
-                        Future<Void> access = currentUI.access(new Runnable() {
-                            @Override
-                            public void run() {
-                                LOG.info("Redirect to the upgrade page " + locUrl);
-                                currentUI.getPage().setLocation(locUrl);
-                                currentUI.push();
-                            }
-                        });
+                new Thread(() -> {
+                    ServerInstance.getInstance().preUpgrade();
+                    final String locUrl = SiteConfiguration.getSiteUrl(AppContext.getSubDomain()) + "it/upgrade";
+                    Future<Void> access = currentUI.access(() -> {
+                        LOG.info("Redirect to the upgrade page " + locUrl);
+                        currentUI.getPage().setLocation(locUrl);
+                        currentUI.push();
+                    });
 
-                        try {
-                            access.get();
-                            TimeUnit.SECONDS.sleep(5);
-                            ServerInstance.getInstance().upgrade(installerFile);
-                        } catch (Exception e) {
-                            LOG.error("Error while upgrade", e);
-                        }
+                    try {
+                        access.get();
+                        TimeUnit.SECONDS.sleep(5);
+                        ServerInstance.getInstance().upgrade(installerFile);
+                    } catch (Exception e) {
+                        LOG.error("Error while upgrade", e);
                     }
                 }).start();
             }

@@ -16,39 +16,35 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultSearchService;
 import com.esofthead.mycollab.module.crm.dao.EventMapperExt;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
-public class EventServiceImpl extends DefaultSearchService<ActivitySearchCriteria>
-		implements EventService {
+public class EventServiceImpl extends DefaultSearchService<ActivitySearchCriteria> implements EventService {
 
-	@Autowired
-	protected EventMapperExt eventMapperExt;
+    @Autowired
+    protected EventMapperExt eventMapperExt;
 
-	@Override
-	public ISearchableDAO<ActivitySearchCriteria> getSearchMapper() {
-		return eventMapperExt;
-	}
+    @Override
+    public ISearchableDAO<ActivitySearchCriteria> getSearchMapper() {
+        return eventMapperExt;
+    }
 
-	@Override
-	public int getTotalCount(ActivitySearchCriteria criteria) {
-		return eventMapperExt.getTotalCountFromCall(criteria)
-				+ eventMapperExt.getTotalCountFromTask(criteria)
-				+ eventMapperExt.getTotalCountFromMeeting(criteria);
-	}
+    @Override
+    public Integer getTotalCount(ActivitySearchCriteria criteria) {
+        return eventMapperExt.getTotalCountFromCall(criteria)
+                + eventMapperExt.getTotalCountFromTask(criteria)
+                + eventMapperExt.getTotalCountFromMeeting(criteria);
+    }
 }

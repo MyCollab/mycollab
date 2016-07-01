@@ -43,29 +43,11 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
     public SelectionOptionButton(final HasSelectableItemHandlers selectableItemHandlers) {
         super();
-        HasSelectableItemHandlers selectableItemHandlers1 = selectableItemHandlers;
         addStyleName(UIConstants.BUTTON_ACTION);
         addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         setIcon(FontAwesome.SQUARE_O);
 
-        addClickListener(new SplitButtonClickListener() {
-            @Override
-            public void splitButtonClick(final SplitButtonClickEvent event) {
-                toggleChangeOption();
-            }
-        });
-
-        addPopupVisibilityListener(new SplitButtonPopupVisibilityListener() {
-            @Override
-            public void splitButtonPopupVisibilityChange(
-                    final SplitButtonPopupVisibilityEvent event) {
-                if (event.isPopupVisible()) {
-                    selectAllBtn.setCaption("Select All (" + selectableItemHandlers.totalItemsCount() + ")");
-
-                    selectThisPageBtn.setCaption("Select This Page (" + selectableItemHandlers.currentViewCount() + ")");
-                }
-            }
-        });
+        addClickListener(clickEvent -> toggleChangeOption());
 
         final OptionPopupContent selectContent = new OptionPopupContent();
 
@@ -91,14 +73,18 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
         });
         selectContent.addOption(selectThisPageBtn);
 
-        Button deSelectBtn = new Button("Deselect All", new Button.ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                isSelectAll = false;
-                setIcon(FontAwesome.SQUARE_O);
-                fireDeselect();
-                setPopupVisible(false);
+        addPopupVisibilityListener(event -> {
+            if (event.isPopupVisible()) {
+                selectAllBtn.setCaption("Select All (" + selectableItemHandlers.totalItemsCount() + ")");
+                selectThisPageBtn.setCaption("Select This Page (" + selectableItemHandlers.currentViewCount() + ")");
             }
+        });
+
+        Button deSelectBtn = new Button("Deselect All", clickEvent -> {
+            isSelectAll = false;
+            setIcon(FontAwesome.SQUARE_O);
+            fireDeselect();
+            setPopupVisible(false);
         });
         selectContent.addOption(deSelectBtn);
         setContent(selectContent);

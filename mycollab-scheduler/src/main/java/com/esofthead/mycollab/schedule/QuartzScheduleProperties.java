@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.schedule;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+
 import java.util.Properties;
 
 /**
@@ -28,7 +30,7 @@ public class QuartzScheduleProperties extends Properties {
         this.setProperty("org.quartz.scheduler.instanceName", "MYCOLLAB_SCHEDULER");
         this.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore");
 
-//        if (DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
+        if (SiteConfiguration.isDemandEdition()) {
 //            this.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
 //            this.setProperty("org.quartz.jobStore.dataSource", "dataSource");
 //            this.setProperty("org.quartz.jobStore.useProperties", "true");
@@ -40,11 +42,11 @@ public class QuartzScheduleProperties extends Properties {
 //            this.setProperty("org.quartz.scheduler.rmi.export", "false");
 //            this.setProperty("org.quartz.scheduler.rmi.proxy", "false");
 //            this.setProperty("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
-//            this.setProperty("org.quartz.threadPool.threadCount", "10");
+            this.setProperty("org.quartz.threadPool.threadCount", "10");
 //            this.setProperty("org.quartz.threadPool.threadPriority", "5");
 //            this.setProperty("org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread", "true");
-//        } else {
-//            this.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore");
-//        }
+        } else {
+            this.setProperty("org.quartz.threadPool.threadCount", "3");
+        }
     }
 }

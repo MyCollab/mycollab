@@ -141,14 +141,9 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
             if ((buttonEnableFlags & PRINT_BTN_PRESENTED) == PRINT_BTN_PRESENTED) {
                 final PrintButton printBtn = new PrintButton();
-                printBtn.addClickListener(new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        T item = previewForm.getBean();
-                        previewForm.firePrintForm(printBtn, item);
-                    }
+                printBtn.addClickListener(clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.firePrintForm(printBtn, item);
                 });
                 printBtn.setStyleName(UIConstants.BUTTON_OPTION);
                 printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_PRINT));
@@ -227,14 +222,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
     }
 
     public void addOptionButton(Button button) {
-        button.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 2710916670115028630L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                optionBtn.setPopupVisible(false);
-            }
-        });
+        button.addClickListener(clickEvent -> optionBtn.setPopupVisible(false));
         popupButtonsControl.addOption(button);
     }
 

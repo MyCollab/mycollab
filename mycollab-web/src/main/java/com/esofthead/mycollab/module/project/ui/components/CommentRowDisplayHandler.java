@@ -33,6 +33,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -58,41 +59,32 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false).withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel timePostLbl = new ELabel(AppContext.getMessage(
-                GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
-                withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
+        ELabel timePostLbl = ELabel.html(AppContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+                AppContext.formatPrettyTime(comment.getCreatedtime())))
+                .withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
         timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
-            Button msgDeleteBtn = new Button();
-            msgDeleteBtn.setIcon(FontAwesome.TRASH_O);
-            msgDeleteBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-            msgDeleteBtn.setVisible(true);
-            msgDeleteBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            MButton msgDeleteBtn = new MButton(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY).withVisible(true)
+                    .withListener(clickEvent -> {
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                new ConfirmDialog.Listener() {
+                                    private static final long serialVersionUID = 1L;
 
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                        commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                        CommentRowDisplayHandler.this.owner.removeRow(layout);
+                                    @Override
+                                    public void onClose(ConfirmDialog dialog) {
+                                        if (dialog.isConfirmed()) {
+                                            CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                            commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                            CommentRowDisplayHandler.this.owner.removeRow(layout);
+                                        }
                                     }
-                                }
-                            });
-                }
-            });
+                                });
+                    });
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {
             messageHeader.with(timePostLbl).expand(timePostLbl);

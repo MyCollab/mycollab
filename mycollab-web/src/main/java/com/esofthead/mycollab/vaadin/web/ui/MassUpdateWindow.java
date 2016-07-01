@@ -26,6 +26,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -44,7 +45,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 
     protected MassUpdateCommand<B> massUpdateCommand;
 
-    protected Button updateBtn, closeBtn;
+    protected MButton updateBtn, closeBtn;
 
     public MassUpdateWindow(String title, Resource iconResource, B initialValue, MassUpdateCommand<B> massUpdatePresenter) {
         super(title);
@@ -76,28 +77,14 @@ public abstract class MassUpdateWindow<B> extends Window {
     protected ComponentContainer buildButtonControls() {
         MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true).withFullWidth();
 
-        updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+            updateForm.commit();
+            massUpdateCommand.massUpdate(beanItem);
+            close();
+        }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                updateForm.commit();
-                massUpdateCommand.massUpdate(beanItem);
-                MassUpdateWindow.this.close();
-            }
-        });
-        updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        updateBtn.setIcon(FontAwesome.SAVE);
-
-        closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                MassUpdateWindow.this.close();
-            }
-        });
-        closeBtn.setStyleName(UIConstants.BUTTON_OPTION);
+        closeBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
         Label spacing = new Label();
         controlsLayout.with(spacing, closeBtn, updateBtn).alignAll(Alignment.MIDDLE_RIGHT).expand(spacing);

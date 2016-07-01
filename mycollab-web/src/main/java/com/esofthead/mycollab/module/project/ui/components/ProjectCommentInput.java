@@ -36,6 +36,7 @@ import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -81,50 +82,35 @@ public class ProjectCommentInput extends MHorizontalLayout {
         uploadExt.setWidth("100%");
         uploadExt.addComponent(attachments);
 
-        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        final MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                commentArea.setValue("");
+        final MButton newCommentBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
+            CommentWithBLOBs comment = new CommentWithBLOBs();
+            comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
+            comment.setCreatedtime(new GregorianCalendar().getTime());
+            comment.setCreateduser(AppContext.getUsername());
+            comment.setSaccountid(AppContext.getAccountId());
+            comment.setType(type);
+            comment.setTypeid("" + typeId);
+            comment.setExtratypeid(extraTypeId);
+
+            final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+            int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
+
+            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, AppContext.getAccountId(),
+                    CurrentProjectVariables.getProjectId(), typeId, commentId);
+
+            if (!"".equals(attachmentPath)) {
+                attachments.saveContentsToRepo(attachmentPath);
             }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
-        final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                CommentWithBLOBs comment = new CommentWithBLOBs();
-                comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
-                comment.setCreatedtime(new GregorianCalendar().getTime());
-                comment.setCreateduser(AppContext.getUsername());
-                comment.setSaccountid(AppContext.getAccountId());
-                comment.setType(type);
-                comment.setTypeid("" + typeId);
-                comment.setExtratypeid(extraTypeId);
-
-                final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
-
-                String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, AppContext.getAccountId(),
-                        CurrentProjectVariables.getProjectId(), typeId, commentId);
-
-                if (!"".equals(attachmentPath)) {
-                    attachments.saveContentsToRepo(attachmentPath);
-                }
-
-                // save success, clear comment area and load list
-                // comments again
-                commentArea.setValue("");
-                attachments.removeAllAttachmentsDisplay();
-                component.reload();
-            }
-        });
-        newCommentBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        newCommentBtn.setWidthUndefined();
-        newCommentBtn.setIcon(FontAwesome.SEND);
+            // save success, clear comment area and load list
+            // comments again
+            commentArea.setValue("");
+            attachments.removeAllAttachmentsDisplay();
+            component.reload();
+        }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEND);
 
         controlsLayout.with(uploadExt, new MHorizontalLayout(cancelBtn, newCommentBtn)).withAlign(uploadExt, Alignment.TOP_LEFT);
         textAreaWrap.with(commentArea, controlsLayout);

@@ -14,11 +14,11 @@
     <properties>
         <springVersion>4.3.0.RELEASE</springVersion>
         <aspectjVersion>1.8.9</aspectjVersion>
-        <javaVersion>1.7</javaVersion>
+        <javaVersion>1.8</javaVersion>
         <slf4jVersion>1.7.21</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.6.6</vaadinVersion>
-        <jettyVersion>9.2.17.v20160517</jettyVersion>
+        <vaadinVersion>7.6.7</vaadinVersion>
+        <jettyVersion>9.3.10.v20160621</jettyVersion>
         <mysqlVersion>5.1.39</mysqlVersion>
         <junitVersion>4.12</junitVersion>
         <jackrabbitVersion>2.12.2</jackrabbitVersion>
@@ -201,7 +201,7 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>3.2.3</version>
+            <version>3.2.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.ant</groupId>
@@ -252,7 +252,7 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.4.0</version>
+            <version>3.4.1</version>
         </dependency>
 
         <dependency>

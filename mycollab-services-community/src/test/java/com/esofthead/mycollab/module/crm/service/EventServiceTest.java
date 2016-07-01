@@ -44,22 +44,17 @@ public class EventServiceTest extends IntergrationServiceTest {
 	@Autowired
 	protected EventService eventService;
 
-	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByCriteria() throws ParseException {
 		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleActivity> list = eventService
-				.findPagableListByCriteria(new BasicSearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
-
+		List<SimpleActivity> list = eventService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 		assertThat(list.size()).isEqualTo(1);
 		assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));
 	}
 
-	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByTimeRange() throws ParseException {
@@ -67,10 +62,8 @@ public class EventServiceTest extends IntergrationServiceTest {
 		Date startDate = format.parse("2012-11-11 00:00:00");
 		Date endDate = format.parse("2012-11-15 00:00:00");
 		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-		criteria.setStartDate(new DateTimeSearchField(SearchField.AND,
-				DateTimeSearchField.GREATERTHANEQUAL, startDate));
-		criteria.setEndDate(new DateTimeSearchField(SearchField.AND,
-				DateTimeSearchField.LESSTHANEQUAL, endDate));
+		criteria.setStartDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.GREATERTHANEQUAL, startDate));
+		criteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESSTHANEQUAL, endDate));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleActivity> list = eventService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));

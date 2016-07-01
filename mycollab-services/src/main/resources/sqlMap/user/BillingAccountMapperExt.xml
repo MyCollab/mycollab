@@ -20,7 +20,8 @@
             s_billing_plan.id AS plan_id, s_billing_plan.billingType AS plan_billingType,
             s_billing_plan.numUsers AS plan_numUsers, s_billing_plan.volume AS plan_volume,
             s_billing_plan.numProjects AS plan_numProjects,
-            s_billing_plan.pricing AS plan_pricing, s_billing_plan.description AS plan_description
+            s_billing_plan.pricing AS plan_pricing, s_billing_plan.description AS plan_description,
+            s_billing_plan.shoppingUrl AS plan_shoppingUrl
         FROM s_account
             LEFT OUTER JOIN s_billing_plan ON (s_billing_plan.id=s_account.billingPlanId)
         WHERE s_account.id = #{accountId,jdbcType=NUMERIC}
@@ -56,6 +57,7 @@
             s_billing_plan.numUsers AS billingPlan_numUsers, s_billing_plan.volume AS billingPlan_volume,
             s_billing_plan.numProjects AS billingPlan_numProjects,
             s_billing_plan.pricing AS billingPlan_pricing, s_billing_plan.description AS billingPlan_description,
+            s_billing_plan.shoppingUrl AS billingPlan_shoppingUrl,
             s_user.username AS owner_username, s_user.email AS owner_email,
             s_user.firstname AS owner_firstname, s_user.lastname AS owner_lastname
         FROM s_account

@@ -39,6 +39,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -58,45 +59,38 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         this.milestone = milestone;
         this.maxLength = maxLength;
         this.setWidth("100%");
-        titleLinkLbl = new ELabel(buildMilestoneLink(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3).withWidthUndefined();
-        titleLinkLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-        titleLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        titleLinkLbl = ELabel.html(buildMilestoneLink()).withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN,
+                UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
         this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             this.addStyleName("editable-field");
-            Button instantEditBtn = new Button(null, new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    if (isRead) {
-                        ToggleMilestoneSummaryField.this.removeComponent(titleLinkLbl);
-                        ToggleMilestoneSummaryField.this.removeComponent(buttonControls);
-                        final TextField editField = new TextField();
-                        editField.setValue(milestone.getName());
-                        editField.setWidth("100%");
-                        editField.focus();
-                        ToggleMilestoneSummaryField.this.addComponent(editField);
-                        ToggleMilestoneSummaryField.this.removeStyleName("editable-field");
-                        editField.addValueChangeListener(new Property.ValueChangeListener() {
-                            @Override
-                            public void valueChange(Property.ValueChangeEvent event) {
-                                updateFieldValue(editField);
-                            }
-                        });
-                        editField.addBlurListener(new FieldEvents.BlurListener() {
-                            @Override
-                            public void blur(FieldEvents.BlurEvent event) {
-                                updateFieldValue(editField);
-                            }
-                        });
-                        isRead = !isRead;
-                    }
+            MButton instantEditBtn = new MButton("", clickEvent -> {
+                if (isRead) {
+                    ToggleMilestoneSummaryField.this.removeComponent(titleLinkLbl);
+                    ToggleMilestoneSummaryField.this.removeComponent(buttonControls);
+                    final TextField editField = new TextField();
+                    editField.setValue(milestone.getName());
+                    editField.setWidth("100%");
+                    editField.focus();
+                    ToggleMilestoneSummaryField.this.addComponent(editField);
+                    ToggleMilestoneSummaryField.this.removeStyleName("editable-field");
+                    editField.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            updateFieldValue(editField);
+                        }
+                    });
+                    editField.addBlurListener(new FieldEvents.BlurListener() {
+                        @Override
+                        public void blur(FieldEvents.BlurEvent event) {
+                            updateFieldValue(editField);
+                        }
+                    });
+                    isRead = !isRead;
                 }
-            });
-            instantEditBtn.setDescription("Edit task name");
-            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
-            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
-            instantEditBtn.setIcon(FontAwesome.EDIT);
+            }).withDescription("Edit task name").withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
+
             buttonControls.with(instantEditBtn);
             this.addComponent(buttonControls);
         }

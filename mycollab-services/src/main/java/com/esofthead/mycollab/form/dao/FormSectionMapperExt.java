@@ -16,14 +16,11 @@
  */
 package com.esofthead.mycollab.form.dao;
 
-import java.util.List;
-
+import com.esofthead.mycollab.form.domain.SimpleFormSection;
 import org.apache.ibatis.annotations.Param;
 
-import com.esofthead.mycollab.form.domain.SimpleFormSection;
+import java.util.List;
 
 public interface FormSectionMapperExt {
-	List<SimpleFormSection> findSections(
-			@Param("accountId") Integer sAccountId,
-			@Param("modueName") String moduleName);
+    List<SimpleFormSection> findSections(@Param("accountId") Integer sAccountId, @Param("moduleName") String moduleName);
 }

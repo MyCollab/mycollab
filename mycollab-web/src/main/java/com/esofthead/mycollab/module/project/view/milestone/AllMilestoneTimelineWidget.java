@@ -169,6 +169,6 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             ul.appendChild(li);
         }
 
-        timelineContainer.addComponent(new ELabel(ul.write(), ContentMode.HTML).withWidthUndefined());
+        timelineContainer.addComponent(ELabel.html(ul.write()).withWidthUndefined());
     }
 }

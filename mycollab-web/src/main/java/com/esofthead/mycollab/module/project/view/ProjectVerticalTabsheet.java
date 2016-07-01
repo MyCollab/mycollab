@@ -33,7 +33,7 @@ import com.vaadin.ui.Component;
 public class ProjectVerticalTabsheet extends VerticalTabsheet {
     private static final long serialVersionUID = 1L;
 
-    private Button toogleBtn;
+    private Button toggleBtn;
 
     @Override
     protected void setDefaultButtonIcon(Component btn, Boolean selected) {
@@ -51,17 +51,17 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
             navigatorContainer.setWidth("70px");
             this.hideTabsCaption();
 
-            toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_RIGHT);
-            toogleBtn.setDescription(AppContext.getMessage(ProjectI18nEnum.ACTION_EXPAND_MENU));
-            toogleBtn.setCaption("");
+            toggleBtn.setIcon(FontAwesome.CARET_SQUARE_O_RIGHT);
+            toggleBtn.setDescription(AppContext.getMessage(ProjectI18nEnum.ACTION_EXPAND_MENU));
+            toggleBtn.setCaption("");
         } else {
             navigatorWrapper.setWidth("200px");
             navigatorContainer.setWidth("200px");
             this.showTabsCaption();
 
-            toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_LEFT);
-            toogleBtn.setDescription("");
-            toogleBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU));
+            toggleBtn.setIcon(FontAwesome.CARET_SQUARE_O_LEFT);
+            toggleBtn.setDescription("");
+            toggleBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU));
         }
 
         CurrentProjectVariables.setProjectToggleMenu(visibility);
@@ -71,13 +71,10 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
         Button btn = this.addButtonOnNavigatorContainer("button", AppContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU),
                 FontAwesome.CARET_SQUARE_O_LEFT);
         if (btn != null) {
-            toogleBtn = btn;
-            toogleBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    boolean visibility = CurrentProjectVariables.getProjectToggleMenu();
-                    setNavigatorVisibility(!visibility);
-                }
+            toggleBtn = btn;
+            toggleBtn.addClickListener(clickEvent -> {
+                boolean visibility = CurrentProjectVariables.getProjectToggleMenu();
+                setNavigatorVisibility(!visibility);
             });
         }
 

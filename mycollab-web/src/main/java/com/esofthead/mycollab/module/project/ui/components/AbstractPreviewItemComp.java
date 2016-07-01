@@ -69,8 +69,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         ELabel headerLbl = ELabel.h2("").withWidthUndefined();
         this.previewLayout = layout;
 
-        header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin
-                (new MarginInfo(true, false, true, false));
+        header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(new MarginInfo(true, false, true, false));
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (iconResource != null) {
@@ -84,14 +83,10 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             header.with(headerLbl).expand(headerLbl);
         } else {
             favoriteBtn = new Button(FontAwesome.STAR);
-            favoriteBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    toggleFavorite();
-                }
-            });
+            favoriteBtn.addClickListener((clickEvent) -> toggleFavorite());
 
-            header.with(headerLbl, favoriteBtn);
+            Label spaceLbl = new Label();
+            header.with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);
         }
 
         this.addComponent(header);

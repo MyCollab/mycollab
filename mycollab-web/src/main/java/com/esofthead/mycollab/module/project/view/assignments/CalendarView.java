@@ -26,5 +26,6 @@ import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
  */
 public interface CalendarView extends LazyPageView {
     void queryAssignments(ProjectGenericTaskSearchCriteria criteria);
+
     HasSearchHandlers<ProjectGenericTaskSearchCriteria> getSearchHandlers();
 }

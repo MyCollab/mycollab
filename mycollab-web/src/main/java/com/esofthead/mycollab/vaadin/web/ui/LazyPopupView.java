@@ -29,14 +29,11 @@ public class LazyPopupView extends PopupView {
 
     public LazyPopupView(String valueAsHtml) {
         super(new PopupContent(valueAsHtml));
-        addPopupVisibilityListener(new PopupVisibilityListener() {
-            @Override
-            public void popupVisibilityChange(PopupVisibilityEvent event) {
-                if (event.isPopupVisible()) {
-                    doShow();
-                } else {
-                    doHide();
-                }
+        addPopupVisibilityListener(popupVisibilityEvent -> {
+            if (popupVisibilityEvent.isPopupVisible()) {
+                doShow();
+            } else {
+                doHide();
             }
         });
         this.setStyleName("block-popupedit");

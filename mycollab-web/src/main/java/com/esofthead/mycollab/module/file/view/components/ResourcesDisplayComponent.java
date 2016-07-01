@@ -49,7 +49,6 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.UserLink;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.ExternalResource;
@@ -57,7 +56,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -215,7 +213,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private MVerticalLayout selectedResourceControlLayout;
         private List<Resource> resources;
 
-        public ResourcesContainer() {
+        ResourcesContainer() {
             this.setId("resource-container");
             withSpacing(true).withFullWidth();
         }
@@ -343,16 +341,13 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                     .withFullWidth().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
-            layout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    selectedResource = resource;
-                    displaySelectedResourceControls();
-                    for (int i = 0; i < bodyContainer.getComponentCount(); i++) {
-                        bodyContainer.getComponent(i).removeStyleName("selected");
-                    }
-                    layout.addStyleName("selected");
+            layout.addLayoutClickListener(layoutClickEvent -> {
+                selectedResource = resource;
+                displaySelectedResourceControls();
+                for (int i = 0; i < bodyContainer.getComponentCount(); i++) {
+                    bodyContainer.getComponent(i).removeStyleName("selected");
                 }
+                layout.addStyleName("selected");
             });
 
             CssLayout resIconWrapper = new CssLayout();
@@ -396,17 +391,14 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             ELabel resourceLbl = ELabel.h3(resource.getName()).withFullWidth().withStyleName("link", UIConstants.TEXT_ELLIPSIS);
             CssLayout resourceLinkLayout = new CssLayout(resourceLbl);
-            resourceLinkLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
-                    if (resource instanceof Folder) {
-                        baseFolder = (Folder) resource;
-                        resourcesContainer.constructBody((Folder) resource);
-                        fileBreadCrumb.gotoFolder((Folder) resource);
-                    } else {
-                        FileDownloadWindow fileDownloadWindow = new FileDownloadWindow((Content) resource);
-                        UI.getCurrent().addWindow(fileDownloadWindow);
-                    }
+            resourceLinkLayout.addLayoutClickListener(layoutClickEvent -> {
+                if (resource instanceof Folder) {
+                    baseFolder = (Folder) resource;
+                    resourcesContainer.constructBody((Folder) resource);
+                    fileBreadCrumb.gotoFolder((Folder) resource);
+                } else {
+                    FileDownloadWindow fileDownloadWindow = new FileDownloadWindow((Content) resource);
+                    UI.getCurrent().addWindow(fileDownloadWindow);
                 }
             });
             resourceLinkLayout.setWidth("100%");
@@ -421,16 +413,15 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             // If renameResource is dropbox renameResource then we can not
             // define the created date so we do not need to display\
             if (resource.getCreated() != null) {
-                ELabel createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime
-                        (resource.getCreated().getTime()), ContentMode.HTML)
+                ELabel createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime
+                        (resource.getCreated().getTime()))
                         .withDescription(AppContext.formatDateTime(resource.getCreated().getTime()))
                         .withStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(createdTimeLbl);
             }
 
             if (resource instanceof Content) {
-                ELabel lbl = new ELabel(FontAwesome.ARCHIVE.getHtml() + " " + FileUtils.getVolumeDisplay(resource
-                        .getSize()), ContentMode.HTML)
+                ELabel lbl = ELabel.html(FontAwesome.ARCHIVE.getHtml() + " " + FileUtils.getVolumeDisplay(resource.getSize()))
                         .withStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(lbl);
             }
@@ -466,16 +457,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         Collection<Resource> getSelectedResourceCollection() {
             if (CollectionUtils.isNotEmpty(resources)) {
-                return Collections2.filter(resources, new Predicate<Resource>() {
-                    @Override
-                    public boolean apply(Resource input) {
-                        return input.isSelected();
-                    }
-                });
+                return Collections2.filter(resources, Resource::isSelected);
             } else {
                 return new ArrayList<>();
             }
-
         }
     }
 
@@ -483,7 +468,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
         private Resource renameResource;
 
-        public RenameResourceWindow(Resource resource) {
+        RenameResourceWindow(Resource resource) {
             super("Edit folder/file name");
             this.center();
             this.setResizable(false);
@@ -545,7 +530,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
 
-        public AddNewFolderWindow() {
+        AddNewFolderWindow() {
             this.setModal(true);
             this.setResizable(false);
             this.setWidth("500px");
@@ -612,7 +597,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private final GridFormLayoutHelper layoutHelper;
         private final MultiFileUploadExt multiFileUploadExt;
 
-        public MultiUploadContentWindow() {
+        MultiUploadContentWindow() {
             super("Upload");
             this.setWidth("600px");
             this.setResizable(false);
@@ -693,7 +678,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     private class MoveResourceWindow extends AbstractResourceMovingWindow {
         private static final long serialVersionUID = 1L;
 
-        public MoveResourceWindow(Resource resource) {
+        MoveResourceWindow(Resource resource) {
             super(new Folder(rootPath), resource);
         }
 

@@ -59,9 +59,8 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
     ToggleGenericTaskSummaryField(final ProjectGenericTask genericTask) {
         this.genericTask = genericTask;
         this.setWidth("100%");
-        titleLinkLbl = new ELabel(buildGenericTaskLink(), ContentMode.HTML).withWidthUndefined();
-        titleLinkLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-        titleLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        titleLinkLbl = ELabel.html(buildGenericTaskLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
+                UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
         this.addComponent(titleLinkLbl);
         if ((genericTask.isTask() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) ||
                 (genericTask.isBug() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) ||

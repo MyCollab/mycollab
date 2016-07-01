@@ -41,6 +41,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -91,55 +92,40 @@ public class AssignTaskWindow extends Window {
             public ComponentContainer getLayout() {
                 VerticalLayout layout = new VerticalLayout();
                 this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
-
                 layout.addComponent(informationLayout.getLayout());
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
 
-                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                        .withStyleName(UIConstants.BUTTON_OPTION);
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        close();
-                    }
-                });
-                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+                MButton approveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
+                    if (EditForm.this.validateForm()) {
+                        // Save task status and assignee
+                        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                        taskService.updateWithSession(task, AppContext.getUsername());
 
-                Button approveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+                        // Save comment
+                        String commentValue = commentArea.getValue();
+                        if (StringUtils.isNotBlank(commentValue)) {
+                            CommentWithBLOBs comment = new CommentWithBLOBs();
+                            comment.setComment(commentArea.getValue());
+                            comment.setCreatedtime(new GregorianCalendar().getTime());
+                            comment.setCreateduser(AppContext.getUsername());
+                            comment.setSaccountid(AppContext.getAccountId());
+                            comment.setType(ProjectTypeConstants.TASK);
+                            comment.setTypeid("" + task.getId());
+                            comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        if (EditForm.this.validateForm()) {
-                            // Save task status and assignee
-                            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                            taskService.updateWithSession(task, AppContext.getUsername());
-
-                            // Save comment
-                            String commentValue = commentArea.getValue();
-                            if (StringUtils.isNotBlank(commentValue)) {
-                                CommentWithBLOBs comment = new CommentWithBLOBs();
-                                comment.setComment(commentArea.getValue());
-                                comment.setCreatedtime(new GregorianCalendar().getTime());
-                                comment.setCreateduser(AppContext.getUsername());
-                                comment.setSaccountid(AppContext.getAccountId());
-                                comment.setType(ProjectTypeConstants.TASK);
-                                comment.setTypeid("" + task.getId());
-                                comment.setExtratypeid(CurrentProjectVariables.getProjectId());
-
-                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                commentService.saveWithSession(comment, AppContext.getUsername());
-                            }
-
-                            AssignTaskWindow.this.close();
-                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
+                            CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                            commentService.saveWithSession(comment, AppContext.getUsername());
                         }
+
+                        close();
+                        EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
                     }
-                });
-                approveBtn.setIcon(FontAwesome.SHARE);
-                approveBtn.setStyleName(UIConstants.BUTTON_ACTION);
+                }).withIcon(FontAwesome.SHARE).withStyleName(UIConstants.BUTTON_ACTION);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 controlsBtn.with(cancelBtn, approveBtn).alignAll(Alignment.MIDDLE_RIGHT);

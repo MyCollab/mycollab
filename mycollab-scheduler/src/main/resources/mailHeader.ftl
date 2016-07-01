@@ -36,5 +36,12 @@ td {
 	position:relative;
 	top:1px;
 }
+
+.wrapContent {
+    font-size: 12px;
+    margin: 20px 0px;
+    background-color:white; border:
+    1px solid #e9e9e9;
+}
 </style>
 </head>

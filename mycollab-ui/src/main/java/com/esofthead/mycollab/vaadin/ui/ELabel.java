@@ -84,16 +84,20 @@ public class ELabel extends Label {
         return this;
     }
 
+    public static final ELabel html(String value) {
+        return new ELabel(value, ContentMode.HTML);
+    }
+
     public static final ELabel h2(String value) {
-        return new ELabel(value, ContentMode.HTML).withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN);
+        return ELabel.html(value).withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN);
     }
 
     public static final ELabel h3(String value) {
-        return new ELabel(value, ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
+        return ELabel.html(value).withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
     }
 
     public static final ELabel fontIcon(FontAwesome icon) {
-        return new ELabel(icon.getHtml(), ContentMode.HTML).withWidthUndefined();
+        return ELabel.html(icon.getHtml()).withWidthUndefined();
     }
 
     public static final ELabel EMPTY_SPACE() {

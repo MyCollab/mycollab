@@ -66,6 +66,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -160,51 +161,36 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         groupWrapLayout.addComponent(new Label("Group by"));
         final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, GROUP_CREATED_DATE,
                 PLAIN_LIST, GROUP_USER);
-        groupCombo.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                groupByState = (String) groupCombo.getValue();
-                queryAndDisplayTasks();
-            }
+        groupCombo.addValueChangeListener(valueChangeEvent -> {
+            groupByState = (String) groupCombo.getValue();
+            queryAndDisplayTasks();
         });
         groupByState = GROUP_DUE_DATE;
         groupWrapLayout.addComponent(groupCombo);
 
         taskSearchPanel.addHeaderRight(groupWrapLayout);
 
-        Button printBtn = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new TaskCustomizeReportOutputWindow(new LazyValueInjector() {
-                    @Override
-                    protected Object doEval() {
-                        return baseCriteria;
-                    }
-                }));
-            }
-        });
-        printBtn.setIcon(FontAwesome.PRINT);
-        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        MButton printBtn = new MButton("", clickEvent -> {
+            UI.getCurrent().addWindow(new TaskCustomizeReportOutputWindow(new LazyValueInjector() {
+                @Override
+                protected Object doEval() {
+                    return baseCriteria;
+                }
+            }));
+        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
+                .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
-        Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                    SimpleTask newTask = new SimpleTask();
-                    newTask.setProjectid(CurrentProjectVariables.getProjectId());
-                    newTask.setSaccountid(AppContext.getAccountId());
-                    newTask.setLogby(AppContext.getUsername());
-                    UI.getCurrent().addWindow(new TaskAddWindow(newTask));
-                }
+        MButton newTaskBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> {
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                SimpleTask newTask = new SimpleTask();
+                newTask.setProjectid(CurrentProjectVariables.getProjectId());
+                newTask.setSaccountid(AppContext.getAccountId());
+                newTask.setLogby(AppContext.getUsername());
+                UI.getCurrent().addWindow(new TaskAddWindow(newTask));
             }
-        });
+        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
         newTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-        newTaskBtn.setIcon(FontAwesome.PLUS);
-        newTaskBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(newTaskBtn);
 
         Button advanceDisplayBtn = new Button("List");
@@ -212,15 +198,8 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Advance View");
 
-        Button kanbanBtn = new Button("Kanban", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                displayKanbanView();
-            }
-        });
-        kanbanBtn.setWidth("100px");
-        kanbanBtn.setDescription("Kanban View");
-        kanbanBtn.setIcon(FontAwesome.TH);
+        MButton kanbanBtn = new MButton("Kanban", clickEvent -> displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH)
+                .withDescription("Kanban view");
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
@@ -352,17 +331,14 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         currentPage = 0;
         int pages = totalTasks / 20;
         if (currentPage < pages) {
-            Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_MORE), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    int totalTasks = projectTaskService.getTotalCount(baseCriteria);
-                    int pages = totalTasks / 20;
-                    currentPage++;
-                    List<SimpleTask> otherTasks = projectTaskService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
-                    taskGroupOrderComponent.insertTasks(otherTasks);
-                    if (currentPage == pages) {
-                        wrapBody.removeComponent(wrapBody.getComponent(1));
-                    }
+            Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_MORE), clickEvent -> {
+                int newTotalTasks = projectTaskService.getTotalCount(baseCriteria);
+                int newNumPages = newTotalTasks / 20;
+                currentPage++;
+                List<SimpleTask> otherTasks = projectTaskService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
+                taskGroupOrderComponent.insertTasks(otherTasks);
+                if (currentPage >= newNumPages) {
+                    wrapBody.removeComponent(wrapBody.getComponent(1));
                 }
             });
             moreBtn.addStyleName(UIConstants.BUTTON_ACTION);

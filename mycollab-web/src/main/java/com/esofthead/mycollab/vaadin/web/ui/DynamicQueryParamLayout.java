@@ -27,6 +27,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
@@ -75,44 +76,17 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     }
 
     private HorizontalLayout createButtonControls() {
-        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                .withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH);
 
-        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> clearFields())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                callSearchAction();
-            }
-        });
-        searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        searchBtn.setIcon(FontAwesome.SEARCH);
+        MButton basicSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
+                clickEvent -> ((DefaultGenericSearchPanel<S>) searchPanel).moveToBasicSearchLayout())
+                .withStyleName(UIConstants.BUTTON_LINK);
 
-        buttonControls.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
-
-        Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                clearFields();
-            }
-        });
-        clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
-
-        buttonControls.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_CENTER);
-
-        Button basicSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                ((DefaultGenericSearchPanel<S>) searchPanel).moveToBasicSearchLayout();
-            }
-        });
-        basicSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
-        buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn, Alignment.MIDDLE_CENTER);
-        return buttonControls;
+        return new MHorizontalLayout(searchBtn, clearBtn, basicSearchBtn).withMargin(new MarginInfo(false, true, false, true));
     }
 
     protected void clearFields() {

@@ -348,18 +348,15 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             popupButtonsControl.addSeparator();
 
             final Button markProjectTemplateBtn = new Button();
-            markProjectTemplateBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    Boolean isTemplate = !MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
-                    project.setIstemplate(isTemplate);
-                    ProjectService prjService = AppContextUtil.getSpringBean(ProjectService.class);
-                    prjService.updateWithSession(project, AppContext.getUsername());
-                    if (project.getIstemplate()) {
-                        markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_UNMARK_TEMPLATE));
-                    } else {
-                        markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_MARK_TEMPLATE));
-                    }
+            markProjectTemplateBtn.addClickListener(clickEvent -> {
+                Boolean isTemplate = !MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
+                project.setIstemplate(isTemplate);
+                ProjectService prjService = AppContextUtil.getSpringBean(ProjectService.class);
+                prjService.updateWithSession(project, AppContext.getUsername());
+                if (project.getIstemplate()) {
+                    markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_UNMARK_TEMPLATE));
+                } else {
+                    markProjectTemplateBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_MARK_TEMPLATE));
                 }
             });
             markProjectTemplateBtn.setIcon(FontAwesome.STICKY_NOTE);

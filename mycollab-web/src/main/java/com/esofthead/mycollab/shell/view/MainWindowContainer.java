@@ -62,41 +62,7 @@ public class MainWindowContainer extends CssLayout {
             this.setContent(new SetupNewInstanceView());
         } else {
             // Read previously stored cookie value
-            BrowserCookie.detectCookieValue(DesktopApplication.ACCOUNT_COOKIE, new CookieCallbackSerializable() {
-                @Override
-                public void onValueDetected(String value) {
-                    if (value != null && !value.equals("")) {
-                        String[] loginParams = value.split("\\$");
-                        if (loginParams.length == 2) {
-                            try {
-                                ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], EnDecryptHelper.decryptText(loginParams[1]), false);
-                            } catch (UserInvalidInputException e) {
-                                navigateToLoginView();
-                            }
-                        } else {
-                            navigateToLoginView();
-                        }
-                    } else {
-                        try {
-                            SimpleUser user = (SimpleUser) MyCollabSession.getSessionVariable(USER_VAL);
-                            if (user != null) {
-                                ((DesktopApplication) UI.getCurrent()).afterDoLogin(user);
-                            } else {
-                                authenticateWithTempCookieValue();
-                            }
-                        } catch (Exception e) {
-                            navigateToLoginView();
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    private void authenticateWithTempCookieValue() {
-        BrowserCookie.detectCookieValue(DesktopApplication.TEMP_ACCOUNT_COOKIE, new CookieCallbackSerializable() {
-            @Override
-            public void onValueDetected(String value) {
+            BrowserCookie.detectCookieValue(DesktopApplication.ACCOUNT_COOKIE, value -> {
                 if (value != null && !value.equals("")) {
                     String[] loginParams = value.split("\\$");
                     if (loginParams.length == 2) {
@@ -109,8 +75,36 @@ public class MainWindowContainer extends CssLayout {
                         navigateToLoginView();
                     }
                 } else {
+                    try {
+                        SimpleUser user = (SimpleUser) MyCollabSession.getSessionVariable(USER_VAL);
+                        if (user != null) {
+                            ((DesktopApplication) UI.getCurrent()).afterDoLogin(user);
+                        } else {
+                            authenticateWithTempCookieValue();
+                        }
+                    } catch (Exception e) {
+                        navigateToLoginView();
+                    }
+                }
+            });
+        }
+    }
+
+    private void authenticateWithTempCookieValue() {
+        BrowserCookie.detectCookieValue(DesktopApplication.TEMP_ACCOUNT_COOKIE, value -> {
+            if (value != null && !value.equals("")) {
+                String[] loginParams = value.split("\\$");
+                if (loginParams.length == 2) {
+                    try {
+                        ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], EnDecryptHelper.decryptText(loginParams[1]), false);
+                    } catch (UserInvalidInputException e) {
+                        navigateToLoginView();
+                    }
+                } else {
                     navigateToLoginView();
                 }
+            } else {
+                navigateToLoginView();
             }
         });
     }
@@ -119,9 +113,5 @@ public class MainWindowContainer extends CssLayout {
         final LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
         LoginView loginView = presenter.getView();
         this.setContent(loginView);
-    }
-
-    interface CookieCallbackSerializable extends BrowserCookie.Callback, Serializable {
-
     }
 }

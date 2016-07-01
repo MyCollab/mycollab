@@ -23,7 +23,6 @@ import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotific
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.AbstractNotification;
 import com.esofthead.mycollab.core.NewUpdateAvailableNotification;
-import com.esofthead.mycollab.core.NotificationBroadcaster;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
@@ -36,7 +35,7 @@ import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import elemental.json.JsonArray;
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -44,24 +43,24 @@ import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
 public class NotificationComponent extends PopupButton implements PopupButton.PopupVisibilityListener,
-        ApplicationEventListener<ShellEvent.NewNotification>, NotificationBroadcaster.BroadcastListener {
+        ApplicationEventListener<ShellEvent.NewNotification> {
     private static Logger LOG = LoggerFactory.getLogger(NotificationComponent.class);
     private static final long serialVersionUID = 2908372640829060184L;
 
-    private final List<AbstractNotification> notificationItems;
+    private final Set<AbstractNotification> notificationItems;
     private final VerticalLayout notificationContainer;
 
     public NotificationComponent() {
         super();
-        notificationItems = new ArrayList<>();
+        notificationItems = new ConcurrentHashSet<>();
         notificationContainer = new VerticalLayout();
         new Restrain(notificationContainer).setMaxWidth("500px");
         this.setContent(notificationContainer);
@@ -72,23 +71,13 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         EventBusFactory.getInstance().register(this);
 
         // Register to receive broadcasts
-        NotificationBroadcaster.register(this);
         JavaScript.getCurrent().addFunction("com.mycollab.scripts.upgrade",
-                new JavaScriptFunction() {
-                    @Override
-                    public void call(JsonArray arguments) {
-                        String version = arguments.getString(0);
-                        String installerFile = arguments.getString(1);
-                        String manualDownloadLink = arguments.getString(2);
-                        UI.getCurrent().addWindow(new UpgradeConfirmWindow(version, manualDownloadLink, installerFile));
-                    }
+                jsonArray -> {
+                    String version = jsonArray.getString(0);
+                    String installerFile = jsonArray.getString(1);
+                    String manualDownloadLink = jsonArray.getString(2);
+                    UI.getCurrent().addWindow(new UpgradeConfirmWindow(version, manualDownloadLink, installerFile));
                 });
-    }
-
-    @Override
-    public void detach() {
-        NotificationBroadcaster.unregister(this);
-        super.detach();
     }
 
     @Override
@@ -96,13 +85,14 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         notificationContainer.removeAllComponents();
 
         if (notificationItems.size() > 0) {
-            for (int i = 0; i < notificationItems.size(); i++) {
-                AbstractNotification item = notificationItems.get(i);
+            Iterator<AbstractNotification> iterator = notificationItems.iterator();
+            while (iterator.hasNext()) {
+                AbstractNotification item = iterator.next();
                 Component comp = buildComponentFromNotification(item);
                 comp.setStyleName("notification-type");
                 comp.addStyleName("notification-type-" + item.getType());
                 notificationContainer.addComponent(comp);
-                if (i < notificationItems.size() - 1) {
+                if (iterator.hasNext()) {
                     notificationContainer.addComponent(ELabel.hr());
                 }
             }
@@ -138,11 +128,6 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         if (event.getData() instanceof AbstractNotification) {
             addNotification((AbstractNotification) event.getData());
         }
-    }
-
-    @Override
-    public void broadcastNotification(AbstractNotification notification) {
-        addNotification(notification);
     }
 
     private void displayTrayNotification(AbstractNotification item) {
@@ -196,12 +181,9 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             wrapper.addComponent(lblWrapper);
             wrapper.expand(lblWrapper);
             if (AppContext.isAdmin()) {
-                Button upgradeBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        UI.getCurrent().addWindow(new UpgradeConfirmWindow(notification.getVersion(), notification.getManualDownloadLink(), notification.getInstallerFile()));
-                        NotificationComponent.this.setPopupVisible(false);
-                    }
+                Button upgradeBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), clickEvent -> {
+                    UI.getCurrent().addWindow(new UpgradeConfirmWindow(notification.getVersion(), notification.getManualDownloadLink(), notification.getInstallerFile()));
+                    NotificationComponent.this.setPopupVisible(false);
                 });
                 upgradeBtn.addStyleName(UIConstants.BUTTON_BLOCK);
                 wrapper.addComponent(upgradeBtn);
@@ -209,26 +191,19 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         } else if (item instanceof RequestUploadAvatarNotification) {
             wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage
                     (ShellI18nEnum.OPT_REQUEST_UPLOAD_AVATAR), ContentMode.HTML));
-            Button uploadAvatarBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
-                    NotificationComponent.this.setPopupVisible(false);
-                }
+            Button uploadAvatarBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), clickEvent -> {
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
+                NotificationComponent.this.setPopupVisible(false);
             });
             uploadAvatarBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.add(uploadAvatarBtn);
         } else if (item instanceof SmtpSetupNotification) {
-            Button smtpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SETUP), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
-                    NotificationComponent.this.setPopupVisible(false);
-                }
+            Button smtpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SETUP), clickEvent -> {
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
+                NotificationComponent.this.setPopupVisible(false);
             });
             smtpBtn.setStyleName(UIConstants.BUTTON_BLOCK);
-            Label lbl = new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage
-                    (ShellI18nEnum.ERROR_NO_SMTP_SETTING), ContentMode.HTML);
+            Label lbl = ELabel.html(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING));
             MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);
         } else {

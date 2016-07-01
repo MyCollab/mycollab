@@ -18,10 +18,10 @@ package com.esofthead.mycollab.module.user.accountsettings.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.shell.view.MainView;
+import com.esofthead.mycollab.shell.view.ShellUrlResolver;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -45,7 +45,7 @@ public class AccountModulePresenter extends AbstractPresenter<AccountModule> {
         if (params == null || params.length == 0) {
             view.gotoUserProfilePage();
         } else {
-            DesktopApplication.rootUrlResolver.getSubResolver("account").handle(params);
+            ShellUrlResolver.ROOT().getSubResolver("account").handle(params);
         }
     }
 }

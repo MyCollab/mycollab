@@ -35,7 +35,7 @@ public interface ISearchableService<S extends SearchCriteria> extends IService {
      * @return
      */
     @Cacheable
-    int getTotalCount(@CacheKey S criteria);
+    Integer getTotalCount(@CacheKey S criteria);
 
     /**
      * @param searchRequest

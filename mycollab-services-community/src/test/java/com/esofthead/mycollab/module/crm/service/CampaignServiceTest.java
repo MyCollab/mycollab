@@ -40,7 +40,6 @@ public class CampaignServiceTest extends IntergrationServiceTest {
     @Autowired
     protected CampaignService campaignService;
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testSearchByCriteria() {
@@ -52,7 +51,6 @@ public class CampaignServiceTest extends IntergrationServiceTest {
                 .contains(tuple(1, "AAA", "a"), tuple(2, "ABB", "b"));
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetTotalCounts() {

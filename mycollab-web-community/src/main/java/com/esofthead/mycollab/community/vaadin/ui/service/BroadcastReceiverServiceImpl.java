@@ -14,19 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.community.servlet;
+package com.esofthead.mycollab.community.vaadin.ui.service;
 
-import org.eclipse.jetty.servlets.GzipFilter;
-
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
+import com.esofthead.mycollab.core.BroadcastMessage;
+import com.esofthead.mycollab.vaadin.web.ui.service.AbstractBroadcastReceiverService;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 /**
  * @author MyCollab Ltd
- * @since 5.0.5
+ * @since 5.3.5
  */
-@WebFilter(urlPatterns = {"/assets/*", "/VAADIN/*"}, description = "Gzip Filter", asyncSupported = false,
-        initParams = {@WebInitParam(name = "mimeTypes",
-                value = "text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml")})
-public class AnnoGzipFilterServlet extends GzipFilter {
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class BroadcastReceiverServiceImpl extends AbstractBroadcastReceiverService {
+    @Override
+    protected void onBroadcast(BroadcastMessage message) {
+
+    }
 }

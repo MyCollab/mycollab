@@ -37,7 +37,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
     @Autowired
     protected ContactService contactService;
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetFindByCriteria() {
@@ -47,7 +46,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"));
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetTotalCount() {
@@ -63,7 +61,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         return criteria;
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchContactName() {
@@ -76,7 +73,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAssignUsers() {
@@ -87,11 +83,9 @@ public class ContactServiceTest extends IntergrationServiceTest {
         List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(3);
-        assertThat(contacts).extracting("id", "assignuser").contains(
-                tuple(1, "linh"), tuple(2, "linh"), tuple(3, "hai"));
+        assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"), tuple(3, "hai"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchLeadSources() {
@@ -104,7 +98,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAnyPostalCode() {
@@ -118,7 +111,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAnyCity() {
@@ -132,7 +124,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAnyPhone() {
@@ -146,7 +137,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAnyCountries() {
@@ -159,7 +149,6 @@ public class ContactServiceTest extends IntergrationServiceTest {
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(3, "hai"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAnyState() {

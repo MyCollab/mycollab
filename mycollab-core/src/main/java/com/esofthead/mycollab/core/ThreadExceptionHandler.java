@@ -28,8 +28,7 @@ class ThreadExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        LOG.error(String.format("Exception when run thread: %s with exception: %s",
-                t.getName(), e.getMessage()));
+        LOG.error(String.format("Exception when run thread: %s with exception: %s", t.getName(), e.getMessage()));
     }
 
 }

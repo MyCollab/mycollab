@@ -37,8 +37,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     }
 
     public void getAttachments(int projectId, String type, int typeId) {
-        String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                projectId, type, "" + typeId);
+        String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId);
         attachmentPanel.getAttachments(attachmentPath);
     }
 
@@ -48,8 +47,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     }
 
     public void saveContentsToRepo(int projectId, String type, int typeId) {
-        String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                projectId, type, "" + typeId);
+        String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId);
         attachmentPanel.saveContentsToRepo(attachmentPath);
     }
 

@@ -322,7 +322,7 @@ public class ThemeManager {
             extraStyles.append(".splitbutton:hover .v-button-graybtn, .v-button-graybtn:hover { background-color: "
                     + ColorUtils.darkerColor("#" + accountTheme.getOptionbtn()) + ";}");
 
-            //Set toogle button group background
+            //Set toggle button group background
             extraStyles.append(".v-buttongroup.toggle-btn-group .v-button { background-color: #" +
                     accountTheme.getOptionbtn() + ";}");
 
@@ -355,7 +355,7 @@ public class ThemeManager {
                     .getDangerbtn() + "; }");
 
             extraStyles.append(".optionPopupContent .action-wrap.danger:hover {" +
-                    "background-color: #" + accountTheme.getDangerbtn() + "};");
+                    "background-color: #" + accountTheme.getDangerbtn() + ";}");
         }
 
         if (accountTheme.getDangerbtntext() != null) {

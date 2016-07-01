@@ -46,19 +46,14 @@ public class ToggleButtonGroup extends ButtonGroup {
     @Override
     public Button addButton(Button button) {
         super.addButton(button);
-        button.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = -411946964127842982L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                if (!event.getButton().equals(selectedBtn)) {
-                    selectedBtn = event.getButton();
-                    Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
-                    while (iterator.hasNext()) {
-                        iterator.next().removeStyleName(UIConstants.BTN_ACTIVE);
-                    }
-                    selectedBtn.addStyleName(UIConstants.BTN_ACTIVE);
+        button.addClickListener(clickEvent -> {
+            if (!clickEvent.getButton().equals(selectedBtn)) {
+                selectedBtn = clickEvent.getButton();
+                Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
+                while (iterator.hasNext()) {
+                    iterator.next().removeStyleName(UIConstants.BTN_ACTIVE);
                 }
+                selectedBtn.addStyleName(UIConstants.BTN_ACTIVE);
             }
         });
         return button;

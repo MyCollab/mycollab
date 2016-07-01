@@ -37,23 +37,18 @@ public class CaseServiceTest extends IntergrationServiceTest {
     @Autowired
     protected CaseService caseService;
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetAll() {
         CaseSearchCriteria criteria = new CaseSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new BasicSearchRequest<CaseSearchCriteria>(null, 0,
-                        Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPagableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
-        assertThat(cases).extracting("id", "subject", "status")
-                .contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
+        assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetSearchCriteria() {
@@ -63,15 +58,12 @@ public class CaseServiceTest extends IntergrationServiceTest {
         criteria.setSubject(StringSearchField.and("a"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new BasicSearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPagableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
-        assertThat(cases).extracting("id", "subject", "status")
-                .contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
+        assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAssignUsers() {
@@ -79,15 +71,12 @@ public class CaseServiceTest extends IntergrationServiceTest {
         criteria.setAssignUsers(new SetSearchField<>("linh", "admin"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new BasicSearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPagableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
-        assertThat(cases).extracting("id", "subject", "status")
-                .contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
+        assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchPriorities() {
@@ -95,15 +84,12 @@ public class CaseServiceTest extends IntergrationServiceTest {
         criteria.setPriorities(new SetSearchField<>("High", "Medium"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new BasicSearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPagableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
-        assertThat(cases).extracting("id", "subject", "status")
-                .contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
+        assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchStatuses() {
@@ -111,11 +97,9 @@ public class CaseServiceTest extends IntergrationServiceTest {
         criteria.setStatuses(new SetSearchField<>("New", "Test Status"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new BasicSearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPagableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
-        assertThat(cases).extracting("id", "subject", "status")
-                .contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
+        assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
     }
 }

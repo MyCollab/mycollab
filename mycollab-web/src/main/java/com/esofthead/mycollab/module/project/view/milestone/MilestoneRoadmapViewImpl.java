@@ -56,9 +56,9 @@ import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.teemu.VaadinIcons;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -72,7 +72,7 @@ import java.util.List;
  */
 @ViewComponent
 public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements MilestoneRoadmapView {
-    private Button createBtn;
+    private MButton createBtn;
 
     private MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
 
@@ -209,44 +209,28 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private HorizontalLayout createHeaderRight() {
         MHorizontalLayout layout = new MHorizontalLayout();
 
-        createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                SimpleMilestone milestone = new SimpleMilestone();
-                milestone.setSaccountid(AppContext.getAccountId());
-                milestone.setProjectid(CurrentProjectVariables.getProjectId());
-                UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-            }
-        });
-        createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        createBtn = new MButton(AppContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
+            SimpleMilestone milestone = new SimpleMilestone();
+            milestone.setSaccountid(AppContext.getAccountId());
+            milestone.setProjectid(CurrentProjectVariables.getProjectId());
+            UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
+        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
-        Button printBtn = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
-                    @Override
-                    protected Object doEval() {
-                        return baseCriteria;
-                    }
-                }));
-            }
-        });
-        printBtn.setIcon(FontAwesome.PRINT);
-        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        MButton printBtn = new MButton("", clickEvent -> {
+            UI.getCurrent().addWindow(new MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
+                @Override
+                protected Object doEval() {
+                    return baseCriteria;
+                }
+            }));
+        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
+                .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+
         layout.addComponent(printBtn);
 
-        Button kanbanBtn = new Button("Board", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(MilestoneRoadmapViewImpl.this, null));
-            }
-        });
+        Button kanbanBtn = new Button("Board", clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null)));
         kanbanBtn.setDescription("Board View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
@@ -290,9 +274,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             this.add(metaBlock);
 
             if (StringUtils.isNotBlank(milestone.getDescription())) {
-                ELabel descriptionLbl = new ELabel(StringUtils.formatRichText(milestone.getDescription()),
-                        ContentMode.HTML);
-                this.addComponent(descriptionLbl);
+                this.addComponent(ELabel.html(StringUtils.formatRichText(milestone.getDescription())));
             }
 
             MHorizontalLayout progressLayout = new MHorizontalLayout();
@@ -316,55 +298,51 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
             if (totalAssignments > 0) {
                 final Button viewIssuesBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
-                Button.ClickListener viewIssuesListener = new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
-                        showIssues = !showIssues;
-                        if (showIssues) {
-                            issueLayout.setVisible(true);
-                            viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_HIDE_ASSIGNMENTS));
-                            ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
-                            searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
-                            searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
-                            ProjectGenericTaskService genericTaskService = AppContextUtil.getSpringBean
-                                    (ProjectGenericTaskService.class);
-                            List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new
-                                    BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
-                            for (ProjectGenericTask genericTask : genericTasks) {
-                                ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
-                                MHorizontalLayout rowComp = new MHorizontalLayout();
-                                rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                                rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML).withWidthUndefined());
-                                String status = "";
-                                if (genericTask.isBug()) {
-                                    status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
-                                } else if (genericTask.isMilestone()) {
-                                    status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
-                                } else if (genericTask.isRisk()) {
-                                    status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
-                                            genericTask.getStatus());
-                                } else if (genericTask.isTask()) {
-                                    status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
-                                }
-                                rowComp.with(new ELabel(status).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined());
-                                String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-                                Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
-                                        .getAssignUserFullName());
-                                rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined());
-
-                                rowComp.with(toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
-                                issueLayout.addComponent(rowComp);
-
+                viewIssuesBtn.addClickListener(clickEvent -> {
+                    showIssues = !showIssues;
+                    if (showIssues) {
+                        issueLayout.setVisible(true);
+                        viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_HIDE_ASSIGNMENTS));
+                        ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
+                        searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                        searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
+                        searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
+                        ProjectGenericTaskService genericTaskService = AppContextUtil.getSpringBean
+                                (ProjectGenericTaskService.class);
+                        List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new
+                                BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                        for (ProjectGenericTask genericTask : genericTasks) {
+                            ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
+                            MHorizontalLayout rowComp = new MHorizontalLayout();
+                            rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+                            rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
+                            String status = "";
+                            if (genericTask.isBug()) {
+                                status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
+                            } else if (genericTask.isMilestone()) {
+                                status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
+                            } else if (genericTask.isRisk()) {
+                                status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
+                                        genericTask.getStatus());
+                            } else if (genericTask.isTask()) {
+                                status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
                             }
-                        } else {
-                            viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
-                            issueLayout.removeAllComponents();
-                            issueLayout.setVisible(false);
+                            rowComp.with(new ELabel(status).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined());
+                            String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+                            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                                    .getAssignUserFullName());
+                            rowComp.with(ELabel.html(img.write()).withWidthUndefined());
+
+                            rowComp.with(toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
+                            issueLayout.addComponent(rowComp);
+
                         }
+                    } else {
+                        viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
+                        issueLayout.removeAllComponents();
+                        issueLayout.setVisible(false);
                     }
-                };
-                viewIssuesBtn.addClickListener(viewIssuesListener);
+                });
                 viewIssuesBtn.addStyleName(UIConstants.BUTTON_LINK);
                 progressLayout.with(viewIssuesBtn);
             }

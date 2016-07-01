@@ -43,6 +43,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -78,31 +79,28 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
 //        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);
 
-        tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
-            @Override
-            public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
-                CssLayout comp = (CssLayout) tabSheet.getSelectedTab();
-                comp.removeAllComponents();
-                int tabIndex = tabSheet.getTabPosition(tabSheet.getTab(comp));
-                if (tabIndex == 0) {
-                    UserProjectDashboardPresenter userProjectDashboardPresenter = PresenterResolver.getPresenterAndInitView
-                            (UserProjectDashboardPresenter.class);
-                    userProjectDashboardPresenter.onGo(comp, null);
-                } else if (tabIndex == 2) {
-                    FollowingTicketPresenter followingTicketPresenter = PresenterResolver.getPresenterAndInitView
-                            (FollowingTicketPresenter.class);
-                    followingTicketPresenter.onGo(comp, null);
-                } else if (tabIndex == 4) {
-                    SettingPresenter settingPresenter = PresenterResolver.getPresenter(SettingPresenter.class);
-                    settingPresenter.onGo(comp, null);
-                } else if (tabIndex == 3) {
-                    ICalendarDashboardPresenter calendarPresenter = PresenterResolver.getPresenterAndInitView
-                            (ICalendarDashboardPresenter.class);
-                    calendarPresenter.go(comp, null);
-                } else if (tabIndex == 1) {
-                    ProjectListPresenter projectListPresenter = PresenterResolver.getPresenterAndInitView(ProjectListPresenter.class);
-                    projectListPresenter.onGo(comp, null);
-                }
+        tabSheet.addSelectedTabChangeListener(selectedTabChangeEvent -> {
+            CssLayout comp = (CssLayout) tabSheet.getSelectedTab();
+            comp.removeAllComponents();
+            int tabIndex = tabSheet.getTabPosition(tabSheet.getTab(comp));
+            if (tabIndex == 0) {
+                UserProjectDashboardPresenter userProjectDashboardPresenter = PresenterResolver.getPresenterAndInitView
+                        (UserProjectDashboardPresenter.class);
+                userProjectDashboardPresenter.onGo(comp, null);
+            } else if (tabIndex == 2) {
+                FollowingTicketPresenter followingTicketPresenter = PresenterResolver.getPresenterAndInitView
+                        (FollowingTicketPresenter.class);
+                followingTicketPresenter.onGo(comp, null);
+            } else if (tabIndex == 4) {
+                SettingPresenter settingPresenter = PresenterResolver.getPresenter(SettingPresenter.class);
+                settingPresenter.onGo(comp, null);
+            } else if (tabIndex == 3) {
+                ICalendarDashboardPresenter calendarPresenter = PresenterResolver.getPresenterAndInitView
+                        (ICalendarDashboardPresenter.class);
+                calendarPresenter.go(comp, null);
+            } else if (tabIndex == 1) {
+                ProjectListPresenter projectListPresenter = PresenterResolver.getPresenterAndInitView(ProjectListPresenter.class);
+                projectListPresenter.onGo(comp, null);
             }
         });
 
@@ -208,12 +206,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
         MHorizontalLayout headerComp = new MHorizontalLayout();
         ELabel headerLbl = ELabel.h2(String.format(headerTitle, value, 0));
-        Button backDashboard = new Button("Back to workboard", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                showDashboard();
-            }
-        });
+        Button backDashboard = new Button("Back to workboard", clickEvent -> showDashboard());
         backDashboard.setStyleName(UIConstants.BUTTON_ACTION);
         headerComp.with(headerLbl, backDashboard).alignAll(Alignment.MIDDLE_LEFT);
         layout.with(headerComp);
@@ -247,23 +240,15 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
             content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_TO_ADD_PROJECT)));
 
-            MHorizontalLayout btnControls = new MHorizontalLayout();
-            Button skipBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    close();
-                }
-            });
-            skipBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            Button createNewBtn = new Button(AppContext.getMessage(ProjectI18nEnum.NEW), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    close();
-                    UI.getCurrent().addWindow(new ProjectAddWindow());
-                }
-            });
-            createNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            btnControls.with(skipBtn, createNewBtn);
+            MButton skipBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
+                    .withStyleName(UIConstants.BUTTON_OPTION);
+
+            MButton createNewBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW), clickEvent -> {
+                close();
+                UI.getCurrent().addWindow(new ProjectAddWindow());
+            }).withStyleName(UIConstants.BUTTON_ACTION);
+
+            MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, createNewBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);
         }
     }

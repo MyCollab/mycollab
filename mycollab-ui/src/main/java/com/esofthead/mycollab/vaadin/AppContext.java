@@ -161,6 +161,10 @@ public class AppContext implements Serializable {
         MyCollabSession.putSessionVariable(USER_VAL, userSession);
     }
 
+    public boolean isMatchAccount(Integer sAccountId) {
+        return sAccountId.equals(accountId);
+    }
+
     public void clearSessionVariables() {
         session = null;
         billingAccount = null;

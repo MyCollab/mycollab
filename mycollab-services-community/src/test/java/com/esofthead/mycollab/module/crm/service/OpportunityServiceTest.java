@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
@@ -40,27 +40,21 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
     @Autowired
     protected OpportunityService opportunityService;
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testSearchByCriteria() {
-        List<SimpleOpportunity> opportunities = opportunityService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
-                        getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleOpportunity> opportunities = opportunityService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(opportunities.size()).isEqualTo(2);
         assertThat(opportunities).extracting("id", "salesstage", "source").contains(
                 tuple(1, "1", "Cold Call"), tuple(2, "2", "Employee"));
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetTotalCount() {
-        List<SimpleOpportunity> opportunities = opportunityService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
-                        getCriteria(), 0, Integer.MAX_VALUE));
-
+        List<SimpleOpportunity> opportunities = opportunityService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(),
+                0, Integer.MAX_VALUE));
         assertThat(opportunities.size()).isEqualTo(2);
     }
 
@@ -73,7 +67,6 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
         return criteria;
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAssignUsers() {
@@ -81,9 +74,8 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
         criteria.setAssignUsers(new SetSearchField<>("hai", "linh"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleOpportunity> opportunities = opportunityService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleOpportunity> opportunities = opportunityService.findPagableListByCriteria(new BasicSearchRequest<>(criteria,
+                0, Integer.MAX_VALUE));
 
         assertThat(opportunities.size()).isEqualTo(2);
         assertThat(opportunities).extracting("id", "salesstage", "source").contains(

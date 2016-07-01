@@ -21,10 +21,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -38,20 +36,13 @@ public class NoSubDomainExistedWindow extends MVerticalLayout {
 
     public NoSubDomainExistedWindow(final String domain) {
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        final Label titleIcon = new ELabel(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML).withWidthUndefined();
-        titleIcon.setStyleName("warning-icon");
-        titleIcon.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        final Label titleIcon = ELabel.fontIcon(FontAwesome.EXCLAMATION_CIRCLE).withStyleName("warning-icon",
+                ValoTheme.LABEL_NO_MARGIN).withWidthUndefined();
 
         Label warningMsg = new ELabel(AppContext.getMessage(ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain)).withWidthUndefined();
 
-        Button backToHome = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                getUI().getPage().setLocation("https://www.mycollab.com");
-            }
-        });
+        Button backToHome = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE),
+                clickEvent -> getUI().getPage().setLocation("https://www.mycollab.com"));
         backToHome.addStyleName(UIConstants.BUTTON_ACTION);
         this.with(titleIcon, warningMsg, backToHome);
     }

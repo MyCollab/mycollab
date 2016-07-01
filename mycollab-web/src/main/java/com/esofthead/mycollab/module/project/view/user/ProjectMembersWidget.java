@@ -66,21 +66,18 @@ public class ProjectMembersWidget extends Depot {
     public ProjectMembersWidget() {
         super("", new CssLayout());
         final Button sortBtn = new Button();
-        sortBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                sortAsc = !sortAsc;
-                if (sortAsc) {
-                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                    searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
-                } else {
-                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                    searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName",
-                            SearchCriteria.DESC)));
-                }
-                memberList.setSearchCriteria(searchCriteria);
-                setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
+        sortBtn.addClickListener(clickEvent -> {
+            sortAsc = !sortAsc;
+            if (sortAsc) {
+                sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
+            } else {
+                sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName",
+                        SearchCriteria.DESC)));
             }
+            memberList.setSearchCriteria(searchCriteria);
+            setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
         });
         sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
         sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);

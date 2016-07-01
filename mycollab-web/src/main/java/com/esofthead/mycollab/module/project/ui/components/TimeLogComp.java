@@ -32,6 +32,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -58,15 +59,8 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
         header.addComponent(dateInfoHeader);
 
         if (hasEditPermission()) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    showEditTimeWindow(beanItem);
-                }
-            });
-            editBtn.setStyleName(UIConstants.BUTTON_LINK);
+            MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent ->
+                    showEditTimeWindow(beanItem)).withStyleName(UIConstants.BUTTON_LINK);
             header.addComponent(editBtn);
         }
         header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withDescription(AppContext.getMessage

@@ -80,8 +80,7 @@ public class ContentJcrDaoTest extends IntergrationServiceTest {
 		pageContent.setDescription("aaa");
 		contentJcrDao.saveContent(pageContent, "abc");
 
-		Content resource = (Content) contentJcrDao
-				.getResource("a/b/xyz.mycollabtext");
+		Content resource = (Content) contentJcrDao.getResource("a/b/xyz.mycollabtext");
 		assertThat(resource.getPath()).isEqualTo("a/b/xyz.mycollabtext");
 	}
 
@@ -91,8 +90,7 @@ public class ContentJcrDaoTest extends IntergrationServiceTest {
 	@Test
 	public void testSaveInvalidContetName() {
 		thrown.expect(UserInvalidInputException.class);
-		Content pageContent = new Content(
-				"a/b/http-//anchoragesnowmobileclub.com/trail_report/weather-for-turnagain/");
+		Content pageContent = new Content("a/b/http-//anchoragesnowmobileclub.com/trail_report/weather-for-turnagain/");
 		pageContent.setCreatedBy("hainguyen");
 		pageContent.setTitle("page example");
 		pageContent.setDescription("aaa");

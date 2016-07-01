@@ -225,14 +225,11 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
         modulePopupContent.addOption(fileModuleBtn);
 
-        MButton peopleBtn = new MButton().withCaption(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE)).withIcon
-                (VaadinIcons.USERS).withListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                modulePopup.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
-            }
-        });
+        MButton peopleBtn = new MButton().withCaption(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE)).withIcon(VaadinIcons.USERS)
+                .withListener(clickEvent -> {
+                    modulePopup.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+                });
         modulePopupContent.addOption(peopleBtn);
 
         headerLayout.addComponent(new MHorizontalLayout().with(modulePopup).withAlign(modulePopup, Alignment.MIDDLE_LEFT), "mainLogo");
@@ -275,26 +272,17 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     Label informLbl = new Label("", ContentMode.HTML);
                     informLbl.addStyleName("trialEndingNotification");
                     informLbl.setHeight("100%");
-                    HorizontalLayout informBox = new HorizontalLayout();
-                    informBox.addStyleName("trialInformBox");
-                    informBox.setSizeFull();
-                    informBox.setMargin(new MarginInfo(false, true, false, false));
-                    informBox.addComponent(informLbl);
-                    informBox.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void layoutClick(LayoutClickEvent event) {
-                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
-                        }
-                    });
+                    MHorizontalLayout informBox = new MHorizontalLayout(informLbl).withStyleName("trialInformBox")
+                            .withMargin(new MarginInfo(false, true, false, false)).withFullHeight();
+                    informBox.addLayoutClickListener(layoutClickEvent -> EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"})));
                     accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
 
                     Duration dur = new Duration(new DateTime(billingAccount.getCreatedtime()), new DateTime());
                     int daysLeft = dur.toStandardDays().getDays();
                     if (daysLeft > 30) {
-                        informLbl.setValue("<div class='informBlock'>Trial<br></div><div class='informBlock'>&gt;&gt;</div>");
-//                        AppContext.getInstance().setIsValidAccount(false);
+                        informLbl.setValue("<div class='informBlock'>Trial ended<br></div>");
+                        AppContext.getInstance().setIsValidAccount(false);
                     } else {
                         informLbl.setValue(String.format("<div class='informBlock'>Trial ending<br>%d days " +
                                 "left</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
@@ -308,14 +296,8 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         accountLayout.addComponent(accountNameLabel);
 
         if (SiteConfiguration.isCommunityEdition()) {
-            Button buyPremiumBtn = new Button("Upgrade to Pro edition", new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    UI.getCurrent().addWindow(new AdWindow());
-                }
-            });
-            buyPremiumBtn.setIcon(FontAwesome.SHOPPING_CART);
-            buyPremiumBtn.addStyleName("ad");
+            MButton buyPremiumBtn = new MButton("Upgrade to Pro edition", clickEvent -> UI.getCurrent().addWindow(new AdWindow()))
+                    .withIcon(FontAwesome.SHOPPING_CART).withStyleName("ad");
             accountLayout.addComponent(buyPremiumBtn);
         }
 
@@ -324,26 +306,16 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
             if (licenseInfo != null) {
                 if (licenseInfo.isExpired()) {
-                    Button buyPremiumBtn = new Button(AppContext.getMessage(LicenseI18nEnum.EXPIRE_NOTIFICATION), new ClickListener() {
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow());
-                        }
-                    });
-                    buyPremiumBtn.setIcon(FontAwesome.SHOPPING_CART);
-                    buyPremiumBtn.addStyleName("ad");
+                    MButton buyPremiumBtn = new MButton(AppContext.getMessage(LicenseI18nEnum.EXPIRE_NOTIFICATION),
+                            clickEvent -> UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow()))
+                            .withIcon(FontAwesome.SHOPPING_CART).withStyleName("ad");
                     accountLayout.addComponent(buyPremiumBtn);
                 } else if (licenseInfo.isTrial()) {
                     Duration dur = new Duration(new DateTime(), new DateTime(licenseInfo.getExpireDate()));
                     int days = dur.toStandardDays().getDays();
-                    Button buyPremiumBtn = new Button(AppContext.getMessage(LicenseI18nEnum.TRIAL_NOTIFICATION, days), new ClickListener() {
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow());
-                        }
-                    });
-                    buyPremiumBtn.setIcon(FontAwesome.SHOPPING_CART);
-                    buyPremiumBtn.addStyleName("ad");
+                    MButton buyPremiumBtn = new MButton(AppContext.getMessage(LicenseI18nEnum.TRIAL_NOTIFICATION, days),
+                            clickEvent -> UI.getCurrent().addWindow(new BuyPremiumSoftwareWindow()))
+                            .withIcon(FontAwesome.SHOPPING_CART).withStyleName("ad");
                     accountLayout.addComponent(buyPremiumBtn);
                 }
             }
@@ -351,10 +323,9 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         NotificationComponent notificationComponent = new NotificationComponent();
         accountLayout.addComponent(notificationComponent);
-
+        
         if (StringUtils.isBlank(AppContext.getUser().getAvatarid())) {
-            EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,
-                    new RequestUploadAvatarNotification()));
+            EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new RequestUploadAvatarNotification()));
         }
 
         if (!SiteConfiguration.isDemandEdition()) {
@@ -379,110 +350,73 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         OptionPopupContent accountPopupContent = new OptionPopupContent();
 
-        Button myProfileBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
-            }
-        });
-        myProfileBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.PROFILE));
+        MButton myProfileBtn = new MButton(AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE), clickEvent -> {
+            accountMenu.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
+        }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.PROFILE));
         accountPopupContent.addOption(myProfileBtn);
 
-        Button userMgtBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
-            }
-        });
-        userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
+        MButton userMgtBtn = new MButton(AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES), clickEvent -> {
+            accountMenu.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+        }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
         accountPopupContent.addOption(userMgtBtn);
 
-        Button generalSettingBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETTING), new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "general"}));
-            }
-        });
-        generalSettingBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
+        MButton generalSettingBtn = new MButton(AppContext.getMessage(AdminI18nEnum.VIEW_SETTING), clickEvent -> {
+            accountMenu.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "general"}));
+        }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
         accountPopupContent.addOption(generalSettingBtn);
 
-        Button themeCustomizeBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_THEME), new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "theme"}));
-            }
-        });
-        themeCustomizeBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.THEME_CUSTOMIZE));
+        MButton themeCustomizeBtn = new MButton(AppContext.getMessage(AdminI18nEnum.VIEW_THEME), clickEvent -> {
+            accountMenu.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "theme"}));
+        }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.THEME_CUSTOMIZE));
         accountPopupContent.addOption(themeCustomizeBtn);
 
 
         if (!SiteConfiguration.isDemandEdition()) {
-            Button setupBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETUP), new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    accountMenu.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
-                }
-            });
-            setupBtn.setIcon(FontAwesome.WRENCH);
+            MButton setupBtn = new MButton(AppContext.getMessage(AdminI18nEnum.VIEW_SETUP), clickEvent -> {
+                accountMenu.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
+            }).withIcon(FontAwesome.WRENCH);
             accountPopupContent.addOption(setupBtn);
         }
 
         accountPopupContent.addSeparator();
 
-        Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
-        helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
+        MButton helpBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_HELP)).withIcon(FontAwesome.MORTAR_BOARD);
         ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/meet-mycollab/");
         BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
         helpOpener.extend(helpBtn);
         accountPopupContent.addOption(helpBtn);
 
-        Button supportBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SUPPORT));
-        supportBtn.setIcon(FontAwesome.LIFE_SAVER);
+        MButton supportBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SUPPORT)).withIcon(FontAwesome.LIFE_SAVER);
         ExternalResource supportRes = new ExternalResource("http://support.mycollab.com/");
         BrowserWindowOpener supportOpener = new BrowserWindowOpener(supportRes);
         supportOpener.extend(supportBtn);
         accountPopupContent.addOption(supportBtn);
 
-        Button translateBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_TRANSLATE));
-        translateBtn.setIcon(FontAwesome.PENCIL);
+        MButton translateBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_TRANSLATE)).withIcon(FontAwesome.PENCIL);
         ExternalResource translateRes = new ExternalResource("https://community.mycollab.com/docs/developing-mycollab/translating/");
         BrowserWindowOpener translateOpener = new BrowserWindowOpener(translateRes);
         translateOpener.extend(translateBtn);
         accountPopupContent.addOption(translateBtn);
 
         if (!SiteConfiguration.isCommunityEdition()) {
-            Button myAccountBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    accountMenu.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
-                }
-            });
-            myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
+            MButton myAccountBtn = new MButton(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), clickEvent -> {
+                accountMenu.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+            }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
             accountPopupContent.addOption(myAccountBtn);
         }
 
         accountPopupContent.addSeparator();
-        Button aboutBtn = new Button("About MyCollab", new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                accountMenu.setPopupVisible(false);
-                Window aboutWindow = ViewManager.getCacheComponent(AbstractAboutWindow.class);
-                UI.getCurrent().addWindow(aboutWindow);
-            }
-        });
-        aboutBtn.setIcon(FontAwesome.INFO_CIRCLE);
+        MButton aboutBtn = new MButton("About MyCollab", clickEvent -> {
+            accountMenu.setPopupVisible(false);
+            Window aboutWindow = ViewManager.getCacheComponent(AbstractAboutWindow.class);
+            UI.getCurrent().addWindow(aboutWindow);
+        }).withIcon(FontAwesome.INFO_CIRCLE);
         accountPopupContent.addOption(aboutBtn);
 
         Button releaseNotesBtn = new Button("Release Notes");
@@ -493,16 +427,10 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         releaseNotesBtn.setIcon(FontAwesome.BULLHORN);
         accountPopupContent.addOption(releaseNotesBtn);
 
-        Button signoutBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
-            }
-        });
-        signoutBtn.setIcon(FontAwesome.SIGN_OUT);
+        MButton signoutBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
+            accountMenu.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
+        }).withIcon(FontAwesome.SIGN_OUT);
         accountPopupContent.addSeparator();
         accountPopupContent.addOption(signoutBtn);
 

@@ -50,6 +50,7 @@ import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MMarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -99,13 +100,10 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         final String newestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
         sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
         sortDirection.setValue(newestFirstDirection);
-        sortDirection.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                Object value = sortDirection.getValue();
-                isAscending = newestFirstDirection.equals(value);
-                displayActivities();
-            }
+        sortDirection.addValueChangeListener(valueChangeEvent -> {
+            Object value = sortDirection.getValue();
+            isAscending = newestFirstDirection.equals(value);
+            displayActivities();
         });
 
         MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName(UIConstants.FORM_SECTION)
@@ -176,7 +174,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withFullWidth().withStyleName("message");
 
-        ProjectMemberBlock memberBlock = new ProjectMemberBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
+        ProjectMemberBlock memberBlock = new ProjectMemberBlock(comment.getCreateduser(), comment.getOwnerAvatarId(),
+                comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
         MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
@@ -184,41 +183,31 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel timePostLbl = new ELabel(AppContext.getMessage(
-                GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
-                withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
+        ELabel timePostLbl = ELabel.html(AppContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+                AppContext.formatPrettyTime(comment.getCreatedtime())))
+                .withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
         timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
-            Button msgDeleteBtn = new Button();
-            msgDeleteBtn.setIcon(FontAwesome.TRASH_O);
-            msgDeleteBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-            msgDeleteBtn.setVisible(true);
-            msgDeleteBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            MButton msgDeleteBtn = new MButton(FontAwesome.TRASH_O).withListener(clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                        commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                        activityBox.removeComponent(layout);
-                                    }
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                    commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                    activityBox.removeComponent(layout);
                                 }
-                            });
-                }
-            });
+                            }
+                        });
+            }).withStyleName(UIConstants.BUTTON_ICON_ONLY).withVisible(true);
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {
             messageHeader.with(timePostLbl).expand(timePostLbl);
@@ -261,10 +250,9 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            ELabel timePostLbl = new ELabel(AppContext.getMessage(
-                    GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
-                    AppContext.formatPrettyTime(auditLog.getPosteddate())), ContentMode.HTML).
-                    withDescription(AppContext.formatDateTime(auditLog.getPosteddate()));
+            ELabel timePostLbl = ELabel.html(AppContext.getMessage(GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
+                    AppContext.formatPrettyTime(auditLog.getPosteddate())))
+                    .withDescription(AppContext.formatDateTime(auditLog.getPosteddate()));
             timePostLbl.setStyleName(UIConstants.META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
@@ -276,8 +264,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
 
                 DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
                 if (fieldDisplayHandler != null) {
-                    Span fieldBlock = new Span().appendText(AppContext.getMessage(fieldDisplayHandler.getDisplayName
-                            ())).setCSSClass(UIConstants.BUTTON_BLOCK);
+                    Span fieldBlock = new Span().appendText(AppContext.getMessage(fieldDisplayHandler.getDisplayName()))
+                            .setCSSClass(UIConstants.BUTTON_BLOCK);
                     Div historyDiv = new Div().appendChild(fieldBlock).appendText(fieldDisplayHandler.getFormat()
                             .toString(item.getOldvalue())).appendText(" " + FontAwesome.LONG_ARROW_RIGHT.getHtml() +
                             " ").appendText(fieldDisplayHandler.getFormat().toString(item.getNewvalue()));

@@ -40,7 +40,7 @@ public class ProjectGenericItemServiceImpl extends DefaultSearchService<ProjectG
     }
 
     @Override
-    public int getTotalCount(ProjectGenericItemSearchCriteria criteria) {
+    public Integer getTotalCount(ProjectGenericItemSearchCriteria criteria) {
         return projectGenericItemMapper.getTotalCountFromTask(criteria) +
                 projectGenericItemMapper.getTotalCountFromMessage(criteria) +
                 projectGenericItemMapper.getTotalCountFromMilestone(criteria) +

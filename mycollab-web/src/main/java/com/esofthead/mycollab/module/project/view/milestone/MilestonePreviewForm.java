@@ -211,8 +211,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
             rowComp.addStyleName("margin-bottom");
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-            rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(),
-                    ContentMode.HTML).withWidthUndefined());
+            rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
             String status = "";
             if (genericTask.isBug()) {
                 status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
@@ -230,7 +229,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                     .getAssignUserFullName());
 
             ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
-            rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
+            rowComp.with(ELabel.html(img.write()).withWidthUndefined(),
                     toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
             return rowComp;
         }

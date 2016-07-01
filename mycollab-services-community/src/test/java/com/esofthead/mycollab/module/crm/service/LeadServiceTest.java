@@ -38,21 +38,18 @@ public class LeadServiceTest extends IntergrationServiceTest {
     @Autowired
     protected LeadService leadService;
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testSearchByCriteria() {
-        List<SimpleLead> leads = leadService.findPagableListByCriteria(
-                new BasicSearchRequest<>(getCriteria(), 0, 2));
+        List<SimpleLead> leads = leadService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, 2));
         assertThat(leads.size()).isEqualTo(2);
-        assertThat(leads).extracting("id", "source").contains(
-                tuple(1, "Cold Call"), tuple(2, "Employee"));
+        assertThat(leads).extracting("id", "source").contains(tuple(1, "Cold Call"), tuple(2, "Employee"));
     }
 
     @DataSet
     @Test
     public void testGetTotalCounts() {
-        Assert.assertEquals(2, leadService.getTotalCount(getCriteria()));
+        Assert.assertEquals(new Integer(2), leadService.getTotalCount(getCriteria()));
     }
 
     private LeadSearchCriteria getCriteria() {
@@ -62,23 +59,18 @@ public class LeadServiceTest extends IntergrationServiceTest {
         return criteria;
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchLeadName() {
         LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setLeadName(StringSearchField.and(
-                "Nguyen Hai"));
+        criteria.setLeadName(StringSearchField.and("Nguyen Hai"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleLead> leads = leadService.findPagableListByCriteria(
-                new BasicSearchRequest<>(criteria, 0, 2));
+        List<SimpleLead> leads = leadService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
         assertThat(leads.size()).isEqualTo(1);
-        assertThat(leads).extracting("id", "source").contains(
-                tuple(1, "Cold Call"));
+        assertThat(leads).extracting("id", "source").contains(tuple(1, "Cold Call"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @DataSet
     public void testSearchAssignUser() {
@@ -86,10 +78,8 @@ public class LeadServiceTest extends IntergrationServiceTest {
         criteria.setAssignUsers(new SetSearchField<>("linh", "hai"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleLead> leads = leadService
-                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
+        List<SimpleLead> leads = leadService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
         assertThat(leads.size()).isEqualTo(2);
-        assertThat(leads).extracting("id", "source").contains(
-                tuple(1, "Cold Call"), tuple(2, "Employee"));
+        assertThat(leads).extracting("id", "source").contains(tuple(1, "Cold Call"), tuple(2, "Employee"));
     }
 }

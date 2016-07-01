@@ -110,14 +110,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         componentPopupSelection = new PopupButton();
         componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
         componentPopupSelection.setDirection(Alignment.TOP_LEFT);
-        componentPopupSelection.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                SavedFilterComboBox.this.initContentPopup();
-            }
-        });
+        componentPopupSelection.addClickListener(clickEvent -> initContentPopup());
 
         popupContent = new OptionPopupContent();
         componentPopupSelection.setContent(popupContent);

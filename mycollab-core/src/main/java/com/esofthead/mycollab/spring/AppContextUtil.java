@@ -66,5 +66,4 @@ public class AppContextUtil implements ApplicationContextAware {
             return null;
         }
     }
-
 }

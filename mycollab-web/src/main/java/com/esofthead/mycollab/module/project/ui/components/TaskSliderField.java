@@ -17,7 +17,6 @@
 
 package com.esofthead.mycollab.module.project.ui.components;
 
-import com.vaadin.data.Buffered;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
 import com.vaadin.shared.ui.slider.SliderOrientation;
@@ -45,20 +44,17 @@ public class TaskSliderField extends CustomField<Double> {
         slider.setOrientation(SliderOrientation.HORIZONTAL);
         slider.setImmediate(true);
         slider.setWidth("150px");
-        slider.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                Double value = (Double) valueChangeEvent.getProperty().getValue();
-                if (value != null) {
-                    double roundValue = Math.ceil(value / 10) * 10;
-                    slider.setValue(roundValue);
-                    progressLbl.setValue(roundValue + "%");
-                    setInternalValue(roundValue);
-                } else {
-                    slider.setValue(0d);
-                    progressLbl.setValue("0%");
-                    setInternalValue(0d);
-                }
+        slider.addValueChangeListener(valueChangeEvent -> {
+            Double value = (Double) valueChangeEvent.getProperty().getValue();
+            if (value != null) {
+                double roundValue = Math.ceil(value / 10) * 10;
+                slider.setValue(roundValue);
+                progressLbl.setValue(roundValue + "%");
+                setInternalValue(roundValue);
+            } else {
+                slider.setValue(0d);
+                progressLbl.setValue("0%");
+                setInternalValue(0d);
             }
         });
         body = new MHorizontalLayout(slider, progressLbl);

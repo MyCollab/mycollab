@@ -19,11 +19,11 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.shell.view.MainView;
+import com.esofthead.mycollab.shell.view.ShellUrlResolver;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -47,7 +47,7 @@ public class ProjectModulePresenter extends AbstractPresenter<ProjectModule> {
             UserDashboardPresenter presenter = PresenterResolver.getPresenter(UserDashboardPresenter.class);
             presenter.go(view, null);
         } else {
-            DesktopApplication.rootUrlResolver.getSubResolver("project").handle(params);
+            ShellUrlResolver.ROOT().getSubResolver("project").handle(params);
         }
 
         AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);

@@ -42,7 +42,6 @@ public class SplitButton extends CustomComponent {
 
     public SplitButton() {
         this(new Button());
-
     }
 
     public SplitButton(Button parentButton) {
@@ -52,24 +51,12 @@ public class SplitButton extends CustomComponent {
         this.parentButton = parentButton;
         parentButton.addStyleName("parent-button");
         parentButton.setImmediate(true);
-        parentButton.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                fireEvent(new SplitButtonClickEvent(SplitButton.this));
-            }
-        });
+        parentButton.addClickListener(clickEvent -> fireEvent(new SplitButtonClickEvent(SplitButton.this)));
 
         popupButton = new PopupButton();
-        popupButton.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                isPopupVisible = !isPopupVisible;
-                fireEvent(new SplitButtonPopupVisibilityEvent(SplitButton.this, isPopupVisible));
-            }
+        popupButton.addClickListener(clickEvent -> {
+            isPopupVisible = !isPopupVisible;
+            fireEvent(new SplitButtonPopupVisibilityEvent(SplitButton.this, isPopupVisible));
         });
 
         contentLayout.addComponent(parentButton);
@@ -131,14 +118,11 @@ public class SplitButton extends CustomComponent {
     }
 
     public void addClickListener(SplitButtonClickListener listener) {
-        addListener(SplitButtonClickEvent.class, listener,
-                SPLIT_BUTTON_CLICK_CHANGE_METHOD);
+        addListener(SplitButtonClickEvent.class, listener, SPLIT_BUTTON_CLICK_CHANGE_METHOD);
     }
 
-    public void addPopupVisibilityListener(
-            SplitButtonPopupVisibilityListener listener) {
-        addListener(SplitButtonPopupVisibilityEvent.class, listener,
-                SPLIT_POPUP_VISIBLE_CHANGE_METHOD);
+    public void addPopupVisibilityListener(SplitButtonPopupVisibilityListener listener) {
+        addListener(SplitButtonPopupVisibilityEvent.class, listener, SPLIT_POPUP_VISIBLE_CHANGE_METHOD);
     }
 
     public interface SplitButtonPopupVisibilityListener extends Serializable {

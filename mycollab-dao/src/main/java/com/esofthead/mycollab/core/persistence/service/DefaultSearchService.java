@@ -33,7 +33,7 @@ public abstract class DefaultSearchService<S extends SearchCriteria> implements 
     public abstract ISearchableDAO<S> getSearchMapper();
 
     @Override
-    public int getTotalCount(S criteria) {
+    public Integer getTotalCount(S criteria) {
         return getSearchMapper().getTotalCount(criteria);
     }
 

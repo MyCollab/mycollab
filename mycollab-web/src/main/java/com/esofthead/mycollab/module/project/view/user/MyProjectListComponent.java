@@ -65,20 +65,17 @@ public class MyProjectListComponent extends MVerticalLayout {
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
         final Button sortBtn = new Button("");
-        sortBtn.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                isSortAsc = !isSortAsc;
-                if (searchCriteria != null) {
-                    if (isSortAsc) {
-                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
-                    } else {
-                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
-                    }
-                    displayResults();
+        sortBtn.addClickListener(clickEvent -> {
+            isSortAsc = !isSortAsc;
+            if (searchCriteria != null) {
+                if (isSortAsc) {
+                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                    searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+                } else {
+                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                    searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
                 }
+                displayResults();
             }
         });
         sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);

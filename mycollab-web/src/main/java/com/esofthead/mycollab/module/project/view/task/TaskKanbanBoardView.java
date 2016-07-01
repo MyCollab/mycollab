@@ -29,5 +29,6 @@ public interface TaskKanbanBoardView extends PageView, IKanbanView {
     HasSearchHandlers<TaskSearchCriteria> getSearchHandlers();
 
     void display();
+
     void queryTask(TaskSearchCriteria searchCriteria);
 }

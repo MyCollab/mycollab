@@ -51,7 +51,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -82,17 +81,14 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         viewHeader.with(headerText).expand(headerText);
 
         final Button sortBtn = new Button();
-        sortBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                sortAsc = !sortAsc;
-                if (sortAsc) {
-                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                    displayMembers();
-                } else {
-                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                    displayMembers();
-                }
+        sortBtn.addClickListener(clickEvent -> {
+            sortAsc = !sortAsc;
+            if (sortAsc) {
+                sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                displayMembers();
+            } else {
+                sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                displayMembers();
             }
         });
         sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
@@ -193,39 +189,31 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         MHorizontalLayout buttonControls = new MHorizontalLayout();
 
         Button editBtn = new Button("", FontAwesome.EDIT);
-        editBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(ProjectMemberListViewImpl.this, member));
-            }
-        });
+        editBtn.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, member)));
         editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         editBtn.setDescription("Edit user '" + member.getDisplayName() + "' information");
         editBtn.addStyleName(UIConstants.BUTTON_LINK);
 
         Button deleteBtn = new Button("", FontAwesome.TRASH_O);
-        deleteBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
+        deleteBtn.addClickListener(clickEvent -> {
+            ConfirmDialogExt.show(UI.getCurrent(),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    new ConfirmDialog.Listener() {
+                        private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-                                    prjMemberService.removeWithSession(member, AppContext.getUsername(), AppContext.getAccountId());
+                        @Override
+                        public void onClose(ConfirmDialog dialog) {
+                            if (dialog.isConfirmed()) {
+                                ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+                                prjMemberService.removeWithSession(member, AppContext.getUsername(), AppContext.getAccountId());
 
-                                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
-                                }
+                                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
                             }
-                        });
-            }
+                        }
+                    });
         });
         deleteBtn.setDescription("Remove user '" + member.getDisplayName() + "' out of this project");
         deleteBtn.addStyleName(UIConstants.BUTTON_LINK);

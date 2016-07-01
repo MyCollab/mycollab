@@ -35,3 +35,7 @@ ADD CONSTRAINT `FK_s_tag_2`
 DROP TABLE `m_tracker_metadata`;
 DROP TABLE `m_tracker_query`;
 
+ALTER TABLE `s_billing_plan`
+ADD COLUMN `shoppingUrl` VARCHAR(400) NULL;
+
+

@@ -33,6 +33,7 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -92,44 +93,31 @@ public class TestimonialWindow extends Window {
         editForm.setBean(entity);
         content.addComponent(editForm);
 
-        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
+        MButton submitBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), clickEvent -> {
+            if (editForm.validateForm()) {
                 close();
-            }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-
-        Button submitBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                if (editForm.validateForm()) {
-                    close();
-                    NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
-                    try {
-                        RestTemplate restTemplate = new RestTemplate();
-                        restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-                        MultiValueMap<String, Object> values = new LinkedMultiValueMap<>();
-                        values.add("company", entity.getCompany());
-                        values.add("displayname", entity.getDisplayname());
-                        values.add("email", entity.getEmail());
-                        values.add("jobrole", entity.getJobrole());
-                        values.add("testimonial", entity.getTestimonial());
-                        values.add("website", entity.getWebsite());
-                        restTemplate.postForObject("https://api.mycollab.com/api/testimonial", values, String.class);
-                    } catch (Exception e) {
-                        LOG.error("Error when call remote api", e);
-                    }
+                NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
+                try {
+                    RestTemplate restTemplate = new RestTemplate();
+                    restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
+                    MultiValueMap<String, Object> values = new LinkedMultiValueMap<>();
+                    values.add("company", entity.getCompany());
+                    values.add("displayname", entity.getDisplayname());
+                    values.add("email", entity.getEmail());
+                    values.add("jobrole", entity.getJobrole());
+                    values.add("testimonial", entity.getTestimonial());
+                    values.add("website", entity.getWebsite());
+                    restTemplate.postForObject("https://api.mycollab.com/api/testimonial", values, String.class);
+                } catch (Exception e) {
+                    LOG.error("Error when call remote api", e);
                 }
             }
-        });
-        submitBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        submitBtn.setIcon(FontAwesome.MAIL_FORWARD);
+        }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.MAIL_FORWARD);
 
-        buttonControls.with(cancelBtn, submitBtn);
-
+        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, submitBtn).withMargin(true);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
         this.setContent(content);
     }

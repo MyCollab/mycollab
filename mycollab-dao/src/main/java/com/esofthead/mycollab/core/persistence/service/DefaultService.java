@@ -44,7 +44,7 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
     public abstract ISearchableDAO<S> getSearchMapper();
 
     @Override
-    public int getTotalCount(S criteria) {
+    public Integer getTotalCount(S criteria) {
         return getSearchMapper().getTotalCount(criteria);
     }
 

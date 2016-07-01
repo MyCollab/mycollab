@@ -16,9 +16,10 @@
  */
 package com.esofthead.mycollab.community.schedule.jobs;
 
+import com.esofthead.mycollab.core.BroadcastMessage;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.core.NewUpdateAvailableNotification;
-import com.esofthead.mycollab.core.NotificationBroadcaster;
+import com.esofthead.mycollab.core.Broadcaster;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean;
 import org.quartz.JobExecutionContext;
@@ -78,13 +79,11 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                         File installerFile = downloadMyCollabThread.tmpFile;
                         if (installerFile.exists() && installerFile.isFile() && installerFile.length() > 0 && isValid(installerFile)) {
                             latestFileDownloadedPath = installerFile.getAbsolutePath();
-                            NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
-                            NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
-                                    latestFileDownloadedPath));
+                            Broadcaster.broadcast(new BroadcastMessage(new NewUpdateAvailableNotification(version,
+                                    autoDownloadLink, manualDownloadLink, latestFileDownloadedPath)));
                         } else {
-                            NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
-                            NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, null,
-                                    manualDownloadLink, null));
+                            Broadcaster.broadcast(new BroadcastMessage(new NewUpdateAvailableNotification(version, null,
+                                    manualDownloadLink, null)));
                         }
                     } catch (Exception e) {
                         LOG.error("Exception", e);
@@ -92,9 +91,8 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                         isDownloading = false;
                     }
                 } else {
-                    NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
-                    NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
-                            latestFileDownloadedPath));
+                    Broadcaster.broadcast(new BroadcastMessage(new NewUpdateAvailableNotification(version, autoDownloadLink,
+                            manualDownloadLink, latestFileDownloadedPath)));
                 }
             }
         }

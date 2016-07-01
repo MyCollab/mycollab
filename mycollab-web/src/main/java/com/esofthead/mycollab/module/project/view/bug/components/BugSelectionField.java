@@ -31,6 +31,7 @@ import com.vaadin.ui.*;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
@@ -54,13 +55,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
         suggestField.setWidth("400px");
         suggestField.setInputPrompt("Enter related bug's name");
         suggestField.setInvalidAllowed(false);
-
-        suggestField.setSuggestionHandler(new SuggestField.SuggestionHandler() {
-            @Override
-            public List<Object> searchItems(String query) {
-                return handleSearchQuery(query);
-            }
-        });
+        suggestField.setSuggestionHandler(this::handleSearchQuery);
 
         suggestField.setSuggestionConverter(new BugSuggestionConverter());
     }
@@ -72,15 +67,9 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
     @Override
     protected Component initContent() {
         MHorizontalLayout layout = new MHorizontalLayout();
-        Button browseBtn = new Button(FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        browseBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                UI.getCurrent().addWindow(new BugSelectionWindow(BugSelectionField.this));
-            }
-        });
+        MButton browseBtn = new MButton(FontAwesome.ELLIPSIS_H)
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new BugSelectionWindow(BugSelectionField.this)))
+                .withStyleName(UIConstants.BUTTON_OPTION, UIConstants.BUTTON_SMALL_PADDING);
         layout.with(suggestField, new Label("or browse"), browseBtn);
         return layout;
     }

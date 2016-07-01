@@ -104,27 +104,12 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction());
             searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    RoleBasicSearchLayout.this.callSearchAction();
-                }
-            });
             basicSearchBody.addComponent(searchBtn);
 
-            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    nameField.setValue("");
-                }
-            });
+            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""));
             clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             basicSearchBody.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
