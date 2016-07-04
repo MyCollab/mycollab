@@ -47,7 +47,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public int deleteByExample(TagExample example) {
+    public Integer deleteByExample(TagExample example) {
         return 0;
     }
 

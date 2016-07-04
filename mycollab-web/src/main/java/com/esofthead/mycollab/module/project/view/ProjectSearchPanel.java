@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -64,7 +65,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
     @Override
     protected Component buildExtraControls() {
         MButton createBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW),
-                clickEvent -> UI.getCurrent().addWindow(new ProjectAddWindow()))
+                clickEvent -> UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class)))
                 .withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
         createBtn.setEnabled(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
         return createBtn;

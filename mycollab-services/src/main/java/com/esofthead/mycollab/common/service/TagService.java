@@ -39,5 +39,5 @@ public interface TagService extends ICrudService<Integer, Tag> {
     @Cacheable
     List<AggregateTag> findTagsInProject(Integer projectId, @CacheKey Integer accountId);
 
-    int deleteByExample(TagExample example);
+    Integer deleteByExample(TagExample example);
 }

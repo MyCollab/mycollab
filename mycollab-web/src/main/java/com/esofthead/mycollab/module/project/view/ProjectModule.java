@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.ServiceMenu;
@@ -74,12 +75,9 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         if (serviceMenuContainer == null) {
             serviceMenuContainer = new MHorizontalLayout();
             final ServiceMenu serviceMenu = new ServiceMenu();
-            serviceMenu.addService(AppContext.getMessage(ProjectI18nEnum.LIST), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoUserDashboard(this, null));
-                    serviceMenu.selectService(0);
-                }
+            serviceMenu.addService(AppContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoUserDashboard(this, null));
+                serviceMenu.selectService(0);
             });
             serviceMenu.selectService(0);
 
@@ -103,15 +101,9 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
 
             serviceMenuContainer.with(serviceMenu);
 
-            Button newPrjBtn = new Button(AppContext.getMessage(ProjectI18nEnum.NEW), new Button.ClickListener
-                    () {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    UI.getCurrent().addWindow(new ProjectAddWindow());
-                }
-            });
-            newPrjBtn.addStyleName("add-btn-popup");
-            newPrjBtn.setIcon(FontAwesome.PLUS_CIRCLE);
+            MButton newPrjBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW),
+                    clickEvent -> UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class)))
+                    .withStyleName("add-btn-popup").withIcon(FontAwesome.PLUS_CIRCLE);
             newPrjBtn.setEnabled(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
             serviceMenuContainer.with(newPrjBtn).withAlign(newPrjBtn, Alignment.MIDDLE_LEFT);
 
@@ -176,12 +168,9 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             contentLayout.addBlankOption(projectList);
             setContent(contentLayout);
 
-            addPopupVisibilityListener(new PopupButton.PopupVisibilityListener() {
-                @Override
-                public void popupVisibilityChange(PopupButton.PopupVisibilityEvent event) {
-                    if (event.isPopupVisible()) {
-                        displayResults();
-                    }
+            addPopupVisibilityListener(popupVisibilityEvent -> {
+                if (popupVisibilityEvent.isPopupVisible()) {
+                    displayResults();
                 }
             });
         }

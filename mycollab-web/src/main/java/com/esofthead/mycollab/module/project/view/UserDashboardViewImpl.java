@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
@@ -245,7 +246,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
             MButton createNewBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW), clickEvent -> {
                 close();
-                UI.getCurrent().addWindow(new ProjectAddWindow());
+                UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
             }).withStyleName(UIConstants.BUTTON_ACTION);
 
             MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, createNewBtn);

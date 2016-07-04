@@ -17,14 +17,13 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTemplateService;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -35,11 +34,18 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.Window;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
+
+import static com.esofthead.mycollab.common.i18n.GenericI18Enum.FORM_NAME;
+import static com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum.*;
 
 /**
  * @author MyCollab Ltd
@@ -47,7 +53,7 @@ import java.util.List;
  */
 public class ProjectAddBaseTemplateWindow extends Window {
     public ProjectAddBaseTemplateWindow() {
-        super(AppContext.getMessage(ProjectI18nEnum.OPT_CREATE_PROJECT_FROM_TEMPLATE));
+        super(AppContext.getMessage(OPT_CREATE_PROJECT_FROM_TEMPLATE));
         this.setModal(true);
         this.setClosable(true);
         this.setResizable(false);
@@ -55,57 +61,43 @@ public class ProjectAddBaseTemplateWindow extends Window {
         MVerticalLayout content = new MVerticalLayout();
         GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
         final TemplateProjectComboBox templateProjectComboBox = new TemplateProjectComboBox();
-        Button helpBtn = new Button("");
-        helpBtn.setIcon(FontAwesome.QUESTION_CIRCLE);
-        helpBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        helpBtn.setDescription(AppContext.getMessage(ProjectI18nEnum.OPT_MARK_TEMPLATE_HELP));
-        gridFormLayoutHelper.addComponent(new MHorizontalLayout().withFullWidth().with(templateProjectComboBox,
-                helpBtn).expand(templateProjectComboBox), AppContext.getMessage(ProjectI18nEnum.FORM_TEMPLATE), 0, 0);
+        gridFormLayoutHelper.addComponent(templateProjectComboBox, AppContext.getMessage(FORM_TEMPLATE),
+                AppContext.getMessage(OPT_MARK_TEMPLATE_HELP), 0, 0);
         final TextField prjNameField = new TextField();
-        gridFormLayoutHelper.addComponent(prjNameField, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 1);
+        gridFormLayoutHelper.addComponent(prjNameField, AppContext.getMessage(FORM_NAME), 0, 1);
         final TextField prjKeyField = new TextField();
-        gridFormLayoutHelper.addComponent(prjKeyField, AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME), 0, 2);
-        MHorizontalLayout buttonControls = new MHorizontalLayout();
-        content.with(gridFormLayoutHelper.getLayout(), buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
-        Button okBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_OK), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                SimpleProject templatePrj = (SimpleProject) templateProjectComboBox.getValue();
-                if (templatePrj == null) {
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(ProjectI18nEnum.ERROR_MUST_CHOOSE_TEMPLATE_PROJECT));
-                    return;
-                }
-                String newPrjName = prjNameField.getValue();
-                if (newPrjName.length() == 0) {
-                    NotificationUtil.showErrorNotification("Project name must be not null");
-                    return;
-                }
-                String newPrjKey = prjKeyField.getValue();
-                if (newPrjKey.length() > 3 || newPrjKey.length() == 0) {
-                    NotificationUtil.showErrorNotification("Project key must be not null and less than 3 characters");
-                    return;
-                }
-                ProjectTemplateService projectTemplateService = AppContextUtil.getSpringBean
-                        (ProjectTemplateService.class);
-                if (projectTemplateService != null) {
-                    Integer newProjectId = projectTemplateService.cloneProject(templatePrj.getId(), newPrjName, newPrjKey,
-                            AppContext.getAccountId(), AppContext.getUsername());
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
-                            new PageActionChain(new ProjectScreenData.Goto(newProjectId))));
-                    close();
-                }
+        gridFormLayoutHelper.addComponent(prjKeyField, AppContext.getMessage(FORM_SHORT_NAME), 0, 2);
+
+        MButton okBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_OK), clickEvent -> {
+            SimpleProject templatePrj = (SimpleProject) templateProjectComboBox.getValue();
+            if (templatePrj == null) {
+                NotificationUtil.showErrorNotification(AppContext.getMessage(ERROR_MUST_CHOOSE_TEMPLATE_PROJECT));
+                return;
             }
-        });
-        okBtn.setIcon(FontAwesome.SAVE);
-        okBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
+            String newPrjName = prjNameField.getValue();
+            if (newPrjName.length() == 0) {
+                NotificationUtil.showErrorNotification("Project name must be not null");
+                return;
+            }
+            String newPrjKey = prjKeyField.getValue();
+            if (newPrjKey.length() > 3 || newPrjKey.length() == 0) {
+                NotificationUtil.showErrorNotification("Project key must be not null and less than 3 characters");
+                return;
+            }
+            ProjectTemplateService projectTemplateService = AppContextUtil.getSpringBean
+                    (ProjectTemplateService.class);
+            if (projectTemplateService != null) {
+                Integer newProjectId = projectTemplateService.cloneProject(templatePrj.getId(), newPrjName, newPrjKey,
+                        AppContext.getAccountId(), AppContext.getUsername());
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
+                        new PageActionChain(new ProjectScreenData.Goto(newProjectId))));
                 close();
             }
-        });
-        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        buttonControls.with(cancelBtn, okBtn);
+        }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
+        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, okBtn);
+        content.with(gridFormLayoutHelper.getLayout(), buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
         this.setContent(content);
     }
 
