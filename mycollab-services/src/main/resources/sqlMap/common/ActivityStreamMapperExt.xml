@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt">
+<mapper namespace="com.mycollab.common.dao.ActivityStreamMapperExt">
 
     <resultMap id="SimpleActivityStreamResult"
-        extends="com.esofthead.mycollab.common.dao.ActivityStreamMapper.ResultMapWithBLOBs"
-        type="com.esofthead.mycollab.common.domain.SimpleActivityStream">
+        extends="com.mycollab.common.dao.ActivityStreamMapper.ResultMapWithBLOBs"
+        type="com.mycollab.common.domain.SimpleActivityStream">
         <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
         <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <association property="assoAuditLog" columnPrefix="log_"
-            javaType="com.esofthead.mycollab.common.domain.SimpleAuditLog"
-            resultMap="com.esofthead.mycollab.common.dao.AuditLogMapperExt.SimpleAuditLogResult" />
+            javaType="com.mycollab.common.domain.SimpleAuditLog"
+            resultMap="com.mycollab.common.dao.AuditLogMapperExt.SimpleAuditLogResult" />
     </resultMap>
 
     <sql id="querySearchCriteria">

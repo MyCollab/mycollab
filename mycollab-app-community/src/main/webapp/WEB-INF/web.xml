@@ -9,7 +9,7 @@
     </listener>
 
     <listener>
-        <listener-class>com.esofthead.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
+        <listener-class>com.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
     </listener>
 
     <listener>
@@ -51,7 +51,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>com.esofthead.mycollab.spring.RootConfiguration</param-value>
+        <param-value>com.mycollab.spring.RootConfiguration</param-value>
     </context-param>
 
     <context-param>
@@ -102,7 +102,7 @@
     </error-page>
 
     <error-page>
-        <exception-type>com.esofthead.mycollab.core.ResourceNotFoundException</exception-type>
+        <exception-type>com.mycollab.core.ResourceNotFoundException</exception-type>
         <location>/error</location>
     </error-page>
 

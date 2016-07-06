@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.LeadMapperExt">
+<mapper namespace="com.mycollab.module.crm.dao.LeadMapperExt">
 
     <resultMap
-        extends="com.esofthead.mycollab.module.crm.dao.LeadMapper.ResultMapWithBLOBs"
-        id="SimpleLeadResult" type="com.esofthead.mycollab.module.crm.domain.SimpleLead">
+        extends="com.mycollab.module.crm.dao.LeadMapper.ResultMapWithBLOBs"
+        id="SimpleLeadResult" type="com.mycollab.module.crm.domain.SimpleLead">
 
         <result column="createdUserAvatarId" jdbcType="VARCHAR"
             property="createdUserAvatarId" />
@@ -272,7 +272,7 @@
     <!-- Here for Mass Update -->
     <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
         <include
-            refid="com.esofthead.mycollab.module.crm.dao.LeadMapper.massUpdateWithSessionSql" />
+            refid="com.mycollab.module.crm.dao.LeadMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")

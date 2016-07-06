@@ -14,22 +14,22 @@
             userId="root" />
 
         <javaModelGenerator
-            targetPackage="com.esofthead.mycollab.module.tracker.domain"
+            targetPackage="com.mycollab.module.tracker.domain"
             targetProject="src/main/java" >
 
             <property
                 name="rootClass"
-                value="com.esofthead.mycollab.core.arguments.ValuedBean" />
+                value="com.mycollab.core.arguments.ValuedBean" />
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/tracker" />
 
         <javaClientGenerator
-            targetPackage="com.esofthead.mycollab.module.tracker.dao"
+            targetPackage="com.mycollab.module.tracker.dao"
             targetProject="src/main/java"
             type="XMLMAPPER" >
             <property name="exampleMethodVisibility" value="public" />
-            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+            <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
         <table domainObjectName="Bug" schema="mycollab" tableName="m_tracker_bug" />

@@ -5,7 +5,7 @@
     <name>mycollab-ui</name>
     <artifactId>mycollab-ui</artifactId>
     <parent>
-        <groupId>com.esofthead.mycollab</groupId>
+        <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
         <version>5.3.4</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
@@ -20,37 +20,37 @@
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-reporting</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
             <version>5.3.4</version>
         </dependency>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.vaadin.addon</groupId>
             <artifactId>easyuploads</artifactId>
-            <version>7.4.5</version>
+            <version>7.4.6</version>
         </dependency>
 
         <dependency>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.53</version>
+            <version>1.54</version>
         </dependency>
 
         <dependency>

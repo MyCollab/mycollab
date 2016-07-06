@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.common.dao.SaveSearchResultMapperExt">
+<mapper namespace="com.mycollab.common.dao.SaveSearchResultMapperExt">
     
     <sql id="selectSaveSearchResult">
         <![CDATA[
@@ -29,7 +29,7 @@
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="SaveSearchResultCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.SaveSearchResultMapper.ResultMapWithBLOBs">
+        resultMap="com.mycollab.common.dao.SaveSearchResultMapper.ResultMapWithBLOBs">
         <include refid="selectSaveSearchResult" />
         <if test="searchCriteria != null">
             <trim prefix="WHERE" prefixOverrides="AND | OR ">

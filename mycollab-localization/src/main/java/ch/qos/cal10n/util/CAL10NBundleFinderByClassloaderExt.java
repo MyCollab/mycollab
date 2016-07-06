@@ -1,6 +1,6 @@
 package ch.qos.cal10n.util;
 
-import com.esofthead.mycollab.core.utils.FileUtils;
+import com.mycollab.core.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

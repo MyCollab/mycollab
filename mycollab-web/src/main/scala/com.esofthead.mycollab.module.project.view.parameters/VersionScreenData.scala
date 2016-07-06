@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.parameters
+package com.mycollab.module.project.view.parameters
 
-import com.esofthead.mycollab.module.tracker.domain.Version
-import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
-import com.esofthead.mycollab.vaadin.mvp.ScreenData
+import com.mycollab.module.tracker.domain.Version
+import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
+import com.mycollab.vaadin.mvp.ScreenData
 
 /**
  * @author MyCollab Ltd.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.common.dao.TimelineTrackingCachingMapperExt">
+<mapper namespace="com.mycollab.common.dao.TimelineTrackingCachingMapperExt">
     <sql id="queryTempSearchCriteria">
         <![CDATA[
         ]]>
@@ -34,7 +34,7 @@
         ]]>
     </sql>
 
-    <select id="findTimelineItems" parameterType="map" resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
+    <select id="findTimelineItems" parameterType="map" resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap"
             lang="velocity">
         #repeat(${_parameter.groupVals} $groupVal "UNION" "" "")
           #repeat(${_parameter.dates} $date "UNION" "" "")

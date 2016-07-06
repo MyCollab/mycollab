@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.TargetMapperExt">
-	<resultMap extends="com.esofthead.mycollab.module.crm.dao.TargetMapper.BaseResultMap"
-		id="SimpleTargetResult" type="com.esofthead.mycollab.module.crm.domain.SimpleTarget">
+<mapper namespace="com.mycollab.module.crm.dao.TargetMapperExt">
+	<resultMap extends="com.mycollab.module.crm.dao.TargetMapper.BaseResultMap"
+		id="SimpleTargetResult" type="com.mycollab.module.crm.domain.SimpleTarget">
 		<result column="targetName" jdbcType="VARCHAR" property="targetName" />
 		<result column="assignUserFullName" jdbcType="VARCHAR"
 			property="assignUserFullName" />
@@ -100,14 +100,14 @@
         parameterType="TargetSearchCriteria">
         SELECT count(*) as totalCount FROM m_crm_target
         <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1 <include refid="com.esofthead.mycollab.module.crm.dao.TargetMapperExt.queryTotalCountSearchCriteria" />
+            1=1 <include refid="com.mycollab.module.crm.dao.TargetMapperExt.queryTotalCountSearchCriteria" />
         </trim>
     </select>
     
     <delete id="removeByCriteria" parameterType="TargetSearchCriteria">
         DELETE FROM m_crm_target
         <if test="_parameter != null">
-            <include refid="com.esofthead.mycollab.module.crm.dao.TargetMapperExt.queryTotalCountSearchCriteria" />
+            <include refid="com.mycollab.module.crm.dao.TargetMapperExt.queryTotalCountSearchCriteria" />
         </if>
     </delete>
     
@@ -116,17 +116,17 @@
     </sql>
 
     <select id="findPagableListByCriteria" resultMap="SimpleTargetResult"
-        parameterType="com.esofthead.mycollab.module.crm.domain.criteria.TargetSearchCriteria">
+        parameterType="com.mycollab.module.crm.domain.criteria.TargetSearchCriteria">
 
-        <include refid="com.esofthead.mycollab.module.crm.dao.TargetMapperExt.selectSimpleTarget" />
+        <include refid="com.mycollab.module.crm.dao.TargetMapperExt.selectSimpleTarget" />
         <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1 <include refid="com.esofthead.mycollab.module.crm.dao.TargetMapperExt.querySearchCriteria" />
+            1=1 <include refid="com.mycollab.module.crm.dao.TargetMapperExt.querySearchCriteria" />
         </trim>
         <include refid="orderStatement"/>
     </select>
 
     <select id="findTargetById" parameterType="int" resultMap="SimpleTargetResult">
-        <include refid="com.esofthead.mycollab.module.crm.dao.TargetMapperExt.selectSimpleTarget" />
+        <include refid="com.mycollab.module.crm.dao.TargetMapperExt.selectSimpleTarget" />
 
         WHERE m_crm_target.id=#{targetId,jdbcType=NUMERIC}
     </select>

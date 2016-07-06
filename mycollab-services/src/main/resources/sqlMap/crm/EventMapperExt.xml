@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.EventMapperExt">
-	<resultMap id="SimpleEventResult" type="com.esofthead.mycollab.module.crm.domain.SimpleActivity">
+<mapper namespace="com.mycollab.module.crm.dao.EventMapperExt">
+	<resultMap id="SimpleEventResult" type="com.mycollab.module.crm.domain.SimpleActivity">
 		<result column="id" jdbcType="INTEGER" property="id" />
 		<result column="status" jdbcType="VARCHAR" property="status" />
 		<result column="subject" jdbcType="VARCHAR" property="subject" />

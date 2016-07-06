@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.project.dao.MessageMapperExt">
+<mapper namespace="com.mycollab.module.project.dao.MessageMapperExt">
     <resultMap
-        extends="com.esofthead.mycollab.module.project.dao.MessageMapper.ResultMapWithBLOBs"
-        id="MessageResult" type="com.esofthead.mycollab.module.project.domain.SimpleMessage">
+        extends="com.mycollab.module.project.dao.MessageMapper.ResultMapWithBLOBs"
+        id="MessageResult" type="com.mycollab.module.project.domain.SimpleMessage">
         <result column="commentsCount" property="commentsCount" jdbcType="INTEGER" />
         <result column="messageCategoryName" property="messageCategoryName" jdbcType="VARCHAR" />
         <result column="postedUserAvatarId" property="postedUserAvatarId" jdbcType="VARCHAR" />

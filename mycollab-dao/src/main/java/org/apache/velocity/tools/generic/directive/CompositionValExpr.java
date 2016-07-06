@@ -26,7 +26,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 
-import com.esofthead.mycollab.core.arguments.CompositionSearchField;
+import com.mycollab.db.arguments.CompositionSearchField;
 
 /**
  * 

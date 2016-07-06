@@ -10,16 +10,16 @@
                         driverClass="com.mysql.jdbc.Driver" password="esofthead321"
                         userId="root"/>
 
-        <javaModelGenerator targetPackage="com.esofthead.mycollab.module.ecm.domain" targetProject="src/main/java">
-            <property name="rootClass" value="com.esofthead.mycollab.core.arguments.ValuedBean"/>
+        <javaModelGenerator targetPackage="com.mycollab.module.ecm.domain" targetProject="src/main/java">
+            <property name="rootClass" value="com.mycollab.core.arguments.ValuedBean"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/ecm"/>
 
-        <javaClientGenerator targetPackage="com.esofthead.mycollab.module.ecm.dao" targetProject="src/main/java"
+        <javaClientGenerator targetPackage="com.mycollab.module.ecm.dao" targetProject="src/main/java"
                              type="XMLMAPPER">
             <property name="exampleMethodVisibility" value="public"/>
-            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO"/>
+            <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
         <table schema="mycollab" tableName="m_ecm_external_drive" domainObjectName="ExternalDrive"/>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt">
-	<resultMap id="FollowingTicketResult" type="com.esofthead.mycollab.module.project.domain.FollowingTicket">
+	namespace="com.mycollab.module.project.dao.ProjectFollowingTicketMapperExt">
+	<resultMap id="FollowingTicketResult" type="com.mycollab.module.project.domain.FollowingTicket">
 		<result column="projectId" jdbcType="INTEGER" property="projectId" />
 		<result column="projectName" jdbcType="VARCHAR" property="projectName" />
 		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
@@ -100,7 +100,7 @@
 		<include refid="selectFollowingTicketOfTask" />
 		#ifnotnull($_parameter.searchCriteria)
 		    #trimext("WHERE" "AND|OR")
-		        <include refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+		        <include refid="com.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
 		        <include refid="extraQueryTaskSearchCriteria" />
 		    #end
 		#end
@@ -110,7 +110,7 @@
 		<include refid="selectFollowingTicketOfBug" />
 		#ifnotnull($_parameter.searchCriteria)
 		    #trimext("WHERE" "AND|OR")
-		        <include refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+		        <include refid="com.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
 		        <include refid="extraQueryBugSearchCriteria" />
 		    #end
 		#end
@@ -120,7 +120,7 @@
 		<include refid="selectFollowingTicketOfRisk" />
 		#ifnotnull($_parameter.searchCriteria)
 		    #trimext("WHERE" "AND|OR")
-		        <include refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+		        <include refid="com.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
 		        <include refid="extraQueryRiskSearchCriteria" />
 		    #end
 		#end
@@ -137,7 +137,7 @@
 		#ifnotnull($_parameter.searchCriteria)
 		#trimext("WHERE" "AND|OR")
 		<include
-			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+			refid="com.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
 		<include refid="extraQueryTaskSearchCriteria" />
 		#end
 		#end
@@ -148,7 +148,7 @@
 		#ifnotnull($_parameter.searchCriteria)
 		#trimext("WHERE" "AND|OR")
 		<include
-			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+			refid="com.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
 		<include refid="extraQueryBugSearchCriteria" />
 		#end
 		#end
@@ -159,7 +159,7 @@
 		#ifnotnull($_parameter.searchCriteria)
 		#trimext("WHERE" "AND|OR")
 		<include
-			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+			refid="com.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
 		<include refid="extraQueryRiskSearchCriteria" />
 		#end
 		#end

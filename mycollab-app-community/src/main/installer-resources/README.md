@@ -50,8 +50,10 @@ Version 5.3.5
 **Library Upgrades**
 
 * Jackrabbit 2.12.2
+* Spring framework 4.3.1.RELEASE
 * Vaadin 7.6.7
 * Jetty 9.3.10.v20160621
+* Jackson 2.8.0
 * Flyway 4.0.3
 * MyBatis 3.4.1
 * Other libraries

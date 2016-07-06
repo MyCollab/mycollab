@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.QuoteGroupProductMapperExt">
+<mapper namespace="com.mycollab.module.crm.dao.QuoteGroupProductMapperExt">
 	<insert id="insertQuoteGroupExt" parameterType="QuoteGroupProduct" useGeneratedKeys="true" keyProperty="id">
 		insert into m_crm_quote_group_product (groupname, groupstate, tax, shipping, quoteid)
 		values (#{groupname,jdbcType=VARCHAR}, #{groupstate,jdbcType=VARCHAR},

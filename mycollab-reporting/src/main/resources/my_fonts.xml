@@ -2,10 +2,10 @@
 <fontFamilies>
 
     <fontFamily name="DejaVuSerif">
-        <normal>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif.ttf</normal>
-        <bold>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</bold>
-        <italic>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Italic.ttf</italic>
-        <boldItalic>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</boldItalic>
+        <normal>com/mycollab/reporting/resources/fonts/DejaVuSerif.ttf</normal>
+        <bold>com/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</bold>
+        <italic>com/mycollab/reporting/resources/fonts/DejaVuSerif-Italic.ttf</italic>
+        <boldItalic>com/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</boldItalic>
         <pdfEncoding>UTF-8</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
     </fontFamily>

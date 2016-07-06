@@ -1,0 +1,178 @@
+/**
+ * This file is part of mycollab-mobile.
+ *
+ * mycollab-mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.mycollab.mobile.module.crm.view.contact;
+
+import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.mobile.form.view.DynaFormLayout;
+import com.mycollab.mobile.module.crm.events.ContactEvent;
+import com.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
+import com.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
+import com.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
+import com.mycollab.mobile.ui.AbstractPreviewItemComp;
+import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.mycollab.mobile.ui.IconConstants;
+import com.mycollab.module.crm.CrmLinkGenerator;
+import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.SimpleActivity;
+import com.mycollab.module.crm.domain.SimpleContact;
+import com.mycollab.module.crm.domain.SimpleLead;
+import com.mycollab.module.crm.domain.SimpleOpportunity;
+import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.mycollab.module.crm.service.LeadService;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
+import com.mycollab.security.RolePermissionCollections;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.events.HasPreviewFormHandlers;
+import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComponentContainer;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+/**
+ * @author MyCollab Ltd.
+ * @since 4.0
+ */
+@ViewComponent
+public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> implements ContactReadView {
+    private static final long serialVersionUID = 1L;
+
+    protected ContactRelatedOpportunityView associateOpportunityList;
+    protected ActivityRelatedItemView associateActivityList;
+
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        MHorizontalLayout toolbarLayout = new MHorizontalLayout();
+        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
+        Button relatedOpportunities = new Button();
+        relatedOpportunities
+                .setCaption("<span aria-hidden=\"true\" data-icon=\""
+                        + IconConstants.CRM_OPPORTUNITY
+                        + "\"></span><div class=\"screen-reader-text\">"
+                        + AppContext.getMessage(OpportunityI18nEnum.LIST)
+                        + "</div>");
+        relatedOpportunities.setHtmlContentAllowed(true);
+        relatedOpportunities.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
+
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new ContactEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(
+                        associateOpportunityList)));
+            }
+        });
+
+        toolbarLayout.addComponent(relatedOpportunities);
+
+        Button relatedActivities = new Button();
+        relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_ACTIVITY
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+                + "</div>");
+        relatedActivities.setHtmlContentAllowed(true);
+        relatedActivities.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
+
+            @Override
+            public void buttonClick(ClickEvent evt) {
+                EventBusFactory.getInstance().post(
+                        new ContactEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateActivityList)));
+            }
+        });
+        toolbarLayout.addComponent(relatedActivities);
+
+        return toolbarLayout;
+    }
+
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleContact> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
+
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_CONTACT);
+    }
+
+    @Override
+    public AdvancedPreviewBeanForm<SimpleContact> getPreviewForm() {
+        return this.previewForm;
+    }
+
+    @Override
+    protected void initRelatedComponents() {
+        associateActivityList = new ActivityRelatedItemView(CrmTypeConstants.CONTACT);
+        associateOpportunityList = new ContactRelatedOpportunityView();
+    }
+
+    @Override
+    protected void afterPreviewItem() {
+        associateActivityList.displayActivity(beanItem.getId());
+        associateOpportunityList.displayOpportunities(beanItem);
+    }
+
+    @Override
+    protected String initFormTitle() {
+        // check if there is converted lead associates with this contact
+        LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
+        SimpleLead lead = leadService.findConvertedLeadOfContact(
+                beanItem.getId(), AppContext.getAccountId());
+        if (lead != null) {
+            return beanItem.getContactName() + "&nbsp;"
+                    + AppContext.getMessage(LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+                    CrmAssetsManager.getAsset(CrmTypeConstants.LEAD),
+                    CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()),
+                    lead.getLeadName());
+        } else {
+            return beanItem.getContactName();
+        }
+    }
+
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CONTACT, ContactDefaultDynaFormLayoutFactory.getForm());
+    }
+
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleContact> initBeanFormFieldFactory() {
+        return new ContactReadFormFieldFactory(previewForm);
+    }
+
+    @Override
+    public HasPreviewFormHandlers<SimpleContact> getPreviewFormHandlers() {
+        return previewForm;
+    }
+
+    @Override
+    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+        return associateActivityList;
+    }
+
+    @Override
+    public IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers() {
+        return associateOpportunityList;
+    }
+}

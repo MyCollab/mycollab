@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt">
+<mapper namespace="com.mycollab.module.project.dao.ProjectMemberMapperExt">
 
-    <resultMap id="ProjectMemberResult" extends="com.esofthead.mycollab.module.project.dao.ProjectMemberMapper.BaseResultMap"
-        type="com.esofthead.mycollab.module.project.domain.SimpleProjectMember">
+    <resultMap id="ProjectMemberResult" extends="com.mycollab.module.project.dao.ProjectMemberMapper.BaseResultMap"
+        type="com.mycollab.module.project.domain.SimpleProjectMember">
         <result column="memberAvatarId" jdbcType="VARCHAR" property="memberAvatarId" />
         <result column="memberFullName" jdbcType="VARCHAR" property="memberFullName" />
         <result column="roleName" jdbcType="VARCHAR" property="roleName" />
@@ -181,7 +181,7 @@
     </select>
 
     <select id="getUsersNotInProject" parameterType="java.lang.Integer"
-        resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
+            resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,  s_user.avatarId, s_user.language
@@ -196,7 +196,7 @@
         ]]>
     </select>
     
-    <select id="getActiveUsersInProjects" parameterType="map" resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
+    <select id="getActiveUsersInProjects" parameterType="map" resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email
         FROM s_user, s_user_account, m_prj_member
             WHERE s_user.username=s_user_account.username AND s_user_account.accountId=@{_parameter.sAccountId,jdbcType=NUMERIC}
@@ -207,7 +207,7 @@
     </select>
 
     <select id="getActiveUsersInProject" parameterType="java.lang.Integer"
-        resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
+            resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,
@@ -226,7 +226,7 @@
     </select>
 
     <select id="getActiveUserOfProject" parameterType="map"
-            resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
+            resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email,
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,

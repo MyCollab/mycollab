@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.ProductCatalogMapperExt">
+<mapper namespace="com.mycollab.module.crm.dao.ProductCatalogMapperExt">
 	<sql id="querySearchCriteria">
 		<if test="productName != null">
 			${productName.operation} m_crm_product_catalog.productname
@@ -29,14 +29,14 @@
 		SELECT count(*) as totalCount FROM m_crm_product_catalog
 		<trim prefix="WHERE" prefixOverrides="AND | OR ">
 			1=1 <include
-				refid="com.esofthead.mycollab.module.crm.dao.ProductCatalogMapperExt.querySearchCriteria" />
+				refid="com.mycollab.module.crm.dao.ProductCatalogMapperExt.querySearchCriteria" />
 		</trim>
 	</select>
     
     <delete id="removeByCriteria" parameterType="ProductCatalogSearchCriteria">
         DELETE FROM m_crm_product_catalog
         <if test="_parameter != null">
-            <include refid="com.esofthead.mycollab.module.crm.dao.ProductCatalogMapperExt.querySearchCriteria" />
+            <include refid="com.mycollab.module.crm.dao.ProductCatalogMapperExt.querySearchCriteria" />
         </if>
     </delete>
     
@@ -45,14 +45,14 @@
     </sql>
 
 	<select id="findPagableListByCriteria"
-		resultMap="com.esofthead.mycollab.module.crm.dao.ProductCatalogMapper.BaseResultMap"
+		resultMap="com.mycollab.module.crm.dao.ProductCatalogMapper.BaseResultMap"
 		parameterType="ProductCatalogSearchCriteria">
 
 		<include
-			refid="com.esofthead.mycollab.module.crm.dao.ProductCatalogMapperExt.selectProductCatalog" />
+			refid="com.mycollab.module.crm.dao.ProductCatalogMapperExt.selectProductCatalog" />
 		<trim prefix="WHERE" prefixOverrides="AND | OR ">
 			1=1 <include
-				refid="com.esofthead.mycollab.module.crm.dao.ProductCatalogMapperExt.querySearchCriteria" />
+				refid="com.mycollab.module.crm.dao.ProductCatalogMapperExt.querySearchCriteria" />
 		</trim>
         <include refid="orderStatement"/>
 	</select>

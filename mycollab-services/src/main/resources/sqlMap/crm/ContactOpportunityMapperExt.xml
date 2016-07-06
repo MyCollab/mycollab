@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-    namespace="com.esofthead.mycollab.module.crm.dao.ContactOpportunityMapperExt">
+    namespace="com.mycollab.module.crm.dao.ContactOpportunityMapperExt">
 
     <resultMap
-        extends="com.esofthead.mycollab.module.crm.dao.ContactMapperExt.SimpleContactResult"
+        extends="com.mycollab.module.crm.dao.ContactMapperExt.SimpleContactResult"
         id="SimpleContactOpportunityRel"
-        type="com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel">
+        type="com.mycollab.module.crm.domain.SimpleContactOpportunityRel">
         <result column="decisionRole" jdbcType="VARCHAR"
             property="decisionRole" />
     </resultMap>
@@ -71,7 +71,7 @@
             <trim prefix="WHERE" prefixOverrides="AND | OR ">
                 1=1
                 <include
-                    refid="com.esofthead.mycollab.module.crm.dao.ContactOpportunityMapperExt.queryTotalCountSearchCriteria" />
+                    refid="com.mycollab.module.crm.dao.ContactOpportunityMapperExt.queryTotalCountSearchCriteria" />
             </trim>
         </if>
     </select>
@@ -79,12 +79,12 @@
     <select id="findPagableListByCriteria" resultMap="SimpleContactOpportunityRel"
         parameterType="ContactSearchCriteria">
         <include
-            refid="com.esofthead.mycollab.module.crm.dao.ContactOpportunityMapperExt.selectSimpleContact" />
+            refid="com.mycollab.module.crm.dao.ContactOpportunityMapperExt.selectSimpleContact" />
         <if test="searchCriteria != null">
             <trim prefix="WHERE" prefixOverrides="AND |OR ">
                 1=1
                 <include
-                    refid="com.esofthead.mycollab.module.crm.dao.ContactOpportunityMapperExt.querySearchCriteria" />
+                    refid="com.mycollab.module.crm.dao.ContactOpportunityMapperExt.querySearchCriteria" />
             </trim>
             <include refid="orderStatement" />
         </if>

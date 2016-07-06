@@ -5,7 +5,7 @@
     <name>mycollab-caching</name>
     <artifactId>mycollab-caching</artifactId>
     <parent>
-        <groupId>com.esofthead.mycollab</groupId>
+        <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
         <version>5.3.4</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
@@ -13,25 +13,25 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
             <version>5.3.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
             <version>5.3.4</version>
             <scope>test</scope>

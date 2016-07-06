@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt">
+<mapper namespace="com.mycollab.module.project.dao.MilestoneMapperExt">
 
     <resultMap id="MilestoneResult"
-        extends="com.esofthead.mycollab.module.project.dao.MilestoneMapper.ResultMapWithBLOBs"
-        type="com.esofthead.mycollab.module.project.domain.SimpleMilestone">
+        extends="com.mycollab.module.project.dao.MilestoneMapper.ResultMapWithBLOBs"
+        type="com.mycollab.module.project.domain.SimpleMilestone">
         <result column="ownerAvatarId" jdbcType="VARCHAR" property="ownerAvatarId" />
         <result column="ownerFullName" jdbcType="VARCHAR" property="ownerFullName" />
         <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />

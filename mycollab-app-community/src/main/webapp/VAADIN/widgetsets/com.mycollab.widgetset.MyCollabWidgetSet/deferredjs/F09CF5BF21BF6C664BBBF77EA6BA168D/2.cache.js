@@ -1,0 +1,1 @@
+$wnd.com_mycollab_widgetset_MyCollabWidgetSet.runAsyncCallback2('Ttb(1884,1,BNe);_.xe=function AEc(){$jc((!Tjc&&(Tjc=new dkc),Tjc),this.a.d)};fFe(_p)(2);\n//# sourceURL=com.mycollab.widgetset.MyCollabWidgetSet-2.js\n')

@@ -1,0 +1,101 @@
+/*
+ * All modifications from the original source files taken from vaadin add-on
+ *   https://vaadin.com/directory#addon/ikaruswidget
+ *   - renamed, added, modified, removed packages, classes, methods, fields, comments, javadocs
+ *   are under the following terms:
+ *
+ *   Copyright 2016. Denis Skarbichev
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ */
+
+.v-select-optiongroup-horizontal .v-select-option-horizontal {
+    display: inline-block;
+}
+
+.xbreadcrumbs {
+	position: relative;
+	z-index: 1000;
+}
+
+.xbreadcrumbs LI UL {
+	position: absolute;
+	float: left;
+}
+
+.xbreadcrumbs,.xbreadcrumbs LI,.xbreadcrumbs UL,.xbreadcrumbs UL LI {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.xbreadcrumbs {
+	clear: both;
+}
+
+.xbreadcrumbs,.xbreadcrumbs LI {
+	float: left;
+}
+
+.xbreadcrumbs UL {
+	display: none;
+}
+
+/*  Base style of xBreadcrumbs  */
+/*  Top Level  */
+.xbreadcrumbs {
+	background: #F0F0F0;
+	width: 100%;
+}
+
+.xbreadcrumbs LI {
+	border-right: none;
+	background: url(images/separator.gif) no-repeat right center;
+	padding-right: 15px;
+	padding-left: 10px;
+	height: 16px;
+}
+
+.xbreadcrumbs LI.current {
+	background: none;
+}
+
+.xbreadcrumbbutton-home .v-button-caption {
+	background: url(images/home.gif) no-repeat left center;
+	padding-left: 20px;
+}
+
+.xbreadcrumbs .v-link-home a span{
+	background: url(images/home.gif) no-repeat left center;
+	padding-left: 20px;
+	text-decoration: none;
+}
+
+.xbreadcrumbs .v-link a span,.xbreadcrumbbutton .v-button-caption {
+	font-size: 11px;
+	color: #666666;
+	text-decoration: none;
+}
+
+.xbreadcrumbs .v-link:HOVER a span,.xbreadcrumbs LI.hover A,.xbreadcrumbbutton:HOVER .v-button-caption,.xbreadcrumbs LI.hover .xbreadcrumbbutton .v-button-caption
+	{
+	color: #0A8ECC;
+	text-decoration: none;
+}
+/*  Top Level - Current Page  */
+.xbreadcrumbs LI.current A,.xbreadcrumbs LI.current .xbreadcrumbbutton .v-button-caption
+	{
+	color: #333333;
+	font-weight: bold;
+	text-decoration: none;
+}

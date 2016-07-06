@@ -16,7 +16,7 @@
  */
 package org.apache.velocity.tools.generic.directive;
 
-import com.esofthead.mycollab.core.arguments.BetweenValuesSearchField;
+import com.mycollab.db.arguments.BetweenValuesSearchField;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;

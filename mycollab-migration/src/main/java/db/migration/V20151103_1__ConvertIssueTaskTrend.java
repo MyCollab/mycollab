@@ -1,6 +1,6 @@
 package db.migration;
 
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.ProjectTypeConstants;
 import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
 import org.joda.time.LocalDate;
 import org.springframework.jdbc.core.JdbcTemplate;

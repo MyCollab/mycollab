@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt">
+<mapper namespace="com.mycollab.module.crm.dao.MeetingMapperExt">
 
 	<resultMap id="SimpleMeetingResult"
-		extends="com.esofthead.mycollab.module.crm.dao.MeetingMapper.ResultMapWithBLOBs"
-		type="com.esofthead.mycollab.module.crm.domain.SimpleMeeting">
+		extends="com.mycollab.module.crm.dao.MeetingMapper.ResultMapWithBLOBs"
+		type="com.mycollab.module.crm.domain.SimpleMeeting">
 
 		<result column="createdUserFullName" jdbcType="VARCHAR"
 			property="createdUserFullName" />

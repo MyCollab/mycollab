@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.CaseMapperExt">
+<mapper namespace="com.mycollab.module.crm.dao.CaseMapperExt">
     
-    <resultMap id="SimpleCaseResult" type="com.esofthead.mycollab.module.crm.domain.SimpleCase"
-        extends="com.esofthead.mycollab.module.crm.dao.CaseMapper.ResultMapWithBLOBs">
+    <resultMap id="SimpleCaseResult" type="com.mycollab.module.crm.domain.SimpleCase"
+        extends="com.mycollab.module.crm.dao.CaseMapper.ResultMapWithBLOBs">
         <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
         <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <result column="assignUserAvatarId" property="assignUserAvatarId" jdbcType="VARCHAR" />
@@ -213,7 +213,7 @@
 
     <!-- Here for Mass Update -->
     <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
-        <include refid="com.esofthead.mycollab.module.crm.dao.CaseMapper.massUpdateWithSessionSql" />
+        <include refid="com.mycollab.module.crm.dao.CaseMapper.massUpdateWithSessionSql" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper
-    namespace="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt">
+    namespace="com.mycollab.common.dao.RelayEmailNotificationMapperExt">
     <resultMap id="SimpleEmailRelayNotificationResult"
-        type="com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification"
-        extends="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapper.ResultMapWithBLOBs">
+        type="com.mycollab.common.domain.SimpleRelayEmailNotification"
+        extends="com.mycollab.common.dao.RelayEmailNotificationMapper.ResultMapWithBLOBs">
         <result column="changeByUserFullName" jdbcType="VARCHAR"
             property="changeByUserFullName" />
 
         <collection property="notifyUsers" columnPrefix="notifiers_"
-            ofType="com.esofthead.mycollab.module.user.domain.SimpleUser"
-            resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" />
+            ofType="com.mycollab.module.user.domain.SimpleUser"
+            resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" />
     </resultMap>
 
     <sql id="querySearchCriteria">

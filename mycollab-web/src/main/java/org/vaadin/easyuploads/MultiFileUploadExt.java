@@ -16,11 +16,11 @@
  */
 package org.vaadin.easyuploads;
 
-import com.esofthead.mycollab.common.i18n.FileI18nEnum;
-import com.esofthead.mycollab.core.utils.FileUtils;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.AttachmentUploadComponent;
+import com.mycollab.common.i18n.FileI18nEnum;
+import com.mycollab.core.utils.FileUtils;
+import com.mycollab.core.utils.StringUtils;
+import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.web.ui.AttachmentUploadComponent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptAll;

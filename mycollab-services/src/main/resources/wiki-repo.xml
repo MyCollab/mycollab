@@ -5,7 +5,7 @@
 <Repository>
     <!-- virtual file system where the repository stores global state (e.g. 
         registered namespaces, custom node types, etc.) -->
-    <FileSystem class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
+    <FileSystem class="com.mycollab.module.ecm.DbFileSystemExt">
         <param name="schemaObjectPrefix" value="wiki_s_" />
     </FileSystem>
 
@@ -26,12 +26,12 @@
 
     <Workspaces rootPath='repo2/wiki_workspaces' defaultWorkspace='wiki' />
     <Workspace name="mycollab">
-        <FileSystem class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
+        <FileSystem class="com.mycollab.module.ecm.DbFileSystemExt">
             <param name="schemaObjectPrefix" value="wiki_s_" />
         </FileSystem>
 
         <PersistenceManager
-            class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="wiki_p_workspace" />
         </PersistenceManager>
 
@@ -39,11 +39,11 @@
     <!-- Configures the versioning -->
 
     <Versioning rootPath='repo2/version'>
-        <FileSystem class='com.esofthead.mycollab.module.ecm.DbFileSystemExt'>
+        <FileSystem class='com.mycollab.module.ecm.DbFileSystemExt'>
             <param name="schemaObjectPrefix" value="wiki_s_" />
         </FileSystem>
         <PersistenceManager
-            class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="wiki_p_version" />
         </PersistenceManager>
 
@@ -52,7 +52,7 @@
     <!-- Cluster configuration with system variables. -->
     <Cluster>
         <Journal
-            class="com.esofthead.mycollab.module.ecm.MyCollabDatabaseJournal">
+            class="com.mycollab.module.ecm.MyCollabDatabaseJournal">
             <param name="schemaObjectPrefix" value="wiki_journal" />
         </Journal>
     </Cluster>

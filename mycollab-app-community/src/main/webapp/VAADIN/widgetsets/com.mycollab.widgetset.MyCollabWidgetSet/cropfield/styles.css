@@ -1,0 +1,229 @@
+.v-cropfield.v-disabled {
+	opacity: 0.7;
+	filter: alpha(opacity = 70);
+	-moz-opacity: 0.7;
+}
+
+.v-cropimage {
+	background-color: black;
+}
+
+.v-cropimage input {
+	cursor: inherit;
+}
+
+.v-cropimage *,.v-cropimage *:focus {
+	outline: none;
+}
+
+.v-cropimage .tracker {
+	width: 100%;
+	height: 100%;
+	cursor: crosshair;
+	z-index: 200;
+	opacity: 0;
+	-moz-opacity: 0;
+	filter: alpha(opacity = 0);
+	background-color: white;
+}
+
+.v-cropimage .tracker.move {
+	cursor: move;
+	z-index: 350;
+}
+
+.v-cropimage.selection-visible img.full-background-image {
+	opacity: 0.6;
+	-moz-opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.v-cropimage .selection {
+	z-index: 300;
+}
+
+.v-cropimage .selection .h-line,.v-cropimage .selection .v-line {
+	background-color: white;
+	background-image: url("images/selection-border.gif");
+	opacity: 0.4;
+	-moz-opacity: 0.4;
+	filter: alpha(opacity = 40);
+	position: absolute;
+}
+
+.v-cropimage .selection .h-line {
+	height: 1px;
+	width: 100%;
+}
+
+.v-cropimage .selection .v-line {
+	width: 1px;
+	height: 100%;
+}
+
+.v-cropimage .selection .h-line.north {
+	top: 0px;
+	left: 0px;
+}
+
+.v-cropimage .selection .h-line.south {
+	bottom: 0px;
+	left: 0px;
+}
+
+.v-cropimage .selection .v-line.west {
+	top: 0px;
+	left: 0px;
+}
+
+.v-cropimage .selection .v-line.east {
+	top: 0px;
+	right: 0px;
+}
+
+.v-cropimage .selection .contents {
+	width: 100%;
+	height: 100%;
+}
+
+.v-cropimage .selection .resizers {
+	width: 100%;
+	height: 100%;
+	z-index: 320;
+}
+
+.v-cropimage .selection .resizers .resize-border {
+	position: absolute;
+	z-index: 400;
+}
+
+.v-cropimage .selection .resizers .resize-border.north {
+	cursor: n-resize;
+	width: 100%;
+	height: 9px;
+	top: -4px;
+	left: -4px;
+}
+
+.v-cropimage .selection .resizers .resize-border.south {
+	cursor: s-resize;
+	width: 100%;
+	height: 9px;
+	bottom: -4px;
+	left: -4px;
+}
+
+.v-cropimage .selection .resizers .resize-border.west {
+	cursor: w-resize;
+	width: 9px;
+	height: 100%;
+	top: -4px;
+	left: -4px;
+}
+
+.v-cropimage .selection .resizers .resize-border.east {
+	cursor: e-resize;
+	width: 9px;
+	height: 100%;
+	top: -4px;
+	right: -4px;
+}
+
+.v-cropimage .selection .resizers .resize-handle {
+	width: 7px;
+	height: 7px;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter: alpha(opacity = 50);
+	border: 1px #EEE solid;
+	background-color: #333;
+	z-index: 450;
+}
+
+.v-cropimage .selection .resizers .resize-handle.north {
+	cursor: n-resize;
+}
+
+.v-cropimage .selection .resizers .resize-handle.south {
+	cursor: s-resize;
+}
+
+.v-cropimage .selection .resizers .resize-handle.west {
+	cursor: w-resize;
+}
+
+.v-cropimage .selection .resizers .resize-handle.east {
+	cursor: e-resize;
+}
+
+.v-cropimage .selection .resizers .resize-handle.southwest {
+	cursor: sw-resize;
+	position: absolute;
+	left: -4px;
+	bottom: -4px;
+}
+
+.v-cropimage .selection .resizers .resize-handle.northwest {
+	cursor: nw-resize;
+	position: absolute;
+	left: -4px;
+	top: -4px;
+}
+
+.v-cropimage .selection .resizers .resize-handle.northeast {
+	cursor: ne-resize;
+	position: absolute;
+	right: -4px;
+	top: -4px;
+}
+
+.v-cropimage .selection .resizers .resize-handle.southeast {
+	cursor: se-resize;
+	position: absolute;
+	right: -4px;
+	bottom: -4px;
+}
+
+.v-cropimage.readOnly * {
+	cursor: default !important;
+}
+
+.v-cropimage.drag * {
+	cursor: inherit !important;
+}
+
+.v-cropimage.drag-move {
+	cursor: move;
+}
+
+.v-cropimage.drag-transform-north {
+	cursor: n-resize;
+}
+
+.v-cropimage.drag-transform-south {
+	cursor: s-resize;
+}
+
+.v-cropimage.drag-transform-west {
+	cursor: w-resize;
+}
+
+.v-cropimage.drag-transform-east {
+	cursor: e-resize;
+}
+
+.v-cropimage.drag-transform-northwest {
+	cursor: nw-resize;
+}
+
+.v-cropimage.drag-transform-northeast {
+	cursor: ne-resize;
+}
+
+.v-cropimage.drag-transform-southwest {
+	cursor: sw-resize;
+}
+
+.v-cropimage.drag-transform-southeast {
+	cursor: se-resize;
+}

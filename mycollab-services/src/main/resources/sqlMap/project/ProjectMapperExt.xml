@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.project.dao.ProjectMapperExt">
+<mapper namespace="com.mycollab.module.project.dao.ProjectMapperExt">
 
-    <resultMap extends="com.esofthead.mycollab.module.project.dao.ProjectMapper.ResultMapWithBLOBs"
-        id="SimpleProjectResult" type="com.esofthead.mycollab.module.project.domain.SimpleProject">
+    <resultMap extends="com.mycollab.module.project.dao.ProjectMapper.ResultMapWithBLOBs"
+        id="SimpleProjectResult" type="com.mycollab.module.project.domain.SimpleProject">
         <result column="createUserFullName" jdbcType="VARCHAR" property="createUserFullName" />
         <result column="accountName" jdbcType="VARCHAR" property="accountName" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
@@ -23,12 +23,12 @@
         <result column="clientName" jdbcType="VARCHAR" property="clientName" />
         <result column="clientAvatarId" jdbcType="VARCHAR" property="clientAvatarId" />
         <association property="customizeView"
-            resultMap="com.esofthead.mycollab.module.project.dao.ProjectCustomizeViewMapper.BaseResultMap"
+            resultMap="com.mycollab.module.project.dao.ProjectCustomizeViewMapper.BaseResultMap"
             columnPrefix="view_"/>
     </resultMap>
 
-    <resultMap extends="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.SimpleActivityStreamResult"
-        id="ActivityStreamResult" type="com.esofthead.mycollab.module.project.domain.ProjectActivityStream">
+    <resultMap extends="com.mycollab.common.dao.ActivityStreamMapperExt.SimpleActivityStreamResult"
+        id="ActivityStreamResult" type="com.mycollab.module.project.domain.ProjectActivityStream">
         <result column="projectId" jdbcType="INTEGER" property="projectId" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
         <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
@@ -238,7 +238,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Bug'
                 AND s_activitystream.action != 'comment'
             #end
@@ -257,7 +257,7 @@
         LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Bug'
                 AND s_activitystream.action = 'comment'
             #end
@@ -279,7 +279,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Task'
                 AND s_activitystream.action != 'comment'
             #end
@@ -299,7 +299,7 @@
         LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Task'
                 AND s_activitystream.action = 'comment'
             #end
@@ -320,7 +320,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type NOT IN ('Project-Task', 'Project-Bug')
                 AND s_activitystream.action != 'comment'
             #end
@@ -342,7 +342,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Message'
                 AND s_activitystream.action = 'comment'
             #end
@@ -365,7 +365,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Component'
                 AND s_activitystream.action = 'comment'
             #end
@@ -388,7 +388,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Version'
                 AND s_activitystream.action = 'comment'
             #end
@@ -411,7 +411,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Risk'
                 AND s_activitystream.action = 'comment'
             #end
@@ -433,7 +433,7 @@
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Page'
                 AND s_activitystream.action = 'comment'
             #end
@@ -453,7 +453,7 @@
         FROM s_activitystream
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
-            <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+            <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
           #end
         #end
     </select>
@@ -467,8 +467,8 @@
                   ]]>
     </select>
 
-    <resultMap id="ProjectEmailRelayNotificationResult" type="com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification"
-        extends="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.SimpleEmailRelayNotificationResult">
+    <resultMap id="ProjectEmailRelayNotificationResult" type="com.mycollab.module.project.domain.ProjectRelayEmailNotification"
+        extends="com.mycollab.common.dao.RelayEmailNotificationMapperExt.SimpleEmailRelayNotificationResult">
         <result column="projectId" jdbcType="INTEGER" property="projectId" />
     </resultMap>
 

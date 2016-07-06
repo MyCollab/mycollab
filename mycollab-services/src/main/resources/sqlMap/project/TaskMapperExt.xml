@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.project.dao.TaskMapperExt">
+<mapper namespace="com.mycollab.module.project.dao.TaskMapperExt">
 
     <resultMap
-            extends="com.esofthead.mycollab.module.project.dao.TaskMapper.ResultMapWithBLOBs"
-            id="TaskResult" type="com.esofthead.mycollab.module.project.domain.SimpleTask">
+            extends="com.mycollab.module.project.dao.TaskMapper.ResultMapWithBLOBs"
+            id="TaskResult" type="com.mycollab.module.project.domain.SimpleTask">
         <result column="projectName" property="projectName" jdbcType="VARCHAR"/>
         <result column="projectShortname" property="projectShortname" jdbcType="VARCHAR"/>
         <result column="numComments" property="numComments" jdbcType="INTEGER"/>
@@ -242,7 +242,7 @@
     </select>
 
     <select id="getPrioritySummary" parameterType="TaskSearchCriteria"
-            resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
+            resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap"
             lang="velocity">
         <![CDATA[
         SELECT m_prj_task.priority AS groupid, COUNT(m_prj_task.priority) AS value, '' as groupname
@@ -257,7 +257,7 @@
     </select>
 
     <select id="getStatusSummary" parameterType="TaskSearchCriteria"
-            resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
+            resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap"
             lang="velocity">
         <![CDATA[
         SELECT m_prj_task.status AS groupid, COUNT(m_prj_task.status) AS value, '' as groupname
@@ -272,7 +272,7 @@
     </select>
 
     <select id="getAssignedDefectsSummary" parameterType="TaskSearchCriteria"
-            resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+            resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_prj_task.assignUser AS groupid, COUNT(IFNULL(m_prj_task.assignUser, '')) AS value,
             s_user.avatarId AS extraValue, concat(s_user.firstname, ' ',
             LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname

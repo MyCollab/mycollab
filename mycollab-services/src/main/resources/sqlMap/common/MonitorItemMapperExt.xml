@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.esofthead.mycollab.common.dao.MonitorItemMapperExt">
+<mapper namespace="com.mycollab.common.dao.MonitorItemMapperExt">
     
-    <resultMap extends="com.esofthead.mycollab.common.dao.MonitorItemMapper.BaseResultMap"
-        id="MonitorItemResult" type="com.esofthead.mycollab.common.domain.SimpleMonitorItem">
+    <resultMap extends="com.mycollab.common.dao.MonitorItemMapper.BaseResultMap"
+        id="MonitorItemResult" type="com.mycollab.common.domain.SimpleMonitorItem">
         <result column="userFullname" jdbcType="VARCHAR" property="userFullname" />
         <result column="userAvatarId" jdbcType="VARCHAR" property="userAvatarId" />
     </resultMap>
@@ -98,7 +98,7 @@
     </select>
 
     <select id="getWatchers" parameterType="map"
-            resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
+            resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         SELECT DISTINCT s_user.firstname, s_user.lastname, s_user.username, s_user.avatarId
         FROM m_monitor_item, s_user
         WHERE m_monitor_item.type=@{type} AND m_monitor_item.typeId=@{typeId} AND m_monitor_item.user=s_user.username

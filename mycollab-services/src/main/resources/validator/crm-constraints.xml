@@ -2,7 +2,7 @@
                      xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping
 	http://jboss.org/xml/ns/javax/validation/mapping/validation-mapping-1.0.xsd"
                      xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
-    <default-package>com.esofthead.mycollab.module.crm.domain</default-package>
+    <default-package>com.mycollab.module.crm.domain</default-package>
     <bean class="Account" ignore-annotations="false">
         <field name="accountname">
             <constraint annotation="javax.validation.constraints.NotNull">
@@ -11,7 +11,7 @@
         </field>
         <field name="alternatephone">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
@@ -22,13 +22,13 @@
         </field>
         <field name="phoneoffice">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="website">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.URL">
+                annotation="com.mycollab.validator.constraints.URL">
                 <message>Please enter a valid URL</message>
             </constraint>
         </field>
@@ -47,37 +47,37 @@
         </field>
         <field name="assistantphone">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="officephone">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="mobile">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="homephone">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="otherphone">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="fax">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid fax number</message>
             </constraint>
         </field>
@@ -85,7 +85,7 @@
 
     <bean class="Campaign" ignore-annotations="false" >
         <class>
-            <constraint annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>
@@ -106,25 +106,25 @@
         </field>
         <field name="officephone">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="mobile">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
         <field name="fax">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid fax number</message>
             </constraint>
         </field>
         <field name="otherphone">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
@@ -167,7 +167,7 @@
         </field>
         <field name="phonenumber">
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.PhoneNumber">
+                annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
             </constraint>
         </field>
@@ -175,7 +175,7 @@
 
     <bean class="Task" ignore-annotations="false">
      	<class>
-            <constraint annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
                 <message>Start date must be less than due date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">duedate</element>
@@ -199,7 +199,7 @@
     </bean>
     <bean class="Meeting" ignore-annotations="false">
     	<class>
-            <constraint annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>

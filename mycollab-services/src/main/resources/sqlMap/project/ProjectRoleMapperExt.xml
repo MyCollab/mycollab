@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt">
+<mapper namespace="com.mycollab.module.project.dao.ProjectRoleMapperExt">
     
-    <resultMap extends="com.esofthead.mycollab.module.project.dao.ProjectRoleMapper.BaseResultMap"
+    <resultMap extends="com.mycollab.module.project.dao.ProjectRoleMapper.BaseResultMap"
         id="SimpleRoleResult"
-        type="com.esofthead.mycollab.module.project.domain.SimpleProjectRole">
+        type="com.mycollab.module.project.domain.SimpleProjectRole">
         <result column="permissionVal" jdbcType="LONGVARCHAR" property="permissionVal" />
     </resultMap>
 

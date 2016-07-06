@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt">
+<mapper namespace="com.mycollab.module.tracker.dao.RelatedBugMapperExt">
 
-    <resultMap id="SimpleRelatedBugResult" type="com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug">
+    <resultMap id="SimpleRelatedBugResult" type="com.mycollab.module.tracker.domain.SimpleRelatedBug">
         <result column="id" jdbcType="INTEGER" property="id"/>
         <result column="relatedType" jdbcType="VARCHAR" property="relatedType"/>
         <result column="isRelated" jdbcType="BOOLEAN" property="isRelated"/>
-        <association property="relatedBug" javaType="com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs"
-                     resultMap="com.esofthead.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs" columnPrefix="related_">
+        <association property="relatedBug" javaType="com.mycollab.module.tracker.domain.BugWithBLOBs"
+                     resultMap="com.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs" columnPrefix="related_">
         </association>
     </resultMap>
 

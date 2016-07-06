@@ -5,7 +5,7 @@
     <name>mycollab-caching-community</name>
     <artifactId>mycollab-caching-community</artifactId>
     <parent>
-        <groupId>com.esofthead.mycollab</groupId>
+        <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
         <version>5.3.4</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-caching</artifactId>
             <version>5.3.4</version>
         </dependency>

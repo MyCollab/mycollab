@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.crm.dao.ContractMapperExt">
+<mapper namespace="com.mycollab.module.crm.dao.ContractMapperExt">
     
     <resultMap
-        extends="com.esofthead.mycollab.module.crm.dao.ContractMapper.BaseResultMap"
-        id="SimpleContractResult" type="com.esofthead.mycollab.module.crm.domain.SimpleContract">
+        extends="com.mycollab.module.crm.dao.ContractMapper.BaseResultMap"
+        id="SimpleContractResult" type="com.mycollab.module.crm.domain.SimpleContract">
         <result column="accountName" property="accountName"
             jdbcType="VARCHAR" />
         <result column="opportunityName" property="opportunityName"
@@ -171,7 +171,7 @@
         <trim prefix="WHERE" prefixOverrides="AND | OR ">
             1=1
             <include
-                refid="com.esofthead.mycollab.module.crm.dao.ContractMapperExt.queryTotalCountSearchCriteria" />
+                refid="com.mycollab.module.crm.dao.ContractMapperExt.queryTotalCountSearchCriteria" />
         </trim>
     </select>
 
@@ -179,7 +179,7 @@
         DELETE FROM m_crm_contract
         <if test="_parameter != null">
             <include
-                refid="com.esofthead.mycollab.module.crm.dao.ContractMapperExt.queryTotalCountSearchCriteria" />
+                refid="com.mycollab.module.crm.dao.ContractMapperExt.queryTotalCountSearchCriteria" />
         </if>
     </delete>
 
@@ -190,11 +190,11 @@
     <select id="findPagableListByCriteria" resultMap="SimpleContractResult"
         parameterType="ContractSearchCriteria">
         <include
-            refid="com.esofthead.mycollab.module.crm.dao.ContractMapperExt.selectSimpleContract" />
+            refid="com.mycollab.module.crm.dao.ContractMapperExt.selectSimpleContract" />
         <trim prefix="WHERE" prefixOverrides="AND | OR ">
             1=1
             <include
-                refid="com.esofthead.mycollab.module.crm.dao.ContractMapperExt.querySearchCriteria" />
+                refid="com.mycollab.module.crm.dao.ContractMapperExt.querySearchCriteria" />
         </trim>
         <include refid="orderStatement" />
     </select>

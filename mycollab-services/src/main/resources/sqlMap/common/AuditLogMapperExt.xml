@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.common.dao.AuditLogMapperExt">
+<mapper namespace="com.mycollab.common.dao.AuditLogMapperExt">
     
     <resultMap id="SimpleAuditLogResult"
-        extends="com.esofthead.mycollab.common.dao.AuditLogMapper.ResultMapWithBLOBs"
-        type="com.esofthead.mycollab.common.domain.SimpleAuditLog">
+        extends="com.mycollab.common.dao.AuditLogMapper.ResultMapWithBLOBs"
+        type="com.mycollab.common.domain.SimpleAuditLog">
         <result column="postedUserFullName" jdbcType="VARCHAR" property="postedUserFullName" />
         <result column="postedUserAvatarId" jdbcType="VARCHAR" property="postedUserAvatarId" />
     </resultMap>

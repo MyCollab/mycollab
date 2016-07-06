@@ -12,16 +12,16 @@
                         driverClass="com.mysql.jdbc.Driver" password="esofthead321"
                         userId="root"/>
 
-        <javaModelGenerator targetPackage="com.esofthead.mycollab.common.domain" targetProject="src/main/java">
-            <property name="rootClass" value="com.esofthead.mycollab.core.arguments.ValuedBean"/>
+        <javaModelGenerator targetPackage="com.mycollab.common.domain" targetProject="src/main/java">
+            <property name="rootClass" value="com.mycollab.core.arguments.ValuedBean"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="." targetProject="../mycollab-services-pro/src/main/resources/sqlMapExt/common"/>
 
-        <javaClientGenerator targetPackage="com.esofthead.mycollab.pro.common.dao"
+        <javaClientGenerator targetPackage="com.mycollab.pro.common.dao"
                              targetProject="../mycollab-services-pro/src/main/java" type="XMLMAPPER">
             <property name="exampleMethodVisibility" value="public"/>
-            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO"/>
+            <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
         <table schema="mycollab_base" tableName="s_favorite" domainObjectName="FavoriteItem"/>

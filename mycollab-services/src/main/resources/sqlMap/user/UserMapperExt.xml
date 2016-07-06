@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.esofthead.mycollab.module.user.dao.UserMapperExt">
-    <resultMap extends="com.esofthead.mycollab.module.user.dao.UserMapper.BaseResultMap"
-        id="SimpleUserResult" type="com.esofthead.mycollab.module.user.domain.SimpleUser">
+<mapper namespace="com.mycollab.module.user.dao.UserMapperExt">
+    <resultMap extends="com.mycollab.module.user.dao.UserMapper.BaseResultMap"
+        id="SimpleUserResult" type="com.mycollab.module.user.domain.SimpleUser">
         <result column="displayName" jdbcType="VARCHAR" property="displayName" />
         <result column="roleName" jdbcType="VARCHAR" property="roleName" />
         <result column="subdomain" jdbcType="VARCHAR" property="subdomain" />
@@ -179,7 +179,7 @@
         WHERE s_user.username=@{username}
     </select>
 
-    <select id="getUsersNotBelongToAnyAccount" resultMap="com.esofthead.mycollab.module.user.dao.UserMapper.BaseResultMap"
+    <select id="getUsersNotBelongToAnyAccount" resultMap="com.mycollab.module.user.dao.UserMapper.BaseResultMap"
             lang="velocity">
         SELECT username, avatarId FROM s_user
         WHERE (SELECT COUNT(*) FROM s_user_account WHERE s_user.username = s_user_account.username) = 0

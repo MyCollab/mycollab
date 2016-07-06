@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.esofthead.mycollab.module.tracker.dao.BugMapperExt">
-    <resultMap id="SimpleBugResult" extends="com.esofthead.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs"
-        type="com.esofthead.mycollab.module.tracker.domain.SimpleBug">
+<mapper namespace="com.mycollab.module.tracker.dao.BugMapperExt">
+    <resultMap id="SimpleBugResult" extends="com.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs"
+        type="com.mycollab.module.tracker.domain.SimpleBug">
         <result column="loguserFullName" jdbcType="VARCHAR" property="loguserFullName" />
         <result column="loguserAvatarId" jdbcType="VARCHAR" property="loguserAvatarId" />
         <result column="assignuserFullName" jdbcType="VARCHAR" property="assignuserFullName" />
@@ -15,17 +15,17 @@
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE" />
         <result column="numFollowers" property="numFollowers" jdbcType="INTEGER"/>
         <collection columnPrefix="affectedversion_" notNullColumn="id"
-            ofType="com.esofthead.mycollab.module.tracker.domain.Version"
+            ofType="com.mycollab.module.tracker.domain.Version"
             property="affectedVersions"
-            resultMap="com.esofthead.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
+            resultMap="com.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
         <collection columnPrefix="fixedversion_" notNullColumn="id"
-            ofType="com.esofthead.mycollab.module.tracker.domain.Version"
+            ofType="com.mycollab.module.tracker.domain.Version"
             property="fixedVersions"
-            resultMap="com.esofthead.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
+            resultMap="com.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
         <collection columnPrefix="component_" notNullColumn="id"
-            ofType="com.esofthead.mycollab.module.tracker.domain.Component"
+            ofType="com.mycollab.module.tracker.domain.Component"
             property="components"
-            resultMap="com.esofthead.mycollab.module.tracker.dao.ComponentMapper.BaseResultMap" />
+            resultMap="com.mycollab.module.tracker.dao.ComponentMapper.BaseResultMap" />
     </resultMap>
 
     <sql id="queryTotalCountSearchCriteria">
@@ -437,7 +437,7 @@
     </select>
 
     <select id="getStatusSummary" parameterType="BugSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.status AS groupid, COUNT(m_tracker_bug.status) AS value, '' as groupname
         FROM m_tracker_bug
@@ -451,7 +451,7 @@
     </select>
 
     <select id="getPrioritySummary" parameterType="BugSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.priority AS groupid,
             COUNT(m_tracker_bug.priority) AS value, '' as groupname
@@ -466,7 +466,7 @@
     </select>
 
     <select id="getResolutionDefectsSummary" parameterType="BugSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.resolution AS groupid,
             COUNT(m_tracker_bug.resolution) AS value, '' as groupname
@@ -482,7 +482,7 @@
     </select>
 
     <select id="getAssignedDefectsSummary" parameterType="BugSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.assignuser AS groupid,
             COUNT(IFNULL(m_tracker_bug.assignuser, '')) AS value,
@@ -500,7 +500,7 @@
     </select>
 
     <select id="getReporterDefectsSummary" parameterType="BugSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.logby AS groupid,
             COUNT(IFNULL(m_tracker_bug.logby,'')) AS value,
@@ -517,7 +517,7 @@
     </select>
 
     <select id="getComponentDefectsSummary" parameterType="BugSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_component.id AS groupid,
             COUNT(IFNULL(m_tracker_component.id,'')) AS value,
@@ -549,7 +549,7 @@
     </select>
 
     <select id="getVersionDefectsSummary" parameterType="BugSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_version.id AS groupid,
             COUNT(IFNULL(m_tracker_version.id,'')) AS value,
@@ -586,7 +586,7 @@
         ]]>
     </select>
 
-    <resultMap id="BugStatusGroupItemResult" type="com.esofthead.mycollab.module.tracker.domain.BugStatusGroupItem">
+    <resultMap id="BugStatusGroupItemResult" type="com.mycollab.module.tracker.domain.BugStatusGroupItem">
         <result column="groupname" jdbcType="VARCHAR" property="groupname" />
         <result column="status" jdbcType="VARCHAR" property="status" />
         <result column="numOpen" jdbcType="INTEGER" property="numOpen" />

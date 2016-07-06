@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.esofthead.mycollab.module.user.dao.BillingAccountMapperExt">
+<mapper namespace="com.mycollab.module.user.dao.BillingAccountMapperExt">
 
-    <resultMap extends="com.esofthead.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap"
-        id="SimpleBillingAccountResult" type="com.esofthead.mycollab.module.user.domain.SimpleBillingAccount">
-        <association property="billingPlan" resultMap="com.esofthead.mycollab.module.user.dao.BillingPlanMapper.BaseResultMap"
+    <resultMap extends="com.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap"
+        id="SimpleBillingAccountResult" type="com.mycollab.module.user.domain.SimpleBillingAccount">
+        <association property="billingPlan" resultMap="com.mycollab.module.user.dao.BillingPlanMapper.BaseResultMap"
                      columnPrefix="plan_"/>
     </resultMap>
 
@@ -36,13 +36,13 @@
         ]]>
     </select>
 
-    <resultMap extends="com.esofthead.mycollab.module.user.dao.BillingAccountMapperExt.SimpleBillingAccountResult"
+    <resultMap extends="com.mycollab.module.user.dao.BillingAccountMapperExt.SimpleBillingAccountResult"
         id="BillingAccountWithOwnersResult"
-        type="com.esofthead.mycollab.module.user.domain.BillingAccountWithOwners">
+        type="com.mycollab.module.user.domain.BillingAccountWithOwners">
         <collection columnPrefix="owner_"
-            ofType="com.esofthead.mycollab.module.user.domain.SimpleUser"
+            ofType="com.mycollab.module.user.domain.SimpleUser"
             property="owners"
-            resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" />
+            resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" />
     </resultMap>
     
     <select id="getTrialAccountsWithOwners" resultMap="BillingAccountWithOwnersResult">

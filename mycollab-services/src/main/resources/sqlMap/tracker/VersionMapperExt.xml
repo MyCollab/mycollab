@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt">
+<mapper namespace="com.mycollab.module.tracker.dao.VersionMapperExt">
 
-    <resultMap type="com.esofthead.mycollab.module.tracker.domain.SimpleVersion"
-        extends="com.esofthead.mycollab.module.tracker.dao.VersionMapper.ResultMapWithBLOBs" id="SimpleVersionResult">
+    <resultMap type="com.mycollab.module.tracker.domain.SimpleVersion"
+               extends="com.mycollab.module.tracker.dao.VersionMapper.ResultMapWithBLOBs" id="SimpleVersionResult">
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
