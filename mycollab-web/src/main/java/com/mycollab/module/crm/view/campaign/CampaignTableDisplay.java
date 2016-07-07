@@ -30,10 +30,7 @@ import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -54,118 +51,76 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
 
     public CampaignTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(CampaignService.class), SimpleCampaign.class, viewId, requiredColumn, displayColumns);
-        this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(final Table source, final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", campaign.isSelected());
-                cb.addValueChangeListener(new Property.ValueChangeListener() {
-                    @Override
-                    public void valueChange(ValueChangeEvent event) {
-                        CampaignTableDisplay.this.fireSelectItemEvent(campaign);
-                        fireTableEvent(new TableClickEvent(CampaignTableDisplay.this, campaign, "selected"));
-                    }
-                });
-
-                campaign.setExtraData(cb);
-                return cb;
-            }
+        this.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            final CheckBoxDecor cb = new CheckBoxDecor("", campaign.isSelected());
+            cb.addValueChangeListener(valueChangeEvent -> {
+                fireSelectItemEvent(campaign);
+                fireTableEvent(new TableClickEvent(CampaignTableDisplay.this, campaign, "selected"));
+            });
+            campaign.setExtraData(cb);
+            return cb;
         });
 
-        this.addGeneratedColumn("campaignname", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("campaignname", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
 
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = getBeanByIndex(itemId);
+            LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
+            b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(), AppContext.getDateFormat(),
+                    campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            b.setStyleName(UIConstants.BUTTON_LINK);
 
-                LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
-                b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                        campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                b.setStyleName(UIConstants.BUTTON_LINK);
-
-                if ("Complete".equals(campaign.getStatus())) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else {
-                    if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
-                        b.addStyleName(UIConstants.LINK_OVERDUE);
-                    }
+            if ("Complete".equals(campaign.getStatus())) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
+            } else {
+                if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
+                    b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
-                return b;
-
             }
+            return b;
         });
 
-        this.addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = getBeanByIndex(itemId);
-                return new UserLink(campaign.getAssignuser(), campaign.getAssignUserAvatarId(), campaign.getAssignUserFullName());
-            }
+        this.addGeneratedColumn("assignUserFullName", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            return new UserLink(campaign.getAssignuser(), campaign.getAssignUserAvatarId(), campaign.getAssignUserFullName());
         });
 
-        this.addGeneratedColumn("expectedrevenue", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = getBeanByIndex(itemId);
-                if (campaign.getExpectedrevenue() != null) {
-                    String expectedRevenueText = campaign.getExpectedrevenue() + "";
-                    if (campaign.getCurrencyid() != null) {
-                        expectedRevenueText += " " + campaign.getCurrencyid();
-                    }
-
-                    return new Label(expectedRevenueText);
-                } else {
-                    return new Label("");
+        this.addGeneratedColumn("expectedrevenue", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            if (campaign.getExpectedrevenue() != null) {
+                String expectedRevenueText = campaign.getExpectedrevenue() + "";
+                if (campaign.getCurrencyid() != null) {
+                    expectedRevenueText += " " + campaign.getCurrencyid();
                 }
 
+                return new Label(expectedRevenueText);
+            } else {
+                return new Label("");
             }
         });
 
-        this.addGeneratedColumn("expectedcost", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = getBeanByIndex(itemId);
-                if (campaign.getExpectedrevenue() != null) {
-                    String expectedCostText = campaign.getExpectedcost() + "";
-                    if (campaign.getCurrencyid() != null) {
-                        expectedCostText += " " + campaign.getCurrencyid();
-                    }
-
-                    return new Label(expectedCostText);
-                } else {
-                    return new Label("");
+        this.addGeneratedColumn("expectedcost", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            if (campaign.getExpectedrevenue() != null) {
+                String expectedCostText = campaign.getExpectedcost() + "";
+                if (campaign.getCurrencyid() != null) {
+                    expectedCostText += " " + campaign.getCurrencyid();
                 }
 
+                return new Label(expectedCostText);
+            } else {
+                return new Label("");
             }
         });
 
-        this.addGeneratedColumn("startdate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleCampaign campaign = getBeanByIndex(itemId);
-                return new ELabel().prettyDate(campaign.getStartdate());
-            }
+        this.addGeneratedColumn("startdate", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            return new ELabel().prettyDate(campaign.getStartdate());
         });
 
-        this.addGeneratedColumn("enddate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleCampaign campaign = getBeanByIndex(itemId);
-                return new ELabel().prettyDate(campaign.getEnddate());
-            }
+        this.addGeneratedColumn("enddate", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            return new ELabel().prettyDate(campaign.getEnddate());
         });
 
         this.setWidth("100%");

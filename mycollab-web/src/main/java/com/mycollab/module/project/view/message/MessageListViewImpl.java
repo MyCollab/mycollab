@@ -179,7 +179,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
-            deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
+            deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             MHorizontalLayout rightHeader = new MHorizontalLayout();
             rightHeader.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
@@ -320,12 +320,12 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             final CheckBox chkIsStick = new CheckBox(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
             controls.with(chkIsStick).withAlign(chkIsStick, Alignment.TOP_RIGHT);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    clickEvent -> MessageListViewImpl.this.setCriteria(searchCriteria));
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                    clickEvent -> MessageListViewImpl.this.setCriteria(searchCriteria))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
-            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
+            MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
                 Message message = new Message();
                 message.setProjectid(CurrentProjectVariables.getProjectId());
                 message.setPosteddate(new GregorianCalendar().getTime());
@@ -345,9 +345,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     titleField.addStyleName("errorField");
                     NotificationUtil.showErrorNotification(AppContext.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
                 }
-            });
-            saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            saveBtn.setIcon(FontAwesome.SAVE);
+            }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
 
             controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
 
@@ -360,17 +358,10 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             messagePanelBody.addComponent(messageSearchPanel);
 
             if (!isEmpty) {
-                Button createMessageBtn = new Button(AppContext.getMessage(MessageI18nEnum.NEW), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        TopMessagePanel.this.createAddMessageLayout();
-                    }
-                });
-                createMessageBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
-                createMessageBtn.setStyleName(UIConstants.BUTTON_ACTION);
-                createMessageBtn.setIcon(FontAwesome.PLUS);
+                MButton createMessageBtn = new MButton(AppContext.getMessage(MessageI18nEnum.NEW),
+                        clickEvent -> TopMessagePanel.this.createAddMessageLayout())
+                        .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+                createMessageBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
                 messagePanelBody.addComponent(createMessageBtn);
                 messagePanelBody.setComponentAlignment(createMessageBtn, Alignment.MIDDLE_RIGHT);

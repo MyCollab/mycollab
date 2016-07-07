@@ -169,31 +169,30 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             tasksLayout = new VerticalRemoveInlineComponentMarker().withFullWidth().withMargin(new MarginInfo(false, true, true, false));
             contentLayout.with(tasksLayout).expand(tasksLayout);
 
-            MButton addNewTaskBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
-                SimpleTask task = new SimpleTask();
-                task.setMilestoneid(beanItem.getMilestoneid());
-                task.setParenttaskid(beanItem.getId());
-                task.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
-                task.setProjectid(beanItem.getProjectid());
-                task.setSaccountid(beanItem.getSaccountid());
-                UI.getCurrent().addWindow(new TaskAddWindow(task));
-            }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
-            addNewTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                MButton addNewTaskBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
+                    SimpleTask task = new SimpleTask();
+                    task.setMilestoneid(beanItem.getMilestoneid());
+                    task.setParenttaskid(beanItem.getId());
+                    task.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
+                    task.setProjectid(beanItem.getProjectid());
+                    task.setSaccountid(beanItem.getSaccountid());
+                    UI.getCurrent().addWindow(new TaskAddWindow(task));
+                }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
 
-            final SplitButton splitButton = new SplitButton(addNewTaskBtn);
-            splitButton.setWidthUndefined();
-            splitButton.addStyleName(UIConstants.BUTTON_ACTION);
+                final SplitButton splitButton = new SplitButton(addNewTaskBtn);
+                splitButton.setWidthUndefined();
+                splitButton.addStyleName(UIConstants.BUTTON_ACTION);
 
-            OptionPopupContent popupButtonsControl = new OptionPopupContent();
-            Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
-                splitButton.setPopupVisible(false);
-                UI.getCurrent().addWindow(new SelectChildTaskWindow(beanItem));
-            });
-            selectBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            popupButtonsControl.addOption(selectBtn);
-            splitButton.setContent(popupButtonsControl);
-
-            contentLayout.addComponent(splitButton);
+                OptionPopupContent popupButtonsControl = new OptionPopupContent();
+                Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+                    splitButton.setPopupVisible(false);
+                    UI.getCurrent().addWindow(new SelectChildTaskWindow(beanItem));
+                });
+                popupButtonsControl.addOption(selectBtn);
+                splitButton.setContent(popupButtonsControl);
+                contentLayout.addComponent(splitButton);
+            }
 
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), AppContext.getAccountId(), new
@@ -216,7 +215,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             layout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
-            checkBox.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+            checkBox.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             layout.with(checkBox);
 
             Span priorityLink = new Span().appendText(ProjectAssetsManager.getTaskPriorityHtml(subTask.getPriority()))

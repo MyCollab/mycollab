@@ -31,12 +31,10 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.web.CustomLayoutExt;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.TextField;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -61,37 +59,29 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
             nameOrEmailField = new TextField(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
             customLayout.addComponent(nameOrEmailField, "nameoremail");
 
-            Button sendEmail = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD), new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    String username = nameOrEmailField.getValue();
-                    if (StringUtils.isValidEmail(username)) {
-                        UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                        User user = userService.findUserByUserName(username);
+            MButton sendEmail = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD), clickEvent -> {
+                String username = nameOrEmailField.getValue();
+                if (StringUtils.isValidEmail(username)) {
+                    UserService userService = AppContextUtil.getSpringBean(UserService.class);
+                    User user = userService.findUserByUserName(username);
 
-                        if (user == null) {
-                            NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
-                        } else {
-                            userService.requestToResetPassword(user.getUsername());
-                            NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS),
-                                    AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
-                            EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
-                        }
+                    if (user == null) {
+                        NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
                     } else {
-                        NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.NOT_VALID_EMAIL, username));
+                        userService.requestToResetPassword(user.getUsername());
+                        NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS),
+                                AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
+                        EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
                     }
+                } else {
+                    NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.NOT_VALID_EMAIL, username));
                 }
-            });
-            sendEmail.setStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(UIConstants.BUTTON_ACTION);
             customLayout.addComponent(sendEmail, "loginButton");
 
-            Button memoBackBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD), new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
-                }
-            });
-            memoBackBtn.setStyleName(UIConstants.BUTTON_LINK);
+            MButton memoBackBtn = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD),
+                    clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null)))
+                    .withStyleName(UIConstants.BUTTON_LINK);
             customLayout.addComponent(memoBackBtn, "forgotLink");
 
             this.setCompositionRoot(customLayout);

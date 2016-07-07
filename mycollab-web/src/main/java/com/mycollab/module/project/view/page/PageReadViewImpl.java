@@ -97,14 +97,12 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        HeaderWithFontAwesome headerLbl = ComponentUtils.headerH2(ProjectTypeConstants.PAGE, AppContext.getMessage
-                (PageI18nEnum.DETAIL));
+        HeaderWithFontAwesome headerLbl = ComponentUtils.headerH2(ProjectTypeConstants.PAGE, AppContext.getMessage(PageI18nEnum.DETAIL));
         headerLbl.setWidthUndefined();
 
         header.addComponent(headerLbl, 0);
         header.addComponent(pageVersionsSelection, 1);
-        header.withFullWidth().withStyleName("hdr-view").expand(pageVersionsSelection)
-                .alignAll(Alignment.MIDDLE_LEFT);
+        header.withFullWidth().withStyleName("hdr-view").expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override

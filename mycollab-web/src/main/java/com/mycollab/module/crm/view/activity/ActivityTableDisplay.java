@@ -17,6 +17,7 @@
 
 package com.mycollab.module.crm.view.activity;
 
+import com.hp.gagawa.java.elements.*;
 import com.mycollab.common.TableViewField;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
@@ -30,21 +31,16 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.hp.gagawa.java.elements.*;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Table;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.Object;
 import java.util.List;
 
 /**
@@ -63,71 +59,41 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
     public ActivityTableDisplay(TableViewField requireColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(EventService.class), SimpleActivity.class, requireColumn, displayColumns);
 
-        this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(final Table source, final Object itemId, Object columnId) {
-                final SimpleActivity simpleEvent = getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent.isSelected());
-                cb.setImmediate(true);
-                cb.addValueChangeListener(new Property.ValueChangeListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void valueChange(ValueChangeEvent event) {
-                        fireSelectItemEvent(simpleEvent);
-                    }
-                });
-
-                simpleEvent.setExtraData(cb);
-                return cb;
-            }
+        this.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleActivity simpleEvent = getBeanByIndex(itemId);
+            final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent.isSelected());
+            cb.setImmediate(true);
+            cb.addValueChangeListener(valueChangeEvent -> fireSelectItemEvent(simpleEvent));
+            simpleEvent.setExtraData(cb);
+            return cb;
         });
 
-        this.addGeneratedColumn("startDate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                SimpleActivity event = getBeanByIndex(itemId);
-                return new ELabel(AppContext.formatPrettyTime(event.getStartDate()))
-                        .withDescription(AppContext.formatDateTime(event.getStartDate()));
-            }
+        this.addGeneratedColumn("startDate", (source, itemId, columnId) -> {
+            SimpleActivity event = getBeanByIndex(itemId);
+            return new ELabel(AppContext.formatPrettyTime(event.getStartDate()))
+                    .withDescription(AppContext.formatDateTime(event.getStartDate()));
         });
 
-        this.addGeneratedColumn("endDate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
-                SimpleActivity event = getBeanByIndex(itemId);
-                return new ELabel(AppContext.formatPrettyTime(event.getEndDate())).withDescription(AppContext.formatDateTime(event.getEndDate()));
-            }
+        this.addGeneratedColumn("endDate", (source, itemId, columnId) -> {
+            SimpleActivity event = getBeanByIndex(itemId);
+            return new ELabel(AppContext.formatPrettyTime(event.getEndDate())).withDescription(AppContext.formatDateTime(event.getEndDate()));
         });
 
-        this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("subject", (source, itemId, columnId) -> {
+            SimpleActivity simpleEvent = getBeanByIndex(itemId);
 
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                SimpleActivity simpleEvent = getBeanByIndex(itemId);
+            LabelLink b = new LabelLink(simpleEvent.getSubject(), CrmLinkBuilder.generateActivityPreviewLinkFull(
+                    simpleEvent.getEventType(), simpleEvent.getId()));
+            FontAwesome iconLink = CrmAssetsManager.getAsset(simpleEvent.getEventType());
+            b.setIconLink(iconLink);
 
-                LabelLink b = new LabelLink(simpleEvent.getSubject(), CrmLinkBuilder.generateActivityPreviewLinkFull(
-                                simpleEvent.getEventType(), simpleEvent.getId()));
-                FontAwesome iconLink = CrmAssetsManager.getAsset(simpleEvent.getEventType());
-                b.setIconLink(iconLink);
-
-                if (simpleEvent.isCompleted()) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else if (simpleEvent.isOverdue()) {
-                    b.addStyleName(UIConstants.LINK_OVERDUE);
-                }
-                b.setDescription(generateToolTip(simpleEvent));
-                return b;
-
+            if (simpleEvent.isCompleted()) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
+            } else if (simpleEvent.isOverdue()) {
+                b.addStyleName(UIConstants.LINK_OVERDUE);
             }
+            b.setDescription(generateToolTip(simpleEvent));
+            return b;
         });
     }
 

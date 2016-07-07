@@ -24,6 +24,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.HashSet;
@@ -79,20 +80,12 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
         controlBarWrapper = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false, true, false, true))
                 .withStyleName(listControlStyle);
 
-        pageManagement = new MHorizontalLayout().withWidth(null);
+        pageManagement = new MHorizontalLayout();
 
         // defined layout here ---------------------------
 
         if (currentPage > 1) {
-            Button firstLink = new Button("1", new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    pageChange(1);
-                }
-            });
-            firstLink.addStyleName("buttonPaging");
+            MButton firstLink = new MButton("1", clickEvent -> pageChange(1)).withStyleName("buttonPaging");
             pageManagement.addComponent(firstLink);
         }
         if (currentPage >= 5) {
@@ -101,65 +94,26 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
             pageManagement.addComponent(ss1);
         }
         if (currentPage > 3) {
-            Button previous2 = new Button("" + (currentPage - 2), new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    pageChange(currentPage - 2);
-                }
-            });
-            previous2.addStyleName("buttonPaging");
+            MButton previous2 = new MButton("" + (currentPage - 2), clickEvent -> pageChange(currentPage - 2))
+                    .withStyleName("buttonPaging");
             pageManagement.addComponent(previous2);
         }
         if (currentPage > 2) {
-            final Button previous1 = new Button("" + (currentPage - 1), new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    pageChange(currentPage - 1);
-                }
-            });
-            previous1.addStyleName("buttonPaging");
+            MButton previous1 = new MButton("" + (currentPage - 1), clickEvent -> pageChange(currentPage - 1))
+                    .withStyleName("buttonPaging");
             pageManagement.addComponent(previous1);
         }
         // Here add current ButtonLinkLegacy
-        final Button current = new Button("" + currentPage, new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                pageChange(currentPage);
-            }
-        });
-        current.addStyleName("buttonPaging");
-        current.addStyleName("current");
+        MButton current = new MButton("" + currentPage, clickEvent -> pageChange(currentPage)).withStyleName("buttonPaging", "current");
 
         pageManagement.addComponent(current);
         final int range = this.totalPage - currentPage;
         if (range >= 1) {
-            final Button next1 = new Button("" + (currentPage + 1), new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    pageChange(currentPage + 1);
-                }
-            });
-            next1.addStyleName("buttonPaging");
+            MButton next1 = new MButton("" + (currentPage + 1), clickEvent -> pageChange(currentPage + 1)).withStyleName("buttonPaging");
             pageManagement.addComponent(next1);
         }
         if (range >= 2) {
-            Button next2 = new Button("" + (currentPage + 2), new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    pageChange(currentPage + 2);
-                }
-            });
-            next2.addStyleName("buttonPaging");
+            MButton next2 = new MButton("" + (currentPage + 2), clickEvent -> pageChange(currentPage + 2)).withStyleName("buttonPaging");
             pageManagement.addComponent(next2);
         }
         if (range >= 4) {
@@ -168,15 +122,7 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
             pageManagement.addComponent(ss2);
         }
         if (range >= 3) {
-            Button last = new Button("" + this.totalPage, new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    pageChange(totalPage);
-                }
-            });
-            last.addStyleName("buttonPaging");
+            MButton last = new MButton("" + this.totalPage, clickEvent -> pageChange(totalPage)).withStyleName("buttonPaging");
             pageManagement.addComponent(last);
         }
 

@@ -34,6 +34,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.OptionGroup;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -81,28 +82,21 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             optionGroup.select(levelVal);
         }
 
-        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        MButton updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+            try {
+                bean.setLevel((String) optionGroup.getValue());
+                ProjectNotificationSettingService projectNotificationSettingService = AppContextUtil.getSpringBean(ProjectNotificationSettingService.class);
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    bean.setLevel((String) optionGroup.getValue());
-                    ProjectNotificationSettingService projectNotificationSettingService = AppContextUtil.getSpringBean(ProjectNotificationSettingService.class);
-
-                    if (bean.getId() == null) {
-                        projectNotificationSettingService.saveWithSession(bean, AppContext.getUsername());
-                    } else {
-                        projectNotificationSettingService.updateWithSession(bean, AppContext.getUsername());
-                    }
-                    NotificationUtil.showNotification("Congrats", AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
-                } catch (Exception e) {
-                    throw new MyCollabException(e);
+                if (bean.getId() == null) {
+                    projectNotificationSettingService.saveWithSession(bean, AppContext.getUsername());
+                } else {
+                    projectNotificationSettingService.updateWithSession(bean, AppContext.getUsername());
                 }
+                NotificationUtil.showNotification("Congrats", AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+            } catch (Exception e) {
+                throw new MyCollabException(e);
             }
-        });
-        updateBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        updateBtn.setIcon(FontAwesome.REFRESH);
+        }).withIcon(FontAwesome.REFRESH).withStyleName(UIConstants.BUTTON_ACTION);
         body.addComponent(updateBtn);
         body.setComponentAlignment(updateBtn, Alignment.BOTTOM_LEFT);
 

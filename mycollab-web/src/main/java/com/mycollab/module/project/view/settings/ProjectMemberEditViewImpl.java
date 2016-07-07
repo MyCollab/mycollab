@@ -85,7 +85,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DecorFormLayourFactory(new ProjectMemberFormLayoutFactory());
+        return new DecorFormLayoutFactory(new ProjectMemberFormLayoutFactory());
     }
 
     @Override
@@ -117,10 +117,10 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
     }
 
-    private class DecorFormLayourFactory extends WrappedFormLayoutFactory {
+    private class DecorFormLayoutFactory extends WrappedFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
-        DecorFormLayourFactory(AbstractFormLayoutFactory formLayoutFactory) {
+        DecorFormLayoutFactory(AbstractFormLayoutFactory formLayoutFactory) {
             this.wrappedLayoutFactory = formLayoutFactory;
         }
 
@@ -172,14 +172,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
         public AdminRoleSelectionField() {
             roleComboBox = new ProjectRoleComboBox();
-            roleComboBox.addValueChangeListener(new Property.ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(Property.ValueChangeEvent event) {
-                    displayRolePermission((Integer) roleComboBox.getValue());
-                }
-            });
+            roleComboBox.addValueChangeListener(valueChangeEvent -> displayRolePermission((Integer) roleComboBox.getValue()));
         }
 
         @Override

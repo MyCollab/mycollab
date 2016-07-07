@@ -64,6 +64,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -132,17 +133,14 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         groupWrapLayout.addComponent(new Label("Sort"));
         final ComboBox sortCombo = new ValueComboBox(false, AppContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
-        sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                String sortValue = (String) sortCombo.getValue();
-                if (AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
-                    sortDirection = SearchCriteria.ASC;
-                } else {
-                    sortDirection = SearchCriteria.DESC;
-                }
-                queryAndDisplayBugs();
+        sortCombo.addValueChangeListener(valueChangeEvent -> {
+            String sortValue = (String) sortCombo.getValue();
+            if (AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
+                sortDirection = SearchCriteria.ASC;
+            } else {
+                sortDirection = SearchCriteria.DESC;
             }
+            queryAndDisplayBugs();
         });
         sortDirection = SearchCriteria.DESC;
         groupWrapLayout.addComponent(sortCombo);
@@ -150,50 +148,34 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         groupWrapLayout.addComponent(new Label("Group by"));
         final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, GROUP_CREATED_DATE,
                 PLAIN_LIST, GROUP_USER);
-        groupCombo.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                groupByState = (String) groupCombo.getValue();
-                queryAndDisplayBugs();
-            }
+        groupCombo.addValueChangeListener(valueChangeEvent -> {
+            groupByState = (String) groupCombo.getValue();
+            queryAndDisplayBugs();
         });
         groupByState = GROUP_DUE_DATE;
         groupWrapLayout.addComponent(groupCombo);
 
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        Button printBtn = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new BugCustomizeReportOutputWindow(new LazyValueInjector() {
-                    @Override
-                    protected Object doEval() {
-                        return baseCriteria;
-                    }
-                }));
-            }
-        });
-        printBtn.setIcon(FontAwesome.PRINT);
-        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        MButton printBtn = new MButton("", clickEvent -> {
+            UI.getCurrent().addWindow(new BugCustomizeReportOutputWindow(new LazyValueInjector() {
+                @Override
+                protected Object doEval() {
+                    return baseCriteria;
+                }
+            }));
+        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION);
         printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
-        Button newBugBtn = new Button(AppContext.getMessage(BugI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                SimpleBug bug = new SimpleBug();
-                bug.setProjectid(CurrentProjectVariables.getProjectId());
-                bug.setSaccountid(AppContext.getAccountId());
-                bug.setLogby(AppContext.getUsername());
-                UI.getCurrent().addWindow(new BugAddWindow(bug));
-            }
-        });
-        newBugBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-        newBugBtn.setIcon(FontAwesome.PLUS);
-        newBugBtn.setDescription(AppContext.getMessage(BugI18nEnum.NEW));
-        newBugBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        MButton newBugBtn = new MButton(AppContext.getMessage(BugI18nEnum.NEW), clickEvent -> {
+            SimpleBug bug = new SimpleBug();
+            bug.setProjectid(CurrentProjectVariables.getProjectId());
+            bug.setSaccountid(AppContext.getAccountId());
+            bug.setLogby(AppContext.getUsername());
+            UI.getCurrent().addWindow(new BugAddWindow(bug));
+        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION).withDescription(AppContext.getMessage(BugI18nEnum.NEW))
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
         groupWrapLayout.addComponent(newBugBtn);
 
         Button advanceDisplayBtn = new Button("List");
@@ -201,15 +183,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Detail");
 
-        Button kanbanBtn = new Button("Kanban", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                displayKanbanView();
-            }
-        });
-        kanbanBtn.setWidth("100px");
+        MButton kanbanBtn = new MButton("Kanban", clickEvent -> displayKanbanView()).withIcon(FontAwesome.TH).withWidth("100px");
         kanbanBtn.setDescription("Kanban View");
-        kanbanBtn.setIcon(FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);

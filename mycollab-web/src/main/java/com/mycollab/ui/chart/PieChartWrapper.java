@@ -35,6 +35,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.Rotation;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.awt.*;
@@ -147,8 +148,8 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
         final List keys = pieDataSet.getKeys();
 
         for (int i = 0; i < keys.size(); i++) {
-            MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true));
-            layout.addStyleName("inline-block");
+            MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true))
+                    .withStyleName("inline-block");
             layout.setSizeUndefined();
             layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
@@ -171,20 +172,13 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
                 btnCaption = String.format("%s(%d)", AppContext.getMessage(enumKeyCls, key.toString()),
                         pieDataSet.getValue(key).intValue());
             }
-            final Button btnLink = new Button(StringUtils.trim(btnCaption, 25, true), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    if (key instanceof Key) {
-                        clickLegendItem(((Key) key).getKey());
-                    } else {
-                        clickLegendItem(key.toString());
-                    }
+            MButton btnLink = new MButton(StringUtils.trim(btnCaption, 25, true), clickEvent -> {
+                if (key instanceof Key) {
+                    clickLegendItem(((Key) key).getKey());
+                } else {
+                    clickLegendItem(key.toString());
                 }
-            });
-            btnLink.setDescription(btnCaption);
-            btnLink.addStyleName(UIConstants.BUTTON_LINK);
+            }).withStyleName(UIConstants.BUTTON_LINK).withDescription(btnCaption);
             layout.with(lblCircle, btnLink);
             mainLayout.addComponent(layout);
         }

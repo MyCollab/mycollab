@@ -40,8 +40,6 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -82,68 +80,37 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
                         new TableViewField(GenericI18Enum.FORM_DUE_DATE, "duedate", UIConstants.TABLE_DATE_TIME_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
-        tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(final Table source, final Object itemId, final Object columnId) {
-                final SimpleVersion version = tableItem.getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", version.isSelected());
-                cb.setImmediate(true);
-                cb.addValueChangeListener(new ValueChangeListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void valueChange(ValueChangeEvent event) {
-                        VersionListViewImpl.this.tableItem.fireSelectItemEvent(version);
-
-                    }
-                });
-
-                version.setExtraData(cb);
-                return cb;
-            }
+        tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleVersion version = tableItem.getBeanByIndex(itemId);
+            final CheckBoxDecor cb = new CheckBoxDecor("", version.isSelected());
+            cb.setImmediate(true);
+            cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(version));
+            version.setExtraData(cb);
+            return cb;
         });
 
-        tableItem.addGeneratedColumn("versionname", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Component generateCell(final Table source, final Object itemId, final Object columnId) {
-                final Version bugVersion = tableItem.getBeanByIndex(itemId);
-                final LabelLink b = new LabelLink(bugVersion.getVersionname(), ProjectLinkBuilder
-                        .generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
-                if (bugVersion.getStatus() != null && bugVersion.getStatus().equals(StatusI18nEnum.Closed.name())) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
-                    b.addStyleName(UIConstants.LINK_OVERDUE);
-                }
-                b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                        bugVersion, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                return b;
-
+        tableItem.addGeneratedColumn("versionname", (source, itemId, columnId) -> {
+            final Version bugVersion = tableItem.getBeanByIndex(itemId);
+            final LabelLink b = new LabelLink(bugVersion.getVersionname(), ProjectLinkBuilder
+                    .generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
+            if (bugVersion.getStatus() != null && bugVersion.getStatus().equals(StatusI18nEnum.Closed.name())) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
+            } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
+                b.addStyleName(UIConstants.LINK_OVERDUE);
             }
+            b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(AppContext.getUserLocale(), AppContext.getDateFormat(),
+                    bugVersion, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            return b;
         });
 
-        tableItem.addGeneratedColumn("duedate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Component generateCell(final Table source, final Object itemId, final Object columnId) {
-                final Version bugVersion = tableItem.getBeanByIndex(itemId);
-                return new ELabel().prettyDate(bugVersion.getDuedate());
-            }
+        tableItem.addGeneratedColumn("duedate", (source, itemId, columnId) -> {
+            final Version bugVersion = tableItem.getBeanByIndex(itemId);
+            return new ELabel().prettyDate(bugVersion.getDuedate());
         });
 
-        tableItem.addGeneratedColumn("id", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
-                SimpleVersion version = tableItem.getBeanByIndex(itemId);
-                return new ProgressBarIndicator(version.getNumBugs(), version.getNumOpenBugs(), false);
-
-            }
+        tableItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
+            SimpleVersion version = tableItem.getBeanByIndex(itemId);
+            return new ProgressBarIndicator(version.getNumBugs(), version.getNumOpenBugs(), false);
         });
 
         tableItem.setWidth("100%");

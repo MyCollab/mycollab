@@ -16,14 +16,17 @@
  */
 package com.mycollab.module.project.view.user;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.domain.SimpleActivityStream;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
-import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.project.ProjectLinkBuilder;
@@ -35,20 +38,20 @@ import com.mycollab.module.project.service.ProjectPageService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import org.apache.commons.lang3.time.DateUtils;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Calendar;
@@ -234,33 +237,17 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
         ButtonGroup controlBtns = new ButtonGroup();
         controlBtns.setStyleName(UIConstants.BUTTON_ACTION);
-        Button prevBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), new Button.ClickListener() {
-            private static final long serialVersionUID = -94021599166105307L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                pageChange(currentPage - 1);
-            }
-        });
+        MButton prevBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
+                .withWidth("64px").withStyleName(UIConstants.BUTTON_ACTION);
         if (currentPage == 1) {
             prevBtn.setEnabled(false);
         }
-        prevBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        prevBtn.setWidth("64px");
 
-        Button nextBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), new Button.ClickListener() {
-            private static final long serialVersionUID = 3095522916508256018L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                pageChange(currentPage + 1);
-            }
-        });
+        MButton nextBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
+                .withWidth("64px").withStyleName(UIConstants.BUTTON_ACTION);
         if (currentPage == totalPage) {
             nextBtn.setEnabled(false);
         }
-        nextBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        nextBtn.setWidth("64px");
 
         controlBtns.addButton(prevBtn);
         controlBtns.addButton(nextBtn);

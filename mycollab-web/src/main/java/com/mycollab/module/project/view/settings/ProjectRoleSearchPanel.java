@@ -34,7 +34,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -61,17 +61,10 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
 
     @Override
     protected Component buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(ProjectRoleI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null));
-            }
-        });
-        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES));
+        MButton createBtn = new MButton(AppContext.getMessage(ProjectRoleI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES));
         return createBtn;
     }
 
@@ -105,27 +98,12 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    callSearchAction();
-                }
-            });
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
             basicSearchBody.addComponent(searchBtn);
 
-            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    ProjectRoleBasicSearchLayout.this.nameField.setValue("");
-                }
-            });
-            clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             return basicSearchBody;
         }

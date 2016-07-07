@@ -57,14 +57,11 @@ public class DateTimeOptionField extends CustomField<Date> {
     public DateTimeOptionField(boolean hideTimeOptionVal) {
         this.hideTimeOption = hideTimeOptionVal;
         popupDateField = new PopupDateFieldExt();
-        popupDateField.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                Date date = (Date) valueChangeEvent.getProperty().getValue();
-                if (date != null) {
-                    trickModified = true;
-                    popupDateField.setPropertyDataSource(new ObjectProperty(date));
-                }
+        popupDateField.addValueChangeListener(valueChangeEvent -> {
+            Date date = (Date) valueChangeEvent.getProperty().getValue();
+            if (date != null) {
+                trickModified = true;
+                popupDateField.setPropertyDataSource(new ObjectProperty(date));
             }
         });
         popupDateField.setImmediate(true);

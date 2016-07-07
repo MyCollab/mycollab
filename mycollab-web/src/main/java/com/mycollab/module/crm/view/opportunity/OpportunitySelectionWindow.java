@@ -21,12 +21,8 @@ import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
-import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
+import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -55,14 +51,7 @@ public class OpportunitySelectionWindow extends Window {
 
         createOpportunityList();
         OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
-        opportunitySimpleSearchPanel.addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
-
-            @Override
-            public void onSearch(OpportunitySearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
+        opportunitySimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         layout.with(opportunitySimpleSearchPanel, tableItem);
         this.setContent(layout);
 
@@ -77,26 +66,16 @@ public class OpportunitySelectionWindow extends Window {
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
-        tableItem.addGeneratedColumn(Opportunity.Field.opportunityname.name(), new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn(Opportunity.Field.opportunityname.name(), (source, itemId, columnId) -> {
+            final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
 
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
-
-                ButtonLink b = new ButtonLink(opportunity.getOpportunityname(), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        fieldSelection.fireValueChange(opportunity);
-                        close();
-                    }
-                });
-                b.setDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                        opportunity, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                return b;
-            }
+            ButtonLink b = new ButtonLink(opportunity.getOpportunityname(), clickEvent -> {
+                fieldSelection.fireValueChange(opportunity);
+                close();
+            });
+            b.setDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(), AppContext.getDateFormat(),
+                    opportunity, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            return b;
         });
     }
 }

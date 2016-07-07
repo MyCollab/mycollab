@@ -16,6 +16,9 @@
  */
 package com.mycollab.module.project.ui.components;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.TableViewField;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.ProjectLinkBuilder;
@@ -29,11 +32,6 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Text;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
 import org.vaadin.viritin.button.MButton;
 
 import java.util.List;
@@ -50,57 +48,41 @@ public class GenericTaskTableDisplay extends DefaultPagedBeanTable<ProjectGeneri
     public GenericTaskTableDisplay(List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), ProjectGenericTask.class, displayColumns);
 
-        addGeneratedColumn("name", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        addGeneratedColumn("name", (source, itemId, columnId) -> {
+            final ProjectGenericTask task = getBeanByIndex(itemId);
 
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
-                final ProjectGenericTask task = getBeanByIndex(itemId);
-
-                Div div = new DivLessFormatter();
-                Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-                A itemLink = new A().setId("tag" + TOOLTIP_ID);
-                if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
-                    itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
-                            task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
-                } else {
-                    itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
-                            task.getProjectId(), task.getType(), task.getTypeId() + ""));
-                }
-
-                itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(task.getType(), task.getTypeId() + ""));
-                itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-                itemLink.appendText(task.getName());
-
-                div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink);
-
-                MButton assignmentLink = new MButton(div.write(),
-                        clickEvent -> fireTableEvent(new TableClickEvent(GenericTaskTableDisplay.this, task, "name")))
-                        .withStyleName(UIConstants.BUTTON_LINK);
-                assignmentLink.setCaptionAsHtml(true);
-                return assignmentLink;
+            Div div = new DivLessFormatter();
+            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
+            A itemLink = new A().setId("tag" + TOOLTIP_ID);
+            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
+            } else {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getTypeId() + ""));
             }
+
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(task.getType(), task.getTypeId() + ""));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+            itemLink.appendText(task.getName());
+
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink);
+
+            MButton assignmentLink = new MButton(div.write(),
+                    clickEvent -> fireTableEvent(new TableClickEvent(GenericTaskTableDisplay.this, task, "name")))
+                    .withStyleName(UIConstants.BUTTON_LINK);
+            assignmentLink.setCaptionAsHtml(true);
+            return assignmentLink;
         });
 
-        addGeneratedColumn("assignUser", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                ProjectGenericTask task = getBeanByIndex(itemId);
-                return new ProjectMemberLink(task.getAssignUser(), task.getAssignUserAvatarId(), task.getAssignUserFullName());
-            }
-
+        addGeneratedColumn("assignUser", (source, itemId, columnId) -> {
+            ProjectGenericTask task = getBeanByIndex(itemId);
+            return new ProjectMemberLink(task.getAssignUser(), task.getAssignUserAvatarId(), task.getAssignUserFullName());
         });
 
-        addGeneratedColumn("dueDate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
-                ProjectGenericTask task = getBeanByIndex(itemId);
-                return new ELabel().prettyDate(task.getDueDate());
-            }
+        addGeneratedColumn("dueDate", (source, itemId, columnId) -> {
+            ProjectGenericTask task = getBeanByIndex(itemId);
+            return new ELabel().prettyDate(task.getDueDate());
         });
     }
 }

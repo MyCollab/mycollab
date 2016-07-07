@@ -23,11 +23,11 @@ import com.mycollab.vaadin.AppContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.io.Serializable;
@@ -74,96 +74,55 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
             boolean canRead = CurrentProjectVariables.canRead(permissionItem);
 
             if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-                Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        T item = previewForm.getBean();
-                        previewForm.fireAssignForm(item);
-                    }
-                });
-                assignBtn.setIcon(FontAwesome.SHARE);
-                assignBtn.setStyleName(UIConstants.BUTTON_ACTION);
+                MButton assignBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.fireAssignForm(item);
+                }).withIcon(FontAwesome.SHARE).withStyleName(UIConstants.BUTTON_ACTION).withVisible(canWrite);
                 editButtons.addComponent(assignBtn);
-                assignBtn.setEnabled(canWrite);
             }
 
             if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
-                Button addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        optionBtn.setPopupVisible(false);
-                        T item = previewForm.getBean();
-                        previewForm.fireAddForm(item);
-                    }
-                });
-                addBtn.setIcon(FontAwesome.PLUS);
-                addBtn.setStyleName(UIConstants.BUTTON_ACTION);
-                addBtn.setEnabled(canWrite);
+                MButton addBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
+                    optionBtn.setPopupVisible(false);
+                    T item = previewForm.getBean();
+                    previewForm.fireAddForm(item);
+                }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION).withVisible(canWrite);
                 editButtons.addComponent(addBtn);
             }
 
             if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-                Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        optionBtn.setPopupVisible(false);
-                        T item = previewForm.getBean();
-                        previewForm.fireEditForm(item);
-                    }
-                });
-                editBtn.setIcon(FontAwesome.EDIT);
-                editBtn.setStyleName(UIConstants.BUTTON_ACTION);
-                editBtn.setEnabled(canWrite);
+                MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
+                    optionBtn.setPopupVisible(false);
+                    T item = previewForm.getBean();
+                    previewForm.fireEditForm(item);
+                }).withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_ACTION).withVisible(canWrite);
                 editButtons.addComponent(editBtn);
             }
 
             if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-                Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        T item = previewForm.getBean();
-                        previewForm.fireDeleteForm(item);
-                    }
-                });
-                deleteBtn.setIcon(FontAwesome.TRASH_O);
-                deleteBtn.setStyleName(UIConstants.BUTTON_DANGER);
-                deleteBtn.setEnabled(canAccess);
+                MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.fireDeleteForm(item);
+                }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_DANGER).withVisible(canAccess);
                 editButtons.addComponent(deleteBtn);
             }
 
             if ((buttonEnableFlags & PRINT_BTN_PRESENTED) == PRINT_BTN_PRESENTED) {
                 final PrintButton printBtn = new PrintButton();
-                printBtn.addClickListener(clickEvent -> {
+                printBtn.withListener(clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.firePrintForm(printBtn, item);
-                });
-                printBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_PRINT));
-                printBtn.setEnabled(canRead);
+                }).withStyleName(UIConstants.BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.ACTION_PRINT))
+                        .withVisible(canRead);
                 editButtons.addComponent(printBtn);
             }
 
             if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-                Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        optionBtn.setPopupVisible(false);
-                        T item = previewForm.getBean();
-                        previewForm.fireCloneForm(item);
-                    }
-                });
-                cloneBtn.setIcon(FontAwesome.ROAD);
-                cloneBtn.setEnabled(canWrite);
+                MButton cloneBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
+                    optionBtn.setPopupVisible(false);
+                    T item = previewForm.getBean();
+                    previewForm.fireCloneForm(item);
+                }).withIcon(FontAwesome.ROAD).withVisible(canWrite);
                 popupButtonsControl.addOption(cloneBtn);
             }
 
@@ -171,37 +130,21 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
             if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
                 ButtonGroup navigationBtns = new ButtonGroup();
-                Button previousItem = new Button(null, new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        T item = previewForm.getBean();
-                        previewForm.fireGotoPrevious(item);
-                    }
-                });
-                previousItem.setIcon(FontAwesome.CHEVRON_LEFT);
-                previousItem.setCaptionAsHtml(true);
-                previousItem.setStyleName(UIConstants.BUTTON_OPTION);
-                previousItem.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
-                previousItem.setEnabled(canRead);
+                MButton previousItem = new MButton("", clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.fireGotoPrevious(item);
+                }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(UIConstants.BUTTON_OPTION)
+                        .withDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM))
+                        .withVisible(canRead);
                 navigationBtns.addButton(previousItem);
 
-                Button nextItemBtn = new Button(null, new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        T item = previewForm.getBean();
-                        previewForm.fireGotoNextItem(item);
-                    }
-                });
-                nextItemBtn.setIcon(FontAwesome.CHEVRON_RIGHT);
-                nextItemBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                nextItemBtn.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
-                nextItemBtn.setEnabled(canRead);
+                MButton nextItemBtn = new MButton("", clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.fireGotoNextItem(item);
+                }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(UIConstants.BUTTON_OPTION)
+                        .withDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM))
+                        .withVisible(canRead);
                 navigationBtns.addButton(nextItemBtn);
-
                 layout.addComponent(navigationBtns);
             }
 

@@ -36,6 +36,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -62,17 +63,10 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
     @Override
     protected Component buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(ComponentI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
-            }
-        });
-        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
-        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setIcon(FontAwesome.PLUS);
+        MButton createBtn = new MButton(AppContext.getMessage(ComponentI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
         return createBtn;
     }
 
@@ -111,23 +105,12 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    callSearchAction();
-                }
-            });
-            searchBtn.setIcon(FontAwesome.SEARCH);
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
             basicSearchBody.with(searchBtn);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    nameField.setValue("");
-                }
-            });
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn);
 
             return basicSearchBody;

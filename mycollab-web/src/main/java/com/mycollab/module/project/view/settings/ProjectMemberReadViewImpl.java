@@ -269,17 +269,14 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             });
 
             final CheckBox isOpenSelection = new CheckBox("Open", true);
-            isOpenSelection.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    boolean isOpenOption = isOpenSelection.getValue();
-                    if (isOpenOption) {
-                        searchCriteria.setIsOpenned(new SearchField());
-                    } else {
-                        searchCriteria.setIsOpenned(null);
-                    }
-                    updateSearchResult();
+            isOpenSelection.addValueChangeListener(valueChangeEvent -> {
+                boolean isOpenOption = isOpenSelection.getValue();
+                if (isOpenOption) {
+                    searchCriteria.setIsOpenned(new SearchField());
+                } else {
+                    searchCriteria.setIsOpenned(null);
                 }
+                updateSearchResult();
             });
 
             addHeaderElement(overdueSelection);

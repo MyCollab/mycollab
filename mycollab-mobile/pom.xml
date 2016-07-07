@@ -76,13 +76,13 @@
         <dependency>
             <groupId>org.vaadin.addon</groupId>
             <artifactId>easyuploads</artifactId>
-            <version>7.4.5</version>
+            <version>7.4.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.53</version>
+            <version>1.54</version>
         </dependency>
 
         <dependency>

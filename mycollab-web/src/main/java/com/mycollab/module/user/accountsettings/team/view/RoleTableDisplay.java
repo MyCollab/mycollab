@@ -27,9 +27,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.Table;
 
 import java.util.List;
 
@@ -43,37 +40,19 @@ public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSea
     public RoleTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(RoleService.class), SimpleRole.class, requiredColumn, displayColumns);
 
-        this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleRole role = getBeanByIndex(itemId);
-                CheckBoxDecor cb = new CheckBoxDecor("", role.isSelected());
-                cb.setImmediate(true);
-                cb.addValueChangeListener(new Property.ValueChangeListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void valueChange(ValueChangeEvent event) {
-                        RoleTableDisplay.this.fireSelectItemEvent(role);
-                    }
-                });
-                role.setExtraData(cb);
-                return cb;
-            }
+        this.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleRole role = getBeanByIndex(itemId);
+            CheckBoxDecor cb = new CheckBoxDecor("", role.isSelected());
+            cb.setImmediate(true);
+            cb.addValueChangeListener(valueChangeEvent -> RoleTableDisplay.this.fireSelectItemEvent(role));
+            role.setExtraData(cb);
+            return cb;
         });
 
-        this.addGeneratedColumn("rolename", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
-                SimpleRole role = getBeanByIndex(itemId);
-                return new LabelLink(role.getRolename(), GenericLinkUtils.URL_PREFIX_PARAM
-                                + AccountLinkGenerator.generateRoleLink(role.getId()));
-            }
+        this.addGeneratedColumn("rolename", (source, itemId, columnId) -> {
+            SimpleRole role = getBeanByIndex(itemId);
+            return new LabelLink(role.getRolename(), GenericLinkUtils.URL_PREFIX_PARAM
+                    + AccountLinkGenerator.generateRoleLink(role.getId()));
         });
     }
 }

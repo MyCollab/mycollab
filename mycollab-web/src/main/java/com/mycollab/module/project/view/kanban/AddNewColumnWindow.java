@@ -59,7 +59,7 @@ public class AddNewColumnWindow extends Window {
 
         final TextField stageField = new TextField();
         final CheckBox defaultProject = new CheckBox();
-        defaultProject.setEnabled(AppContext.canBeYes(RolePermissionCollections.GLOBAL_PROJECT_SETTINGS));
+        defaultProject.setVisible(AppContext.canBeYes(RolePermissionCollections.GLOBAL_PROJECT_SETTINGS));
         final ColorPicker colorPicker = new ColorPicker("", new com.vaadin.shared.ui.colorpicker.Color(DEFAULT_COLOR.getRed(),
                 DEFAULT_COLOR.getGreen(), DEFAULT_COLOR.getBlue()));
         final TextArea description = new TextArea();

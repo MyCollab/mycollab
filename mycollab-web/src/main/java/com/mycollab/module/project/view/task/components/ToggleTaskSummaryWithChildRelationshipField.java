@@ -23,10 +23,10 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.RemoveInlineComponentMarker;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd
@@ -37,19 +37,13 @@ public class ToggleTaskSummaryWithChildRelationshipField extends CustomField<Sim
 
     public ToggleTaskSummaryWithChildRelationshipField(final SimpleTask parentTask, final SimpleTask childTask) {
         toggleTaskSummaryField = new ToggleTaskSummaryField(parentTask);
-        Button unlinkBtn = new Button(null, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                childTask.setParenttaskid(null);
-                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                taskService.updateWithSession(childTask, AppContext.getUsername());
-                UIUtils.removeChildAssociate(ToggleTaskSummaryWithChildRelationshipField.this, RemoveInlineComponentMarker.class);
-            }
-        });
-        unlinkBtn.setIcon(FontAwesome.UNLINK);
+        MButton unlinkBtn = new MButton("", clickEvent -> {
+            childTask.setParenttaskid(null);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            taskService.updateWithSession(childTask, AppContext.getUsername());
+            UIUtils.removeChildAssociate(ToggleTaskSummaryWithChildRelationshipField.this, RemoveInlineComponentMarker.class);
+        }).withIcon(FontAwesome.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
         unlinkBtn.setDescription("Remove parent-child relationship");
-        unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
-        unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         toggleTaskSummaryField.addControl(unlinkBtn);
     }
 

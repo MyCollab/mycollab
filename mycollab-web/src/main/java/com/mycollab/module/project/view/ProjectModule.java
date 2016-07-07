@@ -98,7 +98,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             MButton newPrjBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW),
                     clickEvent -> UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class)))
                     .withStyleName("add-btn-popup").withIcon(FontAwesome.PLUS_CIRCLE);
-            newPrjBtn.setEnabled(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
+            newPrjBtn.setVisible(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
             serviceMenuContainer.with(newPrjBtn).withAlign(newPrjBtn, Alignment.MIDDLE_LEFT);
 
             Button switchPrjBtn = new SwitchProjectPopupButton();

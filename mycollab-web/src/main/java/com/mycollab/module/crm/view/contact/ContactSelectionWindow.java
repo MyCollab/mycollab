@@ -21,12 +21,8 @@ import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.ButtonLink;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -53,12 +49,7 @@ public class ContactSelectionWindow extends Window {
     public void show() {
         MVerticalLayout layout = new MVerticalLayout();
         ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
-        contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
-            @Override
-            public void onSearch(ContactSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-        });
+        contactSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         layout.addComponent(contactSimpleSearchPanel);
         layout.addComponent(tableItem);
         createContactList();
@@ -74,24 +65,16 @@ public class ContactSelectionWindow extends Window {
         tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
 
-        tableItem.addGeneratedColumn("contactName", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("contactName", (source, itemId, columnId) -> {
+            final SimpleContact contact = tableItem.getBeanByIndex(itemId);
 
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleContact contact = tableItem.getBeanByIndex(itemId);
-
-                ButtonLink b = new ButtonLink(contact.getContactName(), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        fieldSelection.fireValueChange(contact);
-                        close();
-                    }
-                });
-                b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                        contact, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                return b;
-            }
+            ButtonLink b = new ButtonLink(contact.getContactName(), clickEvent -> {
+                fieldSelection.fireValueChange(contact);
+                close();
+            });
+            b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat(),
+                    contact, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            return b;
         });
     }
 }

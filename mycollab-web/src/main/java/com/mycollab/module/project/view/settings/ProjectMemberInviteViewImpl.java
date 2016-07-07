@@ -50,6 +50,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -77,14 +78,9 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         this.removeAllComponents();
 
         roleComboBox = new ProjectRoleComboBox();
-        roleComboBox.addValueChangeListener(new ValueChangeListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                Integer roleId = (Integer) roleComboBox.getValue();
-                displayRolePermission(roleId);
-            }
+        roleComboBox.addValueChangeListener(valueChangeEvent -> {
+            Integer roleId = (Integer) roleComboBox.getValue();
+            displayRolePermission(roleId);
         });
 
         AddViewLayout userAddLayout = new AddViewLayout(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS), FontAwesome.USER);
@@ -108,37 +104,18 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
     }
 
     private Layout createButtonControls() {
-        MHorizontalLayout controlButtons = new MHorizontalLayout();
+        MButton inviteBtn = new MButton(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent -> {
+            roleId = (Integer) roleComboBox.getValue();
+            BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
+            String roleName = (item != null) ? item.getBean().getRolename() : "";
+            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
+                    new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
+        }).withIcon(FontAwesome.SEND).withStyleName(UIConstants.BUTTON_ACTION);
 
-        Button inviteBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                roleId = (Integer) roleComboBox.getValue();
-                BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
-                String roleName = (item != null) ? item.getBean().getRolename() : "";
-                ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
-                        new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
-
-            }
-        });
-        inviteBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        inviteBtn.setIcon(FontAwesome.SEND);
-
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-            }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-        controlButtons.with(cancelBtn, inviteBtn);
-
-        controlButtons.setSizeUndefined();
-        return controlButtons;
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null)))
+                .withStyleName(UIConstants.BUTTON_OPTION);
+        return new MHorizontalLayout(cancelBtn, inviteBtn);
     }
 
     private Layout createBottomPanel() {

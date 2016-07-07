@@ -65,17 +65,12 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
 
         public SelectableButton(String caption) {
             super(caption);
-            addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 6187441057387703570L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    selected = !selected;
-                    if (selected) {
-                        addStyleName(SELECTED_STYLENAME);
-                    } else {
-                        removeStyleName(SELECTED_STYLENAME);
-                    }
+            addClickListener(clickEvent -> {
+                selected = !selected;
+                if (selected) {
+                    addStyleName(SELECTED_STYLENAME);
+                } else {
+                    removeStyleName(SELECTED_STYLENAME);
                 }
             });
         }

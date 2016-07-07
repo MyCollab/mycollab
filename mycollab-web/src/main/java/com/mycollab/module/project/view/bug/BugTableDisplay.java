@@ -34,9 +34,7 @@ import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 
 import java.util.List;
 
@@ -58,101 +56,59 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
     public BugTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(BugService.class), SimpleBug.class, viewId, requiredColumn, displayColumns);
 
-        this.addGeneratedColumn("assignuserFullName", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
-                SimpleBug bug = getBeanByIndex(itemId);
-                return new ProjectUserLink(bug.getAssignuser(), bug.getAssignUserAvatarId(), bug.getAssignuserFullName());
-            }
+        this.addGeneratedColumn("assignuserFullName", (source, itemId, columnId) -> {
+            SimpleBug bug = getBeanByIndex(itemId);
+            return new ProjectUserLink(bug.getAssignuser(), bug.getAssignUserAvatarId(), bug.getAssignuserFullName());
         });
 
-        this.addGeneratedColumn("loguserFullName", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
-                SimpleBug bug = getBeanByIndex(itemId);
-                return new ProjectUserLink(bug.getLogby(), bug.getLoguserAvatarId(), bug.getLoguserFullName());
-            }
+        this.addGeneratedColumn("loguserFullName", (source, itemId, columnId) -> {
+            SimpleBug bug = getBeanByIndex(itemId);
+            return new ProjectUserLink(bug.getLogby(), bug.getLoguserAvatarId(), bug.getLoguserFullName());
         });
 
-        this.addGeneratedColumn("summary", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("summary", (source, itemId, columnId) -> {
+            SimpleBug bug = getBeanByIndex(itemId);
+            LabelLink b = new LabelLink(bug.getSummary(), ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
 
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
-                SimpleBug bug = getBeanByIndex(itemId);
-                LabelLink b = new LabelLink(bug.getSummary(), ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
-
-                if (StringUtils.isNotBlank(bug.getPriority())) {
-                    b.setIconLink(ProjectAssetsManager.getBugPriority(bug.getPriority()));
-                    b.addStyleName("bug-" + bug.getPriority().toLowerCase());
-                }
-
-                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                        bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
-
-                if (bug.isCompleted()) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else if (bug.isOverdue()) {
-                    b.addStyleName(UIConstants.LINK_OVERDUE);
-                }
-                return b;
-
+            if (StringUtils.isNotBlank(bug.getPriority())) {
+                b.setIconLink(ProjectAssetsManager.getBugPriority(bug.getPriority()));
+                b.addStyleName("bug-" + bug.getPriority().toLowerCase());
             }
+
+            b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat(),
+                    bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
+
+            if (bug.isCompleted()) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
+            } else if (bug.isOverdue()) {
+                b.addStyleName(UIConstants.LINK_OVERDUE);
+            }
+            return b;
         });
 
-        this.addGeneratedColumn("severity", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
-                SimpleBug bug = getBeanByIndex(itemId);
-                Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, bug.getSeverity()));
-                lbPriority.setIcon(FontAwesome.STAR);
-                if (bug.getSeverity() != null) {
-                    lbPriority.addStyleName("bug-severity-" + bug.getSeverity().toLowerCase());
-                }
-                return lbPriority;
-
+        this.addGeneratedColumn("severity", (source, itemId, columnId) -> {
+            SimpleBug bug = getBeanByIndex(itemId);
+            Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, bug.getSeverity()));
+            lbPriority.setIcon(FontAwesome.STAR);
+            if (bug.getSeverity() != null) {
+                lbPriority.addStyleName("bug-severity-" + bug.getSeverity().toLowerCase());
             }
+            return lbPriority;
         });
 
-        this.addGeneratedColumn("duedate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                SimpleBug bug = getBeanByIndex(itemId);
-                return new ELabel().prettyDate(bug.getDuedate());
-
-            }
+        this.addGeneratedColumn("duedate", (source, itemId, columnId) -> {
+            SimpleBug bug = getBeanByIndex(itemId);
+            return new ELabel().prettyDate(bug.getDuedate());
         });
 
-        this.addGeneratedColumn("createdtime", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                SimpleBug bug = getBeanByIndex(itemId);
-                return new ELabel().prettyDateTime(bug.getCreatedtime());
-
-            }
+        this.addGeneratedColumn("createdtime", (source, itemId, columnId) -> {
+            SimpleBug bug = getBeanByIndex(itemId);
+            return new ELabel().prettyDateTime(bug.getCreatedtime());
         });
 
-        this.addGeneratedColumn("resolution", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId,
-                                       Object columnId) {
-                SimpleBug bug = getBeanByIndex(itemId);
-                return new Label(AppContext.getMessage(BugResolution.class, bug.getResolution()));
-            }
+        this.addGeneratedColumn("resolution", (source, itemId, columnId) -> {
+            SimpleBug bug = getBeanByIndex(itemId);
+            return new Label(AppContext.getMessage(BugResolution.class, bug.getResolution()));
         });
         this.setWidth("100%");
     }

@@ -203,19 +203,16 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         logoUploadField.addStyleName("upload-field");
         logoUploadField.setSizeUndefined();
         logoUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-        logoUploadField.setEnabled(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        logoUploadField.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-        Button resetButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
-                billingAccount.setLogopath(null);
-                billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
-                Page.getCurrent().getJavaScript().execute("window.location.reload();");
-            }
-        });
-        resetButton.setEnabled(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
-        resetButton.setStyleName(UIConstants.BUTTON_OPTION);
+        MButton resetButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
+            BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
+            billingAccount.setLogopath(null);
+            billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
+            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+        }).withStyleName(UIConstants.BUTTON_OPTION);
+        resetButton.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+
         buttonControls.with(logoUploadField, resetButton);
         rightPanel.with(previewLayout, buttonControls);
         layout.with(leftPanel, rightPanel).expand(rightPanel);
@@ -272,19 +269,15 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         favIconUploadField.addStyleName("upload-field");
         favIconUploadField.setSizeUndefined();
         favIconUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-        favIconUploadField.setEnabled(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        favIconUploadField.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-        Button resetButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
-                billingAccount.setFaviconpath(null);
-                billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
-                Page.getCurrent().getJavaScript().execute("window.location.reload();");
-            }
-        });
-        resetButton.setEnabled(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
-        resetButton.setStyleName(UIConstants.BUTTON_OPTION);
+        MButton resetButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
+            BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
+            billingAccount.setFaviconpath(null);
+            billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
+            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+        }).withStyleName(UIConstants.BUTTON_OPTION);
+        resetButton.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         buttonControls.with(favIconUploadField, resetButton);
         rightPanel.with(favIconRes, buttonControls);

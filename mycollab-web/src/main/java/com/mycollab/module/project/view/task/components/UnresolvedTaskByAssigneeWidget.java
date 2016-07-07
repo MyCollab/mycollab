@@ -16,10 +16,11 @@
  */
 package com.mycollab.module.project.view.task.components;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.domain.GroupItem;
-import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -37,10 +38,9 @@ import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.google.common.eventbus.Subscribe;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -63,12 +63,7 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
                 @Subscribe
                 public void handle(TaskEvent.HasTaskChange event) {
                     if (searchCriteria != null) {
-                        UI.getCurrent().access(new Runnable() {
-                            @Override
-                            public void run() {
-                                setSearchCriteria(searchCriteria);
-                            }
-                        });
+                        UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
                     }
                 }
             };
@@ -130,25 +125,18 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
         bodyContent.addComponent(taskAssigneeChartWidget);
     }
 
-    class TaskAssigneeLink extends Button {
+    class TaskAssigneeLink extends MButton {
         private static final long serialVersionUID = 1L;
 
         public TaskAssigneeLink(final String assignee, String assigneeAvatarId, final String assigneeFullName) {
-            super(StringUtils.trim(assigneeFullName, 25, true), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            super(StringUtils.trim(assigneeFullName, 25, true));
 
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    TaskSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
-                    criteria.setAssignUser(StringSearchField.and(assignee));
-                    EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, criteria));
-                }
-            });
-
-            this.setWidth("100%");
-            this.setStyleName(UIConstants.BUTTON_LINK);
-            this.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
+            this.withListener(clickEvent -> {
+                TaskSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
+                criteria.setAssignUser(StringSearchField.and(assignee));
+                EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(UnresolvedTaskByAssigneeWidget.this, criteria));
+            }).withWidth("100%").withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))
+                    .withStyleName(UIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
             UserService service = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,

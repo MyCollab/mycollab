@@ -32,6 +32,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -70,23 +71,20 @@ public class PageListNoItemView extends ProjectListNoItemView {
     }
 
     protected MHorizontalLayout createControlButtons() {
-        Button createPageBtn = new Button(actionMessage(), actionListener());
-        createPageBtn.setEnabled(hasPermission());
-        createPageBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        if (hasPermission()) {
+            MButton createPageBtn = new MButton(actionMessage(), actionListener()).withStyleName(UIConstants.BUTTON_ACTION);
 
-        Button createPageGroupBtn = new Button(AppContext.getMessage(PageI18nEnum.NEW_GROUP), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
+            MButton createPageGroupBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW_GROUP), clickEvent -> {
                 UI.getCurrent().addWindow(new GroupPageAddWindow());
-            }
-        });
-        createPageGroupBtn.setEnabled(hasPermission());
-        createPageGroupBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(UIConstants.BUTTON_ACTION);
 
-        MHorizontalLayout links = new MHorizontalLayout();
-        links.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        links.with(createPageBtn, new Label(" or "), createPageGroupBtn);
-        return links;
+            MHorizontalLayout links = new MHorizontalLayout();
+            links.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            links.with(createPageBtn, new Label(" or "), createPageGroupBtn);
+            return links;
+        } else {
+            return null;
+        }
     }
 
     @Override

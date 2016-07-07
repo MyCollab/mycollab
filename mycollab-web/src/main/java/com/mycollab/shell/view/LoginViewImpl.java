@@ -33,6 +33,7 @@ import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -76,15 +77,9 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             custom.addComponent(loginBtn, "loginButton");
 
-            Button forgotPasswordBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null));
-                }
-            });
-            forgotPasswordBtn.setStyleName(UIConstants.BUTTON_LINK);
+            MButton forgotPasswordBtn = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
+                    clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null)))
+                    .withStyleName(UIConstants.BUTTON_LINK);
             custom.addComponent(forgotPasswordBtn, "forgotLink");
 
             return custom;

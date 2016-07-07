@@ -20,6 +20,7 @@ import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.Button;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ import java.util.UUID;
  * @author Mycollab Ltd
  * @since 5.2.11
  */
-public class PrintButton extends Button {
+public class PrintButton extends MButton {
     private BrowserWindowOpener printWindowOpener;
     private FormReportStreamSource formReportStreamSource;
 

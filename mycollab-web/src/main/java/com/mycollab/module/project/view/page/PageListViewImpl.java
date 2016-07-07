@@ -156,13 +156,13 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         MButton newGroupBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW_GROUP),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow()))
                 .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
-        newGroupBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+        newGroupBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         headerLayout.with(newGroupBtn).withAlign(newGroupBtn, Alignment.MIDDLE_RIGHT);
 
         MButton newPageBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
-        newPageBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+        newPageBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         headerLayout.with(newPageBtn).withAlign(newPageBtn, Alignment.MIDDLE_RIGHT);
     }
@@ -212,7 +212,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow(resource)))
                 .withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING).withIcon(FontAwesome.EDIT);
-        editBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+        editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
@@ -234,7 +234,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);
-        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
+        deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
 
         container.addComponent(new MHorizontalLayout(editBtn, deleteBtn));
         return container;
@@ -259,7 +259,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoEdit(PageListViewImpl.this, resource)))
                 .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);
-        editBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+        editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
@@ -281,7 +281,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);
-        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
+        deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
 
         container.addComponent(new MHorizontalLayout(editBtn, deleteBtn));
         return container;

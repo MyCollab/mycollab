@@ -29,6 +29,7 @@ import com.hp.gagawa.java.elements.Text;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -63,42 +64,26 @@ public class AdRequestWindow extends Window {
                 new A("https://www.linkedin.com/cws/share?url=https%3A%2F%2Fwww.mycollab.com&original_referer=https%3A%2F%2Fwww.mycollab.com&token=&isFramed=false&lang=en_US", "_blank")
                         .appendText("Share on LinkedIn")).setStyle("color:#006dac").write(), ContentMode.HTML);
 
-        Button testimonialBtn = new Button("Write a testimonial", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AdRequestWindow.this.close();
-                turnOffAdd(user);
-                UI.getCurrent().addWindow(new TestimonialWindow());
-            }
-        });
-        testimonialBtn.setStyleName(UIConstants.BUTTON_LINK);
-        testimonialBtn.setIcon(FontAwesome.KEYBOARD_O);
+        MButton testimonialBtn = new MButton("Write a testimonial", clickEvent -> {
+            close();
+            turnOffAdd(user);
+            UI.getCurrent().addWindow(new TestimonialWindow());
+        }).withIcon(FontAwesome.KEYBOARD_O).withStyleName(UIConstants.BUTTON_LINK);
 
         shareControls.with(rateSourceforge, tweetUs, linkedIn, testimonialBtn);
 
-        MHorizontalLayout btnControls = new MHorizontalLayout();
-        Button ignoreBtn = new Button("No, thanks", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                close();
-                turnOffAdd(user);
-            }
-        });
-        ignoreBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        MButton ignoreBtn = new MButton("No, thanks", clickEvent -> {
+            close();
+            turnOffAdd(user);
+        }).withStyleName(UIConstants.BUTTON_OPTION);
 
-        Button loveBtn = new Button("I did", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AdRequestWindow.this.close();
-                NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
-                turnOffAdd(user);
-            }
-        });
-        loveBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        loveBtn.setIcon(FontAwesome.HEART);
+        MButton loveBtn = new MButton("I did", clickEvent -> {
+            close();
+            NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
+            turnOffAdd(user);
+        }).withIcon(FontAwesome.HEART).withStyleName(UIConstants.BUTTON_ACTION);
 
-        btnControls.with(ignoreBtn, loveBtn);
-
+        MHorizontalLayout btnControls = new MHorizontalLayout(ignoreBtn, loveBtn);
         content.with(message, shareControls, btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);
         this.setContent(content);
     }

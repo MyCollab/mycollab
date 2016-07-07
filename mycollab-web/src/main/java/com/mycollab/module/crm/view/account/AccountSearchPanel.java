@@ -41,6 +41,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -63,15 +64,10 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected Component buildExtraControls() {
-        Button newBtn = new Button(AppContext.getMessage(AccountI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
-            }
-        });
-        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        newBtn.setIcon(FontAwesome.PLUS);
-        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
+        MButton newBtn = new MButton(AppContext.getMessage(AccountI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         return newBtn;
     }
 
@@ -144,35 +140,17 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
-            searchBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    AccountBasicSearchLayout.this.callSearchAction();
-                }
-            });
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
 
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            cancelBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    nameField.setValue("");
-                }
-            });
+            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    AccountSearchPanel.this.moveToAdvancedSearchLayout();
-                }
-            });
-            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
+            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+                    clickEvent -> moveToAdvancedSearchLayout()).withStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }

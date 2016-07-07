@@ -53,6 +53,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -71,7 +72,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private DateInfoComp dateInfoComp;
     private TaskTimeLogSheet timesheetComp;
     private PeopleInfoComp peopleInfoComp;
-    private Button quickActionStatusBtn;
+    private MButton quickActionStatusBtn;
 
     public TaskReadViewImpl() {
         super(AppContext.getMessage(TaskI18nEnum.DETAIL),
@@ -152,37 +153,27 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                         | ProjectPreviewFormControlsGenerator.NAVIGATOR_BTN_PRESENTED,
                 ProjectRolePermissionCollections.TASKS);
 
-        quickActionStatusBtn = new Button("", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (beanItem.isCompleted()) {
-                    beanItem.setStatus(StatusI18nEnum.Open.name());
-                    beanItem.setPercentagecomplete(0d);
-                    removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-                    quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
-                } else {
-                    beanItem.setStatus(StatusI18nEnum.Closed.name());
-                    beanItem.setPercentagecomplete(100d);
-                    addLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-                    quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
-                }
-
-                ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                service.updateWithSession(beanItem, AppContext.getUsername());
-
+        quickActionStatusBtn = new MButton("", clickEvent -> {
+            if (beanItem.isCompleted()) {
+                beanItem.setStatus(StatusI18nEnum.Open.name());
+                beanItem.setPercentagecomplete(0d);
+                removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+                quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
+            } else {
+                beanItem.setStatus(StatusI18nEnum.Closed.name());
+                beanItem.setPercentagecomplete(100d);
+                addLayoutStyleName(UIConstants.LINK_COMPLETED);
+                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+                quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
             }
-        });
 
-        quickActionStatusBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            service.updateWithSession(beanItem, AppContext.getUsername());
+        }).withStyleName(UIConstants.BUTTON_ACTION);
+
         taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
-
-        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-            quickActionStatusBtn.setEnabled(false);
-        }
+        quickActionStatusBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
         return topPanel;
     }

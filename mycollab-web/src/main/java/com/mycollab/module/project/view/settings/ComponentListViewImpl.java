@@ -36,12 +36,10 @@ import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.*;
+import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -85,68 +83,36 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
                         new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
-        tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleComponent component = tableItem.getBeanByIndex(itemId);
-                CheckBoxDecor cb = new CheckBoxDecor("", component.isSelected());
-                cb.setImmediate(true);
-                cb.addValueChangeListener(new Property.ValueChangeListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void valueChange(ValueChangeEvent event) {
-                        tableItem.fireSelectItemEvent(component);
-
-                    }
-                });
-
-                component.setExtraData(cb);
-                return cb;
-            }
+        tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleComponent component = tableItem.getBeanByIndex(itemId);
+            CheckBoxDecor cb = new CheckBoxDecor("", component.isSelected());
+            cb.setImmediate(true);
+            cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(component));
+            component.setExtraData(cb);
+            return cb;
         });
 
-        tableItem.addGeneratedColumn("componentname", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-                LabelLink b = new LabelLink(bugComponent.getComponentname(), ProjectLinkBuilder
-                        .generateComponentPreviewFullLink(bugComponent.getProjectid(), bugComponent.getId()));
-                if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                }
-                b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(AppContext.getUserLocale(),
-                        bugComponent, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                return b;
-
+        tableItem.addGeneratedColumn("componentname", (source, itemId, columnId) -> {
+            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
+            LabelLink b = new LabelLink(bugComponent.getComponentname(), ProjectLinkBuilder
+                    .generateComponentPreviewFullLink(bugComponent.getProjectid(), bugComponent.getId()));
+            if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
             }
+            b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(AppContext.getUserLocale(),
+                    bugComponent, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            return b;
         });
 
-        tableItem.addGeneratedColumn("userLeadFullName", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
-                SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-                return new ProjectUserLink(bugComponent.getUserlead(),
-                        bugComponent.getUserLeadAvatarId(), bugComponent.getUserLeadFullName());
-
-            }
+        tableItem.addGeneratedColumn("userLeadFullName", (source, itemId, columnId) -> {
+            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
+            return new ProjectUserLink(bugComponent.getUserlead(),
+                    bugComponent.getUserLeadAvatarId(), bugComponent.getUserLeadFullName());
         });
 
-        tableItem.addGeneratedColumn("id", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
-                SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-                return new ProgressBarIndicator(bugComponent.getNumBugs(), bugComponent.getNumOpenBugs(), false);
-
-            }
+        tableItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
+            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
+            return new ProgressBarIndicator(bugComponent.getNumBugs(), bugComponent.getNumOpenBugs(), false);
         });
 
         tableItem.setWidth("100%");

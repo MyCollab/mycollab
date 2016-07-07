@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.milestone;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.SetSearchField;
@@ -45,11 +46,9 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.web.CustomLayoutExt;
-import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
@@ -152,7 +151,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
         }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
+        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
         MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new
@@ -168,12 +167,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         kanbanBtn.setDescription("Board View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
-        Button roadmapBtn = new Button("List", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this));
-            }
-        });
+        Button roadmapBtn = new Button("List",
+                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)));
         roadmapBtn.setDescription("Roadmap");
         roadmapBtn.setIcon(VaadinIcons.CUBE);
 
@@ -264,33 +259,35 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             taskSettingPopupBtn.setWidth("15px");
             OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
-            MButton editButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                    clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(MilestoneBox.this, milestone)))
-                    .withIcon(FontAwesome.EDIT);
-            editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
-            filterBtnLayout.addOption(editButton);
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
+                MButton editButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                        clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(MilestoneBox.this, milestone)))
+                        .withIcon(FontAwesome.EDIT);
+                filterBtnLayout.addOption(editButton);
+            }
 
-            MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
+            if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES)) {
+                MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
-                                    projectTaskService.removeWithSession(milestone, AppContext.getUsername(), AppContext.getAccountId());
-                                    displayMilestones();
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
+                                        projectTaskService.removeWithSession(milestone, AppContext.getUsername(), AppContext.getAccountId());
+                                        displayMilestones();
+                                    }
                                 }
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O);
-            deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES));
-            filterBtnLayout.addDangerOption(deleteBtn);
+                            });
+                }).withIcon(FontAwesome.TRASH_O);
+                filterBtnLayout.addDangerOption(deleteBtn);
+            }
 
             taskSettingPopupBtn.setIcon(FontAwesome.COG);
             taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);

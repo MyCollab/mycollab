@@ -80,41 +80,29 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
         VerticalLayout controlBtnWrap = new VerticalLayout();
         controlBtnWrap.setWidth("100%");
 
-        final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
-        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(CampaignI18nEnum.NEW));
-        controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-            private static final long serialVersionUID = 1099580202385205069L;
-
-            @Override
-            public void splitButtonClick(
-                    SplitButton.SplitButtonClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-            private static final long serialVersionUID = 3046728004767791528L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
+            final SplitButton controlsBtn = new SplitButton();
+            controlsBtn.setSizeUndefined();
+            controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtn.setCaption(AppContext.getMessage(CampaignI18nEnum.NEW));
+            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
+            Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 LeadCampaignSelectionWindow leadsWindow = new LeadCampaignSelectionWindow(LeadCampaignListComp.this);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 UI.getCurrent().addWindow(leadsWindow);
                 leadsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
-            }
-        });
-        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
-        OptionPopupContent buttonControlsLayout = new OptionPopupContent();
-        buttonControlsLayout.addOption(selectBtn);
-        controlsBtn.setContent(buttonControlsLayout);
+            });
+            selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
+            OptionPopupContent buttonControlsLayout = new OptionPopupContent();
+            buttonControlsLayout.addOption(selectBtn);
+            controlsBtn.setContent(buttonControlsLayout);
 
-        controlBtnWrap.addComponent(controlsBtn);
-        controlBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            controlBtnWrap.addComponent(controlsBtn);
+            controlBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+        }
 
         return controlBtnWrap;
     }

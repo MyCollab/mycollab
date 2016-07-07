@@ -84,50 +84,46 @@ public class SetupNewInstanceView extends MVerticalLayout {
         languageBox.setValue(Locale.US.toLanguageTag());
         content.with(formLayoutHelper.getLayout());
 
-        Button installBtn = new Button("Setup", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                String adminName = adminField.getValue();
-                String password = passwordField.getValue();
-                String retypePassword = retypePasswordField.getValue();
-                if (!StringUtils.isValidEmail(adminName)) {
-                    NotificationUtil.showErrorNotification("Invalid email value");
-                    return;
-                }
-
-                if (!password.equals(retypePassword)) {
-                    NotificationUtil.showErrorNotification("Password is not match");
-                    return;
-                }
-
-                String dateFormat = dateFormatField.getValue();
-                String shortDateFormat = shortDateFormatField.getValue();
-                String longDateFormat = longDateFormatField.getValue();
-                if (!isValidDayPattern(dateFormat) || !isValidDayPattern(shortDateFormat) || !isValidDayPattern(longDateFormat)) {
-                    NotificationUtil.showErrorNotification("Invalid date format");
-                    return;
-                }
-                String language = languageBox.getValue();
-                String timezoneDbId = timeZoneSelectionField.getValue();
-                BillingAccountMapper billingAccountMapper = AppContextUtil.getSpringBean(BillingAccountMapper.class);
-                BillingAccountExample ex = new BillingAccountExample();
-                ex.createCriteria().andIdEqualTo(AppContext.getAccountId());
-                List<BillingAccount> billingAccounts = billingAccountMapper.selectByExample(ex);
-                BillingAccount billingAccount = billingAccounts.get(0);
-                billingAccount.setDefaultlanguagetag(language);
-                billingAccount.setDefaultyymmddformat(dateFormat);
-                billingAccount.setDefaultmmddformat(shortDateFormat);
-                billingAccount.setDefaulthumandateformat(longDateFormat);
-                billingAccount.setDefaulttimezone(timezoneDbId);
-                billingAccountMapper.updateByPrimaryKey(billingAccount);
-
-                BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
-
-                billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true, true,
-                        AppContext.getAccountId());
-                ((DesktopApplication) UI.getCurrent()).doLogin(adminName, password, false);
-
+        Button installBtn = new Button("Setup", clickEvent -> {
+            String adminName = adminField.getValue();
+            String password = passwordField.getValue();
+            String retypePassword = retypePasswordField.getValue();
+            if (!StringUtils.isValidEmail(adminName)) {
+                NotificationUtil.showErrorNotification("Invalid email value");
+                return;
             }
+
+            if (!password.equals(retypePassword)) {
+                NotificationUtil.showErrorNotification("Password is not match");
+                return;
+            }
+
+            String dateFormat = dateFormatField.getValue();
+            String shortDateFormat = shortDateFormatField.getValue();
+            String longDateFormat = longDateFormatField.getValue();
+            if (!isValidDayPattern(dateFormat) || !isValidDayPattern(shortDateFormat) || !isValidDayPattern(longDateFormat)) {
+                NotificationUtil.showErrorNotification("Invalid date format");
+                return;
+            }
+            String language = languageBox.getValue();
+            String timezoneDbId = timeZoneSelectionField.getValue();
+            BillingAccountMapper billingAccountMapper = AppContextUtil.getSpringBean(BillingAccountMapper.class);
+            BillingAccountExample ex = new BillingAccountExample();
+            ex.createCriteria().andIdEqualTo(AppContext.getAccountId());
+            List<BillingAccount> billingAccounts = billingAccountMapper.selectByExample(ex);
+            BillingAccount billingAccount = billingAccounts.get(0);
+            billingAccount.setDefaultlanguagetag(language);
+            billingAccount.setDefaultyymmddformat(dateFormat);
+            billingAccount.setDefaultmmddformat(shortDateFormat);
+            billingAccount.setDefaulthumandateformat(longDateFormat);
+            billingAccount.setDefaulttimezone(timezoneDbId);
+            billingAccountMapper.updateByPrimaryKey(billingAccount);
+
+            BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
+
+            billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true, true,
+                    AppContext.getAccountId());
+            ((DesktopApplication) UI.getCurrent()).doLogin(adminName, password, false);
         });
         installBtn.addStyleName(UIConstants.BUTTON_ACTION);
         content.with(installBtn).withAlign(installBtn, Alignment.TOP_RIGHT);

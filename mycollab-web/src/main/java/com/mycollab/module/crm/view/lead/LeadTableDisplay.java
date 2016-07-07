@@ -27,12 +27,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
-import com.vaadin.ui.Table;
 
 import java.util.List;
 
@@ -55,86 +52,50 @@ public class LeadTableDisplay extends DefaultPagedBeanTable<LeadService, LeadSea
         super(AppContextUtil.getSpringBean(LeadService.class),
                 SimpleLead.class, viewId, requiredColumn, displayColumns);
 
-        this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       Object columnId) {
-                final SimpleLead lead = getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", lead.isSelected());
-                cb.setImmediate(true);
-                cb.addValueChangeListener(new Property.ValueChangeListener() {
-
-                    @Override
-                    public void valueChange(ValueChangeEvent event) {
-                        LeadTableDisplay.this.fireSelectItemEvent(lead);
-
-                        fireTableEvent(new TableClickEvent(LeadTableDisplay.this, lead, "selected"));
-
-                    }
-                });
-
-                lead.setExtraData(cb);
-                return cb;
-            }
+        this.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
+            final CheckBoxDecor cb = new CheckBoxDecor("", lead.isSelected());
+            cb.setImmediate(true);
+            cb.addValueChangeListener(valueChangeEvent -> {
+                fireSelectItemEvent(lead);
+                fireTableEvent(new TableClickEvent(LeadTableDisplay.this, lead, "selected"));
+            });
+            lead.setExtraData(cb);
+            return cb;
         });
 
-        this.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
-            @Override
-            public Object generateCell(Table source, Object itemId,
-                                       Object columnId) {
-                final SimpleLead lead = getBeanByIndex(itemId);
+        this.addGeneratedColumn("leadName", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
 
-                LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder.generateLeadPreviewLinkFull(lead.getId()));
-                if ("Dead".equals(lead.getStatus()) || "Converted".equals(lead.getStatus())) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                }
-                b.setDescription(CrmTooltipGenerator.generateTooltipLead(
-                        AppContext.getUserLocale(), lead,
-                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                return b;
+            LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder.generateLeadPreviewLinkFull(lead.getId()));
+            if ("Dead".equals(lead.getStatus()) || "Converted".equals(lead.getStatus())) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
             }
+            b.setDescription(CrmTooltipGenerator.generateTooltipLead(
+                    AppContext.getUserLocale(), lead,
+                    AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            return b;
         });
 
-        this.addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleLead lead = getBeanByIndex(itemId);
-                return new UserLink(lead.getAssignuser(), lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
-            }
+        this.addGeneratedColumn("assignUserFullName", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
+            return new UserLink(lead.getAssignuser(), lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
         });
 
-        this.addGeneratedColumn("email", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
-                final SimpleLead lead = getBeanByIndex(itemId);
-                Link l = new Link();
-                l.setResource(new ExternalResource("mailto:" + lead.getEmail()));
-                l.setCaption(lead.getEmail());
-                return l;
-
-            }
+        this.addGeneratedColumn("email", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
+            Link l = new Link();
+            l.setResource(new ExternalResource("mailto:" + lead.getEmail()));
+            l.setCaption(lead.getEmail());
+            return l;
         });
 
-        this.addGeneratedColumn("website", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
-                final SimpleLead lead = getBeanByIndex(itemId);
-                if (lead.getWebsite() != null) {
-                    return new UrlLink(lead.getWebsite());
-                } else {
-                    return new Label("");
-                }
-
+        this.addGeneratedColumn("website", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
+            if (lead.getWebsite() != null) {
+                return new UrlLink(lead.getWebsite());
+            } else {
+                return new Label("");
             }
         });
 

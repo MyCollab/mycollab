@@ -16,6 +16,9 @@
  */
 package com.mycollab.module.crm.ui.components;
 
+import com.google.common.collect.Ordering;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.AuditChangeItem;
 import com.mycollab.common.domain.SimpleAuditLog;
@@ -32,19 +35,16 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.ui.formatter.DefaultFieldDisplayHandler;
-import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.ui.formatter.DefaultFieldDisplayHandler;
+import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.google.common.collect.Ordering;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -53,6 +53,7 @@ import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -101,13 +102,10 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         final String newestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
         sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
         sortDirection.setValue(newestFirstDirection);
-        sortDirection.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                Object value = sortDirection.getValue();
-                isAscending = newestFirstDirection.equals(value);
-                displayActivities();
-            }
+        sortDirection.addValueChangeListener(valueChangeEvent -> {
+            Object value = sortDirection.getValue();
+            isAscending = newestFirstDirection.equals(value);
+            displayActivities();
         });
 
         MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
@@ -193,34 +191,26 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
-            Button msgDeleteBtn = new Button();
-            msgDeleteBtn.setIcon(FontAwesome.TRASH_O);
-            msgDeleteBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-            msgDeleteBtn.setVisible(true);
-            msgDeleteBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            MButton msgDeleteBtn = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                        commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                        activityBox.removeComponent(layout);
-                                    }
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                    commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                    activityBox.removeComponent(layout);
                                 }
-                            });
-                }
-            });
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {
             messageHeader.with(timePostLbl).expand(timePostLbl);

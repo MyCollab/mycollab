@@ -102,7 +102,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
     private DDHorizontalLayout kanbanLayout;
     private Map<String, KanbanBlock> kanbanBlocks;
     private ComponentContainer newTaskComp = null;
-    private Button toggleShowColumsBtn;
+    private MButton toggleShowColumsBtn;
     private boolean displayHiddenColumns = false;
     private TaskSearchCriteria baseCriteria;
 
@@ -128,38 +128,33 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        toggleShowColumsBtn = new Button("", clickEvent -> {
+        toggleShowColumsBtn = new MButton("", clickEvent -> {
             displayHiddenColumns = !displayHiddenColumns;
             reload();
             toggleShowButton();
-        });
-        toggleShowColumsBtn.addStyleName(UIConstants.BUTTON_LINK);
+        }).withStyleName(UIConstants.BUTTON_LINK);
         groupWrapLayout.addComponent(toggleShowColumsBtn);
         toggleShowButton();
 
-        Button addNewColumnBtn = new Button(AppContext.getMessage(TaskI18nEnum.ACTION_NEW_COLUMN),
-                clickEvent -> UI.getCurrent().addWindow(new AddNewColumnWindow(this, ProjectTypeConstants.TASK, "status")));
-        addNewColumnBtn.setIcon(FontAwesome.PLUS);
-        addNewColumnBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        addNewColumnBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        groupWrapLayout.addComponent(addNewColumnBtn);
+        if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)){
+            MButton addNewColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_NEW_COLUMN),
+                    clickEvent -> UI.getCurrent().addWindow(new AddNewColumnWindow(this, ProjectTypeConstants.TASK, "status")))
+                    .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+            groupWrapLayout.addComponent(addNewColumnBtn);
+        }
 
-        Button deleteColumnBtn = new Button("Delete columns",
-                clickEvent -> UI.getCurrent().addWindow(new DeleteColumnWindow(this, ProjectTypeConstants.TASK)));
-        deleteColumnBtn.setIcon(FontAwesome.TRASH_O);
-        deleteColumnBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        deleteColumnBtn.setStyleName(UIConstants.BUTTON_DANGER);
+        MButton deleteColumnBtn = new MButton("Delete columns",
+                clickEvent -> UI.getCurrent().addWindow(new DeleteColumnWindow(this, ProjectTypeConstants.TASK)))
+                .withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_DANGER);
+        deleteColumnBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
 
-        Button advanceDisplayBtn = new Button("List",
-                clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null)));
-        advanceDisplayBtn.setWidth("100px");
-        advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
+        MButton advanceDisplayBtn = new MButton("List",
+                clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null)))
+                .withIcon(FontAwesome.SITEMAP).withWidth("100px");
         advanceDisplayBtn.setDescription("Advance View");
 
-        Button kanbanBtn = new Button("Kanban");
-        kanbanBtn.setWidth("100px");
+        MButton kanbanBtn = new MButton("Kanban").withIcon(FontAwesome.TH).withWidth("100px");
         kanbanBtn.setDescription("Kanban View");
-        kanbanBtn.setIcon(FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
@@ -443,105 +438,113 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             boolean canExecute = CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS);
 
             OptionPopupContent popupContent = new OptionPopupContent();
-            Button renameColumnBtn = new Button(AppContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN), clickEvent -> {
-                controlsBtn.setPopupVisible(false);
-                UI.getCurrent().addWindow(new RenameColumnWindow());
-            });
-            renameColumnBtn.setIcon(FontAwesome.EDIT);
-            renameColumnBtn.setEnabled(canExecute && canRename);
-            popupContent.addOption(renameColumnBtn);
 
-            hideColumnBtn = new Button("", clickEvent -> {
-                controlsBtn.setPopupVisible(false);
-                if (Boolean.FALSE.equals(optionVal.getIsshow())) {
-                    optionVal.setIsshow(Boolean.TRUE);
-                } else {
-                    optionVal.setIsshow(Boolean.FALSE);
-                }
-                optionValService.updateWithSession(optionVal, AppContext.getUsername());
-                toggleShowButton();
-                if (!displayHiddenColumns && Boolean.FALSE.equals(optionVal.getIsshow())) {
-                    ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
-                }
-            });
-            hideColumnBtn.setEnabled(canExecute);
-            popupContent.addOption(hideColumnBtn);
+            if (canExecute && canRename) {
+                MButton renameColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN), clickEvent -> {
+                    controlsBtn.setPopupVisible(false);
+                    UI.getCurrent().addWindow(new RenameColumnWindow());
+                }).withIcon(FontAwesome.EDIT);
+                popupContent.addOption(renameColumnBtn);
+            }
 
-            MButton changeColorBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_CHANGE_COLOR), clickEvent -> {
-                ColumnColorPickerWindow popup = new ColumnColorPickerWindow(Color.CYAN);
-                UI.getCurrent().addWindow(popup);
-                popup.addColorChangeListener(colorChangeEvent -> {
-                    Color color = colorChangeEvent.getColor();
-                    String colorStr = color.getCSS().substring(1);
-                    OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
-                    optionVal.setColor(colorStr);
+            if (canExecute) {
+                hideColumnBtn = new Button("", clickEvent -> {
+                    controlsBtn.setPopupVisible(false);
+                    if (Boolean.FALSE.equals(optionVal.getIsshow())) {
+                        optionVal.setIsshow(Boolean.TRUE);
+                    } else {
+                        optionVal.setIsshow(Boolean.FALSE);
+                    }
                     optionValService.updateWithSession(optionVal, AppContext.getUsername());
-                    JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + colorStr + "'});");
+                    toggleShowButton();
+                    if (!displayHiddenColumns && Boolean.FALSE.equals(optionVal.getIsshow())) {
+                        ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
+                    }
                 });
-                controlsBtn.setPopupVisible(false);
-            }).withIcon(FontAwesome.PENCIL);
-            changeColorBtn.setEnabled(canExecute);
-            popupContent.addOption(changeColorBtn);
+                popupContent.addOption(hideColumnBtn);
+            }
 
-            Button deleteColumnBtn = new Button(AppContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMN), clickEvent -> {
-                if (getTaskComponentCount() > 0) {
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_DELETE_COLUMN_HAS_TASK));
-                } else {
-                    ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                            AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
+            if (canExecute) {
+                MButton changeColorBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_CHANGE_COLOR), clickEvent -> {
+                    ColumnColorPickerWindow popup = new ColumnColorPickerWindow(Color.CYAN);
+                    UI.getCurrent().addWindow(popup);
+                    popup.addColorChangeListener(colorChangeEvent -> {
+                        Color color = colorChangeEvent.getColor();
+                        String colorStr = color.getCSS().substring(1);
+                        OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
+                        optionVal.setColor(colorStr);
+                        optionValService.updateWithSession(optionVal, AppContext.getUsername());
+                        JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + colorStr + "'});");
+                    });
+                    controlsBtn.setPopupVisible(false);
+                }).withIcon(FontAwesome.PENCIL);
+                popupContent.addOption(changeColorBtn);
+            }
 
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        optionValService.removeWithSession(stage, AppContext.getUsername(), AppContext.getAccountId());
-                                        ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
+            if (canExecute && canRename) {
+                MButton deleteColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMN), clickEvent -> {
+                    if (getTaskComponentCount() > 0) {
+                        NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_DELETE_COLUMN_HAS_TASK));
+                    } else {
+                        ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                AppContext.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                new ConfirmDialog.Listener() {
+                                    private static final long serialVersionUID = 1L;
+
+                                    @Override
+                                    public void onClose(ConfirmDialog dialog) {
+                                        if (dialog.isConfirmed()) {
+                                            optionValService.removeWithSession(stage, AppContext.getUsername(), AppContext.getAccountId());
+                                            ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
+                                        }
                                     }
-                                }
-                            });
-                }
-                controlsBtn.setPopupVisible(false);
-            });
-            deleteColumnBtn.setIcon(FontAwesome.TRASH_O);
-            deleteColumnBtn.setEnabled(canExecute && canRename);
-            popupContent.addDangerOption(deleteColumnBtn);
+                                });
+                    }
+                    controlsBtn.setPopupVisible(false);
+                }).withIcon(FontAwesome.TRASH_O);
+                popupContent.addDangerOption(deleteColumnBtn);
+            }
 
             popupContent.addSeparator();
 
-            MButton addBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> {
-                controlsBtn.setPopupVisible(false);
-                addNewTaskComp();
-            }).withIcon(FontAwesome.PLUS);
-            addBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            popupContent.addOption(addBtn);
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                MButton addBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> {
+                    controlsBtn.setPopupVisible(false);
+                    addNewTaskComp();
+                }).withIcon(FontAwesome.PLUS);
+                popupContent.addOption(addBtn);
+            }
             controlsBtn.setContent(popupContent);
 
-            MButton addNewBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> addNewTaskComp())
-                    .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
-            addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-
-            buttonControls = new MHorizontalLayout(addNewBtn).withAlign(addNewBtn, Alignment.MIDDLE_RIGHT).withFullWidth();
-            this.with(headerLayout, dragLayoutContainer, buttonControls);
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                MButton addNewBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> addNewTaskComp())
+                        .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+                buttonControls = new MHorizontalLayout(addNewBtn).withAlign(addNewBtn, Alignment.MIDDLE_RIGHT).withFullWidth();
+                this.with(headerLayout, dragLayoutContainer, buttonControls);
+            } else {
+                this.with(headerLayout, dragLayoutContainer);
+            }
             toggleShowButton();
         }
 
         void toggleShowButton() {
-            if (Boolean.FALSE.equals(optionVal.getIsshow())) {
-                hideColumnBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMN));
-                hideColumnBtn.setIcon(FontAwesome.TOGGLE_ON);
-                ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(UIConstants.FIELD_NOTE)
-                        .withDescription(AppContext.getMessage(TaskI18nEnum.OPT_INVISIBLE_COLUMN_DESCRIPTION));
-                buttonControls.addComponent(invisibleLbl, 0);
-                buttonControls.withAlign(invisibleLbl, Alignment.MIDDLE_LEFT);
-            } else {
-                hideColumnBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMN));
-                hideColumnBtn.setIcon(FontAwesome.TOGGLE_OFF);
-                if (buttonControls.getComponentCount() > 1) {
-                    buttonControls.removeComponent(buttonControls.getComponent(0));
+            if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
+                if (Boolean.FALSE.equals(optionVal.getIsshow())) {
+                    hideColumnBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMN));
+                    hideColumnBtn.setIcon(FontAwesome.TOGGLE_ON);
+                    ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(UIConstants.FIELD_NOTE)
+                            .withDescription(AppContext.getMessage(TaskI18nEnum.OPT_INVISIBLE_COLUMN_DESCRIPTION));
+                    buttonControls.addComponent(invisibleLbl, 0);
+                    buttonControls.withAlign(invisibleLbl, Alignment.MIDDLE_LEFT);
+                } else {
+                    hideColumnBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMN));
+                    hideColumnBtn.setIcon(FontAwesome.TOGGLE_OFF);
+                    if (buttonControls.getComponentCount() > 1) {
+                        buttonControls.removeComponent(buttonControls.getComponent(0));
+                    }
                 }
             }
         }

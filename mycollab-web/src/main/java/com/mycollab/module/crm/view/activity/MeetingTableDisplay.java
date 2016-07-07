@@ -28,7 +28,6 @@ import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -43,35 +42,25 @@ public class MeetingTableDisplay extends DefaultPagedBeanTable<MeetingService, M
     public MeetingTableDisplay(List<TableViewField> displaycolumns) {
         super(AppContextUtil.getSpringBean(MeetingService.class), SimpleMeeting.class, displaycolumns);
 
-        this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("subject", (source, itemId, columnId) -> {
+            final SimpleMeeting meeting = getBeanByIndex(itemId);
 
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleMeeting meeting = getBeanByIndex(itemId);
+            LabelLink b = new LabelLink(meeting.getSubject(), CrmLinkBuilder.generateMeetingPreviewLinkFull(meeting.getId()));
+            b.addStyleName(UIConstants.LINK_COMPLETED);
 
-                LabelLink b = new LabelLink(meeting.getSubject(), CrmLinkBuilder.generateMeetingPreviewLinkFull(meeting.getId()));
+            if ("Held".equals(meeting.getStatus())) {
                 b.addStyleName(UIConstants.LINK_COMPLETED);
-
-                if ("Held".equals(meeting.getStatus())) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else {
-                    if (meeting.getEnddate() != null && (meeting.getEnddate().before(new GregorianCalendar().getTime()))) {
-                        b.addStyleName(UIConstants.LINK_OVERDUE);
-                    }
+            } else {
+                if (meeting.getEnddate() != null && (meeting.getEnddate().before(new GregorianCalendar().getTime()))) {
+                    b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
-                return b;
             }
+            return b;
         });
 
-        this.addGeneratedColumn("startdate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleMeeting meeting = getBeanByIndex(itemId);
-                return new Label(AppContext.formatDateTime(meeting.getStartdate()));
-            }
+        this.addGeneratedColumn("startdate", (source, itemId, columnId) -> {
+            final SimpleMeeting meeting = getBeanByIndex(itemId);
+            return new Label(AppContext.formatDateTime(meeting.getStartdate()));
         });
     }
 }

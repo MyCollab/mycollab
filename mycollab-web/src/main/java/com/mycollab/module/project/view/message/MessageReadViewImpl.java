@@ -129,19 +129,16 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_DANGER);
-            deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
+            deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             stickyCheck = new CheckBox(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), message.getIsstick());
             stickyCheck.addValueChangeListener(valueChangeEvent -> {
-                if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES)) {
-                    message.setIsstick(stickyCheck.getValue());
-                    message.setSaccountid(AppContext.getAccountId());
-                    MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                    messageService.updateWithSession(message, AppContext.getUsername());
-                } else {
-                    NotificationUtil.showMessagePermissionAlert();
-                }
+                message.setIsstick(stickyCheck.getValue());
+                message.setSaccountid(AppContext.getAccountId());
+                MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
+                messageService.updateWithSession(message, AppContext.getUsername());
             });
+            stickyCheck.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
             HeaderWithFontAwesome headerText = ComponentUtils.headerH3(ProjectTypeConstants.MESSAGE, message.getTitle());
             header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)

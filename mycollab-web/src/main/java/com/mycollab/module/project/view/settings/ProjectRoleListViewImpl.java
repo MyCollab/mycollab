@@ -33,15 +33,13 @@ import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.*;
+import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -78,38 +76,19 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
                 Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
-        tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleProjectRole role = tableItem.getBeanByIndex(itemId);
-                CheckBoxDecor cb = new CheckBoxDecor("", role.isSelected());
-                cb.setImmediate(true);
-                cb.addValueChangeListener(new ValueChangeListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void valueChange(Property.ValueChangeEvent event) {
-                        tableItem.fireSelectItemEvent(role);
-                    }
-                });
-
-                role.setExtraData(cb);
-                return cb;
-            }
+        tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleProjectRole role = tableItem.getBeanByIndex(itemId);
+            CheckBoxDecor cb = new CheckBoxDecor("", role.isSelected());
+            cb.setImmediate(true);
+            cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(role));
+            role.setExtraData(cb);
+            return cb;
         });
 
-        tableItem.addGeneratedColumn("rolename", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                ProjectRole role = tableItem.getBeanByIndex(itemId);
-                return new LabelLink(role.getRolename(),
-                        ProjectLinkBuilder.generateRolePreviewFullLink(role.getProjectid(), role.getId()));
-
-            }
+        tableItem.addGeneratedColumn("rolename", (source, itemId, columnId) -> {
+            ProjectRole role = tableItem.getBeanByIndex(itemId);
+            return new LabelLink(role.getRolename(),
+                    ProjectLinkBuilder.generateRolePreviewFullLink(role.getProjectid(), role.getId()));
         });
 
         listLayout.addComponent(this.constructTableActionControls());
@@ -135,9 +114,6 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
 
         selectOptionButton = new SelectionOptionButton(this.tableItem);
         layout.addComponent(this.selectOptionButton);
-
-        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
-        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.ROLES));
 
         tableActionControls = new DefaultMassItemActionHandlerContainer();
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.ROLES)) {

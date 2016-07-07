@@ -16,6 +16,9 @@
  */
 package com.mycollab.shell.view;
 
+import com.google.common.eventbus.Subscribe;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.LicenseI18nEnum;
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
@@ -54,9 +57,6 @@ import com.mycollab.web.AdWindow;
 import com.mycollab.web.BuyPremiumSoftwareWindow;
 import com.mycollab.web.CustomLayoutExt;
 import com.mycollab.web.IDesktopModule;
-import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.server.BrowserWindowOpener;
@@ -66,8 +66,6 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
@@ -195,47 +193,33 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         OptionPopupContent modulePopupContent = new OptionPopupContent();
         modulePopup.setContent(modulePopupContent);
 
-        MButton projectModuleBtn = new MButton().withCaption(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT))
-                .withIcon(VaadinIcons.TASKS).withListener(new ClickListener() {
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        modulePopup.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
-                    }
-                });
+        MButton projectModuleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT), clickEvent -> {
+            modulePopup.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
+        }).withIcon(VaadinIcons.TASKS);
         modulePopupContent.addOption(projectModuleBtn);
 
-        MButton crmModuleBtn = new MButton().withCaption(AppContext.getMessage(GenericI18Enum.MODULE_CRM)).withIcon(
-                VaadinIcons.MONEY).withListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                modulePopup.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
-            }
-        });
+        MButton crmModuleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_CRM), clickEvent -> {
+            modulePopup.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
+        }).withIcon(VaadinIcons.MONEY);
         modulePopupContent.addOption(crmModuleBtn);
 
-        MButton fileModuleBtn = new MButton().withCaption(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT))
-                .withIcon(VaadinIcons.SUITCASE).withListener(new ClickListener() {
-                    @Override
-                    public void buttonClick(ClickEvent clickEvent) {
-                        modulePopup.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
-                    }
-                });
+        MButton fileModuleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), clickEvent -> {
+            modulePopup.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
+        }).withIcon(VaadinIcons.SUITCASE);
         modulePopupContent.addOption(fileModuleBtn);
 
-        MButton peopleBtn = new MButton().withCaption(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE)).withIcon(VaadinIcons.USERS)
-                .withListener(clickEvent -> {
-                    modulePopup.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
-                });
+        MButton peopleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE), clickEvent -> {
+            modulePopup.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+        }).withIcon(VaadinIcons.USERS);
         modulePopupContent.addOption(peopleBtn);
 
         headerLayout.addComponent(new MHorizontalLayout().with(modulePopup).withAlign(modulePopup, Alignment.MIDDLE_LEFT), "mainLogo");
 
-        accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
-        accountLayout.setHeight("45px");
+        accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false)).withHeight("45px");
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         buildAccountMenuLayout();
 
@@ -254,19 +238,9 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     Label informLbl = new Label("<div class='informBlock'>FREE CHARGE<br>UPGRADE</div><div class='informBlock'>&gt;&gt;</div>", ContentMode.HTML);
                     informLbl.addStyleName("trialEndingNotification");
                     informLbl.setHeight("100%");
-                    HorizontalLayout informBox = new HorizontalLayout();
-                    informBox.addStyleName("trialInformBox");
-                    informBox.setSizeFull();
-                    informBox.addComponent(informLbl);
+                    MHorizontalLayout informBox = new MHorizontalLayout(informLbl).withFullHeight().withStyleName("trialInformBox");
                     informBox.setMargin(new MarginInfo(false, true, false, false));
-                    informBox.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void layoutClick(LayoutClickEvent event) {
-                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
-                        }
-                    });
+                    informBox.addLayoutClickListener(layoutClickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"})));
                     accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
                 } else {
                     Label informLbl = new Label("", ContentMode.HTML);
@@ -323,7 +297,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         NotificationComponent notificationComponent = new NotificationComponent();
         accountLayout.addComponent(notificationComponent);
-        
+
         if (StringUtils.isBlank(AppContext.getUser().getAvatarid())) {
             EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new RequestUploadAvatarNotification()));
         }

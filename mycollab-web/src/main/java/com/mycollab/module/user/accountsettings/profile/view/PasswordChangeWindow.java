@@ -31,8 +31,12 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.Window;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -47,13 +51,13 @@ public class PasswordChangeWindow extends Window {
     private final User user;
 
     public PasswordChangeWindow(final User user) {
+        super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
         this.setWidth("600px");
         this.initUI();
         this.center();
         this.setResizable(false);
         this.setModal(true);
         this.user = user;
-        this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
     }
 
     private void initUI() {
@@ -75,38 +79,19 @@ public class PasswordChangeWindow extends Window {
         txtConfirmPassword = new PasswordField();
         passInfo.addComponent(txtConfirmPassword, "Confirmed Password", 0, 1);
 
-        passInfo.getLayout().setSpacing(true);
+        passInfo.getLayout().setSpacing(false);
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.MIDDLE_CENTER);
 
-        final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(true);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changePassword())
+                .withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
 
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                PasswordChangeWindow.this.close();
-            }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-
-        final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                PasswordChangeWindow.this.changePassword();
-            }
-        });
-        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        saveBtn.setIcon(FontAwesome.SAVE);
-
-        hlayoutControls.with(cancelBtn, saveBtn);
-
+        MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
-        this.setModal(true);
         this.setContent(mainLayout);
     }
 
@@ -133,6 +118,6 @@ public class PasswordChangeWindow extends Window {
         userService.updateWithSession(user, AppContext.getUsername());
 
         EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(PasswordChangeWindow.this));
-        PasswordChangeWindow.this.close();
+        close();
     }
 }

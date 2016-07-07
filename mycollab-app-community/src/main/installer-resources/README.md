@@ -56,6 +56,8 @@ Version 5.3.5
 * Jackson 2.8.0
 * Flyway 4.0.3
 * MyBatis 3.4.1
+* Hikari CP 2.4.7
+* Freemarker 2.3.25
 * Other libraries
 
 **Improvements & New Features**

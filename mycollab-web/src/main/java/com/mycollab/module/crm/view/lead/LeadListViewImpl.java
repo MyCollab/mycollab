@@ -27,8 +27,6 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -44,21 +42,13 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
 
     @Override
     protected void buildExtraControls() {
-        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem));
-            }
-        });
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem)));
         this.addExtraButton(customizeViewBtn);
 
-        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new LeadImportWindow());
-            }
-        });
-        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
+        MButton importBtn = ComponentUtils.createImportEntitiesButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new LeadImportWindow()));
+        importBtn.setVisible(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
 
         this.addExtraButton(importBtn);
 

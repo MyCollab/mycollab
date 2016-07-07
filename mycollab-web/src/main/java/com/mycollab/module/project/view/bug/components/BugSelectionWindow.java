@@ -33,8 +33,6 @@ import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -64,12 +62,9 @@ public class BugSelectionWindow extends Window {
         tableItem.setSearchCriteria(baseCriteria);
 
         BugSearchPanel bugSearchPanel = new BugSearchPanel(false);
-        bugSearchPanel.addSearchHandler(new SearchHandler<BugSearchCriteria>() {
-            @Override
-            public void onSearch(BugSearchCriteria criteria) {
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                tableItem.setSearchCriteria(criteria);
-            }
+        bugSearchPanel.addSearchHandler(criteria -> {
+            criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            tableItem.setSearchCriteria(criteria);
         });
         new Restrain(tableItem).setMaxHeight((UIUtils.getBrowserHeight() - 120) + "px");
         this.setContent(new MVerticalLayout(bugSearchPanel, tableItem));
@@ -80,33 +75,23 @@ public class BugSelectionWindow extends Window {
                 Arrays.asList(BugTableFieldDef.summary(), BugTableFieldDef.severity(), BugTableFieldDef.resolution()));
         tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
-        tableItem.addGeneratedColumn("summary", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("summary", (source, itemId, columnId) -> {
+            final SimpleBug bug = tableItem.getBeanByIndex(itemId);
 
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleBug bug = tableItem.getBeanByIndex(itemId);
+            ButtonLink b = new ButtonLink(bug.getSummary(), clickEvent -> {
+                fieldSelection.fireValueChange(bug);
+                close();
+            });
 
-                ButtonLink b = new ButtonLink(bug.getSummary(), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        fieldSelection.fireValueChange(bug);
-                        close();
-                    }
-                });
-
-                if (bug.isCompleted()) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else if (bug.isOverdue()) {
-                    b.addStyleName(UIConstants.LINK_OVERDUE);
-                }
-
-                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                        bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
-                return b;
+            if (bug.isCompleted()) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
+            } else if (bug.isOverdue()) {
+                b.addStyleName(UIConstants.LINK_OVERDUE);
             }
+
+            b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat(),
+                    bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
+            return b;
         });
         return tableItem;
     }

@@ -40,10 +40,9 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -76,17 +75,12 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<>(
                 previewForm);
 
-        Button convertButton = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                previewForm.fireExtraAction("convert", beanItem);
-            }
-        });
-        convertButton.setStyleName(UIConstants.BUTTON_ACTION);
-        convertButton.setIcon(FontAwesome.FLASK);
-        controlsButton.insertToControlBlock(convertButton);
+        if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
+            MButton convertButton = new MButton(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD),
+                    clickEvent -> previewForm.fireExtraAction("convert", beanItem))
+                    .withIcon(FontAwesome.FLASK).withStyleName(UIConstants.BUTTON_ACTION);
+            controlsButton.insertToControlBlock(convertButton);
+        }
 
         return controlsButton.createButtonControls(RolePermissionCollections.CRM_LEAD);
     }
@@ -153,11 +147,11 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         return new LeadReadFormFieldFactory(previewForm);
     }
 
-    protected void displayCampaigns() {
+    private void displayCampaigns() {
         associateCampaignList.displayCampaigns(beanItem);
     }
 
-    protected void displayActivities() {
+    private void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.LEAD));

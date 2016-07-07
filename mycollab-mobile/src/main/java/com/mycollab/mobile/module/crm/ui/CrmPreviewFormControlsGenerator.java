@@ -23,6 +23,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -61,17 +62,12 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    final T item = previewForm.getBean();
-                    previewForm.fireEditForm(item);
-                }
-            });
-            editBtn.setWidth("100%");
+            MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
+                final T item = previewForm.getBean();
+                previewForm.fireEditForm(item);
+            }).withVisible(canWrite);
             editButtons.addComponent(editBtn);
             editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
-            editBtn.setEnabled(canWrite);
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
@@ -84,19 +80,15 @@ public class CrmPreviewFormControlsGenerator<T> {
                     previewForm.fireDeleteForm(item);
                 }
             });
-            deleteBtn.setWidth("100%");
             editButtons.addComponent(deleteBtn);
             editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
             deleteBtn.setEnabled(canAccess);
         }
 
         if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    final T item = previewForm.getBean();
-                    previewForm.fireCloneForm(item);
-                }
+            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
+                T item = previewForm.getBean();
+                previewForm.fireCloneForm(item);
             });
             cloneBtn.setWidth("100%");
             editButtons.addComponent(cloneBtn);

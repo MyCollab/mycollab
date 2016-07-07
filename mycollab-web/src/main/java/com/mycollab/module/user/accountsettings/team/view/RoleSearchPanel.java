@@ -35,6 +35,7 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -61,17 +62,10 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
     @Override
     protected Component buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(RoleI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null));
-            }
-        });
-        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
+        MButton createBtn = new MButton(AppContext.getMessage(RoleI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
         return createBtn;
     }
 

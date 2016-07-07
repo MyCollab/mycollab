@@ -34,13 +34,10 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public abstract class ProjectListNoItemView extends VerticalLayout {
     public ProjectListNoItemView() {
         MVerticalLayout content = new MVerticalLayout().withWidth("700px");
-        ELabel image = new ELabel(viewIcon().getHtml(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H1).withWidthUndefined();
-        image.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        ELabel image = ELabel.h2(viewIcon().getHtml()).withWidthUndefined();
 
         ELabel title = ELabel.h2(viewTitle()).withWidthUndefined();
-
-        ELabel body = new ELabel(viewHint(), ContentMode.HTML).withWidthUndefined();
-        body.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        ELabel body = ELabel.html(viewHint()).withStyleName(UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
         MHorizontalLayout links = createControlButtons();
         content.with(image, title, body, links).alignAll(Alignment.TOP_CENTER);
         this.addComponent(content);
@@ -49,7 +46,7 @@ public abstract class ProjectListNoItemView extends VerticalLayout {
 
     protected MHorizontalLayout createControlButtons() {
         Button createItemBtn = new Button(actionMessage(), actionListener());
-        createItemBtn.setEnabled(hasPermission());
+        createItemBtn.setVisible(hasPermission());
         createItemBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
         return new MHorizontalLayout().with(createItemBtn);

@@ -153,11 +153,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         });
 
         quickActionStatusBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        quickActionStatusBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
         versionPreviewForm.insertToControlBlock(quickActionStatusBtn);
-
-        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS)) {
-            quickActionStatusBtn.setEnabled(false);
-        }
 
         return topPanel;
     }

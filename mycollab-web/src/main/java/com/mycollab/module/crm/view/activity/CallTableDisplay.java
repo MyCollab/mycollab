@@ -28,9 +28,8 @@ import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.List;
 
@@ -44,53 +43,27 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
     public CallTableDisplay(TableViewField requireColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(CallService.class), SimpleCall.class, requireColumn, displayColumns);
 
-        this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("subject", (source, itemId, columnId) -> {
+            final SimpleCall call = getBeanByIndex(itemId);
 
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleCall call = getBeanByIndex(itemId);
-
-                LabelLink b = new LabelLink(call.getSubject(), CrmLinkBuilder.generateCallPreviewLinkFul(call.getId()));
-                if ("Held".equals(call.getStatus())) {
-                    b.addStyleName(UIConstants.LINK_COMPLETED);
-                }
-                return b;
-
+            LabelLink b = new LabelLink(call.getSubject(), CrmLinkBuilder.generateCallPreviewLinkFul(call.getId()));
+            if ("Held".equals(call.getStatus())) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
             }
+            return b;
         });
 
-        this.addGeneratedColumn("isClosed", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleCall call = getBeanByIndex(itemId);
-                Button b = new Button(null, new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        fireTableEvent(new TableClickEvent(CallTableDisplay.this, call, "isClosed"));
-                    }
-                });
-                b.setIcon(FontAwesome.TRASH_O);
-                b.setStyleName(UIConstants.BUTTON_LINK);
-                b.setDescription("Close this call");
-                return b;
-
-            }
+        this.addGeneratedColumn("isClosed", (source, itemId, columnId) -> {
+            final SimpleCall call = getBeanByIndex(itemId);
+            MButton b = new MButton("", clickEvent -> fireTableEvent(new TableClickEvent(CallTableDisplay.this, call, "isClosed")))
+                    .withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK);
+            b.setDescription("Close this call");
+            return b;
         });
 
-        this.addGeneratedColumn("startdate", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
-                final SimpleCall call = getBeanByIndex(itemId);
-                return new Label(AppContext.formatDateTime(call.getStartdate()));
-
-            }
+        this.addGeneratedColumn("startdate", (source, itemId, columnId) -> {
+            final SimpleCall call = getBeanByIndex(itemId);
+            return new Label(AppContext.formatDateTime(call.getStartdate()));
         });
     }
 }

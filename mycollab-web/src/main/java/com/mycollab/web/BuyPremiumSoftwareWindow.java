@@ -25,6 +25,7 @@ import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.springframework.web.client.RestTemplate;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -51,15 +52,11 @@ public class BuyPremiumSoftwareWindow extends Window {
         }
         LicenseResolver licenseResolver = AppContextUtil.getSpringBean(LicenseResolver.class);
         if (licenseResolver != null) {
-            Button editLicenseBtn = new Button("Enter license code", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
-                    UI.getCurrent().addWindow(activateWindow);
-                    close();
-                }
-            });
-            editLicenseBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            MButton editLicenseBtn = new MButton("Enter license code", clickEvent -> {
+                Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
+                UI.getCurrent().addWindow(activateWindow);
+                close();
+            }).withStyleName(UIConstants.BUTTON_ACTION);
             content.with(editLicenseBtn).withAlign(editLicenseBtn, Alignment.MIDDLE_CENTER);
         }
     }

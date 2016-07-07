@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.ProjectLinkBuilder;
@@ -37,13 +39,9 @@ import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Table.ColumnGenerator;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -60,127 +58,91 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                 FollowingTicket.class, Arrays.asList(FollowingTicketFieldDef.summary,
                         FollowingTicketFieldDef.project, FollowingTicketFieldDef.assignee, FollowingTicketFieldDef.createdDate));
 
-        this.addGeneratedColumn("summary", new ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("summary", (source, itemId, columnId) -> {
+            final FollowingTicket ticket = getBeanByIndex(itemId);
+            final ButtonLink ticketLink = new ButtonLink(ticket.getSummary());
 
-            @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       final Object columnId) {
-                final FollowingTicket ticket = getBeanByIndex(itemId);
-                final ButtonLink ticketLink = new ButtonLink(ticket.getSummary());
+            if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
+                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
-                if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
-                    ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-
-                    if (BugStatus.Verified.name().equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
-                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS())) {
-                        ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
-                    }
-
-                    ticketLink.addClickListener(new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            final int projectId = ticket.getProjectId();
-                            final int bugId = ticket.getTypeId();
-                            final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                                    new BugScreenData.Read(bugId));
-                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                        }
-                    });
-                } else if (ProjectTypeConstants.TASK.equals(ticket.getType())) {
-                    ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
-
-                    if ("Closed".equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
-                    } else {
-                        if ("Pending".equals(ticket.getStatus())) {
-                            ticketLink.addStyleName(UIConstants.LINK_PENDING);
-                        } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
-                            ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
-                        }
-                    }
-
-                    ticketLink.addClickListener(new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            final int projectId = ticket.getProjectId();
-                            final int taskId = ticket.getTypeId();
-                            final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId));
-                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                        }
-                    });
-                } else if (ProjectTypeConstants.RISK.equals(ticket.getType())) {
-                    ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
-
-                    if ("Closed".equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
-                    } else {
-                        if ("Pending".equals(ticket.getStatus())) {
-                            ticketLink.addStyleName(UIConstants.LINK_PENDING);
-                        } else if (ticket.getDueDate() != null
-                                && ticket.getDueDate().before(
-                                new GregorianCalendar().getTime())) {
-                            ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
-                        }
-                    }
-
-                    ticketLink.addClickListener(new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            final int projectId = ticket.getProjectId();
-                            final int riskId = ticket.getTypeId();
-                            final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                                    new RiskScreenData.Read(riskId));
-                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                        }
-                    });
+                if (BugStatus.Verified.name().equals(ticket.getStatus())) {
+                    ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
+                } else if (ticket.getDueDate() != null && ticket.getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS())) {
+                    ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
                 }
 
-                return ticketLink;
+                ticketLink.addClickListener(clickEvent -> {
+                    int projectId = ticket.getProjectId();
+                    int bugId = ticket.getTypeId();
+                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+                            new BugScreenData.Read(bugId));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+                });
+            } else if (ProjectTypeConstants.TASK.equals(ticket.getType())) {
+                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
+
+                if ("Closed".equals(ticket.getStatus())) {
+                    ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
+                } else {
+                    if ("Pending".equals(ticket.getStatus())) {
+                        ticketLink.addStyleName(UIConstants.LINK_PENDING);
+                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
+                        ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
+                    }
+                }
+
+                ticketLink.addClickListener(clickEvent -> {
+                    int projectId = ticket.getProjectId();
+                    int taskId = ticket.getTypeId();
+                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+                });
+            } else if (ProjectTypeConstants.RISK.equals(ticket.getType())) {
+                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
+
+                if ("Closed".equals(ticket.getStatus())) {
+                    ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
+                } else {
+                    if ("Pending".equals(ticket.getStatus())) {
+                        ticketLink.addStyleName(UIConstants.LINK_PENDING);
+                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
+                        ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
+                    }
+                }
+
+                ticketLink.addClickListener(new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        final int projectId = ticket.getProjectId();
+                        final int riskId = ticket.getTypeId();
+                        final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+                                new RiskScreenData.Read(riskId));
+                        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+                    }
+                });
             }
+
+            return ticketLink;
         });
 
-        this.addGeneratedColumn("projectName", new ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       final Object columnId) {
-                final FollowingTicket ticket = getBeanByIndex(itemId);
-                Div projectLinkDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml() + " ")
-                        .appendChild(new A(ProjectLinkBuilder.generateProjectFullLink(ticket.getProjectId()))
-                                .appendText(ticket.getProjectName()));
-                return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_WORD_WRAP);
-            }
+        this.addGeneratedColumn("projectName", (source, itemId, columnId) -> {
+            final FollowingTicket ticket = getBeanByIndex(itemId);
+            Div projectLinkDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml() + " ")
+                    .appendChild(new A(ProjectLinkBuilder.generateProjectFullLink(ticket.getProjectId()))
+                            .appendText(ticket.getProjectName()));
+            return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_WORD_WRAP);
         });
 
-        this.addGeneratedColumn("assignUser", new ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       final Object columnId) {
-                FollowingTicket ticket = getBeanByIndex(itemId);
-                return new UserLink(ticket.getAssignUser(), ticket.getAssignUserAvatarId(), ticket.getAssignUserFullName());
-            }
+        this.addGeneratedColumn("assignUser", (source, itemId, columnId) -> {
+            FollowingTicket ticket = getBeanByIndex(itemId);
+            return new UserLink(ticket.getAssignUser(), ticket.getAssignUserAvatarId(), ticket.getAssignUserFullName());
         });
 
-        this.addGeneratedColumn("monitorDate", new ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       final Object columnId) {
-                FollowingTicket ticket = FollowingTicketTableDisplay.this.getBeanByIndex(itemId);
-                return new ELabel().prettyDateTime(ticket.getMonitorDate());
-            }
+        this.addGeneratedColumn("monitorDate", (source, itemId, columnId) -> {
+            FollowingTicket ticket = FollowingTicketTableDisplay.this.getBeanByIndex(itemId);
+            return new ELabel().prettyDateTime(ticket.getMonitorDate());
         });
     }
 }

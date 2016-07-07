@@ -26,6 +26,7 @@ import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -96,28 +97,14 @@ public class AccountSelectionField extends CustomField<Integer> implements Field
         accountName.setEnabled(true);
         accountName.setWidth("100%");
 
-        Button browseBtn = new Button(null,FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        MButton browseBtn = new MButton("", clickEvent -> {
+            AccountSelectionWindow accountWindow = new AccountSelectionWindow(AccountSelectionField.this);
+            UI.getCurrent().addWindow(accountWindow);
+            accountWindow.show();
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(UIConstants.BUTTON_OPTION, UIConstants.BUTTON_SMALL_PADDING);
 
-        browseBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AccountSelectionWindow accountWindow = new AccountSelectionWindow(AccountSelectionField.this);
-                UI.getCurrent().addWindow(accountWindow);
-                accountWindow.show();
-            }
-        });
-
-        Button clearBtn = new Button(null, FontAwesome.TRASH_O);
-        clearBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        clearBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                clearValue();
-            }
-        });
+        MButton clearBtn = new MButton("", clickEvent -> clearValue()).withIcon(FontAwesome.TRASH_O)
+                .withStyleName(UIConstants.BUTTON_OPTION, UIConstants.BUTTON_SMALL_PADDING);
 
         layout.with(accountName, browseBtn, clearBtn).expand(accountName);
         return layout;

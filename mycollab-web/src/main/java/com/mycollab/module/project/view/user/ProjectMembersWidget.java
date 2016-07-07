@@ -17,30 +17,30 @@
 
 package com.mycollab.module.project.view.user;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
+import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.events.ProjectMemberEvent;
-import com.mycollab.module.project.*;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.*;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -104,10 +104,8 @@ public class ProjectMembersWidget extends Depot {
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
             }
-        });
-        inviteMemberBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
-        inviteMemberBtn.setIcon(FontAwesome.PLUS);
-        inviteMemberBtn.addStyleName(UIConstants.BUTTON_LINK);
+        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_LINK)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         addHeaderElement(inviteMemberBtn);
 
         memberList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectMemberService.class),

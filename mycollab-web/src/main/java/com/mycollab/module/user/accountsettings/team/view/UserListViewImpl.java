@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
+import com.google.common.eventbus.AsyncEventBus;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
@@ -44,16 +46,13 @@ import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.google.common.eventbus.AsyncEventBus;
-import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -78,36 +77,24 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         this.setMargin(new MarginInfo(false, true, false, true));
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withFullWidth();
-        Button createBtn = new Button(AppContext.getMessage(UserI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
-            }
-        });
-        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
-        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setIcon(FontAwesome.PLUS);
+        MButton createBtn = new MButton(AppContext.getMessage(UserI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
         headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(UserI18nEnum.LIST_VALUE, 0));
 
-        final Button sortBtn = new Button();
-        sortBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                sortAsc = !sortAsc;
-                if (sortAsc) {
-                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                    displayUsers();
-                } else {
-                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                    displayUsers();
-                }
+        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+        sortBtn.addClickListener(clickEvent -> {
+            sortAsc = !sortAsc;
+            if (sortAsc) {
+                sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                displayUsers();
+            } else {
+                sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                displayUsers();
             }
         });
-        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-        sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
         header.addComponent(sortBtn);
 
         final SearchTextField searchTextField = new SearchTextField() {
@@ -125,20 +112,15 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         };
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
-        Button printBtn = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new UserCustomizeReportOutputWindow(new LazyValueInjector() {
-                    @Override
-                    protected Object doEval() {
-                        return searchCriteria;
-                    }
-                }));
-            }
-        });
-        printBtn.setIcon(FontAwesome.PRINT);
-        printBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        MButton printBtn = new MButton("", clickEvent -> {
+            UI.getCurrent().addWindow(new UserCustomizeReportOutputWindow(new LazyValueInjector() {
+                @Override
+                protected Object doEval() {
+                    return searchCriteria;
+                }
+            }));
+        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
+                .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
@@ -190,24 +172,19 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         buttonControls.setVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
-            Button resendBtn = new Button(AppContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), null,
-                            member.getInviteUser(), AppContext.getSubDomain(), AppContext.getAccountId());
-                    AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
-                    asyncEventBus.post(invitationEvent);
-                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS), AppContext
-                            .getMessage(UserI18nEnum.OPT_SEND_INVITATION_SUCCESSFULLY, member.getDisplayName()));
-                }
-            });
-            resendBtn.addStyleName(UIConstants.BUTTON_LINK);
+            MButton resendBtn = new MButton(AppContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), clickEvent -> {
+                SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), null,
+                        member.getInviteUser(), AppContext.getSubDomain(), AppContext.getAccountId());
+                AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
+                asyncEventBus.post(invitationEvent);
+                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS), AppContext
+                        .getMessage(UserI18nEnum.OPT_SEND_INVITATION_SUCCESSFULLY, member.getDisplayName()));
+            }).withStyleName(UIConstants.BUTTON_LINK);
             buttonControls.with(resendBtn);
         }
 
-        Button editBtn = new Button("", FontAwesome.EDIT);
-        editBtn.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member)));
-        editBtn.addStyleName(UIConstants.BUTTON_LINK);
+        MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member)))
+                .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK);
         buttonControls.with(editBtn);
 
         Button deleteBtn = new Button("", clickEvent -> {

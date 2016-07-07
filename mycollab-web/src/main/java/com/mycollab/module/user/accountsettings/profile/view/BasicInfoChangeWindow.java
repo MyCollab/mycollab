@@ -54,13 +54,13 @@ class BasicInfoChangeWindow extends Window {
     private final User user;
 
     public BasicInfoChangeWindow(final User user) {
+        super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
         this.user = user;
         this.setWidth("600px");
         this.setResizable(false);
         this.setModal(true);
         this.initUI();
         this.center();
-        this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
     }
 
     private void initUI() {
@@ -89,9 +89,8 @@ class BasicInfoChangeWindow extends Window {
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
-
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(UIConstants.BUTTON_ACTION);
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
         MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
                 .withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
@@ -99,7 +98,6 @@ class BasicInfoChangeWindow extends Window {
         MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
-        this.setModal(true);
         this.setContent(mainLayout);
     }
 

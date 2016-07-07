@@ -54,14 +54,7 @@ public class LeadSelectionWindow extends Window {
         createLeadList();
 
         LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
-        leadSimpleSearchPanel.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
-
-            @Override
-            public void onSearch(LeadSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
+        leadSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         layout.with(leadSimpleSearchPanel, tableItem);
         this.setContent(layout);
 
@@ -76,25 +69,16 @@ public class LeadSelectionWindow extends Window {
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
-        tableItem.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
+        tableItem.addGeneratedColumn("leadName", (source, itemId, columnId) -> {
                 final SimpleLead lead = tableItem.getBeanByIndex(itemId);
 
-                ButtonLink b = new ButtonLink(lead.getLeadName(), new Button.ClickListener() {
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        fieldSelection.fireValueChange(lead);
-                        LeadSelectionWindow.this.close();
-                    }
+                ButtonLink b = new ButtonLink(lead.getLeadName(), clickEvent -> {
+                    fieldSelection.fireValueChange(lead);
+                    close();
                 });
                 b.setDescription(CrmTooltipGenerator.generateTooltipLead(AppContext.getUserLocale(), lead,
                         AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
-            }
         });
     }
 }

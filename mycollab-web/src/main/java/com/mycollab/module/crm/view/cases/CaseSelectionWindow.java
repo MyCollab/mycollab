@@ -20,12 +20,8 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
-import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
+import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -52,14 +48,7 @@ public class CaseSelectionWindow extends Window {
         MVerticalLayout layout = new MVerticalLayout();
         createCaseList();
         CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
-        caseSimpleSearchPanel.addSearchHandler(new SearchHandler<CaseSearchCriteria>() {
-
-            @Override
-            public void onSearch(CaseSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
+        caseSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         layout.addComponent(caseSimpleSearchPanel);
         layout.addComponent(tableItem);
         this.setContent(layout);
@@ -68,7 +57,6 @@ public class CaseSelectionWindow extends Window {
         center();
     }
 
-    @SuppressWarnings("serial")
     private void createCaseList() {
         tableItem = new CaseTableDisplay(Arrays.asList(
                 CaseTableFieldDef.subject(), CaseTableFieldDef.account(),
@@ -76,25 +64,16 @@ public class CaseSelectionWindow extends Window {
                 CaseTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
 
-        tableItem.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
+        tableItem.addGeneratedColumn("subject", (source, itemId, columnId) -> {
                 final SimpleCase cases = tableItem.getBeanByIndex(itemId);
 
-                ButtonLink b = new ButtonLink(cases.getSubject(), new Button.ClickListener() {
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        fieldSelection.fireValueChange(cases);
-                        CaseSelectionWindow.this.close();
-                    }
+                ButtonLink b = new ButtonLink(cases.getSubject(), clickEvent -> {
+                    fieldSelection.fireValueChange(cases);
+                    close();
                 });
                 b.setDescription(CrmTooltipGenerator.generateTooltipCases(
                         AppContext.getUserLocale(), cases, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
-            }
         });
     }
 }

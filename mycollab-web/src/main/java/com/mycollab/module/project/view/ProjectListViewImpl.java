@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.crm.CrmTypeConstants;
@@ -43,7 +44,6 @@ import com.mycollab.vaadin.web.ui.SelectionOptionButton;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
-import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -88,103 +88,65 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
                 ProjectTableFieldDef.lead(), ProjectTableFieldDef.client(), ProjectTableFieldDef.startDate(),
                 ProjectTableFieldDef.homePage(), ProjectTableFieldDef.status()));
 
-        tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleProject item = tableItem.getBeanByIndex(itemId);
+            final CheckBoxDecor cb = new CheckBoxDecor("", item.isSelected());
+            cb.setImmediate(true);
+            cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(item));
+            item.setExtraData(cb);
+            return cb;
+        });
 
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleProject item = tableItem.getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", item.isSelected());
-                cb.setImmediate(true);
-                cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(item));
-                item.setExtraData(cb);
-                return cb;
+        tableItem.addGeneratedColumn(Project.Field.name.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            LabelLink b = new LabelLink(project.getName(), ProjectLinkBuilder.generateProjectFullLink(project.getId()));
+            b.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), AppContext.getDateFormat(),
+                    project, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            MHorizontalLayout layout = new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project
+                    .getShortname(), project.getId(), project.getAvatarid(), 32), b)
+                    .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false).withFullHeight();
+            return layout;
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.lead.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return new Label(ProjectLinkBuilder.generateProjectMemberHtmlLink(project.getId(), project.getLead(),
+                    project.getLeadFullName(), project.getLeadAvatarId(), true), ContentMode.HTML);
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.accountid.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            if (project.getAccountid() != null) {
+                LabelLink b = new LabelLink(project.getClientName(), ProjectLinkBuilder.generateClientPreviewFullLink
+                        (project.getAccountid()));
+                b.setIconLink(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
+                return b;
+            } else {
+                return new Label();
             }
         });
 
-        tableItem.addGeneratedColumn(Project.Field.name.name(), new Table.ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                SimpleProject project = tableItem.getBeanByIndex(itemId);
-                LabelLink b = new LabelLink(project.getName(), ProjectLinkBuilder.generateProjectFullLink(project.getId()));
-                b.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                        project, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                MHorizontalLayout layout = new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project
-                        .getShortname(), project.getId(), project.getAvatarid(), 32), b)
-                        .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false).withFullHeight();
-                return layout;
-            }
+        tableItem.addGeneratedColumn(Project.Field.planstartdate.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return new Label(AppContext.formatDate(project.getPlanstartdate()));
         });
 
-        tableItem.addGeneratedColumn(Project.Field.lead.name(), new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                SimpleProject project = tableItem.getBeanByIndex(itemId);
-                return new Label(ProjectLinkBuilder.generateProjectMemberHtmlLink(project.getId(), project.getLead(),
-                        project.getLeadFullName(), project.getLeadAvatarId(), true), ContentMode.HTML);
-            }
+        tableItem.addGeneratedColumn(Project.Field.planenddate.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return new Label(AppContext.formatDate(project.getPlanenddate()));
         });
 
-        tableItem.addGeneratedColumn(Project.Field.accountid.name(), new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                SimpleProject project = tableItem.getBeanByIndex(itemId);
-                if (project.getAccountid() != null) {
-                    LabelLink b = new LabelLink(project.getClientName(), ProjectLinkBuilder.generateClientPreviewFullLink
-                            (project.getAccountid()));
-                    b.setIconLink(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-                    return b;
-                } else {
-                    return new Label();
-                }
-            }
+        tableItem.addGeneratedColumn(Project.Field.createdtime.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return new Label(AppContext.formatDate(project.getCreatedtime()));
         });
 
-        tableItem.addGeneratedColumn(Project.Field.planstartdate.name(), new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                SimpleProject project = tableItem.getBeanByIndex(itemId);
-                return new Label(AppContext.formatDate(project.getPlanstartdate()));
-            }
-        });
-
-        tableItem.addGeneratedColumn(Project.Field.planenddate.name(), new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                SimpleProject project = tableItem.getBeanByIndex(itemId);
-                return new Label(AppContext.formatDate(project.getPlanenddate()));
-            }
-        });
-
-        tableItem.addGeneratedColumn(Project.Field.createdtime.name(), new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                SimpleProject project = tableItem.getBeanByIndex(itemId);
-                return new Label(AppContext.formatDate(project.getCreatedtime()));
-            }
-        });
-
-        tableItem.addGeneratedColumn(Project.Field.homepage.name(), new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                SimpleProject project = tableItem.getBeanByIndex(itemId);
-                if (StringUtils.isNotBlank(project.getHomepage())) {
-                    return new Label(new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).write(), ContentMode.HTML);
-                } else {
-                    return new Label();
-                }
+        tableItem.addGeneratedColumn(Project.Field.homepage.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            if (StringUtils.isNotBlank(project.getHomepage())) {
+                return new Label(new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).write(), ContentMode.HTML);
+            } else {
+                return new Label();
             }
         });
 

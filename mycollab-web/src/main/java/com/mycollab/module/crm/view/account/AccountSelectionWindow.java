@@ -55,13 +55,7 @@ public class AccountSelectionWindow extends Window {
         createAccountList();
 
         AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
-        accountSimpleSearchPanel.addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
-            @Override
-            public void onSearch(AccountSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
+        accountSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         layout.addComponent(accountSimpleSearchPanel);
         layout.addComponent(tableItem);
         this.setContent(layout);
@@ -78,24 +72,16 @@ public class AccountSelectionWindow extends Window {
         tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
 
-        tableItem.addGeneratedColumn("accountname", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Component generateCell(Table source, Object itemId, Object columnId) {
+        tableItem.addGeneratedColumn("accountname", (source, itemId, columnId) -> {
                 final SimpleAccount account = tableItem.getBeanByIndex(itemId);
 
-                ButtonLink accountLink = new ButtonLink(account.getAccountname(), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        fieldSelection.fireValueChange(account);
-                        AccountSelectionWindow.this.close();
-                    }
+                ButtonLink accountLink = new ButtonLink(account.getAccountname(), clickEvent -> {
+                    fieldSelection.fireValueChange(account);
+                    close();
                 });
                 accountLink.setDescription(CrmTooltipGenerator.generateToolTipAccount(
                         AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
                 return accountLink;
-            }
         });
     }
 }

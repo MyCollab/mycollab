@@ -155,7 +155,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
             bugWorkflowControl.addComponent(navButton);
         }
-        bugWorkflowControl.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
+        bugWorkflowControl.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
     }
 
     @Override
@@ -270,11 +270,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<>(previewForm);
-        MButton linkBtn = new MButton(AppContext.getMessage(BugI18nEnum.OPT_BUG_DEPENDENCIES),
-                clickEvent -> UI.getCurrent().addWindow(new LinkIssueWindow(beanItem)))
-                .withIcon(FontAwesome.BOLT);
-        linkBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-        bugPreviewFormControls.addOptionButton(linkBtn);
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
+            MButton linkBtn = new MButton(AppContext.getMessage(BugI18nEnum.OPT_BUG_DEPENDENCIES),
+                    clickEvent -> UI.getCurrent().addWindow(new LinkIssueWindow(beanItem)))
+                    .withIcon(FontAwesome.BOLT);
+            bugPreviewFormControls.addOptionButton(linkBtn);
+        }
 
         HorizontalLayout topPanel = bugPreviewFormControls.createButtonControls(
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
@@ -288,7 +289,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         MButton assignBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
                 clickEvent -> UI.getCurrent().addWindow(new AssignBugWindow(beanItem)))
                 .withIcon(FontAwesome.SHARE).withStyleName(UIConstants.BUTTON_ACTION);
-        assignBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
+        assignBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
 
         bugWorkflowControl = new CssLayout();
         bugPreviewFormControls.insertToControlBlock(bugWorkflowControl);

@@ -23,10 +23,10 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.RemoveInlineComponentMarker;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd
@@ -37,19 +37,13 @@ public class ToggleTaskSummaryWithParentRelationshipField extends CustomField<Si
 
     public ToggleTaskSummaryWithParentRelationshipField(final SimpleTask task) {
         toggleTaskSummaryField = new ToggleTaskSummaryField(task);
-        Button unlinkBtn = new Button(null, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                task.setParenttaskid(null);
-                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                taskService.updateWithSession(task, AppContext.getUsername());
-                UIUtils.removeChildAssociate(ToggleTaskSummaryWithParentRelationshipField.this, RemoveInlineComponentMarker.class);
-            }
-        });
-        unlinkBtn.setIcon(FontAwesome.UNLINK);
+        MButton unlinkBtn = new MButton("", clickEvent -> {
+            task.setParenttaskid(null);
+            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            taskService.updateWithSession(task, AppContext.getUsername());
+            UIUtils.removeChildAssociate(ToggleTaskSummaryWithParentRelationshipField.this, RemoveInlineComponentMarker.class);
+        }).withIcon(FontAwesome.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP, ValoTheme.BUTTON_ICON_ONLY);
         unlinkBtn.setDescription("Remove parent-child relationship");
-        unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
-        unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         toggleTaskSummaryField.addControl(unlinkBtn);
     }
 

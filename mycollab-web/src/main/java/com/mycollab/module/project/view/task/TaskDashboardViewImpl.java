@@ -189,7 +189,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                 UI.getCurrent().addWindow(new TaskAddWindow(newTask));
             }
         }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
-        newTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+        newTaskBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         groupWrapLayout.addComponent(newTaskBtn);
 
         Button advanceDisplayBtn = new Button("List");

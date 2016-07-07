@@ -123,7 +123,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         MButton createBtn = new MButton(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
                 .withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEND);
-        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
+        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         viewHeader.addComponent(createBtn);
 
         addComponent(viewHeader);

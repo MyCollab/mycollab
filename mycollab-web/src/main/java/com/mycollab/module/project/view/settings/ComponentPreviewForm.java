@@ -134,12 +134,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
         private class BugStatusCheckbox extends CheckBox {
             BugStatusCheckbox(final Enum name, boolean defaultValue) {
                 super(AppContext.getMessage(name), defaultValue);
-                this.addValueChangeListener(new ValueChangeListener() {
-                    @Override
-                    public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                        updateTypeSearchStatus(BugStatusCheckbox.this.getValue(), name.name());
-                    }
-                });
+                this.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(BugStatusCheckbox.this.getValue(), name.name()));
             }
         }
     }

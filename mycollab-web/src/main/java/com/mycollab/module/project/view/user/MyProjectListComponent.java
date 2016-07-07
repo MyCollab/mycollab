@@ -32,11 +32,10 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -60,11 +59,10 @@ public class MyProjectListComponent extends MVerticalLayout {
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         this.addStyleName("myprojectlist");
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
-        header.addStyleName("panel-header");
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).withStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
-        final Button sortBtn = new Button("");
+        final MButton sortBtn = new MButton("").withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(UIConstants.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             isSortAsc = !isSortAsc;
             if (searchCriteria != null) {
@@ -78,8 +76,6 @@ public class MyProjectListComponent extends MVerticalLayout {
                 displayResults();
             }
         });
-        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-        sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
         final SearchTextField searchTextField = new SearchTextField() {
             @Override
@@ -106,41 +102,23 @@ public class MyProjectListComponent extends MVerticalLayout {
 
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
         int allProjectCount = projectService.getTotalCount(getAllProjectsSearchCriteria());
-        Button allProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount),
-                new ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        displayAllProjects();
-                        projectsPopup.setPopupVisible(false);
-                    }
-                });
+        Button allProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount), clickEvent -> {
+            displayAllProjects();
+            projectsPopup.setPopupVisible(false);
+        });
         filterBtnLayout.addOption(allProjectsBtn);
 
         int activeProjectsCount = projectService.getTotalCount(getActiveProjectsSearchCriteria());
-        Button activeProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS,
-                activeProjectsCount), new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                displayActiveProjects();
-                projectsPopup.setPopupVisible(false);
-            }
+        Button activeProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS, activeProjectsCount), clickEvent -> {
+            displayActiveProjects();
+            projectsPopup.setPopupVisible(false);
         });
         filterBtnLayout.addOption(activeProjectsBtn);
 
         int archiveProjectsCount = projectService.getTotalCount(getArchivedProjectsSearchCriteria());
-        Button archiveProjectsBtn = new Button(AppContext.getMessage(
-                ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS, archiveProjectsCount), new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                displayArchiveProjects();
-                projectsPopup.setPopupVisible(false);
-            }
+        Button archiveProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS, archiveProjectsCount), clickEvent -> {
+            displayArchiveProjects();
+            projectsPopup.setPopupVisible(false);
         });
         filterBtnLayout.addOption(archiveProjectsBtn);
         projectsPopup.setContent(filterBtnLayout);

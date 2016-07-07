@@ -38,6 +38,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -123,23 +124,14 @@ public class BugRowComponent extends MVerticalLayout {
     private OptionPopupContent createPopupContent() {
         OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
-        Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
+        if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
+            MButton editButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
                 bugSettingPopupBtn.setPopupVisible(false);
                 EventBusFactory.getInstance().post(new BugEvent.GotoEdit(BugRowComponent.this, bug));
-            }
-        });
-        editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-        editButton.setIcon(FontAwesome.EDIT);
-        filterBtnLayout.addOption(editButton);
-        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+            }).withIcon(FontAwesome.EDIT);
+            filterBtnLayout.addOption(editButton);
 
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
+            MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 bugSettingPopupBtn.setPopupVisible(false);
                 ConfirmDialogExt.show(UI.getCurrent(),
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
@@ -158,11 +150,10 @@ public class BugRowComponent extends MVerticalLayout {
                                 }
                             }
                         });
-            }
-        });
-        deleteBtn.setIcon(FontAwesome.TRASH_O);
-        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        filterBtnLayout.addDangerOption(deleteBtn);
+            }).withIcon(FontAwesome.TRASH_O);
+            filterBtnLayout.addDangerOption(deleteBtn);
+        }
+
         return filterBtnLayout;
     }
 }
