@@ -18,7 +18,7 @@ package com.mycollab.vaadin.web.ui;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -26,29 +26,24 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 5.2.0
  */
 public abstract class DepotWithChart extends Depot {
-    private Button toggleViewBtn;
+    private MButton toggleViewBtn;
     private boolean isPlainMode = true;
 
     public DepotWithChart() {
         super("", new MVerticalLayout());
 
-        toggleViewBtn = new Button(null, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                isPlainMode = !isPlainMode;
-                if (isPlainMode) {
-                    toggleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
-                    toggleViewBtn.setDescription("Chart mode");
-                    displayPlainMode();
-                } else {
-                    toggleViewBtn.setIcon(FontAwesome.LIST);
-                    toggleViewBtn.setDescription("Simple mode");
-                    displayChartMode();
-                }
+        toggleViewBtn = new MButton("", clickEvent -> {
+            isPlainMode = !isPlainMode;
+            if (isPlainMode) {
+                toggleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
+                toggleViewBtn.setDescription("Chart mode");
+                displayPlainMode();
+            } else {
+                toggleViewBtn.setIcon(FontAwesome.LIST);
+                toggleViewBtn.setDescription("Simple mode");
+                displayChartMode();
             }
-        });
-        toggleViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-        toggleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
+        }).withIcon(FontAwesome.BAR_CHART_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
         toggleViewBtn.setDescription("Simple mode");
         addHeaderElement(toggleViewBtn);
         setContentBorder(true);

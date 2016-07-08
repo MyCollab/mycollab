@@ -34,12 +34,11 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
+import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 /**
  * @author MyCollab Ltd.
@@ -67,16 +66,11 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-                                    projectMemberService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+                                projectMemberService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                             }
                         });
             }

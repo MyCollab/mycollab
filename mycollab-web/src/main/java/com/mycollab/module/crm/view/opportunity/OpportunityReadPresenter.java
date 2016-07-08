@@ -23,12 +23,12 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.events.ActivityEvent;
 import com.mycollab.module.crm.events.ContactEvent;
 import com.mycollab.module.crm.events.LeadEvent;
 import com.mycollab.module.crm.events.OpportunityEvent;
-import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.service.OpportunityService;
@@ -46,7 +46,6 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -84,16 +83,11 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    OpportunityService OpportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                                    OpportunityService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                OpportunityService OpportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
+                                OpportunityService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
                             }
                         });
             }

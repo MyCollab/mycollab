@@ -58,9 +58,8 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
                 UI.getCurrent().addWindow(new CaseImportWindow());
             }
         });
-        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
+        importBtn.setVisible(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         this.addExtraButton(importBtn);
-
     }
 
     @Override

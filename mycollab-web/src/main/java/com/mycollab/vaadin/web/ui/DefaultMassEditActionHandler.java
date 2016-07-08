@@ -49,14 +49,9 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    new ConfirmDialog.Listener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                presenter.deleteSelectedItems();
-                            }
+                    confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            presenter.deleteSelectedItems();
                         }
                     });
         } else {

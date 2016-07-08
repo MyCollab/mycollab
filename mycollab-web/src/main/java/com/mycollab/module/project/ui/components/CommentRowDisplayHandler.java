@@ -63,23 +63,18 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
-            MButton msgDeleteBtn = new MButton(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY).withVisible(true)
+            MButton msgDeleteBtn = new MButton(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY)
                     .withListener(clickEvent -> {
                         ConfirmDialogExt.show(UI.getCurrent(),
                                 AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                                 AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
-
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                            commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                            CommentRowDisplayHandler.this.owner.removeRow(layout);
-                                        }
+                                confirmDialog -> {
+                                    if (confirmDialog.isConfirmed()) {
+                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                        commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                        owner.removeRow(layout);
                                     }
                                 });
                     });

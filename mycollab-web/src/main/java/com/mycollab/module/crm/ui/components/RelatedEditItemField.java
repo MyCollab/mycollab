@@ -17,15 +17,15 @@
 package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.i18n.*;
+import com.mycollab.module.crm.service.*;
 import com.mycollab.module.crm.view.account.AccountSelectionWindow;
 import com.mycollab.module.crm.view.campaign.CampaignSelectionWindow;
 import com.mycollab.module.crm.view.cases.CaseSelectionWindow;
 import com.mycollab.module.crm.view.contact.ContactSelectionWindow;
 import com.mycollab.module.crm.view.lead.LeadSelectionWindow;
 import com.mycollab.module.crm.view.opportunity.OpportunitySelectionWindow;
-import com.mycollab.module.crm.domain.*;
-import com.mycollab.module.crm.i18n.*;
-import com.mycollab.module.crm.service.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
@@ -38,6 +38,7 @@ import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -53,8 +54,7 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
     private Object bean;
 
     private TextField itemField;
-    private Button browseBtn;
-    private Button clearBtn;
+    private MButton browseBtn, clearBtn;
 
     public RelatedEditItemField(Object bean) {
         this.bean = bean;
@@ -63,55 +63,44 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
         itemField = new TextField();
         itemField.setEnabled(true);
 
-        browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        browseBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                String type = (String) relatedItemComboBox.getValue();
-                if (CrmTypeConstants.ACCOUNT.equals(type)) {
-                    AccountSelectionWindow accountWindow = new AccountSelectionWindow(RelatedEditItemField.this);
-                    UI.getCurrent().addWindow(accountWindow);
-                    accountWindow.show();
-                } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
-                    CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(RelatedEditItemField.this);
-                    UI.getCurrent().addWindow(campaignWindow);
-                    campaignWindow.show();
-                } else if (CrmTypeConstants.CONTACT.equals(type)) {
-                    ContactSelectionWindow contactWindow = new ContactSelectionWindow(RelatedEditItemField.this);
-                    UI.getCurrent().addWindow(contactWindow);
-                    contactWindow.show();
-                } else if (CrmTypeConstants.LEAD.equals(type)) {
-                    LeadSelectionWindow leadWindow = new LeadSelectionWindow(RelatedEditItemField.this);
-                    UI.getCurrent().addWindow(leadWindow);
-                    leadWindow.show();
-                } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
-                    OpportunitySelectionWindow opportunityWindow = new OpportunitySelectionWindow(RelatedEditItemField.this);
-                    UI.getCurrent().addWindow(opportunityWindow);
-                    opportunityWindow.show();
-                } else if (CrmTypeConstants.CASE.equals(type)) {
-                    CaseSelectionWindow caseWindow = new CaseSelectionWindow(RelatedEditItemField.this);
-                    UI.getCurrent().addWindow(caseWindow);
-                    caseWindow.show();
-                } else {
-                    relatedItemComboBox.focus();
-                }
+        browseBtn = new MButton("", clickEvent -> {
+            String type = (String) relatedItemComboBox.getValue();
+            if (CrmTypeConstants.ACCOUNT.equals(type)) {
+                AccountSelectionWindow accountWindow = new AccountSelectionWindow(RelatedEditItemField.this);
+                UI.getCurrent().addWindow(accountWindow);
+                accountWindow.show();
+            } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
+                CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(RelatedEditItemField.this);
+                UI.getCurrent().addWindow(campaignWindow);
+                campaignWindow.show();
+            } else if (CrmTypeConstants.CONTACT.equals(type)) {
+                ContactSelectionWindow contactWindow = new ContactSelectionWindow(RelatedEditItemField.this);
+                UI.getCurrent().addWindow(contactWindow);
+                contactWindow.show();
+            } else if (CrmTypeConstants.LEAD.equals(type)) {
+                LeadSelectionWindow leadWindow = new LeadSelectionWindow(RelatedEditItemField.this);
+                UI.getCurrent().addWindow(leadWindow);
+                leadWindow.show();
+            } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
+                OpportunitySelectionWindow opportunityWindow = new OpportunitySelectionWindow(RelatedEditItemField.this);
+                UI.getCurrent().addWindow(opportunityWindow);
+                opportunityWindow.show();
+            } else if (CrmTypeConstants.CASE.equals(type)) {
+                CaseSelectionWindow caseWindow = new CaseSelectionWindow(RelatedEditItemField.this);
+                UI.getCurrent().addWindow(caseWindow);
+                caseWindow.show();
+            } else {
+                relatedItemComboBox.focus();
             }
-        });
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(UIConstants.BUTTON_OPTION);
 
-        clearBtn = new Button(null, FontAwesome.TRASH_O);
-        clearBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        clearBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                try {
-                    PropertyUtils.setProperty(RelatedEditItemField.this.bean,
-                            "typeid", null);
-                } catch (Exception e) {
-                    LOG.error("Error while saving type", e);
-                }
+        clearBtn = new MButton("", clickEvent -> {
+            try {
+                PropertyUtils.setProperty(bean, "typeid", null);
+            } catch (Exception e) {
+                LOG.error("Error while saving type", e);
             }
-        });
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_OPTION);
     }
 
     @Override

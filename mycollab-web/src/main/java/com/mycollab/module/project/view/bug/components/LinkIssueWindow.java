@@ -24,19 +24,19 @@ import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.tracker.domain.RelatedBug;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelationService;
-import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -45,8 +45,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 4.6.0
  */
 public class LinkIssueWindow extends Window {
-    private BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-
     private RelatedBugEditForm editForm;
     private BugSelectionField bugSelectionField;
     private SimpleBug hostedBug;
@@ -86,48 +84,34 @@ public class LinkIssueWindow extends Window {
             public ComponentContainer getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
-
                 layout.addComponent(informationLayout.getLayout());
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
+                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                    if (editForm.validateForm()) {
+                        BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
+
+                        SimpleBug selectedBug = bugSelectionField.getSelectedBug();
+                        if (selectedBug == null) {
+                            throw new UserInvalidInputException("The related bug must be not null");
+                        }
+
+                        if (selectedBug.getId().equals(hostedBug.getId())) {
+                            throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
+                        }
+
+                        relatedBug.setRelatedid(selectedBug.getId());
+                        relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
+                        close();
+                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedBug.getId()));
+                    }
+                }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+
+                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                        .withStyleName(UIConstants.BUTTON_OPTION);
+
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
-
-                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
-                        if (editForm.validateForm()) {
-                            BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
-
-                            SimpleBug selectedBug = bugSelectionField.getSelectedBug();
-                            if (selectedBug == null) {
-                                throw new UserInvalidInputException("The related bug must be not null");
-                            }
-
-                            if (selectedBug.getId().equals(hostedBug.getId())) {
-                                throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
-                            }
-
-                            relatedBug.setRelatedid(selectedBug.getId());
-                            relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
-                            close();
-                            EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedBug.getId()));
-                        }
-                    }
-                });
-                saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
-                saveBtn.setIcon(FontAwesome.SAVE);
-                saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-
-                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
-                        close();
-                    }
-                });
-                cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-
-                controlsBtn.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 

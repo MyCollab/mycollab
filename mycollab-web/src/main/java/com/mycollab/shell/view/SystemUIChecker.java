@@ -47,14 +47,9 @@ public class SystemUIChecker {
                             AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_ADMIN),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
-                                    }
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(null, new String[]{"setup"}));
                                 }
                             });
 

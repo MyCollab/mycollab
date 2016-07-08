@@ -138,16 +138,11 @@ public class BugRowComponent extends MVerticalLayout {
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                                    bugService.removeWithSession(bug, AppContext.getUsername(), AppContext.getAccountId());
-                                    deleteBug();
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                                bugService.removeWithSession(bug, AppContext.getUsername(), AppContext.getAccountId());
+                                deleteBug();
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O);

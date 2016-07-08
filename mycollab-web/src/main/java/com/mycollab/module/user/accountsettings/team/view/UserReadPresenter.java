@@ -37,7 +37,6 @@ import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 /**
  * @author MyCollab Ltd.
@@ -71,19 +70,13 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                                    userService.pendingUserAccount(data.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                UserService userService = AppContextUtil.getSpringBean(UserService.class);
+                                userService.pendingUserAccount(data.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                             }
                         });
-
             }
 
             @Override

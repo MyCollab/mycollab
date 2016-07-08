@@ -63,25 +63,15 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
     protected Component generateTopControls() {
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
-        final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(OpportunityI18nEnum.NEW));
-        controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-            private static final long serialVersionUID = 1L;
 
-            @Override
-            public void splitButtonClick(
-                    SplitButton.SplitButtonClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
-        controlsBtn.setSizeUndefined();
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
+            final SplitButton controlsBtn = new SplitButton();
+            controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtn.setCaption(AppContext.getMessage(OpportunityI18nEnum.NEW));
+            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
+            controlsBtn.setSizeUndefined();
+            MButton selectBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 ContactOpportunitySelectionWindow opportunitiesWindow = new ContactOpportunitySelectionWindow(
                         ContactOpportunityListComp.this);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
@@ -89,16 +79,14 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
                 UI.getCurrent().addWindow(opportunitiesWindow);
                 opportunitiesWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
-            }
-        });
-        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
-        OptionPopupContent buttonControlsLayout = new OptionPopupContent();
-        buttonControlsLayout.addOption(selectBtn);
-        controlsBtn.setContent(buttonControlsLayout);
+            }).withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
 
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-        controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            OptionPopupContent buttonControlsLayout = new OptionPopupContent();
+            buttonControlsLayout.addOption(selectBtn);
+            controlsBtn.setContent(buttonControlsLayout);
+            controlsBtnWrap.addComponent(controlsBtn);
+            controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+        }
         return controlsBtnWrap;
     }
 
@@ -138,34 +126,24 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
             VerticalLayout opportunityInfo = new VerticalLayout();
             opportunityInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
-            btnDelete.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                                        ContactOpportunity associateOpportunity = new ContactOpportunity();
-                                        associateOpportunity.setContactid(contact.getId());
-                                        associateOpportunity.setOpportunityid(opportunity.getId());
-                                        contactService.removeContactOpportunityRelationship(associateOpportunity, AppContext.getAccountId());
-                                        ContactOpportunityListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-
-            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
+                                ContactOpportunity associateOpportunity = new ContactOpportunity();
+                                associateOpportunity.setContactid(contact.getId());
+                                associateOpportunity.setOpportunityid(opportunity.getId());
+                                contactService.removeContactOpportunityRelationship(associateOpportunity, AppContext.getAccountId());
+                                ContactOpportunityListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY)
+                    .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

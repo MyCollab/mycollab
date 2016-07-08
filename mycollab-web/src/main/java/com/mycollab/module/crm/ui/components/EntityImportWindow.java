@@ -36,7 +36,6 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.SingleFileUploadField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -122,14 +121,9 @@ public abstract class EntityImportWindow<E> extends Window {
                                     "You choose a vcf file. This step will import to database. Do you want to do it?",
                                     AppContext.getMessage(FileI18nEnum.IMPORT_FILE),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                                    new ConfirmDialog.Listener() {
-                                        private static final long serialVersionUID = 1L;
-
-                                        @Override
-                                        public void onClose(ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                throw new MyCollabException("did not support this feature");
-                                            }
+                                    confirmDialog -> {
+                                        if (confirmDialog.isConfirmed()) {
+                                            throw new MyCollabException("did not support this feature");
                                         }
                                     });
                         } else if (fileuploadType.equals("csv") && isSupportCSV) {

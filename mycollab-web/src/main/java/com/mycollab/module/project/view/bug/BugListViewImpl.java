@@ -281,20 +281,16 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         currentPage = 0;
         int pages = totalBugs / 20;
         if (currentPage < pages) {
-            Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_MORE), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    int totalTasks = bugService.getTotalCount(baseCriteria);
-                    int pages = totalTasks / 20;
-                    currentPage++;
-                    List<SimpleBug> otherBugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
-                    bugGroupOrderComponent.insertBugs(otherBugs);
-                    if (currentPage == pages) {
-                        wrapBody.removeComponent(wrapBody.getComponent(1));
-                    }
+            MButton moreBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_MORE), clickEvent -> {
+                int innerTotalBugs = bugService.getTotalCount(baseCriteria);
+                int innerPages = innerTotalBugs / 20;
+                currentPage++;
+                List<SimpleBug> otherBugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
+                bugGroupOrderComponent.insertBugs(otherBugs);
+                if (currentPage == innerPages) {
+                    wrapBody.removeComponent(wrapBody.getComponent(1));
                 }
-            });
-            moreBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(UIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
         List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));

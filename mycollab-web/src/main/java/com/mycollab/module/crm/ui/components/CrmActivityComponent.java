@@ -197,16 +197,11 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                    commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                    activityBox.removeComponent(layout);
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                activityBox.removeComponent(layout);
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);

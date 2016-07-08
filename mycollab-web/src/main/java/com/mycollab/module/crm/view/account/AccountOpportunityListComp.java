@@ -76,45 +76,31 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     @Override
     protected Component generateTopControls() {
-        HorizontalLayout controlsBtnWrap = new HorizontalLayout();
-        controlsBtnWrap.setWidth("100%");
+        MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        Label noteLbl = new Label("Note: ");
-        noteLbl.setSizeUndefined();
-        noteLbl.setStyleName("list-note-lbl");
+        ELabel noteLbl = new ELabel("Note: ").withWidthUndefined().withStyleName("list-note-lbl");
         notesWrap.addComponent(noteLbl);
 
         CssLayout noteBlock = new CssLayout();
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
-            Label note = new Label(CrmDataTypeFactory.getOpportunitySalesStageList()[i]);
-            note.setStyleName("note-label");
-            note.addStyleName(colormap.get(CrmDataTypeFactory.getOpportunitySalesStageList()[i]));
-            note.setSizeUndefined();
-
+            ELabel note = new ELabel(CrmDataTypeFactory.getOpportunitySalesStageList()[i])
+                    .withStyleName("note-label", colormap.get(CrmDataTypeFactory.getOpportunitySalesStageList()[i]))
+                    .withWidthUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
-
         controlsBtnWrap.addComponent(notesWrap);
 
-        controlsBtnWrap.setWidth("100%");
-        final Button createBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = -8101659779838108951L;
+        if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
+            MButton createBtn = new MButton(AppContext.getMessage(OpportunityI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
+                    .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
 
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
-        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-        createBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setIcon(FontAwesome.PLUS);
+            controlsBtnWrap.with(createBtn).withAlign(createBtn, Alignment.TOP_RIGHT);
+        }
 
-        controlsBtnWrap.addComponent(createBtn);
-        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -153,31 +139,21 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             VerticalLayout opportunityInfo = new VerticalLayout();
             opportunityInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
-            btnDelete.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                                        opportunityService.removeWithSession(opportunity,
-                                                AppContext.getUsername(), AppContext.getAccountId());
-                                        AccountOpportunityListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
+                                opportunityService.removeWithSession(opportunity,
+                                        AppContext.getUsername(), AppContext.getAccountId());
+                                AccountOpportunityListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             VerticalLayout blockContent = new VerticalLayout();
             blockContent.addComponent(btnDelete);

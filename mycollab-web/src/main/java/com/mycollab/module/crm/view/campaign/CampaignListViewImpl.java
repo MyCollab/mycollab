@@ -28,7 +28,6 @@ import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -44,21 +43,13 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
 
     @Override
     protected void buildExtraControls() {
-        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new CampaignListCustomizeWindow(tableItem));
-            }
-        });
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new CampaignListCustomizeWindow(tableItem)));
         this.addExtraButton(customizeViewBtn);
 
-        Button importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new CampaignImportWindow());
-            }
-        });
-        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        Button importBtn = ComponentUtils.createImportEntitiesButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new CampaignImportWindow()));
+        importBtn.setVisible(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
         this.addExtraButton(importBtn);
 
     }

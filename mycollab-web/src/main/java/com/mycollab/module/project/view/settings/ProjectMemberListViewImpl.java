@@ -172,39 +172,29 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
 
         MVerticalLayout blockTop = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withFullWidth();
 
-        MHorizontalLayout buttonControls = new MHorizontalLayout();
-
         MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, member)))
                 .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         editBtn.setDescription("Edit user '" + member.getDisplayName() + "' information");
 
-        Button deleteBtn = new Button("", FontAwesome.TRASH_O);
-        deleteBtn.addClickListener(clickEvent -> {
+        MButton deleteBtn = new MButton("", clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    new ConfirmDialog.Listener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-                                prjMemberService.removeWithSession(member, AppContext.getUsername(), AppContext.getAccountId());
-
-                                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
-                            }
+                    confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+                            prjMemberService.removeWithSession(member, AppContext.getUsername(), AppContext.getAccountId());
+                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
                         }
                     });
-        });
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         deleteBtn.setDescription("Remove user '" + member.getDisplayName() + "' out of this project");
-        deleteBtn.addStyleName(UIConstants.BUTTON_LINK);
-        deleteBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
 
-        buttonControls.with(editBtn, deleteBtn);
+        MHorizontalLayout buttonControls = new MHorizontalLayout(editBtn, deleteBtn);
         blockTop.addComponent(buttonControls);
         blockTop.setComponentAlignment(buttonControls, Alignment.TOP_RIGHT);
 

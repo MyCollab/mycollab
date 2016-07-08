@@ -44,21 +44,13 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
 
     @Override
     protected void buildExtraControls() {
-        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new ContactListCustomizeWindow(tableItem));
-            }
-        });
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new ContactListCustomizeWindow(tableItem)));
         this.addExtraButton(customizeViewBtn);
 
-        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new ContactImportWindow());
-            }
-        });
-        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
+        MButton importBtn = ComponentUtils.createImportEntitiesButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new ContactImportWindow()))
+                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         this.addExtraButton(importBtn);
     }
 

@@ -51,7 +51,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -187,27 +186,20 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK);
         buttonControls.with(editBtn);
 
-        Button deleteBtn = new Button("", clickEvent -> {
+        MButton deleteBtn = new MButton("", clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    new ConfirmDialog.Listener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                                userService.pendingUserAccounts(Collections.singletonList(member.getUsername()), AppContext.getAccountId());
-                                EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
-                            }
+                    confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            UserService userService = AppContextUtil.getSpringBean(UserService.class);
+                            userService.pendingUserAccounts(Collections.singletonList(member.getUsername()), AppContext.getAccountId());
+                            EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                         }
                     });
-        });
-        deleteBtn.setIcon(FontAwesome.TRASH_O);
-        deleteBtn.addStyleName(UIConstants.BUTTON_LINK);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK);
         buttonControls.with(deleteBtn);
 
         memberInfo.addComponent(buttonControls);

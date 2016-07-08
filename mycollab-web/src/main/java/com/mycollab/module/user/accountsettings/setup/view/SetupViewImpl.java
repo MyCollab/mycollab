@@ -41,7 +41,6 @@ import com.vaadin.ui.*;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -122,14 +121,9 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                                             ". Save the configuration anyway?",
                                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    new ConfirmDialog.Listener() {
-                                        private static final long serialVersionUID = 1L;
-
-                                        @Override
-                                        public void onClose(ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                saveEmailConfiguration();
-                                            }
+                                    confirmDialog -> {
+                                        if (confirmDialog.isConfirmed()) {
+                                            saveEmailConfiguration();
                                         }
                                     });
                         }

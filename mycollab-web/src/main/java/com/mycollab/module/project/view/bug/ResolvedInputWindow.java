@@ -45,11 +45,11 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.data.Property;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.GregorianCalendar;
@@ -101,84 +101,67 @@ public class ResolvedInputWindow extends Window {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
                 layout.addComponent(informationLayout.getLayout());
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false, false));
-                layout.addComponent(controlsBtn);
-
-                Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        if (EditForm.this.validateForm()) {
-                            String commentValue = commentArea.getValue();
-                            if (BugResolution.Duplicate.name().equals(bug.getResolution())) {
-                                if (bugSelectionField != null && bugSelectionField.getSelectedBug() != null) {
-                                    SimpleBug selectedBug = bugSelectionField.getSelectedBug();
-                                    if (selectedBug.getId().equals(bug.getId())) {
-                                        throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
-                                    }
-                                    BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
-                                    RelatedBug relatedBug = new RelatedBug();
-                                    relatedBug.setBugid(bug.getId());
-                                    relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
-                                    relatedBug.setRelatedid(selectedBug.getId());
-                                    relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
-                                } else {
-                                    NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_DUPLICATE_BUG_SELECT));
-                                    return;
+                MButton resolveBtn = new MButton(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), clickEvent -> {
+                    if (EditForm.this.validateForm()) {
+                        String commentValue = commentArea.getValue();
+                        if (BugResolution.Duplicate.name().equals(bug.getResolution())) {
+                            if (bugSelectionField != null && bugSelectionField.getSelectedBug() != null) {
+                                SimpleBug selectedBug = bugSelectionField.getSelectedBug();
+                                if (selectedBug.getId().equals(bug.getId())) {
+                                    throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
                                 }
-                            } else if (BugResolution.InComplete.name().equals(bug.getResolution()) ||
-                                    BugResolution.CannotReproduce.name().equals(bug.getResolution()) ||
-                                    BugResolution.Invalid.name().equals(bug.getResolution())) {
-                                if (StringUtils.isBlank(commentValue)) {
-                                    NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_COMMENT_NOT_BLANK_FOR_RESOLUTION, bug.getResolution()));
-                                    return;
-                                }
+                                BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
+                                RelatedBug relatedBug = new RelatedBug();
+                                relatedBug.setBugid(bug.getId());
+                                relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
+                                relatedBug.setRelatedid(selectedBug.getId());
+                                relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
+                            } else {
+                                NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_DUPLICATE_BUG_SELECT));
+                                return;
                             }
-                            bug.setStatus(BugStatus.Resolved.name());
-
-                            BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
-                            bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), fixedVersionSelect.getSelectedItems());
-
-                            // Save bug status and assignee
-                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                            bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
-
-                            // Save comment
-                            if (StringUtils.isNotBlank(commentValue)) {
-                                CommentWithBLOBs comment = new CommentWithBLOBs();
-                                comment.setComment(commentValue);
-                                comment.setCreatedtime(new GregorianCalendar().getTime());
-                                comment.setCreateduser(AppContext.getUsername());
-                                comment.setSaccountid(AppContext.getAccountId());
-                                comment.setType(ProjectTypeConstants.BUG);
-                                comment.setTypeid("" + bug.getId());
-                                comment.setExtratypeid(CurrentProjectVariables.getProjectId());
-
-                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                commentService.saveWithSession(comment, AppContext.getUsername());
+                        } else if (BugResolution.InComplete.name().equals(bug.getResolution()) ||
+                                BugResolution.CannotReproduce.name().equals(bug.getResolution()) ||
+                                BugResolution.Invalid.name().equals(bug.getResolution())) {
+                            if (StringUtils.isBlank(commentValue)) {
+                                NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_COMMENT_NOT_BLANK_FOR_RESOLUTION, bug.getResolution()));
+                                return;
                             }
+                        }
+                        bug.setStatus(BugStatus.Resolved.name());
 
-                            close();
-                            EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
+                        BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
+                        bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), fixedVersionSelect.getSelectedItems());
+
+                        // Save bug status and assignee
+                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                        bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
+
+                        // Save comment
+                        if (StringUtils.isNotBlank(commentValue)) {
+                            CommentWithBLOBs comment = new CommentWithBLOBs();
+                            comment.setComment(commentValue);
+                            comment.setCreatedtime(new GregorianCalendar().getTime());
+                            comment.setCreateduser(AppContext.getUsername());
+                            comment.setSaccountid(AppContext.getAccountId());
+                            comment.setType(ProjectTypeConstants.BUG);
+                            comment.setTypeid("" + bug.getId());
+                            comment.setExtratypeid(CurrentProjectVariables.getProjectId());
+
+                            CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                            commentService.saveWithSession(comment, AppContext.getUsername());
                         }
 
-                    }
-                });
-                resolveBtn.setStyleName(UIConstants.BUTTON_ACTION);
-                resolveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-
-                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
                         close();
+                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
                     }
-                });
-                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                controlsBtn.with(cancelBtn, resolveBtn);
+                }).withStyleName(UIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
+                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                        .withStyleName(UIConstants.BUTTON_OPTION);
+
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, resolveBtn).withMargin(new MarginInfo(true, true, false, false));
+                layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
                 return layout;
@@ -245,18 +228,15 @@ public class ResolvedInputWindow extends Window {
                 protected Component initContent() {
                     layout = new MHorizontalLayout(resolutionComboBox);
                     fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
-                    resolutionComboBox.addValueChangeListener(new ValueChangeListener() {
-                        @Override
-                        public void valueChange(Property.ValueChangeEvent event) {
-                            String value = (String) resolutionComboBox.getValue();
-                            if (OptionI18nEnum.BugResolution.Duplicate.name().equals(value)) {
-                                bugSelectionField = new BugSelectionField();
-                                layout.with(new Label(" with "), bugSelectionField);
-                            } else {
-                                if (layout.getComponentCount() > 1) {
-                                    layout.removeComponent(layout.getComponent(1));
-                                    layout.removeComponent(layout.getComponent(1));
-                                }
+                    resolutionComboBox.addValueChangeListener(valueChangeEvent -> {
+                        String value = (String) resolutionComboBox.getValue();
+                        if (OptionI18nEnum.BugResolution.Duplicate.name().equals(value)) {
+                            bugSelectionField = new BugSelectionField();
+                            layout.with(new Label(" with "), bugSelectionField);
+                        } else {
+                            if (layout.getComponentCount() > 1) {
+                                layout.removeComponent(layout.getComponent(1));
+                                layout.removeComponent(layout.getComponent(1));
                             }
                         }
                     });

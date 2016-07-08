@@ -183,18 +183,13 @@ public class DesktopApplication extends MyCollabUI {
                         AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    Collection<Window> windowsList = UI.getCurrent().getWindows();
-                                    for (Window window : windowsList) {
-                                        window.close();
-                                    }
-                                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                Collection<Window> windowsList = UI.getCurrent().getWindows();
+                                for (Window window : windowsList) {
+                                    window.close();
                                 }
+                                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
                             }
                         });
 
@@ -239,14 +234,7 @@ public class DesktopApplication extends MyCollabUI {
                         AppContext.getMessage(GenericI18Enum.ERROR_USER_SYSTEM_ERROR, ex.getMessage()),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-
-                            }
-                        });
+                        confirmDialog -> {});
                 Button okBtn = dialog.getOkButton();
                 BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
                 opener.extend(okBtn);
@@ -261,14 +249,7 @@ public class DesktopApplication extends MyCollabUI {
                     "Your network does not support websocket! Please contact your network administrator to solve it",
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    new ConfirmDialog.Listener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void onClose(ConfirmDialog dialog) {
-
-                        }
-                    });
+                    confirmDialog -> {});
             Button okBtn = dialog.getOkButton();
             BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
             opener.extend(okBtn);
@@ -290,14 +271,7 @@ public class DesktopApplication extends MyCollabUI {
                 AppContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE),
                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                new ConfirmDialog.Listener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void onClose(ConfirmDialog dialog) {
-
-                    }
-                });
+                confirmDialog -> {});
         Button okBtn = dialog.getOkButton();
         BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
         opener.extend(okBtn);

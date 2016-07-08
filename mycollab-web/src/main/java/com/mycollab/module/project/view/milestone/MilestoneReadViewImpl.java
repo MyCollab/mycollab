@@ -83,7 +83,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         if (SiteConfiguration.isCommunityEdition()) {
             return null;
         } else {
-            tagViewComponent = new TagViewComponent();
+            tagViewComponent = new TagViewComponent(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
             return tagViewComponent;
         }
     }

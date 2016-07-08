@@ -23,7 +23,9 @@ import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.user.ui.components.UserBlock;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.*;
+import com.mycollab.vaadin.ui.BeanList;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.UIConstants;
@@ -32,7 +34,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -70,39 +72,24 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         messageHeader.with(timePostLbl).expand(timePostLbl);
 
         // Message delete button
-        Button msgDeleteBtn = new Button();
-        msgDeleteBtn.setIcon(FontAwesome.TRASH_O);
-        msgDeleteBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-        messageHeader.addComponent(msgDeleteBtn);
+
 
         if (hasDeletePermission(comment)) {
-            msgDeleteBtn.setVisible(true);
-            msgDeleteBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                        commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                        owner.removeRow(layout);
-                                    }
-                                }
-                            });
-                }
-            });
-        } else {
-            msgDeleteBtn.setVisible(false);
+            MButton msgDeleteBtn = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                owner.removeRow(layout);
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+            messageHeader.addComponent(msgDeleteBtn);
         }
 
         rowLayout.addComponent(messageHeader);

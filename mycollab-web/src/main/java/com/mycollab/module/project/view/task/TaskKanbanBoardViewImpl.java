@@ -16,14 +16,15 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.common.service.OptionValService;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -55,7 +56,6 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.google.common.eventbus.Subscribe;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -73,10 +73,8 @@ import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
@@ -136,7 +134,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         groupWrapLayout.addComponent(toggleShowColumsBtn);
         toggleShowButton();
 
-        if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)){
+        if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
             MButton addNewColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_NEW_COLUMN),
                     clickEvent -> UI.getCurrent().addWindow(new AddNewColumnWindow(this, ProjectTypeConstants.TASK, "status")))
                     .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
@@ -194,7 +192,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                     List<Map<String, Integer>> indexMap = new ArrayList<>();
                     for (int i = 0; i < kanbanLayout.getComponentCount(); i++) {
                         KanbanBlock blockItem = (KanbanBlock) kanbanLayout.getComponent(i);
-                        Map<String, Integer> map = new HashedMap(2);
+                        Map<String, Integer> map = new HashMap<>(2);
                         map.put("id", blockItem.optionVal.getId());
                         map.put("index", i);
                         indexMap.add(map);
@@ -214,7 +212,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         this.with(searchPanel, kanbanLayout).expand(kanbanLayout);
     }
 
-    void toggleShowButton() {
+    private void toggleShowButton() {
         if (displayHiddenColumns) {
             toggleShowColumsBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMNS));
         } else {
@@ -491,15 +489,10 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                                 AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
-
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            optionValService.removeWithSession(stage, AppContext.getUsername(), AppContext.getAccountId());
-                                            ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
-                                        }
+                                confirmDialog -> {
+                                    if (confirmDialog.isConfirmed()) {
+                                        optionValService.removeWithSession(stage, AppContext.getUsername(), AppContext.getAccountId());
+                                        ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
                                     }
                                 });
                     }
@@ -611,8 +604,8 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             }
         }
 
-        class RenameColumnWindow extends MWindow {
-            public RenameColumnWindow() {
+        private class RenameColumnWindow extends MWindow {
+            RenameColumnWindow() {
                 super(AppContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN));
                 withWidth("500px").withModal(true).withResizable(false);
                 this.center();

@@ -74,16 +74,11 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-                                        roleService.removeWithSession(role, AppContext.getUsername(), AppContext.getAccountId());
-                                        EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
-                                    }
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
+                                    roleService.removeWithSession(role, AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
                                 }
                             });
                 }

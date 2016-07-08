@@ -36,7 +36,6 @@ public class Depot extends VerticalLayout {
 
     public Depot(String title, ComponentContainer content) {
         this.addStyleName("depotComp");
-        this.setMargin(false);
         header = new MHorizontalLayout().withHeight("40px").withStyleName("depotHeader");
         bodyContent = content;
         bodyContent.setWidth("100%");
@@ -50,19 +49,14 @@ public class Depot extends VerticalLayout {
         headerLbl = new Label(title);
         final MHorizontalLayout headerLeft = new MHorizontalLayout(headerLbl).withStyleName("depot-title")
                 .withAlign(headerLbl, Alignment.MIDDLE_LEFT).withFullWidth();
-        headerLeft.addLayoutClickListener(new LayoutClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void layoutClick(final LayoutClickEvent event) {
-                isOpened = !isOpened;
-                if (isOpened) {
-                    bodyContent.setVisible(true);
-                    removeStyleName("collapsed");
-                } else {
-                    bodyContent.setVisible(false);
-                    addStyleName("collapsed");
-                }
+        headerLeft.addLayoutClickListener(layoutClickEvent -> {
+            isOpened = !isOpened;
+            if (isOpened) {
+                bodyContent.setVisible(true);
+                removeStyleName("collapsed");
+            } else {
+                bodyContent.setVisible(false);
+                addStyleName("collapsed");
             }
         });
         header.with(headerLeft, headerContent).withAlign(headerLeft, Alignment.MIDDLE_LEFT).withAlign(headerContent,

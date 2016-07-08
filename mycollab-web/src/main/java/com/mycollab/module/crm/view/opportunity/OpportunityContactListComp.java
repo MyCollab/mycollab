@@ -41,8 +41,6 @@ import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -95,46 +93,34 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
             note.setStyleName("note-label");
             note.addStyleName(colormap.get(CrmDataTypeFactory.getOpportunityContactRoleList()[i]));
             note.setSizeUndefined();
-
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
-
         controlsBtnWrap.addComponent(notesWrap);
 
-        final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
-        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption("Add/Edit Contacts' Role");
-        controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void splitButtonClick(final SplitButton.SplitButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new OpportunityEvent.GotoContactRoleEdit(this, opportunity));
-            }
-        });
-        final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+            final SplitButton controlsBtn = new SplitButton();
+            controlsBtn.setSizeUndefined();
+            controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtn.setCaption("Add/Edit Contacts' Role");
+            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.addClickListener(event -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoContactRoleEdit(this, opportunity)));
+            final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 OpportunityContactSelectionWindow contactsWindow = new OpportunityContactSelectionWindow(OpportunityContactListComp.this);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 UI.getCurrent().addWindow(contactsWindow);
                 contactsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
-            }
-        });
-        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
-        OptionPopupContent buttonControlLayout = new OptionPopupContent();
-        buttonControlLayout.addOption(selectBtn);
-        controlsBtn.setContent(buttonControlLayout);
+            });
+            selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+            OptionPopupContent buttonControlLayout = new OptionPopupContent();
+            buttonControlLayout.addOption(selectBtn);
+            controlsBtn.setContent(buttonControlLayout);
 
-        controlsBtnWrap.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
+            controlsBtnWrap.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
+        }
+
         return controlsBtnWrap;
     }
 
@@ -174,33 +160,23 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
             VerticalLayout contactInfo = new VerticalLayout();
             contactInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
-            btnDelete.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                                        ContactOpportunity associateContact = new ContactOpportunity();
-                                        associateContact.setOpportunityid(opportunity.getId());
-                                        associateContact.setContactid(contact.getId());
-                                        contactService.removeContactOpportunityRelationship(associateContact, AppContext.getAccountId());
-                                        OpportunityContactListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
+                                ContactOpportunity associateContact = new ContactOpportunity();
+                                associateContact.setOpportunityid(opportunity.getId());
+                                associateContact.setContactid(contact.getId());
+                                contactService.removeContactOpportunityRelationship(associateContact, AppContext.getAccountId());
+                                OpportunityContactListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

@@ -78,8 +78,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
     @Override
     protected Component generateTopControls() {
-        HorizontalLayout controlsBtnWrap = new HorizontalLayout();
-        controlsBtnWrap.setWidth("100%");
+        MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
         Label noteLbl = new Label("Note: ");
@@ -98,25 +97,14 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
-
         controlsBtnWrap.addComponent(notesWrap);
-        controlsBtnWrap.setWidth("100%");
-        Button createBtn = new Button();
-        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
-        createBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setCaption(AppContext.getMessage(CaseI18nEnum.NEW));
-        createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = -8725970955325733072L;
 
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
+            MButton createBtn = new MButton(AppContext.getMessage(CaseI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
+                    .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtnWrap.with(createBtn).withAlign(createBtn, Alignment.TOP_RIGHT);
+        }
 
-        controlsBtnWrap.addComponent(createBtn);
-        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -155,30 +143,20 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             VerticalLayout caseInfo = new VerticalLayout();
             caseInfo.setSpacing(true);
 
-            MButton deleteBtn = new MButton(FontAwesome.TRASH_O);
-            deleteBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                                        caseService.removeWithSession(oneCase, AppContext.getUsername(), AppContext.getAccountId());
-                                        AccountCaseListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-            deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton deleteBtn = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
+                                caseService.removeWithSession(oneCase, AppContext.getUsername(), AppContext.getAccountId());
+                                AccountCaseListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(deleteBtn);
             blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);

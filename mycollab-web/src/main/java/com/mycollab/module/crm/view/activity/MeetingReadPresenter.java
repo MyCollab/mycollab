@@ -32,18 +32,16 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
-
     private static final long serialVersionUID = 1L;
 
     public MeetingReadPresenter() {
@@ -70,17 +68,12 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    MeetingService campaignService = AppContextUtil.getSpringBean(MeetingService.class);
-                                    campaignService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                MeetingService campaignService = AppContextUtil.getSpringBean(MeetingService.class);
+                                campaignService.removeWithSession(data,
+                                        AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
                             }
                         });
             }

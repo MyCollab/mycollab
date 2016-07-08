@@ -78,19 +78,14 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
 
     @Override
     protected void buildExtraControls() {
-        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new AccountListCustomizeWindow((AccountTableDisplay) tableItem));
-            }
-        });
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new AccountListCustomizeWindow((AccountTableDisplay) tableItem)));
         this.addExtraButton(customizeViewBtn);
 
         MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(clickEvent -> {
             AccountImportWindow accountImportWindow = new AccountImportWindow();
             UI.getCurrent().addWindow(accountImportWindow);
-        });
-        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
+        }).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         this.addExtraButton(importBtn);
     }
 

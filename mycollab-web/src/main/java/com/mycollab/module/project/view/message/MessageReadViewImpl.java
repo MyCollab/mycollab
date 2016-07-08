@@ -116,16 +116,11 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(final ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                                    messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
-                                    previewForm.fireCancelForm(message);
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
+                                messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
+                                previewForm.fireCancelForm(message);
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_DANGER);

@@ -126,33 +126,23 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
             VerticalLayout campaignInfo = new VerticalLayout();
             campaignInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
-            btnDelete.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                                        CampaignLead associateLead = new CampaignLead();
-                                        associateLead.setLeadid(lead.getId());
-                                        associateLead.setCampaignid(campaign.getId());
-                                        campaignService.removeCampaignLeadRelationship(associateLead, AppContext.getAccountId());
-                                        LeadCampaignListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
+                                CampaignLead associateLead = new CampaignLead();
+                                associateLead.setLeadid(lead.getId());
+                                associateLead.setCampaignid(campaign.getId());
+                                campaignService.removeCampaignLeadRelationship(associateLead, AppContext.getAccountId());
+                                LeadCampaignListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

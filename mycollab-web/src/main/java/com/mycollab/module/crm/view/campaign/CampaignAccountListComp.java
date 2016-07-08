@@ -82,41 +82,30 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
     protected Component generateTopControls() {
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
-        final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
-        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(AccountI18nEnum.NEW));
-        controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-            private static final long serialVersionUID = 1L;
 
-            @Override
-            public void splitButtonClick(
-                    final SplitButton.SplitButtonClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
-        final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
+            final SplitButton controlsBtn = new SplitButton();
+            controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtn.setCaption(AppContext.getMessage(AccountI18nEnum.NEW));
+            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
+            final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(CampaignAccountListComp.this);
                 final AccountSearchCriteria criteria = new AccountSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 UI.getCurrent().addWindow(accountsWindow);
                 accountsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
-            }
-        });
-        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-        OptionPopupContent buttonControlLayout = new OptionPopupContent();
-        buttonControlLayout.addOption(selectBtn);
-        controlsBtn.setContent(buttonControlLayout);
+            });
+            selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
+            OptionPopupContent buttonControlLayout = new OptionPopupContent();
+            buttonControlLayout.addOption(selectBtn);
+            controlsBtn.setContent(buttonControlLayout);
 
-        controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            controlsBtnWrap.addComponent(controlsBtn);
+            controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+        }
+
         return controlsBtnWrap;
     }
 
@@ -139,33 +128,23 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
             VerticalLayout accountInfo = new VerticalLayout();
             accountInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
-            btnDelete.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                                        CampaignAccount associateAccount = new CampaignAccount();
-                                        associateAccount.setAccountid(account.getId());
-                                        associateAccount.setCampaignid(campaign.getId());
-                                        campaignService.removeCampaignAccountRelationship(associateAccount, AppContext.getAccountId());
-                                        CampaignAccountListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
+                                CampaignAccount associateAccount = new CampaignAccount();
+                                associateAccount.setAccountid(account.getId());
+                                associateAccount.setCampaignid(campaign.getId());
+                                campaignService.removeCampaignAccountRelationship(associateAccount, AppContext.getAccountId());
+                                CampaignAccountListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

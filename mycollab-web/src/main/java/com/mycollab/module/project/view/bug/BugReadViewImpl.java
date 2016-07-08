@@ -303,7 +303,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         if (SiteConfiguration.isCommunityEdition()) {
             return null;
         } else {
-            tagViewComponent = new TagViewComponent();
+            tagViewComponent = new TagViewComponent(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
             return tagViewComponent;
         }
     }

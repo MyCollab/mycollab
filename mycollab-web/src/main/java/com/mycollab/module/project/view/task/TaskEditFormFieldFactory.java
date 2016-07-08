@@ -127,21 +127,11 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             return new DoubleField();
         } else if (Task.Field.startdate.equalTo(propertyId)) {
             final DateTimeOptionField startDateField = new DateTimeOptionField(true);
-            startDateField.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent event) {
-                    calculateDurationBaseOnStartAndEndDates();
-                }
-            });
+            startDateField.addValueChangeListener(valueChangeEvent -> calculateDurationBaseOnStartAndEndDates());
             return startDateField;
         } else if (Task.Field.enddate.equalTo(propertyId)) {
             DateTimeOptionField endDateField = new DateTimeOptionField(true);
-            endDateField.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent event) {
-                    calculateDurationBaseOnStartAndEndDates();
-                }
-            });
+            endDateField.addValueChangeListener(valueChangeEvent -> calculateDurationBaseOnStartAndEndDates());
             return endDateField;
         } else if (Task.Field.id.equalTo(propertyId)) {
             attachmentUploadField = new AttachmentUploadField();

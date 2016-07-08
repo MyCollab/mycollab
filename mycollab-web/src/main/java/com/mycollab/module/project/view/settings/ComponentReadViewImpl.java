@@ -132,7 +132,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         if (SiteConfiguration.isCommunityEdition()) {
             return null;
         } else {
-            tagViewComponent = new TagViewComponent();
+            tagViewComponent = new TagViewComponent(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
             return tagViewComponent;
         }
     }

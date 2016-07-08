@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.file.view.components;
 
+import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
+import com.google.common.collect.Collections2;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
@@ -23,20 +25,18 @@ import com.mycollab.core.utils.FileUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.ecm.StorageNames;
+import com.mycollab.module.ecm.domain.*;
 import com.mycollab.module.ecm.service.ExternalDriveService;
 import com.mycollab.module.ecm.service.ExternalResourceService;
 import com.mycollab.module.ecm.service.ResourceService;
-import com.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.mycollab.module.file.events.FileEvent;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
-import com.mycollab.module.ecm.domain.*;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
@@ -48,8 +48,6 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
-import com.google.common.collect.Collections2;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
@@ -63,6 +61,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -100,58 +99,40 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         fileBreadCrumb = new FileBreadcrumb(rootPath);
-        fileBreadCrumb.addSearchHandler(new SearchHandler<FileSearchCriteria>() {
-            @Override
-            public void onSearch(FileSearchCriteria criteria) {
-                Resource selectedFolder;
-                if (StorageNames.DROPBOX.equals(criteria.getStorageName())) {
-                    selectedFolder = externalResourceService.getCurrentResourceByPath(
-                            criteria.getExternalDrive(), criteria.getBaseFolder());
-                } else {
-                    selectedFolder = resourceService.getResource(criteria.getBaseFolder());
-                }
+        fileBreadCrumb.addSearchHandler(criteria -> {
+            Resource selectedFolder;
+            if (StorageNames.DROPBOX.equals(criteria.getStorageName())) {
+                selectedFolder = externalResourceService.getCurrentResourceByPath(
+                        criteria.getExternalDrive(), criteria.getBaseFolder());
+            } else {
+                selectedFolder = resourceService.getResource(criteria.getBaseFolder());
+            }
 
-                if (selectedFolder == null) {
-                    LOG.error(String.format("Can not find folder with path %s--%s", criteria.getBaseFolder(),
-                            criteria.getRootFolder()));
-                } else if (!(selectedFolder instanceof Folder)) {
-                    LOG.error(String.format("Expect folder but the result is file %s--%s", criteria.getBaseFolder(),
-                            criteria.getRootFolder()));
-                } else {
-                    Folder resultFolder = (Folder) selectedFolder;
-                    constructBodyItemContainer(resultFolder);
-                    baseFolder = resultFolder;
-                }
+            if (selectedFolder == null) {
+                LOG.error(String.format("Can not find folder with path %s--%s", criteria.getBaseFolder(),
+                        criteria.getRootFolder()));
+            } else if (!(selectedFolder instanceof Folder)) {
+                LOG.error(String.format("Expect folder but the result is file %s--%s", criteria.getBaseFolder(),
+                        criteria.getRootFolder()));
+            } else {
+                Folder resultFolder = (Folder) selectedFolder;
+                constructBodyItemContainer(resultFolder);
+                baseFolder = resultFolder;
             }
         });
         ELabel headerLbl = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files");
 
-        Button createBtn = new Button("New folder", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                UI.getCurrent().addWindow(new AddNewFolderWindow());
-            }
-        });
-        createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        MButton createBtn = new MButton("New folder", clickEvent -> UI.getCurrent().addWindow(new AddNewFolderWindow()))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         createBtn.setDescription("Create new folder");
-        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
-        Button uploadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                MultiUploadContentWindow multiUploadWindow = new MultiUploadContentWindow();
-                UI.getCurrent().addWindow(multiUploadWindow);
-            }
-        });
-        uploadBtn.setIcon(FontAwesome.UPLOAD);
-        uploadBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        MButton uploadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
+            MultiUploadContentWindow multiUploadWindow = new MultiUploadContentWindow();
+            UI.getCurrent().addWindow(multiUploadWindow);
+        }).withIcon(FontAwesome.UPLOAD).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         uploadBtn.setDescription("Upload");
-        uploadBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
         MHorizontalLayout headerLayout = new MHorizontalLayout(headerLbl, new MHorizontalLayout(createBtn, uploadBtn)).expand(headerLbl);
         resourcesContainer = new ResourcesContainer();
@@ -168,29 +149,24 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                new ConfirmDialog.Listener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void onClose(final ConfirmDialog dialog) {
-                        if (dialog.isConfirmed()) {
-                            for (Resource res : deletedResources) {
-                                if (res.isExternalResource()) {
-                                    externalResourceService.deleteResource(
-                                            ((ExternalFolder) res).getExternalDrive(), res.getPath());
-                                } else {
-                                    if (res instanceof Folder) {
-                                        EventBusFactory.getInstance().post(new FileEvent.ResourceRemovedEvent
-                                                (ResourcesDisplayComponent.this, res));
-                                    }
-                                    resourceService.removeResource(res.getPath(), AppContext.getUsername(),
-                                            AppContext.getAccountId());
+                confirmDialog -> {
+                    if (confirmDialog.isConfirmed()) {
+                        for (Resource res : deletedResources) {
+                            if (res.isExternalResource()) {
+                                externalResourceService.deleteResource(
+                                        ((ExternalFolder) res).getExternalDrive(), res.getPath());
+                            } else {
+                                if (res instanceof Folder) {
+                                    EventBusFactory.getInstance().post(new FileEvent.ResourceRemovedEvent
+                                            (ResourcesDisplayComponent.this, res));
                                 }
+                                resourceService.removeResource(res.getPath(), AppContext.getUsername(),
+                                        AppContext.getAccountId());
                             }
-
-                            resourcesContainer.constructBody(baseFolder);
-                            NotificationUtil.showNotification("Congrats", "Deleted content successfully.");
                         }
+
+                        resourcesContainer.constructBody(baseFolder);
+                        NotificationUtil.showNotification("Congrats", "Deleted content successfully.");
                     }
                 });
     }
@@ -270,16 +246,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         (false, true, false, true)).withStyleName("panel-header").withFullWidth().alignAll(Alignment.MIDDLE_LEFT);
                 selectedResourceControlLayout.with(headerLayout);
 
-                Button renameBtn = new Button("Rename", new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        UI.getCurrent().addWindow(new RenameResourceWindow(selectedResource));
-                    }
-                });
-                renameBtn.addStyleName(UIConstants.BUTTON_LINK);
-                renameBtn.setIcon(FontAwesome.EDIT);
+                MButton renameBtn = new MButton("Rename", clickEvent -> UI.getCurrent().addWindow(new
+                        RenameResourceWindow(selectedResource)))
+                        .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK);
 
                 Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
 
@@ -305,16 +274,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 downloadBtn.addStyleName(UIConstants.BUTTON_LINK);
                 downloadBtn.setIcon(FontAwesome.DOWNLOAD);
 
-                Button moveBtn = new Button("Move to", new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource));
-                    }
-                });
-                moveBtn.addStyleName(UIConstants.BUTTON_LINK);
-                moveBtn.setIcon(FontAwesome.ARROWS);
+                MButton moveBtn = new MButton("Move to", clickEvent -> UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource)))
+                        .withIcon(FontAwesome.ARROWS).withStyleName(UIConstants.BUTTON_LINK);
 
                 Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;

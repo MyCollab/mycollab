@@ -110,7 +110,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         if (SiteConfiguration.isCommunityEdition()) {
             return null;
         } else {
-            tagViewComponent = new TagViewComponent();
+            tagViewComponent = new TagViewComponent(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
             return tagViewComponent;
         }
     }

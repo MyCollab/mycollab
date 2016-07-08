@@ -43,6 +43,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -68,21 +69,13 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
 
     @Override
     protected Component buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
-            }
-        });
-        createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
+        MButton createBtn = new MButton(AppContext.getMessage(ContactI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         return createBtn;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected BasicSearchLayout<ContactSearchCriteria> createBasicSearchLayout() {
         return new ContactBasicSearchLayout();
@@ -124,38 +117,16 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
-
-            searchBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    ContactBasicSearchLayout.this.callSearchAction();
-                }
-            });
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            cancelBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    ContactBasicSearchLayout.this.nameField.setValue("");
-                }
-            });
+            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            ContactSearchPanel.this.moveToAdvancedSearchLayout();
-                        }
-                    });
-            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
+            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+                    clickEvent -> moveToAdvancedSearchLayout()).withStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }

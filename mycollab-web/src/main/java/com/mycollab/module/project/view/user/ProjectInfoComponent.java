@@ -64,7 +64,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -333,19 +332,14 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                             AppContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_ARCHIVE_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
+                                    project.setProjectstatus(OptionI18nEnum.StatusI18nEnum.Archived.name());
+                                    projectService.updateSelectiveWithSession(project, AppContext.getUsername());
 
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-                                        project.setProjectstatus(OptionI18nEnum.StatusI18nEnum.Archived.name());
-                                        projectService.updateSelectiveWithSession(project, AppContext.getUsername());
-
-                                        PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
-                                        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                                    }
+                                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
+                                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                                 }
                             });
                 }).withIcon(FontAwesome.ARCHIVE);
@@ -361,18 +355,12 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                             AppContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(
-                                        ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-                                        projectService.removeWithSession(CurrentProjectVariables.getProject(),
-                                                AppContext.getUsername(), AppContext.getAccountId());
-                                        EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
-                                    }
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
+                                    projectService.removeWithSession(CurrentProjectVariables.getProject(),
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
                                 }
                             });
                 }).withIcon(FontAwesome.TRASH_O);

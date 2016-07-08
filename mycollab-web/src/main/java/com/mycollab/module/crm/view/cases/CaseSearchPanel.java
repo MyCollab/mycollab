@@ -17,6 +17,7 @@
 package com.mycollab.module.crm.view.cases;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
@@ -41,8 +42,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import org.apache.commons.lang3.StringUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -67,17 +67,10 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
 
     @Override
     protected Component buildExtraControls() {
-        Button newBtn = new Button(AppContext.getMessage(CaseI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
-            }
-        });
-        newBtn.setIcon(FontAwesome.PLUS);
-        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
+        MButton newBtn = new MButton(AppContext.getMessage(CaseI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         return newBtn;
     }
 
@@ -157,37 +150,17 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
-
-            searchBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    CaseBasicSearchLayout.this.callSearchAction();
-                }
-            });
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
 
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    subjectField.setValue("");
-                }
-            });
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> subjectField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    CaseSearchPanel.this.moveToAdvancedSearchLayout();
-                }
-            });
-            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
+            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+                    clickEvent -> moveToAdvancedSearchLayout()).withStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }

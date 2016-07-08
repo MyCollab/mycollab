@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.crm.view.account;
 
+import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
@@ -39,12 +40,9 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -66,41 +64,29 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
     protected Component generateTopControls() {
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
-        final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
-        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(LeadI18nEnum.NEW));
-        controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-            private static final long serialVersionUID = 1L;
 
-            @Override
-            public void splitButtonClick(
-                    final SplitButton.SplitButtonClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
-        final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
+            final SplitButton controlsBtn = new SplitButton();
+            controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtn.setCaption(AppContext.getMessage(LeadI18nEnum.NEW));
+            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
+            MButton selectBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 AccountLeadSelectionWindow leadsWindow = new AccountLeadSelectionWindow(AccountLeadListComp.this);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 UI.getCurrent().addWindow(leadsWindow);
                 leadsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
-            }
-        });
-        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
-        OptionPopupContent buttonControlLayout = new OptionPopupContent();
-        buttonControlLayout.addOption(selectBtn);
-        controlsBtn.setContent(buttonControlLayout);
+            }).withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
 
-        controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            OptionPopupContent buttonControlLayout = new OptionPopupContent();
+            buttonControlLayout.addOption(selectBtn);
+            controlsBtn.setContent(buttonControlLayout);
+
+            controlsBtnWrap.addComponent(controlsBtn);
+            controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+        }
         return controlsBtnWrap;
     }
 
@@ -140,34 +126,23 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
             VerticalLayout leadInfo = new VerticalLayout();
             leadInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
-            btnDelete.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        final AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                                        final AccountLead associateLead = new AccountLead();
-                                        associateLead.setAccountid(account.getId());
-                                        associateLead.setLeadid(lead.getId());
-                                        accountService.removeAccountLeadRelationship(associateLead, AppContext.getAccountId());
-                                        AccountLeadListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-
+            MButton btnDelete = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                final AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
+                                final AccountLead associateLead = new AccountLead();
+                                associateLead.setAccountid(account.getId());
+                                associateLead.setLeadid(lead.getId());
+                                accountService.removeAccountLeadRelationship(associateLead, AppContext.getAccountId());
+                                AccountLeadListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 

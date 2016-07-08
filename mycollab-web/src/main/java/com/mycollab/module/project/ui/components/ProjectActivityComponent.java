@@ -194,19 +194,14 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                    commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                    activityBox.removeComponent(layout);
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                activityBox.removeComponent(layout);
                             }
                         });
-            }).withStyleName(UIConstants.BUTTON_ICON_ONLY).withVisible(true);
+            }).withStyleName(UIConstants.BUTTON_ICON_ONLY);
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {
             messageHeader.with(timePostLbl).expand(timePostLbl);

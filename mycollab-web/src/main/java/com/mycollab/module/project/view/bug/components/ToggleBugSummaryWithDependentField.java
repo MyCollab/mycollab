@@ -33,6 +33,7 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd
@@ -44,24 +45,18 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
 
     public ToggleBugSummaryWithDependentField(final BugWithBLOBs hostBug, final BugWithBLOBs relatedBug) {
         toggleBugSummaryField = new ToggleBugSummaryField(relatedBug);
-        Button unlinkBtn = new Button(null, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                        AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO), new ConfirmDialog.Listener() {
-                            @Override
-                            public void onClose(ConfirmDialog confirmDialog) {
-                                RelatedBugExample ex = new RelatedBugExample();
-                                ex.createCriteria().andBugidEqualTo(hostBug.getId()).andRelatedidEqualTo(relatedBug.getId());
-                                RelatedBugMapper bugMapper = AppContextUtil.getSpringBean(RelatedBugMapper.class);
-                                bugMapper.deleteByExample(ex);
-                                UIUtils.removeChildAssociate(toggleBugSummaryField, RemoveInlineComponentMarker.class);
-                            }
-                        });
-            }
+        MButton unlinkBtn = new MButton("", clickEvent -> {
+            ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                    AppContext.getSiteName()),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO), confirmDialog -> {
+                        RelatedBugExample ex = new RelatedBugExample();
+                        ex.createCriteria().andBugidEqualTo(hostBug.getId()).andRelatedidEqualTo(relatedBug.getId());
+                        RelatedBugMapper bugMapper = AppContextUtil.getSpringBean(RelatedBugMapper.class);
+                        bugMapper.deleteByExample(ex);
+                        UIUtils.removeChildAssociate(toggleBugSummaryField, RemoveInlineComponentMarker.class);
+                    });
         });
         unlinkBtn.setIcon(FontAwesome.UNLINK);
         unlinkBtn.setDescription("Remove relationship");

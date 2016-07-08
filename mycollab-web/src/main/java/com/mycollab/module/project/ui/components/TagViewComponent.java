@@ -51,13 +51,15 @@ import java.util.List;
 public class TagViewComponent extends CssLayout {
     private String type;
     private int typeId;
+    private boolean canAddNewTag;
 
     private TagService tagService;
     private String tagQuery = "";
 
-    public TagViewComponent() {
+    public TagViewComponent(boolean canAddNewTag) {
         tagService = AppContextUtil.getSpringBean(TagService.class);
         this.setStyleName("project-tag-comp");
+        this.canAddNewTag = canAddNewTag;
     }
 
     public void display(String type, int typeId) {
@@ -70,15 +72,17 @@ public class TagViewComponent extends CssLayout {
             this.addComponent(new TagBlock(tag));
         }
 
-        this.addComponent(createAddTagBtn());
+        if (canAddNewTag) {
+            this.addComponent(createAddTagBtn());
+        }
     }
 
     private Button createAddTagBtn() {
         final MButton addTagBtn = new MButton(AppContext.getMessage(TagI18nEnum.ACTION_ADD))
                 .withIcon(FontAwesome.PLUS_CIRCLE).withStyleName(UIConstants.BUTTON_LINK);
         addTagBtn.addClickListener(clickEvent -> {
-            TagViewComponent.this.removeComponent(addTagBtn);
-            TagViewComponent.this.addComponent(createSaveTagComp());
+            removeComponent(addTagBtn);
+            addComponent(createSaveTagComp());
         });
         return addTagBtn;
     }
@@ -105,12 +109,12 @@ public class TagViewComponent extends CssLayout {
                 tag.setExtratypeid(CurrentProjectVariables.getProjectId());
                 int result = tagService.saveWithSession(tag, AppContext.getUsername());
                 if (result > 0) {
-                    TagViewComponent.this.removeComponent(layout);
-                    TagViewComponent.this.addComponent(new TagBlock(tag));
-                    TagViewComponent.this.addComponent(createAddTagBtn());
+                    this.removeComponent(layout);
+                    addComponent(new TagBlock(tag));
+                    addComponent(createAddTagBtn());
                 } else {
-                    TagViewComponent.this.removeComponent(layout);
-                    TagViewComponent.this.addComponent(createAddTagBtn());
+                    removeComponent(layout);
+                    addComponent(createAddTagBtn());
                 }
             } else {
                 NotificationUtil.showWarningNotification(AppContext.getMessage(TagI18nEnum.ERROR_TAG_NAME_HAS_MORE_2_CHARACTERS));
@@ -158,25 +162,22 @@ public class TagViewComponent extends CssLayout {
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, tag)))
                     .withStyleName(UIConstants.BUTTON_LINK);
             this.addComponent(tagLink);
-            MButton deleteBtn = new MButton(FontAwesome.TIMES, clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
+            if (canAddNewTag) {
+                MButton deleteBtn = new MButton(FontAwesome.TIMES, clickEvent -> {
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
                                     tagService.removeWithSession(tag, AppContext.getUsername(), AppContext.getAccountId());
                                     TagViewComponent.this.removeComponent(TagBlock.this);
                                 }
-                            }
-                        });
-            }).withDescription(AppContext.getMessage(TagI18nEnum.ACTION_DELETE)).withStyleName("remove-btn-sup");
-            this.addComponent(deleteBtn);
+                            });
+                }).withDescription(AppContext.getMessage(TagI18nEnum.ACTION_DELETE)).withStyleName("remove-btn-sup");
+                this.addComponent(deleteBtn);
+            }
         }
     }
 }

@@ -17,11 +17,11 @@
 package com.mycollab.module.crm.view.opportunity;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.Param;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -33,7 +33,7 @@ import com.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.*;
+import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -42,7 +42,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -71,21 +71,13 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
     @Override
     protected Component buildExtraControls() {
-        Button newBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.NEW), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null));
-            }
-        });
-        newBtn.setIcon(FontAwesome.PLUS);
-        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+        MButton newBtn = new MButton(AppContext.getMessage(OpportunityI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         return newBtn;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected BasicSearchLayout<OpportunitySearchCriteria> createBasicSearchLayout() {
         return new OpportunityBasicSearchLayout();
@@ -130,38 +122,18 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
-
-            searchBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    OpportunityBasicSearchLayout.this.callSearchAction();
-                }
-            });
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            cancelBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    OpportunityBasicSearchLayout.this.nameField.setValue("");
-                }
-            });
+            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             layout.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+                    clickEvent -> moveToAdvancedSearchLayout())
+                    .withStyleName(UIConstants.BUTTON_LINK);
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            OpportunitySearchPanel.this.moveToAdvancedSearchLayout();
-                        }
-                    });
-            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             layout.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return layout;
         }

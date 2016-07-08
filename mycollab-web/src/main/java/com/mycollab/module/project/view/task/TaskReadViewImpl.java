@@ -183,7 +183,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         if (SiteConfiguration.isCommunityEdition()) {
             return null;
         } else {
-            tagViewComponent = new TagViewComponent();
+            tagViewComponent = new TagViewComponent(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             return tagViewComponent;
         }
     }

@@ -32,20 +32,16 @@ public class ComponentUtils {
     }
 
     public static final MButton createCustomizeViewButton() {
-        MButton customizeViewBtn = new MButton("");
-        customizeViewBtn.setIcon(FontAwesome.ADJUST);
+        MButton customizeViewBtn = new MButton("").withIcon(FontAwesome.ADJUST)
+                .withStyleName(UIConstants.BUTTON_ACTION, UIConstants.BUTTON_SMALL_PADDING);
         customizeViewBtn.setDescription("Layout Options");
-        customizeViewBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        customizeViewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return customizeViewBtn;
     }
 
     public static final MButton createImportEntitiesButton() {
-        MButton importBtn = new MButton("");
+        MButton importBtn = new MButton("").withIcon(FontAwesome.CLOUD_UPLOAD)
+                .withStyleName(UIConstants.BUTTON_ACTION, UIConstants.BUTTON_SMALL_PADDING);
         importBtn.setDescription("Import");
-        importBtn.setIcon(FontAwesome.CLOUD_UPLOAD);
-        importBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        importBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return importBtn;
     }
 }

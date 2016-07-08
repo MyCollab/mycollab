@@ -80,17 +80,12 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                                    campaignService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
+                                campaignService.removeWithSession(data,
+                                        AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
                             }
                         });
             }

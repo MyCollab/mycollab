@@ -53,13 +53,9 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
         });
         this.addExtraButton(customizeViewBtn);
 
-        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new CampaignImportWindow());
-            }
-        });
-        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+        MButton importBtn = ComponentUtils.createImportEntitiesButton()
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new CampaignImportWindow()))
+                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         this.addExtraButton(importBtn);
     }
 

@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view.page;
 
+import com.google.common.collect.Ordering;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -41,13 +43,13 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SortButton;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.google.common.collect.Ordering;
-import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -220,17 +222,12 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    new ConfirmDialog.Listener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                PageService pageService = AppContextUtil.getSpringBean(PageService.class);
-                                pageService.removeResource(resource.getPath());
-                                resources.remove(resource);
-                                displayPages(resources);
-                            }
+                    confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            PageService pageService = AppContextUtil.getSpringBean(PageService.class);
+                            pageService.removeResource(resource.getPath());
+                            resources.remove(resource);
+                            displayPages(resources);
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);
@@ -267,17 +264,12 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    new ConfirmDialog.Listener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                PageService pageService = AppContextUtil.getSpringBean(PageService.class);
-                                pageService.removeResource(resource.getPath());
-                                resources.remove(resource);
-                                displayPages(resources);
-                            }
+                    confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            PageService pageService = AppContextUtil.getSpringBean(PageService.class);
+                            pageService.removeResource(resource.getPath());
+                            resources.remove(resource);
+                            displayPages(resources);
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);

@@ -16,6 +16,10 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Li;
+import com.hp.gagawa.java.elements.Span;
+import com.hp.gagawa.java.elements.Ul;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.core.utils.MimeTypesUtil;
@@ -26,16 +30,11 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Li;
-import com.hp.gagawa.java.elements.Span;
-import com.hp.gagawa.java.elements.Ul;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.addons.fancybox.Fancybox;
-import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.List;
 
@@ -104,33 +103,21 @@ public class AttachmentDisplayComponent extends CssLayout {
         attachmentNameWrap.addComponent(attachmentName);
         attachmentLayout.addComponent(attachmentNameWrap, "bottom: 0px; left: 0px; right: 0px; z-index: 1;");
 
-        Button trashBtn = new Button(null, new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                AppContext.getSiteName()), AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                                    attachmentService.removeResource(attachment.getPath(),
-                                            AppContext.getUsername(), AppContext.getAccountId());
-                                    ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
-                                }
-                            }
-                        });
-
-            }
-        });
+        MButton trashBtn = new MButton("", clickEvent -> {
+            ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                    AppContext.getSiteName()), AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
+                            attachmentService.removeResource(attachment.getPath(),
+                                    AppContext.getUsername(), AppContext.getAccountId());
+                            ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
+                        }
+                    });
+        }).withIcon(FontAwesome.TRASH_O).withStyleName("attachment-control");
         trashBtn.setIcon(FontAwesome.TRASH_O);
-        trashBtn.setStyleName("attachment-control");
         attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
         Button downloadBtn = new Button();

@@ -193,16 +193,11 @@ public class TaskRowRenderer extends MVerticalLayout {
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                                    projectTaskService.removeWithSession(task, AppContext.getUsername(), AppContext.getAccountId());
-                                    deleteTask();
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                                projectTaskService.removeWithSession(task, AppContext.getUsername(), AppContext.getAccountId());
+                                deleteTask();
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O);

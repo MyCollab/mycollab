@@ -44,7 +44,7 @@ public abstract class CrmListNoItemView extends AbstractPageView {
         hintLabel.setWidthUndefined();
 
         Button btCreateContact = new Button(actionMessage(), actionListener());
-        btCreateContact.setEnabled(hasPermission());
+        btCreateContact.setVisible(hasPermission());
 
         MHorizontalLayout links = new MHorizontalLayout();
 

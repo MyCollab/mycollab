@@ -83,17 +83,12 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                                    caseService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
-                                }
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
+                                caseService.removeWithSession(data,
+                                        AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
                             }
                         });
             }

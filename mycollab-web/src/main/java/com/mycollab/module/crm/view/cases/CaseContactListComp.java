@@ -78,43 +78,29 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
 
-        final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
-        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.NEW));
-        controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void splitButtonClick(
-                    SplitButton.SplitButtonClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+            final SplitButton controlsBtn = new SplitButton();
+            controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.NEW));
+            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
+            Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 CaseContactSelectionWindow contactsWindow = new CaseContactSelectionWindow(CaseContactListComp.this);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 UI.getCurrent().addWindow(contactsWindow);
                 contactsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
-            }
-        });
-        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
-        OptionPopupContent buttonControlsLayout = new OptionPopupContent();
-        buttonControlsLayout.addOption(selectBtn);
-        controlsBtn.setContent(buttonControlsLayout);
+            });
+            selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+            OptionPopupContent buttonControlsLayout = new OptionPopupContent();
+            buttonControlsLayout.addOption(selectBtn);
+            controlsBtn.setContent(buttonControlsLayout);
 
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
+            controlsBtnWrap.addComponent(controlsBtn);
+            controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+        }
 
-        controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -138,36 +124,23 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
             VerticalLayout contactInfo = new VerticalLayout();
             contactInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
-            btnDelete.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            new ConfirmDialog.Listener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        final ContactService contactService = AppContextUtil
-                                                .getSpringBean(ContactService.class);
-                                        ContactCase associateContact = new ContactCase();
-                                        associateContact.setCaseid(cases.getId());
-                                        associateContact.setContactid(contact.getId());
-                                        contactService.removeContactCaseRelationship(
-                                                associateContact, AppContext.getAccountId());
-                                        CaseContactListComp.this.refresh();
-                                    }
-                                }
-                            });
-                }
-            });
-            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
+                                ContactCase associateContact = new ContactCase();
+                                associateContact.setCaseid(cases.getId());
+                                associateContact.setContactid(contact.getId());
+                                contactService.removeContactCaseRelationship(associateContact, AppContext.getAccountId());
+                                CaseContactListComp.this.refresh();
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
