@@ -72,11 +72,6 @@
         <param-name>heartbeatInterval</param-name>
         <param-value>120</param-value>
     </context-param>
-
-    <init-param>
-        <param-name>org.atmosphere.cpr.asyncSupport</param-name>
-        <param-value>org.atmosphere.container.JSR356AsyncSupport</param-value>
-    </init-param>
     
     <mime-mapping>
         <extension>manifest</extension>

@@ -43,6 +43,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -89,17 +90,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
         MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(true);
 
-        Button addCriteriaBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
-                searchContainer.addComponent(newCriteriaBar);
-            }
-        });
-        addCriteriaBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        addCriteriaBtn.setIcon(FontAwesome.PLUS);
+        MButton addCriteriaBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA), clickEvent -> {
+            CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
+            searchContainer.addComponent(newCriteriaBar);
+        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
 
         controlsBtn.with(addCriteriaBtn);
 
@@ -187,7 +181,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         return fieldInfos;
     }
 
-    public void clearAllFields() {
+    void clearAllFields() {
         searchContainer.removeAllComponents();
     }
 
@@ -195,16 +189,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         return null;
     }
 
-    public void fillSearchFieldInfoAndInvokeSearchRequest(List<SearchFieldInfo> searchFieldInfos) {
+    void fillSearchFieldInfoAndInvokeSearchRequest(List<SearchFieldInfo> searchFieldInfos) {
         searchContainer.removeAllComponents();
 
         try {
-            for (int i = 0; i < searchFieldInfos.size(); i++) {
-                SearchFieldInfo searchFieldInfo = searchFieldInfos.get(i);
+            searchFieldInfos.forEach(fieldInfo -> {
                 CriteriaSelectionLayout criteriaSelectionLayout = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
-                criteriaSelectionLayout.fillSearchFieldInfo(searchFieldInfo);
+                criteriaSelectionLayout.fillSearchFieldInfo(fieldInfo);
                 searchContainer.addComponent(criteriaSelectionLayout);
-            }
+            });
         } catch (Exception e) {
             LOG.error("Error while build criterion", e);
         }

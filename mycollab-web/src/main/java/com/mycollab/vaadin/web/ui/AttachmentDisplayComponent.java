@@ -117,7 +117,6 @@ public class AttachmentDisplayComponent extends CssLayout {
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName("attachment-control");
-        trashBtn.setIcon(FontAwesome.TRASH_O);
         attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
         Button downloadBtn = new Button();

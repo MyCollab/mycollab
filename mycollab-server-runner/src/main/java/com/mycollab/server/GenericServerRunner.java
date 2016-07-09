@@ -36,7 +36,6 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
-import org.eclipse.jetty.util.resource.FileResource;
 import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.webapp.*;
 import org.slf4j.Logger;
@@ -46,6 +45,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
 
@@ -74,12 +74,12 @@ public abstract class GenericServerRunner {
      * @return
      */
     private String detectWebApp() {
-        File webappFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "webapp", "src/main/webapp");
+        File webAppFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "webapp", "src/main/webapp");
 
-        if (webappFolder == null) {
+        if (webAppFolder == null) {
             throw new MyCollabException("Can not detect webapp base folder");
         } else {
-            return webappFolder.getAbsolutePath();
+            return webAppFolder.getAbsolutePath();
         }
     }
 
@@ -104,14 +104,11 @@ public abstract class GenericServerRunner {
             } else if ("--cport".equals(args[i])) {
                 final int listenPort = Integer.parseInt(args[++i]);
                 LOG.info("Detect client port " + listenPort);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            clientCommunitor = new ClientCommunitor(listenPort);
-                        } catch (Exception e) {
-                            LOG.error("Can not establish the client socket to port " + listenPort);
-                        }
+                new Thread(() -> {
+                    try {
+                        clientCommunitor = new ClientCommunitor(listenPort);
+                    } catch (Exception e) {
+                        LOG.error("Can not establish the client socket to port " + listenPort);
                     }
                 }).start();
             }
@@ -121,17 +118,8 @@ public abstract class GenericServerRunner {
         execute();
     }
 
-    public GenericServerRunner() {
-        super();
-    }
-
     private void execute() throws Exception {
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                LOG.error("There is uncaught exception", e);
-            }
-        });
+        Thread.setDefaultUncaughtExceptionHandler((thread, exception) -> LOG.error("There is uncaught exception", exception));
         server = new Server();
         ServerConnector serverConnector = new ServerConnector(server);
         serverConnector.setIdleTimeout(360000);
@@ -225,7 +213,7 @@ public abstract class GenericServerRunner {
         return confFolder != null && new File(confFolder, "mycollab.properties").exists();
     }
 
-    private WebAppContext initWebAppContext() {
+    private WebAppContext initWebAppContext() throws IOException {
         SiteConfiguration.loadConfiguration();
         LogConfig.initMyCollabLog();
         String webAppDirLocation = detectWebApp();
@@ -265,13 +253,14 @@ public abstract class GenericServerRunner {
         }
 
         File libFolder = new File(FileUtils.getUserFolder(), "lib");
+
         if (libFolder.isDirectory()) {
             File[] files = libFolder.listFiles();
             if (files != null) {
                 for (File file : files) {
                     if (file.getName().matches("mycollab-\\S+.jar$")) {
                         LOG.info("Load jar file to classpath " + file.getAbsolutePath());
-                        appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(file.toURI()));
+                        appContext.getMetaData().getWebInfClassesDirs().add(new PathResource(file.toURI()));
                     }
                 }
             }
@@ -307,24 +296,23 @@ public abstract class GenericServerRunner {
 
         @Override
         public void lifeCycleStarted(LifeCycle event) {
-            Runnable thread = new Runnable() {
-                @Override
-                public void run() {
-                    LOG.debug("Detect root folder webapp");
-                    File confFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf", "src/main/conf");
+            Runnable thread = () -> {
+                LOG.debug("Detect root folder webapp");
+                File confFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf", "src/main/conf");
 
-                    if (confFolder == null) {
-                        throw new MyCollabException("Can not detect webapp base folder");
-                    } else {
-                        File confFile = new File(confFolder, "mycollab.properties");
-                        while (!confFile.exists()) {
-                            try {
-                                Thread.sleep(5000);
-                            } catch (InterruptedException e) {
-                                throw new MyCollabException(e);
-                            }
+                if (confFolder == null) {
+                    throw new MyCollabException("Can not detect webapp base folder");
+                } else {
+                    File confFile = new File(confFolder, "mycollab.properties");
+                    while (!confFile.exists()) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            throw new MyCollabException(e);
                         }
+                    }
 
+                    try {
                         appContext = initWebAppContext();
                         appContext.setClassLoader(GenericServerRunner.class.getClassLoader());
                         contexts.addHandler(appContext);
@@ -335,16 +323,13 @@ public abstract class GenericServerRunner {
                         upgradeContextHandler.addServlet(new ServletHolder(new UpgradeServlet()), "/upgrade");
                         upgradeContextHandler.addServlet(new ServletHolder(new UpgradeStatusServlet()), "/upgrade_status");
                         contexts.addHandler(upgradeContextHandler);
-
-                        try {
-                            appContext.start();
-                            upgradeContextHandler.start();
-                        } catch (Exception e) {
-                            LOG.error("Error while starting server", e);
-                        }
-                        installServlet.setWaitFlag(false);
-                        contexts.removeHandler(installationContextHandler);
+                        appContext.start();
+                        upgradeContextHandler.start();
+                    } catch (Exception e) {
+                        LOG.error("Error while starting server", e);
                     }
+                    installServlet.setWaitFlag(false);
+                    contexts.removeHandler(installationContextHandler);
                 }
             };
 

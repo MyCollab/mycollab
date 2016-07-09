@@ -32,7 +32,7 @@ public class DefaultServerRunner extends GenericServerRunner {
         webAppContext.setWar(baseDir);
         webAppContext.setResourceBase(baseDir);
         GzipHandler gzipHandler = new GzipHandler();
-        gzipHandler.addExcludedMimeTypes("text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml");
+        gzipHandler.addIncludedMimeTypes("text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml");
         webAppContext.setGzipHandler(gzipHandler);
         return webAppContext;
     }

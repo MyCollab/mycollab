@@ -34,6 +34,7 @@ import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.io.File;
@@ -71,25 +72,17 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
 
     private void displayFileName(File file, final String fileName) {
         final MHorizontalLayout fileAttachmentLayout = new MHorizontalLayout().withFullWidth();
-        Button removeBtn = new Button(null, new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                File file = fileStores.get(fileName);
-                if (file != null) {
-                    file.delete();
-                }
-                fileStores.remove(fileName);
-                AttachmentPanel.this.removeComponent(fileAttachmentLayout);
-                if (multiFileUpload != null) {
-                    multiFileUpload.removeAndReInitMultiUpload();
-                }
+        MButton removeBtn = new MButton("", clickEvent -> {
+            File tmpFile = fileStores.get(fileName);
+            if (tmpFile != null) {
+                tmpFile.delete();
             }
-        });
-        removeBtn.setIcon(FontAwesome.TRASH_O);
-        removeBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-        removeBtn.setWidthUndefined();
+            fileStores.remove(fileName);
+            AttachmentPanel.this.removeComponent(fileAttachmentLayout);
+            if (multiFileUpload != null) {
+                multiFileUpload.removeAndReInitMultiUpload();
+            }
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
 
         ELabel fileLbl = new ELabel(fileName, ContentMode.HTML).withDescription(fileName).withStyleName(UIConstants.TEXT_ELLIPSIS);
         fileAttachmentLayout.with(new ELabel(FileAssetsUtil.getFileIconResource(fileName).getHtml(), ContentMode.HTML).withWidthUndefined(),
