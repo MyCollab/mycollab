@@ -16,61 +16,43 @@
  */
 package com.mycollab.module.crm.view.lead;
 
-import java.util.Arrays;
-
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
-import com.mycollab.module.crm.view.campaign.CampaignSimpleSearchPanel;
+import com.mycollab.module.crm.view.campaign.CampaignSearchPanel;
 import com.mycollab.module.crm.view.campaign.CampaignTableDisplay;
 import com.mycollab.module.crm.view.campaign.CampaignTableFieldDef;
-import com.mycollab.vaadin.events.SearchHandler;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
 
-	LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
-		super("Select Campaigns", associateLeadList);
-		this.setWidth("900px");
-	}
+    LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
+        super("Select Campaigns", associateLeadList);
+        this.setWidth("1000px");
+    }
 
-	@Override
-	protected void initUI() {
-		tableItem = new CampaignTableDisplay(CampaignTableFieldDef.selected(),
-				Arrays.asList(CampaignTableFieldDef.campaignname(),
-						CampaignTableFieldDef.status(),
-						CampaignTableFieldDef.type(),
-						CampaignTableFieldDef.endDate()));
+    @Override
+    protected void initUI() {
+        tableItem = new CampaignTableDisplay(CampaignTableFieldDef.selected(),
+                Arrays.asList(CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.status(),
+                        CampaignTableFieldDef.type(), CampaignTableFieldDef.endDate()));
 
-		Button selectBtn = new Button("Select", new Button.ClickListener() {
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
+        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				close();
-			}
-		});
-		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        CampaignSearchPanel searchPanel = new CampaignSearchPanel();
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
-		CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
-		campaignSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<CampaignSearchCriteria>() {
-
-					@Override
-					public void onSearch(CampaignSearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
-
-				});
-
-		bodyContent.addComponent(campaignSimpleSearchPanel);
-		bodyContent.addComponent(selectBtn);
-		bodyContent.addComponent(tableItem);
-	}
+        bodyContent.with(searchPanel, selectBtn, tableItem);
+    }
 
 }

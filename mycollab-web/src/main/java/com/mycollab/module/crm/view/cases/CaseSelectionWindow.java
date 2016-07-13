@@ -24,6 +24,7 @@ import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
 
@@ -31,28 +32,22 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CaseSelectionWindow extends Window {
+public class CaseSelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private CaseTableDisplay tableItem;
     private FieldSelection fieldSelection;
 
     public CaseSelectionWindow(FieldSelection fieldSelection) {
         super("Case Name Lookup");
-        this.setWidth("900px");
+        this.withModal(true).withResizable(false).withWidth("1000px");
         this.fieldSelection = fieldSelection;
-        this.setModal(true);
-        this.setResizable(false);
     }
 
     public void show() {
-        MVerticalLayout layout = new MVerticalLayout();
         createCaseList();
-        CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
-        caseSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
-        layout.addComponent(caseSimpleSearchPanel);
-        layout.addComponent(tableItem);
-        this.setContent(layout);
-
+        CaseSearchPanel searchPanel = new CaseSearchPanel();
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
+        this.setContent(new MVerticalLayout(searchPanel, tableItem));
         tableItem.setSearchCriteria(new CaseSearchCriteria());
         center();
     }

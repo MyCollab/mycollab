@@ -82,32 +82,21 @@ public class SalesDashboardView extends Depot {
 
         final OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
-        final Button btnOpportunitySales = new Button("Opportunity Sales Stage", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                saleChartPopup.setPopupVisible(false);
-                SalesDashboardView.this.currentReportIndex = 0;
-                SalesDashboardView.this.displayReport();
-            }
+        final Button btnOpportunitySales = new Button("Opportunity Sales Stage", clickEvent -> {
+            saleChartPopup.setPopupVisible(false);
+            currentReportIndex = 0;
+            displayReport();
         });
         filterBtnLayout.addOption(btnOpportunitySales);
 
-        final Button btnOpportunityLead = new Button("Opportunity Lead Source", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                saleChartPopup.setPopupVisible(false);
-                SalesDashboardView.this.currentReportIndex = 1;
-                SalesDashboardView.this.displayReport();
-            }
+        final Button btnOpportunityLead = new Button("Opportunity Lead Source", clickEvent -> {
+            saleChartPopup.setPopupVisible(false);
+            currentReportIndex = 1;
+            displayReport();
         });
         filterBtnLayout.addOption(btnOpportunityLead);
 
         this.displayReport();
-
         saleChartPopup.setContent(filterBtnLayout);
         this.addHeaderElement(saleChartPopup);
     }

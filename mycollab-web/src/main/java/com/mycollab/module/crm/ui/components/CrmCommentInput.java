@@ -24,18 +24,17 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.ui.components.UserBlock;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.ui.ReloadableComponent;
+import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -59,8 +58,7 @@ class CrmCommentInput extends MHorizontalLayout {
         SimpleUser currentUser = AppContext.getUser();
         UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());
 
-        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth()
-                .withStyleName("message-container");
+        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName("message-container");
         this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
         type = typeVal;
@@ -78,48 +76,34 @@ class CrmCommentInput extends MHorizontalLayout {
         uploadExt.addComponent(attachments);
         controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
-        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                commentArea.setValue("");
+        MButton newCommentBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
+            CommentWithBLOBs comment = new CommentWithBLOBs();
+            comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
+            comment.setCreatedtime(new GregorianCalendar().getTime());
+            comment.setCreateduser(AppContext.getUsername());
+            comment.setSaccountid(AppContext.getAccountId());
+            comment.setType(type);
+            comment.setTypeid(typeId);
+
+            CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+            int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
+
+            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal,
+                    AppContext.getAccountId(), null, typeId, commentId);
+
+            if (!"".equals(attachmentPath)) {
+                attachments.saveContentsToRepo(attachmentPath);
             }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
-        final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                CommentWithBLOBs comment = new CommentWithBLOBs();
-                comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
-                comment.setCreatedtime(new GregorianCalendar().getTime());
-                comment.setCreateduser(AppContext.getUsername());
-                comment.setSaccountid(AppContext.getAccountId());
-                comment.setType(type);
-                comment.setTypeid(typeId);
-
-                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
-
-                String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal,
-                        AppContext.getAccountId(), null, typeId, commentId);
-
-                if (!"".equals(attachmentPath)) {
-                    attachments.saveContentsToRepo(attachmentPath);
-                }
-
-                // save success, clear comment area and load list
-                // comments again
-                commentArea.setValue("");
-                attachments.removeAllAttachmentsDisplay();
-                component.reload();
-            }
-        });
-        newCommentBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        newCommentBtn.setIcon(FontAwesome.SEND);
+            // save success, clear comment area and load list
+            // comments again
+            commentArea.setValue("");
+            attachments.removeAllAttachmentsDisplay();
+            component.reload();
+        }).withIcon(FontAwesome.SEND).withStyleName(UIConstants.BUTTON_ACTION);
         controlsLayout.with(cancelBtn, newCommentBtn);
         textAreaWrap.with(commentArea, controlsLayout);
     }

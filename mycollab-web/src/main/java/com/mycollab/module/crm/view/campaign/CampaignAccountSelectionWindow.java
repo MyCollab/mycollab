@@ -16,13 +16,14 @@
  */
 package com.mycollab.module.crm.view.campaign;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
-import com.mycollab.module.crm.view.account.AccountSimpleSearchPanel;
+import com.mycollab.module.crm.view.account.AccountSearchPanel;
 import com.mycollab.module.crm.view.account.AccountTableDisplay;
 import com.mycollab.module.crm.view.account.AccountTableFieldDef;
-import com.mycollab.vaadin.events.SearchHandler;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
@@ -37,7 +38,7 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
 
     public CampaignAccountSelectionWindow(CampaignAccountListComp associateAccountList) {
         super("Select Accounts", associateAccountList);
-        this.setWidth("900px");
+        this.setWidth("1000px");
     }
 
     @Override
@@ -47,26 +48,12 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
                         AccountTableFieldDef.phoneoffice(),
                         AccountTableFieldDef.email(), AccountTableFieldDef.city()));
 
-        Button selectBtn = new Button("Select", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                close();
-            }
-        });
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-        AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
-        accountSimpleSearchPanel.addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
+        AccountSearchPanel accountSimpleSearchPanel = new AccountSearchPanel();
+        accountSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
-            @Override
-            public void onSearch(AccountSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
-
-        this.bodyContent.with(accountSimpleSearchPanel, selectBtn, tableItem);
+        bodyContent.with(accountSimpleSearchPanel, selectBtn, tableItem);
     }
 }

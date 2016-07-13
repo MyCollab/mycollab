@@ -19,6 +19,7 @@ package com.mycollab.module.mail.service.impl;
 import com.mycollab.common.domain.MailRecipientField;
 import com.mycollab.configuration.EmailConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.mail.DefaultMailer;
 import com.mycollab.module.mail.EmailAttachmentSource;
 import com.mycollab.module.mail.IMailer;
@@ -38,7 +39,8 @@ public class ExtMailServiceImpl implements ExtMailService {
     @Override
     public boolean isMailSetupValid() {
         EmailConfiguration emailConfiguration = SiteConfiguration.getEmailConfiguration();
-        return !(emailConfiguration.getHost().equals(""));
+        return StringUtils.isNotBlank(emailConfiguration.getHost()) && StringUtils.isNotBlank(emailConfiguration.getUser())
+                && (emailConfiguration.getPort() > -1);
     }
 
     private IMailer getMailer() {

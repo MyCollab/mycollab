@@ -89,9 +89,7 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView
         streamsLayout.with(activityStreamPanel);
 
         contentLayout.with(streamsLayout).withAlign(streamsLayout, Alignment.TOP_RIGHT);
-
         this.addComponent(contentLayout);
-
         displayDashboard();
     }
 

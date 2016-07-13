@@ -448,6 +448,10 @@
             <url>http://dl.bintray.com/scalaz/releases/</url>
         </repository>
         <repository>
+            <id>report.repo</id>
+            <url>http://jasperreports.sourceforge.net/maven2</url>
+        </repository>
+        <repository>
             <id>repository.springsource.milestone</id>
             <name>SpringSource Milestone Repository</name>
             <url>http://repo.springsource.org/milestone</url>

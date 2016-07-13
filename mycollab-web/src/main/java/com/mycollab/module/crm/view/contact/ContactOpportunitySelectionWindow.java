@@ -20,11 +20,10 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
-import com.mycollab.module.crm.view.opportunity.OpportunitySimpleSearchPanel;
+import com.mycollab.module.crm.view.opportunity.OpportunitySearchPanel;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableDisplay;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableFieldDef;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
@@ -38,36 +37,21 @@ public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindo
 
     public ContactOpportunitySelectionWindow(ContactOpportunityListComp associateOpportunityList) {
         super("Select Opportunities", associateOpportunityList);
-        this.setWidth("900px");
+        this.setWidth("1000px");
     }
 
     @Override
     protected void initUI() {
-        tableItem = new OpportunityTableDisplay(
-                OpportunityTableFieldDef.selected(), Arrays.asList(
-                OpportunityTableFieldDef.opportunityName(),
-                OpportunityTableFieldDef.saleStage(),
+        tableItem = new OpportunityTableDisplay(OpportunityTableFieldDef.selected(), Arrays.asList(
+                OpportunityTableFieldDef.opportunityName(), OpportunityTableFieldDef.saleStage(),
                 OpportunityTableFieldDef.expectedCloseDate()));
 
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                close();
-            }
-        });
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-        OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
-        opportunitySimpleSearchPanel.addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
+        OpportunitySearchPanel searchPanel = new OpportunitySearchPanel();
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
-            @Override
-            public void onSearch(OpportunitySearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
-
-        this.bodyContent.with(opportunitySimpleSearchPanel, selectBtn, tableItem);
+        this.bodyContent.with(searchPanel, selectBtn, tableItem);
     }
 }

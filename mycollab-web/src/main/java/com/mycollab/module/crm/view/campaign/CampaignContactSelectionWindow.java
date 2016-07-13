@@ -16,13 +16,14 @@
  */
 package com.mycollab.module.crm.view.campaign;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
-import com.mycollab.module.crm.view.contact.ContactSimpleSearchPanel;
+import com.mycollab.module.crm.view.contact.ContactSearchPanel;
 import com.mycollab.module.crm.view.contact.ContactTableDisplay;
 import com.mycollab.module.crm.view.contact.ContactTableFieldDef;
-import com.mycollab.vaadin.events.SearchHandler;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
@@ -36,7 +37,7 @@ public class CampaignContactSelectionWindow extends RelatedItemSelectionWindow<S
 
     public CampaignContactSelectionWindow(CampaignContactListComp associateContactList) {
         super("Select Contacts", associateContactList);
-        this.setWidth("900px");
+        this.setWidth("1000px");
     }
 
     @Override
@@ -45,28 +46,13 @@ public class CampaignContactSelectionWindow extends RelatedItemSelectionWindow<S
                 Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.email(),
                         ContactTableFieldDef.phoneOffice(), ContactTableFieldDef.account()));
 
-        Button selectBtn = new Button("Select", new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                close();
-            }
-        });
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-        ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
-        contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
+        ContactSearchPanel contactSimpleSearchPanel = new ContactSearchPanel();
+        contactSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
-            @Override
-            public void onSearch(ContactSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
-
-        bodyContent.addComponent(contactSimpleSearchPanel);
-        bodyContent.addComponent(selectBtn);
-        bodyContent.addComponent(tableItem);
+        bodyContent.with(contactSimpleSearchPanel, selectBtn, tableItem);
     }
 
 }

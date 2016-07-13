@@ -16,8 +16,8 @@
  */
 package com.mycollab.spring;
 
+import com.mycollab.core.MyCollabException;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -58,12 +58,12 @@ public class AppContextUtil implements ApplicationContextAware {
 
     public static <T> T getSpringBean(Class<T> classType) {
         if (ctx == null) {
-            return null;
+            throw new MyCollabException("Can not find service " + classType);
         }
         try {
             return ctx.getBean(classType);
         } catch (Exception e) {
-            return null;
+            throw new MyCollabException("Can not find service " + classType, e);
         }
     }
 }

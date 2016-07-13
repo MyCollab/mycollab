@@ -70,57 +70,25 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
             serviceMenuContainer = new MHorizontalLayout();
             serviceMenu = new ServiceMenu();
             serviceMenu.addService(CrmTypeConstants.DASHBOARD, AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent clickEvent) {
-                            EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null));
-                        }
-                    });
+                    clickEvent -> EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null)));
 
             serviceMenu.addService(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.LIST),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent clickEvent) {
-                            EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null));
-                        }
-                    });
+                    clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null)));
 
             serviceMenu.addService(CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.LIST),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent clickEvent) {
-                            EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
-                        }
-                    });
+                    clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null)));
 
             serviceMenu.addService(CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.LIST),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent clickEvent) {
-                            EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
-                        }
-                    });
+                    clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null)));
 
-            serviceMenu.addService(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CampaignI18nEnum.LIST), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
-                }
-            });
+            serviceMenu.addService(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CampaignI18nEnum.LIST),
+                    clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null)));
 
-            serviceMenu.addService(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(OpportunityI18nEnum.LIST), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
-                }
-            });
+            serviceMenu.addService(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(OpportunityI18nEnum.LIST),
+                    clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null)));
 
-            serviceMenu.addService(CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.LIST), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
-                }
-            });
+            serviceMenu.addService(CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.LIST),
+                    clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null)));
 
             serviceMenuContainer.with(serviceMenu);
 

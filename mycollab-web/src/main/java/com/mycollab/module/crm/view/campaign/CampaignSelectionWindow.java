@@ -23,8 +23,8 @@ import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.ButtonLink;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
 
@@ -32,26 +32,22 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CampaignSelectionWindow extends Window {
+public class CampaignSelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private CampaignTableDisplay tableItem;
     private FieldSelection<CampaignWithBLOBs> fieldSelection;
 
     public CampaignSelectionWindow(FieldSelection<CampaignWithBLOBs> fieldSelection) {
         super("Campaign Selection");
-        this.setWidth("800px");
+        this.withModal(true).withResizable(false).withWidth("1000px");
         this.fieldSelection = fieldSelection;
-        this.setModal(true);
-        this.setResizable(false);
     }
 
     public void show() {
-        MVerticalLayout layout = new MVerticalLayout();
         createCampaignList();
-        CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
+        CampaignSearchPanel campaignSimpleSearchPanel = new CampaignSearchPanel();
         campaignSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
-        layout.with(campaignSimpleSearchPanel, tableItem);
-        this.setContent(layout);
+        this.setContent(new MVerticalLayout(campaignSimpleSearchPanel, tableItem));
         tableItem.setSearchCriteria(new CampaignSearchCriteria());
         center();
     }

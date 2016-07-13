@@ -20,11 +20,10 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
-import com.mycollab.module.crm.view.lead.LeadSimpleSearchPanel;
+import com.mycollab.module.crm.view.lead.LeadSearchPanel;
 import com.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.mycollab.module.crm.view.lead.LeadTableFieldDef;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
@@ -38,7 +37,7 @@ public class CampaignLeadSelectionWindow extends RelatedItemSelectionWindow<Simp
 
     public CampaignLeadSelectionWindow(CampaignLeadListComp associateLeadList) {
         super("Select Leads", associateLeadList);
-        this.setWidth("900px");
+        this.setWidth("1000px");
     }
 
     @Override
@@ -47,25 +46,12 @@ public class CampaignLeadSelectionWindow extends RelatedItemSelectionWindow<Simp
                 Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
                         LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                close();
-            }
-        });
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-        LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
-        leadSimpleSearchPanel.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
+        LeadSearchPanel searchPanel = new LeadSearchPanel();
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
-            @Override
-            public void onSearch(LeadSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
-            }
-
-        });
-
-        this.bodyContent.with(leadSimpleSearchPanel, selectBtn, tableItem);
+        bodyContent.with(searchPanel, selectBtn, tableItem);
     }
 }

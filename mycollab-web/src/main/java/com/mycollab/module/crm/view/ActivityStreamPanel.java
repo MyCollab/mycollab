@@ -17,6 +17,9 @@
 
 package com.mycollab.module.crm.view;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.SimpleActivityStream;
@@ -24,10 +27,10 @@ import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.ActivityStreamService;
 import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
@@ -36,20 +39,20 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Calendar;
@@ -85,7 +88,7 @@ public class ActivityStreamPanel extends CssLayout {
         this.activityStreamList.setSearchCriteria(searchCriteria);
     }
 
-    static class CrmActivityStreamPagedList extends VerticalLayout {
+    private static class CrmActivityStreamPagedList extends VerticalLayout {
         private static final long serialVersionUID = 1L;
 
         private final CssLayout listContainer = new CssLayout();
@@ -98,7 +101,7 @@ public class ActivityStreamPanel extends CssLayout {
         private int firstIndex = 0;
         private Date currentDate;
 
-        public CrmActivityStreamPagedList() {
+        CrmActivityStreamPagedList() {
             listContainer.setWidth("100%");
             this.addComponent(listContainer);
             activityStreamService = AppContextUtil.getSpringBean(ActivityStreamService.class);
@@ -213,7 +216,7 @@ public class ActivityStreamPanel extends CssLayout {
             String itemValue = buildItemValue(activityStream);
 
             AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
                 content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_CREATE_ACTION,
@@ -249,38 +252,20 @@ public class ActivityStreamPanel extends CssLayout {
             this.controlBarWrapper.setStyleName("page-controls");
             ButtonGroup controlBtns = new ButtonGroup();
             controlBtns.setStyleName(UIConstants.BUTTON_ACTION);
-            Button prevBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), new Button.ClickListener() {
-                private static final long serialVersionUID = -94021599166105307L;
 
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    navigateToPrevious();
-                }
-            });
-
+            MButton prevBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> navigateToPrevious())
+                    .withStyleName(UIConstants.BUTTON_ACTION).withWidth("64px");
             prevBtn.setEnabled(hasPrevious());
-            prevBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            prevBtn.setWidth("64px");
 
-            Button nextBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), new Button.ClickListener() {
-                private static final long serialVersionUID = 3095522916508256018L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    navigateToNext();
-                }
-            });
-
+            MButton nextBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> navigateToNext())
+                    .withStyleName(UIConstants.BUTTON_ACTION).withWidth("64px");
             nextBtn.setEnabled(hasNext());
-            nextBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            nextBtn.setWidth("64px");
 
             controlBtns.addButton(prevBtn);
             controlBtns.addButton(nextBtn);
 
-            this.controlBarWrapper.addComponent(controlBtns);
-
-            return this.controlBarWrapper;
+            controlBarWrapper.addComponent(controlBtns);
+            return controlBarWrapper;
         }
 
         private boolean hasNext() {

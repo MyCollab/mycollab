@@ -21,14 +21,11 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
-import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
+import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
 
@@ -36,7 +33,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class AccountSelectionWindow extends Window {
+public class AccountSelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private AccountTableDisplay tableItem;
@@ -44,20 +41,16 @@ public class AccountSelectionWindow extends Window {
 
     public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
         super("Account Selection");
-        this.setWidth("900px");
-        this.setResizable(false);
-        this.setModal(true);
         this.fieldSelection = fieldSelection;
+        this.withModal(true).withResizable(false).withWidth("900px");
     }
 
     public void show() {
-        MVerticalLayout layout = new MVerticalLayout();
         createAccountList();
 
-        AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
+        AccountSearchPanel accountSimpleSearchPanel = new AccountSearchPanel();
         accountSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
-        layout.addComponent(accountSimpleSearchPanel);
-        layout.addComponent(tableItem);
+        MVerticalLayout layout = new MVerticalLayout(accountSimpleSearchPanel, tableItem);
         this.setContent(layout);
 
         tableItem.setSearchCriteria(new AccountSearchCriteria());
@@ -73,15 +66,15 @@ public class AccountSelectionWindow extends Window {
         tableItem.setDisplayNumItems(10);
 
         tableItem.addGeneratedColumn("accountname", (source, itemId, columnId) -> {
-                final SimpleAccount account = tableItem.getBeanByIndex(itemId);
+            final SimpleAccount account = tableItem.getBeanByIndex(itemId);
 
-                ButtonLink accountLink = new ButtonLink(account.getAccountname(), clickEvent -> {
-                    fieldSelection.fireValueChange(account);
-                    close();
-                });
-                accountLink.setDescription(CrmTooltipGenerator.generateToolTipAccount(
-                        AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
-                return accountLink;
+            ButtonLink accountLink = new ButtonLink(account.getAccountname(), clickEvent -> {
+                fieldSelection.fireValueChange(account);
+                close();
+            });
+            accountLink.setDescription(CrmTooltipGenerator.generateToolTipAccount(
+                    AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
+            return accountLink;
         });
     }
 }

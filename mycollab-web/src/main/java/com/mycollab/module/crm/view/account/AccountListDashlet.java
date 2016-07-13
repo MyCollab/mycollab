@@ -28,6 +28,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
 
@@ -46,19 +47,9 @@ public class AccountListDashlet extends Depot {
                 AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email()));
         bodyContent.addComponent(tableItem);
 
-        Button customizeViewBtn = new Button("", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                UI.getCurrent().addWindow(new AccountListCustomizeWindow(tableItem));
-
-            }
-        });
-        customizeViewBtn.setIcon(FontAwesome.ADJUST);
+        MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new AccountListCustomizeWindow(tableItem)))
+                .withIcon(FontAwesome.ADJUST).withStyleName(UIConstants.BUTTON_ICON_ONLY);
         customizeViewBtn.setDescription("Layout Options");
-        customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-
         this.addHeaderElement(customizeViewBtn);
     }
 

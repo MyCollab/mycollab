@@ -47,13 +47,10 @@ public class ContactSelectionWindow extends Window {
     }
 
     public void show() {
-        MVerticalLayout layout = new MVerticalLayout();
-        ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
-        contactSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
-        layout.addComponent(contactSimpleSearchPanel);
-        layout.addComponent(tableItem);
         createContactList();
-        this.setContent(layout);
+        ContactSearchPanel searchPanel = new ContactSearchPanel();
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
+        this.setContent(new MVerticalLayout(searchPanel, tableItem));
 
         tableItem.setSearchCriteria(new ContactSearchCriteria());
         center();

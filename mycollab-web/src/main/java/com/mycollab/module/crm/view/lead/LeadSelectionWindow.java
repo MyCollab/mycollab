@@ -29,6 +29,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
 
@@ -36,30 +37,24 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class LeadSelectionWindow extends Window {
+public class LeadSelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private LeadTableDisplay tableItem;
     private FieldSelection<Lead> fieldSelection;
 
     public LeadSelectionWindow(FieldSelection<Lead> fieldSelection) {
         super("Lead Selection");
-        this.setWidth("800px");
+        this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
-        this.setModal(true);
-        this.setResizable(false);
     }
 
     public void show() {
-        MVerticalLayout layout = new MVerticalLayout();
         createLeadList();
 
-        LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
-        leadSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
-        layout.with(leadSimpleSearchPanel, tableItem);
-        this.setContent(layout);
+        LeadSearchPanel searchPanel = new LeadSearchPanel();
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
-        tableItem.setSearchCriteria(new LeadSearchCriteria());
-        center();
+        this.setContent(new MVerticalLayout(searchPanel, tableItem));
     }
 
     private void createLeadList() {
@@ -80,5 +75,6 @@ public class LeadSelectionWindow extends Window {
                         AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
         });
+        tableItem.setSearchCriteria(new LeadSearchCriteria());
     }
 }

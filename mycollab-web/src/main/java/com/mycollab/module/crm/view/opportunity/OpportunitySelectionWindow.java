@@ -23,8 +23,8 @@ import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.ButtonLink;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
 
@@ -32,7 +32,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class OpportunitySelectionWindow extends Window {
+public class OpportunitySelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private OpportunityTableDisplay tableItem;
@@ -40,23 +40,17 @@ public class OpportunitySelectionWindow extends Window {
 
     public OpportunitySelectionWindow(FieldSelection fieldSelection) {
         super("Opportunity Selection");
-        this.setWidth("900px");
+        this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
-        this.setModal(true);
-        this.setResizable(false);
     }
 
     public void show() {
-        MVerticalLayout layout = new MVerticalLayout();
-
         createOpportunityList();
-        OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
-        opportunitySimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
-        layout.with(opportunitySimpleSearchPanel, tableItem);
-        this.setContent(layout);
+        OpportunitySearchPanel searchPanel = new OpportunitySearchPanel();
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
+        this.setContent(new MVerticalLayout(searchPanel, tableItem));
 
         tableItem.setSearchCriteria(new OpportunitySearchCriteria());
-        center();
     }
 
     private void createOpportunityList() {
