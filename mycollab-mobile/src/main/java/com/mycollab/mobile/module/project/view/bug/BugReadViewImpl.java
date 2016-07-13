@@ -84,15 +84,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private void displayWorkflowControl() {
         bugWorkFlowControl.removeAllComponents();
         if (BugStatus.Open.name().equals(beanItem.getStatus()) || BugStatus.ReOpen.name().equals(beanItem.getStatus())) {
-            final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
-                            new ResolvedInputView(BugReadViewImpl.this, beanItem)));
-                }
-            });
+            final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+                    clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ResolvedInputView(BugReadViewImpl.this, beanItem))));
             resolveBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(resolveBtn);
         } else if (BugStatus.Verified.name().equals(beanItem.getStatus())) {

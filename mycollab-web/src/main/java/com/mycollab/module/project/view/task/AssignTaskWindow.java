@@ -94,9 +94,6 @@ public class AssignTaskWindow extends Window {
                 this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
                 layout.addComponent(informationLayout.getLayout());
 
-                MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
-                layout.addComponent(controlsBtn);
-
                 MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(UIConstants.BUTTON_OPTION);
 
@@ -128,7 +125,8 @@ public class AssignTaskWindow extends Window {
                 }).withIcon(FontAwesome.SHARE).withStyleName(UIConstants.BUTTON_ACTION);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-                controlsBtn.with(cancelBtn, approveBtn).alignAll(Alignment.MIDDLE_RIGHT);
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
+                layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }

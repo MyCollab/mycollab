@@ -400,7 +400,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
         @Override
         protected Button.ClickListener actionListener() {
-            return clickEvent -> MessageListViewImpl.this.createAddMessageLayout();
+            return clickEvent -> createAddMessageLayout();
         }
 
         @Override

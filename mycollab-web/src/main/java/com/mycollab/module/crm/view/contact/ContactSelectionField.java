@@ -26,6 +26,7 @@ import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -36,8 +37,7 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
     private static final long serialVersionUID = 1L;
 
     private TextField contactName;
-    private Button browseBtn;
-    private Button clearBtn;
+    private MButton browseBtn, clearBtn;
 
     private SimpleContact contact;
 
@@ -45,29 +45,15 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
         contactName = new TextField();
         contactName.setNullRepresentation("");
         contactName.setWidth("100%");
-        browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        browseBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                ContactSelectionWindow contactWindow = new ContactSelectionWindow(ContactSelectionField.this);
-                UI.getCurrent().addWindow(contactWindow);
-                contactWindow.show();
-            }
-        });
+        browseBtn = new MButton("", clickEvent -> {
+            ContactSelectionWindow contactWindow = new ContactSelectionWindow(ContactSelectionField.this);
+            UI.getCurrent().addWindow(contactWindow);
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(UIConstants.BUTTON_OPTION, UIConstants.BUTTON_SMALL_PADDING);
 
-        clearBtn = new Button(null, FontAwesome.TRASH_O);
-        clearBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-
-        clearBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                contactName.setValue("");
-                contact = null;
-            }
-        });
+        clearBtn = new MButton("", clickEvent -> {
+            contactName.setValue("");
+            contact = null;
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_OPTION, UIConstants.BUTTON_SMALL_PADDING);
     }
 
     @Override

@@ -16,6 +16,9 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.B;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
@@ -36,17 +39,15 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.B;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Collection;
 import java.util.Date;
@@ -109,34 +110,29 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
         }
     }
 
-    private static class CanSendEmailInstructionWindow extends Window {
+    private static class CanSendEmailInstructionWindow extends MWindow {
         private MVerticalLayout contentLayout;
 
         public CanSendEmailInstructionWindow(InviteProjectMembers invitation) {
             super("Getting started instructions");
-            this.setResizable(false);
-            this.setModal(true);
-            this.setWidth("600px");
+            this.withResizable(false).withModal(true).withWidth("600px").withCenter();
             contentLayout = new MVerticalLayout();
             this.setContent(contentLayout);
-            center();
             displayInfo(invitation);
         }
 
         private void displayInfo(InviteProjectMembers invitation) {
-            Div infoDiv = new Div().appendText("You have not setup SMTP account properly. So we can not send the invitation by email automatically. Please copy/paste below paragraph and inform to the user by yourself").setStyle("font-weight:bold;color:red");
-            Label infoLbl = new Label(infoDiv.write(), ContentMode.HTML);
-            contentLayout.with(infoLbl);
+            Div infoDiv = new Div().appendText("You have not setup SMTP account properly. So we can not send the invitation by email automatically. Please copy/paste below paragraph and inform to the user by yourself")
+                    .setStyle("font-weight:bold;color:red");
+            contentLayout.with(ELabel.html(infoDiv.write()));
 
             Div introDiv = new Div().appendText("Below users are invited to the project ")
                     .appendChild(new B().appendText(CurrentProjectVariables.getProject().getName()))
                     .appendText(" as role ").appendChild(new B().appendText(invitation.getRoleName()));
-            contentLayout.with(new Label(introDiv.write(), ContentMode.HTML));
+            contentLayout.with(ELabel.html(introDiv.write()));
 
-
-            MVerticalLayout linksContainer = new MVerticalLayout();
+            MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(UIConstants.SCROLLABLE_CONTAINER);
             new Restrain(linksContainer).setMaxHeight("400px");
-            linksContainer.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
             contentLayout.with(linksContainer);
 
             Collection<String> inviteEmails = invitation.getEmails();
@@ -148,30 +144,17 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 linksContainer.add(ELabel.hr());
             }
 
-            MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
+            MButton addNewBtn = new MButton("Invite more member(s)", clickEvent -> {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(CanSendEmailInstructionWindow.this, null));
+                close();
+            }).withStyleName(UIConstants.BUTTON_ACTION);
 
-            Button addNewBtn = new Button("Invite more member(s)", new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            MButton doneBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                close();
+            }).withStyleName(UIConstants.BUTTON_ACTION);
 
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(CanSendEmailInstructionWindow.this, null));
-                    close();
-                }
-            });
-            addNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
-
-            Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-                    close();
-                }
-            });
-            doneBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            controlsBtn.with(addNewBtn, doneBtn);
+            MHorizontalLayout controlsBtn = new MHorizontalLayout(addNewBtn, doneBtn).withMargin(true);
             contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
         }
     }

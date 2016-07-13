@@ -16,18 +16,17 @@
  */
 package com.mycollab.mobile.shell.view
 
+import com.google.common.eventbus.Subscribe
 import com.mycollab.core.utils.ScalaUtils
 import com.mycollab.eventmanager.ApplicationEventListener
-import com.mycollab.mobile.module.project.ProjectModuleScreenData
-import com.mycollab.mobile.shell.events.ShellEvent
-import com.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
-import com.google.common.eventbus.Subscribe
 import com.mycollab.mobile.MobileApplication
 import com.mycollab.mobile.module.crm.view.CrmModulePresenter
+import com.mycollab.mobile.module.project.ProjectModuleScreenData
 import com.mycollab.mobile.module.project.view.ProjectModulePresenter
 import com.mycollab.mobile.module.user.view.LoginPresenter
-import com.mycollab.mobile.shell.view.MainViewPresenter
+import com.mycollab.mobile.shell.events.ShellEvent
 import com.mycollab.mobile.ui.IMobileView
+import com.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.vaadin.addon.touchkit.ui.NavigationManager
 import com.vaadin.ui.{Component, UI}
 

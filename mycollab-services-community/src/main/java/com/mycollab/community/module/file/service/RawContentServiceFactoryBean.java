@@ -33,18 +33,15 @@ import org.springframework.stereotype.Service;
  */
 @Service(value = "rawContentService")
 @IgnoreCacheClass
-public class RawContentServiceFactoryBean extends
-		AbstractFactoryBean<RawContentService> implements IService {
+public class RawContentServiceFactoryBean extends AbstractFactoryBean<RawContentService> implements IService {
 
 	@Override
 	protected RawContentService createInstance() throws Exception {
 		return new FileRawContentServiceImpl();
-
 	}
 
 	@Override
 	public Class<RawContentService> getObjectType() {
 		return RawContentService.class;
 	}
-
 }

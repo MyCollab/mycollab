@@ -28,4 +28,6 @@ object AccountBillingEvent {
 
   class GotoSummary(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
+  class GotoHistory(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

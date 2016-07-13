@@ -25,7 +25,7 @@ import java.util.List;
 public interface BillingAccountMapperExt {
     SimpleBillingAccount getBillingAccountById(Integer accountId);
 
-    List<String> getSubdomainsOfUser(@Param("username") String username);
+    List<String> getSubDomainsOfUser(@Param("username") String username);
 
     List<BillingAccountWithOwners> getTrialAccountsWithOwners();
 }

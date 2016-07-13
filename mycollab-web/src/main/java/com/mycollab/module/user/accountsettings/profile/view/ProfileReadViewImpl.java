@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.user.accountsettings.profile.view;
 
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.TimezoneVal;
@@ -34,12 +35,11 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.field.UrlLinkViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -88,15 +88,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         ELabel usernameLbl = ELabel.h2(AppContext.getUser().getDisplayName());
         userWrapper.addComponent(usernameLbl);
 
-        Button btnChangeBasicInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean()));
-            }
-        });
-        btnChangeBasicInfo.setStyleName(UIConstants.BUTTON_LINK);
+        MButton btnChangeBasicInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                clickEvent -> UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean())))
+                .withStyleName(UIConstants.BUTTON_LINK);
 
         HorizontalLayout btnChangeBasicInfoWrapper = new HorizontalLayout();
         btnChangeBasicInfoWrapper.addComponent(btnChangeBasicInfo);
@@ -116,15 +110,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),
                 AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 3);
 
-        Button btnChangePassword = new Button(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean()));
-            }
-        });
-        btnChangePassword.setStyleName(UIConstants.BUTTON_LINK);
+        MButton btnChangePassword = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE),
+                clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean())))
+                .withStyleName(UIConstants.BUTTON_LINK);
         userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
                 AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 4);
         basicLayout.addComponent(userFormLayout.getLayout());
@@ -166,15 +154,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                 contactInformationHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                 Label contactInformationHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
 
-                Button btnChangeContactInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean()));
-                    }
-                });
-                btnChangeContactInfo.addStyleName(UIConstants.BUTTON_LINK);
+                MButton btnChangeContactInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                        clickEvent -> UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean())))
+                        .withStyleName(UIConstants.BUTTON_LINK);
                 contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
 
                 layout.addSection(new CssLayout(contactInformationHeader), contactLayout.getLayout());
@@ -182,15 +164,10 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                 MHorizontalLayout advanceInfoHeader = new MHorizontalLayout();
                 Label advanceInfoHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
 
-                Button btnChangeAdvanceInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+                MButton btnChangeAdvanceInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                        clickEvent -> UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean())))
+                        .withStyleName(UIConstants.BUTTON_LINK);
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean()));
-                    }
-                });
-                btnChangeAdvanceInfo.addStyleName(UIConstants.BUTTON_LINK);
                 advanceInfoHeader.with(advanceInfoHeaderLbl, btnChangeAdvanceInfo);
                 layout.addSection(new CssLayout(advanceInfoHeader), advancedInfoLayout.getLayout());
                 return layout;

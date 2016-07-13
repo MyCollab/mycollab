@@ -71,44 +71,7 @@ import org.springframework.stereotype.Component
   }
 
   private def createDefaultOptionVals(accountId: Integer): Unit = {
-    val option = new OptionVal
-    option.setCreatedtime(new GregorianCalendar().getTime)
-    option.setIsdefault(true)
-    option.setSaccountid(accountId)
-    option.setType(ProjectTypeConstants.TASK)
-    option.setTypeval(StatusI18nEnum.Open.name())
-    option.setColor("fdde86")
-    option.setFieldgroup("status")
-    optionValService.saveWithSession(option, null)
-
-    option.setTypeval(StatusI18nEnum.InProgress.name())
-    option.setId(null)
-    optionValService.saveWithSession(option, null)
-
-    option.setTypeval(StatusI18nEnum.Archived.name())
-    option.setId(null)
-    optionValService.saveWithSession(option, null)
-
-    option.setTypeval(StatusI18nEnum.Closed.name())
-    option.setId(null)
-    optionValService.saveWithSession(option, null)
-
-    option.setTypeval(StatusI18nEnum.Pending.name())
-    option.setId(null)
-    optionValService.saveWithSession(option, null)
-
-    option.setType(ProjectTypeConstants.MILESTONE)
-    option.setTypeval(MilestoneStatus.Closed.name())
-    option.setId(null)
-    optionValService.saveWithSession(option, null)
-
-    option.setTypeval(MilestoneStatus.InProgress.name())
-    option.setId(null)
-    optionValService.saveWithSession(option, null)
-
-    option.setTypeval(MilestoneStatus.Future.name())
-    option.setId(null)
-    optionValService.saveWithSession(option, null)
+    optionValService.createDefaultOptions(accountId)
   }
 
   private def createSampleProjectData(initialUser: String, accountId: Integer): Unit = {

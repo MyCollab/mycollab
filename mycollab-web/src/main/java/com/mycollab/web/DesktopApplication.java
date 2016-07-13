@@ -16,9 +16,11 @@
  */
 package com.mycollab.web;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.core.*;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.billing.SubDomainNotExistException;
 import com.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -45,13 +47,9 @@ import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.service.BroadcastReceiverService;
-import com.google.common.eventbus.Subscribe;
-import com.mycollab.core.*;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
-import com.vaadin.server.Page.UriFragmentChangedEvent;
-import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
@@ -121,14 +119,7 @@ public class DesktopApplication extends MyCollabUI {
 
         getPage().setTitle("MyCollab - Online project management");
 
-        getPage().addUriFragmentChangedListener(new UriFragmentChangedListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void uriFragmentChanged(UriFragmentChangedEvent event) {
-                enter(event.getUriFragment());
-            }
-        });
+        getPage().addUriFragmentChangedListener(uriFragmentChangedEvent -> enter(uriFragmentChangedEvent.getUriFragment()));
 
         String userAgent = request.getHeader("user-agent");
         if (isInNotSupportedBrowserList(userAgent.toLowerCase())) {
@@ -234,7 +225,8 @@ public class DesktopApplication extends MyCollabUI {
                         AppContext.getMessage(GenericI18Enum.ERROR_USER_SYSTEM_ERROR, ex.getMessage()),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {});
+                        confirmDialog -> {
+                        });
                 Button okBtn = dialog.getOkButton();
                 BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
                 opener.extend(okBtn);
@@ -249,7 +241,8 @@ public class DesktopApplication extends MyCollabUI {
                     "Your network does not support websocket! Please contact your network administrator to solve it",
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    confirmDialog -> {});
+                    confirmDialog -> {
+                    });
             Button okBtn = dialog.getOkButton();
             BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
             opener.extend(okBtn);
@@ -271,7 +264,8 @@ public class DesktopApplication extends MyCollabUI {
                 AppContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE),
                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                confirmDialog -> {});
+                confirmDialog -> {
+                });
         Button okBtn = dialog.getOkButton();
         BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
         opener.extend(okBtn);

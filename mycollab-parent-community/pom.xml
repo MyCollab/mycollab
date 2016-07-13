@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.mycollab</groupId>
     <artifactId>mycollab-parent-community</artifactId>
-    <version>5.3.4</version>
+    <version>5.3.5</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.0.4</maven>
@@ -21,7 +21,7 @@
         <jettyVersion>9.3.10.v20160621</jettyVersion>
         <mysqlVersion>5.1.39</mysqlVersion>
         <junitVersion>4.12</junitVersion>
-        <jackrabbitVersion>2.12.2</jackrabbitVersion>
+        <jackrabbitVersion>2.13.0</jackrabbitVersion>
         <jacksonVersion>2.8.0</jacksonVersion>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.8</scala.version>
@@ -446,10 +446,6 @@
         <repository>
             <id>scalaz-repo</id>
             <url>http://dl.bintray.com/scalaz/releases/</url>
-        </repository>
-        <repository>
-            <id>report.repo</id>
-            <url>http://jasperreports.sourceforge.net/maven2</url>
         </repository>
         <repository>
             <id>repository.springsource.milestone</id>

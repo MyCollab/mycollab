@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.mycollab.module.crm.view;
 
 import com.mycollab.common.ModuleNameConstants;
@@ -48,6 +47,6 @@ public class CrmModulePresenter extends AbstractPresenter<CrmModule> {
             ShellUrlResolver.ROOT().getSubResolver("crm").handle(params);
         }
 
-        AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
+        AppContext.updateLastModuleVisit(ModuleNameConstants.CRM);
     }
 }

@@ -49,7 +49,7 @@ Version 5.3.5
 
 **Library Upgrades**
 
-* Jackrabbit 2.12.2
+* Jackrabbit 2.13.0
 * Spring framework 4.3.1.RELEASE
 * Vaadin 7.6.7
 * Jetty 9.3.10.v20160621
@@ -62,9 +62,6 @@ Version 5.3.5
 
 **Improvements & New Features**
 
-* [Premium] Allow customize the project home widgets
-* [Premium] Customize project assignment fields
-* [Premium] Real-time notification assignment changes
 * Remove redundant files in the community edition
 * Other minor improvements
 

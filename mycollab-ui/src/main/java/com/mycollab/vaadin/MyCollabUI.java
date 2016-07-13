@@ -18,14 +18,10 @@ package com.mycollab.vaadin;
 
 import com.mycollab.common.SessionIdGenerator;
 import com.mycollab.db.arguments.GroupIdProvider;
-import com.mycollab.license.LicenseInfo;
-import com.mycollab.license.LicenseResolver;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,15 +91,6 @@ public abstract class MyCollabUI extends UI {
     protected final void init(final VaadinRequest request) {
         GoogleAnalyticsService googleAnalyticsService = AppContextUtil.getSpringBean(GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
-
-        LicenseResolver licenseResolver = AppContextUtil.getSpringBean(LicenseResolver.class);
-        if (licenseResolver != null) {
-            LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
-            if (licenseInfo.isRequiredALicense()) {
-                Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
-                UI.getCurrent().addWindow(activateWindow);
-            }
-        }
         doInit(request);
     }
 

@@ -25,6 +25,7 @@ import ch.qos.cal10n.LocaleData;
 public enum AdminI18nEnum {
     VIEW_PROFILE,
     VIEW_BILLING,
+    VIEW_BILLING_HISTORY,
     VIEW_SETTING,
     VIEW_THEME,
     VIEW_USERS_AND_ROLES,

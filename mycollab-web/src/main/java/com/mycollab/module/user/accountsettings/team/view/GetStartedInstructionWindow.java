@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
+import com.hp.gagawa.java.elements.B;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
@@ -23,32 +25,25 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.events.UserEvent;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.B;
-import com.hp.gagawa.java.elements.Div;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.7
  */
-class GetStartedInstructionWindow extends Window {
+class GetStartedInstructionWindow extends MWindow {
     private MVerticalLayout contentLayout;
 
     public GetStartedInstructionWindow(SimpleUser user) {
         super("Getting started instructions");
-        this.setResizable(false);
-        this.setModal(true);
-        this.setWidth("600px");
         contentLayout = new MVerticalLayout();
-        this.setContent(contentLayout);
-        center();
+        this.withResizable(false).withModal(true).withWidth("600px").withContent(contentLayout).withCenter();
         displayInfo(user);
     }
 
@@ -66,28 +61,16 @@ class GetStartedInstructionWindow extends Window {
         Label roleInfoLbl = new Label(roleInfoDiv.write(), ContentMode.HTML);
         contentLayout.with(infoLbl, userInfoLbl, roleInfoLbl);
 
-        final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
-        final Button addNewBtn = new Button("Create another user", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(
-                    final Button.ClickEvent event) {
-                EventBusFactory.getInstance().post(new UserEvent.GotoAdd(GetStartedInstructionWindow.this, null));
-                close();
-            }
+        final Button addNewBtn = new Button("Create another user", clickEvent -> {
+            EventBusFactory.getInstance().post(new UserEvent.GotoAdd(GetStartedInstructionWindow.this, null));
+            close();
         });
         addNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
 
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                close();
-            }
-        });
+        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> close());
         doneBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.with(addNewBtn, doneBtn);
+
+        final MHorizontalLayout controlsBtn = new MHorizontalLayout(addNewBtn, doneBtn).withMargin(true);
         contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
     }
 }

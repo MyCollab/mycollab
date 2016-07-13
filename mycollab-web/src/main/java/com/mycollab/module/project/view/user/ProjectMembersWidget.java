@@ -99,12 +99,8 @@ public class ProjectMembersWidget extends Depot {
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
         addHeaderElement(searchTextField);
 
-        MButton inviteMemberBtn = new MButton("Invite").withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
-            }
-        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_LINK)
+        MButton inviteMemberBtn = new MButton("Invite", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         addHeaderElement(inviteMemberBtn);
 

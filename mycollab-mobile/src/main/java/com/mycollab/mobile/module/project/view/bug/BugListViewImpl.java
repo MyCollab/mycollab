@@ -92,12 +92,8 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(BugI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(BugI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;
     }

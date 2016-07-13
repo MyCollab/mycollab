@@ -52,14 +52,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         this.setShowAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
         this.setHideAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
         this.setUseDefaultClickBehaviour(false);
-        this.addLink(new Button(null, new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this));
-            }
-        }));
+        this.addLink(new Button(null, clickEvent -> EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this))));
     }
 
     public void gotoProfile() {
@@ -80,16 +73,20 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         AppContext.addFragment("account/billing", AppContext.getMessage(AdminI18nEnum.VIEW_BILLING));
     }
 
+    public void gotoBillingHistory() {
+        this.select(0);
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
+                clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))));
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY)));
+        AppContext.addFragment("account/billing/history", AppContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY));
+    }
+
     public void gotoCancelAccountPage() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null));
-            }
-        }));
+        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
+                clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))));
         this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT)));
-        AppContext.addFragment("account/cancel_account", AppContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT));
+        AppContext.addFragment("account/billing/cancel", AppContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT));
     }
 
     public void gotoUserList() {
@@ -119,15 +116,8 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
         this.setLinkEnabled(true, 1);
-        this.addLink(generateBreadcrumbLink(user.getDisplayName(), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new UserEvent.GotoRead(this, user.getUsername()));
-
-            }
-        }));
+        this.addLink(generateBreadcrumbLink(user.getDisplayName(),
+                clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoRead(this, user.getUsername()))));
         this.setLinkEnabled(true, 2);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         AppContext.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()),
@@ -182,14 +172,8 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
         this.setLinkEnabled(true, 1);
-        this.addLink(generateBreadcrumbLink(role.getRolename(), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new RoleEvent.GotoRead(this, role.getId()));
-            }
-        }));
+        this.addLink(generateBreadcrumbLink(role.getRolename(),
+                clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoRead(this, role.getId()))));
         this.setLinkEnabled(true, 2);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         AppContext.addFragment("account/role/edit/" + UrlEncodeDecoder.encode(role.getId()),

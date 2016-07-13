@@ -82,8 +82,6 @@ public class TaskAddWindow extends Window {
             public ComponentContainer getLayout() {
                 VerticalLayout layout = new VerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
-                informationLayout.getLayout().setMargin(false);
-                informationLayout.getLayout().setSpacing(false);
                 layout.addComponent(informationLayout.getLayout());
 
                 MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));

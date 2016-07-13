@@ -18,8 +18,8 @@ package com.mycollab.module.project.view.bug.components;
 
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
@@ -37,7 +37,7 @@ import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
@@ -94,24 +94,17 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
         bodyContent.addComponent(bugAssigneeChartWidget);
     }
 
-    class BugAssigneeLink extends Button {
+    class BugAssigneeLink extends MButton {
         private static final long serialVersionUID = 1L;
 
         public BugAssigneeLink(final String assignee, final String assigneeAvatarId, final String assigneeFullName) {
-            super(StringUtils.trim(assigneeFullName, 25, true), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            super(StringUtils.trim(assigneeFullName, 25, true));
 
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    searchCriteria.setAssignuser(StringSearchField.and(assignee));
-                    EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
-                }
-            });
-
-            this.setStyleName(UIConstants.BUTTON_LINK);
-            this.setWidth("110px");
-            this.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
+            this.withListener(clickEvent -> {
+                searchCriteria.setAssignuser(StringSearchField.and(assignee));
+                EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
+            }).withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))
+                    .withStyleName(UIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS).withWidth("110px");
             UserService service = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,

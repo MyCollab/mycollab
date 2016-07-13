@@ -62,6 +62,8 @@ public class GridFormLayoutHelper implements Serializable {
     public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows, String controlWidth) {
         GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", controlWidth, Alignment.TOP_LEFT);
         helper.getLayout().setWidth("100%");
+        helper.getLayout().setSpacing(false);
+        helper.getLayout().setMargin(false);
         helper.getLayout().addStyleName(UIConstants.GRIDFORM_STANDARD);
         return helper;
     }
@@ -112,7 +114,7 @@ public class GridFormLayoutHelper implements Serializable {
 
     public GridCellWrapper buildCell(String caption, String contextHelp, int columns, int rows, int colSpan, String width, Alignment alignment) {
         if (StringUtils.isNotBlank(caption)) {
-            ELabel captionLbl = new ELabel(caption).withStyleName(UIConstants.TEXT_ELLIPSIS).withDescription(caption);
+            ELabel captionLbl = new ELabel(caption).withStyleName(UIConstants.LABEL_WORD_WRAP).withDescription(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
                     .withWidth(defaultCaptionWidth).withFullHeight().withStyleName("gridform-caption").with(captionLbl).expand(captionLbl)
                     .withAlign(captionLbl, alignment);

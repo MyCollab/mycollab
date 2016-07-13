@@ -60,20 +60,6 @@ public class NewUserAddedWindow extends Window {
                 new ELabel(AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).withStyleName(UIConstants.META_INFO),
                 new Label("    " + (uncryptPassword != null ? uncryptPassword : AppContext.getMessage(UserI18nEnum.OPT_USER_SET_OWN_PASSWORD)))));
 
-        Button sendEmailBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
-                if (!mailService.isMailSetupValid()) {
-                    UI.getCurrent().addWindow(new GetStartedInstructionWindow(user));
-                } else {
-
-                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_TITLE),
-                            AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE));
-                }
-            }
-        });
-
         content.with(new ELabel(AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE)).withStyleName
                 (UIConstants.META_INFO));
 
@@ -86,12 +72,9 @@ public class NewUserAddedWindow extends Window {
         });
         createMoreUserBtn.addStyleName(UIConstants.BUTTON_LINK);
 
-        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-                close();
-            }
+        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
+            EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
+            close();
         });
         doneBtn.addStyleName(UIConstants.BUTTON_ACTION);
         MHorizontalLayout buttonControls = new MHorizontalLayout(createMoreUserBtn, doneBtn).withFullWidth()

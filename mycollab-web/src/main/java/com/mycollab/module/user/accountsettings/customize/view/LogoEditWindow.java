@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.user.accountsettings.customize.view;
 
+import com.esofthead.vaadin.cropField.CropField;
+import com.esofthead.vaadin.cropField.client.VCropSelection;
 import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
@@ -30,19 +32,17 @@ import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.vaadin.cropField.CropField;
-import com.esofthead.vaadin.cropField.client.VCropSelection;
-import com.vaadin.data.Property;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -54,7 +54,7 @@ import java.io.IOException;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class LogoEditWindow extends Window {
+public class LogoEditWindow extends MWindow {
     private static final long serialVersionUID = -5294741083557671011L;
     private static final Logger LOG = LoggerFactory.getLogger(LogoEditWindow.class);
 
@@ -66,10 +66,7 @@ public class LogoEditWindow extends Window {
 
     public LogoEditWindow(byte[] imageData) {
         super(AppContext.getMessage(FileI18nEnum.ACTION_CHANGE_LOGO));
-        this.setModal(true);
-        this.setResizable(false);
-        this.setWidth("800px");
-        this.setHeight("800px");
+        this.withModal(true).withResizable(false).withWidth("800px").withHeight("800px");
         content = new MVerticalLayout();
         this.setContent(content);
         editPhoto(imageData);
@@ -100,41 +97,25 @@ public class LogoEditWindow extends Window {
                 "When you are happy with your photo, click the <strong>Accept</strong> button.</p>", ContentMode.HTML);
         previewBoxRight.addComponent(lbPreview);
 
-        MHorizontalLayout controlBtns = new MHorizontalLayout();
-        controlBtns.setSizeUndefined();
-        controlBtns.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                clickEvent -> EventBusFactory.getInstance().post(new SettingEvent.GotoGeneralSetting(LogoEditWindow.this, null)))
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(
-                        new SettingEvent.GotoGeneralSetting(LogoEditWindow.this, null));
-            }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-        controlBtns.with(cancelBtn);
-
-        Button acceptBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (scaleImageData != null && scaleImageData.length > 0) {
-                    try {
-                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
-                        AccountLogoService accountLogoService = AppContextUtil.getSpringBean(AccountLogoService.class);
-                        accountLogoService.upload(AppContext.getUsername(),
-                                image, AppContext.getAccountId());
-                        Page.getCurrent().getJavaScript().execute("window.location.reload();");
-                    } catch (IOException e) {
-                        throw new MyCollabException("Error when saving account logo", e);
-                    }
-
+        MButton acceptBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
+            if (scaleImageData != null && scaleImageData.length > 0) {
+                try {
+                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
+                    AccountLogoService accountLogoService = AppContextUtil.getSpringBean(AccountLogoService.class);
+                    accountLogoService.upload(AppContext.getUsername(),
+                            image, AppContext.getAccountId());
+                    Page.getCurrent().getJavaScript().execute("window.location.reload();");
+                } catch (IOException e) {
+                    throw new MyCollabException("Error when saving account logo", e);
                 }
-
             }
-        });
-        acceptBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        controlBtns.with(acceptBtn);
+        }).withStyleName(UIConstants.BUTTON_ACTION);
 
+        MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
         previewBoxRight.with(controlBtns).withAlign(controlBtns, Alignment.TOP_LEFT);
         previewBox.with(previewBoxRight).expand(previewBoxRight);
         content.addComponent(previewBox);
@@ -147,29 +128,23 @@ public class LogoEditWindow extends Window {
         CropField cropField = new CropField(resource);
         cropField.setImmediate(true);
         cropField.setSelectionAspectRatio(150 / 28);
-        cropField.addValueChangeListener(new Property.ValueChangeListener() {
-
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                VCropSelection newSelection = (VCropSelection) event.getProperty().getValue();
-                int x1 = newSelection.getXTopLeft();
-                int y1 = newSelection.getYTopLeft();
-                int x2 = newSelection.getXBottomRight();
-                int y2 = newSelection.getYBottomRight();
-                if (x2 > x1 && y2 > y1) {
-                    BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
-                    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(subImage, "png", outStream);
-                        scaleImageData = outStream.toByteArray();
-                        displayPreviewImage();
-                    } catch (IOException e) {
-                        LOG.error("Error while scale image: ", e);
-                    }
+        cropField.addValueChangeListener(valueChangeEvent -> {
+            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
+            int x1 = newSelection.getXTopLeft();
+            int y1 = newSelection.getYTopLeft();
+            int x2 = newSelection.getXBottomRight();
+            int y2 = newSelection.getYBottomRight();
+            if (x2 > x1 && y2 > y1) {
+                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                try {
+                    ImageIO.write(subImage, "png", outStream);
+                    scaleImageData = outStream.toByteArray();
+                    displayPreviewImage();
+                } catch (IOException e) {
+                    LOG.error("Error while scale image: ", e);
                 }
-
             }
-
         });
         currentPhotoBox.setWidth("650px");
         currentPhotoBox.setHeight("650px");

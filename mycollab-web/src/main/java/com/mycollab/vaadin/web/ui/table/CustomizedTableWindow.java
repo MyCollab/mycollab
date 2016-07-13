@@ -29,10 +29,9 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window;
 import org.vaadin.tepi.listbuilder.ListBuilder;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -82,63 +81,40 @@ public abstract class CustomizedTableWindow extends Window {
         this.setSelectedViewColumns();
         contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
-        Button restoreLink = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        MButton restoreLink = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
+            List<TableViewField> defaultSelectedColumns = tableItem.getDefaultSelectedColumns();
+            if (defaultSelectedColumns != null) {
+                final List<TableViewField> selectedColumns = new ArrayList<>();
+                final Collection<TableViewField> itemIds = container.getItemIds();
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                List<TableViewField> defaultSelectedColumns = tableItem.getDefaultSelectedColumns();
-                if (defaultSelectedColumns != null) {
-                    final List<TableViewField> selectedColumns = new ArrayList<>();
-                    final BeanItemContainer<TableViewField> container = (BeanItemContainer<TableViewField>) listBuilder.getContainerDataSource();
-                    final Collection<TableViewField> itemIds = container.getItemIds();
-
-                    for (TableViewField column : defaultSelectedColumns) {
-                        for (final TableViewField viewField : itemIds) {
-                            if (column.getField().equals(viewField.getField())) {
-                                selectedColumns.add(viewField);
-                            }
+                for (TableViewField column : defaultSelectedColumns) {
+                    for (final TableViewField viewField : itemIds) {
+                        if (column.getField().equals(viewField.getField())) {
+                            selectedColumns.add(viewField);
                         }
                     }
-
-                    listBuilder.setValue(selectedColumns);
                 }
 
+                listBuilder.setValue(selectedColumns);
             }
-        });
-        restoreLink.setStyleName(UIConstants.BUTTON_LINK);
+        }).withStyleName(UIConstants.BUTTON_LINK);
         contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 
-        final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        final MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            List<TableViewField> selectedColumns = (List<TableViewField>) listBuilder.getValue();
+            table.setDisplayColumns(selectedColumns);
+            // Save custom table view def
+            CustomViewStore viewDef = new CustomViewStore();
+            viewDef.setSaccountid(AppContext.getAccountId());
+            viewDef.setCreateduser(AppContext.getUsername());
+            viewDef.setViewid(viewId);
+            viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(selectedColumns)));
+            customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
+            close();
+        }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
 
-            @SuppressWarnings("unchecked")
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                List<TableViewField> selectedColumns = (List<TableViewField>) listBuilder.getValue();
-                table.setDisplayColumns(selectedColumns);
-                // Save custom table view def
-                CustomViewStore viewDef = new CustomViewStore();
-                viewDef.setSaccountid(AppContext.getAccountId());
-                viewDef.setCreateduser(AppContext.getUsername());
-                viewDef.setViewid(viewId);
-                viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(selectedColumns)));
-                customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
-                close();
-            }
-        });
-        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        saveBtn.setIcon(FontAwesome.SAVE);
-
-        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                close();
-            }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+        final MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);
         contentLayout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);

@@ -38,10 +38,9 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -51,7 +50,7 @@ import com.vaadin.ui.HorizontalLayout;
 public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implements VersionReadView {
     private static final long serialVersionUID = 1L;
 
-    private Button quickActionStatusBtn;
+    private MButton quickActionStatusBtn;
     private TagViewComponent tagViewComponent;
     private ProjectActivityComponent activityComponent;
     private DateInfoComp dateInfoComp;
@@ -130,32 +129,24 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         ProjectPreviewFormControlsGenerator<Version> versionPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         HorizontalLayout topPanel = versionPreviewForm.createButtonControls(ProjectRolePermissionCollections.VERSIONS);
 
-        quickActionStatusBtn = new Button("", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
-                    beanItem.setStatus(StatusI18nEnum.Open.name());
-                    VersionReadViewImpl.this.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-                    quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
-                } else {
-                    beanItem.setStatus(StatusI18nEnum.Closed.name());
-                    VersionReadViewImpl.this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-                    quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
-                }
-
-                VersionService service = AppContextUtil.getSpringBean(VersionService.class);
-                service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
+        quickActionStatusBtn = new MButton("", clickEvent -> {
+            if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
+                beanItem.setStatus(StatusI18nEnum.Open.name());
+                VersionReadViewImpl.this.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+                quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
+            } else {
+                beanItem.setStatus(StatusI18nEnum.Closed.name());
+                VersionReadViewImpl.this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+                quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
             }
-        });
 
-        quickActionStatusBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        quickActionStatusBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
+            VersionService service = AppContextUtil.getSpringBean(VersionService.class);
+            service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
+        }).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
         versionPreviewForm.insertToControlBlock(quickActionStatusBtn);
-
         return topPanel;
     }
 

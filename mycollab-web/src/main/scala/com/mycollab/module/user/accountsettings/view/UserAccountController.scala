@@ -64,6 +64,12 @@ class UserAccountController(container: AccountModule) extends AbstractController
         presenter.go(container, new BillingScreenData.BillingSummary)
       }
     })
+    this.register(new ApplicationEventListener[AccountBillingEvent.GotoHistory]() {
+      @Subscribe def handle(event: AccountBillingEvent.GotoHistory) {
+        val presenter = PresenterResolver.getPresenter(classOf[IBillingPresenter])
+        presenter.go(container, new BillingScreenData.BillingHistory)
+      }
+    })
   }
 
   private def bindProfileEvents(): Unit = {

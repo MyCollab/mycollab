@@ -17,11 +17,12 @@
 package com.mycollab.premium.module.user.accountsettings.view
 
 import com.mycollab.eventmanager.EventBusFactory
-import com.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, ProfileEvent, SetupEvent}
+import com.mycollab.module.user.accountsettings.view.events.{ProfileEvent, SetupEvent}
 import com.mycollab.shell.events.ShellEvent
 import com.mycollab.vaadin.mvp.UrlResolver
 import com.mycollab.vaadin.web.ui.ModuleHelper
 import com.mycollab.configuration.SiteConfiguration
+import com.mycollab.module.user.accountsettings.view.BillingUrlResolver
 
 /**
   * @author MyCollab Ltd
@@ -59,16 +60,9 @@ class AccountSettingUrlResolver extends UrlResolver {
     }
   }
 
-  private class BillingUrlResolver extends AccountSettingUrlResolver {
-    protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))
-    }
-  }
-
   private class SetupUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
       EventBusFactory.getInstance().post(new SetupEvent.GotoSetupPage(this, null))
     }
   }
-
 }

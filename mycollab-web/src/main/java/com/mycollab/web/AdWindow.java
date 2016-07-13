@@ -16,29 +16,23 @@
  */
 package com.mycollab.web;
 
-import com.mycollab.license.LicenseResolver;
-import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AbstractLicenseActivationWindow;
-import com.mycollab.vaadin.mvp.ViewManager;
-import com.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Label;
 import org.springframework.web.client.RestTemplate;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.2
  */
-public class AdWindow extends Window {
+public class AdWindow extends MWindow {
     public AdWindow() {
         super("Buy MyCollab Pro edition");
-        this.setWidth("700px");
-        this.setModal(true);
-        this.setResizable(false);
+        this.withModal(true).withResizable(false).withWidth("700px");
         RestTemplate restTemplate = new RestTemplate();
         MVerticalLayout content = new MVerticalLayout();
         try {
@@ -51,15 +45,6 @@ public class AdWindow extends Window {
                     .appendChild(new A("https://www.mycollab.com/pricing/download/", "_blank").appendText("here"));
             Label webPage = new Label(informDiv.write(), ContentMode.HTML);
             this.setContent(content.with(webPage).withAlign(webPage, Alignment.TOP_CENTER));
-        }
-        LicenseResolver licenseResolver = AppContextUtil.getSpringBean(LicenseResolver.class);
-        if (licenseResolver != null) {
-            MButton editLicenseBtn = new MButton("Enter license code", clickEvent -> {
-                Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
-                UI.getCurrent().addWindow(activateWindow);
-                close();
-            }).withStyleName(UIConstants.BUTTON_ACTION);
-            content.with(editLicenseBtn).withAlign(editLicenseBtn, Alignment.MIDDLE_CENTER);
         }
     }
 }

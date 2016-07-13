@@ -128,7 +128,7 @@ public class AppContext implements Serializable {
      *
      * @param moduleName
      */
-    public void updateLastModuleVisit(String moduleName) {
+    public static void updateLastModuleVisit(String moduleName) {
         try {
             UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
             UserAccount userAccount = new UserAccount();

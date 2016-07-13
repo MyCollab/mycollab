@@ -116,11 +116,9 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
     }
 
     private class BugPriorityClickListener implements Button.ClickListener {
-        private static final long serialVersionUID = 1L;
-
         @Override
-        public void buttonClick(final ClickEvent event) {
-            String key = ((ButtonI18nComp) event.getButton()).getKey();
+        public void buttonClick(ClickEvent clickEvent) {
+            String key = ((ButtonI18nComp) clickEvent.getButton()).getKey();
             searchCriteria.setPriorities(new SetSearchField<>(key));
             EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
         }

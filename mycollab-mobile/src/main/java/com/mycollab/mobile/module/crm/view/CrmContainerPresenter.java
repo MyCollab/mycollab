@@ -43,7 +43,7 @@ public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         ModuleHelper.setCurrentModule(view);
         super.onGo(navigator, data);
-        AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
+        AppContext.updateLastModuleVisit(ModuleNameConstants.CRM);
         if (data == null) {
             view.goToAccounts();
             String url = ((MobileApplication) UI.getCurrent()).getCurrentFragmentUrl();

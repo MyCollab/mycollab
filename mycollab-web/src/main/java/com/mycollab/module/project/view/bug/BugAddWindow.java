@@ -86,8 +86,6 @@ public class BugAddWindow extends Window {
             public ComponentContainer getLayout() {
                 VerticalLayout layout = new VerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 9);
-                informationLayout.getLayout().setMargin(false);
-                informationLayout.getLayout().setSpacing(false);
                 layout.addComponent(informationLayout.getLayout());
 
                 MButton updateAllBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS),

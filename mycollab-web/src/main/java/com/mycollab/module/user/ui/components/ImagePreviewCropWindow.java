@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.user.ui.components;
 
+import com.esofthead.vaadin.cropField.CropField;
+import com.esofthead.vaadin.cropField.client.VCropSelection;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
@@ -24,9 +26,6 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.vaadin.cropField.CropField;
-import com.esofthead.vaadin.cropField.client.VCropSelection;
-import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -34,6 +33,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -89,35 +89,22 @@ public class ImagePreviewCropWindow extends Window {
                 ContentMode.HTML);
         previewBoxTitle.addComponent(lbPreview);
 
-        MHorizontalLayout controlBtns = new MHorizontalLayout();
-        controlBtns.setSizeUndefined();
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                close();
-            }
-        });
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-
-        Button acceptBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                if (scaleImageData != null && scaleImageData.length > 0) {
-                    try {
-                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
-                        imageSelectionCommand.process(image);
-                        close();
-                    } catch (IOException e) {
-                        throw new MyCollabException("Error when saving user avatar", e);
-                    }
+        MButton acceptBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
+            if (scaleImageData != null && scaleImageData.length > 0) {
+                try {
+                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
+                    imageSelectionCommand.process(image);
+                    close();
+                } catch (IOException e) {
+                    throw new MyCollabException("Error when saving user avatar", e);
                 }
             }
-        });
-        acceptBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        acceptBtn.setIcon(FontAwesome.CHECK);
+        }).withIcon(FontAwesome.CHECK).withStyleName(UIConstants.BUTTON_ACTION);
 
-        controlBtns.with(acceptBtn, cancelBtn).alignAll(Alignment.MIDDLE_LEFT);
+        MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
 
         previewBoxTitle.addComponent(controlBtns);
         previewBoxTitle.setComponentAlignment(controlBtns, Alignment.TOP_LEFT);
@@ -130,24 +117,21 @@ public class ImagePreviewCropWindow extends Window {
         CropField cropField = new CropField(resource);
         cropField.setImmediate(true);
         cropField.setSelectionAspectRatio(1.0f);
-        cropField.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                VCropSelection newSelection = (VCropSelection) event.getProperty().getValue();
-                int x1 = newSelection.getXTopLeft();
-                int y1 = newSelection.getYTopLeft();
-                int x2 = newSelection.getXBottomRight();
-                int y2 = newSelection.getYBottomRight();
-                if (x2 > x1 && y2 > y1) {
-                    BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
-                    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(subImage, "png", outStream);
-                        scaleImageData = outStream.toByteArray();
-                        displayPreviewImage();
-                    } catch (IOException e) {
-                        LOG.error("Error while scale image: ", e);
-                    }
+        cropField.addValueChangeListener(valueChangeEvent -> {
+            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
+            int x1 = newSelection.getXTopLeft();
+            int y1 = newSelection.getYTopLeft();
+            int x2 = newSelection.getXBottomRight();
+            int y2 = newSelection.getYBottomRight();
+            if (x2 > x1 && y2 > y1) {
+                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                try {
+                    ImageIO.write(subImage, "png", outStream);
+                    scaleImageData = outStream.toByteArray();
+                    displayPreviewImage();
+                } catch (IOException e) {
+                    LOG.error("Error while scale image: ", e);
                 }
             }
         });

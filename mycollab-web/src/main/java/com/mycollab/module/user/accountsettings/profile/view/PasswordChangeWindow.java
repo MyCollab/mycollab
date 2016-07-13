@@ -79,7 +79,6 @@ public class PasswordChangeWindow extends Window {
         txtConfirmPassword = new PasswordField();
         passInfo.addComponent(txtConfirmPassword, "Confirmed Password", 0, 1);
 
-        passInfo.getLayout().setSpacing(false);
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.MIDDLE_CENTER);
 

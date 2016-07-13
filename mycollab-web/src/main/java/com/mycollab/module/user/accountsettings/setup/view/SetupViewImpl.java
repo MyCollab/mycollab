@@ -98,43 +98,33 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
 
         private Layout createButtonControls() {
-            final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
-
             final MButton closeBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
                     clickEvent -> EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this)))
                     .withStyleName(UIConstants.BUTTON_OPTION);
 
-            final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    if (editForm.validateForm()) {
-                        try {
-                            InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
-                                    emailConf.getPassword(), true, emailConf.getIsStartTls(), emailConf.getIsSsl());
-                            saveEmailConfiguration();
-                        } catch (UserInvalidInputException e) {
-                            ConfirmDialogExt.show(UI.getCurrent(),
-                                    "Invalid SMTP account?",
-                                    "We can not connect to the SMTP server. The root cause is " + e.getMessage() +
-                                            ". Save the configuration anyway?",
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    confirmDialog -> {
-                                        if (confirmDialog.isConfirmed()) {
-                                            saveEmailConfiguration();
-                                        }
-                                    });
-                        }
+            final MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                if (editForm.validateForm()) {
+                    try {
+                        InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
+                                emailConf.getPassword(), true, emailConf.getIsStartTls(), emailConf.getIsSsl());
+                        saveEmailConfiguration();
+                    } catch (UserInvalidInputException e) {
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                "Invalid SMTP account?",
+                                "We can not connect to the SMTP server. The root cause is " + e.getMessage() +
+                                        ". Save the configuration anyway?",
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                confirmDialog -> {
+                                    if (confirmDialog.isConfirmed()) {
+                                        saveEmailConfiguration();
+                                    }
+                                });
                     }
                 }
-            });
-            saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            saveBtn.setIcon(FontAwesome.SAVE);
-            saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-            buttonControls.with(closeBtn, saveBtn).alignAll(Alignment.MIDDLE_RIGHT);
-            return buttonControls;
+            }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+
+            return new MHorizontalLayout(closeBtn, saveBtn).withMargin(true);
         }
 
         private void saveEmailConfiguration() {

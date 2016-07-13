@@ -16,6 +16,9 @@
  */
 package com.mycollab.module.project.view.milestone;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -29,20 +32,15 @@ import com.mycollab.module.project.service.RiskService;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Span;
-import com.vaadin.data.Property;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
@@ -66,38 +64,22 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
                 (genericTask.isRisk() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS))) {
             this.addStyleName("editable-field");
             buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
-            Button instantEditBtn = new Button(null, new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    if (isRead) {
-                        removeComponent(titleLinkLbl);
-                        removeComponent(buttonControls);
-                        final TextField editField = new TextField();
-                        editField.setValue(genericTask.getName());
-                        editField.setWidth("100%");
-                        editField.focus();
-                        addComponent(editField);
-                        removeStyleName("editable-field");
-                        editField.addValueChangeListener(new Property.ValueChangeListener() {
-                            @Override
-                            public void valueChange(Property.ValueChangeEvent event) {
-                                updateFieldValue(editField);
-                            }
-                        });
-                        editField.addBlurListener(new FieldEvents.BlurListener() {
-                            @Override
-                            public void blur(FieldEvents.BlurEvent event) {
-                                updateFieldValue(editField);
-                            }
-                        });
-                        isRead = !isRead;
-                    }
+            MButton instantEditBtn = new MButton("", clickEvent -> {
+                if (isRead) {
+                    removeComponent(titleLinkLbl);
+                    removeComponent(buttonControls);
+                    final TextField editField = new TextField();
+                    editField.setValue(genericTask.getName());
+                    editField.setWidth("100%");
+                    editField.focus();
+                    addComponent(editField);
+                    removeStyleName("editable-field");
+                    editField.addValueChangeListener(valueChangeEvent -> updateFieldValue(editField));
+                    editField.addBlurListener(blurEvent -> updateFieldValue(editField));
+                    isRead = !isRead;
                 }
-            });
+            }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
             instantEditBtn.setDescription("Edit task name");
-            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
-            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
-            instantEditBtn.setIcon(FontAwesome.EDIT);
             buttonControls.with(instantEditBtn);
 
             this.addComponent(buttonControls);

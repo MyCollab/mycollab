@@ -21,8 +21,8 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -39,48 +39,26 @@ public class FormControlsGenerator {
         MHorizontalLayout layout = new MHorizontalLayout();
 
         if (isCancelBtnVisible) {
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    editForm.fireCancelForm();
-                }
-            });
-            cancelBtn.setIcon(FontAwesome.MINUS);
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> editForm.fireCancelForm())
+                    .withIcon(FontAwesome.MINUS).withStyleName(UIConstants.BUTTON_OPTION);
             layout.addComponent(cancelBtn);
         }
 
         if (isSaveAndNewBtnVisible) {
-            Button saveAndNewBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    if (editForm.validateForm()) {
-                        editForm.fireSaveAndNewForm();
-                    }
+            MButton saveAndNewBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW), clickEvent -> {
+                if (editForm.validateForm()) {
+                    editForm.fireSaveAndNewForm();
                 }
-            });
-            saveAndNewBtn.setIcon(FontAwesome.SHARE_ALT);
-            saveAndNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SHARE_ALT).withStyleName(UIConstants.BUTTON_ACTION);
             layout.addComponent(saveAndNewBtn);
         }
 
         if (isSaveBtnVisible) {
-            final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    if (editForm.validateForm()) {
-                        editForm.fireSaveForm();
-                    }
+            final MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                if (editForm.validateForm()) {
+                    editForm.fireSaveForm();
                 }
-            });
-            saveBtn.setIcon(FontAwesome.SAVE);
-            saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
             layout.addComponent(saveBtn);
         }
 

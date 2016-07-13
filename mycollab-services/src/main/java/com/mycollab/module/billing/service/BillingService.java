@@ -32,11 +32,11 @@ import java.util.List;
  */
 public interface BillingService extends IService {
 
-    void registerAccount(String subdomain, int billingPlanId, String username,
+    void registerAccount(String subDomain, int billingPlanId, String username,
                          String password, String email, String timezoneId,
                          boolean isEmailVerified);
 
-    void cancelAccount(Integer accountid, CustomerFeedbackWithBLOBs feedback);
+    void cancelAccount(Integer accountId, CustomerFeedbackWithBLOBs feedback);
 
     @Cacheable
     BillingPlan findBillingPlan(@CacheKey Integer sAccountId);

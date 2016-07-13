@@ -62,35 +62,30 @@ class ApproveInputView extends AbstractMobilePageView {
     }
 
     private void constructUI() {
-        final Button approveBtn = new Button("Approve & Close", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        final Button approveBtn = new Button("Approve & Close", clickEvent -> {
+            if (editForm.validateForm()) {
+                // Save bug status and assignee
+                ApproveInputView.this.bug.setStatus(BugStatus.Verified.name());
+                final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                bugService.updateSelectiveWithSession(ApproveInputView.this.bug, AppContext.getUsername());
 
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                if (editForm.validateForm()) {
-                    // Save bug status and assignee
-                    ApproveInputView.this.bug.setStatus(BugStatus.Verified.name());
-                    final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                    bugService.updateSelectiveWithSession(ApproveInputView.this.bug, AppContext.getUsername());
+                // Save comment
+                final String commentValue = editForm.commentArea.getValue();
+                if (StringUtils.isNotBlank(commentValue)) {
+                    final CommentWithBLOBs comment = new CommentWithBLOBs();
+                    comment.setComment(editForm.commentArea.getValue());
+                    comment.setCreatedtime(new GregorianCalendar().getTime());
+                    comment.setCreateduser(AppContext.getUsername());
+                    comment.setSaccountid(AppContext.getAccountId());
+                    comment.setType(ProjectTypeConstants.BUG);
+                    comment.setTypeid("" + bug.getId());
+                    comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                    // Save comment
-                    final String commentValue = editForm.commentArea.getValue();
-                    if (StringUtils.isNotBlank(commentValue)) {
-                        final CommentWithBLOBs comment = new CommentWithBLOBs();
-                        comment.setComment(editForm.commentArea.getValue());
-                        comment.setCreatedtime(new GregorianCalendar().getTime());
-                        comment.setCreateduser(AppContext.getUsername());
-                        comment.setSaccountid(AppContext.getAccountId());
-                        comment.setType(ProjectTypeConstants.BUG);
-                        comment.setTypeid("" + bug.getId());
-                        comment.setExtratypeid(CurrentProjectVariables.getProjectId());
-
-                        final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                        commentService.saveWithSession(comment, AppContext.getUsername());
-                    }
-                    ApproveInputView.this.callbackForm.previewItem(bug);
-                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+                    final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                    commentService.saveWithSession(comment, AppContext.getUsername());
                 }
+                ApproveInputView.this.callbackForm.previewItem(bug);
+                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
         });
         this.setRightComponent(approveBtn);

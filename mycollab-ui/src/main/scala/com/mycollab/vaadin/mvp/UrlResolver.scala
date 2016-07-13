@@ -67,7 +67,12 @@ abstract class UrlResolver {
         }
       }
       else {
-        handlePage()
+        if (defaultUrlResolver != null) {
+          defaultUrlResolver.handle(params: _*)
+        }
+        else {
+          handlePage()
+        }
       }
     }
     catch {

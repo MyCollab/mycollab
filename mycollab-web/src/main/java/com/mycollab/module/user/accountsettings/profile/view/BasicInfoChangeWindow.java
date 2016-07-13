@@ -38,12 +38,13 @@ import com.vaadin.ui.Window;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class BasicInfoChangeWindow extends Window {
+class BasicInfoChangeWindow extends MWindow {
     private TextField txtFirstName = new TextField();
     private TextField txtLastName = new TextField();
     private TextField txtEmail = new TextField();
@@ -56,11 +57,8 @@ class BasicInfoChangeWindow extends Window {
     public BasicInfoChangeWindow(final User user) {
         super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
         this.user = user;
-        this.setWidth("600px");
-        this.setResizable(false);
-        this.setModal(true);
+        this.withModal(true).withResizable(false).withWidth("600px").withCenter();
         this.initUI();
-        this.center();
     }
 
     private void initUI() {

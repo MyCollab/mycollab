@@ -26,6 +26,7 @@ import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.cache.CacheKey;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.service.DefaultCrudService;
+import com.mycollab.module.project.ProjectTypeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -153,5 +155,47 @@ public class OptionValServiceImpl extends DefaultCrudService<Integer, OptionVal>
         ex.createCriteria().andTypeEqualTo(type).andTypevalEqualTo(typeVal).andFieldgroupEqualTo(fieldGroup)
                 .andSaccountidEqualTo(sAccountId).andExtraidEqualTo(projectId);
         return (optionValMapper.countByExample(ex) > 0);
+    }
+
+    @Override
+    public void createDefaultOptions(Integer sAccountId) {
+        OptionVal option = new OptionVal();
+        option.setCreatedtime(new GregorianCalendar().getTime());
+        option.setIsdefault(true);
+        option.setSaccountid(sAccountId);
+        option.setType(ProjectTypeConstants.TASK);
+        option.setTypeval(OptionI18nEnum.StatusI18nEnum.Open.name());
+        option.setColor("fdde86");
+        option.setFieldgroup("status");
+        saveWithSession(option, null);
+
+        option.setTypeval(OptionI18nEnum.StatusI18nEnum.InProgress.name());
+        option.setId(null);
+        saveWithSession(option, null);
+
+        option.setTypeval(OptionI18nEnum.StatusI18nEnum.Archived.name());
+        option.setId(null);
+        saveWithSession(option, null);
+
+        option.setTypeval(OptionI18nEnum.StatusI18nEnum.Closed.name());
+        option.setId(null);
+        saveWithSession(option, null);
+
+        option.setTypeval(OptionI18nEnum.StatusI18nEnum.Pending.name());
+        option.setId(null);
+        saveWithSession(option, null);
+
+        option.setType(ProjectTypeConstants.MILESTONE);
+        option.setTypeval(com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus.Closed.name());
+        option.setId(null);
+        saveWithSession(option, null);
+
+        option.setTypeval(com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus.InProgress.name());
+        option.setId(null);
+        saveWithSession(option, null);
+
+        option.setTypeval(com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus.Future.name());
+        option.setId(null);
+        saveWithSession(option, null);
     }
 }

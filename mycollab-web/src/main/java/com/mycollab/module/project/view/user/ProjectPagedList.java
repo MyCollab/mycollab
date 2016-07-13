@@ -63,12 +63,8 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
     protected MHorizontalLayout createPageControls() {
         MHorizontalLayout pageControls = super.createPageControls();
         if (pageControls != null) {
-            Button browseProjectsBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_BROWSE), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoList(this, null));
-                }
-            });
+            Button browseProjectsBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_BROWSE),
+                    clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoList(this, null)));
             browseProjectsBtn.addStyleName(UIConstants.BUTTON_LINK);
             pageControls.addComponent(browseProjectsBtn, 0);
             pageControls.setComponentAlignment(browseProjectsBtn, Alignment.MIDDLE_LEFT);
