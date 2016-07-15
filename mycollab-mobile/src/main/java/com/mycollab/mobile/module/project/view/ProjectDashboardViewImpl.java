@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.view;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.*;
@@ -24,12 +25,11 @@ import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProject;
+import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.mycollab.module.project.i18n.*;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.FontAwesome;
@@ -61,40 +61,22 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
     private Component buildRightComponent() {
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
+
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(MessageI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null));
-            }
-        }));
-        content.with(new Button(AppContext.getMessage(MilestoneI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(MessageI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null))));
 
-        content.with(new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(MilestoneI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null))));
 
-        content.with(new Button(AppContext.getMessage(BugI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(TaskI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null))));
 
-        content.with(new Button(AppContext.getMessage(RiskI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(BugI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null))));
+
+        content.with(new Button(AppContext.getMessage(RiskI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null))));
 
         menu.setContent(content);
         return menu;
@@ -152,12 +134,8 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         VerticalComponentGroup btnGroup = new VerticalComponentGroup();
 
         NavigationButton activityBtn = new NavigationButton("Activities");
-        activityBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent navigationButtonClickEvent) {
-                EventBusFactory.getInstance().post(new ProjectEvent.MyProjectActivities(this, CurrentProjectVariables.getProjectId()));
-            }
-        });
+        activityBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(
+                new ProjectEvent.MyProjectActivities(this, CurrentProjectVariables.getProjectId())));
         btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.INBOX, activityBtn));
 
         NavigationButton messageBtn = new NavigationButton(AppContext.getMessage(MessageI18nEnum.LIST));

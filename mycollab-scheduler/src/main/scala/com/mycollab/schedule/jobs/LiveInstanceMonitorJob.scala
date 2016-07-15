@@ -18,6 +18,7 @@ package com.mycollab.schedule.jobs
 
 import com.mycollab.common.domain.LiveInstance
 import com.mycollab.common.service.AppPropertiesService
+import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.MyCollabVersion
 import com.mycollab.module.project.dao.ProjectMapper
 import com.mycollab.module.project.domain.ProjectExample
@@ -56,7 +57,8 @@ class LiveInstanceMonitorJob extends GenericQuartzJobBean {
       System.getProperty("os.name"))
     liveInstance.setNumprojects(numProjects)
     liveInstance.setNumusers(numUsers)
+    liveInstance.setEdition(appPropertiesService.getEdition)
     val restTemplate = new RestTemplate()
-    restTemplate.postForObject("https://api.mycollab.com/api/checkInstance", liveInstance, classOf[String])
+    restTemplate.postForObject(SiteConfiguration.getApiUrl("checkInstance"), liveInstance, classOf[String])
   }
 }

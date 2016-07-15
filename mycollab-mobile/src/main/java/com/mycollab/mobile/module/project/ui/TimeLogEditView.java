@@ -16,10 +16,11 @@
  */
 package com.mycollab.mobile.module.project.ui;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.core.arguments.ValuedBean;
+import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
@@ -31,7 +32,6 @@ import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
@@ -39,7 +39,9 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -178,7 +180,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         this.headerPanel.addComponent(updateLayout);
     }
 
-    public void loadTimeValue() {
+    private void loadTimeValue() {
         final ItemTimeLoggingSearchCriteria searchCriteria = this.getItemSearchCriteria();
         searchCriteria.addOrderField(new SearchCriteria.OrderField("logForDay", SearchCriteria.DESC));
         this.tableItem.search(searchCriteria);
@@ -220,7 +222,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
 
     protected abstract boolean isEnableAdd();
 
-    private class NumbericTextField extends TextField {
+    private class NumericTextField extends TextField {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -277,30 +279,22 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
 
     }
 
-    private class NewTimeLogEntryWindow extends Window {
+    private class NewTimeLogEntryWindow extends MWindow {
         private static final long serialVersionUID = 1285267216691339362L;
 
-        private NumbericTextField newTimeInputField;
+        private NumericTextField newTimeInputField;
         private Switch isBillableField;
         private DatePicker forDate;
-        private Button btnAdd;
+        private MButton createBtn;
 
-        public NewTimeLogEntryWindow() {
-            super();
+        NewTimeLogEntryWindow() {
+            super(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY));
+            withModal(true).withResizable(false).withClosable(false).withDraggable(false)
+                    .withStyleName("time-log-window", "new-time-entry-window").withWidth("95%").withCenter();
             constructUI();
         }
 
-        public void constructUI() {
-            this.setStyleName("time-log-window");
-            this.addStyleName("new-time-entry-window");
-            this.setWidth("95%");
-            this.center();
-            this.setResizable(false);
-            this.setClosable(false);
-            this.setModal(true);
-            this.setDraggable(false);
-            this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY));
-
+        private void constructUI() {
             final VerticalLayout addLayout = new VerticalLayout();
             addLayout.setWidth("100%");
             this.setContent(addLayout);
@@ -309,7 +303,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             inputWrapper.setWidth("100%");
             inputWrapper.setStyleName("input-wrapper");
 
-            this.newTimeInputField = new NumbericTextField();
+            this.newTimeInputField = new NumericTextField();
             this.newTimeInputField.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_SPENT_HOURS));
 
             this.newTimeInputField.setWidth("100%");
@@ -328,69 +322,45 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             buttonLayout.setStyleName("button-layout");
             buttonLayout.setWidth("100%");
 
-            this.btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    double d = 0;
-                    try {
-                        d = Double.parseDouble(newTimeInputField.getValue());
-                    } catch (NumberFormatException e) {
-                        NewTimeLogEntryWindow.this.close();
-                        NotificationUtil.showWarningNotification("You must enter a positive number value");
-                    }
-                    if (d > 0) {
-                        TimeLogEditView.this.saveTimeInvest(Double.parseDouble(newTimeInputField.getValue()),
-                                isBillableField.getValue(), forDate.getValue());
-                        TimeLogEditView.this.loadTimeValue();
-                        NewTimeLogEntryWindow.this.close();
-                    }
+            createBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE), clickEvent -> {
+                double d = 0;
+                try {
+                    d = Double.parseDouble(newTimeInputField.getValue());
+                } catch (NumberFormatException e) {
+                    close();
+                    NotificationUtil.showWarningNotification("You must enter a positive number value");
                 }
-
-            });
-
-            this.btnAdd.setStyleName("add-btn");
-
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-                private static final long serialVersionUID = -5815617874202220414L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    NewTimeLogEntryWindow.this.close();
+                if (d > 0) {
+                    saveTimeInvest(Double.parseDouble(newTimeInputField.getValue()),
+                            isBillableField.getValue(), forDate.getValue());
+                    loadTimeValue();
+                    close();
                 }
-            });
+            }).withStyleName("add-btn");
+
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
 
             buttonLayout.addComponent(cancelBtn);
-            buttonLayout.addComponent(this.btnAdd);
+            buttonLayout.addComponent(this.createBtn);
 
             addLayout.addComponent(buttonLayout);
         }
     }
 
-    private class UpdateRemainTimeWindow extends Window {
+    private class UpdateRemainTimeWindow extends MWindow {
         private static final long serialVersionUID = -8992497645142044633L;
 
-        private NumbericTextField remainTimeInputField;
-        private Button btnAdd;
+        private NumericTextField remainTimeInputField;
+        private MButton createBtn;
 
-        public UpdateRemainTimeWindow() {
-            super();
-
+        UpdateRemainTimeWindow() {
+            super(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS));
+            withModal(true).withResizable(false).withClosable(false).withDraggable(false)
+                    .withStyleName("time-log-window", "update-remain-time-window").withWidth("95%").withCenter();
             constructUI();
         }
 
         private void constructUI() {
-            this.setStyleName("time-log-window");
-            this.addStyleName("update-remain-time-window");
-            this.setWidth("95%");
-            this.center();
-            this.setResizable(false);
-            this.setClosable(false);
-            this.setModal(true);
-            this.setDraggable(false);
-            this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS));
-
             final VerticalLayout addLayout = new VerticalLayout();
             addLayout.setWidth("100%");
             this.setContent(addLayout);
@@ -399,7 +369,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             inputWrapper.setStyleName("input-wrapper");
             inputWrapper.setWidth("100%");
 
-            this.remainTimeInputField = new NumbericTextField();
+            this.remainTimeInputField = new NumericTextField();
             this.remainTimeInputField.setWidth("100%");
             inputWrapper.addComponent(this.remainTimeInputField);
             addLayout.addComponent(inputWrapper);
@@ -408,45 +378,31 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             buttonLayout.setStyleName("button-layout");
             buttonLayout.setWidth("100%");
 
-            this.btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
+            this.createBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+                try {
+                    double d = 0;
                     try {
-                        double d = 0;
-                        try {
-                            d = Double.parseDouble(UpdateRemainTimeWindow.this.remainTimeInputField.getValue());
-                        } catch (Exception e) {
-                            UpdateRemainTimeWindow.this.close();
-                            NotificationUtil.showWarningNotification("You must enter a positive number value");
-                        }
-                        if (d >= 0) {
-                            updateTimeRemain(d);
-                            remainTimeLbl.setValue(UpdateRemainTimeWindow.this.remainTimeInputField.getValue());
-                            remainTimeInputField.setValue("0.0");
-                        }
-                    } catch (final Exception e) {
-                        remainTimeInputField.setValue("0.0");
-                    } finally {
+                        d = Double.parseDouble(UpdateRemainTimeWindow.this.remainTimeInputField.getValue());
+                    } catch (Exception e) {
                         UpdateRemainTimeWindow.this.close();
+                        NotificationUtil.showWarningNotification("You must enter a positive number value");
                     }
+                    if (d >= 0) {
+                        updateTimeRemain(d);
+                        remainTimeLbl.setValue(UpdateRemainTimeWindow.this.remainTimeInputField.getValue());
+                        remainTimeInputField.setValue("0.0");
+                    }
+                } catch (final Exception e) {
+                    remainTimeInputField.setValue("0.0");
+                } finally {
+                    close();
                 }
+            }).withStyleName("add-btn");
 
-            });
-            this.btnAdd.setStyleName("add-btn");
-
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-                private static final long serialVersionUID = -4046714950287134902L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    UpdateRemainTimeWindow.this.close();
-                }
-            });
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
 
             buttonLayout.addComponent(cancelBtn);
-            buttonLayout.addComponent(this.btnAdd);
+            buttonLayout.addComponent(this.createBtn);
 
             addLayout.addComponent(buttonLayout);
         }

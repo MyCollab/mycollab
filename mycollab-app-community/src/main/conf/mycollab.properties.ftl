@@ -52,3 +52,4 @@ error.sendTo=error@esofthead.com
 cdn.url=http://%s:%d/assets/
 app.url=http://%s:%d/
 resource.downloadUrl=http://%s:%d/file/
+api.url=https://api.mycollab.com/api/

@@ -56,23 +56,15 @@ public class MainView extends AbstractMobileMainView {
         welcomeTextWrapper.setHeight("15px");
         contentLayout.addComponent(welcomeTextWrapper);
 
-        Button crmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_CRM), new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
-            }
-        });
+        Button crmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_CRM),
+                clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null)));
         crmButton.addStyleName(UIConstants.BUTTON_ACTION);
         crmButton.setWidth("100%");
 
         contentLayout.addComponent(crmButton);
 
-        Button pmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
-            }
-        });
+        Button pmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
+                clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null)));
         pmButton.setWidth("100%");
         pmButton.addStyleName(UIConstants.BUTTON_ACTION);
         contentLayout.addComponent(pmButton);

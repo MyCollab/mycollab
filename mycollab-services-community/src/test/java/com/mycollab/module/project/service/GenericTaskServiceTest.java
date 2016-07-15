@@ -23,7 +23,7 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class GenericTaskServiceTest extends IntergrationServiceTest {
+public class GenericTaskServiceTest extends IntegrationServiceTest {
     @Autowired
     protected ProjectGenericTaskService genericTaskService;
 

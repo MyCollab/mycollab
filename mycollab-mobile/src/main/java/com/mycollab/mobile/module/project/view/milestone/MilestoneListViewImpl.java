@@ -16,10 +16,15 @@
  */
 package com.mycollab.mobile.module.project.view.milestone;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
@@ -41,11 +46,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -90,12 +90,8 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(MilestoneI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(MilestoneI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null))));
         menu.setContent(content);
         return menu;
     }
@@ -138,29 +134,17 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
     @Override
     protected Component buildToolbar() {
         Toolbar toolbar = new Toolbar();
-        closedMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                displayStatus(OptionI18nEnum.MilestoneStatus.Closed);
-            }
-        });
+        closedMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE),
+                clickEvent -> displayStatus(OptionI18nEnum.MilestoneStatus.Closed));
         closedMilestoneBtn.setIcon(FontAwesome.MINUS);
         toolbar.addComponent(closedMilestoneBtn);
 
-        inProgressMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                displayStatus(OptionI18nEnum.MilestoneStatus.InProgress);
-            }
-        });
+        inProgressMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE),
+                clickEvent -> displayStatus(OptionI18nEnum.MilestoneStatus.InProgress));
         inProgressMilestoneBtn.setIcon(FontAwesome.SPINNER);
 
-        futureMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                displayStatus(OptionI18nEnum.MilestoneStatus.Future);
-            }
-        });
+        futureMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE),
+                clickEvent -> displayStatus(OptionI18nEnum.MilestoneStatus.Future));
         futureMilestoneBtn.setIcon(FontAwesome.CLOCK_O);
 
         toolbar.addComponents(closedMilestoneBtn, inProgressMilestoneBtn, futureMilestoneBtn);

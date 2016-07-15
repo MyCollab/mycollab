@@ -69,6 +69,7 @@ public class ApplicationProperties {
     public static final String SERVER_ADDRESS = "server.address";
 
     public static final String RESOURCE_DOWNLOAD_URL = "resource.downloadUrl";
+    public static final String API_URL = "api.url";
 
     public static final String DROPBOX_AUTH_LINK = "dropbox.callbackUrl";
     public static final String GOOGLE_DRIVE_LINK = "ggDrive.callbackUrl";

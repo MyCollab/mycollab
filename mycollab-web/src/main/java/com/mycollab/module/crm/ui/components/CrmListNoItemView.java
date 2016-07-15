@@ -22,7 +22,7 @@ import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -32,26 +32,14 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 public abstract class CrmListNoItemView extends AbstractPageView {
     public CrmListNoItemView() {
-        MVerticalLayout layout = new MVerticalLayout().withWidth("800px");
-        layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-
         ELabel image = ELabel.h2(titleIcon().getHtml()).withWidthUndefined();
-        layout.with(image);
-
         ELabel title = ELabel.h2(titleMessage()).withWidthUndefined();
+        ELabel hintLabel = new ELabel(hintMessage()).withWidthUndefined();
 
-        Label hintLabel = new Label(hintMessage());
-        hintLabel.setWidthUndefined();
-
-        Button btCreateContact = new Button(actionMessage(), actionListener());
-        btCreateContact.setVisible(hasPermission());
-
-        MHorizontalLayout links = new MHorizontalLayout();
-
-        links.addComponent(btCreateContact);
-        btCreateContact.addStyleName(UIConstants.BUTTON_ACTION);
-
-        layout.with(image, title, hintLabel, links);
+        MButton createItemBtn = new MButton(actionMessage(), actionListener())
+                .withStyleName(UIConstants.BUTTON_ACTION).withVisible(hasPermission());
+        MHorizontalLayout links = new MHorizontalLayout(createItemBtn);
+        MVerticalLayout layout = new MVerticalLayout(image, title, hintLabel, links).withWidth("800px");
         this.with(layout).withAlign(layout, Alignment.TOP_CENTER);
     }
 

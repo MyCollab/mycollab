@@ -77,34 +77,25 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
         addSection("Views:");
 
         // Buttons with styling (slightly smaller with left-aligned text)
-        Button activityBtn = new Button("Activities", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                closeMenu();
-                EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this));
-            }
+        Button activityBtn = new Button("Activities", clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this));
         });
         activityBtn.setIcon(FontAwesome.INBOX);
         addMenuItem(activityBtn);
 
-        Button prjBtn = new Button("Projects", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                closeMenu();
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
-            }
+        Button prjBtn = new Button("Projects", clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
         });
         prjBtn.setIcon(FontAwesome.BUILDING);
         addMenuItem(prjBtn);
 
         addSection("Settings:");
 
-        Button logoutBtn = new Button("Logout", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                closeMenu();
-                EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
-            }
+        Button logoutBtn = new Button("Logout", clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
         });
         logoutBtn.setIcon(FontAwesome.SIGN_OUT);
         addMenuItem(logoutBtn);

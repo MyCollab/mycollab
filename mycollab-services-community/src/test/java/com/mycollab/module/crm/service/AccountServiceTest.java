@@ -21,7 +21,7 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 import com.mycollab.db.arguments.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class AccountServiceTest extends IntergrationServiceTest {
+public class AccountServiceTest extends IntegrationServiceTest {
 
     @Autowired
     private AccountService accountService;
@@ -57,7 +57,6 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @Test
     public void testSearchByCriteria() {
         List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
-
         assertThat(accounts.size()).isEqualTo(2);
         assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
     }

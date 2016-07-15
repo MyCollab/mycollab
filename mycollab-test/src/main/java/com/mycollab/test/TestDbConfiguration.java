@@ -16,8 +16,6 @@
  */
 package com.mycollab.test;
 
-import com.mycollab.test.service.DataSourceFactoryBean;
-
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -29,9 +27,9 @@ public class TestDbConfiguration {
     private Properties props;
 
     public TestDbConfiguration() {
-        InputStream stream = DataSourceFactoryBean.class.getClassLoader().getResourceAsStream("mycollab.properties");
+        InputStream stream = getClass().getClassLoader().getResourceAsStream("mycollab.properties");
         if (stream == null) {
-            stream = DataSourceFactoryBean.class.getClassLoader().getResourceAsStream("default-mycollab-test.properties");
+            stream = getClass().getClassLoader().getResourceAsStream("default-mycollab-test.properties");
         }
 
         props = new Properties();

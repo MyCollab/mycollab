@@ -19,7 +19,7 @@ package com.mycollab.module.project.service;
 import com.mycollab.db.arguments.RangeDateSearchField;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ProjectGenericTaskServiceTest extends IntergrationServiceTest {
+public class ProjectGenericTaskServiceTest extends IntegrationServiceTest {
     @Autowired
     protected ProjectGenericTaskService projectGenericTaskService;
 

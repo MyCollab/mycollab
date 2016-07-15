@@ -90,7 +90,6 @@ public class ServerLifecycleRule implements TestRule {
             setUp();
             baseStm.evaluate();
             tearDown();
-
         }
     }
 

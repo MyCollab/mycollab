@@ -28,8 +28,6 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -45,12 +43,9 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
 
     @Override
     protected void buildExtraControls() {
-        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new OpportunityListCustomizeWindow(tableItem));
-            }
-        });
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(
+                clickEvent -> UI.getCurrent().addWindow(new OpportunityListCustomizeWindow(tableItem))
+        );
         this.addExtraButton(customizeViewBtn);
 
         MButton importBtn = ComponentUtils.createImportEntitiesButton()

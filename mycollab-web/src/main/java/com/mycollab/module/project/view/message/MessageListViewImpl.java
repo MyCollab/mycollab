@@ -148,8 +148,8 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
             MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
 
-            A labelLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(message.getProjectid(), message
-                    .getId()), new Text(message.getTitle()));
+            A labelLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(message.getProjectid(), message.getId()),
+                    new Text(message.getTitle()));
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
                     false, false));
@@ -295,7 +295,6 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
             MHorizontalLayout titleLayout = new MHorizontalLayout().withFullWidth();
             Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
-            titleLbl.setWidthUndefined();
             titleField.setWidth("100%");
             titleField.setNullRepresentation("");
             titleField.setRequired(true);
@@ -354,14 +353,13 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
             if (!isEmpty) {
                 MButton createMessageBtn = new MButton(AppContext.getMessage(MessageI18nEnum.NEW),
-                        clickEvent -> TopMessagePanel.this.createAddMessageLayout())
-                        .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
-                createMessageBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
+                        clickEvent -> createAddMessageLayout())
+                        .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                        .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
                 messagePanelBody.addComponent(createMessageBtn);
                 messagePanelBody.setComponentAlignment(createMessageBtn, Alignment.MIDDLE_RIGHT);
             }
-
         }
 
         public HasSearchHandlers<MessageSearchCriteria> getSearchHandlers() {

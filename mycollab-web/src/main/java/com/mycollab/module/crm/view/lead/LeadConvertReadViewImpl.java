@@ -20,11 +20,11 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.events.AccountEvent;
 import com.mycollab.module.crm.events.ContactEvent;
 import com.mycollab.module.crm.events.OpportunityEvent;
-import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.module.crm.service.ContactService;
@@ -44,14 +44,13 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import static com.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.BACK_BTN_PRESENTED;
@@ -195,22 +194,13 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
         GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
-        LOG.debug("Display associate account");
-        AccountService accountService = AppContextUtil
-                .getSpringBean(AccountService.class);
+        AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
         final SimpleAccount account = accountService.findAccountAssoWithConvertedLead(lead.getId(), AppContext.getAccountId());
         if (account != null) {
-            Button accountLink = new Button(account.getAccountname(), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, account.getId()));
-
-                }
-            });
-            accountLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-            accountLink.setStyleName(UIConstants.BUTTON_LINK);
+            MButton accountLink = new MButton(account.getAccountname(),
+                    clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, account.getId())))
+                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT))
+                    .withStyleName(UIConstants.BUTTON_LINK);
             layoutHelper.addComponent(accountLink, "Account", 0, 0);
         } else {
             layoutHelper.addComponent(new Label(""), "Account", 0, 0);
@@ -218,19 +208,11 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
         LOG.debug("Display associate contact");
         ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-        final SimpleContact contact = contactService.findContactAssoWithConvertedLead(lead.getId(),
-                AppContext.getAccountId());
+        final SimpleContact contact = contactService.findContactAssoWithConvertedLead(lead.getId(), AppContext.getAccountId());
         if (contact != null) {
-            Button contactLink = new Button(contact.getContactName(), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId()));
-                }
-            });
-            contactLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
-            contactLink.setStyleName(UIConstants.BUTTON_LINK);
+            MButton contactLink = new MButton(contact.getContactName(),
+                    clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId())))
+                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT)).withStyleName(UIConstants.BUTTON_LINK);
             layoutHelper.addComponent(contactLink, "Contact", 0, 1);
         } else {
             layoutHelper.addComponent(new Label(""), "Contact", 0, 1);
@@ -241,16 +223,9 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         final SimpleOpportunity opportunity = opportunityService.findOpportunityAssoWithConvertedLead(lead.getId(),
                 AppContext.getAccountId());
         if (opportunity != null) {
-            Button opportunityLink = new Button(opportunity.getOpportunityname(), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunity.getId()));
-                }
-            });
-            opportunityLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
-            opportunityLink.setStyleName(UIConstants.BUTTON_LINK);
+            MButton opportunityLink = new MButton(opportunity.getOpportunityname(),
+                    clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunity.getId())))
+                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY)).withStyleName(UIConstants.BUTTON_LINK);
             layoutHelper.addComponent(opportunityLink, "Opportunity", 0, 2);
         } else {
             layoutHelper.addComponent(new Label(""), "Opportunity", 0, 2);

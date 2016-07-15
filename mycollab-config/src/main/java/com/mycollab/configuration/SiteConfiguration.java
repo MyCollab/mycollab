@@ -16,7 +16,6 @@
  */
 package com.mycollab.configuration;
 
-import com.mycollab.configuration.DatabaseConfiguration;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.spring.AppContextUtil;
 import freemarker.cache.ClassTemplateLoader;
@@ -56,6 +55,7 @@ public class SiteConfiguration {
     private String dropboxCallbackUrl;
     private String ggDriveCallbackUrl;
     private String appUrl;
+    private String apiUrl;
     private String resourceDownloadUrl;
 
     private String facebookUrl;
@@ -81,15 +81,14 @@ public class SiteConfiguration {
         String pullMethodValue = ApplicationProperties.getString(ApplicationProperties.PULL_METHOD, "push");
         instance.pullMethod = PullMethod.valueOf(pullMethodValue);
 
-        instance.cdnUrl = String.format(ApplicationProperties.getString(CDN_URL),
-                instance.serverAddress, instance.serverPort);
+        instance.cdnUrl = String.format(ApplicationProperties.getString(CDN_URL), instance.serverAddress, instance.serverPort);
 
-        instance.appUrl = String.format(ApplicationProperties.getString(APP_URL),
-                instance.serverAddress, instance.serverPort);
+        instance.appUrl = String.format(ApplicationProperties.getString(APP_URL), instance.serverAddress, instance.serverPort);
         if (!instance.appUrl.endsWith("/")) {
             instance.appUrl += "/";
         }
 
+        instance.apiUrl = ApplicationProperties.getString(API_URL, "https://api.mycollab.com/api/");
         instance.endecryptPassword = ApplicationProperties.getString(BI_ENDECRYPT_PASSWORD, "esofthead321");
 
         // load email
@@ -233,6 +232,10 @@ public class SiteConfiguration {
     public static boolean isCommunityEdition() {
         IDeploymentMode modeService = AppContextUtil.getSpringBean(IDeploymentMode.class);
         return modeService.isCommunityEdition();
+    }
+
+    public static String getApiUrl(String path) {
+        return String.format("%s%s", instance.apiUrl, path);
     }
 
     public static String getDropboxCallbackUrl() {

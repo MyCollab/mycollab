@@ -37,6 +37,7 @@ import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
 
     @Override
     protected void displayChartMode() {
-        this.bodyContent.removeAllComponents();
+        bodyContent.removeAllComponents();
         IPrioritySummaryChartWidget prioritySummaryChartWidget = ViewManager.getCacheComponent(IPrioritySummaryChartWidget.class);
         prioritySummaryChartWidget.displayChart(searchCriteria);
         bodyContent.addComponent(prioritySummaryChartWidget);
@@ -72,7 +73,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
 
     @Override
     protected void displayPlainMode() {
-        this.bodyContent.removeAllComponents();
+        bodyContent.removeAllComponents();
         BugPriorityClickListener listener = new BugPriorityClickListener();
         if (!groupItems.isEmpty()) {
             for (BugPriority priority : OptionI18nEnum.bug_priorities) {
@@ -82,19 +83,17 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                         isFound = true;
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                        ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
-                        priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));
-                        priorityLink.setWidth("110px");
-                        priorityLink.setStyleName(UIConstants.BUTTON_LINK);
-                        priorityLink.addStyleName("bug-" + priority.name().toLowerCase());
+                        MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
+                                .withIcon(ProjectAssetsManager.getBugPriority(priority.name()))
+                                .withStyleName(UIConstants.BUTTON_LINK, "bug-" + priority.name().toLowerCase())
+                                .withWidth("110px");
 
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
                                 .getValue().intValue(), false);
                         indicator.setWidth("100%");
 
                         priorityLayout.with(priorityLink, indicator).expand(indicator);
-
-                        this.bodyContent.addComponent(priorityLayout);
+                        bodyContent.addComponent(priorityLayout);
                     }
                 }
 
@@ -109,7 +108,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
                     priorityLayout.with(priorityLink, indicator).expand(indicator);
-                    this.bodyContent.addComponent(priorityLayout);
+                    bodyContent.addComponent(priorityLayout);
                 }
             }
         }

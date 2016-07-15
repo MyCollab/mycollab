@@ -17,11 +17,12 @@
 package com.mycollab.shell.view.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.support.domain.TestimonialForm;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -110,7 +111,7 @@ public class TestimonialWindow extends Window {
                     values.add("jobrole", entity.getJobrole());
                     values.add("testimonial", entity.getTestimonial());
                     values.add("website", entity.getWebsite());
-                    restTemplate.postForObject("https://api.mycollab.com/api/testimonial", values, String.class);
+                    restTemplate.postForObject(SiteConfiguration.getApiUrl("testimonial"), values, String.class);
                 } catch (Exception e) {
                     LOG.error("Error when call remote api", e);
                 }

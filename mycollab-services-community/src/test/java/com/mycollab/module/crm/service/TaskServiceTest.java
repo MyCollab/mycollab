@@ -31,10 +31,10 @@ import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.module.crm.domain.SimpleTask;
 import com.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TaskServiceTest extends IntergrationServiceTest {
+public class TaskServiceTest extends IntegrationServiceTest {
 
 	@Autowired
 	protected TaskService taskService;

@@ -71,12 +71,8 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(MessageI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(MessageI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;
     }

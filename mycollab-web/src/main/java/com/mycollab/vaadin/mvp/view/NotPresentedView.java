@@ -16,13 +16,14 @@
  */
 package com.mycollab.vaadin.mvp.view;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -43,9 +44,7 @@ public class NotPresentedView extends AbstractPageView {
         this.withSpacing(true).withFullWidth();
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);
-        titleIcon.setStyleName("warning-icon");
-        titleIcon.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        final ELabel titleIcon = ELabel.fontIcon(FontAwesome.EXCLAMATION_CIRCLE).withStyleName("warning-icon", ValoTheme.LABEL_NO_MARGIN);
         titleIcon.setWidthUndefined();
         this.with(titleIcon);
 
@@ -54,14 +53,14 @@ public class NotPresentedView extends AbstractPageView {
 
         RestTemplate restTemplate = new RestTemplate();
         try {
-            String result = restTemplate.getForObject("https://api.mycollab.com/api/storeweb", String.class);
-            Label webPage = new Label(result, ContentMode.HTML);
+            String result = restTemplate.getForObject(SiteConfiguration.getApiUrl("storeweb"), String.class);
+            ELabel webPage = ELabel.html(result);
             webPage.setHeight("480px");
             this.with(new MVerticalLayout(webPage).withMargin(false).withAlign(webPage, Alignment.TOP_CENTER));
         } catch (Exception e) {
             Div informDiv = new Div().appendText("Can not load the store page. You can check the online edition at ")
                     .appendChild(new A("https://www.mycollab.com/pricing/download/", "_blank").appendText("here"));
-            ELabel webPage = new ELabel(informDiv.write(), ContentMode.HTML).withWidthUndefined();
+            ELabel webPage = ELabel.html(informDiv.write()).withWidthUndefined();
             this.with(new MVerticalLayout(webPage).withAlign(webPage, Alignment.TOP_CENTER));
         }
     }

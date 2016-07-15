@@ -36,10 +36,10 @@ import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class EventServiceTest extends IntergrationServiceTest {
+public class EventServiceTest extends IntegrationServiceTest {
 
 	@Autowired
 	protected EventService eventService;

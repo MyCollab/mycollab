@@ -37,10 +37,10 @@ import com.mycollab.module.tracker.domain.SimpleVersion;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class VersionServiceTest extends IntergrationServiceTest {
+public class VersionServiceTest extends IntegrationServiceTest {
 
 	private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 

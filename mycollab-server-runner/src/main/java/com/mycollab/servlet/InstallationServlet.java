@@ -134,7 +134,7 @@ public class InstallationServlet extends HttpServlet {
 
         try {
             StringWriter writer = new StringWriter();
-            Template template = configuration.getTemplate("mycollab.properties.template");
+            Template template = configuration.getTemplate("mycollab.properties.ftl");
             template.process(templateContext, writer);
 
             FileOutputStream outStream = new FileOutputStream(new File(confFolder, "mycollab.properties"));

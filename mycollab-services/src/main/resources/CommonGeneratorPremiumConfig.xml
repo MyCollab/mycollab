@@ -26,9 +26,7 @@
 
         <table schema="mycollab_base" tableName="s_favorite" domainObjectName="FavoriteItem"/>
         <table schema="mycollab_base" tableName="s_tag" domainObjectName="Tag"/>
-        <!--
         <table schema="mycollab_base" tableName="s_live_instances" domainObjectName="LiveInstance" />
-        -->
     </context>
 
 </generatorConfiguration>

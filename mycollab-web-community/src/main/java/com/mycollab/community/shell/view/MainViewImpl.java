@@ -38,7 +38,6 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.NotificationComponent;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.web.AdWindow;
 import com.mycollab.web.IDesktopModule;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;

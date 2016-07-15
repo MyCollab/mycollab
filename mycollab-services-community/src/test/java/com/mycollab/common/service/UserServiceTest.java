@@ -31,10 +31,10 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UserServiceTest extends IntergrationServiceTest {
+public class UserServiceTest extends IntegrationServiceTest {
 	@Autowired
 	protected UserService userService;
 

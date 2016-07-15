@@ -16,10 +16,11 @@
  */
 package com.mycollab.community.schedule.jobs;
 
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.BroadcastMessage;
+import com.mycollab.core.Broadcaster;
 import com.mycollab.core.MyCollabVersion;
 import com.mycollab.core.NewUpdateAvailableNotification;
-import com.mycollab.core.Broadcaster;
 import com.mycollab.core.utils.JsonDeSerializer;
 import com.mycollab.schedule.jobs.GenericQuartzJobBean;
 import org.quartz.JobExecutionContext;
@@ -55,8 +56,7 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
     @Override
     public void executeJob(JobExecutionContext context) throws JobExecutionException {
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject("https://api.mycollab.com/api/checkupdate?version=" +
-                MyCollabVersion.getVersion(), String.class);
+        String result = restTemplate.getForObject(SiteConfiguration.getApiUrl("checkupdate?version=" + MyCollabVersion.getVersion()), String.class);
         final Properties props = JsonDeSerializer.fromJson(result, Properties.class);
         String version = props.getProperty("version");
         if (MyCollabVersion.isEditionNewer(version)) {

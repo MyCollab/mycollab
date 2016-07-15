@@ -1,178 +1,526 @@
 <head>
     <style>
-        /*Lets load up a Google Font*/
+        //*--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+--*/
+/* reset */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,
+dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,
+legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer_page,
+header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure,footer_page, header, hgroup, menu, nav, section {display: block;}
+ol,ul{list-style:none;margin:0px;padding:0px;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+/* start editing from here */
+a{text-decoration:none;}
+.txt-rt{text-align:right;}/* text align right */
+.txt-lt{text-align:left;}/* text align left */
+.txt-center{text-align:center;}/* text align center */
+.float-rt{float:right;}/* float right */
+.float-lt{float:left;}/* float left */
+.clear{clear:both;}/* clear float */
+.pos-relative{position:relative;}/* Position Relative */
+.pos-absolute{position:absolute;}/* Position Absolute */
+.vertical-base{	vertical-align:baseline;}/* vertical align baseline */
+.vertical-top{	vertical-align:top;}/* vertical align top */
+nav.vertical ul li{	display:block;}/* vertical menu */
+nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
+img{max-width:100%;}
+/*end reset*/
+/****-----start-body----****/
+body{
+	    font-family: 'Lato', sans-serif;
+	    background-size: cover;
+	    -o-background-size: cover;
+	    -webkit-background-size: cover;
+	     -moz-background-size: cover;
 
-        /*Basic Reset*/
-        * {margin: 0; padding: 0;}
+}
+.wrap{
+	margin: 0 auto;
+	width: 95%;
+}
+body a{
+	transition:0.5s all ease;
+	-webkit-transition:0.5s all ease;
+	-moz-transition:0.5s all ease;
+	-o-transition:0.5s all ease;
+	-ms-transition:0.5s all ease;
+}
 
-        /*Some fancy BG*/
+/*Pricing table and price blocks*/
+.price-head h1 {
+text-align: center;
+margin: 0;
+font-size: 3em;
+}
+.price-head h5 {
+	color: #404042;
+	font-size: 1.2em;
+	margin: 1em;
+	text-decoration: none;
+	text-align: center;
+	font-weight: 500;
+}
+.pricing-grids {
+margin: 0;
+}
+/*----*/
+.pricing-grid1,.pricing-grid2,.pricing-grid3 {
+width: 31%;
+float: left;
+text-align: center;
+margin-right: 2%;
+transition: 0.5s all;
+-webkit-transition: 0.5s all;
+-moz-transition: 0.5s all;
+-o-transition: 0.5s all;
+padding: 0;
+border: none;
+border-radius: 0.7em;
+-webkit-border-radius: 0.7em;
+-o-border-radius: 0.7em;
+-moz-border-radius: 0.7em;
+}
+ .pricing-grid3{
+ 	margin-right: 0;
+ }
+.pricing-grid1:hover,.pricing-grid2:hover,.pricing-grid3:hover {
+	transform: scale(1.05);
+-webkit-transform: scale(1.05);
+-moz-transform: scale(1.05);
+-o-transform: scale(1.05);
+-ms-transform: scale(1.05);
+	z-index: 1;
+	border: none;
+}
+.pricing-grid1:nth-child(3){
+	margin-right:0;
+}
+.price-value h2 a,.price-value.two h3 a,.price-value.three h4 a{
+	font-size: 1.4em;
+	color:#fff;
+}
+.price-value,.price-value.two,.price-value.three {
+	background: #512884;
+	padding: 0.5em;
+	border-bottom:2px solid#ffd500;
+	border-top-left-radius:0.7em;
+	-webkit-border-top-left-radius:0.7em;
+	-o-border-top-left-radius: 0.7em;
+	-moz-border-top-left-radius:0.7em;
+	border-top-right-radius:0.7em;
+	-webkit-border-top-right-radius:0.7em;
+	-o-border-top-right-radius:0.7em;
+	-moz-border-top-left-radius: 0.7em;
+	position: relative;
+}
+.price-value.two{
+	background:#2b2b33;
+	border-bottom:2px solid#fd6e70;
+}
+.price-value.three {
+	background: #04dbdd;
+	border-bottom:2px solid#028f87;
+}
+.price-value ul,.pricing-grid1 ul,.pricing-grid2 ul,.pricing-grid3 ul{
+	padding: 0;
+}
+.price-value ul li,.pricing-grid1,.pricing-grid2 ul li,.pricing-grid3 ul li {
+	list-style: none;
+}
+.price-value ul li{
+	list-style: none;
+}
+.price-value  h5 span{
+color: #fbd707;
+font-size: 19px;
+}
+.price-value lable{
+color: #817d94;
+font-size: 17px;
+}
+.price-value.two h5 span{
+	color:#fe6d72;
+}
+.price-value.two h5 lable{
+	color:#8c8c94;
+}
+.price-value.three h5 span{
+	color: #018f90;
+}
+.price-value.three h5 lable{
+	color:#9CF7F8;
+}
+.price-value h5 {
+padding: 0;
+}
+.sale-box,.sale-box.two,.sale-box.three{
+	position: absolute;
+	top: 0;
+	overflow: hidden;
+	height: 110px;
+	width: 143px;
+	text-align: center;
+	z-index: 0;
+	right:0;
+	border-top-right-radius: 0.7em;
+	-o-border-top-right-radius: 0.7em;
+	-moz-border-top-right-radius: 0.7em;
+	-webkit-border-top-right-radius: 0.7em;
+}
+.sale-box span.on_sale{
+font-size: 14px;
+color: #444;
+background: #ffd400;
+text-transform: uppercase;
+padding: 58px 35px 17px 40px;
+width: 281px;
+text-align: center;
+display: block;
+position: absolute;
+left: -47px;
+top: -41px;
+-moz-transition: all 0.5s ease;
+-webkit-transition: all 0.5s ease;
+transition: all 0.5s ease;
+-webkit-transform: rotate(-44deg);
+-ms-transform: rotate(-44deg);
+transform: rotate(40deg);
+box-shadow: 3px -4px 13px 3px rgba(0,0,0,0.75);
+}
+.sale-box.two.sale-box span.on_sale{
+	background: #fa6e6f;
+}
+.sale-box.three.sale-box span.on_sale{
+	background:#05AEA7;
+}
+.pricing-grid1 ul li a,.pricing-grid2 ul li a,.pricing-grid3 ul li a{
+	color: #C7C4C4;
+	font-size: 15px;
+	text-align: center;
+	display: block;
+	padding: 16px 0;
+	text-decoration: none;
+	font-weight: 400;
+}
+.pricing-grid1 ul li.whyt a,.pricing-grid2 ul li.whyt a,.pricing-grid3 ul li.whyt a{
+	background:#f4f4f4;
+}
+.pricing-grid1:hover div.price-bg ul li a,.pricing-grid1:hover div.price-value h3 a{
+ color:#512884;
+}
+.pricing-grid2:hover div.price-bg ul li a,.pricing-grid2:hover div.price-value h3 a{
+ color:#fa6e6f;
+}
+.pricing-grid3:hover div.price-bg ul li a,.pricing-grid3:hover div.price-value h3 a{
+	color:#04dbdd;
+}
+.price-bg {
+	background: #fff;
+}
+.price-bg ul {
+	padding: 0;
+}
+.price-bg ul li{
+	list-style: none;
+}
+.cart1,.cart2,.cart3{
+	padding: 1.2em 0em 1.2em;
+	display: block;
+	border-bottom: 2px solid#ffd500;
+}
+.cart2{
+border-bottom: 2px solid#f96d70;
+}
+.cart3{
+border-bottom: 2px solid#04dbdd;
+}
+.cart1 a,.cart2 a,.cart3 a{
+	color: #FFF;
+	font-size: 0.9em;
+	font-weight: 500;
+	padding: 0.8em 2em;
+	text-decoration: none;
+	background: #f7d30b;
+	text-transform:uppercase;
+	-webkit-appearance:none;
+	border-radius:1em;
+	-webkit-border-radius:1em;
+	-o-border-radius:1em;
+	-moz-border-radius:1em;
+	outline: none;
+}
+.cart2 a{
+	background:#fa6e6f;
+}
+.cart3 a{
+	background: #04dbdd;
+}
+.cart1 a:hover,.cart2 a:hover,.cart3 a:hover{
+	color: #2b2b33;
+}
+/*----*/
+/**
 
-        .pricing_table {
-        width: 600px;
-        color: #fff;
-        font-size: 12px;
-        font-family: Ubuntu, arial, verdana;
-        line-height: 150%;
-        text-align: center;
-        margin: 20px auto 0 auto;
-        }
-        /*Only the direct LI child, not the .features li*/
-        .pricing_table>li {
-        background: linear-gradient(#666, #333);
-        width: 33.33%;
-        float: left;
-        list-style-type: none;
-        /*For smooth hover effects if .active is replaced by :hover*/
-        transition: all 0.2s;
-        }
-        .pricing_table>li.active {
-        background: linear-gradient(#F9B84A, #DB7224);
-        transform: scale(1.03);
-        box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.5);
-        }
-        .pricing_table h3 {
-        text-transform: uppercase;
-        padding: 15px 0;
-        font-size: 14px;
-        font-weight: bold;
-        color:#fff;
-        }
-        .pricing_table .price_body {
-        width: 125px;
-        height: 125px;
-        margin: 0 auto 15px auto;
-        border: 2px solid #fff;
-        border-radius: 100%;
-        display: table;
-        }
-        .pricing_table .price {
-        font-size: 30px;
-        font-weight: bold;
-        text-transform: uppercase;
-        /*Lets vertically center align the price now*/
-        vertical-align: middle;
-        display: table-cell;
-        }
-        .pricing_table .price .price_figure {
-        display: block;
-        }
-        .pricing_table .price .price_term {
-        font-size: 11px;
-        font-weight: normal;
-        }
+/**
+ * Fade-zoom animation for first dialog
+ */
 
-        .pricing_table .features li {
-        list-style-type: none;
-        padding: 5px 0;
-        }
+/* start state */
 
-        .pricing_table .footer {
-        padding: 10px;
-        background: #333;
-        margin-top: 10px;
-        }
+.image-top img{
+	width:100%;
+}
+.image-top p{
+	text-align: justify;
+	padding:2% 0;
+	font-size:15px;
+}
+.image-top h3 {
+	font-size: 1.5em;
+	font-weight: 500;
+	margin: 16px 0px 0px 0px;
+	color:#3F4244;
+}
 
-        .pricing_table .footer .action_button{
-        color: #fff;
-        font-size: 11px;
-        display: inline-block;
-        text-decoration: none;
-        font-weight: bold;
-        background: #000;
-        padding: 4px 20px;
-        border-radius: 15px;
-        background: linear-gradient(#666, #333);
-        }
-        .pricing_table li.active .footer .action_button {
-        background: linear-gradient(#F9B84A, #DB7224);
-        }
+.footer_page {
+    margin: 1em 0;
+	padding: 0.5em 0;
+	text-align: center;
+	background-color: #444;
+}
+.footer_page p {
+	font-size:0.9em;
+	color:#fa6e6f;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+.footer_page p a{
+	color:#0fc7c9;
+}
+.footer_page p a:hover{
+	color: #fa6e6f;
+}
+/*--------------*/
+@media(max-width:1366px){
+	.pricing-grid1 ul li a, .pricing-grid2 ul li a, .pricing-grid3 ul li a {
+	font-size: 17px;
+	}
+}
+@media(max-width:1024px){
+	.pricing-grid1 ul li a, .pricing-grid2 ul li a, .pricing-grid3 ul li a {
+	font-size: 15px;
+	}
+	.price-value, .price-value.two, .price-value.three {
+	padding: 2em 0 1em 0;
+	}
+	.price-value h2 a, .price-value.two h3 a, .price-value.three h4 a {
+	font-size: 1.6em;
+	}
+	.price-head h1 {
+	margin-top: 1em;
+	font-size: 2.6em;
+	}
+	.pricing-grids {
+	margin: 8% 0;
+	}
+}
+@media(max-width:768px){
+	.pricing-grid1 h3 a, .pricing-grid2 h3 a, .pricing-grid3 h3 a {
+	padding: 0.4em 1em;
+	font-size: 0.7em;
+	}
+	.pricing-grid1, .pricing-grid2, .pricing-grid3 {
+	width: 55%;
+	float: none;
+	text-align: center;
+	margin: 1em auto;
+	}
+	.price-head h1 {
+	margin-top: 1em;
+	font-size: 2.4em;
+	}
+	.cart1, .cart2, .cart3 {
+	padding: 2em 0em 2em;
+	}
+}
+@media(max-width:640px){
+	.pricing-grid1 ul li a, .pricing-grid2 ul li a, .pricing-grid3 ul li a {
+	font-size: 15px;
+	}
+	.pricing-grid1, .pricing-grid2, .pricing-grid3 {
+	width: 65%;
+	float: none;
+	text-align: center;
+	margin: 1em auto;
+	}
+	.pricing-grid1 ul li a, .pricing-grid2 ul li a, .pricing-grid3 ul li a {
+	font-size: 15px;
+	padding: 13px 0;
+	}
+	.payment-online-form-left input[type="text"] {
+	padding: 1em 1em;
+	width: 93%;
+	}
+	.payment-sendbtns {
+	float: none;
+	margin: 2em 0 1.5em;
+	}
+}
+@media(max-width:480px){
+	.pricing-grid1, .pricing-grid2, .pricing-grid3 {
+	width: 81%;
+	}
+	.price-head h1 {
+	margin-top: 1em;
+	font-size: 2.1em;
+	}
+	.payment-online-form-left input[type="text"] {
+	padding: 1em 1em;
+	width: 91%;
+	}
+}
+@media(max-width:320px){
+	.pricing-grid1, .pricing-grid2, .pricing-grid3 {
+	width: 100%;
+	margin-right: 0;
+	}
+	.price-value h2 a, .price-value.two h3 a, .price-value.three h4 a {
+	font-size: 1.2em;
+	}
+	.price-value h5 span,.price-value lable {
+	font-size: 16px;
+	}
+	.price-head h1 {
+	margin-top: 1em;
+	font-size: 1.5em;
+	}
+	.payment-online-form-left input[type="text"] {
+	padding: 0.8em 0.8em;
+	width: 86%;
+	font-size: 13px;
+	margin: 3px;
+	}
+	.footer_page p {
+	font-size: 0.9em;
+	line-height: 1.5em;
+	}
+	ul.payment-sendbtns li {
+	margin-top: 1em;
+	}
 
-
-        .clr {clear: both;}
-
-        .note {
-          color: green;
-          margin-top:20px;
-          text-align: center;
-          font-weight: 600;
-          font-size: 16px;
-        }
-
+}
     </style>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!--webfonts-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+    <!--//webfonts-->
 </head>
 <body>
-<ul class="pricing_table">
-    <li>
-        <h3>Open Source</h3>
+<div class="pricing-plans">
+    <div class="wrap">
+        <div class="price-head">
+            <h1>Pricing</h1>
+        </div>
 
-        <div class="price_body">
-            <div class="price">
-                Free
-            </div>
-        </div>
-        <div class="features">
-            <ul>
-                <li>Forum support</li>
-                <li>Unlimited projects</li>
-                <li>Limited features</li>
-            </ul>
-        </div>
-        <div class="footer">
-            <a href="https://www.mycollab.com/contact" class="action_button" target="_blank">Select</a>
-        </div>
-    </li>
-    <!-- Active/Hover styles -->
-    <li class="active">
-        <h3>Growing</h3>
+        <div class="pricing-grids">
+            <div class="pricing-grid1">
+                <div class="price-value">
+                    <h2><a href="#">OPEN SOURCE</a></h2>
+                    <h5><span>Free</span></h5>
+                    <!--
+                    <div class="sale-box">
+                        <span class="on_sale title_shop">NEW</span>
+                    </div>
+                    -->
+                </div>
+                <div class="price-bg">
+                    <ul>
+                        <li class="whyt"><a href="#">Unlimited active users</a></li>
+                        <li><a href="#">Unlimited projects</a></li>
+                        <li class="whyt"><a href="#">Free upgrade by users</a></li>
+                        <li><a href="#">Limited features</a></li>
+                        <li class="whyt"><a href="#">Forum support</a></li>
+                    </ul>
+                    <div class="cart1">
+                        <a>Installed</a>
+                    </div>
 
-        <div class="price_body">
-            <div class="price">
-                <span class="price_figure">$390</span>
-                <span class="price_term">one-time payment</span>
+                </div>
             </div>
-        </div>
-        <div class="features">
-            <ul>
-                <li>Less than 10 users</li>
-                <li>Forum, Email</li>
-                <li>Unlimited projects</li>
-                <li>All features</li>
-                <li>One year of support included</li>
-            </ul>
-        </div>
-        <div class="footer">
-            <a href="https://www.mycollab.com/ee-registration/" class="action_button" target="_blank">Download</a>
-        </div>
-    </li>
-    <li>
-        <h3>Enterprise</h3>
+            <div class="pricing-grid2">
+                <div class="price-value two">
+                    <h2><a href="#">PREMIUM</a></h2>
+                    <h5><span>$390</span><lable> / year</lable></h5>
+                    <!--
+                    <div class="sale-box two">
+                        <span class="on_sale title_shop">NEW</span>
+                    </div>
+-->
+                </div>
+                <div class="price-bg">
+                    <ul>
+                        <li class="whyt"><a href="#">Less than 10 active users</a></li>
+                        <li><a href="#">Unlimited projects</a></li>
+                        <li class="whyt"><a href="#">One year free upgrade</a></li>
+                        <li><a href="#">Unlimited features</a></li>
+                        <li class="whyt"><a href="#">Forum support</a></li>
+                    </ul>
+                    <div class="cart2">
+                        <a href="https://www.mycollab.com/ee-registration/" target="_blank">Trial</a>
+                    </div>
 
-        <div class="price_body">
-            <div class="price">
-                <span class="price_figure">$1290</span>
-                <span class="price_term">one-time payment</span>
+                </div>
             </div>
+            <div class="pricing-grid3">
+                <div class="price-value three">
+                    <h2><a href="#">PROFESSIONAL</a></h2>
+                    <h5><span>$1290</span><lable> / year</lable></h5>
+                    <!--
+                    <div class="sale-box two">
+                        <span class="on_sale title_shop">NEW</span>
+                    </div>
+-->
+                </div>
+                <div class="price-bg">
+                    <ul>
+                        <li class="whyt"><a href="#">Unlimited active users</a></li>
+                        <li><a href="#">Unlimited projects</a></li>
+                        <li class="whyt"><a href="#">One year free upgrade</a></li>
+                        <li><a href="#">Unlimited features</a></li>
+                        <li class="whyt"><a href="#">Forum and phone support</a></li>
+                    </ul>
+                    <div class="cart3">
+                        <a href="https://www.mycollab.com/ee-registration/" target="_blank">Trial</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="clear"> </div>
+
         </div>
-        <div class="features">
-            <ul>
-                <li>More than 10 users</li>
-                <li>Forum, Email or Phone support</li>
-                <li>Unlimited projects</li>
-                <li>All features</li>
-                <li>One year of support included</li>
-                <li>Boost performance</li>
-            </ul>
-        </div>
-        <div class="footer">
-            <a href="https://www.mycollab.com/ee-registration/" class="action_button" target="_blank">Download</a>
-        </div>
-    </li>
-    <!-- To prevent .pricing_table height collapse(as its children are floated) -->
-    <div class="clr"></div>
-</ul>
-<div class="note">
-    Renew MyCollab for 70% of the first year to keep it up-to-date.
+        <div class="clear"> </div>
+
+    </div>
+
 </div>
+<!--//End-pricingplans-->
+<!-- /start-copyright-->
+<div class="footer_page">
+    <div class="wrap">
+        <p>Renew MyCollab for 70% of the first year to keep it up-to-date.</p>
+    </div>
+</div>
+<!--//End-copyright-->
 
 </body>

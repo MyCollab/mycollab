@@ -47,6 +47,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
@@ -82,17 +83,11 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         contactRoleList = new ContactOpportunityList();
         previewLayout.addBody(contactRoleList);
 
-        Button addMoreContactRolesBtn = new Button("Add more contact roles", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                SimpleContactOpportunityRel contactRole = new SimpleContactOpportunityRel();
-                ContactRoleRowComp row = new ContactRoleRowComp(contactRole);
-                contactRoleList.addRow(row);
-            }
-        });
-        addMoreContactRolesBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        MButton addMoreContactRolesBtn = new MButton("Add more contact roles", clickEvent -> {
+            SimpleContactOpportunityRel contactRole = new SimpleContactOpportunityRel();
+            ContactRoleRowComp row = new ContactRoleRowComp(contactRole);
+            contactRoleList.addRow(row);
+        }).withStyleName(UIConstants.BUTTON_ACTION);
 
         HorizontalLayout buttonControls = new HorizontalLayout();
         buttonControls.addComponent(addMoreContactRolesBtn);
@@ -102,30 +97,14 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
     }
 
     private ComponentContainer createButtonControls() {
-        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        MButton updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent ->
+                updateContactRoles()).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                updateContactRoles();
-            }
-        });
-        updateBtn.setIcon(FontAwesome.SAVE);
-        updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null)))
+                .withIcon(FontAwesome.TIMES).withStyleName(UIConstants.BUTTON_OPTION);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
-            }
-        });
-        cancelBtn.setIcon(FontAwesome.TIMES);
-        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-
-        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, updateBtn);
-        return buttonControls;
+        return new MHorizontalLayout(cancelBtn, updateBtn);
     }
 
     private void updateContactRoles() {
@@ -221,18 +200,14 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
     }
 
-    private class ContactRoleRowComp extends HorizontalLayout {
+    private class ContactRoleRowComp extends MHorizontalLayout {
         private static final long serialVersionUID = 1L;
 
         private ContactSelectionField contactField;
         private RoleDecisionComboBox roleBox;
 
         public ContactRoleRowComp(final SimpleContactOpportunityRel contactOpp) {
-            super();
-            this.setMargin(true);
-            this.setSpacing(true);
-            this.setWidth("100%");
-            this.setStyleName("contactrole-row");
+            this.withMargin(true).withFullWidth().withStyleName("contactrole-row");
 
             contactField = new ContactSelectionField();
             this.addComponent(contactField);
@@ -252,17 +227,9 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             });
             contactField.setWidth("250px");
 
-            Button accountLink = new Button(contactOpp.getAccountName(), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(ContactRoleRowComp.this, contactOpp.getAccountid()));
-
-                }
-            });
-            accountLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-            accountLink.setStyleName(UIConstants.BUTTON_LINK);
+            MButton accountLink = new MButton(contactOpp.getAccountName(),
+                    clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, contactOpp.getAccountid())))
+                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT)).withStyleName(UIConstants.BUTTON_LINK);
             accountLink.setWidth("250px");
             this.addComponent(accountLink);
 
@@ -273,27 +240,18 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             roleBox.setWidth("250px");
             this.addComponent(roleBox);
 
-            Button deleteBtn = new Button(null, new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            MButton deleteBtn = new MButton("", clickEvent -> {
+                ((CssLayout) ContactRoleRowComp.this.getParent()).removeComponent(ContactRoleRowComp.this);
 
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    ((CssLayout) ContactRoleRowComp.this.getParent()).removeComponent(ContactRoleRowComp.this);
-
-                    // The contact opportunity relationship is existed
-                    if (contactOpp.getId() != null) {
-                        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                        ContactOpportunity associateOpportunity = new ContactOpportunity();
-                        associateOpportunity.setContactid(contactOpp.getId());
-                        associateOpportunity.setOpportunityid(opportunity.getId());
-                        contactService.removeContactOpportunityRelationship(
-                                associateOpportunity, AppContext.getAccountId());
-                    }
-
+                // The contact opportunity relationship is existed
+                if (contactOpp.getId() != null) {
+                    ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
+                    ContactOpportunity associateOpportunity = new ContactOpportunity();
+                    associateOpportunity.setContactid(contactOpp.getId());
+                    associateOpportunity.setOpportunityid(opportunity.getId());
+                    contactService.removeContactOpportunityRelationship(associateOpportunity, AppContext.getAccountId());
                 }
-            });
-            deleteBtn.setIcon(FontAwesome.TRASH_O);
-            deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
             this.addComponent(deleteBtn);
             this.setExpandRatio(deleteBtn, 1.0f);
         }

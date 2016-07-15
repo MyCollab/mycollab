@@ -16,6 +16,8 @@
  */
 package com.mycollab.mobile.module.project.view.task;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.html.DivLessFormatter;
@@ -47,12 +49,9 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.mycollab.vaadin.web.ui.field.RichTextViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -132,27 +131,21 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                         | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
                 ProjectRolePermissionCollections.TASKS);
 
-        quickActionStatusBtn = new Button("", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (beanItem.getStatus() != null && beanItem.getStatus().equals(StatusI18nEnum.Closed.name())) {
-                    beanItem.setStatus(StatusI18nEnum.Open.name());
-                    beanItem.setPercentagecomplete(0d);
-                    TaskReadViewImpl.this.removeStyleName(UIConstants.STATUS_DISABLED);
-                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-                } else {
-                    beanItem.setStatus(StatusI18nEnum.Closed.name());
-                    beanItem.setPercentagecomplete(100d);
-                    TaskReadViewImpl.this.addStyleName(UIConstants.STATUS_DISABLED);
-                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-                }
-
-                ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                service.updateWithSession(beanItem, AppContext.getUsername());
-
+        quickActionStatusBtn = new Button("", clickEvent -> {
+            if (beanItem.getStatus() != null && beanItem.getStatus().equals(StatusI18nEnum.Closed.name())) {
+                beanItem.setStatus(StatusI18nEnum.Open.name());
+                beanItem.setPercentagecomplete(0d);
+                TaskReadViewImpl.this.removeStyleName(UIConstants.STATUS_DISABLED);
+                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+            } else {
+                beanItem.setStatus(StatusI18nEnum.Closed.name());
+                beanItem.setPercentagecomplete(100d);
+                TaskReadViewImpl.this.addStyleName(UIConstants.STATUS_DISABLED);
+                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             }
+
+            ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            service.updateWithSession(beanItem, AppContext.getUsername());
         });
         quickActionStatusBtn.setWidth("100%");
 
@@ -182,7 +175,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private class ReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
         private static final long serialVersionUID = 1L;
 
-        public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
+        ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
             super(form);
         }
 

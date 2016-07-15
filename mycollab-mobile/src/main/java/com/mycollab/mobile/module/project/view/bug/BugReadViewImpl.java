@@ -16,6 +16,8 @@
  */
 package com.mycollab.mobile.module.project.view.bug;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
@@ -51,12 +53,9 @@ import com.mycollab.vaadin.web.ui.field.DateViewField;
 import com.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.mycollab.vaadin.web.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.web.ui.field.RichTextViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -90,39 +89,21 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             resolveBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(resolveBtn);
         } else if (BugStatus.Verified.name().equals(beanItem.getStatus())) {
-            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
-                            new ReOpenView(BugReadViewImpl.this, beanItem)));
-                }
-            });
+            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+                    clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ReOpenView(BugReadViewImpl.this, beanItem))));
             reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
         } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
-            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
-                            new ReOpenView(BugReadViewImpl.this, beanItem)));
-                }
-            });
+            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+                    clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ReOpenView(BugReadViewImpl.this, beanItem))));
             reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
 
-            final Button approveNCloseBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
-                            new ApproveInputView(BugReadViewImpl.this, beanItem)));
-                }
-            });
+            final Button approveNCloseBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
+                    clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ApproveInputView(BugReadViewImpl.this, beanItem))));
             approveNCloseBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(approveNCloseBtn);
         }

@@ -34,10 +34,10 @@ import com.mycollab.common.i18n.WikiI18nEnum;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.domain.PageVersion;
 import com.mycollab.module.page.service.PageService;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class PageServiceTest extends IntergrationServiceTest {
+public class PageServiceTest extends IntegrationServiceTest {
 
 	@Autowired
 	private PageService wikiService;

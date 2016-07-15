@@ -18,7 +18,7 @@ package com.mycollab.module.project.service;
 
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ProjectNotificationServiceTest extends IntergrationServiceTest {
+public class ProjectNotificationServiceTest extends IntegrationServiceTest {
     @Autowired
     private ProjectService projectService;
 

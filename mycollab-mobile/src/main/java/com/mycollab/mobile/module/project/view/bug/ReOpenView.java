@@ -66,39 +66,34 @@ class ReOpenView extends AbstractMobilePageView {
         contentLayout.setWidth("100%");
         contentLayout.addComponent(this.editForm);
 
-        final Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                if (editForm.validateForm()) {
-                    ReOpenView.this.bug.setStatus(BugStatus.ReOpen.name());
+        final Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
+            if (editForm.validateForm()) {
+                ReOpenView.this.bug.setStatus(BugStatus.ReOpen.name());
 
-                    // Save bug status and assignee
-                    final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                    bugService.updateSelectiveWithSession(ReOpenView.this.bug, AppContext.getUsername());
+                // Save bug status and assignee
+                final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                bugService.updateSelectiveWithSession(ReOpenView.this.bug, AppContext.getUsername());
 
-                    // Save comment
-                    final String commentValue = editForm.commentArea.getValue();
-                    if (commentValue != null && !commentValue.trim().equals("")) {
-                        final CommentWithBLOBs comment = new CommentWithBLOBs();
-                        comment.setComment(commentValue);
-                        comment.setCreatedtime(new GregorianCalendar().getTime());
-                        comment.setCreateduser(AppContext.getUsername());
-                        comment.setSaccountid(AppContext.getAccountId());
-                        comment.setType(ProjectTypeConstants.BUG);
-                        comment.setTypeid("" + bug.getId());
-                        comment.setExtratypeid(CurrentProjectVariables.getProjectId());
+                // Save comment
+                final String commentValue = editForm.commentArea.getValue();
+                if (commentValue != null && !commentValue.trim().equals("")) {
+                    final CommentWithBLOBs comment = new CommentWithBLOBs();
+                    comment.setComment(commentValue);
+                    comment.setCreatedtime(new GregorianCalendar().getTime());
+                    comment.setCreateduser(AppContext.getUsername());
+                    comment.setSaccountid(AppContext.getAccountId());
+                    comment.setType(ProjectTypeConstants.BUG);
+                    comment.setTypeid("" + bug.getId());
+                    comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                        final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                        commentService.saveWithSession(comment, AppContext.getUsername());
-                    }
-                    callbackForm.previewItem(bug);
-                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+                    final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                    commentService.saveWithSession(comment, AppContext.getUsername());
                 }
-
+                callbackForm.previewItem(bug);
+                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
         });
         this.setRightComponent(reOpenBtn);
-
         this.setContent(contentLayout);
     }
 

@@ -14,30 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-test.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.mycollab.test.service;
 
 import com.mycollab.spring.test.service.RootConfigurationTest;
+import com.mycollab.test.rule.DbUnitInitializerRule;
+import com.mycollab.test.rule.EssentialInitRule;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.mycollab.test.rule.DbUnitInitializerRule;
-import com.mycollab.test.rule.EssentialInitRule;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-
-@ContextConfiguration(classes = {RootConfigurationTest.class})
+@ContextConfiguration(classes = RootConfigurationTest.class)
 @ActiveProfiles(profiles = "test")
-public class IntergrationServiceTest {
-	@ClassRule
-	public static final EssentialInitRule essentialRule = new EssentialInitRule();
+public class IntegrationServiceTest {
+    @ClassRule
+    public static final EssentialInitRule essentialRule = new EssentialInitRule();
 
-	@Rule
-	public DbUnitInitializerRule dbRule = new DbUnitInitializerRule();
+    @Rule
+    public DbUnitInitializerRule dbRule = new DbUnitInitializerRule();
 }

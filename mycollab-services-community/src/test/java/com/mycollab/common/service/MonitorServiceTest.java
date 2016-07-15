@@ -19,7 +19,7 @@ package com.mycollab.common.service;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MonitorServiceTest extends IntergrationServiceTest {
+public class MonitorServiceTest extends IntegrationServiceTest {
     @Autowired
     private MonitorItemService monitorItemService;
 

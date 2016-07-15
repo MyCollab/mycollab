@@ -16,9 +16,10 @@
  */
 package com.mycollab.module.project.view.task.components;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.domain.GroupItem;
-import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.core.utils.BeanUtility;
+import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -36,11 +37,11 @@ import com.mycollab.vaadin.web.ui.ButtonI18nComp;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.google.common.eventbus.Subscribe;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
@@ -107,15 +108,14 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                         isFound = true;
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                        ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
-                        priorityLink.setIcon(ProjectAssetsManager.getTaskPriority(priority.name()));
-                        priorityLink.setWidth("110px");
-                        priorityLink.addStyleName(UIConstants.BUTTON_LINK);
-                        priorityLink.addStyleName("task-" + priority.name().toLowerCase());
+                        MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
+                                .withIcon(ProjectAssetsManager.getTaskPriority(priority.name()))
+                                .withStyleName(UIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
+                                .withWidth("110px");
 
                         priorityLayout.addComponent(priorityLink);
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
-                                .getValue().intValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount,
+                                totalCount - item.getValue().intValue(), false);
                         indicator.setWidth("100%");
                         priorityLayout.with(indicator).expand(indicator);
 
@@ -126,11 +126,10 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                 if (!isFound) {
                     MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                     priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                    ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
-                    priorityLink.setIcon(ProjectAssetsManager.getTaskPriority(priority.name()));
-                    priorityLink.setWidth("110px");
-                    priorityLink.addStyleName(UIConstants.BUTTON_LINK);
-                    priorityLink.addStyleName("task-" + priority.name().toLowerCase());
+                    MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
+                            .withIcon(ProjectAssetsManager.getTaskPriority(priority.name()))
+                            .withStyleName(UIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
+                            .withWidth("100px");
                     priorityLayout.addComponent(priorityLink);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");

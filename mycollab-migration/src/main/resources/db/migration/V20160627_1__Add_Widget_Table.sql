@@ -36,6 +36,7 @@ DROP TABLE `m_tracker_metadata`;
 DROP TABLE `m_tracker_query`;
 
 ALTER TABLE `s_billing_plan`
-ADD COLUMN `shoppingUrl` VARCHAR(400) NULL;
+ADD COLUMN `shoppingUrl` VARCHAR(400) NULL,
+ADD COLUMN `productPath` VARCHAR(45) NULL;
 
 

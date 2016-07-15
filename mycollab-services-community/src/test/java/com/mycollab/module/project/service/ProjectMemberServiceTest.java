@@ -19,7 +19,7 @@ package com.mycollab.module.project.service;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ProjectMemberServiceTest extends IntergrationServiceTest {
+public class ProjectMemberServiceTest extends IntegrationServiceTest {
     @Autowired
     private ProjectMemberService projectMemberService;
 

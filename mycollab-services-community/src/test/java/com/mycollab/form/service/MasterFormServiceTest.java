@@ -21,10 +21,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MasterFormServiceTest extends IntergrationServiceTest {
+public class MasterFormServiceTest extends IntegrationServiceTest {
 
 	@Autowired
 	private MasterFormService masterFormService;

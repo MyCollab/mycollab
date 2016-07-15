@@ -26,4 +26,6 @@ public interface AppPropertiesService {
     String getSysId();
 
     Date getStartDate();
+
+    String getEdition();
 }

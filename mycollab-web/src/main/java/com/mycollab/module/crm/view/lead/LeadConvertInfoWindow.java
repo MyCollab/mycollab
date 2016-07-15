@@ -36,7 +36,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -84,44 +84,26 @@ public class LeadConvertInfoWindow extends Window {
     }
 
     private ComponentContainer createButtonControls() {
-        final MHorizontalLayout layout = new MHorizontalLayout();
-
-        Button convertButton = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
-                lead.setStatus("Converted");
-                leadService.updateWithSession(lead, AppContext.getUsername());
-                Opportunity opportunity = null;
-                if (opportunityForm != null && opportunityForm.isVisible()) {
-                    if (opportunityForm.validateForm()) {
-                        opportunity = opportunityForm.getBean();
-                    }
+        MButton convertButton = new MButton(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD), clickEvent -> {
+            LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
+            lead.setStatus("Converted");
+            leadService.updateWithSession(lead, AppContext.getUsername());
+            Opportunity opportunity = null;
+            if (opportunityForm != null && opportunityForm.isVisible()) {
+                if (opportunityForm.validateForm()) {
+                    opportunity = opportunityForm.getBean();
                 }
-
-                leadService.convertLead(lead, opportunity, AppContext.getUsername());
-                LeadConvertInfoWindow.this.close();
-                EventBusFactory.getInstance().post(new LeadEvent.GotoRead(LeadConvertInfoWindow.this, lead.getId()));
             }
-        });
-        convertButton.setStyleName(UIConstants.BUTTON_ACTION);
-        layout.addComponent(convertButton);
-        layout.setComponentAlignment(convertButton, Alignment.MIDDLE_CENTER);
 
-        Button cancelButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+            leadService.convertLead(lead, opportunity, AppContext.getUsername());
+            LeadConvertInfoWindow.this.close();
+            EventBusFactory.getInstance().post(new LeadEvent.GotoRead(LeadConvertInfoWindow.this, lead.getId()));
+        }).withStyleName(UIConstants.BUTTON_ACTION);
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                LeadConvertInfoWindow.this.close();
-            }
-        });
-        cancelButton.setStyleName(UIConstants.BUTTON_OPTION);
-        layout.addComponent(cancelButton);
-        layout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
-        return layout;
+        MButton cancelButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(UIConstants.BUTTON_OPTION);
+
+        return new MHorizontalLayout(cancelButton, convertButton).alignAll(Alignment.MIDDLE_CENTER);
     }
 
     private ComponentContainer createBody() {
@@ -145,24 +127,18 @@ public class LeadConvertInfoWindow extends Window {
         infoLayout.addComponent(createContactLbl);
 
         final CheckBox isCreateOpportunityChk = new CheckBox("Create a new opportunity for this account");
-        isCreateOpportunityChk.addValueChangeListener(new ValueChangeListener() {
-            private static final long serialVersionUID = 1L;
+        isCreateOpportunityChk.addValueChangeListener(valueChangeEvent -> {
+            Boolean isSelected = isCreateOpportunityChk.getValue();
+            if (isSelected) {
+                opportunityForm = new LeadOpportunityForm();
+                Opportunity opportunity = new Opportunity();
 
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                Boolean isSelected = isCreateOpportunityChk.getValue();
-                if (isSelected) {
-                    opportunityForm = new LeadOpportunityForm();
-                    Opportunity opportunity = new Opportunity();
-
-                    // this is a trick to pass validation
-                    opportunity.setAccountid(0);
-                    opportunityForm.setBean(opportunity);
-                    layout.addComponent(opportunityForm);
-                } else {
-                    layout.removeComponent(opportunityForm);
-                }
-
+                // this is a trick to pass validation
+                opportunity.setAccountid(0);
+                opportunityForm.setBean(opportunity);
+                layout.addComponent(opportunityForm);
+            } else {
+                layout.removeComponent(opportunityForm);
             }
         });
 

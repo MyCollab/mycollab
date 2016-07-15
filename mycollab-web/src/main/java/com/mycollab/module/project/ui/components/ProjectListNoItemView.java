@@ -24,6 +24,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -45,10 +46,8 @@ public abstract class ProjectListNoItemView extends VerticalLayout {
     }
 
     protected MHorizontalLayout createControlButtons() {
-        Button createItemBtn = new Button(actionMessage(), actionListener());
-        createItemBtn.setVisible(hasPermission());
-        createItemBtn.addStyleName(UIConstants.BUTTON_ACTION);
-
+        MButton createItemBtn = new MButton(actionMessage(), actionListener()).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(hasPermission());
         return new MHorizontalLayout().with(createItemBtn);
     }
 

@@ -16,12 +16,16 @@
  */
 package com.mycollab.mobile.module.project.view.task;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.module.project.events.TaskEvent;
@@ -44,10 +48,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -90,12 +90,8 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(TaskI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;
     }

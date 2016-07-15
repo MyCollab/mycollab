@@ -35,10 +35,10 @@ import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.domain.Folder;
 import com.mycollab.module.ecm.domain.Resource;
 import com.mycollab.module.ecm.service.ContentJcrDao;
-import com.mycollab.test.service.IntergrationServiceTest;
+import com.mycollab.test.service.IntegrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ContentJcrDaoTest extends IntergrationServiceTest {
+public class ContentJcrDaoTest extends IntegrationServiceTest {
 
 	@Autowired
 	private ContentJcrDao contentJcrDao;
