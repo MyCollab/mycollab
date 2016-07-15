@@ -32,11 +32,7 @@
  */
 package com.mycollab.community.shell.view;
 
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.utils.FileUtils;
-import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
