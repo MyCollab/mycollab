@@ -23,9 +23,11 @@ import com.mycollab.module.project.service.{ProjectMemberService, ProjectNotific
 import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.schedule.email.SendingRelayEmailNotificationAction
 import com.mycollab.common.NotificationType
+import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.domain.{MailRecipientField, SimpleRelayEmailNotification}
-import com.mycollab.common.service.AuditLogService
+import com.mycollab.common.service.{AuditLogService, CommentService}
 import com.mycollab.configuration.SiteConfiguration
+import com.mycollab.db.arguments.{BasicSearchRequest, StringSearchField}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.mail.service.ExtMailService
 import com.mycollab.module.project.ProjectLinkGenerator
@@ -42,6 +44,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
   @Autowired var projectService: ProjectService = _
   @Autowired var projectMemberService: ProjectMemberService = _
   @Autowired var projectNotificationService: ProjectNotificationSettingService = _
+  @Autowired val commentService: CommentService = null
   @Autowired var auditLogService: AuditLogService = _
   @Autowired protected var contentGenerator: IContentGenerator = _
 
@@ -98,17 +101,22 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
       onInitAction(projectRelayEmailNotification)
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
+        val auditLog = auditLogService.findLastestLog(notification.getTypeid.toInt, notification.getSaccountid)
+        contentGenerator.putVariable("historyLog", auditLog)
+        contentGenerator.putVariable("mapper", getItemFieldMapper)
+        
+        val searchCriteria = new CommentSearchCriteria
+        searchCriteria.setType(StringSearchField.and(notification.getType))
+        searchCriteria.setTypeId(StringSearchField.and(notification.getTypeid))
+        searchCriteria.setSaccountid(null)
+        val comments = commentService.findPagableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
+        contentGenerator.putVariable("lastComments", comments)
+        
         import scala.collection.JavaConversions._
         for (user <- notifiers) {
           val context = new MailContext[B](notification, user, siteUrl)
           context.setWrappedBean(bean)
           buildExtraTemplateVariables(context)
-          if (context.getTypeid != null) {
-            val auditLog = auditLogService.findLastestLog(context.getTypeid.toInt, context.getSaccountid)
-            contentGenerator.putVariable("historyLog", auditLog)
-            contentGenerator.putVariable("context", context)
-            contentGenerator.putVariable("mapper", getItemFieldMapper)
-          }
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
@@ -126,6 +134,13 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
       onInitAction(projectRelayEmailNotification)
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
+        val searchCriteria = new CommentSearchCriteria
+        searchCriteria.setType(StringSearchField.and(notification.getType))
+        searchCriteria.setTypeId(StringSearchField.and(notification.getTypeid))
+        searchCriteria.setSaccountid(null)
+        val comments = commentService.findPagableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
+        contentGenerator.putVariable("lastComments", comments)
+        
         import scala.collection.JavaConversions._
         for (user <- notifiers) {
           val context = new MailContext[B](notification, user, siteUrl)

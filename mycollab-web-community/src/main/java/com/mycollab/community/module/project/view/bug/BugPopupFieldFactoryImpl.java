@@ -51,7 +51,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
 
     @Override
     public AbstractComponent createAssigneePopupField(SimpleBug bug) {
-        String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
+        String avatarLink = StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
         return new MetaFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
                 .FORM_ASSIGNEE)).build();

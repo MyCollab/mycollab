@@ -43,5 +43,29 @@ td {
     background-color:white; border:
     1px solid #e9e9e9;
 }
+.circle-box {
+    border-radius: 50%;
+}
+
+.comment-box {
+    box-sizing: border-box;
+    background-color:#faefc7;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0px 13px;
+    position: relative;
+    width: 80%;
+    float: left;
+}
+
+.comment-box::before {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    top: 6px;
+    left: -11px;
+    border-width: 11px 11px 11px 0;
+    border-color: transparent #faefc7;
+}
 </style>
 </head>

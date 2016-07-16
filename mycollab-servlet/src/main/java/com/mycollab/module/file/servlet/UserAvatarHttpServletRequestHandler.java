@@ -17,6 +17,7 @@
 package com.mycollab.module.file.servlet;
 
 import com.mycollab.configuration.FileStorage;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.servlet.GenericHttpServlet;
@@ -40,7 +41,7 @@ public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
 
     @Override
     protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!StorageFactory.getInstance().isFileStorage()) {
+        if (SiteConfiguration.isDemandEdition()) {
             throw new MyCollabException("This servlet support file system setting only");
         }
 

@@ -226,7 +226,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     .withWidthUndefined();
             layout.with(statusLbl);
 
-            String avatarLink = StorageFactory.getInstance().getAvatarPath(subTask.getAssignUserAvatarId(), 16);
+            String avatarLink = StorageFactory.getAvatarPath(subTask.getAssignUserAvatarId(), 16);
             Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
             layout.with(new ELabel(avatarImg.write(), ContentMode.HTML).withWidthUndefined());
 

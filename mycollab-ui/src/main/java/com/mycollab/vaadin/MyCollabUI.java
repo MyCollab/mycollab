@@ -18,8 +18,6 @@ package com.mycollab.vaadin;
 
 import com.mycollab.common.SessionIdGenerator;
 import com.mycollab.db.arguments.GroupIdProvider;
-import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
@@ -86,15 +84,6 @@ public abstract class MyCollabUI extends UI {
     public Object getAttribute(String key) {
         return attributes.get(key);
     }
-
-    @Override
-    protected final void init(final VaadinRequest request) {
-        GoogleAnalyticsService googleAnalyticsService = AppContextUtil.getSpringBean(GoogleAnalyticsService.class);
-        googleAnalyticsService.registerUI(this);
-        doInit(request);
-    }
-
-    abstract protected void doInit(final VaadinRequest request);
 
     @Override
     public void close() {

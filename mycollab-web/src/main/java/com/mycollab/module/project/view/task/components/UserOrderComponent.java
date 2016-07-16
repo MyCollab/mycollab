@@ -78,7 +78,7 @@ public class UserOrderComponent extends TaskGroupOrderComponent {
 
         GroupComponent(SimpleTask task) {
             initComponent();
-            Img img = new Img("", StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 32));
+            Img img = new Img("", StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 32));
             Div userDiv = new Div().appendChild(img, new Text(" " + task.getAssignUserFullName()));
             headerLbl.setValue(userDiv.write());
         }

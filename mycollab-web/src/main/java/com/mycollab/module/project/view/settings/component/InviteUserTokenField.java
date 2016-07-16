@@ -168,7 +168,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
     private Component generateToken(final SimpleUser user) {
         final Button btn = new Button("", FontAwesome.TIMES);
         btn.setCaptionAsHtml(true);
-        btn.setCaption((new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
+        btn.setCaption((new Img("", StorageFactory.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
         btn.addClickListener(clickEvent -> {
             InviteUserTokenField.this.removeComponent(btn);
             inviteEmails.remove(user.getEmail());

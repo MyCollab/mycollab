@@ -125,7 +125,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
     }
 
     private static String buildAssigneeValue(ProjectActivityStream activity) {
-        Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(activity.getCreatedUserAvatarId(), 16));
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activity.getCreatedUserAvatarId(), 16));
         A userLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(activity.getExtratypeid(), activity
                 .getCreateduser())).appendText(StringUtils.trim(activity.getCreatedUserFullName(), 30, true));
         return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink).write();

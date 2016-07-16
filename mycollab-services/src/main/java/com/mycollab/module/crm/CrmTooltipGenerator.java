@@ -106,7 +106,7 @@ public class CrmTooltipGenerator {
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
 
             String userLink = (account.getAssignuser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, account.getAssignuser()) : "";
-            String userAvatarLink = StorageFactory.getInstance().getAvatarPath(account.getAssignUserAvatarId(), 16);
+            String userAvatarLink = StorageFactory.getAvatarPath(account.getAssignUserAvatarId(), 16);
             Td cell32 = buildCellLink(userLink, userAvatarLink, account.getAssignUserFullName());
 
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
@@ -176,7 +176,7 @@ public class CrmTooltipGenerator {
             String assignUserLink = (contact.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL,
                             contact.getAssignuser()) : "";
-            String assignAvatarLink = StorageFactory.getInstance().getAvatarPath(
+            String assignAvatarLink = StorageFactory.getAvatarPath(
                     contact.getAssignUserAvatarId(), 16);
             Td cell44 = buildCellLink(assignUserLink, assignAvatarLink, contact.getAssignUserFullName());
             trRow4.appendChild(cell41, cell42, cell43, cell44);
@@ -239,7 +239,7 @@ public class CrmTooltipGenerator {
 
             String assignUserLink = (campaign.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURl, campaign.getAssignuser()) : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(campaign.getAssignUserAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(campaign.getAssignUserAvatarId(), 16);
             Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink, campaign.getAssignUserFullName());
             trRow3.appendChild(cell31, cell32, cell33, cell34);
             tooltipBuilder.appendRow(trRow3);
@@ -331,7 +331,7 @@ public class CrmTooltipGenerator {
             String assignUserLink = (lead.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURl, lead.getAssignuser())
                     : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(lead.getAssignUserAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(lead.getAssignUserAvatarId(), 16);
             Td cell64 = buildCellLink(assignUserLink, assignUserAvatarLink, lead.getAssignUserFullName());
             trRow6.appendChild(cell61, cell62, cell63, cell64);
             tooltipManager.appendRow(trRow6);
@@ -418,7 +418,7 @@ public class CrmTooltipGenerator {
             Td cell53 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (opportunity.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURl, opportunity.getAssignuser()) : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(opportunity.getAssignUserAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(opportunity.getAssignUserAvatarId(), 16);
             Td cell54 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     opportunity.getAssignUserFullName());
             trRow5.appendChild(cell51, cell52, cell53, cell54);
@@ -480,7 +480,7 @@ public class CrmTooltipGenerator {
             Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (cases.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL, cases.getAssignuser()) : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(
                     cases.getAssignUserAvatarId(), 16);
             Td cell44 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     cases.getAssignUserFullName());
@@ -634,7 +634,7 @@ public class CrmTooltipGenerator {
             Td cell32 = buildCellValue(task.getPriority());
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (task.getAssignuser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, task.getAssignuser()) : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 16);
             Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink, task.getAssignUserFullName());
             trRow3.appendChild(cell31, cell32, cell33, cell34);
             tooltipManager.appendRow(trRow3);

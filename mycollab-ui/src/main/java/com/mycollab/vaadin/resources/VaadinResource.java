@@ -16,27 +16,12 @@
  */
 package com.mycollab.vaadin.resources;
 
-import com.mycollab.configuration.StorageFactory;
-import com.mycollab.vaadin.AppContext;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.1
  */
-public abstract class VaadinResource {
-    public abstract Resource getStreamResource(String documentPath);
-
-    public Resource getResource(String documentPath) {
-        return new ExternalResource(StorageFactory.getInstance().getResourcePath(documentPath));
-    }
-
-    public Resource getLogoResource(String logoId, int size) {
-        return new ExternalResource(StorageFactory.getInstance().getLogoPath(AppContext.getAccountId(), logoId, size));
-    }
-
-    public Resource getAvatarResource(String avatarId, int size) {
-        return new ExternalResource(StorageFactory.getInstance().getAvatarPath(avatarId, size));
-    }
+public interface VaadinResource {
+    Resource getStreamResource(String documentPath);
 }

@@ -105,7 +105,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                     DivLessFormatter.EMPTY_SPACE(), billableHoursDiv, DivLessFormatter.EMPTY_SPACE(),
                     nonBillableHoursDiv, DivLessFormatter.EMPTY_SPACE());
             if (project.getLead() != null) {
-                Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(project
+                Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(project
                                 .getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE(),
                         new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
                                 .appendText(StringUtils.trim(project.getLeadFullName(), 30, true))).setTitle("Manager");
@@ -118,7 +118,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 if (project.getClientAvatarId() == null) {
                     accountDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
                 } else {
-                    Img clientImg = new Img("", StorageFactory.getInstance().getEntityLogoPath(AppContext
+                    Img clientImg = new Img("", StorageFactory.getEntityLogoPath(AppContext
                             .getAccountId(), project.getClientAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX);
                     accountDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE());
                 }

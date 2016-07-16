@@ -51,7 +51,7 @@ Version 5.3.5
 
 * Jackrabbit 2.13.0
 * Spring framework 4.3.1.RELEASE
-* Vaadin 7.6.7
+* Vaadin 7.6.8
 * Jetty 9.3.10.v20160621
 * Jackson 2.8.0
 * Flyway 4.0.3
@@ -62,6 +62,7 @@ Version 5.3.5
 
 **Improvements & New Features**
 
+* Improve the email template theme
 * Remove redundant files in the community edition
 * Other minor improvements
 

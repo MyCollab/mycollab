@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project;
 
+import com.hp.gagawa.java.elements.*;
 import com.mycollab.common.TooltipBuilder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -37,7 +38,6 @@ import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.spring.AppContextUtil;
-import com.hp.gagawa.java.elements.*;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,7 +129,7 @@ public class ProjectTooltipGenerator {
             String assignUserLink = (task.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL, task.getAssignuser())
                     : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 16);
             Td cell42 = buildCellLink(assignUserLink, assignUserAvatarLink, task.getAssignUserFullName());
             Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_PHASE));
             String taskgroupLink = (task.getMilestoneName() != null) ? ProjectLinkGenerator
@@ -216,11 +216,11 @@ public class ProjectTooltipGenerator {
             Tr trRow6 = new Tr();
             Td cell61 = buildCellName(LocalizationHelper.getMessage(locale, BugI18nEnum.FORM_LOG_BY));
             String logbyUserLink = (bug.getLogby() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, bug.getLogby()) : "";
-            String logbyAvatarLink = StorageFactory.getInstance().getAvatarPath(bug.getLoguserAvatarId(), 16);
+            String logbyAvatarLink = StorageFactory.getAvatarPath(bug.getLoguserAvatarId(), 16);
             Td cell62 = buildCellLink(logbyUserLink, logbyAvatarLink, bug.getLoguserFullName());
             Td cell63 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (bug.getAssignuser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, bug.getAssignuser()) : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 16);
             Td cell64 = buildCellLink(assignUserLink, assignUserAvatarLink, bug.getAssignuserFullName());
             trRow6.appendChild(cell61, cell62, cell63, cell64);
             tooltipManager.appendRow(trRow6);
@@ -262,7 +262,7 @@ public class ProjectTooltipGenerator {
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, RiskI18nEnum.FORM_RAISED_BY));
             String raisedUserLink = (risk.getRaisedbyuser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, risk.getRaisedbyuser()) : "";
-            String raisedUserAvatarLink = StorageFactory.getInstance().getAvatarPath(risk.getRaisedByUserAvatarId(), 16);
+            String raisedUserAvatarLink = StorageFactory.getAvatarPath(risk.getRaisedByUserAvatarId(), 16);
             Td cell12 = buildCellLink(raisedUserLink, raisedUserAvatarLink, risk.getRaisedByUserFullName());
             Td cell13 = buildCellName(LocalizationHelper.getMessage(locale, RiskI18nEnum.FORM_CONSEQUENCE));
             Td cell14 = buildCellValue(risk.getConsequence());
@@ -273,7 +273,7 @@ public class ProjectTooltipGenerator {
             Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (risk.getAssigntouser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL,
                     risk.getAssigntouser()) : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(risk.getAssignToUserAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(risk.getAssignToUserAvatarId(), 16);
             Td cell22 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     risk.getAssignedToUserFullName());
             Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, RiskI18nEnum.FORM_PROBABILITY));
@@ -364,7 +364,7 @@ public class ProjectTooltipGenerator {
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, ComponentI18nEnum.FORM_LEAD));
             String leadLink = (component.getUserlead() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL,
                     component.getUserlead()) : "";
-            String leadAvatarLink = StorageFactory.getInstance().getAvatarPath(component.getUserLeadAvatarId(), 16);
+            String leadAvatarLink = StorageFactory.getAvatarPath(component.getUserLeadAvatarId(), 16);
             Td cell32 = buildCellLink(leadLink, leadAvatarLink, component.getUserLeadFullName());
             trRow3.appendChild(cell31, cell32);
             tooltipManager.appendRow(trRow3);
@@ -452,7 +452,7 @@ public class ProjectTooltipGenerator {
             Td cell22 = buildCellValue(startDate);
             Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (milestone.getOwner() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, milestone.getOwner()) : "";
-            String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(milestone.getOwnerAvatarId(), 16);
+            String assignUserAvatarLink = StorageFactory.getAvatarPath(milestone.getOwnerAvatarId(), 16);
             Td cell24 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     milestone.getOwnerFullName());
             trRow2.appendChild(cell21, cell22, cell23, cell24);
@@ -498,18 +498,18 @@ public class ProjectTooltipGenerator {
             Tr trRow3 = new Tr();
             trRow3.appendChild(new Td().setStyle("width: 165px; vertical-align: top; text-align: right;")
                     .appendText(LocalizationHelper.getMessage(locale, StandupI18nEnum.STANDUP_LASTDAY)))
-                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
                             .appendText(standup.getWhatlastday()));
 
             Tr trRow4 = new Tr();
             trRow4.appendChild(new Td().setStyle("width: 165px;vertical-align: top; text-align: right;")
                     .appendText(LocalizationHelper.getMessage(locale, StandupI18nEnum.STANDUP_TODAY)))
-                    .appendChild(new Td().setStyle("break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendChild(new Td().setStyle("break-word; white-space: normal;vertical-align: top;")
                             .appendText(standup.getWhattoday()));
             Tr trRow5 = new Tr();
             trRow5.appendChild(new Td().setStyle("width: 165px;vertical-align: top; text-align: right;")
                     .appendText(LocalizationHelper.getMessage(locale, StandupI18nEnum.STANDUP_ISSUE)))
-                    .appendChild(new Td().setStyle("break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendChild(new Td().setStyle("break-word; white-space: normal;vertical-align: top;")
                             .appendText(standup.getWhatproblem()));
 
             table.appendChild(trRow3);

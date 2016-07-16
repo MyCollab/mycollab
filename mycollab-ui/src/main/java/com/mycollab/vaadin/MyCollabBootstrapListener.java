@@ -47,7 +47,7 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 
         BillingAccount account = billingService.getAccountByDomain(domain);
         if (account != null) {
-            String favIconPath = StorageFactory.getInstance().getFavIconPath(account.getId(), account.getFaviconpath());
+            String favIconPath = StorageFactory.getFavIconPath(account.getId(), account.getFaviconpath());
             response.getDocument().head().getElementsByAttributeValue("rel", "shortcut icon").attr("href", favIconPath);
             response.getDocument().head().getElementsByAttributeValue("rel", "icon").attr("href", favIconPath);
         }

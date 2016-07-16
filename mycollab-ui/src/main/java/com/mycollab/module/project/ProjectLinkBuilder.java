@@ -77,7 +77,7 @@ public class ProjectLinkBuilder {
 
     public static String generateProjectMemberHtmlLink(Integer projectId, String username, String displayName, String avarId,
                                                        Boolean isDisplayTooltip) {
-        Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(avarId, 16));
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(avarId, 16));
         A link = new A().setId("tag" + TOOLTIP_ID).setHref(generateProjectMemberFullLink(projectId,
                 username)).appendText(StringUtils.trim(displayName, 30, true));
         if (isDisplayTooltip) {

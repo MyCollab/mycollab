@@ -85,7 +85,7 @@ public class DesktopApplication extends MyCollabUI {
     private BroadcastReceiverService broadcastReceiverService;
 
     @Override
-    protected void doInit(final VaadinRequest request) {
+    protected void init(final VaadinRequest request) {
         broadcastReceiverService = AppContextUtil.getSpringBean(BroadcastReceiverService.class);
         if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
             getPushConfiguration().setPushMode(PushMode.MANUAL);

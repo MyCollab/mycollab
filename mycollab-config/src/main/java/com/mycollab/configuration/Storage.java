@@ -16,8 +16,6 @@
  */
 package com.mycollab.configuration;
 
-import com.mycollab.core.utils.StringUtils;
-
 /**
  * File configuration for storage file in MyCollab. We support two kinds of file
  * system:
@@ -31,45 +29,6 @@ import com.mycollab.core.utils.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class Storage {
-
-    public String getResourcePath(String documentPath) {
-        return SiteConfiguration.getResourceDownloadUrl() + documentPath;
-    }
-
-    public String getLogoPath(Integer accountId, String logoName, int size) {
-        if (logoName == null || "".equals(logoName)) {
-            return MyCollabAssets.newAssetLink("icons/logo.png");
-        }
-        return String.format("%s%d/.assets/%s_%d.png", SiteConfiguration.getResourceDownloadUrl(), accountId,
-                logoName, size);
-    }
-
-    public static String getEntityLogoPath(Integer accountId, String id, Integer size) {
-        return String.format("%s%d/.assets/%s_%d.png", SiteConfiguration.getResourceDownloadUrl(), accountId,
-                id, size);
-    }
-
-    public String getFavIconPath(Integer sAccountId, String favIconName) {
-        if (favIconName == null || "".equals(favIconName)) {
-            return MyCollabAssets.newAssetLink("favicon.ico");
-        }
-        return String.format("%s%d/.assets/%s.ico", SiteConfiguration.getResourceDownloadUrl(), sAccountId, favIconName);
-    }
-
-    public String getAvatarPath(String userAvatarId, int size) {
-        if (StringUtils.isBlank(userAvatarId)) {
-            return MyCollabAssets.newAssetLink(String.format("icons/default_user_avatar_%d.png", size));
-        } else {
-            return String.format("%savatar/%s_%d.png", SiteConfiguration.getResourceDownloadUrl(), userAvatarId, size);
-        }
-    }
-
-    public boolean isFileStorage() {
-        return (this instanceof FileStorage);
-    }
-
-    public boolean isS3Storage() {
-        return !isFileStorage();
-    }
+public interface Storage {
+    String generateAssetLink(String resourceId);
 }

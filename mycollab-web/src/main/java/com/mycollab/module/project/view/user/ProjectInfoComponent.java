@@ -130,7 +130,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         footer.addComponents(nonBillableHoursLbl);
 
         if (project.getLead() != null) {
-            Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath
+            Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getAvatarPath
                     (project.getLeadAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(), new A(ProjectLinkBuilder
                     .generateProjectMemberFullLink(project.getId(),
                             project.getLead())).appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
@@ -156,7 +156,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             if (project.getClientAvatarId() == null) {
                 clientDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
             } else {
-                Img clientImg = new Img("", Storage.getEntityLogoPath(AppContext.getAccountId(), project.getClientAvatarId(), 16));
+                Img clientImg = new Img("", StorageFactory.getEntityLogoPath(AppContext.getAccountId(), project.getClientAvatarId(), 16));
                 clientDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE());
             }
             clientDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))

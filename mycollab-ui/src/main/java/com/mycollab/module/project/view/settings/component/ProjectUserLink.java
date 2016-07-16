@@ -42,7 +42,7 @@ public class ProjectUserLink extends Label {
         }
         this.setContentMode(ContentMode.HTML);
         DivLessFormatter div = new DivLessFormatter();
-        Img avatarLink = new Img("", StorageFactory.getInstance().getAvatarPath(userAvatarId, 16));
+        Img avatarLink = new Img("", StorageFactory.getAvatarPath(userAvatarId, 16));
         avatarLink.setCSSClass("circle-box");
         A memberLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 CurrentProjectVariables.getProjectId(), username)).appendText(StringUtils.trim(displayName, 30, true));

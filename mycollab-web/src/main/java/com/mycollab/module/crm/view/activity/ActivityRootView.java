@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.configuration.StorageFactory;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.ActivityI18nEnum;
@@ -24,14 +25,12 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.AssetResource;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
-import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
@@ -75,30 +74,24 @@ public class ActivityRootView extends AbstractPageView {
     private void buildComponents() {
         activityTabs.addTab(constructCalendarView(), "calendar",
                 AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE),
-                new AssetResource("icons/22/crm/calendar.png"));
+                new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/22/crm/calendar.png")));
 
         activityTabs.addTab(constructActivityListView(), "activities",
                 AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE),
-                new AssetResource("icons/22/crm/activitylist.png"));
+                new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/22/crm/activitylist.png")));
 
-        activityTabs
-                .addSelectedTabChangeListener(new SelectedTabChangeListener() {
-                    private static final long serialVersionUID = 1L;
+        activityTabs.addSelectedTabChangeListener(selectedTabChangeEvent -> {
+            Tab tab = ((VerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
+            String caption = tab.getCaption();
 
-                    @Override
-                    public void selectedTabChange(SelectedTabChangeEvent event) {
-                        Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
-                        String caption = tab.getCaption();
-
-                        if (AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(caption)) {
-                            calendarPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoCalendar());
-                        } else if (AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(caption)) {
-                            ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                            eventPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoActivityList(criteria));
-                        }
-                    }
-                });
+            if (AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(caption)) {
+                calendarPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoCalendar());
+            } else if (AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(caption)) {
+                ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                eventPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoActivityList(criteria));
+            }
+        });
     }
 
     private ComponentContainer constructCalendarView() {

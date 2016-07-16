@@ -68,7 +68,7 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
         }
         issueDiv.appendChild(new Span().appendText(status).setCSSClass(UIConstants.FIELD_NOTE));
 
-        String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+        String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
         Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
                 .getAssignUserFullName());
         issueDiv.appendChild(img, DivLessFormatter.EMPTY_SPACE());

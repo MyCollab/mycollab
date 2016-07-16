@@ -109,7 +109,7 @@ public class ActivityEventProvider implements CalendarEventProvider {
                     statusStr.append("</span>");
                     String crmEventDes = (crmEvent.getDescription() != null) ? crmEvent.getDescription() : "";
                     String desTooltip = String
-                            .format("<h3>%s</h3><table style=\"padding-left:10px; width:350px; color: #5a5a5a;\"<tr><td style=\"font-weight:bold; width:70px;\">Start Date:</td><td>%s</td></tr><td style=\"font-weight:bold; width:70px;\">End Date: </td><td>%s</td><tr><tr><td style=\"font-weight:bold; width:70px;\">Status:</td><td>%s</td></tr><tr><td style=\"text-align: right; vertical-align: top; font-weight:bold; width:70px;\">Description:</td><td style=\"word-wrap: break-word; white-space: normal; word-break: break-all;\">%s</td></tr></table>",
+                            .format("<h3>%s</h3><table style=\"padding-left:10px; width:350px; color: #5a5a5a;\"<tr><td style=\"font-weight:bold; width:70px;\">Start Date:</td><td>%s</td></tr><td style=\"font-weight:bold; width:70px;\">End Date: </td><td>%s</td><tr><tr><td style=\"font-weight:bold; width:70px;\">Status:</td><td>%s</td></tr><tr><td style=\"text-align: right; vertical-align: top; font-weight:bold; width:70px;\">Description:</td><td style=\"word-wrap: break-word; white-space: normal;\">%s</td></tr></table>",
                                     crmEvent.getSubject(), AppContext.formatDateTime(crmEvent.getStartdate()),
                                     AppContext.formatDateTime(crmEvent.getEnddate()), statusStr.toString(), crmEventDes);
                     event.setDescription(desTooltip);

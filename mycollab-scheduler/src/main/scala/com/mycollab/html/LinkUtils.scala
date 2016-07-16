@@ -25,6 +25,6 @@ import com.mycollab.configuration.StorageFactory
   */
 object LinkUtils {
 
-  def newAvatar(avatarId: String) = new Img("", StorageFactory.getInstance.getAvatarPath(avatarId, 16)).setWidth("16").
+  def newAvatar(avatarId: String) = new Img("", StorageFactory.getAvatarPath(avatarId, 16)).setWidth("16").
     setHeight("16").setStyle("display: inline-block; vertical-align: top;")
 }

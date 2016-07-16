@@ -16,10 +16,13 @@
  */
 package com.mycollab.vaadin.resources;
 
-import com.mycollab.configuration.Storage;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.file.VaadinFileResource;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.Resource;
 
 /**
  * @author MyCollab Ltd
@@ -32,10 +35,7 @@ public class VaadinResourceFactory {
     private VaadinResource vaadinResource;
 
     private VaadinResourceFactory() {
-        Storage storage = StorageFactory.getInstance();
-        if (storage.isFileStorage()) {
-            vaadinResource = new VaadinFileResource();
-        } else if (storage.isS3Storage()) {
+        if (SiteConfiguration.isDemandEdition()) {
             try {
                 Class<VaadinResource> cls = (Class<VaadinResource>) Class.forName(S3_CLS);
                 vaadinResource = cls.newInstance();
@@ -43,12 +43,23 @@ public class VaadinResourceFactory {
                 throw new MyCollabException("Exception when load s3 resource file", e);
             }
         } else {
-            throw new MyCollabException("Do not support storage system setting. Accept file or s3 only");
+            vaadinResource = new VaadinFileResource();
         }
     }
 
-
     public static VaadinResource getInstance() {
         return _instance.vaadinResource;
+    }
+
+    public static Resource getResource(String documentPath) {
+        return new ExternalResource(StorageFactory.getResourcePath(documentPath));
+    }
+
+    public static Resource getLogoResource(String logoId, int size) {
+        return new ExternalResource(StorageFactory.getLogoPath(AppContext.getAccountId(), logoId, size));
+    }
+
+    public static Resource getAvatarResource(String avatarId, int size) {
+        return new ExternalResource(StorageFactory.getAvatarPath(avatarId, size));
     }
 }

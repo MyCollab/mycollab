@@ -227,7 +227,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         Label logoDesc = new Label(AppContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION));
         leftPanel.with(logoDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
-        final Image favIconRes = new Image("", new ExternalResource(StorageFactory.getInstance().getFavIconPath(billingAccount.getId(),
+        final Image favIconRes = new Image("", new ExternalResource(StorageFactory.getFavIconPath(billingAccount.getId(),
                 billingAccount.getFaviconpath())));
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
@@ -254,7 +254,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
                         String newFavIconPath = favIconService.upload(AppContext.getUsername(), image, AppContext
                                 .getAccountId());
-                        favIconRes.setSource(new ExternalResource(StorageFactory.getInstance().getFavIconPath(billingAccount.getId(),
+                        favIconRes.setSource(new ExternalResource(StorageFactory.getFavIconPath(billingAccount.getId(),
                                 newFavIconPath)));
                         Page.getCurrent().getJavaScript().execute("window.location.reload();");
                     } catch (IOException e) {

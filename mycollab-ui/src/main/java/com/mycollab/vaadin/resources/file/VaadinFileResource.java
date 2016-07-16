@@ -32,7 +32,7 @@ import java.io.IOException;
  * @author MyCollab Ltd.
  * @since 4.5.1
  */
-public class VaadinFileResource extends VaadinResource {
+public class VaadinFileResource implements VaadinResource {
     private static final Logger LOG = LoggerFactory.getLogger(VaadinFileResource.class);
 
     @Override

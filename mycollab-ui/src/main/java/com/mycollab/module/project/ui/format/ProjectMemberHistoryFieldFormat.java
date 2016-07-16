@@ -57,7 +57,7 @@ public final class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat
             SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
             if (user != null) {
                 if (displayAsHtml) {
-                    Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 16));
+                    Img userAvatar = new Img("", StorageFactory.getAvatarPath(user.getAvatarid(), 16));
                     A link = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink
                             (CurrentProjectVariables.getProjectId(),
                                     user.getUsername())).appendText(StringUtils.trim(user.getDisplayName(), 30, true));

@@ -124,7 +124,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                             .appendText("Start Date & Time:"))
                     .appendChild(
                             new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
                                             AppContext.formatDateTime(meeting
                                                     .getStartDate())));
@@ -146,7 +146,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                             .appendText("End Date & Time:"))
                     .appendChild(
                             new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
                                             AppContext.formatDateTime(meeting
                                                     .getEndDate())));
@@ -156,14 +156,14 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                             .appendText("Location:"))
                     .appendChild(
                             new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
                                             (meeting.getMeetingLocation() != null) ? meeting
                                                     .getMeetingLocation() : ""));
             Tr trRow3 = new Tr();
             Td trRow3_value = new Td()
                     .setStyle(
-                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                            "word-wrap: break-word; white-space: normal;vertical-align: top;")
                     .appendText(
                             StringUtils.trimHtmlTags(meeting.getDescription()));
             trRow3_value.setAttribute("colspan", "3");
@@ -200,17 +200,16 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                             .appendText("Start Date & Time:"))
                     .appendChild(
                             new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
                                             AppContext.formatDateTime(call
                                                     .getStartDate())));
-            trRow1.appendChild(
-                    new Td().setStyle(
+            trRow1.appendChild(new Td().setStyle(
                             "width: 110px; vertical-align: top; text-align: right;")
                             .appendText("Status:"))
                     .appendChild(
                             new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
                                             (call.getStatus() != null) ? call
                                                     .getStatus() : ""));
@@ -222,7 +221,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                             .appendText("Duration:"))
                     .appendChild(
                             new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
                                             (call.getCallDuration() != null) ? call
                                                     .getCallDuration()
@@ -233,14 +232,14 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                             .appendText("Purpose:"))
                     .appendChild(
                             new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
                                             (call.getCallPurpose() != null) ? call
                                                     .getCallPurpose() : ""));
             Tr trRow3 = new Tr();
             Td trRow3_value = new Td()
                     .setStyle(
-                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                            "word-wrap: break-word; white-space: normal;vertical-align: top;")
                     .appendText(StringUtils.trimHtmlTags(call.getDescription()));
             trRow3_value.setAttribute("colspan", "3");
 
@@ -253,7 +252,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             Tr trRow4 = new Tr();
             Td trRow4_value = new Td()
                     .setStyle(
-                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                            "word-wrap: break-word; white-space: normal;vertical-align: top;")
                     .appendText(StringUtils.trimHtmlTags(call.getCallResult()));
             trRow4_value.setAttribute("colspan", "3");
 
@@ -282,33 +281,19 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
             table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
             Tr trRow1 = new Tr();
-            trRow1.appendChild(
-                    new Td().setStyle(
-                            "width: 100px; vertical-align: top; text-align: right;")
-                            .appendText("Start Date:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-                                    .appendText(
-                                            AppContext.formatDateTime(event
-                                                    .getStartDate())));
-            trRow1.appendChild(
-                    new Td().setStyle(
-                            "width: 90px; vertical-align: top; text-align: right;")
-                            .appendText("Status:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-                                    .setStyle(
-                                            "width:110px; vertical-align: top; text-align: left;")
-                                    .appendText(
-                                            StringUtils.trimHtmlTags(event
-                                                    .getStatus())));
+            trRow1.appendChild(new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("Start Date:"))
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
+                                    .appendText(AppContext.formatDateTime(event.getStartDate())));
+            trRow1.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;").appendText("Status:"))
+                    .appendChild(new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
+                                    .setStyle("width:110px; vertical-align: top; text-align: left;")
+                                    .appendText(StringUtils.trimHtmlTags(event.getStatus())));
 
             Tr trRow2 = new Tr();
             trRow2.appendChild(new Td().setStyle("width: 100px; vertical-align: top; text-align: right;")
                     .appendText("Due Date:")).appendChild(
-                    new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
                             .appendText(AppContext.formatDateTime(event.getEndDate())));
             trRow2.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
                     .appendText("Contact:"))
@@ -320,19 +305,19 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             Tr trRow3 = new Tr();
             trRow3.appendChild(
                     new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("Priority:"))
-                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
                             .appendText(StringUtils.trimHtmlTags(event.getPriority())));
             trRow3.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
                     .appendText("Assignee:"))
                     .appendChild(
-                            new Td().setStyle("width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                            new Td().setStyle("width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendChild(new A().setHref((event.getAssignUser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(
                                             AppContext.getSiteUrl(), event.getAssignUser()) : "")
-                                            .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(event.getAssignUserAvatarId(), 16)))
+                                            .appendChild(new Img("", StorageFactory.getAvatarPath(event.getAssignUserAvatarId(), 16)))
                                             .appendText(StringUtils.trimHtmlTags(event.getAssignUserFullName()))));
 
             Tr trRow4 = new Tr();
-            Td trRow4_value = new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+            Td trRow4_value = new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
                     .appendText(StringUtils.trimHtmlTags(event.getDescription()));
             trRow4_value.setAttribute("colspan", "3");
 

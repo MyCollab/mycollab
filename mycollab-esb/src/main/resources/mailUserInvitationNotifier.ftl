@@ -3,7 +3,7 @@
 <#import "macroTextBlock.ftl" as lib>
 <#include "mailHeader.ftl">
 <body>
-    <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin: 20px 0px;">
+    <table width="600" cellpadding="0" cellspacing="0" class="wrapContent">
         <#include "mailLogo.ftl">
         <tr>
             <td style="padding: 10px 30px;">

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.user;
 
+import com.hp.gagawa.java.elements.*;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.DateTimeUtils;
@@ -24,7 +25,6 @@ import com.mycollab.core.utils.TimezoneVal;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.SimpleUser;
-import com.hp.gagawa.java.elements.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class CommonTooltipGenerator {
                             new A().setHref("mailto:" + user.getEmail()).appendText(userEmail)));
 
             Td trRow1_value = new Td().setStyle("width:150px;text-align: right; vertical-align: top;")
-                    .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 100))
+                    .appendChild(new Img("", StorageFactory.getAvatarPath(user.getAvatarid(), 100))
                             .setCSSClass("circle-box"));
             trRow1_value.setAttribute("rowspan", "5");
             trRow1.appendChild(new Td().setStyle("width: 0px; vertical-align: top; text-align: right;").appendChild(trRow1_value));
@@ -81,7 +81,7 @@ public class CommonTooltipGenerator {
             Tr trRow5 = new Tr().appendChild(
                     new Td().setStyle("width: 110px; vertical-align: top; text-align: right;color:#999")
                             .appendText(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_LAST_ACCESSED_TIME)))
-                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
                             .appendText(DateTimeUtils.getPrettyDateValue(user.getLastaccessedtime(), locale)));
             table.appendChild(trRow1, trRow2, trRow3, trRow4, trRow5);
             div.appendChild(table);

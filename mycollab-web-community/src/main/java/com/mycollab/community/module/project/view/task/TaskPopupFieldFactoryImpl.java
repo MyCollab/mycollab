@@ -51,7 +51,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
 
     @Override
     public AbstractComponent createAssigneePopupField(SimpleTask task) {
-        String avatarLink = StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16);
+        String avatarLink = StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 16);
         Img img = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
         return new MetaFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
                 .FORM_ASSIGNEE)).build();

@@ -17,12 +17,13 @@
         <javaVersion>1.8</javaVersion>
         <slf4jVersion>1.7.21</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.6.7</vaadinVersion>
+        <vaadinVersion>7.6.8</vaadinVersion>
         <jettyVersion>9.3.10.v20160621</jettyVersion>
         <mysqlVersion>5.1.39</mysqlVersion>
         <junitVersion>4.12</junitVersion>
         <jackrabbitVersion>2.13.0</jackrabbitVersion>
         <jacksonVersion>2.8.0</jacksonVersion>
+        <jodaVersion>2.9.4</jodaVersion>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.8</scala.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -107,7 +108,7 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.9.4</version>
+            <version>${jodaVersion}</version>
         </dependency>
 
         <dependency>

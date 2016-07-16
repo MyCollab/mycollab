@@ -327,7 +327,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 issueLbl.addStyleName("overdue");
             }
 
-            String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+            String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
             Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
                     .getAssignUserFullName());
 

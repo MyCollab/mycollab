@@ -83,7 +83,7 @@ public class MobileApplication extends MyCollabUI {
     public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     @Override
-    protected void doInit(VaadinRequest request) {
+    protected void init(VaadinRequest request) {
         OfflineMode offlineMode = new OfflineMode();
         offlineMode.extend(this);
 
@@ -112,8 +112,7 @@ public class MobileApplication extends MyCollabUI {
                     return;
                 }
 
-                UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
-                        e, UserInvalidInputException.class);
+                UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(e, UserInvalidInputException.class);
                 if (invalidException != null) {
                     NotificationUtil.showWarningNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
                             invalidException.getMessage()));

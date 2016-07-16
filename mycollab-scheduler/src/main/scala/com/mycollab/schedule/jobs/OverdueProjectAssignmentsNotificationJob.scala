@@ -79,7 +79,7 @@ object OverdueProjectAssignmentsNotificationJob {
     }
 
     def formatAssignUser(subdomain: String, assignment: ProjectGenericTask): String = {
-      return new Div().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(assignment.getAssignUserAvatarId, 16)),
+      return new Div().appendChild(new Img("", StorageFactory.getAvatarPath(assignment.getAssignUserAvatarId, 16)),
         new A(AccountLinkGenerator.generatePreviewFullUserLink(subdomain, assignment.getAssignUser)).
           appendText(assignment.getAssignUserFullName)).write()
     }

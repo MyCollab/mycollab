@@ -120,7 +120,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
                     CurrentProjectVariables.getProjectId(), task.getAssignuser()));
             assigneeLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
             Div assigneeDiv = new Div().appendText(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-                    .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory.getInstance()
+                    .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory
                                     .getAvatarPath(task.getAssignUserAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(),
                             assigneeLink);
 

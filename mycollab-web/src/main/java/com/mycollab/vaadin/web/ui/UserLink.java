@@ -43,7 +43,7 @@ public class UserLink extends Label {
         this.setContentMode(ContentMode.HTML);
 
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(userAvatarId, 16)).setCSSClass("circle-box");
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(userAvatarId, 16)).setCSSClass("circle-box");
         A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
                 username)).appendText(StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));

@@ -10,7 +10,7 @@
 #macro( linkBlock $webLink )
 <div style="padding: 20px 15px; background-color: rgb(237, 248, 255);">
     <a href="$webLink"
-       style="width: 100%; display: inline-block; word-wrap: break-word; white-space: normal; word-break: break-all;">$webLink</a>
+       style="width: 100%; display: inline-block; word-wrap: break-word; white-space: normal;">$webLink</a>
 </div>
 #end
 

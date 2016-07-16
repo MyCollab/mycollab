@@ -31,6 +31,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.web.CustomLayoutExt;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.TextField;
@@ -76,7 +77,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
                 } else {
                     NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.NOT_VALID_EMAIL, username));
                 }
-            }).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(UIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
             customLayout.addComponent(sendEmail, "loginButton");
 
             MButton memoBackBtn = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD),

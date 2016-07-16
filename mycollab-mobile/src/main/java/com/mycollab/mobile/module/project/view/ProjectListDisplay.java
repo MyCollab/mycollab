@@ -76,7 +76,7 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
             Div metaDiv = new Div().appendChild(activeMembersDiv, DivLessFormatter.EMPTY_SPACE(), createdTimeDiv, DivLessFormatter.EMPTY_SPACE(),
                     billableHoursDiv, DivLessFormatter.EMPTY_SPACE(), nonBillableHoursDiv);
             if (project.getLead() != null) {
-                Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(project
+                Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(project
                         .getLeadAvatarId(), 16)), new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
                         .appendText(project.getLeadFullName())).setTitle("Manager");
                 metaDiv.appendChild(0, leadDiv);

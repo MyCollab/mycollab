@@ -3,11 +3,10 @@
 <#import "macroTextBlock.ftl" as lib>
 <#include "mailHeader.ftl">
 <body>
-<table width="600" cellpadding="0" cellspacing="0" border="0" style="margin: 20px 0px;">
+<table width="600" cellpadding="0" cellspacing="0"  class="wrapContent">
     <#include "mailLogo.ftl">
     <tr>
         <td style="padding: 10px 30px;">
-            <br>
             <div style="display: block; border-bottom: 1px solid rgb(212, 212, 212); padding-bottom: 5px; margin-bottom: 10px;">
                 Hi <b>${username}</b>,
             </div>

@@ -16,8 +16,9 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.configuration.StorageFactory;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.AssetResource;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.risto.stylecalendar.DateOptionsGenerator;
@@ -57,19 +58,19 @@ public class StyleCalendarExp extends VerticalLayout {
         setDateOptionsGenerator();
 
         btnShowNextYear = new Button();
-        btnShowNextYear.setIcon(new AssetResource("icons/16/cal_year_next.png"));
+        btnShowNextYear.setIcon(new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/cal_year_next.png")));
         btnShowNextYear.setStyleName(UIConstants.BUTTON_LINK);
 
         btnShowNextMonth = new Button();
-        btnShowNextMonth.setIcon(new AssetResource("icons/16/cal_month_next.png"));
+        btnShowNextMonth.setIcon(new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/cal_month_next.png")));
         btnShowNextMonth.setStyleName(UIConstants.BUTTON_LINK);
 
         btnShowPreviousMonth = new Button();
-        btnShowPreviousMonth.setIcon(new AssetResource("icons/16/cal_month_pre.png"));
+        btnShowPreviousMonth.setIcon(new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/cal_month_pre.png")));
         btnShowPreviousMonth.setStyleName(UIConstants.BUTTON_LINK);
 
         btnShowPreviousYear = new Button();
-        btnShowPreviousYear.setIcon(new AssetResource("icons/16/cal_year_pre.png"));
+        btnShowPreviousYear.setIcon(new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/cal_year_pre.png")));
         btnShowPreviousYear.setStyleName(UIConstants.BUTTON_LINK);
 
         lbSelectedDate.setValue(AppContext.formatDate(new Date()));

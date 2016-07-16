@@ -177,7 +177,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
             A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
                     CurrentProjectVariables.getProjectId(), milestone.getOwner()))
                     .appendText(StringUtils.trim(milestone.getOwnerFullName(), 30, true));
-            Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(milestone
+            Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(milestone
                     .getOwnerAvatarId(), 16))).appendChild(assigneeLink);
 
             ELabel assigneeLbl = new ELabel(assigneeDiv.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO)

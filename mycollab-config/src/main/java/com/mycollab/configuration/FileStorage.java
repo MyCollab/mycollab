@@ -16,6 +16,7 @@
  */
 package com.mycollab.configuration;
 
+import com.mycollab.core.MyCollabVersion;
 import com.mycollab.core.utils.FileUtils;
 
 import java.io.File;
@@ -26,7 +27,7 @@ import java.io.File;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public final class FileStorage extends Storage {
+public final class FileStorage implements Storage {
     private static final FileStorage _instance = new FileStorage();
 
     private File baseContentFolder;
@@ -59,5 +60,10 @@ public final class FileStorage extends Storage {
 
     public File getBaseContentFolder() {
         return baseContentFolder;
+    }
+
+    @Override
+    public String generateAssetLink(String resourceId) {
+        return String.format("%s%s?v=%s", SiteConfiguration.getCdnUrl(), resourceId, MyCollabVersion.getVersion());
     }
 }

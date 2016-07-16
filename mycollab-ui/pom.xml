@@ -80,12 +80,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>googleanalyticstracker</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
             <version>1.54</version>

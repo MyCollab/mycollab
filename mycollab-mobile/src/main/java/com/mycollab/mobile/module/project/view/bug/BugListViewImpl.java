@@ -122,7 +122,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
                     CurrentProjectVariables.getProjectId(), bug.getAssignuser()));
             assigneeLink.appendText(StringUtils.trim(bug.getAssignuserFullName(), 30, true));
             Div assigneeDiv = new Div().appendText(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-                    .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory.getInstance()
+                    .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory
                             .getAvatarPath(bug.getAssignUserAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(),
                             assigneeLink);
 

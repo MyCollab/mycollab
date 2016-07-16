@@ -40,7 +40,7 @@ import org.vaadin.teemu.VaadinIcons;
 public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactory {
     @Override
     public AbstractComponent createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName) {
-        String avatarLink = StorageFactory.getInstance().getAvatarPath(milestone.getOwnerAvatarId(), 16);
+        String avatarLink = StorageFactory.getAvatarPath(milestone.getOwnerAvatarId(), 16);
         Img img = new Img(milestone.getOwnerFullName(), avatarLink).setTitle(milestone.getOwnerFullName());
         if (isDisplayName) {
             return new MetaFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))

@@ -3,7 +3,7 @@
 <#import "macroTextBlock.ftl" as lib>
 <#include "mailHeader.ftl">
 <body>
-    <table width="600" cellpadding="0" cellspacing="0" border="0" class="wrapContent">
+    <table width="600" cellpadding="0" cellspacing="0" class="wrapContent">
         <#include "mailLogo.ftl">
         <tr>
             <td style="padding: 10px 30px 0px;">
@@ -36,6 +36,16 @@
                 </table>
             </td>
         </tr>
+        <#if lastComments?has_content>
+            <tr>
+                <td style="padding: 0px 30px;">
+                    <h3 style="font-size:14px">Latest comments (${lastComments?size})</h3>
+                </td>
+            </tr>
+            <#list lastComments as commentItem>
+                <@lib.commentBlock avatar=commentItem.ownerAvatarId displayName=commentItem.ownerFullName comment=commentItem.comment/>
+            </#list>
+        </#if>
         <#include "mailFooter.ftl">
     </table>
 </body>

@@ -318,7 +318,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             } else if (resource instanceof Content) {
                 Content content = (Content) resource;
                 if (StringUtils.isNotBlank(content.getThumbnail())) {
-                    resourceIcon = new Embedded(null, new ExternalResource(StorageFactory.getInstance().getResourcePath(content.getThumbnail())));
+                    resourceIcon = new Embedded(null, new ExternalResource(StorageFactory.getResourcePath(content.getThumbnail())));
                     resourceIcon.setWidth("38px");
                     resourceIcon.setHeight("38px");
                 } else {

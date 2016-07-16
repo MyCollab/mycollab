@@ -65,7 +65,7 @@ public class MobileAttachmentUtils {
         Component thumbnail;
 
         if (StringUtils.isNotBlank(attachment.getThumbnail())) {
-            thumbnail = new Image(null, VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail = new Image(null, VaadinResourceFactory.getResource(attachment.getThumbnail()));
         } else {
             thumbnail = new ELabel(FileAssetsUtil.getFileIconResource(attachment.getName()).getHtml(), ContentMode.HTML);
         }
@@ -83,8 +83,7 @@ public class MobileAttachmentUtils {
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    AttachmentPreviewView previewView = new AttachmentPreviewView(VaadinResourceFactory.getInstance()
-                            .getResource(attachment.getPath()));
+                    AttachmentPreviewView previewView = new AttachmentPreviewView(VaadinResourceFactory.getResource(attachment.getPath()));
                     EventBusFactory.getInstance().post(new ShellEvent.PushView(this, previewView));
                 }
             });
@@ -116,7 +115,7 @@ public class MobileAttachmentUtils {
 
         Component thumbnail;
         if (StringUtils.isNotBlank(attachment.getThumbnail())) {
-            thumbnail = new Image(null, VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail = new Image(null, VaadinResourceFactory.getResource(attachment.getThumbnail()));
         } else {
             thumbnail = new ELabel(FileAssetsUtil.getFileIconResource(attachment.getName()).getHtml(), ContentMode.HTML);
         }
@@ -129,29 +128,29 @@ public class MobileAttachmentUtils {
         attachmentLayout.with(attachmentLink).expand(attachmentLink);
 
         Button removeAttachment = new Button("", new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        ConfirmDialog.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.CloseListener() {
-                                    private static final long serialVersionUID = 1L;
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ConfirmDialog.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.CloseListener() {
+                            private static final long serialVersionUID = 1L;
 
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                                            attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
-                                            ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
-                                        }
-                                    }
-                                });
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
+                                    attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
+                                    ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
+                                }
+                            }
+                        });
 
-                    }
-                });
+            }
+        });
         removeAttachment.setIcon(FontAwesome.TRASH_O);
         if (additionalListener != null) {
             removeAttachment.addClickListener(additionalListener);

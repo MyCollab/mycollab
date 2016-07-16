@@ -75,11 +75,11 @@ public class AttachmentDisplayComponent extends CssLayout {
         if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setIcon(FileAssetsUtil.getFileIconResource(attachment.getName()));
         } else {
-            thumbnail.setIcon(VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail.setIcon(VaadinResourceFactory.getResource(attachment.getThumbnail()));
         }
 
         if (MimeTypesUtil.isImageType(docName)) {
-            thumbnail.setResource(VaadinResourceFactory.getInstance().getResource(attachment.getPath()));
+            thumbnail.setResource(VaadinResourceFactory.getResource(attachment.getPath()));
             new Fancybox(thumbnail).setPadding(0).setVersion("2.1.5").setEnabled(true).setDebug(true);
         }
 

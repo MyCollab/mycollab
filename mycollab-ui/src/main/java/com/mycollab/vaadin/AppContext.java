@@ -17,6 +17,7 @@
 package com.mycollab.vaadin;
 
 import ch.qos.cal10n.IMessageConveyor;
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
@@ -38,8 +39,6 @@ import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.MyCollabSession;
-import com.mycollab.vaadin.ui.service.GoogleAnalyticsService;
-import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import org.joda.time.DateTime;
@@ -99,7 +98,6 @@ public class AppContext implements Serializable {
     private Locale userLocale = Locale.US;
     private TimeZone userTimeZone;
     private Boolean isValidAccount = true;
-    private static GoogleAnalyticsService googleAnalyticsService = AppContextUtil.getSpringBean(GoogleAnalyticsService.class);
 
     public AppContext() {
         MyCollabSession.putCurrentUIVariable("context", this);
@@ -532,6 +530,5 @@ public class AppContext implements Serializable {
     public static void addFragment(String fragment, String windowTitle) {
         Page.getCurrent().setUriFragment(fragment, false);
         Page.getCurrent().setTitle(String.format("%s [%s]", StringUtils.trim(windowTitle, 150), AppContext.getSiteName()));
-        googleAnalyticsService.trackPageView(fragment);
     }
 }
