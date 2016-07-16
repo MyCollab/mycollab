@@ -69,7 +69,6 @@ public class AppExceptionHandler extends GenericHttpServlet {
                 if (uri != null && (uri.getPath().startsWith("/HEARTBEAT") || uri.getPath().startsWith("/APP/global"))) {
                     return;
                 }
-                LOG.error("Page 404: " + uri);
                 responsePage404(response);
             } else {
                 // Analyze the servlet exception
@@ -84,7 +83,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
 
     private void responsePage404(HttpServletResponse response) throws IOException, TemplateException {
         Map<String, Object> context = new HashMap<>();
-        Map<String, String> defaultUrls = new HashMap<>();
+        Map<String, String> defaultUrls = SiteConfiguration.defaultUrls();
         defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
         defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
         context.put("defaultUrls", defaultUrls);

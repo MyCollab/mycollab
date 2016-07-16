@@ -1,42 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html style="height:100%;">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
-
-    <link rel="stylesheet" type="text/css" href="${defaultUrls.cdn_url}css/main.css">
-    <style media="screen" type="text/css">
-#container {
-    background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
-    background-position: bottom right;
-}
-    </style>
-    <title>Reset your password</title>
-</head>
-<body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-<div id="container" style="height:100%;">
-    <#include "pageHeader.ftl">
-    <div id="body">
-        <div id="spacing"></div>
-        <div id="mainBody">
-            <div id="title">
-                <h1>Reset your password</h1>
-            </div>
-            <hr size="1">
-            <div>
-                <table style="width: 100%" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td style="width: 50%; vertical-align:top; padding-top:20px;">Create a strong password with a
+<html>
+<#import "macroPage.ftl" as lib>
+<@lib.head title="Reset your password"/>
+<body>
+    <#include "pageLogo.ftl">
+    <div id="spacing"></div>
+    <div id="mainBody">
+        <div id="title">
+            <h1>Reset your password</h1>
+        </div>
+        <hr size="1">
+        <div>
+            <table style="width: 100%" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td style="width: 50%; vertical-align:top; padding-top:20px;">Create a strong password with a
                             combination of lowercase, uppercase, and digits. Passwords are case sensitive and must be 6
                             or more characters in length.
-                        </td>
-                        <td style="vertical-align: top; width: 50%">
-                            <div id="mainContent" style="height:100%;">
-                                <div>
-                                    <form>
-                                        <table border="0" style="width: 100%" cellspacing="0" cellpadding="0">
-                                            <tbody>
+                    </td>
+                    <td style="vertical-align: top; width: 50%">
+                        <div id="mainContent" style="height:100%;">
+                            <div>
+                                <form>
+                                    <table border="0" style="width: 100%" cellspacing="0" cellpadding="0">
+                                        <tbody>
                                             <tr>
                                                 <td><label for="password">Password:</label></td>
                                             </tr>
@@ -52,27 +38,23 @@
                                             <tr>
                                                 <td><input id="repassword" maxlength="45" name="password" type="password"/></td>
                                             </tr>
-                                            </tbody>
-                                        </table>
-                                    </form>
-                                </div>
-                                <div style="padding-top: 15px; text-align: right;">
-                                    <button class="v-button v-button-orangebtn" type="button"
-                                            onclick="return updateInfoAction();">Update
-                                    </button>
-                                </div>
+                                        </tbody>
+                                    </table>
+                                </form>
                             </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <#include "pageFooter.ftl">
+                            <div style="padding-top: 15px; text-align: right;">
+                                <button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();">Update</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
+        <#include "pageFooter.ftl">
     </div>
-</div>
-<input type="hidden" id="username" value="${username}">
-<input type="hidden" id="loginURL" value="${loginURL}">
-<input type="hidden" id="redirectURL" value="${redirectURL}">
+    <input type="hidden" id="username" value="${username}">
+    <input type="hidden" id="loginURL" value="${loginURL}">
+    <input type="hidden" id="redirectURL" value="${redirectURL}">
 </body>
 <script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
@@ -111,6 +93,5 @@
               }
         });
     }
-
 </script>
 </html>

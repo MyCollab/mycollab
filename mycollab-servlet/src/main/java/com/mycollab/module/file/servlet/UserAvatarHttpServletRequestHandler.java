@@ -20,6 +20,7 @@ import com.mycollab.configuration.FileStorage;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.servlet.GenericHttpServlet;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -79,7 +80,7 @@ public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
                     }
                 }
             } else {
-                LOG.error("Invalid path " + path);
+                throw new ResourceNotFoundException("Invalid path " + path);
             }
         }
     }

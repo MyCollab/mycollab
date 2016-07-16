@@ -33,7 +33,7 @@ h3 {
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 <div id="container">
-    <#include "pageHeader.ftl">
+    <#include "pageLogo.ftl">
     <div id="body">
         <div id="spacing""></div>
         <div id="mainBody">
