@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.file.events
 
-import com.mycollab.eventmanager.ApplicationEvent
+import com.mycollab.events.ApplicationEvent
 import com.mycollab.module.ecm.domain.Resource
 import com.mycollab.module.ecm.domain.{ExternalDrive, Resource}
 

@@ -17,8 +17,6 @@
 package com.mycollab.module.file.service.impl;
 
 import com.mycollab.core.MyCollabException;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.events.SessionEvent;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.service.EntityUploaderService;
 import com.mycollab.module.file.service.UserAvatarService;
@@ -75,7 +73,6 @@ public class UserAvatarServiceImpl implements UserAvatarService {
         user.setUsername(username);
         user.setAvatarid(newAvatarId);
         userMapper.updateByPrimaryKeySelective(user);
-        EventBusFactory.getInstance().post(new SessionEvent.UserProfileChangeEvent(UserAvatarServiceImpl.this, "avatarid", newAvatarId));
         return newAvatarId;
     }
 }

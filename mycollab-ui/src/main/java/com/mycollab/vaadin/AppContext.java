@@ -17,7 +17,6 @@
 package com.mycollab.vaadin;
 
 import ch.qos.cal10n.IMessageConveyor;
-import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
@@ -26,10 +25,6 @@ import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.core.utils.TimezoneVal;
-import com.mycollab.eventmanager.ApplicationEventListener;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.events.SessionEvent;
-import com.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.billing.SubDomainNotExistException;
 import com.mycollab.module.user.dao.UserAccountMapper;
@@ -241,18 +236,6 @@ public class AppContext implements Serializable {
             LOG.debug("Get billing account {} of subDomain {}", BeanUtility.printBeanObj(account), domain);
             accountId = account.getId();
         }
-
-        EventBusFactory.getInstance().register(new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-            private static final long serialVersionUID = 1L;
-
-            @Subscribe
-            @Override
-            public void handle(UserProfileChangeEvent event) {
-                if ("avatarid".equals(event.getFieldChange())) {
-                    session.setAvatarid((String) event.getData());
-                }
-            }
-        });
     }
 
     /**

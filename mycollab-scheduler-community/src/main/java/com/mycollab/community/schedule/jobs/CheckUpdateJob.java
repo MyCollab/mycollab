@@ -61,15 +61,19 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
         String version = props.getProperty("version");
         if (MyCollabVersion.isEditionNewer(version)) {
             if (!isDownloading) {
-                if (latestFileDownloadedPath != null) {
-                    File installerFile = new File(latestFileDownloadedPath);
-                    if (installerFile.exists() && installerFile.getName().startsWith("mycollab" + version.replace('.', '_'))) {
-                        return;
-                    }
-                }
                 LOG.info("There is the new version of MyCollab " + version);
                 String autoDownloadLink = props.getProperty("autoDownload");
                 String manualDownloadLink = props.getProperty("downloadLink");
+
+                if (latestFileDownloadedPath != null) {
+                    File installerFile = new File(latestFileDownloadedPath);
+                    if (installerFile.exists() && installerFile.getName().startsWith("mycollab" + version.replace('.', '_'))) {
+                        Broadcaster.broadcast(new BroadcastMessage(new NewUpdateAvailableNotification(version,
+                                autoDownloadLink, manualDownloadLink, latestFileDownloadedPath)));
+                        return;
+                    }
+                }
+
                 if (autoDownloadLink != null) {
                     try {
                         DownloadMyCollabThread downloadMyCollabThread = new DownloadMyCollabThread(version, autoDownloadLink);

@@ -16,11 +16,13 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.google.common.eventbus.Subscribe;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.AbstractNotification;
 import com.mycollab.core.NewUpdateAvailableNotification;
 import com.mycollab.eventmanager.ApplicationEventListener;
@@ -28,10 +30,8 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.shell.view.components.UpgradeConfirmWindow;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;
-import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -103,7 +103,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         }
     }
 
-    public void addNotification(AbstractNotification notification) {
+    private void addNotification(AbstractNotification notification) {
         notificationItems.add(notification);
         updateCaption();
         displayTrayNotification(notification);
@@ -114,9 +114,15 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         updateCaption();
     }
 
-    protected void updateCaption() {
+    private void updateCaption() {
         if (notificationItems.size() > 0) {
-            this.setCaption("" + notificationItems.size());
+            UI ui = getUI();
+            AsyncInvoker.access(ui, new AsyncInvoker.PageCommand() {
+                @Override
+                public void run() {
+                    NotificationComponent.this.setCaption("" + notificationItems.size());
+                }
+            });
         } else {
             this.setCaption(null);
         }
@@ -148,20 +154,13 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             no.setHtmlContentAllowed(true);
             no.setDelayMsec(300000);
 
-            UI currentUI = UI.getCurrent();
-            if (currentUI != null) {
-                if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
+            UI currentUI = this.getUI();
+            AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+                @Override
+                public void run() {
                     no.show(currentUI.getPage());
-                    currentUI.push();
-                } else {
-                    try {
-                        UI.getCurrent().setPollInterval(1000);
-                        no.show(currentUI.getPage());
-                    } finally {
-                        UI.getCurrent().setPollInterval(-1);
-                    }
                 }
-            }
+            });
         }
     }
 

@@ -1,18 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html style="height: 100%;">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<link rel="icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="${defaultUrls.cdn_url}css/main.css">
+<#import "macroPage.ftl" as lib>
+<@lib.headElements title="MyCollab Setup Assistant Page"/>
 <style media="screen" type="text/css">
-#container {
-    background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
-    background-position: bottom right;
-}
-#mainContent {
-    padding: 10px 0 8px 0px;
-}
 input {
     font-size:18px;
     height: 35px;
@@ -22,209 +13,192 @@ label {
     display:block;
     margin-top:10px;
 }
-h3 {
-    padding-right:20px;
-}
-#body {
-    letter-spacing: 0.5px;
-}
 </style>
-<title>MyCollab Setup Assistant Page</title>
 </head>
-<body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-<div id="container">
+<body>
     <#include "pageLogo.ftl">
-    <div id="body">
-        <div id="spacing""></div>
-        <div id="mainBody">
-            <div id="title">
-                <h1 style="font-size:40px; margin-bottom:15px;">Welcome <span style="font-style:italic; font-size:20px;"></span><h1>
-            </div>
-            <hr size="1" style="margin: 1px 0 20px 0; ">
-            <div id="title">
-                <h3>Welcome to the MyCollab setup wizard. Please fill in the information below to complete the installation process.</h3>
-                <h4>MyCollab is well tested on various platforms include Windows, Linux and MacOS. We have been
+    <div id="spacing""></div>
+    <div id="mainBody">
+        <div id="title">
+            <h1>Thank you for trial MyCollab<h1>
+        </div>
+        <hr size="1" style="margin: 1px 0 20px 0; ">
+        <div id="title">
+            <h3>Welcome to the MyCollab setup wizard. Please fill in the information below to complete the installation process.</h3>
+            <h4>MyCollab is well tested on various platforms include Windows, Linux and MacOS. We have been
                 spending countless hours to do the installation testing on
                 as many machines as possible. If you can not install MyCollab successfully, please raise your case in
                  our <a href="http://support.mycollab.com/list/42580-general-help/" target="_blank">Support
                  page</a></h4>
-            </div>
-            <hr size="1" style="margin: 20px 0 1px 0; ">
-            <div id="mainContent">
-                <table style="width:100%">
-                    <tr>
-                        <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">MYCOLLAB SETUP </div>
-                            <h3 style="margin-top"></h3>
-                        </td>
-                        <td style="display: inline-block; vertical-align: top; width:100%">
-                            <form>
-                                <table border="0" style="width:100%">
-                                    <tbody>
-                                        <tr>
-                                            <td><label for="sitename">Site name:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="sitename" value="MyCollab"/></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td ><label for="serverAddress">Server address (without port value and http/https protocol):</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="serverAddress" placeholder="Example: 192.168.1.70 or myservername.com"/></td>
-                                        </tr>
-                                        <tr><td><h4>You can get this info from your web host. It could be an IP address or server name. You must not include the server port in this value. If you want to change the server port, please use <a href="https://community.mycollab.com/faq/#defaultport">this way</a></h4></td></tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </td>
-                    </tr>
-                </table >
-                <table style="width:100%;margin-top: 20px;">
-                    <tr>
-                        <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">DATABASE SETUP</div>
-                            <h4>Configure your pre-created MyCollab database schema</h4>
-                        </td>
-                        <td style="display: inline-block; vertical-align: top; width:100%">
-                            <form>
-                                <table border="0" style="width:100%">
-                                    <tbody>
-                                        <tr>
-                                            <td><label for="databaseName">Database name: </label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="databaseName" placeholder="Example: mycollab"/></td>
-                                        </tr>
-                                        <tr><td><h4>Name of MyCollab database. Database must be created before.</h4></td></tr>
-
-                                        <tr>
-                                            <td><label for="dbUserName">User name:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="dbUserName"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h4>Database user name</h4></td></tr>
-                                        <tr>
-                                            <td><label for="dbPassword">Password:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="dbPassword" type="password"/></td>
-                                        </tr>
-                                        <tr><td><h4>Database password</h4></td></tr>
-
-                                        <tr>
-                                            <td><label for="databaseServer">Database server address:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="databaseServer" placeholder="Example: localhost"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h4>You can get this info from your web host. If you use local Mysql, the address usually is <i>localhost:3306</i>.<h4>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                            <div class="right" style="margin-top: 10px;">
-                                <button id="validate" class="v-button v-button-greenbtn" type="button" onclick="return databaseValidate();"><span style="font-size: 15px;">Check Connection</span></button>
-                            </div>
-                        </td>
-                    </tr>
-                </table >
-                <table style="width:100%;margin-top: 20px;">
-                    <tr>
-                        <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
-                            <h4>Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file $\{MYCOLLAB_HOME}/conf/mycollab.properties</h4>
-                        </td>
-                        <td style="display: inline-block; vertical-align: top; width:100%">
-                            <form>
-                                <table border="0" style="width:100%">
-                                    <tbody>
-                                        <tr>
-                                            <td ><label for="smtpUserName">User name:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="smtpUserName" placeholder="Example: mycollab@gmail.com"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h4>Username or account of your email service.
-                                                <ul>
-                                                    <li>If you use Gmail, username is &lt;username&gt;@gmail.com</li>
-                                                    <li>If you use Outlook, username is &lt;username&gt;@outlook.com</li>
-                                                    <li>If you use Office365, username is &lt;username&gt;@yourdomainname</li>
-                                                    <li>Other email, please consult your email service provider</li>
-                                                </ul>
-                                                </h4>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td ><label for="smtpPassword">Password:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="smtpPassword" type="password"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h4>Password of your email account<h4>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="smtpHost">Server name:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="smtpHost"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h4>SMTP server address
+        </div>
+        <hr size="1" style="margin: 20px 0 1px 0; ">
+        <div id="mainContent">
+            <table style="width:100%">
+                <tr>
+                    <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">MYCOLLAB SETUP</div></td>
+                    <td style="display: inline-block; vertical-align: top; width:100%">
+                        <form>
+                            <table border="0" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td><label for="sitename">Site name:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="sitename" value="MyCollab"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td ><label for="serverAddress">Server address (without port value and http/https protocol):</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="serverAddress" placeholder="Example: 192.168.1.70 or myservername.com"/></td>
+                                    </tr>
+                                    <tr><td><h4>You can get this info from your web host. It could be an IP address or server name. You must not include the server port in this value. If you want to change the server port, please use <a href="https://community.mycollab.com/faq/#defaultport">this way</a></h4></td></tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+            </table >
+            <table style="width:100%;margin-top: 20px;">
+                <tr>
+                    <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">DATABASE SETUP</div>
+                        <h4>Configure your pre-created MyCollab database schema</h4>
+                    </td>
+                    <td style="display: inline-block; vertical-align: top; width:100%">
+                        <form>
+                            <table border="0" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td><label for="databaseName">Database name: </label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="databaseName" placeholder="Example: mycollab"/></td>
+                                    </tr>
+                                    <tr><td><h4>Name of MyCollab database. Database must be created before.</h4></td></tr>
+                                    <tr>
+                                        <td><label for="dbUserName">User name:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="dbUserName"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h4>Database user name</h4></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="dbPassword">Password:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="dbPassword" type="password"/></td>
+                                    </tr>
+                                    <tr><td><h4>Database password</h4></td></tr>
+                                    <tr>
+                                        <td><label for="databaseServer">Database server address:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="databaseServer" placeholder="Example: localhost"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>You can get this info from your web host. If you use local Mysql, the address usually is <i>localhost:3306</i>.<h4>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                        <div class="right" style="margin-top: 10px;">
+                            <button id="validate" class="v-button v-button-greenbtn" type="button" onclick="return databaseValidate();"><span style="font-size: 15px;">Check Connection</span></button>
+                        </div>
+                    </td>
+                </tr>
+            </table >
+            <table style="width:100%;margin-top: 20px;">
+                <tr>
+                    <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
+                        <h4>Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file $\{MYCOLLAB_HOME}/conf/mycollab.properties</h4>
+                    </td>
+                    <td style="display: inline-block; vertical-align: top; width:100%">
+                        <form>
+                            <table border="0" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td ><label for="smtpUserName">User name:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="smtpUserName" placeholder="Example: mycollab@gmail.com"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h4>Username or account of your email service.
+                                            <ul>
+                                                <li>If you use Gmail, username is &lt;username&gt;@gmail.com</li>
+                                                <li>If you use Outlook, username is &lt;username&gt;@outlook.com</li>
+                                                <li>If you use Office365, username is &lt;username&gt;@yourdomainname</li>
+                                                <li>Other email, please consult your email service provider</li>
+                                            </ul>
+                                            </h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td ><label for="smtpPassword">Password:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="smtpPassword" type="password"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h4>Password of your email account<h4></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="smtpHost">Server name:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="smtpHost"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>SMTP server address
                                                 <ul>
                                                     <li>If you use Gmail, the value is smtp.gmail.com</li>
                                                     <li>If you use Outlook, the value is smtp-mail.outlook.com</li>
                                                     <li>If you use Office365, the value is smtp.office365.com</li>
                                                 </ul>
-                                                </h4>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="smtpPort">Port:</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input id="smtpPort"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h4>If you use Gmail, Outlook or Office365, the port value is 587.<h4>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="tls" >STARTTLS:</label><input id="tls" type="checkbox"/> <label for="ssl" >or SSL/TLS: </label><input id="ssl" type="checkbox"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h4>Some email services like Gmail, Outlook, Office365 require STARTTLS enables, other services like Yahoo may require TSL/SSL enable<h4>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                            <div class="right" style="margin-top: 10px;">
-                                <button id="validateEmailBtn" class="v-button v-button-greenbtn" type="button" onclick="return emailValidate();" style="width:140px"><span style="font-size: 15px;">Check Smtp</span></button>
-                                <button id="setupBtn" class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();" style="width:140px"><span style="font-size: 15px;">Setup</span></button>
-                            </div>
-                        </td>
-                    </tr>
-                </table >
-            </div>
-            <#include "pageFooter.ftl">
+                                            </h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="smtpPort">Port:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="smtpPort"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>If you use Gmail, Outlook or Office365, the port value is 587.<h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="tls" >STARTTLS:</label><input id="tls" type="checkbox"/> <label for="ssl" >or SSL/TLS: </label><input id="ssl" type="checkbox"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>Some email services like Gmail, Outlook, Office365 require STARTTLS enables, other services like Yahoo may require TSL/SSL enable<h4>
+                                         </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                        <div class="right" style="margin-top: 10px;">
+                            <button id="validateEmailBtn" class="v-button v-button-greenbtn" type="button" onclick="return emailValidate();" style="width:140px"><span style="font-size: 15px;">Check Smtp</span></button>
+                            <button id="setupBtn" class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();" style="width:140px"><span style="font-size: 15px;">Setup</span></button>
+                        </div>
+                    </td>
+                </tr>
+            </table >
         </div>
+        <#include "pageFooter.ftl">
     </div>
-</div>
-<input type="hidden" id="postUrl" value=${postUrl}>
+    <input type="hidden" id="postUrl" value=${postUrl}>
 </body>
 <script src="/assets/js/jquery-2.1.4.min.js"></script>
 <script>
-
 function databaseValidate(){
     if ($('#databaseName').val() == "") {
         alert("Database schema name must be not null");

@@ -14,18 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.eventmanager
+package com.mycollab.module.user.esb
 
-import java.util.EventObject
-
-import scala.beans.BeanProperty
+import com.mycollab.module.user.domain.User
 
 /**
- * Serves as a parent for all application level events. It holds the source that
- * triggered the event and enforces each event implementation to provide an
- * appropriate description for the event.
- *
- * @author MyCollab Ltd.
- * @since 5.0.3
- */
-class ApplicationEvent(source: AnyRef, @BeanProperty val data: Any) extends EventObject(source) {}
+  * @author MyCollab Ltd
+  * @since 5.4.0
+  */
+class SendUserEmailVerifyRequestEvent(val user: User) {
+  
+}

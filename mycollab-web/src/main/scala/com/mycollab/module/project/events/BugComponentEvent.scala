@@ -32,7 +32,7 @@
   */
 package com.mycollab.module.project.events
 
-import com.mycollab.eventmanager.ApplicationEvent
+import com.mycollab.events.ApplicationEvent
 
 /**
   * @author MyCollab Ltd.

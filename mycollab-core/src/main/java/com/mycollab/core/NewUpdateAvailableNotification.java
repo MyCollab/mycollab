@@ -58,16 +58,17 @@ public class NewUpdateAvailableNotification extends AbstractNotification {
         NewUpdateAvailableNotification that = (NewUpdateAvailableNotification) o;
 
         if (!version.equals(that.version)) return false;
-        if (!autoDownloadLink.equals(that.autoDownloadLink)) return false;
+        if (autoDownloadLink != null ? !autoDownloadLink.equals(that.autoDownloadLink) : that.autoDownloadLink != null)
+            return false;
         if (!manualDownloadLink.equals(that.manualDownloadLink)) return false;
-        return !(installerFile != null ? !installerFile.equals(that.installerFile) : that.installerFile != null);
+        return installerFile != null ? installerFile.equals(that.installerFile) : that.installerFile == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = version.hashCode();
-        result = 31 * result + autoDownloadLink.hashCode();
+        result = 31 * result + (autoDownloadLink != null ? autoDownloadLink.hashCode() : 0);
         result = 31 * result + manualDownloadLink.hashCode();
         result = 31 * result + (installerFile != null ? installerFile.hashCode() : 0);
         return result;

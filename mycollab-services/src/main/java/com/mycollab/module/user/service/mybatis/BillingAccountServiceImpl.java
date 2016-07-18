@@ -30,6 +30,7 @@ import com.mycollab.module.user.dao.BillingAccountMapperExt;
 import com.mycollab.module.user.dao.UserAccountMapper;
 import com.mycollab.module.user.dao.UserMapper;
 import com.mycollab.module.user.domain.*;
+import com.mycollab.module.user.esb.SendUserEmailVerifyRequestEvent;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.service.RoleService;
 import com.mycollab.security.PermissionMap;
@@ -166,6 +167,9 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
                 user.setLastname(StringUtils.extractNameFromEmail(username));
             }
             userMapper.insert(user);
+            if (!isEmailVerified) {
+                asyncEventBus.post(new SendUserEmailVerifyRequestEvent(user));
+            }
         }
 
         // save default roles

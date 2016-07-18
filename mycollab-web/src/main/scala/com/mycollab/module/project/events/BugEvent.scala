@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.events
 
-import com.mycollab.eventmanager.ApplicationEvent
+import com.mycollab.events.ApplicationEvent
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria
 

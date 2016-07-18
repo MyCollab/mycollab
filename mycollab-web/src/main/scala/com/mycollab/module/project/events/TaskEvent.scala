@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.events
 
-import com.mycollab.eventmanager.ApplicationEvent
+import com.mycollab.events.ApplicationEvent
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria
 
 /**

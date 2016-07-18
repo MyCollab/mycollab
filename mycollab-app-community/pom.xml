@@ -173,6 +173,14 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.mycollab</groupId>
+                                    <artifactId>mycollab-esb-ondemand</artifactId>
+                                    <version>5.3.5</version>
+                                    <type>jar</type>
+                                    <includes>*.ftl</includes>
+                                    <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.mycollab</groupId>
                                     <artifactId>mycollab-localization</artifactId>
                                     <version>5.3.5</version>
                                     <type>jar</type>

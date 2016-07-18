@@ -28,27 +28,23 @@ import org.slf4j.LoggerFactory;
 public class AsyncInvoker {
     private static Logger LOG = LoggerFactory.getLogger(AsyncInvoker.class);
 
-    public static void access(final PageCommand pageCommand) {
-        final UI ui = UI.getCurrent();
+    public static void access(final UI ui, final PageCommand pageCommand) {
         pageCommand.setUI(ui);
         if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
             new Thread() {
                 @Override
                 public void run() {
-                    ui.access(new Runnable() {
-                        @Override
-                        public void run() {
+                    ui.access(() -> {
+                        try {
+                            pageCommand.run();
+                            ui.push();
+                            pageCommand.postRun();
+                        } finally {
+                            pageCommand.cleanUp();
                             try {
-                                pageCommand.run();
                                 ui.push();
-                                pageCommand.postRun();
-                            } finally {
-                                pageCommand.cleanUp();
-                                try {
-                                    ui.push();
-                                } catch (Exception e) {
-                                    LOG.error("Error", e);
-                                }
+                            } catch (Exception e) {
+                                LOG.error("Error", e);
                             }
                         }
                     });
@@ -66,6 +62,10 @@ public class AsyncInvoker {
                 ui.getSession().getLockInstance().unlock();
             }
         }
+    }
+
+    public static void access(final PageCommand pageCommand) {
+        access(UI.getCurrent(), pageCommand);
     }
 
     public static abstract class PageCommand {

@@ -18,7 +18,6 @@ package com.mycollab.schedule.spring;
 
 import com.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.mycollab.schedule.QuartzScheduleProperties;
-import com.mycollab.module.user.schedule.email.service.UserSignUpEmailNotificationJob;
 import com.mycollab.schedule.jobs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -70,13 +69,6 @@ public class DefaultScheduleConfiguration {
     }
 
     @Bean
-    public JobDetailFactoryBean userSignUpNotificationEmailJob() {
-        JobDetailFactoryBean bean = new JobDetailFactoryBean();
-        bean.setJobClass(UserSignUpEmailNotificationJob.class);
-        return bean;
-    }
-
-    @Bean
     public JobDetailFactoryBean liveInstanceMonitorJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(LiveInstanceMonitorJob.class);
@@ -111,14 +103,6 @@ public class DefaultScheduleConfiguration {
     public CronTriggerFactoryBean crmSendRelayNotificationEmailTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(crmSendRelayNotificationEmailJob().getObject());
-        bean.setCronExpression("0 * * * * ?");
-        return bean;
-    }
-
-    @Bean
-    public CronTriggerFactoryBean userSignUpNotificationEmailTrigger() {
-        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
-        bean.setJobDetail(userSignUpNotificationEmailJob().getObject());
         bean.setCronExpression("0 * * * * ?");
         return bean;
     }
@@ -162,7 +146,6 @@ public class DefaultScheduleConfiguration {
                 projectSendRelayNotificationEmailTrigger().getObject(),
                 projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
                 crmSendRelayNotificationEmailTrigger().getObject(),
-                userSignUpNotificationEmailTrigger().getObject(),
                 cleanUpTimelineCacheDataTrigger().getObject(),
                 liveInstanceMonitorTrigger().getObject()
         );

@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.user.accountsettings.view.events
 
-import com.mycollab.eventmanager.ApplicationEvent
+import com.mycollab.events.ApplicationEvent
 
 /**
   * @author MyCollab Ltd

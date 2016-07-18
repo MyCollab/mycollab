@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.shell.events
 
-import com.mycollab.eventmanager.ApplicationEvent
+import com.mycollab.events.ApplicationEvent
 
 /**
  * @author myCollab Ltd

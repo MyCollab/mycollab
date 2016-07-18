@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.mvp
+package com.mycollab.events
 
-import com.mycollab.events.ApplicationEvent
+import java.util.EventObject
+
+import scala.beans.BeanProperty
 
 /**
-  * @author MyCollab Ltd
-  * @since 5.1.0
+  * Serves as a parent for all application level events. It holds the source that
+  * triggered the event and enforces each event implementation to provide an
+  * appropriate description for the event.
+  *
+  * @author MyCollab Ltd.
+  * @since 5.0.3
   */
-class ViewEvent[E](source: AnyRef, data: E) extends ApplicationEvent(source, data) {
-
-}
-
-object ViewEvent {
-  val VIEW_IDENTIFIER: String = "viewevent";
-}
+class ApplicationEvent(source: AnyRef, @BeanProperty val data: Any) extends EventObject(source) {}

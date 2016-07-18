@@ -363,7 +363,7 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     public void reloadPage() {
-        this.getUI().getPage().getJavaScript().execute("window.location.reload();");
+        getUI().getPage().getJavaScript().execute("window.location.reload();");
     }
 
     private class ShellErrorHandler {

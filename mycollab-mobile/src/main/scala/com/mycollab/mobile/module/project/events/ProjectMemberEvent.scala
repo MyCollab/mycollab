@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.module.project.events
 
-import com.mycollab.eventmanager.ApplicationEvent
+import com.mycollab.events.ApplicationEvent
 
 import scala.beans.BeanProperty
 

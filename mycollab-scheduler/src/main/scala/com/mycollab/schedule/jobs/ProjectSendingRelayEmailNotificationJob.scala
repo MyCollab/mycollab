@@ -20,7 +20,7 @@ import com.mycollab.module.project.service.ProjectService
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.dao.RelayEmailNotificationMapper
 import com.mycollab.spring.AppContextUtil
-import org.quartz.JobExecutionContext
+import org.quartz.{DisallowConcurrentExecution, JobExecutionContext}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component
   */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@DisallowConcurrentExecution
 class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
   private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
 
