@@ -10,46 +10,44 @@
             <h1>Reset your password</h1>
         </div>
         <hr size="1">
-        <div>
-            <table style="width: 100%" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td style="width: 50%; vertical-align:top; padding-top:20px;">Create a strong password with a
+        <table style="width: 100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td style="width: 50%; vertical-align:top; padding-top:20px;">Create a strong password with a
                             combination of lowercase, uppercase, and digits. Passwords are case sensitive and must be 6
                             or more characters in length.
-                    </td>
-                    <td style="vertical-align: top; width: 50%">
-                        <div id="mainContent" style="height:100%;">
-                            <div>
-                                <form>
-                                    <table border="0" style="width: 100%" cellspacing="0" cellpadding="0">
-                                        <tbody>
-                                            <tr>
-                                                <td><label for="password">Password:</label></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input id="password" maxlength="45" name="password" type="password"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td style="height:10px;"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="password">Verify Password:</label></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input id="repassword" maxlength="45" name="password" type="password"/></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </form>
-                            </div>
-                            <div style="padding-top: 15px; text-align: right;">
-                                <button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();">Update</button>
-                            </div>
+                </td>
+                <td style="vertical-align: top; width: 50%">
+                    <div id="mainContent" style="height:100%;">
+                        <div>
+                            <form>
+                                <table border="0" style="width: 100%" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="password">Password:</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input id="password" maxlength="45" name="password" type="password"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height:10px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="password">Verify Password:</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input id="repassword" maxlength="45" name="password" type="password"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
                         </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                        <div style="padding-top: 15px; text-align: right;">
+                            <button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();">Update</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
         <#include "pageFooter.ftl">
     </div>
     <input type="hidden" id="username" value="${username}">
@@ -74,23 +72,23 @@
             return;
         }
         var url = encodeURI($('#redirectURL').val());
-         $.ajax({
-              type: 'POST',
-              url: url,
-              data : {
-                        username : $('#username').val().trim(), 
-                        password : $('#password').val().trim()
-                    },
-              success: function(data) {
-                 if (data!=null) {
-                    if (data.length > 0) {
-                        alert(data);
-                    } else {
-                        alert("Your password has been changed successfully");
-                        window.location.assign("${loginURL}");
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data : {
+                username : $('#username').val().trim(),
+                password : $('#password').val().trim()
+                },
+                success: function(data) {
+                    if (data!=null) {
+                        if (data.length > 0) {
+                            alert(data);
+                        } else {
+                            alert("Your password has been changed successfully");
+                            window.location.assign("${loginURL}");
+                        }
                     }
-                 }
-              }
+                }
         });
     }
 </script>

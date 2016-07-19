@@ -27,44 +27,4 @@
         WHERE s_account.id = #{accountId,jdbcType=NUMERIC}
         ]]>
     </select>
-
-    <select id="getSubdomainsOfUser" resultType="java.lang.String" parameterType="java.lang.String">
-        <![CDATA[
-        SELECT DISTINCT s_account.subdomain
-            FROM s_account, s_user_account
-            WHERE s_user_account.username=#{username, jdbcType=VARCHAR} AND s_user_account.accountId=s_account.id
-        ]]>
-    </select>
-
-    <resultMap extends="com.mycollab.module.user.dao.BillingAccountMapperExt.SimpleBillingAccountResult"
-        id="BillingAccountWithOwnersResult"
-        type="com.mycollab.module.user.domain.BillingAccountWithOwners">
-        <collection columnPrefix="owner_"
-            ofType="com.mycollab.module.user.domain.SimpleUser"
-            property="owners"
-            resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" />
-    </resultMap>
-    
-    <select id="getTrialAccountsWithOwners" resultMap="BillingAccountWithOwnersResult">
-        <![CDATA[
-        SELECT s_account.id, s_account.createdTime, s_account.billingPlanId,s_account.subdomain,
-            s_account.accountName, s_account.status, s_account.paymentMethod, s_account.pricing,
-            s_account.pricingEffectFrom, s_account.pricingEffectTo,
-            s_account.reminderStatus, s_account.sitename, s_account.logoPath, s_account.defaultTimezone,
-            s_account.defaultCurrencyId, s_account.defaultYYMMDDFormat, s_account.defaultMMDDFormat,
-            s_account.defaultHumanDateFormat, s_account.defaultLanguageTag, s_account.displayEmailPublicly,
-            s_billing_plan.id AS billingPlan_id, s_billing_plan.billingType AS billingPlan_billingType,
-            s_billing_plan.numUsers AS billingPlan_numUsers, s_billing_plan.volume AS billingPlan_volume,
-            s_billing_plan.numProjects AS billingPlan_numProjects,
-            s_billing_plan.pricing AS billingPlan_pricing, s_billing_plan.description AS billingPlan_description,
-            s_billing_plan.shoppingUrl AS billingPlan_shoppingUrl,
-            s_user.username AS owner_username, s_user.email AS owner_email,
-            s_user.firstname AS owner_firstname, s_user.lastname AS owner_lastname
-        FROM s_account
-            LEFT OUTER JOIN s_billing_plan ON (s_billing_plan.id=s_account.billingPlanId)
-            LEFT OUTER JOIN s_user_account ON (s_account.id=s_user_account.accountId AND isAccountOwner="1")
-            LEFT OUTER JOIN s_user ON (s_user_account.username=s_user.username)
-        WHERE s_account.status="Trial" AND s_billing_plan.billingType <> 'Free'
-        ]]>
-    </select>
 </mapper>

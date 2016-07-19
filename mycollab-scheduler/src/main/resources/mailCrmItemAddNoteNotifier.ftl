@@ -2,17 +2,26 @@
 <html>
 <#import "macroTextBlock.ftl" as lib>
 <#include "mailHeader.ftl">
-<body>
+<body style="width: 600px">
     <table width="600" cellpadding="0" cellspacing="0" border="0" class="wrapContent">
         <#include "mailLogo.ftl">
         <tr>
             <td style="padding: 10px 30px;">
                 <p>${actionHeading}</p>
                 <p><b><@lib.hyperLink displayName=summary webLink=summaryLink/></b></p>
-                <@lib.block content=comment.changecomment!/>
             </td>
         </tr>
-        <#include "mailFooter.ftl">
+        <#if lastComments?has_content>
+            <tr>
+                <td style="padding: 0px 30px;">
+                    <h3 style="font-size:14px">Latest comments (${lastComments?size})</h3>
+                </td>
+                </tr>
+            <#list lastComments as commentItem>
+                <@lib.commentBlock avatar=commentItem.ownerAvatarId displayName=commentItem.ownerFullName comment=commentItem.comment/>
+            </#list>
+        </#if>
     </table>
+<#include "mailCrmFooter.ftl">
 </body>
 </html>

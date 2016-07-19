@@ -5,7 +5,7 @@
 <body>
     <#include "pageLogo.ftl">
     <div id="spacing"></div>
-    <div id="mainBody>
+    <div id="mainBody">
         <div id="title">
             <h1>Error</h1>
         </div>

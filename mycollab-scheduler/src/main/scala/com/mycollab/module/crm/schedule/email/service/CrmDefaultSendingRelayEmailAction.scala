@@ -33,10 +33,12 @@
 package com.mycollab.module.crm.schedule.email.service
 
 import com.mycollab.common.MonitorTypeConstants
+import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.domain.{MailRecipientField, SimpleRelayEmailNotification}
-import com.mycollab.common.service.AuditLogService
+import com.mycollab.common.service.{AuditLogService, CommentService}
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.{BeanUtility, StringUtils}
+import com.mycollab.db.arguments.{BasicSearchRequest, StringSearchField}
 import com.mycollab.module.crm.service.CrmNotificationSettingService
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -56,11 +58,12 @@ import scala.util.control.Breaks._
 abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNotificationAction {
   private val LOG = LoggerFactory.getLogger(classOf[CrmDefaultSendingRelayEmailAction[_]])
 
-  @Autowired protected val extMailService: ExtMailService = null
-  @Autowired private val auditLogService: AuditLogService = null
-  @Autowired protected val userService: UserService = null
-  @Autowired protected val notificationService: CrmNotificationSettingService = null
-  @Autowired protected val contentGenerator: IContentGenerator = null
+  @Autowired val extMailService: ExtMailService = null
+  @Autowired val auditLogService: AuditLogService = null
+  @Autowired val userService: UserService = null
+  @Autowired val notificationService: CrmNotificationSettingService = null
+  @Autowired val commentService: CommentService = null
+  @Autowired val contentGenerator: IContentGenerator = null
   protected var bean: B = _
   protected var changeUser: SimpleUser = _
   protected var siteUrl: String = null
@@ -102,6 +105,13 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
       onInitAction(notification)
       bean = getBeanInContext(notification)
       if (bean != null) {
+        val searchCriteria = new CommentSearchCriteria
+        searchCriteria.setType(StringSearchField.and(notification.getType))
+        searchCriteria.setTypeId(StringSearchField.and(notification.getTypeid))
+        searchCriteria.setSaccountid(null)
+        val comments = commentService.findPagableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
+        contentGenerator.putVariable("lastComments", comments)
+        
         import scala.collection.JavaConversions._
         for (user <- notifiers) {
           val notifierFullName = user.getDisplayName
@@ -132,7 +142,14 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
     val notifiers = getListNotifyUserWithFilter(notification, MonitorTypeConstants.ADD_COMMENT_ACTION)
     if ((notifiers != null) && notifiers.nonEmpty) {
       onInitAction(notification)
-
+  
+      val searchCriteria = new CommentSearchCriteria
+      searchCriteria.setType(StringSearchField.and(notification.getType))
+      searchCriteria.setTypeId(StringSearchField.and(notification.getTypeid))
+      searchCriteria.setSaccountid(null)
+      val comments = commentService.findPagableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
+      contentGenerator.putVariable("lastComments", comments)
+      
       import scala.collection.JavaConversions._
       for (user <- notifiers) {
         val notifierFullName = user.getDisplayName
@@ -150,7 +167,6 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
         bean = getBeanInContext(notification)
         context.setWrappedBean(bean)
         buildExtraTemplateVariables(context)
-        contentGenerator.putVariable("comment", context.getEmailNotification)
         val subject = context.getMessage(getCommentSubjectKey, context.getChangeByUserFullName, getItemName)
         val userMail = new MailRecipientField(user.getEmail, user.getUsername)
         val recipients = List(userMail)

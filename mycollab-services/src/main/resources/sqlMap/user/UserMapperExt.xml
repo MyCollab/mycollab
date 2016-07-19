@@ -16,6 +16,7 @@
         <result column="shortDateFormat" jdbcType="VARCHAR" property="shortDateFormat" />
         <result column="longDateFormat" jdbcType="VARCHAR" property="longDateFormat" />
         <result column="showEmailPublicly" jdbcType="BIT" property="showEmailPublicly" />
+        <result column="canSendEmail" jdbcType="BIT" property="canSendEmail" />
     </resultMap>
 
     <sql id="querySearchCriteria">

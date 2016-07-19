@@ -16,14 +16,14 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
-import com.mycollab.module.project.domain.{ProjectRelayEmailNotification, SimpleMessage}
-import com.mycollab.module.project.service.MessageService
-import com.mycollab.schedule.email.project.MessageRelayEmailNotificationAction
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.LinkUtils
 import com.mycollab.module.project.ProjectLinkGenerator
+import com.mycollab.module.project.domain.{ProjectRelayEmailNotification, SimpleMessage}
 import com.mycollab.module.project.i18n.MessageI18nEnum
+import com.mycollab.module.project.service.MessageService
+import com.mycollab.schedule.email.project.MessageRelayEmailNotificationAction
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -70,7 +70,9 @@ class MessageRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
       case MonitorTypeConstants.UPDATE_ACTION => MessageI18nEnum.MAIL_UPDATE_ITEM_HEADING
       case MonitorTypeConstants.ADD_COMMENT_ACTION => MessageI18nEnum.MAIL_COMMENT_ITEM_HEADING
     }
-
+  
+    contentGenerator.putVariable("projectName", bean.getProjectName)
+    contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean.getProjectid))
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)

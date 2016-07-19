@@ -40,8 +40,8 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
-Version 5.3.5
------------------------------
+Version 5.4.0
+-------------
 
 ** Notes
 
@@ -49,7 +49,7 @@ Version 5.3.5
 
 **Library Upgrades**
 
-* Jackrabbit 2.13.0
+* Jackrabbit 2.13.1
 * Spring framework 4.3.1.RELEASE
 * Vaadin 7.6.8
 * Jetty 9.3.10.v20160621

@@ -2,7 +2,7 @@
 <html>
 <#import "macroTextBlock.ftl" as lib>
 <#include "mailHeader.ftl">
-<body>
+<body style="width: 600px">
     <table width="600" cellpadding="0" cellspacing="0" class="wrapContent">
         <#include "mailLogo.ftl">
         <tr>
@@ -39,7 +39,7 @@
                 </#if>
             </td>
         </tr>
-        <#include "mailFooter.ftl">
     </table>
+    <#include "mailCrmFooter.ftl">
 </body>
 </html>

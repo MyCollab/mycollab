@@ -80,4 +80,8 @@ public class UrlTokenizer {
     public String getQuery() {
         return query;
     }
+
+    public static void main(String[] args) {
+        System.out.println(UrlEncodeDecoder.encode("hainguyen@esofthead.com"));
+    }
 }

@@ -17,12 +17,12 @@
 package com.mycollab.module.billing.servlet;
 
 import com.mycollab.common.UrlTokenizer;
-import com.mycollab.core.MyCollabException;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.module.billing.UserStatusConstants;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.servlet.GenericHttpServlet;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
@@ -42,27 +42,23 @@ public class ConfirmEmailHandler extends GenericHttpServlet {
     private UserService userServices;
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateException {
         String pathInfo = request.getPathInfo();
-        try {
-            if (pathInfo != null) {
-                UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
-                String username = urlTokenizer.getString();
-                Integer accountId = urlTokenizer.getInt();
-                SimpleUser user = userServices.findUserByUserNameInAccount(username, accountId);
+        if (pathInfo != null) {
+            UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+            String username = urlTokenizer.getString();
+            Integer accountId = urlTokenizer.getInt();
+            SimpleUser user = userServices.findUserByUserNameInAccount(username, accountId);
 
-                if (user != null) {
-                    user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
-                    userServices.updateWithSession(user, username);
-                    response.sendRedirect(request.getContextPath() + "/");
-                } else {
-                    PageGeneratorUtil.responseUserNotExistPage(response, username, request.getContextPath() + "/");
-                }
+            if (user != null) {
+                user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
+                userServices.updateWithSession(user, username);
+                response.sendRedirect(request.getContextPath() + "/");
             } else {
-                throw new ResourceNotFoundException();
+                PageGeneratorUtil.responseUserNotExistPage(response, username, request.getContextPath() + "/");
             }
-        } catch (Exception e) {
-            throw new MyCollabException(e);
+        } else {
+            throw new ResourceNotFoundException();
         }
     }
 }

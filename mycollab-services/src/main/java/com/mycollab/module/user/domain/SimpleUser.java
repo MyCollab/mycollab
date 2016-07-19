@@ -50,6 +50,9 @@ public class SimpleUser extends User {
     private String longDateFormat;
     private Boolean showEmailPublicly;
 
+    @NotBindable
+    private Boolean canSendEmail;
+
     public PermissionMap getPermissionMaps() {
         return permissionMaps;
     }
@@ -160,6 +163,14 @@ public class SimpleUser extends User {
 
     public void setShowEmailPublicly(Boolean showEmailPublicly) {
         this.showEmailPublicly = showEmailPublicly;
+    }
+
+    public Boolean getCanSendEmail() {
+        return canSendEmail;
+    }
+
+    public void setCanSendEmail(Boolean canSendEmail) {
+        this.canSendEmail = canSendEmail;
     }
 
     public String getDisplayName() {

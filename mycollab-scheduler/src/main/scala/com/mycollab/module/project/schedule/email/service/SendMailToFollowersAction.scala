@@ -127,7 +127,6 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           contentGenerator.putVariable("comment", context.getEmailNotification)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val toRecipients = List[MailRecipientField](userMail)
-          System.out.println(contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.getLocale))
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, toRecipients,
             null, null, getCommentSubject(context),
             contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.getLocale), null)

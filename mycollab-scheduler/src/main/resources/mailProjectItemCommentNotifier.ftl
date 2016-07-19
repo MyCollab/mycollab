@@ -2,7 +2,7 @@
 <html>
 <#import "macroTextBlock.ftl" as lib>
 <#include "mailHeader.ftl">
-<body>
+<body style="width: 600px">
     <table width="600" cellpadding="0" cellspacing="0" class="wrapContent">
         <#include "mailLogo.ftl">
         <tr>
@@ -22,7 +22,7 @@
                 <@lib.commentBlock avatar=commentItem.ownerAvatarId displayName=commentItem.ownerFullName comment=commentItem.comment/>
             </#list>
         </#if>
-        <#include "mailFooter.ftl">
     </table>
+    <#include "mailProjectFooter.ftl">
 </body>
 </html>

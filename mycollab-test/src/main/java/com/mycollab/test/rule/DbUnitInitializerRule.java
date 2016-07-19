@@ -129,8 +129,7 @@ public class DbUnitInitializerRule implements TestRule {
     }
 
     private static class DbUnitTester extends JdbcDatabaseTester {
-        public DbUnitTester(String driverClass, String connectionUrl,
-                            String username, String password) throws ClassNotFoundException {
+        public DbUnitTester(String driverClass, String connectionUrl, String username, String password) throws ClassNotFoundException {
             super(driverClass, connectionUrl, username, password);
         }
 

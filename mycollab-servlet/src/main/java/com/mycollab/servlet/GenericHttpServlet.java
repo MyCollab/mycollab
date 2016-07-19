@@ -19,6 +19,7 @@ package com.mycollab.servlet;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.i18n.LocalizationHelper;
+import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -75,5 +76,5 @@ public abstract class GenericHttpServlet extends HttpServlet {
         return (locale == null) ? Locale.US : LocalizationHelper.getLocaleInstance(locale);
     }
 
-    abstract protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+    abstract protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateException;
 }

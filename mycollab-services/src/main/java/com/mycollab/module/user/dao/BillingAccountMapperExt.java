@@ -16,16 +16,8 @@
  */
 package com.mycollab.module.user.dao;
 
-import com.mycollab.module.user.domain.BillingAccountWithOwners;
 import com.mycollab.module.user.domain.SimpleBillingAccount;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 public interface BillingAccountMapperExt {
     SimpleBillingAccount getBillingAccountById(Integer accountId);
-
-    List<String> getSubDomainsOfUser(@Param("username") String username);
-
-    List<BillingAccountWithOwners> getTrialAccountsWithOwners();
 }

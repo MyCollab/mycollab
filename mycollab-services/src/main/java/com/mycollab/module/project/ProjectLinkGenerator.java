@@ -205,4 +205,12 @@ public class ProjectLinkGenerator {
     public static String generateUsersLink(Integer projectId) {
         return "project/user/list/" + UrlEncodeDecoder.encode(projectId);
     }
+
+    public static String generateProjectSettingLink(Integer projectId) {
+        return "project/setting/" + UrlEncodeDecoder.encode(projectId);
+    }
+
+    public static String generateProjectSettingFullLink(String siteUrl, Integer projectId) {
+        return siteUrl + URL_PREFIX_PARAM + generateProjectSettingLink(projectId);
+    }
 }

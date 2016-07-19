@@ -1,6 +1,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <style>
 a {
   color: ${styles.link_color};
@@ -8,7 +8,6 @@ a {
 body {
   background-color: ${styles.background};
   font: ${styles.font};
-  color: #4e4e4e;
   padding: 0px 0px;
 }
 td {
@@ -38,10 +37,10 @@ td {
 }
 
 .wrapContent {
-    font-size: 12px;
     margin: 20px 0px;
-    background-color:white; border:
-    1px solid #e9e9e9;
+    background-color:white;
+    border: 1px solid #e9e9e9;
+    padding-bottom: 20px;
 }
 .circle-box {
     border-radius: 50%;
