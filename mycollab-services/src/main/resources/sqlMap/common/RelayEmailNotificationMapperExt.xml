@@ -42,7 +42,7 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="RelayEmailNotificationSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="RelayEmailNotificationSearchCriteria"
         resultMap="SimpleEmailRelayNotificationResult" lang="velocity">
         <include refid="selectSimpleRelayEmailNotification" />
         #ifnotnull($_parameter.searchCriteria)

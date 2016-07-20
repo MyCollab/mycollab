@@ -43,7 +43,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testGetFindByCriteria() {
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(1);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"));
@@ -52,7 +52,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testGetTotalCount() {
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
         assertThat(contacts.size()).isEqualTo(1);
     }
 
@@ -70,7 +70,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         ContactSearchCriteria criteria = new ContactSearchCriteria();
         criteria.setContactName(StringSearchField.and("Nguyen Hai"));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(1);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"));
@@ -83,7 +83,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setAssignUsers(new SetSearchField<>("linh", "hai"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(3);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"), tuple(3, "hai"));
@@ -95,7 +95,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         ContactSearchCriteria criteria = new ContactSearchCriteria();
         criteria.setLeadSources(new SetSearchField<>("Email", "Campaign"));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"));
@@ -108,7 +108,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setAnyPostalCode(StringSearchField.and("70000"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"));
@@ -121,7 +121,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setAnyCity(StringSearchField.and("HCM"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"));
@@ -134,7 +134,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setAnyPhone(StringSearchField.and("(111)-(222)"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"));
@@ -146,7 +146,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         ContactSearchCriteria criteria = new ContactSearchCriteria();
         criteria.setCountries(new SetSearchField<>("Viet nam", "America"));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(3, "hai"));
@@ -159,7 +159,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setAnyState(StringSearchField.and("abc"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
         assertThat(contacts).extracting("id", "assignuser").contains(
@@ -173,7 +173,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         ContactSearchCriteria criteria = new ContactSearchCriteria();
         criteria.setAnyAddress(StringSearchField.and("ade"));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<SimpleContact> contacts = contactService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleContact> contacts = contactService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
         assertThat(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"));
@@ -188,7 +188,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleContact> contacts = contactService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
+                .findPageableListByCriteria(new BasicSearchRequest<>(
                         criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(2);
@@ -205,7 +205,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleContact> contacts = contactService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
+                .findPageableListByCriteria(new BasicSearchRequest<>(
                         criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(1);
@@ -222,7 +222,7 @@ public class ContactServiceTest extends IntegrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleContact> contacts = contactService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
+                .findPageableListByCriteria(new BasicSearchRequest<>(
                         criteria, 0, Integer.MAX_VALUE));
 
         assertThat(contacts.size()).isEqualTo(3);

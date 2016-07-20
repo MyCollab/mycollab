@@ -377,7 +377,7 @@
         lastUpdatedTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
         resultMap="BaseResultMap" lang="velocity">
 
         (

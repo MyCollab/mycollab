@@ -95,7 +95,7 @@
 		monitorDate DESC
 	</sql>
 
-	<select id="findPagableListByCriteria" parameterType="FollowingTicketSearchCriteria" resultMap="FollowingTicketResult" lang="velocity">
+	<select id="findPageableListByCriteria" parameterType="FollowingTicketSearchCriteria" resultMap="FollowingTicketResult" lang="velocity">
 		(
 		<include refid="selectFollowingTicketOfTask" />
 		#ifnotnull($_parameter.searchCriteria)

@@ -43,7 +43,7 @@ public class CampaignServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testSearchByCriteria() {
-        List<SimpleCampaign> campaigns = campaignService.findPagableListByCriteria(
+        List<SimpleCampaign> campaigns = campaignService.findPageableListByCriteria(
                 new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(campaigns.size()).isEqualTo(2);
@@ -54,7 +54,7 @@ public class CampaignServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testGetTotalCounts() {
-        List<SimpleCampaign> campaigns = campaignService.findPagableListByCriteria(
+        List<SimpleCampaign> campaigns = campaignService.findPageableListByCriteria(
                 new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(campaigns.size()).isEqualTo(2);

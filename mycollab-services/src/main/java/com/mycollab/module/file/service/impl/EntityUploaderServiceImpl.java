@@ -51,14 +51,14 @@ public class EntityUploaderServiceImpl implements EntityUploaderService {
         // Construct new logoid
         String newLogoId = new GregorianCalendar().getTimeInMillis() + UUID.randomUUID().toString();
 
-        for (int i = 0; i < preferSizes.length; i++) {
-            uploadLogoToStorage(uploadedUser, image, basePath, newLogoId, preferSizes[i]);
+        for (int preferSize : preferSizes) {
+            uploadLogoToStorage(uploadedUser, image, basePath, newLogoId, preferSize);
         }
 
         if (StringUtils.isNotBlank(oldId)) {
-            for (int i = 0; i < preferSizes.length; i++) {
+            for (int preferSize : preferSizes) {
                 try {
-                    resourceService.removeResource(String.format("%s/%s_%d.png", basePath, oldId, preferSizes[i]),
+                    resourceService.removeResource(String.format("%s/%s_%d.png", basePath, oldId, preferSize),
                             uploadedUser, sAccountId);
                 } catch (Exception e) {
                     LOG.error("Error while delete old logo", e);

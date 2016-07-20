@@ -143,7 +143,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="ProjectMemberSearchCriteria" resultMap="ProjectMemberResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="ProjectMemberSearchCriteria" resultMap="ProjectMemberResult" lang="velocity">
         <include refid="selectMember" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

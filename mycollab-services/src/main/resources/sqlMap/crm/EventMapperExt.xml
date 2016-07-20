@@ -197,7 +197,7 @@
 		#end
 	</select>
 
-	<select id="findPagableListByCriteria" parameterType="map"
+	<select id="findPageableListByCriteria" parameterType="map"
 		resultMap="SimpleEventResult" lang="velocity">
 		(
 		<include

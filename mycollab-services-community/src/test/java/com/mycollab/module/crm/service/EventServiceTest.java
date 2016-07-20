@@ -50,7 +50,7 @@ public class EventServiceTest extends IntegrationServiceTest {
 		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleActivity> list = eventService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+		List<SimpleActivity> list = eventService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 		assertThat(list.size()).isEqualTo(1);
 		assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));
 	}
@@ -66,7 +66,7 @@ public class EventServiceTest extends IntegrationServiceTest {
 		criteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESSTHANEQUAL, endDate));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleActivity> list = eventService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+		List<SimpleActivity> list = eventService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 		assertThat(list.size()).isEqualTo(1);
 		assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));
 	}

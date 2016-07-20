@@ -170,7 +170,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private void displayMilestones() {
         roadMapView.removeAllComponents();
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, 0,
+        List<SimpleMilestone> milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(baseCriteria, 0,
                 Integer.MAX_VALUE));
         for (SimpleMilestone milestone : milestones) {
             roadMapView.addComponent(new MilestoneBlock(milestone));
@@ -297,7 +297,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
                         ProjectGenericTaskService genericTaskService = AppContextUtil.getSpringBean
                                 (ProjectGenericTaskService.class);
-                        List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new
+                        List<ProjectGenericTask> genericTasks = genericTaskService.findPageableListByCriteria(new
                                 BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
                         for (ProjectGenericTask genericTask : genericTasks) {
                             ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);

@@ -334,7 +334,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                 int newTotalTasks = projectTaskService.getTotalCount(baseCriteria);
                 int newNumPages = newTotalTasks / 20;
                 currentPage++;
-                List<SimpleTask> otherTasks = projectTaskService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
+                List<SimpleTask> otherTasks = projectTaskService.findPageableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
                 taskGroupOrderComponent.insertTasks(otherTasks);
                 if (currentPage >= newNumPages) {
                     wrapBody.removeComponent(wrapBody.getComponent(1));
@@ -343,7 +343,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
             moreBtn.addStyleName(UIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
-        List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
+        List<SimpleTask> tasks = projectTaskService.findPageableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
         taskGroupOrderComponent.insertTasks(tasks);
     }
 

@@ -61,7 +61,7 @@ public class ActivityEventProvider implements CalendarEventProvider {
 
         LOG.debug("Get events from: " + startDate + " to " + endDate);
         List<SimpleMeeting> crmEvents = meetingService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
+                .findPageableListByCriteria(new BasicSearchRequest<>(
                         searchCriteria, 0, Integer.MAX_VALUE));
         LOG.debug("There are " + crmEvents.size() + " events from " + startDate
                 + " to " + endDate);

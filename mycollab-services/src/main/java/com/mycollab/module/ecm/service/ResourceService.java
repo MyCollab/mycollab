@@ -75,6 +75,12 @@ public interface ResourceService extends IService {
     void saveContent(Content content, String createdUser, InputStream refStream, Integer sAccountId);
 
     /**
+     *
+     * @param path
+     */
+    void removeResource(String path);
+
+    /**
      * @param path
      * @param userDelete
      * @param sAccountId

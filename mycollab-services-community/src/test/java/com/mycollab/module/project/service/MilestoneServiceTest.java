@@ -62,7 +62,7 @@ public class MilestoneServiceTest extends IntegrationServiceTest {
         criteria.setStatuses(new SetSearchField<>("Open"));
         criteria.setMilestoneName(StringSearchField.and("milestone 1"));
 
-        List<SimpleMilestone> milestones = itemTimeLoggingService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(milestones.size()).isEqualTo(1);
         assertThat(milestones).extracting("id", "description", "createdUserFullName", "createdtime", "ownerFullName",
@@ -76,7 +76,7 @@ public class MilestoneServiceTest extends IntegrationServiceTest {
     @Test
     public void testGetListMilestonesByCriteria() throws ParseException {
         List<SimpleMilestone> milestones = itemTimeLoggingService
-                .findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(milestones.size()).isEqualTo(4);
         assertThat(milestones).extracting("id", "description",

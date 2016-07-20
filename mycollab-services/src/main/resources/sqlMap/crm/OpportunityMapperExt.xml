@@ -183,7 +183,7 @@
         m_crm_opportunity.lastUpdatedTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleOpportunityResult"
+    <select id="findPageableListByCriteria" resultMap="SimpleOpportunityResult"
         parameterType="OpportunitySearchCriteria" lang="velocity">
         <include
             refid="selectSimpleOpportunity" />

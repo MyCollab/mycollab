@@ -78,7 +78,7 @@ public class DbUnitInitializerRule implements TestRule {
         private void setUp() {
             // Load dataset from xml file
             IDataSet dataSet;
-            String classFileName = this.testClass.getName();
+            String classFileName = testClass.getName();
             String xmlFile = classFileName.replace('.', '/') + ".xml";
 
             InputStream stream;
@@ -105,11 +105,11 @@ public class DbUnitInitializerRule implements TestRule {
 
             try {
                 TestDbConfiguration dbConf = new TestDbConfiguration();
-                this.databaseTester = new DbUnitTester(dbConf.getDriverClassName(), dbConf.getJdbcUrl(), dbConf.getUsername(),
+                databaseTester = new DbUnitTester(dbConf.getDriverClassName(), dbConf.getJdbcUrl(), dbConf.getUsername(),
                         dbConf.getPassword());
-                this.databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
-                this.databaseTester.setDataSet(dataSet);
-                this.databaseTester.onSetup();
+                databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
+                databaseTester.setDataSet(dataSet);
+                databaseTester.onSetup();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -120,7 +120,7 @@ public class DbUnitInitializerRule implements TestRule {
         private void tearDown() {
             if (databaseTester != null) {
                 try {
-                    this.databaseTester.onTearDown();
+                    databaseTester.onTearDown();
                 } catch (Exception e) {
                     throw new TestException(e);
                 }

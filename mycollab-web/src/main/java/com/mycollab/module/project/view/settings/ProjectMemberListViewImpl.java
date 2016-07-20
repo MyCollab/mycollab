@@ -148,7 +148,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                     SearchCriteria.DESC)));
         }
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleProjectMember> memberLists = prjMemberService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
+        List<SimpleProjectMember> memberLists = prjMemberService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
                 Integer.MAX_VALUE));
 
         headerText.updateTitle(String.format("%s (%d)", AppContext.getMessage(ProjectMemberI18nEnum.LIST), memberLists.size()));

@@ -304,7 +304,7 @@
         WHERE m_crm_task.id=@{taskId,jdbcType=NUMERIC}
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="TodoSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="TodoSearchCriteria"
         resultMap="SimpleTaskResult" lang="velocity">
         <![CDATA[
         SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,

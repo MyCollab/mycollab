@@ -92,7 +92,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
         BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         searchCriteria.setSummary(StringSearchField.and(query));
-        items = bugService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
+        items = bugService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         return new ArrayList<Object>(items);
     }
 

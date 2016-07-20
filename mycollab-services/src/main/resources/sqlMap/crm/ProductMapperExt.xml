@@ -116,7 +116,7 @@
         ORDER BY m_crm_product.lastUpdatedTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleProductResult"
+    <select id="findPageableListByCriteria" resultMap="SimpleProductResult"
         parameterType="ProductSearchCriteria">
 
         <include

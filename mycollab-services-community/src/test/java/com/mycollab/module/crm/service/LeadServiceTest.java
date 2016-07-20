@@ -44,7 +44,7 @@ public class LeadServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testSearchByCriteria() {
-        List<SimpleLead> leads = leadService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, 2));
+        List<SimpleLead> leads = leadService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, 2));
         assertThat(leads.size()).isEqualTo(2);
         assertThat(leads).extracting("id", "source").contains(tuple(1, "Cold Call"), tuple(2, "Employee"));
     }
@@ -69,7 +69,7 @@ public class LeadServiceTest extends IntegrationServiceTest {
         criteria.setLeadName(StringSearchField.and("Nguyen Hai"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleLead> leads = leadService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
+        List<SimpleLead> leads = leadService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
         assertThat(leads.size()).isEqualTo(1);
         assertThat(leads).extracting("id", "source").contains(tuple(1, "Cold Call"));
     }
@@ -81,7 +81,7 @@ public class LeadServiceTest extends IntegrationServiceTest {
         criteria.setAssignUsers(new SetSearchField<>("linh", "hai"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleLead> leads = leadService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
+        List<SimpleLead> leads = leadService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
         assertThat(leads.size()).isEqualTo(2);
         assertThat(leads).extracting("id", "source").contains(tuple(1, "Cold Call"), tuple(2, "Employee"));
     }

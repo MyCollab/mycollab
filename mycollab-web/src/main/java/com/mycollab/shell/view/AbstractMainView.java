@@ -20,7 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
@@ -109,25 +108,18 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
     }
 
     private ComponentContainer createFooter() {
-        MHorizontalLayout footer = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false, true, false, true));
-        footer.setStyleName("footer");
-        footer.setHeight("30px");
+        MHorizontalLayout footer = new MHorizontalLayout().withFullWidth()
+                .withMargin(new MarginInfo(false, true, false, true)).withStyleName("footer").withHeight("40px");
 
         Div companyInfoDiv = new Div().appendText("Powered by ").appendChild(new A("https://www.mycollab.com",
-                "_blank").appendText("MyCollab")).appendText(" &copy; " + new LocalDate().getYear());
-        ELabel companyInfoLbl = new ELabel(companyInfoDiv.write(), ContentMode.HTML).withWidth("-1px");
+                "_blank").appendText("MyCollab")).appendText(" &copy; " + new LocalDate().getYear()).appendText(". All rights reserved");
+        ELabel companyInfoLbl = ELabel.html(companyInfoDiv.write()).withWidthUndefined();
         footer.with(companyInfoLbl).withAlign(companyInfoLbl, Alignment.MIDDLE_LEFT);
 
         Div socialLinksDiv = new Div().appendText(FontAwesome.RSS.getHtml())
                 .appendChild(new A("https://www.mycollab.com/blog", "_blank").appendText(" Blog"))
                 .appendText("  " + FontAwesome.REPLY_ALL.getHtml())
                 .appendChild(new A("http://support.mycollab.com", "_blank").appendText(" Support"));
-
-        if (SiteConfiguration.isCommunityEdition()) {
-            socialLinksDiv.appendText("  " + FontAwesome.THUMBS_O_UP.getHtml())
-                    .appendChild(new A("http://sourceforge.net/projects/mycollab/reviews/new", "_blank").appendText("" +
-                            " Rate us"));
-        }
 
         socialLinksDiv.appendText("  " + FontAwesome.FACEBOOK.getHtml())
                 .appendChild(new A("https://www.facebook.com/mycollab2", "_blank").appendText(" FB page"));
@@ -136,7 +128,7 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
                         "activities, accounts and it works great @mycollabdotcom &source=webclient", "_blank")
                         .appendText(" Tweet"));
 
-        ELabel socialsLbl = new ELabel(socialLinksDiv.write(), ContentMode.HTML).withWidth("-1px");
+        ELabel socialsLbl = ELabel.html(socialLinksDiv.write()).withWidthUndefined();
         footer.with(socialsLbl).withAlign(socialsLbl, Alignment.MIDDLE_RIGHT);
         return footer;
     }

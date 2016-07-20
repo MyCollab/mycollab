@@ -51,7 +51,7 @@ public class ComponentMultiSelectField extends MultiSelectComp {
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-        return componentService.findPagableListByCriteria(new BasicSearchRequest<>(
+        return componentService.findPageableListByCriteria(new BasicSearchRequest<>(
                 searchCriteria, 0, Integer.MAX_VALUE));
     }
 

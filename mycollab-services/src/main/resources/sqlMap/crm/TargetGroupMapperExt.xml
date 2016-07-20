@@ -171,7 +171,7 @@
         ORDER BY lastUpdatedTime DESC
     </sql>
 
-	<select id="findPagableListByCriteria" resultMap="SimpleTargetGroupResult"
+	<select id="findPageableListByCriteria" resultMap="SimpleTargetGroupResult"
 		parameterType="TargetGroupSearchCriteria">
 
 		<include refid="com.mycollab.module.crm.dao.TargetGroupMapperExt.selectSimpleTargetGroup" />

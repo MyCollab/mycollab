@@ -167,7 +167,7 @@
         #end
     </delete>
 
-    <select id="findPagableListByCriteria" parameterType="CampaignSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="CampaignSearchCriteria"
         resultMap="SimpleCampaignResult" lang="velocity">
         <include refid="selectSimpleCampaign" />
         #ifnotnull($_parameter.searchCriteria)

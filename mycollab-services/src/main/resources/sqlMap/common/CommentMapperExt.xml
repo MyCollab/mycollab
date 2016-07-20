@@ -48,7 +48,7 @@
         createdTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="CommentSearchCriteria" resultMap="BaseResultMap" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="CommentSearchCriteria" resultMap="BaseResultMap" lang="velocity">
         <include refid="selectSimpleComment" />
          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

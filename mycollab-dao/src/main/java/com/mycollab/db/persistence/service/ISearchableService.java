@@ -42,7 +42,7 @@ public interface ISearchableService<S extends SearchCriteria> extends IService {
      * @return
      */
     @Cacheable
-    List findPagableListByCriteria(@CacheKey BasicSearchRequest<S> searchRequest);
+    List findPageableListByCriteria(@CacheKey BasicSearchRequest<S> searchRequest);
 
     /**
      * @param searchCriteria

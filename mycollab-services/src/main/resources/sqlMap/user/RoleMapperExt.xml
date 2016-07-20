@@ -40,7 +40,7 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleRoleUser"
+    <select id="findPageableListByCriteria" resultMap="SimpleRoleUser"
         parameterType="RoleSearchCriteria" lang="velocity">
         <include refid="selectSimpleRole" />
         #ifnotnull($_parameter.searchCriteria)

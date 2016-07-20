@@ -385,7 +385,7 @@
         INNER JOIN m_prj_project ON (m_prj_risk.projectId = m_prj_project.id)
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="ProjectGenericItemSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="ProjectGenericItemSearchCriteria"
             resultMap="BaseResultMap" lang="velocity">
         (
         <include refid="selectTaskItem"/>

@@ -48,7 +48,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleRoleResult" parameterType="RoleSearchCriteria" lang="velocity">
+    <select id="findPageableListByCriteria" resultMap="SimpleRoleResult" parameterType="RoleSearchCriteria" lang="velocity">
         <include refid="selectSimpleRole" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

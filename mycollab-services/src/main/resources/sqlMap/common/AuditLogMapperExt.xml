@@ -42,7 +42,7 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="AuditLogSearchCriteria" resultMap="SimpleAuditLogResult"  lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="AuditLogSearchCriteria" resultMap="SimpleAuditLogResult"  lang="velocity">
         <include refid="selectSimpleAuditLog" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

@@ -80,7 +80,7 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="ActivityStreamSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="ActivityStreamSearchCriteria"
         resultMap="SimpleActivityStreamResult" lang="velocity">
         <![CDATA[
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId,

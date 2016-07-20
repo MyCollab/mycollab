@@ -59,7 +59,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 	@Test
 	public void testGetListVersions() throws ParseException {
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new BasicSearchRequest<>(
+				.findPageableListByCriteria(new BasicSearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(versions.size()).isEqualTo(4);
@@ -77,7 +77,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 	@Test
 	public void testTotalCount() {
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new BasicSearchRequest<>(
+				.findPageableListByCriteria(new BasicSearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(versions.size()).isEqualTo(4);
@@ -91,7 +91,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 		criteria.setId(new NumberSearchField(1));
 
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new BasicSearchRequest<>(
+				.findPageableListByCriteria(new BasicSearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",
@@ -109,7 +109,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 		criteria.setVersionname(StringSearchField.and("2.0.0"));
 
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new BasicSearchRequest<>(
+				.findPageableListByCriteria(new BasicSearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",

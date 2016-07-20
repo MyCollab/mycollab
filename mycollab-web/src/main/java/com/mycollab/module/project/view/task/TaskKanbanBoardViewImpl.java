@@ -284,7 +284,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                 searchPanel.setTotalCountNumber(totalTasks);
                 int pages = totalTasks / 50;
                 for (int page = 0; page < pages + 1; page++) {
-                    List<SimpleTask> tasks = taskService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 50));
+                    List<SimpleTask> tasks = taskService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 50));
                     if (CollectionUtils.isNotEmpty(tasks)) {
                         for (SimpleTask task : tasks) {
                             String status = task.getStatus();

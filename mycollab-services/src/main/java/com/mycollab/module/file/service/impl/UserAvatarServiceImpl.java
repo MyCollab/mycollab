@@ -17,6 +17,7 @@
 package com.mycollab.module.file.service.impl;
 
 import com.mycollab.core.MyCollabException;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.service.EntityUploaderService;
 import com.mycollab.module.file.service.UserAvatarService;
@@ -74,5 +75,14 @@ public class UserAvatarServiceImpl implements UserAvatarService {
         user.setAvatarid(newAvatarId);
         userMapper.updateByPrimaryKeySelective(user);
         return newAvatarId;
+    }
+
+    @Override
+    public void removeAvatar(String avatarId) {
+        if (StringUtils.isNotBlank(avatarId)) {
+            for (int size : SUPPORT_SIZES) {
+                resourceService.removeResource(String.format("%s/%s_%d.png", "avatar", avatarId, size));
+            }
+        }
     }
 }

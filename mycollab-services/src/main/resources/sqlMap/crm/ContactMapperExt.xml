@@ -330,7 +330,7 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleContactResult"
+    <select id="findPageableListByCriteria" resultMap="SimpleContactResult"
         parameterType="ContactSearchCriteria" lang="velocity">
         <include refid="selectSimpleContact" />
         #ifnotnull($_parameter.searchCriteria)

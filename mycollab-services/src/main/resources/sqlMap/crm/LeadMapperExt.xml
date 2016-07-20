@@ -203,7 +203,7 @@
         m_crm_lead.lastUpdatedTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleLeadResult"
+    <select id="findPageableListByCriteria" resultMap="SimpleLeadResult"
         parameterType="LeadSearchCriteria" lang="velocity">
         <include refid="selectSimpleLead" />
         #ifnotnull($_parameter.searchCriteria)

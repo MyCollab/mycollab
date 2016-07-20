@@ -55,7 +55,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
     @Test
     public void testGetListComponents() throws ParseException {
         List<SimpleComponent> components = componentService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
+                .findPageableListByCriteria(new BasicSearchRequest<>(
                         getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(components.size()).isEqualTo(4);
@@ -73,7 +73,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
     @Test
     public void testTotalCount() {
         List<SimpleComponent> components = componentService
-                .findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
         assertThat(components.size()).isEqualTo(4);
     }
 
@@ -84,7 +84,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
         ComponentSearchCriteria criteria = new ComponentSearchCriteria();
         criteria.setId(new NumberSearchField(1));
 
-        List<SimpleComponent> components = componentService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
                 "componentname", "numBugs", "numOpenBugs").contains(
@@ -102,7 +102,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
         criteria.setUserlead(StringSearchField.and("nghiemle"));
 
         List<SimpleComponent> components = componentService
-                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
                 "componentname", "numBugs", "numOpenBugs").contains(

@@ -38,7 +38,7 @@ public class RelayEmailNotificationServiceTest {
 	public void testRemoveItems() {
 		RelayEmailNotificationSearchCriteria criteria = new RelayEmailNotificationSearchCriteria();
 		List<SimpleRelayEmailNotification> items = relayEmailNotificationService
-				.findPagableListByCriteria(new BasicSearchRequest<RelayEmailNotificationSearchCriteria>(
+				.findPageableListByCriteria(new BasicSearchRequest<RelayEmailNotificationSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(items.size()).isEqualTo(1);
 	}

@@ -402,7 +402,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="BugSearchCriteria" resultMap="SimpleBugResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="BugSearchCriteria" resultMap="SimpleBugResult" lang="velocity">
         <include refid="selectBug" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

@@ -165,7 +165,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             ContactSearchCriteria criteria = new ContactSearchCriteria();
             criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
             criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
-            List<SimpleContactOpportunityRel> contactOppoRels = contactOppoService.findPagableListByCriteria(new BasicSearchRequest<>(criteria));
+            List<SimpleContactOpportunityRel> contactOppoRels = contactOppoService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
             boolean oddRow = true;
             if (!CollectionUtils.isEmpty(contactOppoRels)) {
                 for (SimpleContactOpportunityRel contactOppoRel : contactOppoRels) {

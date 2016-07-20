@@ -72,7 +72,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleVersionResult" parameterType="VersionSearchCriteria" lang="velocity">
+    <select id="findPageableListByCriteria" resultMap="SimpleVersionResult" parameterType="VersionSearchCriteria" lang="velocity">
         <include refid="selectVersion" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

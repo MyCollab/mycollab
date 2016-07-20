@@ -46,7 +46,7 @@ public class ActivityStreamServiceTest extends IntegrationServiceTest {
         searchCriteria.setModuleSet(new SetSearchField<>("aa", "bb"));
         searchCriteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleActivityStream> activities = activityStreamService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
+        List<SimpleActivityStream> activities = activityStreamService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
                 Integer.MAX_VALUE));
         assertThat(activities.size()).isEqualTo(3);
     }
@@ -59,7 +59,7 @@ public class ActivityStreamServiceTest extends IntegrationServiceTest {
         searchCriteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleActivityStream> activities = activityStreamService
-                .findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
         assertThat(activities.size()).isEqualTo(1);
         assertThat(activities).extracting("saccountid", "module", "action").contains(tuple(1, "bb", "update"));

@@ -46,7 +46,7 @@ public class ComponentListSelect extends IntegerKeyListSelect {
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-        List<Component> components = componentService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria,
+        List<Component> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria,
                 0, Integer.MAX_VALUE));
         for (Component component : components) {
             this.addItem(component.getId());

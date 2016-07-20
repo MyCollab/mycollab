@@ -87,7 +87,7 @@
         </foreach>
     </insert>
 
-    <select id="findPagableListByCriteria" parameterType="MonitorSearchCriteria" resultMap="MonitorItemResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="MonitorSearchCriteria" resultMap="MonitorItemResult" lang="velocity">
         <include refid="selectItem" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

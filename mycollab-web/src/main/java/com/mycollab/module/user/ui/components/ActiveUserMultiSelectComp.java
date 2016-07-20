@@ -53,7 +53,7 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        return userService.findPagableListByCriteria(new BasicSearchRequest<>(
+        return userService.findPageableListByCriteria(new BasicSearchRequest<>(
                 criteria, 0, Integer.MAX_VALUE));
     }
 

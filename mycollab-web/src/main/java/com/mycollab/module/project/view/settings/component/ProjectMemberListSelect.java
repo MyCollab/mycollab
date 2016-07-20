@@ -54,7 +54,7 @@ public class ProjectMemberListSelect extends ListSelect {
         }
 
         ProjectMemberService userService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleProjectMember> memberList = userService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleProjectMember> memberList = userService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         for (SimpleProjectMember member : memberList) {
             this.addItem(member.getUsername());
             this.setItemCaption(member.getUsername(), member.getDisplayName());

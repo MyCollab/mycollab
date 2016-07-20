@@ -58,7 +58,7 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
     @Test
     public void testGetListProjectFollowingTicket() throws ParseException {
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
+                .findPageableListByCriteria(new BasicSearchRequest<>(
                         getCriteria(), 0, Integer.MAX_VALUE));
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
@@ -85,7 +85,7 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setSummary(StringSearchField.and("1"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(projectFollowingTickets).extracting("type", "summary", "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
                 tuple("Project-Bug", "bug 1", DATE_FORMAT.parse("2014-10-23 00:00:00")),
@@ -101,7 +101,7 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setTypes(new SetSearchField<>("Project-Task", "Project-Bug"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -122,7 +122,7 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setType(StringSearchField.and("Project-Task"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -139,7 +139,7 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setType(StringSearchField.and("Project-Risk"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
@@ -157,7 +157,7 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setType(StringSearchField.and("Project-Bug"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(

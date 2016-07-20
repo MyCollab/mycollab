@@ -17,7 +17,6 @@
 package com.mycollab.module.user.dao;
 
 import com.mycollab.db.persistence.ISearchableDAO;
-import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 
 import java.util.List;
@@ -30,5 +29,4 @@ public interface UserMapperExt extends ISearchableDAO<UserSearchCriteria> {
 
     void removeKeysWithSession(List<String> primaryKeys);
 
-    List<User> getUsersNotBelongToAnyAccount();
 }

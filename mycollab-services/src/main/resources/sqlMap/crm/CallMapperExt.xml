@@ -64,7 +64,7 @@
         WHERE m_crm_call.id=@{callId,jdbcType=NUMERIC}
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="CallSearchCriteria" resultMap="SimpleCallResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="CallSearchCriteria" resultMap="SimpleCallResult" lang="velocity">
         <include refid="com.mycollab.module.crm.dao.CallMapperExt.selectSimpleCall" />
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")

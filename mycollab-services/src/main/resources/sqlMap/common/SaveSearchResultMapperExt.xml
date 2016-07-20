@@ -28,7 +28,7 @@
         ORDER BY s_save_search_result.lastUpdatedTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="SaveSearchResultCriteria"
+    <select id="findPageableListByCriteria" parameterType="SaveSearchResultCriteria"
         resultMap="com.mycollab.common.dao.SaveSearchResultMapper.ResultMapWithBLOBs">
         <include refid="selectSaveSearchResult" />
         <if test="searchCriteria != null">

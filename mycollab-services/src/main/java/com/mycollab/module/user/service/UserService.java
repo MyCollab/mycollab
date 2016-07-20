@@ -60,6 +60,4 @@ public interface UserService extends IDefaultService<String, User, UserSearchCri
     User findUserByUserName(String username);
 
     void requestToResetPassword(String username);
-
-    List<User> getUsersNotBelongToAnyAccount();
 }

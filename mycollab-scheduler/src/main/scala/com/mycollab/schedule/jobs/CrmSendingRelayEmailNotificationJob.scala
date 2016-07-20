@@ -53,7 +53,7 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
       CrmTypeConstants.TASK, CrmTypeConstants.MEETING, CrmTypeConstants.CALL))
     
     import scala.collection.JavaConverters._
-    val relayEmaiNotifications = relayEmailService.findPagableListByCriteria(
+    val relayEmaiNotifications = relayEmailService.findPageableListByCriteria(
       new BasicSearchRequest[RelayEmailNotificationSearchCriteria](criteria, 0,
         Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleRelayEmailNotification]]
     var emailNotificationAction: SendingRelayEmailNotificationAction = null

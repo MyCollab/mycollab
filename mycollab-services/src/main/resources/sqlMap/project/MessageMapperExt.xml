@@ -67,7 +67,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="MessageResult"
+    <select id="findPageableListByCriteria" resultMap="MessageResult"
         parameterType="MessageSearchCriteria" lang="velocity">
         <include refid="selectMessage" />
         #ifnotnull($_parameter.searchCriteria)

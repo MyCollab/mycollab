@@ -68,7 +68,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
         SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-        List<SaveSearchResult> savedSearchResults = saveSearchResultService.findPagableListByCriteria(new
+        List<SaveSearchResult> savedSearchResults = saveSearchResultService.findPageableListByCriteria(new
                 BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         savedQueries = new ArrayList<>();
         for (SaveSearchResult searchResultWithBLOBs : savedSearchResults) {

@@ -44,7 +44,7 @@
         ORDER BY m_crm_product_catalog.lastUpdatedTime DESC
     </sql>
 
-	<select id="findPagableListByCriteria"
+	<select id="findPageableListByCriteria"
 		resultMap="com.mycollab.module.crm.dao.ProductCatalogMapper.BaseResultMap"
 		parameterType="ProductCatalogSearchCriteria">
 

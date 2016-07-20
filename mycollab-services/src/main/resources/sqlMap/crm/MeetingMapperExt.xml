@@ -86,7 +86,7 @@
         m_crm_meeting.lastUpdatedTime DESC
 	</sql>
 
-	<select id="findPagableListByCriteria" parameterType="MeetingSearchCriteria"
+	<select id="findPageableListByCriteria" parameterType="MeetingSearchCriteria"
 		resultMap="SimpleMeetingResult" lang="velocity">
 		<include refid="selectSimpleMeeting" />
 		#ifnotnull($_parameter.searchCriteria)

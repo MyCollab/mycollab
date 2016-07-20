@@ -228,7 +228,7 @@
         ORDER BY lastUpdatedTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleQuoteResult"
+    <select id="findPageableListByCriteria" resultMap="SimpleQuoteResult"
         parameterType="QuoteSearchCriteria">
 
         <include refid="com.mycollab.module.crm.dao.QuoteMapperExt.selectSimpleQuote" />

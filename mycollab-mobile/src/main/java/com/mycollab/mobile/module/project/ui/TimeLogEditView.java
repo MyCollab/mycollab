@@ -192,7 +192,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
     private double getTotalInvest() {
         double total = 0;
         final ItemTimeLoggingSearchCriteria searchCriteria = this.getItemSearchCriteria();
-        final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPagableListByCriteria(new BasicSearchRequest<>(
+        final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(
                 searchCriteria, 0, Integer.MAX_VALUE));
         for (final SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
             total += simpleItemTimeLogging.getLogvalue();

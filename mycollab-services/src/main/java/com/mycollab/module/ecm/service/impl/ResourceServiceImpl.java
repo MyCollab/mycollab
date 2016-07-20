@@ -141,6 +141,16 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public void removeResource(String path) {
+        Resource res = contentJcrDao.getResource(path);
+        if (res == null) {
+            return;
+        }
+        contentJcrDao.removeResource(path);
+        rawContentService.removePath(path);
+    }
+
+    @Override
     public void removeResource(String path, String deleteUser, Integer sAccountId) {
         Resource res = contentJcrDao.getResource(path);
         if (res == null) {

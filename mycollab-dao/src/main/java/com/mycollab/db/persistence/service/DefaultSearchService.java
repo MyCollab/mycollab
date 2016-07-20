@@ -38,15 +38,15 @@ public abstract class DefaultSearchService<S extends SearchCriteria> implements 
     }
 
     @Override
-    public List findPagableListByCriteria(BasicSearchRequest<S> searchRequest) {
-        return getSearchMapper().findPagableListByCriteria(searchRequest.getSearchCriteria(),
+    public List findPageableListByCriteria(BasicSearchRequest<S> searchRequest) {
+        return getSearchMapper().findPageableListByCriteria(searchRequest.getSearchCriteria(),
                 new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
                         searchRequest.getNumberOfItems()));
     }
 
     @Override
     public List findAbsoluteListByCriteria(S searchCriteria, Integer firstIndex, Integer numberOftems) {
-        return getSearchMapper().findPagableListByCriteria(searchCriteria,
+        return getSearchMapper().findPageableListByCriteria(searchCriteria,
                 new RowBounds(firstIndex, numberOftems));
     }
 

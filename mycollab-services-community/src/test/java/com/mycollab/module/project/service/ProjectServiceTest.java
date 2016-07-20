@@ -65,7 +65,7 @@ public class ProjectServiceTest extends IntegrationServiceTest {
     @Test
     public void testGetListProjects() {
         List projects = projectService
-                .findPagableListByCriteria(new BasicSearchRequest<ProjectSearchCriteria>(
+                .findPageableListByCriteria(new BasicSearchRequest<ProjectSearchCriteria>(
                         null, 0, Integer.MAX_VALUE));
         Assert.assertEquals(projects.size(), 4);
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
@@ -78,7 +78,7 @@ public class ProjectServiceTest extends IntegrationServiceTest {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List projects = projectService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List projects = projectService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(projects.size()).isEqualTo(4);
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
@@ -93,7 +93,7 @@ public class ProjectServiceTest extends IntegrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List projects = projectService
-                .findPagableListByCriteria(new BasicSearchRequest<>(
+                .findPageableListByCriteria(new BasicSearchRequest<>(
                         criteria, 0, Integer.MAX_VALUE));
 
         assertThat(projects.size()).isEqualTo(2);

@@ -76,7 +76,7 @@
         </if>
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleContactOpportunityRel"
+    <select id="findPageableListByCriteria" resultMap="SimpleContactOpportunityRel"
         parameterType="ContactSearchCriteria">
         <include
             refid="com.mycollab.module.crm.dao.ContactOpportunityMapperExt.selectSimpleContact" />

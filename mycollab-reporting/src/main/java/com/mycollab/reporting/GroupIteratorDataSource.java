@@ -53,7 +53,7 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
 
         this.totalItems = totalItems;
         BasicSearchRequest<S> searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, ITEMS_PER_PAGE);
-        currentData = searchService.findPagableListByCriteria(searchRequest);
+        currentData = searchService.findPageableListByCriteria(searchRequest);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
             if (currentIndex == (currentPage + 1) * ITEMS_PER_PAGE) {
                 currentPage = currentPage + 1;
                 BasicSearchRequest<S> searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, ITEMS_PER_PAGE);
-                currentData = searchService.findPagableListByCriteria(searchRequest);
+                currentData = searchService.findPageableListByCriteria(searchRequest);
                 LOG.debug("Current data {}", currentData.size());
             }
 

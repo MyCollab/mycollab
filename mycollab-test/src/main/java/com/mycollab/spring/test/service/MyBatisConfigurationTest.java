@@ -58,7 +58,7 @@ public class MyBatisConfigurationTest {
                 "com.mycollab.ondemand.module.support.domain.criteria");
         sqlSessionFactory.setTypeAliasesSuperType(SearchCriteria.class);
         sqlSessionFactory.setTypeAliases(new Class[]{VelocityDriverDeclare.class});
-        sqlSessionFactory.setTypeHandlersPackage("com.mycollab.mybatis.plugin.ext");
+        sqlSessionFactory.setTypeHandlersPackage("com.mycollab.impl.plugin.ext");
         sqlSessionFactory.setMapperLocations(buildBatchMapperResources(
                 "classpath:sqlMap/common/*Mapper*.xml",
                 "classpath:sqlMapExt/common/*Mapper*.xml",

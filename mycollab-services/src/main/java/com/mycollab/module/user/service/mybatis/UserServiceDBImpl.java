@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.user.service.mybatis;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.configuration.IDeploymentMode;
 import com.mycollab.core.UserInvalidInputException;
@@ -41,7 +42,6 @@ import com.mycollab.module.user.esb.RequestToResetPasswordEvent;
 import com.mycollab.module.user.esb.SendUserInvitationEvent;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.security.PermissionMap;
-import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -278,7 +278,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             criteria.setSubdomain(StringSearchField.and(subDomain));
         }
 
-        List<SimpleUser> users = findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleUser> users = findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         if (CollectionUtils.isEmpty(users)) {
             throw new UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain));
         } else {
@@ -335,7 +335,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         criteria.setUsername(StringSearchField.and(username));
         criteria.setSaccountid(new NumberSearchField(accountId));
 
-        List<SimpleUser> users = userMapperExt.findPagableListByCriteria(criteria, new RowBounds(0, 1));
+        List<SimpleUser> users = userMapperExt.findPageableListByCriteria(criteria, new RowBounds(0, 1));
         if (CollectionUtils.isEmpty(users)) {
             return null;
         } else {
@@ -408,10 +408,5 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public void requestToResetPassword(String username) {
         asyncEventBus.post(new RequestToResetPasswordEvent(username));
-    }
-
-    @Override
-    public List<User> getUsersNotBelongToAnyAccount() {
-        return userMapperExt.getUsersNotBelongToAnyAccount();
     }
 }

@@ -187,7 +187,7 @@
         ORDER BY m_crm_contract.lastUpdatedTime DESC
     </sql>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleContractResult"
+    <select id="findPageableListByCriteria" resultMap="SimpleContractResult"
         parameterType="ContractSearchCriteria">
         <include
             refid="com.mycollab.module.crm.dao.ContractMapperExt.selectSimpleContract" />

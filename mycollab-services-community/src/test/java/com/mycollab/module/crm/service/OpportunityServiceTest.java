@@ -43,7 +43,7 @@ public class OpportunityServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testSearchByCriteria() {
-        List<SimpleOpportunity> opportunities = opportunityService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleOpportunity> opportunities = opportunityService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(opportunities.size()).isEqualTo(2);
         assertThat(opportunities).extracting("id", "salesstage", "source").contains(
@@ -53,7 +53,7 @@ public class OpportunityServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testGetTotalCount() {
-        List<SimpleOpportunity> opportunities = opportunityService.findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(),
+        List<SimpleOpportunity> opportunities = opportunityService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(),
                 0, Integer.MAX_VALUE));
         assertThat(opportunities.size()).isEqualTo(2);
     }
@@ -74,7 +74,7 @@ public class OpportunityServiceTest extends IntegrationServiceTest {
         criteria.setAssignUsers(new SetSearchField<>("hai", "linh"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleOpportunity> opportunities = opportunityService.findPagableListByCriteria(new BasicSearchRequest<>(criteria,
+        List<SimpleOpportunity> opportunities = opportunityService.findPageableListByCriteria(new BasicSearchRequest<>(criteria,
                 0, Integer.MAX_VALUE));
 
         assertThat(opportunities.size()).isEqualTo(2);

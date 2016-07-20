@@ -57,7 +57,7 @@ public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S
 
             @Override
             public List<T> queryCurrentData() {
-                return searchService.findPagableListByCriteria((BasicSearchRequest<S>) searchRequest);
+                return searchService.findPageableListByCriteria((BasicSearchRequest<S>) searchRequest);
             }
         };
     }

@@ -199,7 +199,7 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="AccountSearchCriteria" resultMap="SimpleAccountResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="AccountSearchCriteria" resultMap="SimpleAccountResult" lang="velocity">
         <include refid="selectSimpleAccount" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

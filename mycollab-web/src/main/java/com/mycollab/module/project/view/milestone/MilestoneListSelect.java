@@ -42,7 +42,7 @@ public class MilestoneListSelect extends IntegerKeyListSelect {
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(criteria));
+        List<SimpleMilestone> milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         for (SimpleMilestone milestone : milestones) {
             this.addItem(milestone.getId());
             this.setItemCaption(milestone.getId(), milestone.getName());

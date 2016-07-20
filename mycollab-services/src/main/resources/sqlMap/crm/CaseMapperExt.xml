@@ -181,7 +181,7 @@
         #end
     </delete>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleCaseResult"
+    <select id="findPageableListByCriteria" resultMap="SimpleCaseResult"
         parameterType="CaseSearchCriteria" lang="velocity">
         <include refid="selectSimpleCase" />
         #ifnotnull($_parameter.searchCriteria)

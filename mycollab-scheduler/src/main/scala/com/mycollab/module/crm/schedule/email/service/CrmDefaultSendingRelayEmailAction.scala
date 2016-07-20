@@ -109,7 +109,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
         searchCriteria.setType(StringSearchField.and(notification.getType))
         searchCriteria.setTypeId(StringSearchField.and(notification.getTypeid))
         searchCriteria.setSaccountid(null)
-        val comments = commentService.findPagableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
+        val comments = commentService.findPageableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
         contentGenerator.putVariable("lastComments", comments)
         
         import scala.collection.JavaConversions._
@@ -147,7 +147,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
       searchCriteria.setType(StringSearchField.and(notification.getType))
       searchCriteria.setTypeId(StringSearchField.and(notification.getTypeid))
       searchCriteria.setSaccountid(null)
-      val comments = commentService.findPagableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
+      val comments = commentService.findPageableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
       contentGenerator.putVariable("lastComments", comments)
       
       import scala.collection.JavaConversions._

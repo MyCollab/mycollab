@@ -85,7 +85,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleComponentResult" parameterType="ComponentSearchCriteria" lang="velocity">
+    <select id="findPageableListByCriteria" resultMap="SimpleComponentResult" parameterType="ComponentSearchCriteria" lang="velocity">
         <include refid="selectComponents" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
