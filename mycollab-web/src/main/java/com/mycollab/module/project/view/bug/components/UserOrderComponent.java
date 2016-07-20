@@ -16,20 +16,17 @@
  */
 package com.mycollab.module.project.view.bug.components;
 
-import com.mycollab.configuration.StorageFactory;
-import com.mycollab.core.utils.SortedArrayMap;
-import com.mycollab.module.project.ui.components.IGroupComponent;
-import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.utils.SortedArrayMap;
+import com.mycollab.html.DivLessFormatter;
+import com.mycollab.module.tracker.domain.SimpleBug;
+import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.web.ui.UIConstants;
 
 import java.util.List;
 
@@ -39,8 +36,8 @@ import java.util.List;
  */
 @ViewComponent
 public class UserOrderComponent extends BugGroupOrderComponent {
-    private SortedArrayMap<String, GroupComponent> userAvailables = new SortedArrayMap<>();
-    private GroupComponent unspecifiedBugs;
+    private SortedArrayMap<String, DefaultBugGroupComponent> userAvailables = new SortedArrayMap<>();
+    private DefaultBugGroupComponent unspecifiedBugs;
 
     @Override
     public void insertBugs(List<SimpleBug> bugs) {
@@ -48,10 +45,14 @@ public class UserOrderComponent extends BugGroupOrderComponent {
             String assignUser = bug.getAssignuser();
             if (assignUser != null) {
                 if (userAvailables.containsKey(assignUser)) {
-                    GroupComponent groupComponent = userAvailables.get(assignUser);
+                    DefaultBugGroupComponent groupComponent = userAvailables.get(assignUser);
                     groupComponent.insertBug(bug);
                 } else {
-                    GroupComponent groupComponent = new GroupComponent(bug);
+                    Img img = new Img("", StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 32))
+                            .setCSSClass(UIConstants.CIRCLE_BOX);
+                    Div userDiv = new DivLessFormatter().appendChild(img, new Text(" " + bug.getAssignuserFullName()));
+
+                    DefaultBugGroupComponent groupComponent = new DefaultBugGroupComponent(userDiv.write());
                     userAvailables.put(assignUser, groupComponent);
                     int index = userAvailables.getKeyIndex(assignUser);
                     if (index > -1) {
@@ -64,41 +65,11 @@ public class UserOrderComponent extends BugGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedBugs == null) {
-                    unspecifiedBugs = new GroupComponent();
+                    unspecifiedBugs = new DefaultBugGroupComponent(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedBugs, 0);
                 }
                 unspecifiedBugs.insertBug(bug);
             }
-        }
-    }
-
-    private static class GroupComponent extends VerticalLayout implements IGroupComponent {
-        private CssLayout wrapBody;
-        private Label headerLbl;
-
-        GroupComponent(SimpleBug bug) {
-            initComponent();
-            Img img = new Img("", StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 32));
-            Div userDiv = new Div().appendChild(img, new Text(" " + bug.getAssignuserFullName()));
-            headerLbl.setValue(userDiv.write());
-        }
-
-        GroupComponent() {
-            initComponent();
-            headerLbl.setValue("Unassigned");
-        }
-
-        private void initComponent() {
-            this.setMargin(new MarginInfo(true, false, true, false));
-            wrapBody = new CssLayout();
-            wrapBody.setStyleName(UIConstants.BORDER_LIST);
-            headerLbl = ELabel.h3("");
-            this.addComponent(headerLbl);
-            this.addComponent(wrapBody);
-        }
-
-        void insertBug(SimpleBug bug) {
-            wrapBody.addComponent(new BugRowComponent(bug));
         }
     }
 }

@@ -165,7 +165,8 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
 
     private String buildAssigneeValue(SimpleActivityStream activityStream) {
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
+                .setCSSClass(UIConstants.CIRCLE_BOX);
         A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
 

@@ -156,12 +156,13 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             if (project.getClientAvatarId() == null) {
                 clientDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
             } else {
-                Img clientImg = new Img("", StorageFactory.getEntityLogoPath(AppContext.getAccountId(), project.getClientAvatarId(), 16));
+                Img clientImg = new Img("", StorageFactory.getEntityLogoPath(AppContext.getAccountId(), project.getClientAvatarId(), 16))
+                        .setCSSClass(UIConstants.CIRCLE_BOX);
                 clientDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE());
             }
             clientDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
                     .appendText(project.getClientName()));
-            ELabel accountBtn = new ELabel(clientDiv.write(), ContentMode.HTML).withStyleName(UIConstants.BUTTON_BLOCK)
+            ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(UIConstants.BUTTON_BLOCK)
                     .withWidthUndefined();
             footer.addComponents(accountBtn);
         }

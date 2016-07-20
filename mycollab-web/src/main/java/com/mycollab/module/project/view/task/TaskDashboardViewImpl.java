@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
@@ -23,14 +24,14 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.QueryAnalyzer;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.core.utils.BeanUtility;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.LazyValueInjector;
 import com.mycollab.db.query.SearchFieldInfo;
-import com.mycollab.core.utils.BeanUtility;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -52,13 +53,12 @@ import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.google.common.eventbus.Subscribe;
-import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -81,12 +81,6 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskDashboardViewImpl.class);
-
-    static final String GROUP_DUE_DATE = "Due Date";
-    static final String GROUP_START_DATE = "Start Date";
-    static final String GROUP_CREATED_DATE = "Created Date";
-    static final String PLAIN_LIST = "Plain";
-    static final String GROUP_USER = "User";
 
     private int currentPage = 0;
 
@@ -139,44 +133,41 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        groupWrapLayout.addComponent(new Label("Sort"));
+        groupWrapLayout.addComponent(new ELabel(AppContext.getMessage(GenericI18Enum.ACTION_SORT)));
         final ComboBox sortCombo = new ValueComboBox(false, AppContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
-        sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                String sortValue = (String) sortCombo.getValue();
-                if (AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
-                    sortDirection = SearchCriteria.ASC;
-                } else {
-                    sortDirection = SearchCriteria.DESC;
-                }
-                queryAndDisplayTasks();
+        sortCombo.addValueChangeListener(valueChangeEvent -> {
+            String sortValue = (String) sortCombo.getValue();
+            if (AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
+                sortDirection = SearchCriteria.ASC;
+            } else {
+                sortDirection = SearchCriteria.DESC;
             }
+            queryAndDisplayTasks();
         });
         sortDirection = SearchCriteria.DESC;
         groupWrapLayout.addComponent(sortCombo);
 
-        groupWrapLayout.addComponent(new Label("Group by"));
-        final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, GROUP_CREATED_DATE,
-                PLAIN_LIST, GROUP_USER);
+        groupWrapLayout.addComponent(new ELabel(AppContext.getMessage(GenericI18Enum.OPT_GROUP)));
+        final ComboBox groupCombo = new ValueComboBox(false, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
+                AppContext.getMessage(GenericI18Enum.FORM_START_DATE), AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
+                AppContext.getMessage(GenericI18Enum.OPT_PLAIN), AppContext.getMessage(GenericI18Enum.OPT_USER));
         groupCombo.addValueChangeListener(valueChangeEvent -> {
             groupByState = (String) groupCombo.getValue();
             queryAndDisplayTasks();
         });
-        groupByState = GROUP_DUE_DATE;
+        groupByState = AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE);
         groupWrapLayout.addComponent(groupCombo);
 
         taskSearchPanel.addHeaderRight(groupWrapLayout);
 
-        MButton printBtn = new MButton("", clickEvent -> {
-            UI.getCurrent().addWindow(new TaskCustomizeReportOutputWindow(new LazyValueInjector() {
-                @Override
-                protected Object doEval() {
-                    return baseCriteria;
-                }
-            }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
+        MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(
+                new TaskCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return baseCriteria;
+                    }
+                }))).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
                 .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
@@ -188,17 +179,13 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                 newTask.setLogby(AppContext.getUsername());
                 UI.getCurrent().addWindow(new TaskAddWindow(newTask));
             }
-        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
-        newTaskBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         groupWrapLayout.addComponent(newTaskBtn);
 
-        Button advanceDisplayBtn = new Button("List");
-        advanceDisplayBtn.setWidth("100px");
-        advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
-        advanceDisplayBtn.setDescription("Advance View");
+        MButton advanceDisplayBtn = new MButton("List").withIcon(FontAwesome.SITEMAP).withWidth("100px");
 
-        MButton kanbanBtn = new MButton("Kanban", clickEvent -> displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH)
-                .withDescription("Kanban view");
+        MButton kanbanBtn = new MButton("Kanban", clickEvent -> displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
@@ -305,19 +292,19 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     private void queryAndDisplayTasks() {
         wrapBody.removeAllComponents();
 
-        if (GROUP_DUE_DATE.equals(groupByState)) {
+        if (AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("deadline", sortDirection)));
             taskGroupOrderComponent = new DueDateOrderComponent();
-        } else if (GROUP_START_DATE.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.FORM_START_DATE).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("startdate", sortDirection)));
             taskGroupOrderComponent = new StartDateOrderComponent();
-        } else if (PLAIN_LIST.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.OPT_PLAIN).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("lastupdatedtime", sortDirection)));
             taskGroupOrderComponent = new SimpleListOrderComponent();
-        } else if (GROUP_CREATED_DATE.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdtime", sortDirection)));
             taskGroupOrderComponent = new CreatedDateOrderComponent();
-        } else if (GROUP_USER.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.OPT_USER).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdtime", sortDirection)));
             taskGroupOrderComponent = new UserOrderComponent();
         } else {

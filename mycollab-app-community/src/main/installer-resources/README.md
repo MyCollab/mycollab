@@ -53,7 +53,7 @@ Version 5.4.0
 * Spring framework 4.3.1.RELEASE
 * Vaadin 7.6.8
 * Jetty 9.3.10.v20160621
-* Jackson 2.8.0
+* Jackson 2.8.1
 * Flyway 4.0.3
 * MyBatis 3.4.1
 * Hikari CP 2.4.7

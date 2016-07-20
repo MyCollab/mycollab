@@ -279,7 +279,8 @@ public class ActivityStreamPanel extends CssLayout {
 
         private String buildAssigneeValue(SimpleActivityStream activityStream) {
             DivLessFormatter div = new DivLessFormatter();
-            Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
+            Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
+                    .setCSSClass(UIConstants.CIRCLE_BOX);
             A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkGenerator.generatePreviewFullUserLink(
                     AppContext.getSiteUrl(), activityStream.getCreateduser())).appendText(StringUtils.trim
                     (activityStream.getCreatedUserFullName(), 30, true));

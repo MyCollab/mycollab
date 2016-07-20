@@ -66,7 +66,8 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
         if (StringUtils.isBlank(item.getCreatedUser())) {
             div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"), lastUpdatedOn);
         } else {
-            Img userAvatar = new Img("", StorageFactory.getAvatarPath(item.getCreatedUserAvatarId(), 16));
+            Img userAvatar = new Img("", StorageFactory.getAvatarPath(item.getCreatedUserAvatarId(), 16))
+                    .setCSSClass(UIConstants.CIRCLE_BOX);
             A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(item.getProjectId(), item
                     .getCreatedUser())).appendText(item.getCreatedUserDisplayName());
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(item.getCreatedUser()));

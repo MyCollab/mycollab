@@ -16,8 +16,12 @@
  */
 package com.mycollab.community.module.project.view.task;
 
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -28,10 +32,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
+import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.vaadin.teemu.VaadinIcons;
@@ -52,7 +53,8 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     @Override
     public AbstractComponent createAssigneePopupField(SimpleTask task) {
         String avatarLink = StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 16);
-        Img img = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
+        Img img = new Img(task.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                .setTitle(task.getAssignUserFullName());
         return new MetaFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
                 .FORM_ASSIGNEE)).build();
     }

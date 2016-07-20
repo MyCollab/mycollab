@@ -28,14 +28,13 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.GenericSearchPanel;
-import com.mycollab.vaadin.web.ui.ShortcutExtension;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -62,11 +61,10 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
     @Override
     protected Component buildExtraControls() {
-        MButton createBtn = new MButton(AppContext.getMessage(RoleI18nEnum.NEW),
+        return new MButton(AppContext.getMessage(RoleI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
-        return createBtn;
     }
 
     private class RoleBasicSearchLayout extends GenericSearchPanel.BasicSearchLayout<RoleSearchCriteria> {
@@ -74,7 +72,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
         private TextField nameField;
 
-        public RoleBasicSearchLayout() {
+        private RoleBasicSearchLayout() {
             super(RoleSearchPanel.this);
         }
 
@@ -85,26 +83,20 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
         @Override
         public ComponentContainer constructBody() {
-            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true).with(new Label("Name"));
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true)
+                    .with(new Label(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ":"));
 
-            nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("RoleSearchName", ShortcutAction.KeyCode.ENTER, null) {
-                        @Override
-                        public void handleAction(Object o, Object o1) {
-                            callSearchAction();
-                        }
-                    });
-            nameField.setInputPrompt(AppContext.getMessage(RoleI18nEnum.OPT_QUERY_BY_ROLE_NAME));
-            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction());
-            searchBtn.setIcon(FontAwesome.SEARCH);
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.addComponent(searchBtn);
 
-            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""));
-            clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             basicSearchBody.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
             return basicSearchBody;

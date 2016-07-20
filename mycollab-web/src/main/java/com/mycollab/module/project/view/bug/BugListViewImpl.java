@@ -16,19 +16,20 @@
  */
 package com.mycollab.module.project.view.bug;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.QueryAnalyzer;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.core.utils.BeanUtility;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.LazyValueInjector;
 import com.mycollab.db.query.SearchFieldInfo;
-import com.mycollab.core.utils.BeanUtility;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -56,12 +57,9 @@ import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.google.common.eventbus.Subscribe;
-import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
@@ -92,35 +90,33 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     private VerticalLayout rightColumn;
     private BugGroupOrderComponent bugGroupOrderComponent;
 
-    private ApplicationEventListener<BugEvent.SearchRequest> searchHandler = new
-            ApplicationEventListener<BugEvent.SearchRequest>() {
-                @Override
-                @Subscribe
-                public void handle(BugEvent.SearchRequest event) {
-                    BugSearchCriteria criteria = (BugSearchCriteria) event.getData();
-                    if (criteria != null) {
-                        baseCriteria = criteria;
-                        queryAndDisplayBugs();
-                    }
-                }
-            };
+    private ApplicationEventListener<BugEvent.SearchRequest> searchHandler = new ApplicationEventListener<BugEvent.SearchRequest>() {
+        @Override
+        @Subscribe
+        public void handle(BugEvent.SearchRequest event) {
+            BugSearchCriteria criteria = (BugSearchCriteria) event.getData();
+            if (criteria != null) {
+                baseCriteria = criteria;
+                queryAndDisplayBugs();
+            }
+        }
+    };
 
-    private ApplicationEventListener<BugEvent.NewBugAdded> newBugHandler = new
-            ApplicationEventListener<BugEvent.NewBugAdded>() {
-                @Override
-                @Subscribe
-                public void handle(BugEvent.NewBugAdded event) {
-                    final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                    SimpleBug bug = bugService.findById((Integer) event.getData(), AppContext.getAccountId());
-                    if (bug != null && bugGroupOrderComponent != null) {
-                        bugGroupOrderComponent.insertBugs(Collections.singletonList(bug));
-                    }
-                    displayBugStatistic();
+    private ApplicationEventListener<BugEvent.NewBugAdded> newBugHandler = new ApplicationEventListener<BugEvent.NewBugAdded>() {
+        @Override
+        @Subscribe
+        public void handle(BugEvent.NewBugAdded event) {
+            final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+            SimpleBug bug = bugService.findById((Integer) event.getData(), AppContext.getAccountId());
+            if (bug != null && bugGroupOrderComponent != null) {
+                bugGroupOrderComponent.insertBugs(Collections.singletonList(bug));
+            }
+            displayBugStatistic();
 
-                    int totalTasks = bugService.getTotalCount(baseCriteria);
-                    searchPanel.setTotalCountNumber(totalTasks);
-                }
-            };
+            int totalTasks = bugService.getTotalCount(baseCriteria);
+            searchPanel.setTotalCountNumber(totalTasks);
+        }
+    };
 
     private ApplicationEventListener<ShellEvent.AddQueryParam> addQueryHandler = QueryParamHandler.queryParamHandler();
 
@@ -130,7 +126,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        groupWrapLayout.addComponent(new Label("Sort"));
+        groupWrapLayout.addComponent(new Label(AppContext.getMessage(GenericI18Enum.ACTION_SORT)));
         final ComboBox sortCombo = new ValueComboBox(false, AppContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 AppContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
         sortCombo.addValueChangeListener(valueChangeEvent -> {
@@ -145,14 +141,15 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         sortDirection = SearchCriteria.DESC;
         groupWrapLayout.addComponent(sortCombo);
 
-        groupWrapLayout.addComponent(new Label("Group by"));
-        final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, GROUP_CREATED_DATE,
-                PLAIN_LIST, GROUP_USER);
+        groupWrapLayout.addComponent(new Label(AppContext.getMessage(GenericI18Enum.OPT_GROUP)));
+        final ComboBox groupCombo = new ValueComboBox(false, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
+                AppContext.getMessage(GenericI18Enum.FORM_START_DATE), AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
+                AppContext.getMessage(GenericI18Enum.OPT_PLAIN), AppContext.getMessage(GenericI18Enum.OPT_USER));
         groupCombo.addValueChangeListener(valueChangeEvent -> {
             groupByState = (String) groupCombo.getValue();
             queryAndDisplayBugs();
         });
-        groupByState = GROUP_DUE_DATE;
+        groupByState = AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE);
         groupWrapLayout.addComponent(groupCombo);
 
         searchPanel.addHeaderRight(groupWrapLayout);
@@ -178,9 +175,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
         groupWrapLayout.addComponent(newBugBtn);
 
-        Button advanceDisplayBtn = new Button("List");
-        advanceDisplayBtn.setWidth("100px");
-        advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
+        MButton advanceDisplayBtn = new MButton("List").withWidth("100px").withIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Detail");
 
         MButton kanbanBtn = new MButton("Kanban", clickEvent -> displayKanbanView()).withIcon(FontAwesome.TH).withWidth("100px");
@@ -256,19 +251,19 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
     private void queryAndDisplayBugs() {
         wrapBody.removeAllComponents();
-        if (GROUP_DUE_DATE.equals(groupByState)) {
+        if (AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("duedate", sortDirection)));
             bugGroupOrderComponent = new DueDateOrderComponent();
-        } else if (GROUP_START_DATE.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.FORM_START_DATE).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("m_tracker_bug.startdate", sortDirection)));
             bugGroupOrderComponent = new StartDateOrderComponent();
-        } else if (PLAIN_LIST.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.OPT_PLAIN).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("lastUpdatedTime", sortDirection)));
             bugGroupOrderComponent = new SimpleListOrderComponent();
-        } else if (GROUP_CREATED_DATE.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdTime", sortDirection)));
             bugGroupOrderComponent = new CreatedDateOrderComponent();
-        } else if (GROUP_USER.equals(groupByState)) {
+        } else if (AppContext.getMessage(GenericI18Enum.OPT_USER).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdTime", sortDirection)));
             bugGroupOrderComponent = new UserOrderComponent();
         } else {

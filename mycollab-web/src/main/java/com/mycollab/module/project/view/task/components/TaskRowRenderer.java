@@ -40,7 +40,6 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -54,7 +53,7 @@ public class TaskRowRenderer extends MVerticalLayout {
     private SimpleTask task;
 
     private PopupButton taskSettingPopupBtn;
-    private ToggleTaskSummaryField toogleTaskField;
+    private ToggleTaskSummaryField toggleTaskField;
 
     public TaskRowRenderer(final SimpleTask task) {
         this.task = task;
@@ -66,14 +65,14 @@ public class TaskRowRenderer extends MVerticalLayout {
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
 
-        toogleTaskField = new ToggleTaskSummaryField(task);
+        toggleTaskField = new ToggleTaskSummaryField(task);
         MHorizontalLayout headerLayout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false,
                 true, false, false));
 
         TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
         AbstractComponent priorityField = popupFieldFactory.createPriorityPopupField(task);
         AbstractComponent assigneeField = popupFieldFactory.createAssigneePopupField(task);
-        headerLayout.with(taskSettingPopupBtn, priorityField, assigneeField, toogleTaskField).expand(toogleTaskField);
+        headerLayout.with(taskSettingPopupBtn, priorityField, assigneeField, toggleTaskField).expand(toggleTaskField);
 
         CssLayout footer = new CssLayout();
 
@@ -117,13 +116,13 @@ public class TaskRowRenderer extends MVerticalLayout {
 
 
     private void closeTask() {
-        toogleTaskField.closeTask();
+        toggleTaskField.closeTask();
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
     }
 
     private void reOpenTask() {
-        toogleTaskField.reOpenTask();
+        toggleTaskField.reOpenTask();
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
     }

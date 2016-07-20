@@ -16,7 +16,6 @@
  */
 package com.mycollab.vaadin.web.ui;
 
-import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.ui.TextField;
 
@@ -26,19 +25,8 @@ import com.vaadin.ui.TextField;
  */
 public class ShortcutExtension {
     public static TextField installShortcutAction(final TextField textField, final ShortcutListener listener) {
-        textField.addFocusListener(new FieldEvents.FocusListener() {
-            @Override
-            public void focus(FieldEvents.FocusEvent focusEvent) {
-                textField.addShortcutListener(listener);
-            }
-        });
-
-        textField.addBlurListener(new FieldEvents.BlurListener() {
-            @Override
-            public void blur(FieldEvents.BlurEvent blurEvent) {
-                textField.removeShortcutListener(listener);
-            }
-        });
+        textField.addFocusListener(focusEvent -> textField.addShortcutListener(listener));
+        textField.addBlurListener(blurEvent -> textField.removeShortcutListener(listener));
         return textField;
     }
 }

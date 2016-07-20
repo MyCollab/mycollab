@@ -317,8 +317,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             }
                             rowComp.with(new ELabel(status).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined());
                             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-                            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
-                                    .getAssignUserFullName());
+                            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                                    .setTitle(genericTask.getAssignUserFullName());
                             rowComp.with(ELabel.html(img.write()).withWidthUndefined());
 
                             rowComp.with(toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);

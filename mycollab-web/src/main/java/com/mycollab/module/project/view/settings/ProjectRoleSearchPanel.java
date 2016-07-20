@@ -28,13 +28,12 @@ import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.ShortcutExtension;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -72,7 +71,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
         private static final long serialVersionUID = 1L;
         private TextField nameField;
 
-        public ProjectRoleBasicSearchLayout() {
+        private ProjectRoleBasicSearchLayout() {
             super(ProjectRoleSearchPanel.this);
         }
 
@@ -85,21 +84,14 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-
-            basicSearchBody.addComponent(new Label("Name"));
-            nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("RoleSearchText", ShortcutAction.KeyCode.ENTER, null) {
-                        @Override
-                        public void handleAction(Object o, Object o1) {
-                            callSearchAction();
-                        }
-                    });
-            nameField.setInputPrompt("Query by role name");
-            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            basicSearchBody.addComponent(new Label(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ":"));
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
             MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.addComponent(searchBtn);
 
             MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))

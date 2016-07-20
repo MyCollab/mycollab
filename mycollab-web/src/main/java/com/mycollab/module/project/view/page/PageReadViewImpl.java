@@ -203,12 +203,12 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                     AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
                     .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
 
-            ProjectMemberService projectMemberService = AppContextUtil
-                    .getSpringBean(ProjectMemberService.class);
+            ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
             SimpleProjectMember member = projectMemberService.findMemberByUsername(beanItem.getCreatedUser(),
                     CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
             if (member != null) {
-                Img userAvatar = new Img("", StorageFactory.getAvatarPath(member.getMemberAvatarId(), 16));
+                Img userAvatar = new Img("", StorageFactory.getAvatarPath(member.getMemberAvatarId(), 16))
+                        .setCSSClass(UIConstants.CIRCLE_BOX);
                 A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(member
                         .getProjectid(), member.getUsername())).appendText(StringUtils.trim(member.getMemberFullName(), 30, true));
                 userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));

@@ -26,12 +26,6 @@ import com.mycollab.vaadin.web.ui.IListView;
  */
 public interface BugListView extends IListView<BugSearchCriteria, SimpleBug> {
 
-    String GROUP_DUE_DATE = "Due Date";
-    String GROUP_START_DATE = "Start Date";
-    String GROUP_CREATED_DATE = "Created Date";
-    String PLAIN_LIST = "Plain";
-    String GROUP_USER = "User";
-
     void displayView(String query);
 
     void queryBug(BugSearchCriteria searchCriteria);

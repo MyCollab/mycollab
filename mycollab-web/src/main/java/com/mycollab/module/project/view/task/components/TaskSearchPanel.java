@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.task.components;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -34,11 +35,11 @@ import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.mycollab.db.query.*;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
@@ -128,7 +129,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        public TaskBasicSearchLayout() {
+        private TaskBasicSearchLayout() {
             super(TaskSearchPanel.this);
         }
 
@@ -140,19 +141,19 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-            Label nameLbl = new Label("Name:");
+            Label nameLbl = new Label(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ":");
             basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
-            nameField = new TextField();
-            nameField.setInputPrompt("Query by task name");
-            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
             MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
@@ -192,7 +193,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
     private class TaskAdvancedSearchLayout extends DynamicQueryParamLayout<TaskSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
-        public TaskAdvancedSearchLayout() {
+        private TaskAdvancedSearchLayout() {
             super(TaskSearchPanel.this, ProjectTypeConstants.TASK);
         }
 

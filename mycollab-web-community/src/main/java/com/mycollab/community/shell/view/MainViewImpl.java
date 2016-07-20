@@ -17,6 +17,7 @@
 package com.mycollab.community.shell.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.LicenseI18nEnum;
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.mycollab.community.shell.view.components.CommunitySliderPanel;
@@ -75,7 +76,8 @@ public class MainViewImpl extends AbstractMainView {
         accountNameLabel.addStyleName("subdomain");
         accountLayout.addComponent(accountNameLabel);
 
-        MButton buyPremiumBtn = new MButton("Upgrade to Pro edition", clickEvent -> UI.getCurrent().addWindow(new AdWindow()))
+        MButton buyPremiumBtn = new MButton(AppContext.getMessage(LicenseI18nEnum.OPT_TRIAL_THE_PRO_EDITION),
+                clickEvent -> UI.getCurrent().addWindow(new AdWindow()))
                 .withIcon(FontAwesome.SHOPPING_CART).withStyleName("ad");
         accountLayout.addComponent(buyPremiumBtn);
 

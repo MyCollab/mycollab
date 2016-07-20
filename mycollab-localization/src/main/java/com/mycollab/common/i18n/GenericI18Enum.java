@@ -103,6 +103,7 @@ public enum GenericI18Enum {
     ACTION_CLICK_TO_EDIT,
     ACTION_SORT,
     ACTION_CHARGE,
+    ACTION_QUERY_BY_TEXT,
 
     TABLE_SELECTED_ITEM_TITLE,
 
@@ -173,6 +174,8 @@ public enum GenericI18Enum {
     OPT_SORT_DESCENDING,
     OPT_GROUP,
     OPT_SUCCESS,
+    OPT_PLAIN,
+    OPT_USER,
 
     M_BUTTON_BACK,
     M_BUTTON_SEND,

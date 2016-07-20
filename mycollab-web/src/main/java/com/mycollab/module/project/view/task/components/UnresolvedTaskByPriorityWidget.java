@@ -57,21 +57,15 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
     private int totalCount;
     private List<GroupItem> groupItems;
 
-    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new
-            ApplicationEventListener<TaskEvent.HasTaskChange>() {
-                @Override
-                @Subscribe
-                public void handle(TaskEvent.HasTaskChange event) {
-                    if (searchCriteria != null) {
-                        UI.getCurrent().access(new Runnable() {
-                            @Override
-                            public void run() {
-                                UnresolvedTaskByPriorityWidget.this.setSearchCriteria(searchCriteria);
-                            }
-                        });
-                    }
-                }
-            };
+    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new ApplicationEventListener<TaskEvent.HasTaskChange>() {
+        @Override
+        @Subscribe
+        public void handle(TaskEvent.HasTaskChange event) {
+            if (searchCriteria != null) {
+                UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
+            }
+        }
+    };
 
     @Override
     public void attach() {

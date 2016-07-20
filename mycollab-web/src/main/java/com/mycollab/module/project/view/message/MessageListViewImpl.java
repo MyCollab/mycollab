@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view.message;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
@@ -46,20 +48,16 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList.RowDisplayHandler;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -160,20 +158,18 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             ELabel timePostLbl = new ELabel().prettyDateTime(message.getPosteddate());
             timePostLbl.setStyleName(UIConstants.META_INFO);
 
-            MButton deleteBtn = new MButton("", clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {
-                            if (confirmDialog.isConfirmed()) {
-                                MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                                messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
-                                messageList.setSearchCriteria(searchCriteria);
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+            MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
+                            messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
+                            messageList.setSearchCriteria(searchCriteria);
+                        }
+                    })).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             MHorizontalLayout rightHeader = new MHorizontalLayout();
@@ -237,23 +233,15 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         }
 
         private void createBasicSearchLayout() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout();
-            basicSearchBody.setSizeUndefined();
+            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withWidthUndefined();
 
-            nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("MessageTextSearch", ShortcutAction.KeyCode.ENTER, null) {
-                        @Override
-                        public void handleAction(Object o, Object o1) {
-                            doSearch();
-                        }
-                    });
-            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch());
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch())
+                    .withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(nameField, searchBtn).withAlign(nameField, Alignment.MIDDLE_LEFT);
-
             this.setCompositionRoot(basicSearchBody);
         }
 

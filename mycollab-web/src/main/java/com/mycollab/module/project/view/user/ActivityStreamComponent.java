@@ -40,6 +40,7 @@ import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
+import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -202,7 +203,8 @@ public class ActivityStreamComponent extends CssLayout {
 
         private String buildAssigneeValue(ProjectActivityStream activityStream) {
             DivLessFormatter div = new DivLessFormatter();
-            Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
+            Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
+                    .setCSSClass(UIConstants.CIRCLE_BOX);
             A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     activityStream.getExtratypeid(), activityStream.getCreateduser()));
 

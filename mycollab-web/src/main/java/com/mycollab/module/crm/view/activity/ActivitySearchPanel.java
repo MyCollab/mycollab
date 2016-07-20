@@ -30,10 +30,13 @@ import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.UIConstants;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -57,8 +60,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
     protected Component buildExtraControls() {
         final SplitButton splitBtn = new SplitButton();
         splitBtn.setSizeUndefined();
-        splitBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL)
-                || AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
+        splitBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL) || AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
         splitBtn.addStyleName(UIConstants.BUTTON_ACTION);
         splitBtn.setIcon(FontAwesome.PLUS);
         splitBtn.setCaption("New Task");
@@ -142,36 +144,21 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-            this.nameField = new TextField();
-            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            this.nameField.setInputPrompt("Query by activity name");
-            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_LEFT);
 
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            searchBtn.setIcon(FontAwesome.SEARCH);
-
-            searchBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    EventBasicSearchLayout.this.callSearchAction();
-                }
-            });
+            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            clearBtn.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    EventBasicSearchLayout.this.nameField.setValue("");
-                }
-            });
-            basicSearchBody.with(clearBtn).withAlign(clearBtn,
-                    Alignment.MIDDLE_CENTER);
+            MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+                    .withStyleName(UIConstants.BUTTON_OPTION);
+            basicSearchBody.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_LEFT);
             return basicSearchBody;
         }
 

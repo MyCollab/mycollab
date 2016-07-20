@@ -16,15 +16,9 @@
  */
 package com.mycollab.module.project.view.bug.components;
 
-import com.mycollab.module.project.ui.components.IGroupComponent;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -40,8 +34,8 @@ import java.util.TreeMap;
  * @since 5.1.1
  */
 public class StartDateOrderComponent extends BugGroupOrderComponent {
-    private Map<DateTime, GroupComponent> startDateAvailables = new TreeMap<>();
-    private GroupComponent unspecifiedTasks;
+    private Map<DateTime, DefaultBugGroupComponent> startDateAvailables = new TreeMap<>();
+    private DefaultBugGroupComponent unspecifiedTasks;
 
     @Override
     public void insertBugs(List<SimpleBug> bugs) {
@@ -51,53 +45,27 @@ public class StartDateOrderComponent extends BugGroupOrderComponent {
                 DateTime jodaTime = new DateTime(startDate, DateTimeZone.UTC);
                 DateTime monDay = jodaTime.dayOfWeek().withMinimumValue();
                 if (startDateAvailables.containsKey(monDay)) {
-                    GroupComponent groupComponent = startDateAvailables.get(monDay);
-                    groupComponent.insertTask(bug);
+                    DefaultBugGroupComponent groupComponent = startDateAvailables.get(monDay);
+                    groupComponent.insertBug(bug);
                 } else {
-                    GroupComponent groupComponent = new GroupComponent(monDay);
+                    DateTime maxValue = monDay.dayOfWeek().withMaximumValue();
+                    DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat());
+                    String monDayStr = formatter.print(monDay);
+                    String sundayStr = formatter.print(maxValue);
+                    String titleValue = String.format("%s - %s", monDayStr, sundayStr);
+
+                    DefaultBugGroupComponent groupComponent = new DefaultBugGroupComponent(titleValue);
                     startDateAvailables.put(monDay, groupComponent);
                     addComponent(groupComponent);
-                    groupComponent.insertTask(bug);
+                    groupComponent.insertBug(bug);
                 }
             } else {
                 if (unspecifiedTasks == null) {
-                    unspecifiedTasks = new GroupComponent();
+                    unspecifiedTasks = new DefaultBugGroupComponent(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedTasks, 0);
                 }
-                unspecifiedTasks.insertTask(bug);
+                unspecifiedTasks.insertBug(bug);
             }
-        }
-    }
-
-    private static class GroupComponent extends VerticalLayout implements IGroupComponent {
-        private CssLayout wrapBody;
-        private Label headerLbl;
-
-        GroupComponent(DateTime startDate) {
-            initComponent();
-            DateTime maxValue = startDate.dayOfWeek().withMaximumValue();
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat());
-            String monDayStr = formatter.print(startDate);
-            String sundayStr = formatter.print(maxValue);
-            headerLbl.setValue(String.format("%s - %s", monDayStr, sundayStr));
-        }
-
-        GroupComponent() {
-            initComponent();
-            headerLbl.setValue("Unscheduled");
-        }
-
-        private void initComponent() {
-            this.setMargin(new MarginInfo(true, false, true, false));
-            wrapBody = new CssLayout();
-            wrapBody.setStyleName(UIConstants.BORDER_LIST);
-            headerLbl = ELabel.h3("");
-            this.addComponent(headerLbl);
-            this.addComponent(wrapBody);
-        }
-
-        void insertTask(SimpleBug bug) {
-            wrapBody.addComponent(new BugRowComponent(bug));
         }
     }
 }

@@ -16,13 +16,14 @@
  */
 package com.mycollab.module.project.view.task.components;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.common.service.OptionValService;
-import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -39,7 +40,6 @@ import com.mycollab.vaadin.web.ui.ButtonI18nComp;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.UIConstants;
-import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -60,21 +60,15 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
     private int totalCount;
     private List<GroupItem> groupItems;
 
-    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new
-            ApplicationEventListener<TaskEvent.HasTaskChange>() {
-                @Override
-                @Subscribe
-                public void handle(TaskEvent.HasTaskChange event) {
-                    if (searchCriteria != null) {
-                        UI.getCurrent().access(new Runnable() {
-                            @Override
-                            public void run() {
-                                setSearchCriteria(searchCriteria);
-                            }
-                        });
-                    }
-                }
-            };
+    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new ApplicationEventListener<TaskEvent.HasTaskChange>() {
+        @Override
+        @Subscribe
+        public void handle(TaskEvent.HasTaskChange event) {
+            if (searchCriteria != null) {
+                UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
+            }
+        }
+    };
 
     @Override
     public void attach() {

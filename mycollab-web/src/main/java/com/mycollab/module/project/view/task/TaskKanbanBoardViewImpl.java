@@ -149,10 +149,8 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         MButton advanceDisplayBtn = new MButton("List",
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null)))
                 .withIcon(FontAwesome.SITEMAP).withWidth("100px");
-        advanceDisplayBtn.setDescription("Advance View");
 
         MButton kanbanBtn = new MButton("Kanban").withIcon(FontAwesome.TH).withWidth("100px");
-        kanbanBtn.setDescription("Kanban View");
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);

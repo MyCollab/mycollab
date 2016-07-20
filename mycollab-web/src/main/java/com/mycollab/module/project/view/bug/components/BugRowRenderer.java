@@ -51,7 +51,8 @@ public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<S
                 bug.getStatus())).setCSSClass(UIConstants.FIELD_NOTE);
 
         String avatarLink = StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 16);
-        Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
+        Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName())
+                .setCSSClass(UIConstants.CIRCLE_BOX);
 
         rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)).withWidthUndefined(),
                 ELabel.html(priorityLink.write()).withWidthUndefined(),

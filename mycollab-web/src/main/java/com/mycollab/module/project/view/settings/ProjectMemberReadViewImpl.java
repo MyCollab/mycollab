@@ -16,25 +16,28 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.NumberUtils;
+import com.mycollab.db.arguments.*;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
-import com.mycollab.module.project.*;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.AbstractProjectPageView;
 import com.mycollab.module.project.view.user.ProjectActivityStreamPagedList;
-import com.mycollab.db.arguments.*;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -42,9 +45,6 @@ import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -255,17 +255,14 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             this.setWidth("400px");
 
             final CheckBox overdueSelection = new CheckBox("Overdue");
-            overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    boolean isOverdueOption = overdueSelection.getValue();
-                    if (isOverdueOption) {
-                        searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
-                    } else {
-                        searchCriteria.setDueDate(null);
-                    }
-                    updateSearchResult();
+            overdueSelection.addValueChangeListener(valueChangeEvent -> {
+                boolean isOverdueOption = overdueSelection.getValue();
+                if (isOverdueOption) {
+                    searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
+                } else {
+                    searchCriteria.setDueDate(null);
                 }
+                updateSearchResult();
             });
 
             final CheckBox isOpenSelection = new CheckBox("Open", true);
@@ -328,11 +325,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             }
 
             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
-                    .getAssignUserFullName());
+            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                    .setTitle(genericTask.getAssignUserFullName());
 
-            MHorizontalLayout iconsLayout = new MHorizontalLayout().with(new ELabel(ProjectAssetsManager.getAsset
-                    (genericTask.getType()).getHtml(), ContentMode.HTML), new ELabel(img.write(), ContentMode.HTML));
+            MHorizontalLayout iconsLayout = new MHorizontalLayout().with(ELabel.fontIcon(ProjectAssetsManager.getAsset(
+                    genericTask.getType())), ELabel.html(img.write()));
             MCssLayout issueWrapper = new MCssLayout(issueLbl);
             rowComp.with(iconsLayout, issueWrapper).expand(issueWrapper);
             return rowComp;

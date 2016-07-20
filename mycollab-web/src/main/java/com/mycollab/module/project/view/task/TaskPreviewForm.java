@@ -227,8 +227,9 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             layout.with(statusLbl);
 
             String avatarLink = StorageFactory.getAvatarPath(subTask.getAssignUserAvatarId(), 16);
-            Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
-            layout.with(new ELabel(avatarImg.write(), ContentMode.HTML).withWidthUndefined());
+            Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                    .setTitle(subTask.getAssignUserFullName());
+            layout.with(ELabel.html(avatarImg.write()).withWidthUndefined());
 
             final ToggleTaskSummaryWithParentRelationshipField toggleTaskSummaryField = new ToggleTaskSummaryWithParentRelationshipField(subTask);
             layout.with(toggleTaskSummaryField).expand(toggleTaskSummaryField);

@@ -32,6 +32,7 @@ import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
+import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.vaadin.teemu.VaadinIcons;
@@ -52,9 +53,10 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     @Override
     public AbstractComponent createAssigneePopupField(SimpleBug bug) {
         String avatarLink = StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 16);
-        Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
-        return new MetaFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
-                .FORM_ASSIGNEE)).build();
+        Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName())
+                .setCSSClass(UIConstants.CIRCLE_BOX);
+        return new MetaFieldBuilder().withCaption(img.write())
+                .withDescription(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
     }
 
     @Override

@@ -28,6 +28,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
+import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.vaadin.teemu.VaadinIcons;
@@ -41,7 +42,8 @@ public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactor
     @Override
     public AbstractComponent createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName) {
         String avatarLink = StorageFactory.getAvatarPath(milestone.getOwnerAvatarId(), 16);
-        Img img = new Img(milestone.getOwnerFullName(), avatarLink).setTitle(milestone.getOwnerFullName());
+        Img img = new Img(milestone.getOwnerFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                .setTitle(milestone.getOwnerFullName());
         if (isDisplayName) {
             return new MetaFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))
                     .withDescription(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();

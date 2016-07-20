@@ -36,13 +36,12 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.ShortcutExtension;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -108,22 +107,16 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
         public ComponentContainer constructBody() {
             MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
 
-            nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("OpportunitySearchRequest", ShortcutAction.KeyCode.ENTER, null) {
-                        @Override
-                        public void handleAction(Object o, Object o1) {
-                            callSearchAction();
-                        }
-                    });
-            nameField.setInputPrompt("Query by opportunity name");
-            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             layout.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
             MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))

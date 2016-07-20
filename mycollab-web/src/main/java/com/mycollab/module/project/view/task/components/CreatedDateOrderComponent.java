@@ -16,16 +16,10 @@
  */
 package com.mycollab.module.project.view.task.components;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.module.project.ui.components.IGroupComponent;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -39,8 +33,8 @@ import java.util.List;
  * @since 5.2.2
  */
 public class CreatedDateOrderComponent extends TaskGroupOrderComponent {
-    private SortedArrayMap<DateTime, GroupComponent> createdDateAvailables = new SortedArrayMap<>();
-    private GroupComponent unspecifiedTasks;
+    private SortedArrayMap<DateTime, DefaultTaskGroupComponent> createdDateAvailables = new SortedArrayMap<>();
+    private DefaultTaskGroupComponent unspecifiedTasks;
 
     @Override
     public void insertTasks(List<SimpleTask> tasks) {
@@ -50,10 +44,16 @@ public class CreatedDateOrderComponent extends TaskGroupOrderComponent {
                 DateTime jodaTime = new DateTime(createdDate, DateTimeZone.UTC);
                 DateTime monDay = jodaTime.dayOfWeek().withMinimumValue();
                 if (createdDateAvailables.containsKey(monDay)) {
-                    GroupComponent groupComponent = createdDateAvailables.get(monDay);
+                    DefaultTaskGroupComponent groupComponent = createdDateAvailables.get(monDay);
                     groupComponent.insertTask(task);
                 } else {
-                    GroupComponent groupComponent = new GroupComponent(monDay);
+                    DateTime maxValue = monDay.dayOfWeek().withMaximumValue();
+                    DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat());
+                    String monDayStr = formatter.print(monDay);
+                    String sundayStr = formatter.print(maxValue);
+                    String titleValue = String.format("%s - %s", monDayStr, sundayStr);
+
+                    DefaultTaskGroupComponent groupComponent = new DefaultTaskGroupComponent(titleValue);
                     createdDateAvailables.put(monDay, groupComponent);
                     int index = createdDateAvailables.getKeyIndex(monDay);
                     if (index > -1) {
@@ -66,43 +66,11 @@ public class CreatedDateOrderComponent extends TaskGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedTasks == null) {
-                    unspecifiedTasks = new GroupComponent();
+                    unspecifiedTasks = new DefaultTaskGroupComponent(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedTasks, 0);
                 }
                 unspecifiedTasks.insertTask(task);
             }
-        }
-    }
-
-    private static class GroupComponent extends VerticalLayout implements IGroupComponent {
-        private CssLayout wrapBody;
-        private Label headerLbl;
-
-        GroupComponent(DateTime startDate) {
-            initComponent();
-            DateTime maxValue = startDate.dayOfWeek().withMaximumValue();
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat());
-            String monDayStr = formatter.print(startDate);
-            String sundayStr = formatter.print(maxValue);
-            headerLbl.setValue(String.format("%s - %s", monDayStr, sundayStr));
-        }
-
-        GroupComponent() {
-            initComponent();
-            headerLbl.setValue("Unscheduled");
-        }
-
-        private void initComponent() {
-            this.setMargin(new MarginInfo(true, false, true, false));
-            wrapBody = new CssLayout();
-            wrapBody.setStyleName(UIConstants.BORDER_LIST);
-            headerLbl = ELabel.h3("");
-            this.addComponent(headerLbl);
-            this.addComponent(wrapBody);
-        }
-
-        void insertTask(SimpleTask task) {
-            wrapBody.addComponent(new TaskRowRenderer(task));
         }
     }
 }

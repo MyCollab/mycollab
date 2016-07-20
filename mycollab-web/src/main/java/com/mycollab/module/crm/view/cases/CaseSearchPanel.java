@@ -43,6 +43,7 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -136,15 +137,8 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-            subjectField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("CaseSearchField", ShortcutAction.KeyCode.ENTER, null) {
-                        @Override
-                        public void handleAction(Object o, Object o1) {
-                            callSearchAction();
-                        }
-                    });
-            subjectField.setInputPrompt("Query by case name");
-            subjectField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            subjectField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(subjectField).withAlign(subjectField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));

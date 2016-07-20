@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.bug.components;
 
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 

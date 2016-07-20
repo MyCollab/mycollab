@@ -33,10 +33,10 @@ import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -91,19 +91,13 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
             Label nameLbl = new Label("Name:");
             basicSearchBody.with(nameLbl);
 
-            nameField = new TextField();
-            nameField.setInputPrompt("Query by version name");
-            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            nameField.addShortcutListener(new ShortcutListener("VersionSearchName", ShortcutAction.KeyCode.ENTER, null) {
-                @Override
-                public void handleAction(Object o, Object o1) {
-                    callSearchAction();
-                }
-            });
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField);
 
             MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn);
 
             MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))

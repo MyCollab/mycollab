@@ -29,19 +29,21 @@ import org.springframework.stereotype.Service;
  * local server (dev, community or premium mode) or
  * <code>AmazonRawContentServiceImpl</code> if MyCollab is installed on MyCollab
  * server.
- * 
+ *
+ * @author MyCollab Ltd
+ * @since 1.0.0
  */
 @Service(value = "rawContentService")
 @IgnoreCacheClass
 public class RawContentServiceFactoryBean extends AbstractFactoryBean<RawContentService> implements IService {
 
-	@Override
-	protected RawContentService createInstance() throws Exception {
-		return new FileRawContentServiceImpl();
-	}
+    @Override
+    protected RawContentService createInstance() throws Exception {
+        return new FileRawContentServiceImpl();
+    }
 
-	@Override
-	public Class<RawContentService> getObjectType() {
-		return RawContentService.class;
-	}
+    @Override
+    public Class<RawContentService> getObjectType() {
+        return RawContentService.class;
+    }
 }

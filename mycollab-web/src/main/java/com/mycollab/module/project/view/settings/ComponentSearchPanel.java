@@ -30,13 +30,12 @@ import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.ShortcutExtension;
 import com.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -88,25 +87,19 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-            Label nameLbl = new Label("Name:");
+            Label nameLbl = new Label(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ":");
             basicSearchBody.with(nameLbl);
 
-            nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("ComponentSearchName", ShortcutAction.KeyCode.ENTER, null) {
-                        @Override
-                        public void handleAction(Object o, Object o1) {
-                            callSearchAction();
-                        }
-                    });
-            nameField.setInputPrompt("Query by component name");
-            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField);
 
             myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox);
 
             MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION)
+                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn);
 
             MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))

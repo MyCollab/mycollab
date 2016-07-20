@@ -57,16 +57,15 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
     private int totalCountItems;
     private List<GroupItem> groupItems;
 
-    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new
-            ApplicationEventListener<TaskEvent.HasTaskChange>() {
-                @Override
-                @Subscribe
-                public void handle(TaskEvent.HasTaskChange event) {
-                    if (searchCriteria != null) {
-                        UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
-                    }
-                }
-            };
+    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new ApplicationEventListener<TaskEvent.HasTaskChange>() {
+        @Override
+        @Subscribe
+        public void handle(TaskEvent.HasTaskChange event) {
+            if (searchCriteria != null) {
+                UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
+            }
+        }
+    };
 
     @Override
     public void attach() {

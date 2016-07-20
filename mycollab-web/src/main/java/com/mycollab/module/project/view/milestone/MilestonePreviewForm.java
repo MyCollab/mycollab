@@ -16,12 +16,13 @@
  */
 package com.mycollab.module.project.view.milestone;
 
+import com.hp.gagawa.java.elements.Img;
 import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.db.arguments.DateSearchField;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
@@ -47,7 +48,6 @@ import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.mycollab.vaadin.web.ui.field.DateViewField;
 import com.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.mycollab.vaadin.web.ui.field.RichTextViewField;
-import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -225,8 +225,8 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             }
             rowComp.with(new ELabel(status).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined());
             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
-                    .getAssignUserFullName());
+            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                    .setTitle(genericTask.getAssignUserFullName());
 
             ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
             rowComp.with(ELabel.html(img.write()).withWidthUndefined(),
