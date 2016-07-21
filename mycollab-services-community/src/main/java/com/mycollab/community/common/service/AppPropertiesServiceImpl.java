@@ -55,11 +55,13 @@ public class AppPropertiesServiceImpl implements AppPropertiesService, Initializ
                 String startDate = properties.getProperty("startdate");
                 if (startDate == null) {
                     properties.setProperty("startdate", DateTimeUtils.formatDateToW3C(new GregorianCalendar().getTime()));
-                    properties.store(new FileOutputStream(sysFile), "");
                 }
+                properties.setProperty("edition", getEdition());
+                properties.store(new FileOutputStream(sysFile), "");
             } else {
                 properties.setProperty("id", UUID.randomUUID().toString() + new LocalDateTime().getMillisOfSecond());
                 properties.setProperty("startdate", DateTimeUtils.formatDateToW3C(new GregorianCalendar().getTime()));
+                properties.setProperty("edition", getEdition());
                 properties.store(new FileOutputStream(sysFile), "");
             }
         } catch (IOException e) {

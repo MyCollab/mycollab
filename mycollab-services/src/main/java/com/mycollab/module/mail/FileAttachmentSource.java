@@ -24,15 +24,15 @@ import java.io.File;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class FileEmailAttachmentSource implements EmailAttachmentSource {
+public class FileAttachmentSource implements AttachmentSource {
     private File file;
     private String name;
 
-    public FileEmailAttachmentSource(File file) {
-        this(file, null);
+    public FileAttachmentSource(File file) {
+        this(null, file);
     }
 
-    public FileEmailAttachmentSource(File file, String name) {
+    public FileAttachmentSource(String name, File file) {
         this.file = file;
         this.name = name;
     }

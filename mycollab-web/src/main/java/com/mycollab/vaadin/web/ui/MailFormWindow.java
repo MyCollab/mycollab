@@ -17,8 +17,8 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.module.mail.EmailAttachmentSource;
-import com.mycollab.module.mail.FileEmailAttachmentSource;
+import com.mycollab.module.mail.AttachmentSource;
+import com.mycollab.module.mail.FileAttachmentSource;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -224,19 +224,19 @@ public class MailFormWindow extends Window {
                             .getSpringBean(ExtMailService.class);
 
                     List<File> listFile = attachments.files();
-                    List<EmailAttachmentSource> emailAttachmentSource = null;
+                    List<AttachmentSource> attachmentSource = null;
                     if (listFile != null && listFile.size() > 0) {
-                        emailAttachmentSource = new ArrayList<>();
+                        attachmentSource = new ArrayList<>();
                         for (File file : listFile) {
-                            emailAttachmentSource
-                                    .add(new FileEmailAttachmentSource(file));
+                            attachmentSource
+                                    .add(new FileAttachmentSource(file));
                         }
                     }
 
                     systemMailService.sendHTMLMail(AppContext.getUser().getEmail(), AppContext.getUser().getDisplayName(),
                             tokenFieldMailTo.getListRecipient(), tokenFieldMailCc.getListRecipient(),
                             tokenFieldMailBcc.getListRecipient(), subject.getValue(),
-                            noteArea.getValue(), emailAttachmentSource);
+                            noteArea.getValue(), attachmentSource);
                     MailFormWindow.this.close();
                 } else {
                     NotificationUtil

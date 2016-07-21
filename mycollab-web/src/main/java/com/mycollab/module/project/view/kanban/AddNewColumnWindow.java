@@ -32,10 +32,10 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.awt.*;
 import java.util.GregorianCalendar;
@@ -44,15 +44,12 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class AddNewColumnWindow extends Window {
+public class AddNewColumnWindow extends MWindow {
     private static final Color DEFAULT_COLOR = Color.decode("#fdde86");
 
     public AddNewColumnWindow(final IKanbanView kanbanView, final String type, final String fieldGroup) {
         super(AppContext.getMessage(TaskI18nEnum.ACTION_NEW_COLUMN));
-        this.setWidth("800px");
-        this.setModal(true);
-        this.setResizable(false);
-        this.center();
+        this.withModal(true).withResizable(false).withWidth("800px").withCenter();
         MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
         GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
         this.setContent(layout);

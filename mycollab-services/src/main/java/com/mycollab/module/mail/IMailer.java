@@ -52,7 +52,7 @@ public interface IMailer {
      * @param attachments
      */
     void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
-                      List<MailRecipientField> bccEmail, String subject, String html, List<? extends EmailAttachmentSource> attachments);
+                      List<MailRecipientField> bccEmail, String subject, String html, List<? extends AttachmentSource> attachments);
 
     /**
      * @param fromEmail
@@ -63,5 +63,5 @@ public interface IMailer {
      * @param attachment
      */
     void sendHTMLMail(String fromEmail, String fromName, List<SimpleUser> users, String subject, String html,
-                      List<? extends EmailAttachmentSource> attachment);
+                      List<? extends AttachmentSource> attachment);
 }

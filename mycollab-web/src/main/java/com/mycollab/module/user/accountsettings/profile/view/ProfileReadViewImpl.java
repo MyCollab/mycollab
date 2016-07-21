@@ -83,23 +83,18 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
         User user = formItem.getBean();
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(false);
-        HorizontalLayout userWrapper = new HorizontalLayout();
 
-        ELabel usernameLbl = ELabel.h2(AppContext.getUser().getDisplayName());
-        userWrapper.addComponent(usernameLbl);
+        ELabel usernameLbl = ELabel.h2(AppContext.getUser().getDisplayName()).withWidthUndefined();
 
         MButton btnChangeBasicInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean())))
                 .withStyleName(UIConstants.BUTTON_LINK);
 
-        HorizontalLayout btnChangeBasicInfoWrapper = new HorizontalLayout();
-        btnChangeBasicInfoWrapper.addComponent(btnChangeBasicInfo);
-        btnChangeBasicInfoWrapper.setComponentAlignment(btnChangeBasicInfo, Alignment.MIDDLE_RIGHT);
-        userWrapper.addComponent(btnChangeBasicInfoWrapper);
+        MHorizontalLayout userWrapper = new MHorizontalLayout(usernameLbl, btnChangeBasicInfo);
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("80px");
+        GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
         userFormLayout.getLayout().addStyleName(UIConstants.GRIDFORM_BORDERLESS);
         userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
                 AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);

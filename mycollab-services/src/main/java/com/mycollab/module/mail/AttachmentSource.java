@@ -24,6 +24,6 @@ import org.apache.commons.mail.EmailAttachment;
  * @author MyCollab Ltd
  * @since 1.0
  */
-public interface EmailAttachmentSource {
+public interface AttachmentSource {
     EmailAttachment getAttachmentObj();
 }

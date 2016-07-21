@@ -17,18 +17,15 @@
 package com.mycollab.shell.view.components;
 
 import com.mycollab.vaadin.mvp.CacheableComponent;
-import com.vaadin.ui.Window;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.6
  */
-public abstract class AbstractAboutWindow extends Window implements CacheableComponent {
+public abstract class AbstractAboutWindow extends MWindow implements CacheableComponent {
     public AbstractAboutWindow() {
         super("About");
-        this.setModal(true);
-        this.setResizable(false);
-        this.center();
-        this.setWidth("600px");
+        this.withModal(true).withResizable(false).withWidth("600px").withCenter();
     }
 }

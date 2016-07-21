@@ -41,14 +41,14 @@ public class NullMailer implements IMailer {
     @Override
     public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                              List<MailRecipientField> bccEmail, String subject, String html,
-                             List<? extends EmailAttachmentSource> attachments) {
+                             List<? extends AttachmentSource> attachments) {
         LOG.info("You did not configure email. So Email feature is disable and MyCollab can not send any notification via email.");
 
     }
 
     @Override
     public void sendHTMLMail(String fromEmail, String fromName, List<SimpleUser> users, String subject, String html,
-                             List<? extends EmailAttachmentSource> attachment) {
+                             List<? extends AttachmentSource> attachment) {
         LOG.info("You did not configure email. So Email feature is disable and MyCollab can not send any notification via email.");
 
     }

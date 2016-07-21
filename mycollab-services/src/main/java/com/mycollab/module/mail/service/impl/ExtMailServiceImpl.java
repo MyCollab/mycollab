@@ -21,7 +21,7 @@ import com.mycollab.configuration.EmailConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.mail.DefaultMailer;
-import com.mycollab.module.mail.EmailAttachmentSource;
+import com.mycollab.module.mail.AttachmentSource;
 import com.mycollab.module.mail.IMailer;
 import com.mycollab.module.mail.NullMailer;
 import com.mycollab.module.mail.service.ExtMailService;
@@ -56,7 +56,7 @@ public class ExtMailServiceImpl implements ExtMailService {
     public void sendHTMLMail(String fromEmail, String fromName,
                              List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                              List<MailRecipientField> bccEmail, String subject, String html,
-                             List<? extends EmailAttachmentSource> attachments) {
+                             List<? extends AttachmentSource> attachments) {
         getMailer().sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html, attachments);
     }
 }

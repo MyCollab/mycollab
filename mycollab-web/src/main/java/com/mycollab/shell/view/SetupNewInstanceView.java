@@ -57,7 +57,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
         this.with(content);
         content.with(ELabel.h2("Last step, you are almost there!").withWidthUndefined());
         content.with(ELabel.h3("All fields are required *").withStyleName("overdue").withWidthUndefined());
-        content.with(new ELabel(AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), ContentMode.HTML)
+        content.with(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
                 .withStyleName(UIConstants.META_COLOR));
         GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8, "200px");
         formLayoutHelper.getLayout().setWidth("600px");
