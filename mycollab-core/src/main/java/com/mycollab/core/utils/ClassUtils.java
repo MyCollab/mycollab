@@ -25,70 +25,70 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Utility class for processing class meta data.
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ClassUtils {
-	/**
-	 * Check whether object <code>o</code> is one of instance in class list
-	 * <code>classes</code>
-	 * 
-	 * @param o
-	 * @param classes
-	 * @return
-	 */
-	public static boolean instanceOf(Object o, Class<?>... classes) {
-		for (Class<?> cls : classes) {
-			if (cls.isInstance(o)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Check whether object <code>o</code> is one of instance in class list
+     * <code>classes</code>
+     *
+     * @param o
+     * @param classes
+     * @return
+     */
+    public static boolean instanceOf(Object o, Class<?>... classes) {
+        for (Class<?> cls : classes) {
+            if (cls.isInstance(o)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Class<?> getInterfaceInstanceOf(Class cls, Class superCls) {
-		Class[] interfaces = cls.getInterfaces();
-		for (Class inter : interfaces) {
-			if (superCls.isAssignableFrom(inter)) {
-				return inter;
-			}
-		}
+    public static Class<?> getInterfaceInstanceOf(Class cls, Class superCls) {
+        Class[] interfaces = cls.getInterfaces();
+        for (Class inter : interfaces) {
+            if (superCls.isAssignableFrom(inter)) {
+                return inter;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 
-	private static Map<Class, Field[]> mapFields = new ConcurrentHashMap<>();
-	/**
-	 * Get all fields of class <code>type</code> includes its super classes
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public static Field[] getAllFields(Class<?> type) {
-		if (mapFields.containsKey(type)) {
-			return mapFields.get(type);
-		} else {
-			List<Field> fields = new ArrayList<>();
-			populateFields(type, fields);
-			Field[] arr = fields.toArray(new Field[0]);
-			mapFields.put(type, arr);
-			return arr;
-		}
-	}
+    private static Map<Class, Field[]> mapFields = new ConcurrentHashMap<>();
 
-	private static void populateFields(Class<?> type, List<Field> fields) {
-		if (type != null) {
-			Field[] declaredFields = type.getDeclaredFields();
-			for (Field declaredField : declaredFields) {
-				if (!Modifier.isStatic(declaredField.getModifiers())) {
-					fields.add(declaredField);
-				}
-			}
+    /**
+     * Get all fields of class <code>type</code> includes its super classes
+     *
+     * @param type
+     * @return
+     */
+    public static Field[] getAllFields(Class<?> type) {
+        if (mapFields.containsKey(type)) {
+            return mapFields.get(type);
+        } else {
+            List<Field> fields = new ArrayList<>();
+            populateFields(type, fields);
+            Field[] arr = fields.toArray(new Field[0]);
+            mapFields.put(type, arr);
+            return arr;
+        }
+    }
 
-			populateFields(type.getSuperclass(), fields);
-		}
-	}
+    private static void populateFields(Class<?> type, List<Field> fields) {
+        if (type != null) {
+            Field[] declaredFields = type.getDeclaredFields();
+            for (Field declaredField : declaredFields) {
+                if (!Modifier.isStatic(declaredField.getModifiers())) {
+                    fields.add(declaredField);
+                }
+            }
+
+            populateFields(type.getSuperclass(), fields);
+        }
+    }
 }

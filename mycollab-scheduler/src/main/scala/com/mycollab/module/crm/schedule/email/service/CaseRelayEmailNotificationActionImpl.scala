@@ -99,7 +99,7 @@ class CaseRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
     put(CaseWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
     put(CaseWithBLOBs.Field.reason, CaseI18nEnum.FORM_REASON)
     put(CaseWithBLOBs.Field.phonenumber, CaseI18nEnum.FORM_PHONE)
-    put(CaseWithBLOBs.Field.email, CaseI18nEnum.FORM_EMAIL)
+    put(CaseWithBLOBs.Field.email, GenericI18Enum.FORM_EMAIL)
     put(CaseWithBLOBs.Field.origin, CaseI18nEnum.FORM_ORIGIN)
     put(CaseWithBLOBs.Field.assignuser, new AssigneeFieldFormat(CaseWithBLOBs.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(CaseWithBLOBs.Field.resolution, CaseI18nEnum.FORM_RESOLUTION, isColSpan = true)

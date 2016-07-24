@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.UserInvalidInputException;
@@ -174,7 +175,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.firstname).displayName(AppContext
                         .getMessage(UserI18nEnum.FORM_FIRST_NAME)).fieldIndex(0).build());
                 mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.email).displayName(AppContext
-                        .getMessage(UserI18nEnum.FORM_EMAIL)).fieldIndex(1).build());
+                        .getMessage(GenericI18Enum.FORM_EMAIL)).fieldIndex(1).build());
                 mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.lastname).displayName(AppContext
                         .getMessage(UserI18nEnum.FORM_LAST_NAME)).fieldIndex(2).build());
                 mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleUser.Field.roleid).displayName(AppContext
@@ -260,7 +261,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 } else if (propertyId.equals("dateofbirth")) {
                     return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 1, 1);
                 } else if (propertyId.equals("email")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
+                    return basicInformationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
                 } else if (propertyId.equals("roleid")) {
                     return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 2);
                 } else if (propertyId.equals("timezone")) {

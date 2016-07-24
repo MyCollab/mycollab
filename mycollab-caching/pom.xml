@@ -36,5 +36,11 @@
             <version>5.3.5</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-core</artifactId>
+            <version>8.2.3.Final</version>
+        </dependency>
     </dependencies>
 </project>

@@ -69,7 +69,7 @@ class BasicInfoChangeWindow extends MWindow {
         passInfo.addComponent(txtFirstName, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
         passInfo.addComponent(txtLastName, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
         txtLastName.setRequired(true);
-        passInfo.addComponent(txtEmail, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
+        passInfo.addComponent(txtEmail, AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
         txtEmail.setRequired(true);
         passInfo.addComponent(birthdayField, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
         birthdayField.setDate(user.getDateofbirth());

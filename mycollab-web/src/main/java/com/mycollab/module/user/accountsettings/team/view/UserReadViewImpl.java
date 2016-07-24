@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.TimezoneVal;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.AccountLinkBuilder;
@@ -101,7 +102,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                 new Label(AppContext.formatDate(user.getDateofbirth()))).withMargin(new MarginInfo(false, false, true, false)));
 
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
-            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_EMAIL)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
+            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(GenericI18Enum.FORM_EMAIL)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
                     new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(), ContentMode.HTML)).withMargin(new MarginInfo(false, false, true, false)));
         }
 

@@ -67,7 +67,7 @@ public class CaseDefaultFormLayoutFactory {
                 .fieldIndex(6).build());
 
         infoSection.fields(new EmailDynaFieldBuilder().fieldName("email")
-                .displayName(AppContext.getMessage(CaseI18nEnum.FORM_EMAIL))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_EMAIL))
                 .fieldIndex(7).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("origin")

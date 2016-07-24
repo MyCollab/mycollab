@@ -34,7 +34,7 @@ object LeadTableFieldDef {
   val accountName = new TableViewField(LeadI18nEnum.FORM_ACCOUNT_NAME, "accountname", UIConstants.TABLE_X_LABEL_WIDTH)
   val leadSource = new TableViewField(LeadI18nEnum.FORM_LEAD_SOURCE, "leadsourcedesc", UIConstants.TABLE_S_LABEL_WIDTH)
   val industry = new TableViewField(LeadI18nEnum.FORM_INDUSTRY, "industry", UIConstants.TABLE_M_LABEL_WIDTH)
-  val email = new TableViewField(LeadI18nEnum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH)
+  val email = new TableViewField(GenericI18Enum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH)
   val phoneoffice = new TableViewField(LeadI18nEnum.FORM_OFFICE_PHONE, "officephone", UIConstants.TABLE_M_LABEL_WIDTH)
   val mobile = new TableViewField(LeadI18nEnum.FORM_MOBILE, "mobile", UIConstants.TABLE_M_LABEL_WIDTH)
   val fax = new TableViewField(LeadI18nEnum.FORM_FAX, "fax", UIConstants.TABLE_M_LABEL_WIDTH)

@@ -99,7 +99,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
                 AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
         userFormLayout.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank")
-                .write(), ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 1);
+                .write(), ContentMode.HTML), AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
         userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(user.getTimezone())),
                 AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
         userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),

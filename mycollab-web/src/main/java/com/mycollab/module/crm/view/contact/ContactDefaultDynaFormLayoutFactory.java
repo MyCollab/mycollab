@@ -80,7 +80,7 @@ public class ContactDefaultDynaFormLayoutFactory {
                 .fieldIndex(9).build());
 
         contactSection.fields(new EmailDynaFieldBuilder().fieldName(Contact.Field.email)
-                .displayName(AppContext.getMessage(ContactI18nEnum.FORM_EMAIL))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_EMAIL))
                 .fieldIndex(10).build());
 
         contactSection.fields(new TextDynaFieldBuilder().fieldName(Contact.Field.birthday)

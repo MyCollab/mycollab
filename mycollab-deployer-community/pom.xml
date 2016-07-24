@@ -19,7 +19,6 @@
         <module>../mycollab-dao</module>
         <module>../mycollab-jackrabbit</module>
         <module>../mycollab-caching</module>
-        <module>../mycollab-caching-community</module>
         <module>../mycollab-services</module>
         <module>../mycollab-migration</module>
         <module>../mycollab-server-runner</module>

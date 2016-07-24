@@ -44,12 +44,6 @@
 
         <dependency>
             <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-caching-community</artifactId>
-            <version>5.3.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-scheduler-community</artifactId>
             <version>5.3.5</version>
         </dependency>
@@ -166,14 +160,6 @@
                                 <artifactItem>
                                     <groupId>com.mycollab</groupId>
                                     <artifactId>mycollab-esb</artifactId>
-                                    <version>5.3.5</version>
-                                    <type>jar</type>
-                                    <includes>*.ftl</includes>
-                                    <outputDirectory>${project.build.directory}/staging/i18n</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.mycollab</groupId>
-                                    <artifactId>mycollab-esb-ondemand</artifactId>
                                     <version>5.3.5</version>
                                     <type>jar</type>
                                     <includes>*.ftl</includes>

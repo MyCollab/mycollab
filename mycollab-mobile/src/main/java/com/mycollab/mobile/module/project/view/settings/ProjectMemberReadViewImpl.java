@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.view.settings;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
@@ -151,7 +152,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
             if (propertyId.equals("memberFullName")) {
                 return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
             } else if (propertyId.equals("email")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_EMAIL), 0, 1);
+                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
             } else if (propertyId.equals("roleName")) {
                 return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 2);
             }

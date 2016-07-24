@@ -55,7 +55,7 @@ public class NewUserAddedWindow extends Window {
 
         String signinInstruction = AppContext.getMessage(UserI18nEnum.OPT_SIGN_IN_MSG, AppContext.getSiteUrl(), AppContext.getSiteUrl());
         content.with(new MVerticalLayout(new Label(signinInstruction, ContentMode.HTML),
-                new ELabel(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL)).withStyleName(UIConstants.META_INFO),
+                new ELabel(AppContext.getMessage(GenericI18Enum.FORM_EMAIL)).withStyleName(UIConstants.META_INFO),
                 new Label("    " + user.getUsername()),
                 new ELabel(AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).withStyleName(UIConstants.META_INFO),
                 new Label("    " + (uncryptPassword != null ? uncryptPassword : AppContext.getMessage(UserI18nEnum.OPT_USER_SET_OWN_PASSWORD)))));

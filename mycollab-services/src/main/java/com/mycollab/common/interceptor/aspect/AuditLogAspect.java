@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.mycollab.common.interceptor.aspect;
 
 import com.mycollab.cache.service.CacheService;

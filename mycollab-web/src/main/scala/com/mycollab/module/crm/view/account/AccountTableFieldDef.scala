@@ -31,7 +31,7 @@ object AccountTableFieldDef {
   val accountname = new TableViewField(AccountI18nEnum.FORM_ACCOUNT_NAME, "accountname", UIConstants.TABLE_X_LABEL_WIDTH)
   val city = new TableViewField(AccountI18nEnum.FORM_BILLING_CITY, "city", UIConstants.TABLE_X_LABEL_WIDTH)
   val phoneoffice = new TableViewField(AccountI18nEnum.FORM_OFFICE_PHONE, "phoneoffice", UIConstants.TABLE_M_LABEL_WIDTH)
-  val email = new TableViewField(AccountI18nEnum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH)
+  val email = new TableViewField(GenericI18Enum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH)
   val assignUser = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
   val website = new TableViewField(AccountI18nEnum.FORM_WEBSITE, "website", UIConstants.TABLE_X_LABEL_WIDTH)
   val `type` = new TableViewField(GenericI18Enum.FORM_TYPE, "type", UIConstants.TABLE_X_LABEL_WIDTH)

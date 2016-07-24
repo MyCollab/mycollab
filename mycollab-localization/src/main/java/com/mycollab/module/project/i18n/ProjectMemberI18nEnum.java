@@ -48,6 +48,5 @@ public enum ProjectMemberI18nEnum {
     MAIL_INVITE_USERS_SUBJECT,
 
     M_VIEW_MEMBER_LOOKUP,
-    M_FORM_EMAIL,
     M_FORM_PROJECT_ADMIN
 }

@@ -57,7 +57,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
             CustomLayout customLayout = CustomLayoutExt.createLayout("forgotPassword");
             customLayout.setStyleName("forgotPwdForm");
 
-            nameOrEmailField = new TextField(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
+            nameOrEmailField = new TextField(AppContext.getMessage(GenericI18Enum.FORM_EMAIL));
             customLayout.addComponent(nameOrEmailField, "nameoremail");
 
             MButton sendEmail = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD), clickEvent -> {

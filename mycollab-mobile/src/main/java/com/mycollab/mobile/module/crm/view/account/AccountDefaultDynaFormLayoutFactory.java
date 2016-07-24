@@ -66,7 +66,7 @@ public class AccountDefaultDynaFormLayoutFactory {
                 .customField(false).build());
 
         accountSection.fields(new EmailDynaFieldBuilder().fieldName("email").fieldIndex(7)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_EMAIL))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_EMAIL))
                 .customField(false).build());
 
         accountSection.fields(new PickListDynaFieldBuilder<String>().fieldName("type").fieldIndex(8)

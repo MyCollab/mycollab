@@ -93,8 +93,7 @@ public class CrmTooltipGenerator {
             Td cell22 = buildCellValue(getStringBaseNullCondition(account
                     .getNumemployees()));
 
-            Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
-                    AccountI18nEnum.FORM_EMAIL));
+            Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_EMAIL));
 
             String emailLink = (account.getEmail() != null) ? String.format(
                     "mailto: %s", account.getEmail()) : "";
@@ -156,7 +155,7 @@ public class CrmTooltipGenerator {
             tooltipBuilder.appendRow(trRow2);
 
             Tr trRow3 = new Tr();
-            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, ContactI18nEnum.FORM_EMAIL));
+            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_EMAIL));
 
             String contactEmailLink = (contact.getEmail() != null) ? String.format("mailto:%s", contact.getEmail()) : "";
             Td cell32 = buildCellLink(contactEmailLink, contact.getEmail());
@@ -285,7 +284,7 @@ public class CrmTooltipGenerator {
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, LeadI18nEnum.FORM_FIRSTNAME));
             Td cell12 = buildCellValue(lead.getFirstname());
-            Td cell13 = buildCellName(LocalizationHelper.getMessage(locale, LeadI18nEnum.FORM_EMAIL));
+            Td cell13 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_EMAIL));
             String emailLink = (lead.getEmail() != null) ? "mailto:" + lead.getEmail() : "";
             Td cell14 = buildCellLink(emailLink, lead.getEmail());
             trRow1.appendChild(cell11, cell12, cell13, cell14);
@@ -467,7 +466,7 @@ public class CrmTooltipGenerator {
             String accountLink = (cases.getAccountid() != null) ? CrmLinkGenerator
                     .generateAccountPreviewFullLink(siteURL, cases.getAccountid()) : "";
             Td cell32 = buildCellLink(accountLink, cases.getAccountName());
-            Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, CaseI18nEnum.FORM_EMAIL));
+            Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_EMAIL));
             String emailLink = (cases.getEmail() != null) ? String.format(
                     "mailto:%s", cases.getEmail()) : "";
             Td cell34 = buildCellLink(emailLink, cases.getEmail());

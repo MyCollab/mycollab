@@ -101,7 +101,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     put(Contact.Field.otherphone, ContactI18nEnum.FORM_OTHER_PHONE)
     put(Contact.Field.department, ContactI18nEnum.FORM_DEPARTMENT)
     put(Contact.Field.fax, ContactI18nEnum.FORM_FAX)
-    put(Contact.Field.email, new EmailLinkFieldFormat(Contact.Field.email.name, ContactI18nEnum.FORM_EMAIL))
+    put(Contact.Field.email, new EmailLinkFieldFormat(Contact.Field.email.name, GenericI18Enum.FORM_EMAIL))
     put(Contact.Field.birthday, new DateFieldFormat(Contact.Field.birthday.name, ContactI18nEnum.FORM_BIRTHDAY))
     put(Contact.Field.assistant, ContactI18nEnum.FORM_ASSISTANT)
     put(Contact.Field.iscallable, ContactI18nEnum.FORM_IS_CALLABLE)

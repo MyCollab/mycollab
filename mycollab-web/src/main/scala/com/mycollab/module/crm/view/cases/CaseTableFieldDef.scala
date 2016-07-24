@@ -36,7 +36,7 @@ object CaseTableFieldDef {
   val `type` = new TableViewField(GenericI18Enum.FORM_TYPE, "type", UIConstants.TABLE_M_LABEL_WIDTH)
   val reason = new TableViewField(CaseI18nEnum.FORM_REASON, "reason", UIConstants.TABLE_EX_LABEL_WIDTH)
   val subject = new TableViewField(CaseI18nEnum.FORM_SUBJECT, "subject", UIConstants.TABLE_EX_LABEL_WIDTH)
-  val email = new TableViewField(CaseI18nEnum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH)
+  val email = new TableViewField(GenericI18Enum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH)
   val assignUser = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
   val createdTime = new TableViewField(GenericI18Enum.FORM_CREATED_TIME, "createdtime", UIConstants.TABLE_DATE_TIME_WIDTH)
   val lastUpdatedTime = new TableViewField(GenericI18Enum.FORM_LAST_UPDATED_TIME, "lastupdatedtime", UIConstants.TABLE_DATE_TIME_WIDTH)

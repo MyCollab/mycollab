@@ -38,7 +38,7 @@ public class LeadFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("source", LeadI18nEnum.FORM_LEAD_SOURCE);
         generateFieldDisplayHandler("industry", LeadI18nEnum.FORM_INDUSTRY);
         generateFieldDisplayHandler("noemployees", LeadI18nEnum.FORM_NO_EMPLOYEES);
-        generateFieldDisplayHandler("email", LeadI18nEnum.FORM_EMAIL);
+        generateFieldDisplayHandler("email", GenericI18Enum.FORM_EMAIL);
         generateFieldDisplayHandler("officephone", LeadI18nEnum.FORM_OFFICE_PHONE);
         generateFieldDisplayHandler("mobile", LeadI18nEnum.FORM_MOBILE);
         generateFieldDisplayHandler("otherphone", LeadI18nEnum.FORM_OTHER_PHONE);

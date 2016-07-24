@@ -54,7 +54,7 @@ public class CommonTooltipGenerator {
 
             String userEmail = (Boolean.TRUE.equals(user.getShowEmailPublicly())) ? user.getEmail() : "&lt;&lt;Hidden&gt;&gt;";
             Tr trRow1 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;color:#999")
-                    .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_EMAIL)))
+                    .appendText(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_EMAIL)))
                     .appendChild(new Td().setStyle("vertical-align: top;").appendChild(
                             new A().setHref("mailto:" + user.getEmail()).appendText(userEmail)));
 

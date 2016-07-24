@@ -37,7 +37,7 @@ public class CaseFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("type", GenericI18Enum.FORM_TYPE);
         generateFieldDisplayHandler("reason", CaseI18nEnum.FORM_REASON);
         generateFieldDisplayHandler("subject", CaseI18nEnum.FORM_SUBJECT);
-        generateFieldDisplayHandler("email", CaseI18nEnum.FORM_EMAIL);
+        generateFieldDisplayHandler("email", GenericI18Enum.FORM_EMAIL);
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);
         generateFieldDisplayHandler("resolution", CaseI18nEnum.FORM_RESOLUTION, TRIM_HTMLS);

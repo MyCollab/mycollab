@@ -17,6 +17,7 @@
 package com.mycollab.shell.view;
 
 import com.ejt.vaadin.loginform.LoginForm;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
@@ -87,7 +88,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
         @Override
         protected String getUserNameFieldCaption() {
-            return AppContext.getMessage(ShellI18nEnum.FORM_EMAIL);
+            return AppContext.getMessage(GenericI18Enum.FORM_EMAIL);
         }
 
         @Override

@@ -40,7 +40,7 @@ public class AccountFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("numemployees", AccountI18nEnum.FORM_EMPLOYEES);
         generateFieldDisplayHandler("alternatephone", AccountI18nEnum.FORM_OTHER_PHONE);
         generateFieldDisplayHandler("industry", AccountI18nEnum.FORM_INDUSTRY);
-        generateFieldDisplayHandler("email", AccountI18nEnum.FORM_EMAIL);
+        generateFieldDisplayHandler("email", GenericI18Enum.FORM_EMAIL);
         generateFieldDisplayHandler("type", GenericI18Enum.FORM_TYPE, new I18nHistoryFieldFormat(OptionI18nEnum.AccountType.class));
         generateFieldDisplayHandler("ownership", AccountI18nEnum.FORM_OWNERSHIP);
         generateFieldDisplayHandler("annualrevenue", AccountI18nEnum.FORM_ANNUAL_REVENUE);

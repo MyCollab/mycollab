@@ -43,7 +43,7 @@ public class LeadDefaultDynaFormLayoutFactory {
                 .fieldIndex(0).build());
 
         infoSection.fields(new EmailDynaFieldBuilder().fieldName("email")
-                .displayName(AppContext.getMessage(LeadI18nEnum.FORM_EMAIL))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_EMAIL))
                 .fieldIndex(1).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("lastname")

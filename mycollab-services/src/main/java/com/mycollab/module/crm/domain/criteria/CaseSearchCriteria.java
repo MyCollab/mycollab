@@ -56,7 +56,7 @@ public class CaseSearchCriteria extends SearchCriteria {
     public static final Param p_subject = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_SUBJECT,
             new StringParam("subject", "m_crm_case", "subject"));
 
-    public static final Param p_email = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_EMAIL,
+    public static final Param p_email = CacheParamMapper.register(CrmTypeConstants.CASE, GenericI18Enum.FORM_EMAIL,
             new StringParam("email", "m_crm_case", "email"));
 
     public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.CASE, GenericI18Enum.FORM_ASSIGNEE,

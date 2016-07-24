@@ -62,7 +62,6 @@ public enum UserI18nEnum {
     FORM_NICK_NAME,
     FORM_BIRTHDAY,
     FORM_LANGUAGE,
-    FORM_EMAIL,
     FORM_TIMEZONE,
     FORM_ROLE,
     FORM_COMPANY,

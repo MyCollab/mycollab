@@ -36,7 +36,6 @@ public enum CaseI18nEnum {
     FORM_PHONE,
     FORM_REASON,
     FORM_SUBJECT,
-    FORM_EMAIL,
     FORM_RESOLUTION,
 
     MAIL_CREATE_ITEM_SUBJECT,

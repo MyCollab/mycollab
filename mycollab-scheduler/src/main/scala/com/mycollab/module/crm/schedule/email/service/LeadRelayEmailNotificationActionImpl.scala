@@ -86,7 +86,7 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
 
   class LeadFieldNameMapper extends ItemFieldMapper {
     put(Lead.Field.firstname, LeadI18nEnum.FORM_FIRSTNAME)
-    put(Lead.Field.email, new EmailLinkFieldFormat("email", LeadI18nEnum.FORM_EMAIL))
+    put(Lead.Field.email, new EmailLinkFieldFormat("email", GenericI18Enum.FORM_EMAIL))
     put(Lead.Field.lastname, LeadI18nEnum.FORM_LASTNAME)
     put(Lead.Field.officephone, LeadI18nEnum.FORM_OFFICE_PHONE)
     put(Lead.Field.title, LeadI18nEnum.FORM_TITLE)
