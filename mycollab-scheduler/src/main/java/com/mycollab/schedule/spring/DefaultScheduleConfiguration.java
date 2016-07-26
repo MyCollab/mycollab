@@ -16,6 +16,7 @@
  */
 package com.mycollab.schedule.spring;
 
+import com.mycollab.module.project.schedule.email.service.OverdueProjectAssignmentsNotificationJob;
 import com.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.mycollab.schedule.QuartzScheduleProperties;
 import com.mycollab.schedule.jobs.*;

@@ -27,7 +27,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 
@@ -64,7 +64,7 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
             LabelLink b = new LabelLink(cases.getSubject(), CrmLinkBuilder.generateCasePreviewLinkFull(cases.getId()));
 
             if (cases.isCompleted()) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             }
             b.setDescription(CrmTooltipGenerator.generateTooltipCases(AppContext.getUserLocale(), cases,
                     AppContext.getSiteUrl(), AppContext.getUserTimeZone()));

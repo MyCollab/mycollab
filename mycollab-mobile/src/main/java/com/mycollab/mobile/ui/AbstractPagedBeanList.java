@@ -16,10 +16,10 @@
  */
 package com.mycollab.mobile.ui;
 
-import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.vaadin.ui.ELabel;
 import com.esofthead.vaadin.mobilecomponent.InfiniteScrollLayout;
+import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
@@ -50,12 +50,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         setSizeFull();
         this.rowDisplayHandler = rowDisplayHandler;
         InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
-        scrollLayout.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
-            @Override
-            public void onReachBottom() {
-                loadMore();
-            }
-        });
+        scrollLayout.addScrollListener(() -> loadMore());
         listContainer = new CssLayout();
         this.addComponent(listContainer);
     }

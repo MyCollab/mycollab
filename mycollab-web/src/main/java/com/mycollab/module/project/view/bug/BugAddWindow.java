@@ -36,7 +36,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.google.common.eventbus.AsyncEventBus;
 import com.vaadin.server.FontAwesome;
@@ -92,7 +92,7 @@ public class BugAddWindow extends Window {
                         clickEvent -> {
                             EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugAddWindow.this, bean));
                             close();
-                        }).withStyleName(UIConstants.BUTTON_LINK);
+                        }).withStyleName(WebUIConstants.BUTTON_LINK);
                 MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
@@ -137,16 +137,16 @@ public class BugAddWindow extends Window {
                         }
                         close();
                     }
-                }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
+                }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
                 MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                        .withStyleName(UIConstants.BUTTON_OPTION);
+                        .withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 MHorizontalLayout buttonControls = new MHorizontalLayout(updateAllBtn, cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
 
                 layout.addComponent(buttonControls);
                 layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
-                layout.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+                layout.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
                 new Restrain(layout).setMaxHeight("600px");
                 return layout;
             }

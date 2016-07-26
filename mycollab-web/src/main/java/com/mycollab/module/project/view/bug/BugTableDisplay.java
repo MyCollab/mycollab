@@ -31,7 +31,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Label;
@@ -80,9 +80,9 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                     bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
 
             if (bug.isCompleted()) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
-                b.addStyleName(UIConstants.LINK_OVERDUE);
+                b.addStyleName(WebUIConstants.LINK_OVERDUE);
             }
             return b;
         });

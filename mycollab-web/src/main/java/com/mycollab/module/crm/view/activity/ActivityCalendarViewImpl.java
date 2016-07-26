@@ -87,7 +87,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         this.addStyleName("activityCalendar");
         calendarActionBtn = new PopupButton(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE));
-        calendarActionBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        calendarActionBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
         initContent();
     }
 
@@ -106,7 +106,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         contentWrapper.addComponent(rightColumn);
 
         MHorizontalLayout actionPanel = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withFullWidth().withStyleName(UIConstants.HEADER_VIEW);
+                .withFullWidth().withStyleName(WebUIConstants.HEADER_VIEW);
         actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         Component headerText = ComponentUtils.header(CrmTypeConstants.ACTIVITY, "Calendar");
@@ -138,7 +138,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 initLabelCaption();
             }
         });
-        monthViewBtn.setStyleName(UIConstants.BUTTON_LINK);
+        monthViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(monthViewBtn);
 
         weekViewBtn = new Button("Weekly", new Button.ClickListener() {
@@ -152,7 +152,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 datePicker.selectWeek(new Date());
             }
         });
-        weekViewBtn.setStyleName(UIConstants.BUTTON_LINK);
+        weekViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(weekViewBtn);
 
         dailyViewBtn = new Button("Daily", new Button.ClickListener() {
@@ -167,7 +167,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 calendarComponent.switchToDateView(currentDate);
             }
         });
-        dailyViewBtn.setStyleName(UIConstants.BUTTON_LINK);
+        dailyViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(dailyViewBtn);
 
         toggleViewBtn.setContent(popupLayout);
@@ -225,7 +225,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         Button calendarViewBtn = new Button("Calendar");
         calendarViewBtn.setStyleName("selected");
-        calendarViewBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        calendarViewBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(calendarViewBtn);
 
         Button activityListBtn = new Button("Activities", new Button.ClickListener() {
@@ -238,7 +238,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
             }
         });
-        activityListBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        activityListBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(activityListBtn);
 
         actionPanel.addComponent(viewSwitcher);
@@ -738,7 +738,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         }
                     });
                     saveBtn.setIcon(FontAwesome.SAVE);
-                    saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
+                    saveBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
                     layout.addComponent(saveBtn);
                     layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
                     Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
@@ -749,7 +749,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                             close();
                         }
                     });
-                    cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+                    cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
                     layout.addComponent(cancelBtn);
                     layout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
                     return layout;

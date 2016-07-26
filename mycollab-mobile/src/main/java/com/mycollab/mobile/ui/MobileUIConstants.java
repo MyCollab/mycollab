@@ -20,7 +20,7 @@ package com.mycollab.mobile.ui;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public class UIConstants {
+public class MobileUIConstants {
     public static final String BUTTON_ACTION = "action-btn";
     public static final String BUTTON_OPTION = "option-btn";
     public static final String BUTTON_DANGER = "danger-btn";
@@ -30,11 +30,6 @@ public class UIConstants {
     public static final String STATUS_DISABLED = "disabled";
 
     public static final String FORM_SECTION = "section";
-
-    public static final String LABEL_H3 = "h3";
-
-    public static final String META_INFO = "meta-info";
-    public static final String TRUNCATE = "truncate";
 
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";
     public static final String FULL_WIDTH_COMP = "full-width-comp";

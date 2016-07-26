@@ -19,7 +19,7 @@ package com.mycollab.module.project.view;
 import com.mycollab.common.TableViewField;
 import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 
 /**
  * @author MyCollab Ltd.
@@ -27,14 +27,14 @@ import com.mycollab.vaadin.web.ui.UIConstants;
  */
 public class FollowingTicketFieldDef {
     public static final TableViewField summary = new TableViewField(FollowerI18nEnum.FORM_SUMMARY, "summary",
-            UIConstants.TABLE_EX_LABEL_WIDTH);
+            WebUIConstants.TABLE_EX_LABEL_WIDTH);
 
     public static final TableViewField project = new TableViewField(FollowerI18nEnum.FORM_PROJECT_NAME, "projectName",
-            (int)(UIConstants.TABLE_EX_LABEL_WIDTH * 1.5));
+            (int)(WebUIConstants.TABLE_EX_LABEL_WIDTH * 1.5));
 
     public static final TableViewField assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUser",
-            UIConstants.TABLE_X_LABEL_WIDTH);
+            WebUIConstants.TABLE_X_LABEL_WIDTH);
 
     public static final TableViewField createdDate = new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
-            "monitorDate", UIConstants.TABLE_DATE_WIDTH);
+            "monitorDate", WebUIConstants.TABLE_DATE_WIDTH);
 }

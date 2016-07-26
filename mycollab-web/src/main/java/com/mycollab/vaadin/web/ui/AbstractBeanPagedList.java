@@ -22,8 +22,6 @@ import com.mycollab.vaadin.events.HasPagableHandlers;
 import com.mycollab.vaadin.events.PageableHandler;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -60,7 +58,7 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
         listContainer.setWidth("100%");
         this.addComponent(listContainer);
         this.setExpandRatio(listContainer, 1.0f);
-        this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+        this.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
         queryHandler = buildQueryHandler();
     }
 

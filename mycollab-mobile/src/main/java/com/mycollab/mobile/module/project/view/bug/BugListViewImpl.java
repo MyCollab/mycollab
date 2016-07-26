@@ -16,21 +16,25 @@
  */
 package com.mycollab.mobile.module.project.view.bug;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.StringParam;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.module.project.events.BugEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.mobile.ui.SearchInputField;
-import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
@@ -45,10 +49,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -107,7 +108,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
             A bugLink = new A(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName
                     ())).appendText(String.format("[#%s] - %s", bug.getBugkey(), bug.getSummary()));
 
-            CssLayout bugLbl = new CssLayout(new ELabel(bugLink.write(), ContentMode.HTML).withStyleName(UIConstants.TRUNCATE));
+            CssLayout bugLbl = new CssLayout(new ELabel(bugLink.write(), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS));
             bugRowLayout.with(new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)
                     .getHtml(), ContentMode.HTML).withWidthUndefined(), bugLbl).expand(bugLbl).withFullWidth());
 
@@ -123,15 +124,15 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
             assigneeLink.appendText(StringUtils.trim(bug.getAssignuserFullName(), 30, true));
             Div assigneeDiv = new Div().appendText(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
                     .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory
-                            .getAvatarPath(bug.getAssignUserAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(),
+                                    .getAvatarPath(bug.getAssignUserAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(),
                             assigneeLink);
 
-            ELabel assigneeLbl = new ELabel(assigneeDiv.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO)
+            ELabel assigneeLbl = ELabel.html(assigneeDiv.write()).withStyleName(UIConstants.META_INFO)
                     .withWidthUndefined();
             metaInfoLayout.addComponent(assigneeLbl);
 
-            ELabel statusLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + AppContext.getMessage
-                    (OptionI18nEnum.BugStatus.class, bug.getStatus()), ContentMode.HTML).withStyleName(UIConstants.META_INFO);
+            ELabel statusLbl = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + AppContext.getMessage
+                    (OptionI18nEnum.BugStatus.class, bug.getStatus())).withStyleName(UIConstants.META_INFO);
             metaInfoLayout.addComponent(statusLbl);
 
             return bugRowLayout;

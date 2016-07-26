@@ -32,7 +32,7 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.IntegerField;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -100,7 +100,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         private Layout createButtonControls() {
             final MButton closeBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
                     clickEvent -> EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this)))
-                    .withStyleName(UIConstants.BUTTON_OPTION);
+                    .withStyleName(WebUIConstants.BUTTON_OPTION);
 
             final MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (editForm.validateForm()) {
@@ -122,7 +122,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                                 });
                     }
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+            }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
             return new MHorizontalLayout(closeBtn, saveBtn).withMargin(true);
         }

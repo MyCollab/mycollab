@@ -40,9 +40,10 @@ import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.TooltipHelper;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -237,15 +238,15 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     protected MHorizontalLayout createPageControls() {
         this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
         ButtonGroup controlBtns = new ButtonGroup();
-        controlBtns.setStyleName(UIConstants.BUTTON_ACTION);
+        controlBtns.setStyleName(WebUIConstants.BUTTON_ACTION);
         MButton prevBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
-                .withWidth("64px").withStyleName(UIConstants.BUTTON_ACTION);
+                .withWidth("64px").withStyleName(WebUIConstants.BUTTON_ACTION);
         if (currentPage == 1) {
             prevBtn.setEnabled(false);
         }
 
         MButton nextBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
-                .withWidth("64px").withStyleName(UIConstants.BUTTON_ACTION);
+                .withWidth("64px").withStyleName(WebUIConstants.BUTTON_ACTION);
         if (currentPage == totalPage) {
             nextBtn.setEnabled(false);
         }

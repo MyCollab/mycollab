@@ -19,6 +19,7 @@ package com.mycollab.mobile.module.project.view.bug;
 import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.mycollab.mobile.shell.events.ShellEvent;
@@ -74,7 +75,7 @@ class ResolvedInputView extends AbstractMobilePageView {
 
                 // Save comment
                 final String commentValue = editForm.commentArea.getValue();
-                if (commentValue != null && !commentValue.trim().equals("")) {
+                if (StringUtils.isNotBlank(commentValue)) {
                     final CommentWithBLOBs comment = new CommentWithBLOBs();
                     comment.setComment(commentValue);
                     comment.setCreatedtime(new GregorianCalendar().getTime());
@@ -87,7 +88,7 @@ class ResolvedInputView extends AbstractMobilePageView {
                     final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                     commentService.saveWithSession(comment, AppContext.getUsername());
                 }
-                ResolvedInputView.this.callbackForm.previewItem(bug);
+                callbackForm.previewItem(bug);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
         });

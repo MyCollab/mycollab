@@ -22,7 +22,7 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.UI;
@@ -48,7 +48,7 @@ public class LeadListDashlet extends Depot {
         bodyContent.addComponent(tableItem);
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem)))
-                .withIcon(FontAwesome.ADJUST).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+                .withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         customizeViewBtn.setDescription("Layout Options");
         this.addHeaderElement(customizeViewBtn);
     }

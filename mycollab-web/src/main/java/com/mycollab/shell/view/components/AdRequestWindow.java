@@ -22,7 +22,7 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
@@ -68,20 +68,20 @@ public class AdRequestWindow extends Window {
             close();
             turnOffAdd(user);
             UI.getCurrent().addWindow(new TestimonialWindow());
-        }).withIcon(FontAwesome.KEYBOARD_O).withStyleName(UIConstants.BUTTON_LINK);
+        }).withIcon(FontAwesome.KEYBOARD_O).withStyleName(WebUIConstants.BUTTON_LINK);
 
         shareControls.with(rateSourceforge, tweetUs, linkedIn, testimonialBtn);
 
         MButton ignoreBtn = new MButton("No, thanks", clickEvent -> {
             close();
             turnOffAdd(user);
-        }).withStyleName(UIConstants.BUTTON_OPTION);
+        }).withStyleName(WebUIConstants.BUTTON_OPTION);
 
         MButton loveBtn = new MButton("I did", clickEvent -> {
             close();
             NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
             turnOffAdd(user);
-        }).withIcon(FontAwesome.HEART).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.HEART).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         MHorizontalLayout btnControls = new MHorizontalLayout(ignoreBtn, loveBtn);
         content.with(message, shareControls, btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);

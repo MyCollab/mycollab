@@ -26,7 +26,7 @@ import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIConstants;
 
 import java.util.List;
 

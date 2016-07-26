@@ -28,10 +28,8 @@ import com.mycollab.module.crm.view.opportunity.OpportunitySalesStageComboBox;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.*;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -98,10 +96,10 @@ public class LeadConvertInfoWindow extends Window {
             leadService.convertLead(lead, opportunity, AppContext.getUsername());
             LeadConvertInfoWindow.this.close();
             EventBusFactory.getInstance().post(new LeadEvent.GotoRead(LeadConvertInfoWindow.this, lead.getId()));
-        }).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         MButton cancelButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         return new MHorizontalLayout(cancelButton, convertButton).alignAll(Alignment.MIDDLE_CENTER);
     }

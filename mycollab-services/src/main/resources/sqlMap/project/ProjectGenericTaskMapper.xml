@@ -423,7 +423,8 @@
         #end
     </select>
 
-    <select id="getAccountsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria" resultType="map" lang="velocity">
+    <select id="getAccountsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria"
+            resultMap="com.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap" lang="velocity">
         SELECT s_account.id, s_account.subdomain
         FROM s_account
         WHERE

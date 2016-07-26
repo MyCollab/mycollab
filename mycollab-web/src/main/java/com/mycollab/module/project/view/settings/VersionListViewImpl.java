@@ -73,12 +73,12 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
     private void generateDisplayTable() {
         tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(VersionService.class),
                 SimpleVersion.class,
-                new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
-                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "versionname", UIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_M_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 2 * UIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_DUE_DATE, "duedate", UIConstants.TABLE_DATE_TIME_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", UIConstants.TABLE_EX_LABEL_WIDTH)));
+                new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
+                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "versionname", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 2 * WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_DUE_DATE, "duedate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_EX_LABEL_WIDTH)));
 
         tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
             final SimpleVersion version = tableItem.getBeanByIndex(itemId);
@@ -94,9 +94,9 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
             final LabelLink b = new LabelLink(bugVersion.getVersionname(), ProjectLinkBuilder
                     .generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
             if (bugVersion.getStatus() != null && bugVersion.getStatus().equals(StatusI18nEnum.Closed.name())) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
-                b.addStyleName(UIConstants.LINK_OVERDUE);
+                b.addStyleName(WebUIConstants.LINK_OVERDUE);
             }
             b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(AppContext.getUserLocale(), AppContext.getDateFormat(),
                     bugVersion, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
@@ -128,7 +128,7 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
         final CssLayout layoutWrapper = new CssLayout();
         layoutWrapper.setWidth("100%");
         MHorizontalLayout layout = new MHorizontalLayout();
-        layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
+        layoutWrapper.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
         layoutWrapper.addComponent(layout);
 
         this.selectOptionButton = new SelectionOptionButton(this.tableItem);

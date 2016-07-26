@@ -16,11 +16,13 @@
  */
 package com.mycollab.mobile.module.project.view.settings;
 
-import com.mycollab.db.arguments.NumberSearchField;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Span;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.NumberUtils;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
-import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -29,10 +31,8 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Span;
-import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
@@ -51,18 +51,18 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
 
     private ProjectMemberListDisplay memberListDisplay;
 
-    private MemberRowDisplayHandler rowDisplayHandler = new MemberRowDisplayHandler();
+    private MemberRowDisplayHandler rowDisplayHandler;
 
     public ProjectMemberSelectionView() {
         super();
         createUI();
-        this.setCaption("Select");
+        this.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT));
     }
 
     private void createUI() {
-        memberListDisplay = new ProjectMemberListDisplay();
+        rowDisplayHandler = new MemberRowDisplayHandler();
+        memberListDisplay = new ProjectMemberListDisplay(rowDisplayHandler);
         memberListDisplay.setWidth("100%");
-        memberListDisplay.setRowDisplayHandler(rowDisplayHandler);
         this.setContent(memberListDisplay);
     }
 
@@ -81,30 +81,24 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
         @Override
         public Component generateRow(final SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout mainLayout = new MHorizontalLayout().withFullWidth();
-            mainLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                private static final long serialVersionUID = -6886497684142268213L;
-
-                @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    selectionField.fireValueChange(member);
-                    getNavigationManager().navigateBack();
-                }
+            mainLayout.addLayoutClickListener(layoutClickEvent -> {
+                selectionField.fireValueChange(member);
+                getNavigationManager().navigateBack();
             });
             if (member.getId() == null) {
                 mainLayout.addComponent(new Label("No assignee"));
                 return mainLayout;
             }
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
+            memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
 
             VerticalLayout memberInfoLayout = new VerticalLayout();
-            mainLayout.addStyleName(UIConstants.TRUNCATE);
             mainLayout.with(memberAvatar, memberInfoLayout).expand(memberInfoLayout);
 
             A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
                     .getProjectId(), member.getUsername())).appendText(member.getDisplayName());
-            Label memberLbl = new ELabel(member.getDisplayName(), ContentMode.HTML)
-                    .withWidthUndefined();
-            memberInfoLayout.addComponent(new MCssLayout(memberLbl).withFullWidth());
+            Label memberLbl = ELabel.html(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+            memberInfoLayout.addComponent(memberLbl);
 
             Label memberEmailLabel = new Label(member.getUsername());
             memberEmailLabel.addStyleName(UIConstants.META_INFO);

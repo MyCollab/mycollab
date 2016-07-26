@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.web.ui.field;
+package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -25,35 +25,31 @@ import com.vaadin.ui.Label;
 import java.util.Date;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.5.3
+ * @author MyCollab Ltd
+ * @since 5.3.3
  */
-public class DateViewField extends CustomField<Date> {
-    private static final long serialVersionUID = 1L;
-
+public class DateTimeOptionViewField extends CustomField<String> {
     private Date date;
-    private Label dateLbl;
 
-    public DateViewField(Date date) {
-        this.date = date;
-        dateLbl = new Label();
-        dateLbl.setWidth("100%");
-    }
-
-    @Override
-    public Class<? extends Date> getType() {
-        return Date.class;
+    public DateTimeOptionViewField(Date dateVal) {
+        this.date = dateVal;
     }
 
     @Override
     protected Component initContent() {
+        final Label l = new Label();
+        l.setWidth("100%");
         if (date == null) {
-            dateLbl.setValue("&nbsp;");
-            dateLbl.setContentMode(ContentMode.HTML);
+            l.setValue("&nbsp;");
+            l.setContentMode(ContentMode.HTML);
         } else {
-            dateLbl.setValue(AppContext.formatDate(date));
-            dateLbl.setDescription(AppContext.formatPrettyTime(date));
+            l.setValue(AppContext.formatDateTime(date));
         }
-        return dateLbl;
+        return l;
+    }
+
+    @Override
+    public Class<? extends String> getType() {
+        return String.class;
     }
 }

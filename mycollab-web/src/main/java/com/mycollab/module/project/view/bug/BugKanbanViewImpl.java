@@ -44,10 +44,11 @@ import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -245,11 +246,11 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             AbstractComponent deadlineField = popupFieldFactory.createDeadlinePopupField(bug);
             footer.addComponent(deadlineField);
 
-            AbstractComponent startdateField = popupFieldFactory.createStartDatePopupField(bug);
-            footer.addComponent(startdateField);
+            AbstractComponent startDateField = popupFieldFactory.createStartDatePopupField(bug);
+            footer.addComponent(startDateField);
 
-            AbstractComponent enddateField = popupFieldFactory.createEndDatePopupField(bug);
-            footer.addComponent(enddateField);
+            AbstractComponent endDateField = popupFieldFactory.createEndDatePopupField(bug);
+            footer.addComponent(endDateField);
 
             AbstractComponent assigneeField = popupFieldFactory.createAssigneePopupField(bug);
             footer.addComponent(assigneeField);
@@ -346,7 +347,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             if (OptionI18nEnum.BugStatus.Open.name().equals(optionVal.getTypeval())) {
                 OptionPopupContent popupContent = new OptionPopupContent();
                 PopupButton controlsBtn = new PopupButton();
-                controlsBtn.addStyleName(UIConstants.BUTTON_LINK);
+                controlsBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 headerLayout.addComponent(controlsBtn);
                 headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
@@ -359,7 +360,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
                 if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
                     MButton addNewBtn = new MButton(AppContext.getMessage(BugI18nEnum.NEW), clickEvent -> addNewBugComp())
-                            .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+                            .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
                     addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
                     root.with(addNewBtn).withAlign(addNewBtn, Alignment.TOP_RIGHT);
                 }
@@ -403,12 +404,12 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                         dragLayoutContainer.addComponent(kanbanBugBlockItem, 0);
                         updateComponentCount();
                     }
-                }).withStyleName(UIConstants.BUTTON_ACTION);
+                }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
                 MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> {
                     dragLayoutContainer.removeComponent(layout);
                     newBugComp = null;
-                }).withStyleName(UIConstants.BUTTON_OPTION);
+                }).withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);

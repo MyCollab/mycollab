@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -59,7 +60,6 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
     private final VerticalLayout notificationContainer;
 
     public NotificationComponent() {
-        super();
         notificationItems = new ConcurrentHashSet<>();
         notificationContainer = new VerticalLayout();
         new Restrain(notificationContainer).setMaxWidth("500px");
@@ -173,35 +173,31 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             final NewUpdateAvailableNotification notification = (NewUpdateAvailableNotification) item;
             Span spanEl = new Span();
             spanEl.appendText(AppContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, notification.getVersion()));
-            Label lbl = new Label(FontAwesome.INFO_CIRCLE.getHtml() + " " + spanEl.write(), ContentMode.HTML);
-            lbl.setWidth("100%");
+            ELabel lbl = ELabel.html(FontAwesome.INFO_CIRCLE.getHtml() + " " + spanEl.write()).withFullWidth();
             CssLayout lblWrapper = new CssLayout();
             lblWrapper.addComponent(lbl);
             wrapper.addComponent(lblWrapper);
             wrapper.expand(lblWrapper);
             if (AppContext.isAdmin()) {
-                Button upgradeBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), clickEvent -> {
+                MButton upgradeBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), clickEvent -> {
                     UI.getCurrent().addWindow(new UpgradeConfirmWindow(notification.getVersion(), notification.getManualDownloadLink(), notification.getInstallerFile()));
                     NotificationComponent.this.setPopupVisible(false);
-                });
-                upgradeBtn.addStyleName(UIConstants.BUTTON_BLOCK);
+                }).withStyleName(WebUIConstants.BUTTON_BLOCK);
                 wrapper.addComponent(upgradeBtn);
             }
         } else if (item instanceof RequestUploadAvatarNotification) {
             wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage
                     (ShellI18nEnum.OPT_REQUEST_UPLOAD_AVATAR), ContentMode.HTML));
-            Button uploadAvatarBtn = new Button(AppContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), clickEvent -> {
+            MButton uploadAvatarBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
                 NotificationComponent.this.setPopupVisible(false);
-            });
-            uploadAvatarBtn.setStyleName(UIConstants.BUTTON_BLOCK);
+            }).withStyleName(WebUIConstants.BUTTON_BLOCK);
             wrapper.add(uploadAvatarBtn);
         } else if (item instanceof SmtpSetupNotification) {
-            Button smtpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SETUP), clickEvent -> {
+            MButton smtpBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SETUP), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
                 NotificationComponent.this.setPopupVisible(false);
-            });
-            smtpBtn.setStyleName(UIConstants.BUTTON_BLOCK);
+            }).withStyleName(WebUIConstants.BUTTON_BLOCK);
             Label lbl = ELabel.html(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING));
             MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);

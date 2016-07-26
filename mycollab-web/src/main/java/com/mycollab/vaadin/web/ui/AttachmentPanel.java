@@ -24,10 +24,9 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -82,12 +81,12 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
             if (multiFileUpload != null) {
                 multiFileUpload.removeAndReInitMultiUpload();
             }
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
         ELabel fileLbl = new ELabel(fileName, ContentMode.HTML).withDescription(fileName).withStyleName(UIConstants.TEXT_ELLIPSIS);
         fileAttachmentLayout.with(new ELabel(FileAssetsUtil.getFileIconResource(fileName).getHtml(), ContentMode.HTML).withWidthUndefined(),
-                fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length())).withStyleName(UIConstants
-                        .META_INFO).withWidthUndefined(), removeBtn).expand(fileLbl);
+                fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length()))
+                        .withStyleName(UIConstants.META_INFO).withWidthUndefined(), removeBtn).expand(fileLbl);
         this.addComponent(fileAttachmentLayout);
     }
 

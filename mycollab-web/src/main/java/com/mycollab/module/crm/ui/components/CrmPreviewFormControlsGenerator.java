@@ -21,7 +21,7 @@ import com.mycollab.reporting.PrintButton;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -52,7 +52,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         layout = new MHorizontalLayout();
 
         optionBtn = new PopupButton();
-        optionBtn.addStyleName(UIConstants.BOX);
+        optionBtn.addStyleName(WebUIConstants.BOX);
         optionBtn.setIcon(FontAwesome.ELLIPSIS_H);
     }
 
@@ -86,7 +86,7 @@ public class CrmPreviewFormControlsGenerator<T> {
                 optionBtn.setPopupVisible(false);
                 T item = previewForm.getBean();
                 previewForm.fireAddForm(item);
-            }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION).withVisible(canWrite);
+            }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION).withVisible(canWrite);
             editBtns.addComponent(addBtn);
         }
 
@@ -95,7 +95,7 @@ public class CrmPreviewFormControlsGenerator<T> {
                 optionBtn.setPopupVisible(false);
                 T item = previewForm.getBean();
                 previewForm.fireEditForm(item);
-            }).withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_ACTION).withVisible(canWrite);
+            }).withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_ACTION).withVisible(canWrite);
             editBtns.addComponent(editBtn);
         }
 
@@ -103,7 +103,7 @@ public class CrmPreviewFormControlsGenerator<T> {
             MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireDeleteForm(item);
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_DANGER).withVisible(canAccess);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER).withVisible(canAccess);
             editBtns.addComponent(deleteBtn);
         }
 
@@ -112,7 +112,7 @@ public class CrmPreviewFormControlsGenerator<T> {
             printBtn.withListener(clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.firePrintForm(printBtn, item);
-            }).withStyleName(UIConstants.BUTTON_OPTION).withVisible(canRead);
+            }).withStyleName(WebUIConstants.BUTTON_OPTION).withVisible(canRead);
             editBtns.addComponent(printBtn);
         }
 
@@ -134,7 +134,7 @@ public class CrmPreviewFormControlsGenerator<T> {
             MButton previousItem = new MButton("", clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireGotoPrevious(item);
-            }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(UIConstants.BUTTON_OPTION)
+            }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebUIConstants.BUTTON_OPTION)
                     .withDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM))
                     .withVisible(canRead);
             navigationBtns.addButton(previousItem);
@@ -142,7 +142,7 @@ public class CrmPreviewFormControlsGenerator<T> {
             MButton nextItemBtn = new MButton("", clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireGotoNextItem(item);
-            }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(UIConstants.BUTTON_OPTION)
+            }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebUIConstants.BUTTON_OPTION)
                     .withDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM))
                     .withVisible(canRead);
             navigationBtns.addButton(nextItemBtn);

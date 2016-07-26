@@ -17,6 +17,7 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.core.MyCollabException;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;

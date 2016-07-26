@@ -43,12 +43,11 @@ import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -157,20 +156,20 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             if (beanItem.isCompleted()) {
                 beanItem.setStatus(StatusI18nEnum.Open.name());
                 beanItem.setPercentagecomplete(0d);
-                removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+                removeLayoutStyleName(WebUIConstants.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
                 quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
                 beanItem.setPercentagecomplete(100d);
-                addLayoutStyleName(UIConstants.LINK_COMPLETED);
+                addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                 quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
             }
 
             ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
             service.updateWithSession(beanItem, AppContext.getUsername());
-        }).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
         quickActionStatusBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
@@ -237,7 +236,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     private static class ParentTaskComp extends MHorizontalLayout {
         ParentTaskComp(Integer parentTaskId, SimpleTask childTask) {
-            ELabel titleLbl = new ELabel(AppContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(UIConstants.ARROW_BTN)
+            ELabel titleLbl = new ELabel(AppContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(WebUIConstants.ARROW_BTN)
                     .withWidthUndefined();
             with(titleLbl);
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);

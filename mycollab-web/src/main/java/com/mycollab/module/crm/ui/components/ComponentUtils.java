@@ -18,7 +18,7 @@ package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.viritin.button.MButton;
 
@@ -33,14 +33,14 @@ public class ComponentUtils {
 
     public static final MButton createCustomizeViewButton() {
         MButton customizeViewBtn = new MButton("").withIcon(FontAwesome.ADJUST)
-                .withStyleName(UIConstants.BUTTON_ACTION, UIConstants.BUTTON_SMALL_PADDING);
+                .withStyleName(WebUIConstants.BUTTON_ACTION, WebUIConstants.BUTTON_SMALL_PADDING);
         customizeViewBtn.setDescription("Layout Options");
         return customizeViewBtn;
     }
 
     public static final MButton createImportEntitiesButton() {
         MButton importBtn = new MButton("").withIcon(FontAwesome.CLOUD_UPLOAD)
-                .withStyleName(UIConstants.BUTTON_ACTION, UIConstants.BUTTON_SMALL_PADDING);
+                .withStyleName(WebUIConstants.BUTTON_ACTION, WebUIConstants.BUTTON_SMALL_PADDING);
         importBtn.setDescription("Import");
         return importBtn;
     }

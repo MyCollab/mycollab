@@ -23,6 +23,7 @@ import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.mycollab.mobile.ui.TempFileFactory;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -33,11 +34,11 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamVariable;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -82,29 +83,26 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         commentInput.setWidth("100%");
         commentInput.setInputPrompt(AppContext.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
 
-        Button postBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                final CommentWithBLOBs comment = new CommentWithBLOBs();
-                comment.setComment(commentInput.getValue());
-                comment.setCreatedtime(new GregorianCalendar().getTime());
-                comment.setCreateduser(AppContext.getUsername());
-                comment.setSaccountid(AppContext.getAccountId());
-                comment.setType(type);
-                comment.setTypeid("" + typeId);
-                comment.setExtratypeid(extraTypeId);
+        MButton postBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            final CommentWithBLOBs comment = new CommentWithBLOBs();
+            comment.setComment(commentInput.getValue());
+            comment.setCreatedtime(new GregorianCalendar().getTime());
+            comment.setCreateduser(AppContext.getUsername());
+            comment.setSaccountid(AppContext.getAccountId());
+            comment.setType(type);
+            comment.setTypeid("" + typeId);
+            comment.setExtratypeid(extraTypeId);
 
-                final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
+            final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+            int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
 
-                String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, AppContext.getAccountId(),
-                        CurrentProjectVariables.getProjectId(), typeId, commentId);
-                if (!"".equals(attachmentPath)) {
-                    saveContentsToRepo(attachmentPath);
-                }
-
-                getNavigationManager().navigateBack();
+            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, AppContext.getAccountId(),
+                    CurrentProjectVariables.getProjectId(), typeId, commentId);
+            if (!"".equals(attachmentPath)) {
+                saveContentsToRepo(attachmentPath);
             }
+
+            getNavigationManager().navigateBack();
         });
         this.setRightComponent(postBtn);
         content.with(commentInput, ELabel.hr(), uploadField, statusWrapper);
@@ -127,15 +125,8 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         Label uploadResult = new Label(fileName);
         uploadSucceedLayout.with(uploadResult).expand(uploadResult);
 
-        Button removeAttachment = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                statusWrapper.removeComponent(uploadSucceedLayout);
-            }
-        });
-        removeAttachment.setIcon(FontAwesome.TRASH);
-        removeAttachment.setHtmlContentAllowed(true);
-        removeAttachment.setStyleName("link");
+        MButton removeAttachment = new MButton("", clickEvent -> statusWrapper.removeComponent(uploadSucceedLayout))
+                .withIcon(FontAwesome.TRASH).withStyleName(MobileUIConstants.BUTTON_LINK);
         uploadSucceedLayout.addComponent(removeAttachment);
         return uploadSucceedLayout;
     }

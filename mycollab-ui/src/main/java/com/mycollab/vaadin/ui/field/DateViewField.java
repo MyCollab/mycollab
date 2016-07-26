@@ -14,56 +14,46 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.web.ui.field;
+package com.mycollab.vaadin.ui.field;
 
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 
+import java.util.Date;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class I18nFormViewField extends CustomField<String> {
+public class DateViewField extends CustomField<Date> {
     private static final long serialVersionUID = 1L;
 
-    private Label label;
+    private Date date;
+    private Label dateLbl;
 
-    public I18nFormViewField(final String key, Class<? extends Enum> enumCls) {
-        String key1 = key;
-        Class<? extends Enum> enumClass = enumCls;
-        label = new Label();
-        label.setContentMode(ContentMode.TEXT);
-        label.setWidthUndefined();
-        label.addStyleName("wordWrap");
-
-        if (StringUtils.isNotBlank(key)) {
-            try {
-                String value = AppContext.getMessage(enumClass, key);
-                label.setValue(value);
-            } catch (Exception e) {
-                label.setValue("");
-            }
-        } else {
-            label.setValue("");
-        }
-    }
-
-    public I18nFormViewField withStyleName(String styleName) {
-        label.addStyleName(styleName);
-        return this;
+    public DateViewField(Date date) {
+        this.date = date;
+        dateLbl = new Label();
+        dateLbl.setWidth("100%");
     }
 
     @Override
-    public Class<String> getType() {
-        return String.class;
+    public Class<? extends Date> getType() {
+        return Date.class;
     }
 
     @Override
     protected Component initContent() {
-        return label;
+        if (date == null) {
+            dateLbl.setValue("&nbsp;");
+            dateLbl.setContentMode(ContentMode.HTML);
+        } else {
+            dateLbl.setValue(AppContext.formatDate(date));
+            dateLbl.setDescription(AppContext.formatPrettyTime(date));
+        }
+        return dateLbl;
     }
 }

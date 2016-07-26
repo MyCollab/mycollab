@@ -18,7 +18,7 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -43,7 +43,7 @@ public class AbstractProjectPageView extends AbstractPageView {
         this.headerText = ELabel.h2(icon.getHtml() + " " + headerText);
         super.addComponent(constructHeader());
 
-        contentWrapper = new MCssLayout().withStyleName(UIConstants.CONTENT_WRAPPER);
+        contentWrapper = new MCssLayout().withStyleName(WebUIConstants.CONTENT_WRAPPER);
         super.addComponent(contentWrapper);
 
     }

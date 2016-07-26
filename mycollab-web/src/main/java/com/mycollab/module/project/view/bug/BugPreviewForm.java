@@ -36,8 +36,12 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.field.DateTimeOptionViewField;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.*;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -152,7 +156,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Component component : beanItem.getComponents()) {
                         MButton componentLink = new MButton(StringUtils.trim(component.getComponentname(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId())))
-                                .withDescription(component.getComponentname()).withStyleName(UIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(component.getComponentname()).withStyleName(WebUIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(componentLink);
                     }
                     return componentContainer;
@@ -166,7 +170,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Version version : beanItem.getAffectedVersions()) {
                         MButton versionLink = new MButton(StringUtils.trim(version.getVersionname(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getVersionname()).withStyleName(UIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;
@@ -180,7 +184,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Version version : beanItem.getFixedVersions()) {
                         MButton versionLink = new MButton(StringUtils.trim(version.getVersionname(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getVersionname()).withStyleName(UIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;
@@ -197,7 +201,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 return new RichTextViewField(beanItem.getDescription());
             } else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
                 return new I18nFormViewField(beanItem.getStatus(), OptionI18nEnum.BugStatus.class).withStyleName
-                        (UIConstants.FIELD_NOTE);
+                        (WebUIConstants.FIELD_NOTE);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " " + beanItem.getPriority();

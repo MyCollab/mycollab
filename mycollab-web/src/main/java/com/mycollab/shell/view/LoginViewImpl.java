@@ -29,7 +29,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
@@ -74,13 +74,13 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             rememberMe = new CheckBox(AppContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
             custom.addComponent(rememberMe, "rememberMe");
 
-            loginBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            loginBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
             loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             custom.addComponent(loginBtn, "loginButton");
 
             MButton forgotPasswordBtn = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null)))
-                    .withStyleName(UIConstants.BUTTON_LINK);
+                    .withStyleName(WebUIConstants.BUTTON_LINK);
             custom.addComponent(forgotPasswordBtn, "forgotLink");
 
             return custom;

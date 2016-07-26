@@ -35,9 +35,10 @@ import com.mycollab.module.project.view.parameters.TaskScreenData;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ButtonLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -66,9 +67,9 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                 ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
                 if (BugStatus.Verified.name().equals(ticket.getStatus())) {
-                    ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
+                    ticketLink.addStyleName(WebUIConstants.LINK_COMPLETED);
                 } else if (ticket.getDueDate() != null && ticket.getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS())) {
-                    ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
+                    ticketLink.addStyleName(WebUIConstants.LINK_OVERDUE);
                 }
 
                 ticketLink.addClickListener(clickEvent -> {
@@ -82,12 +83,12 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                 ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 
                 if ("Closed".equals(ticket.getStatus())) {
-                    ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
+                    ticketLink.addStyleName(WebUIConstants.LINK_COMPLETED);
                 } else {
                     if ("Pending".equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(UIConstants.LINK_PENDING);
+                        ticketLink.addStyleName(WebUIConstants.LINK_PENDING);
                     } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
-                        ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
+                        ticketLink.addStyleName(WebUIConstants.LINK_OVERDUE);
                     }
                 }
 
@@ -101,12 +102,12 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                 ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 
                 if ("Closed".equals(ticket.getStatus())) {
-                    ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
+                    ticketLink.addStyleName(WebUIConstants.LINK_COMPLETED);
                 } else {
                     if ("Pending".equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(UIConstants.LINK_PENDING);
+                        ticketLink.addStyleName(WebUIConstants.LINK_PENDING);
                     } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
-                        ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
+                        ticketLink.addStyleName(WebUIConstants.LINK_OVERDUE);
                     }
                 }
 

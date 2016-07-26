@@ -44,10 +44,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
-import com.mycollab.vaadin.web.ui.field.DateTimeOptionViewField;
-import com.mycollab.vaadin.web.ui.field.DefaultViewField;
-import com.mycollab.vaadin.web.ui.field.I18nFormViewField;
-import com.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.DateTimeOptionViewField;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
@@ -122,7 +122,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 return new SubTasksComp(beanItem);
             } else if (Task.Field.status.equalTo(propertyId)) {
                 return new I18nFormViewField(beanItem.getStatus(), com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class)
-                        .withStyleName(UIConstants.FIELD_NOTE);
+                        .withStyleName(WebUIConstants.FIELD_NOTE);
             }
             return null;
         }
@@ -178,11 +178,11 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     task.setProjectid(beanItem.getProjectid());
                     task.setSaccountid(beanItem.getSaccountid());
                     UI.getCurrent().addWindow(new TaskAddWindow(task));
-                }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
+                }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
 
                 final SplitButton splitButton = new SplitButton(addNewTaskBtn);
                 splitButton.setWidthUndefined();
-                splitButton.addStyleName(UIConstants.BUTTON_ACTION);
+                splitButton.addStyleName(WebUIConstants.BUTTON_ACTION);
 
                 OptionPopupContent popupButtonsControl = new OptionPopupContent();
                 Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
@@ -211,7 +211,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         }
 
         private HorizontalLayout generateSubTaskContent(final SimpleTask subTask) {
-            MHorizontalLayout layout = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
+            MHorizontalLayout layout = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);
             layout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
@@ -222,7 +222,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     .setTitle(subTask.getPriority());
             layout.with(new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined());
 
-            final ELabel statusLbl = new ELabel(AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, subTask.getStatus())).withStyleName(UIConstants.FIELD_NOTE)
+            final ELabel statusLbl = new ELabel(AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, subTask.getStatus())).withStyleName(WebUIConstants.FIELD_NOTE)
                     .withWidthUndefined();
             layout.with(statusLbl);
 
@@ -295,7 +295,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             @Override
             public Component generateRow(AbstractBeanPagedList host, final SimpleTask item, int rowIndex) {
                 Button taskLink = new Button(item.getTaskname());
-                taskLink.addStyleName(UIConstants.BUTTON_LINK);
+                taskLink.addStyleName(WebUIConstants.BUTTON_LINK);
                 taskLink.addClickListener(clickEvent -> {
                     if (item.getId().equals(parentTask.getId())) {
                         NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));

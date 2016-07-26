@@ -26,13 +26,11 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.BlockWidget;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.OptionGroup;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -96,7 +94,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        }).withIcon(FontAwesome.REFRESH).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.REFRESH).withStyleName(WebUIConstants.BUTTON_ACTION);
         body.addComponent(updateBtn);
         body.setComponentAlignment(updateBtn, Alignment.BOTTOM_LEFT);
 

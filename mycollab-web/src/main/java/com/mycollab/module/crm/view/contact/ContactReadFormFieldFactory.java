@@ -27,7 +27,8 @@ import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.ui.field.*;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource.StreamSource;
@@ -88,7 +89,7 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
             downloaderExt.extend(vcardDownloadBtn);
 
             vcardDownloadBtn.setIcon(FontAwesome.CREDIT_CARD);
-            vcardDownloadBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+            vcardDownloadBtn.setStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             containerField.addComponentField(vcardDownloadBtn);
             containerField.getLayout().setComponentAlignment(vcardDownloadBtn, Alignment.TOP_RIGHT);
             return containerField;

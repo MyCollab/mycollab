@@ -73,7 +73,7 @@ public class MainViewImpl extends AbstractMainView {
         accountLayout.removeAllComponents();
 
         Label accountNameLabel = new Label(AppContext.getSubDomain());
-        accountNameLabel.addStyleName("subdomain");
+        accountNameLabel.addStyleName("subDomain");
         accountLayout.addComponent(accountNameLabel);
 
         MButton buyPremiumBtn = new MButton(AppContext.getMessage(LicenseI18nEnum.OPT_TRIAL_THE_PRO_EDITION),

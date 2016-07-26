@@ -105,7 +105,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             addHeaderRightContent(actionControls);
         }
 
-        MCssLayout contentWrapper = new MCssLayout().withFullWidth().withStyleName(UIConstants.CONTENT_WRAPPER);
+        MCssLayout contentWrapper = new MCssLayout().withFullWidth().withStyleName(WebUIConstants.CONTENT_WRAPPER);
 
         if (previewLayout == null)
             previewLayout = new DefaultReadViewLayout("");

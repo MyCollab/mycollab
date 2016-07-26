@@ -20,25 +20,24 @@ import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.service.MonitorItemService;
-import com.mycollab.core.arguments.*;
+import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.module.user.CommonTooltipGenerator;
-import com.mycollab.module.user.domain.SimpleUser;
-import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
-import com.mycollab.module.user.service.UserService;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.module.user.CommonTooltipGenerator;
+import com.mycollab.module.user.domain.SimpleUser;
+import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
+import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.vaadin.data.Property;
-import com.vaadin.event.LayoutEvents;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -99,30 +98,27 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 
         if (hasEditPermission()) {
             final PopupView addPopupView = new PopupView("Modify", new MVerticalLayout());
-            addPopupView.addPopupVisibilityListener(new PopupView.PopupVisibilityListener() {
-                @Override
-                public void popupVisibilityChange(PopupView.PopupVisibilityEvent event) {
-                    PopupView.Content content = addPopupView.getContent();
-                    if (event.isPopupVisible()) {
-                        MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
-                        popupComponent.removeAllComponents();
-                        popupComponent.with(new ELabel("Modify watchers").withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
-                    } else {
-                        MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
-                        ModifyWatcherPopup popup = (ModifyWatcherPopup) popupComponent.getComponent(1);
-                        List<MonitorItem> unsavedItems = popup.getUnsavedItems();
-                        monitorItemService.saveMonitorItems(unsavedItems);
-                        loadWatchers();
-                    }
+            addPopupView.addPopupVisibilityListener(popupVisibilityEvent -> {
+                PopupView.Content content = addPopupView.getContent();
+                if (popupVisibilityEvent.isPopupVisible()) {
+                    MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
+                    popupComponent.removeAllComponents();
+                    popupComponent.with(new ELabel("Modify watchers").withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
+                } else {
+                    MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
+                    ModifyWatcherPopup popup = (ModifyWatcherPopup) popupComponent.getComponent(1);
+                    List<MonitorItem> unsavedItems = popup.getUnsavedItems();
+                    monitorItemService.saveMonitorItems(unsavedItems);
+                    loadWatchers();
                 }
             });
             header.addComponent(addPopupView);
         }
-        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(UIConstants.INLINE_HELP)
+        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(WebUIConstants.INLINE_HELP)
                 .withDescription(AppContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP)));
 
         this.addComponent(header);
-        watcherLayout = new MCssLayout().withFullWidth().withStyleName(UIConstants.FLEX_DISPLAY);
+        watcherLayout = new MCssLayout().withFullWidth().withStyleName(WebUIConstants.FLEX_DISPLAY);
         this.addComponent(watcherLayout);
         loadWatchers();
     }
@@ -149,16 +145,13 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             addComponent(userAvatarBtn);
             this.addStyleName("removeable-btn");
             this.setWidthUndefined();
-            this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    if (event.getClickedComponent() == userAvatarBtn) {
-                    } else if (!hasEditPermission()) {
-                        NotificationUtil.showMessagePermissionAlert();
-                    } else {
-                        unfollowItem(user.getUsername());
-                        ((ComponentContainer) FollowerComp.this.getParent()).removeComponent(FollowerComp.this);
-                    }
+            this.addLayoutClickListener(layoutClickEvent -> {
+                if (layoutClickEvent.getClickedComponent() == userAvatarBtn) {
+                } else if (!hasEditPermission()) {
+                    NotificationUtil.showMessagePermissionAlert();
+                } else {
+                    unfollowItem(user.getUsername());
+                    ((ComponentContainer) FollowerComp.this.getParent()).removeComponent(FollowerComp.this);
                 }
             });
         }
@@ -192,7 +185,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 
         ModifyWatcherPopup() {
             new Restrain(this).setMaxHeight("600px");
-            this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+            this.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
             this.setWidth("100%");
             UserSearchCriteria criteria = new UserSearchCriteria();
             criteria.setStatuses(new SetSearchField<>("Active"));
@@ -234,20 +227,17 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
                         isWatching = true;
                     }
                 }
-                isSelectedBox.addValueChangeListener(new Property.ValueChangeListener() {
-                    @Override
-                    public void valueChange(Property.ValueChangeEvent event) {
-                        if (isSelectedBox.getValue()) {
-                            if (!isWatching) {
-                                unsavedUsers.add(member);
-                            }
+                isSelectedBox.addValueChangeListener(valueChangeEvent -> {
+                    if (isSelectedBox.getValue()) {
+                        if (!isWatching) {
+                            unsavedUsers.add(member);
+                        }
+                    } else {
+                        if (isWatching) {
+                            unfollowItem(member.getUsername());
+                            isWatching = false;
                         } else {
-                            if (isWatching) {
-                                unfollowItem(member.getUsername());
-                                isWatching = false;
-                            } else {
-                                unsavedUsers.remove(member);
-                            }
+                            unsavedUsers.remove(member);
                         }
                     }
                 });

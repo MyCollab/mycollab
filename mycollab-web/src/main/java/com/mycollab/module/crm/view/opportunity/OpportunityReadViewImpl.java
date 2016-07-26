@@ -42,7 +42,7 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -104,7 +104,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         Date closeDate = this.beanItem.getExpectedcloseddate();
         if ((!"Closed Won".equals(saleState) && !"Closed Lost".equals(saleState))
                 && closeDate != null && (closeDate.before(new GregorianCalendar().getTime()))) {
-            previewLayout.addTitleStyleName(UIConstants.LABEL_OVERDUE);
+            previewLayout.addTitleStyleName(WebUIConstants.LABEL_OVERDUE);
         }
     }
 

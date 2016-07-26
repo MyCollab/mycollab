@@ -38,7 +38,7 @@ import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.ExternalResource;
@@ -84,7 +84,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         Label headerLbl = new Label(AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
 
         MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> UI.getCurrent().addWindow(new AccountInfoChangeWindow()))
-                .withStyleName(UIConstants.BUTTON_LINK);
+                .withStyleName(WebUIConstants.BUTTON_LINK);
 
         generalSettingHeader.with(headerLbl, editBtn).alignAll(Alignment.MIDDLE_LEFT);
 
@@ -210,7 +210,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
             billingAccount.setLogopath(null);
             billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
-        }).withStyleName(UIConstants.BUTTON_OPTION);
+        }).withStyleName(WebUIConstants.BUTTON_OPTION);
         resetButton.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         buttonControls.with(logoUploadField, resetButton);
@@ -276,7 +276,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
             billingAccount.setFaviconpath(null);
             billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
-        }).withStyleName(UIConstants.BUTTON_OPTION);
+        }).withStyleName(WebUIConstants.BUTTON_OPTION);
         resetButton.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         buttonControls.with(favIconUploadField, resetButton);

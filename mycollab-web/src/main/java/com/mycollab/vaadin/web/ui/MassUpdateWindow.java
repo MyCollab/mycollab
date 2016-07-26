@@ -80,10 +80,10 @@ public abstract class MassUpdateWindow<B> extends Window {
             updateForm.commit();
             massUpdateCommand.massUpdate(beanItem);
             close();
-        }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
 
         closeBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), clickEvent -> close())
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         Label spacing = new Label();
         controlsLayout.with(spacing, closeBtn, updateBtn).alignAll(Alignment.MIDDLE_RIGHT).expand(spacing);

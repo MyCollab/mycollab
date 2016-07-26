@@ -18,7 +18,7 @@ package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -37,7 +37,7 @@ public abstract class CrmListNoItemView extends AbstractPageView {
         ELabel hintLabel = new ELabel(hintMessage()).withWidthUndefined();
 
         MButton createItemBtn = new MButton(actionMessage(), actionListener())
-                .withStyleName(UIConstants.BUTTON_ACTION).withVisible(hasPermission());
+                .withStyleName(WebUIConstants.BUTTON_ACTION).withVisible(hasPermission());
         MHorizontalLayout links = new MHorizontalLayout(createItemBtn);
         MVerticalLayout layout = new MVerticalLayout(image, title, hintLabel, links).withWidth("800px");
         this.with(layout).withAlign(layout, Alignment.TOP_CENTER);

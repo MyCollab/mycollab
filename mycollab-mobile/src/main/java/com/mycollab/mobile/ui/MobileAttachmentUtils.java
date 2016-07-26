@@ -29,13 +29,14 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import javax.imageio.ImageIO;
@@ -78,17 +79,11 @@ public class MobileAttachmentUtils {
         }
 
         if (MimeTypesUtil.isImageType(docName)) {
-            Button b = new Button(attachment.getTitle(), new Button.ClickListener() {
-                private static final long serialVersionUID = -1713187920922886934L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    AttachmentPreviewView previewView = new AttachmentPreviewView(VaadinResourceFactory.getResource(attachment.getPath()));
-                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this, previewView));
-                }
-            });
+            MButton b = new MButton(attachment.getTitle(), clickEvent -> {
+                AttachmentPreviewView previewView = new AttachmentPreviewView(VaadinResourceFactory.getResource(attachment.getPath()));
+                EventBusFactory.getInstance().post(new ShellEvent.PushView(attachment, previewView));
+            }).withStyleName(UIConstants.TEXT_ELLIPSIS);
             b.setWidth("100%");
-            b.addStyleName(UIConstants.TRUNCATE);
             attachmentRow.with(b).expand(b);
         } else {
             Label l = new Label(attachment.getTitle());
@@ -117,46 +112,37 @@ public class MobileAttachmentUtils {
         if (StringUtils.isNotBlank(attachment.getThumbnail())) {
             thumbnail = new Image(null, VaadinResourceFactory.getResource(attachment.getThumbnail()));
         } else {
-            thumbnail = new ELabel(FileAssetsUtil.getFileIconResource(attachment.getName()).getHtml(), ContentMode.HTML);
+            thumbnail = ELabel.fontIcon(FileAssetsUtil.getFileIconResource(attachment.getName()));
         }
         thumbnail.setWidth("100%");
         thumbnailWrap.addComponent(thumbnail);
         attachmentLayout.addComponent(thumbnailWrap);
 
-        ELabel attachmentLink = new ELabel(docName).withStyleName(UIConstants.META_INFO);
-        attachmentLink.addStyleName(UIConstants.TRUNCATE);
+        ELabel attachmentLink = new ELabel(docName).withStyleName(UIConstants.META_INFO, UIConstants.TEXT_ELLIPSIS);
         attachmentLayout.with(attachmentLink).expand(attachmentLink);
 
-        Button removeAttachment = new Button("", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        MButton removeAttachment = new MButton("", clickEvent -> {
+            ConfirmDialog.show(UI.getCurrent(),
+                    AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    new ConfirmDialog.CloseListener() {
+                        private static final long serialVersionUID = 1L;
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ConfirmDialog.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.CloseListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                                    attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
-                                    ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
-                                }
+                        @Override
+                        public void onClose(ConfirmDialog dialog) {
+                            if (dialog.isConfirmed()) {
+                                ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
+                                attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
+                                ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                             }
-                        });
-
-            }
-        });
-        removeAttachment.setIcon(FontAwesome.TRASH_O);
+                        }
+                    });
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(MobileUIConstants.BUTTON_LINK);
         if (additionalListener != null) {
             removeAttachment.addClickListener(additionalListener);
         }
         removeAttachment.setHtmlContentAllowed(true);
-        removeAttachment.setStyleName("link");
         attachmentLayout.addComponent(removeAttachment);
 
         return attachmentLayout;

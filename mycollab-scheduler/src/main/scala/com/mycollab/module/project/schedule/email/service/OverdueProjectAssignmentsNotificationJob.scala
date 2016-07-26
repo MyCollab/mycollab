@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.schedule.jobs
+package com.mycollab.module.project.schedule.email.service
 
 import java.util
 import java.util.{Date, Locale}
@@ -30,11 +30,12 @@ import com.mycollab.html.DivLessFormatter
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria
 import com.mycollab.module.project.domain.{ProjectGenericTask, ProjectNotificationSetting}
+import com.mycollab.module.project.schedule.email.service.OverdueProjectAssignmentsNotificationJob.OverdueAssignmentFormatter
 import com.mycollab.module.project.service.{ProjectGenericTaskService, ProjectMemberService, ProjectNotificationSettingService}
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectTypeConstants}
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.domain.SimpleUser
-import com.mycollab.schedule.jobs.OverdueProjectAssignmentsNotificationJob.OverdueAssignmentFormatter
+import com.mycollab.schedule.jobs.GenericQuartzJobBean
 import org.joda.time.LocalDate
 import org.quartz.{JobExecutionContext, JobExecutionException}
 import org.slf4j.LoggerFactory
@@ -53,34 +54,33 @@ object OverdueProjectAssignmentsNotificationJob {
   class OverdueAssignmentFormatter {
     def formatDate(date: Date): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd")
 
-    def formatLink(subdomain: String, assignment: ProjectGenericTask): String = {
+    def formatLink(subDomain: String, assignment: ProjectGenericTask): String = {
       try {
         assignment.getType match {
           case ProjectTypeConstants.BUG => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).
-            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateBugPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateBugPreviewFullLink(SiteConfiguration.getSiteUrl(subDomain),
               assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
           case ProjectTypeConstants.TASK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).
-            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateTaskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateTaskPreviewFullLink(SiteConfiguration.getSiteUrl(subDomain),
               assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
           case ProjectTypeConstants.RISK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
-            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateRiskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateRiskPreviewFullLink(SiteConfiguration.getSiteUrl(subDomain),
               assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
           case ProjectTypeConstants.MILESTONE => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
-            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateMilestonePreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateMilestonePreviewFullLink(SiteConfiguration.getSiteUrl(subDomain),
               assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
           case typeVal => throw new MyCollabException("Do not support type " + typeVal)
         }
       } catch {
-        case e: Exception => {
+        case e: Exception =>
           LOG.error("Error in format assignment", BeanUtility.printBeanObj(assignment))
-          SiteConfiguration.getSiteUrl(subdomain)
-        }
+          SiteConfiguration.getSiteUrl(subDomain)
       }
     }
 
-    def formatAssignUser(subdomain: String, assignment: ProjectGenericTask): String = {
-      return new Div().appendChild(new Img("", StorageFactory.getAvatarPath(assignment.getAssignUserAvatarId, 16)),
-        new A(AccountLinkGenerator.generatePreviewFullUserLink(subdomain, assignment.getAssignUser)).
+    def formatAssignUser(subDomain: String, assignment: ProjectGenericTask): String = {
+      new Div().appendChild(new Img("", StorageFactory.getAvatarPath(assignment.getAssignUserAvatarId, 16)),
+        new A(AccountLinkGenerator.generatePreviewFullUserLink(subDomain, assignment.getAssignUser)).
           appendText(assignment.getAssignUserFullName)).write()
     }
   }
@@ -91,15 +91,15 @@ object OverdueProjectAssignmentsNotificationJob {
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class OverdueProjectAssignmentsNotificationJob extends GenericQuartzJobBean {
 
-  @Autowired private var projectGenericTaskService: ProjectGenericTaskService = _
+  @Autowired private val projectGenericTaskService: ProjectGenericTaskService = null
 
-  @Autowired private var extMailService: ExtMailService = _
+  @Autowired private val extMailService: ExtMailService = null
 
-  @Autowired private var contentGenerator: IContentGenerator = _
+  @Autowired private val contentGenerator: IContentGenerator = null
 
-  @Autowired private var projectMemberService: ProjectMemberService = _
+  @Autowired private val projectMemberService: ProjectMemberService = null
 
-  @Autowired private var projectNotificationService: ProjectNotificationSettingService = _
+  @Autowired private val projectNotificationService: ProjectNotificationSettingService = null
 
   @throws(classOf[JobExecutionException])
   override protected def executeJob(context: JobExecutionContext): Unit = {
@@ -111,20 +111,22 @@ class OverdueProjectAssignmentsNotificationJob extends GenericQuartzJobBean {
     searchCriteria.setDateInRange(rangeDate)
     searchCriteria.setIsOpenned(new SearchField())
     import scala.collection.JavaConverters._
-    val accountIds = projectGenericTaskService.getAccountsHasOverdueAssignments(searchCriteria).asScala.toList
-    if (accountIds != null) {
-      for (accountId <- accountIds) {
-        searchCriteria.setSaccountid(new NumberSearchField(accountId.get("id").asInstanceOf[Integer]))
+    val accounts = projectGenericTaskService.getAccountsHasOverdueAssignments(searchCriteria).asScala.toList
+    if (accounts != null) {
+      for (account <- accounts) {
+        searchCriteria.setSaccountid(new NumberSearchField(account.getId))
         import scala.collection.JavaConverters._
         val projectIds = projectGenericTaskService.getProjectsHasOverdueAssignments(searchCriteria).asScala.toList
         for (projectId <- projectIds) {
           searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
+          val siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain)
+          contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId))
           val assignments = projectGenericTaskService.findAbsoluteListByCriteria(searchCriteria, 0, Integer.MAX_VALUE).asScala.toList
           if (assignments.nonEmpty) {
-            val projectName = assignments(0).asInstanceOf[ProjectGenericTask].getProjectName
-            val notifiers = getNotifiersOfProject(projectId, accountId.get("id").asInstanceOf[Integer])
+            val projectName = assignments.head.asInstanceOf[ProjectGenericTask].getProjectName
+            val notifiers = getNotifiersOfProject(projectId, account.getId)
             contentGenerator.putVariable("assignments", assignments)
-            contentGenerator.putVariable("subdomain", accountId.get("subdomain"))
+            contentGenerator.putVariable("subDomain", account.getSubdomain)
             contentGenerator.putVariable("formatter", new OverdueAssignmentFormatter)
             for (notifier <- notifiers) {
               val userMail = new MailRecipientField(notifier.getEmail, notifier.getDisplayName)
@@ -150,7 +152,7 @@ class OverdueProjectAssignmentsNotificationJob extends GenericQuartzJobBean {
         }
       }
     }
-    return notifyUsers
+    notifyUsers
   }
 }
 

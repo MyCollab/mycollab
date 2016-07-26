@@ -16,6 +16,10 @@
  */
 package com.mycollab.module.project.view.user;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.ProjectLinkBuilder;
@@ -23,15 +27,12 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -63,7 +64,7 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
         } else if (genericTask.isTask()) {
             status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
         }
-        issueDiv.appendChild(new Span().appendText(status).setCSSClass(UIConstants.FIELD_NOTE));
+        issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebUIConstants.FIELD_NOTE));
 
         String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
         Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)

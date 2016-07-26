@@ -16,6 +16,9 @@
  */
 package com.mycollab.module.project.view.user;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.NumberUtils;
@@ -34,12 +37,10 @@ import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -65,7 +66,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
         if (pageControls != null) {
             Button browseProjectsBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_BROWSE),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoList(this, null)));
-            browseProjectsBtn.addStyleName(UIConstants.BUTTON_LINK);
+            browseProjectsBtn.addStyleName(WebUIConstants.BUTTON_LINK);
             pageControls.addComponent(browseProjectsBtn, 0);
             pageControls.setComponentAlignment(browseProjectsBtn, Alignment.MIDDLE_LEFT);
         }
@@ -124,14 +125,14 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 }
 
                 accountDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
-                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BUTTON_BLOCK)
+                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(WebUIConstants.BUTTON_BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
-            metaDiv.setCSSClass(UIConstants.FLEX_DISPLAY);
-            metaInfo.addComponent(new ELabel(metaDiv.write(), ContentMode.HTML).withStyleName(UIConstants
-                    .META_INFO).withWidthUndefined());
+            metaDiv.setCSSClass(WebUIConstants.FLEX_DISPLAY);
+            metaInfo.addComponent(new ELabel(metaDiv.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO)
+                    .withWidthUndefined());
 
             linkIconFix.addComponent(metaInfo);
 

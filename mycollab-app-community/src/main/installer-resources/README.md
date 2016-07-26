@@ -69,6 +69,7 @@ Version 5.4.0
 **Bug Fixes**
 
 * [Premium] Can not remove favorite flag in Favorite view 
+* [Premium] Fix the form layout text 
 
 Version 5.3.4
 -----------------------------

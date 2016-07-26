@@ -34,10 +34,11 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewManager;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
@@ -135,7 +136,7 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
                 criteria.setAssignUser(StringSearchField.and(assignee));
                 EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(UnresolvedTaskByAssigneeWidget.this, criteria));
             }).withWidth("100%").withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))
-                    .withStyleName(UIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
+                    .withStyleName(WebUIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
             UserService service = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,

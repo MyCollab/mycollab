@@ -35,7 +35,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -90,7 +90,7 @@ public class TaskAddWindow extends Window {
                 MButton updateAllBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
                     EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskAddWindow.this, EditForm.this.bean));
                     close();
-                }).withStyleName(UIConstants.BUTTON_LINK);
+                }).withStyleName(WebUIConstants.BUTTON_LINK);
 
                 MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (EditForm.this.validateForm()) {
@@ -133,15 +133,15 @@ public class TaskAddWindow extends Window {
                         EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(TaskAddWindow.this,
                                 ProjectTypeConstants.TASK, taskId));
                     }
-                }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
+                }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
 
                 MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                        .withStyleName(UIConstants.BUTTON_OPTION);
+                        .withStyleName(WebUIConstants.BUTTON_OPTION);
                 buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
 
                 layout.addComponent(buttonControls);
                 layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
-                layout.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+                layout.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
                 new Restrain(layout).setMaxHeight("600px");
                 return layout;
             }

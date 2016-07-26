@@ -14,27 +14,42 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.web.ui.field;
+package com.mycollab.vaadin.ui.field;
 
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Label;
-
-import java.util.Date;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class DateTimeViewField extends CustomField<String> {
+public final class DefaultViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    private Date date;
+    private ELabel label;
+    private String value;
 
-    public DateTimeViewField(Date date) {
-        this.date = date;
+    public DefaultViewField(final String value) {
+        this(value, ContentMode.TEXT);
+    }
+
+    public DefaultViewField(final String value, final ContentMode contentMode) {
+        this.value = value;
+        label = new ELabel(value, contentMode).withFullWidth().withStyleName(UIConstants.LABEL_WORD_WRAP)
+                .withWidthUndefined().withDescription(value);
+    }
+
+    public DefaultViewField withStyleName(String styleName) {
+        label.addStyleName(styleName);
+        return this;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
     @Override
@@ -44,14 +59,6 @@ public class DateTimeViewField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        final Label l = new Label();
-        l.setWidth("100%");
-        if (date == null) {
-            l.setValue("&nbsp;");
-            l.setContentMode(ContentMode.HTML);
-        } else {
-            l.setValue(AppContext.formatDateTime(date));
-        }
-        return l;
+        return label;
     }
 }

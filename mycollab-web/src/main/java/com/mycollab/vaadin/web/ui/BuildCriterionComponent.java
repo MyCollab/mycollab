@@ -93,7 +93,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         MButton addCriteriaBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA), clickEvent -> {
             CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
             searchContainer.addComponent(newCriteriaBar);
-        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         controlsBtn.with(addCriteriaBtn);
 
@@ -114,7 +114,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 buildSaveFilterBox();
             }
         });
-        saveSearchBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        saveSearchBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         saveSearchBtn.setIcon(FontAwesome.PLUS);
         filterBox.addComponent(saveSearchBtn);
     }
@@ -134,7 +134,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 saveSearchCriteria(queryText);
             }
         });
-        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        saveBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
         filterBox.addComponent(saveBtn);
 
@@ -146,7 +146,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 buildFilterBox(null);
             }
         });
-        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
         filterBox.addComponent(cancelBtn);
     }
 
@@ -251,7 +251,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     }
                 }
             });
-            deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            deleteBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             deleteBtn.setIcon(FontAwesome.TRASH_O);
 
             this.addComponent(fieldSelectionBox, 2, 0);
@@ -532,7 +532,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                                         data.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
                                         saveSearchResultService.updateWithSession(data, AppContext.getUsername());
                                     });
-                            updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
+                            updateBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
                             updateBtn.setIcon(FontAwesome.REFRESH);
 
                             Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
@@ -544,7 +544,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                                 }
                                 buildQuerySelectComponent();
                             });
-                            deleteBtn.setStyleName(UIConstants.BUTTON_DANGER);
+                            deleteBtn.setStyleName(WebUIConstants.BUTTON_DANGER);
                             deleteBtn.setIcon(FontAwesome.TRASH_O);
 
                             filterBox.addComponent(deleteBtn, 1);

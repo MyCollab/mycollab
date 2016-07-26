@@ -51,8 +51,9 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -202,7 +203,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             milestone.setSaccountid(AppContext.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
         createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
@@ -213,7 +214,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                     return baseCriteria;
                 }
             }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
+        }).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
                 .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         layout.addComponent(printBtn);
@@ -243,7 +244,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             this.setStyleName("roadmap-block");
 
             ELabel statusLbl = new ELabel(AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, milestone.getStatus()))
-                    .withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined();
+                    .withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
                     (toggleMilestoneSummaryField).withFullWidth();
@@ -315,7 +316,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             } else if (genericTask.isTask()) {
                                 status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
                             }
-                            rowComp.with(new ELabel(status).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined());
+                            rowComp.with(new ELabel(status).withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined());
                             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
                             Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                                     .setTitle(genericTask.getAssignUserFullName());
@@ -331,7 +332,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         issueLayout.setVisible(false);
                     }
                 });
-                viewIssuesBtn.addStyleName(UIConstants.BUTTON_LINK);
+                viewIssuesBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 progressLayout.with(viewIssuesBtn);
             }
 

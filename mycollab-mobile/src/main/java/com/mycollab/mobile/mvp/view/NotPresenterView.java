@@ -17,11 +17,9 @@
 package com.mycollab.mobile.mvp.view;
 
 import com.mycollab.mobile.ui.AbstractMobilePageView;
-import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -32,9 +30,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @ViewComponent
 public class NotPresenterView extends AbstractMobilePageView {
     void display() {
-        setContent(new MVerticalLayout().withFullWidth().with(new MVerticalLayout(new ELabel(FontAwesome.WARNING.getHtml(),
-                ContentMode.HTML),
-                new ELabel("This feature is currently not available in your MyCollab instance", ContentMode.HTML).
-                        withStyleName(UIConstants.LABEL_H3)).alignAll(Alignment.MIDDLE_CENTER)));
+        setContent(new MVerticalLayout().withFullWidth().with(new MVerticalLayout(ELabel.fontIcon(FontAwesome.WARNING),
+                new ELabel("This feature is currently not available in your MyCollab instance")).alignAll(Alignment.MIDDLE_CENTER)));
     }
 }

@@ -119,26 +119,12 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         MVerticalLayout controlBtns = new MVerticalLayout().withFullWidth();
         controlBtns.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        Button addNewEntryBtn = new Button(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY), new Button.ClickListener() {
-            private static final long serialVersionUID = -2540265040691537699L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                UI.getCurrent().addWindow(new NewTimeLogEntryWindow());
-            }
-        });
-        addNewEntryBtn.setWidth("100%");
+        MButton addNewEntryBtn = new MButton(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY),
+                clickEvent -> UI.getCurrent().addWindow(new NewTimeLogEntryWindow())).withFullWidth();
         controlBtns.addComponent(addNewEntryBtn);
 
-        Button updateRemainTimeBtn = new Button(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS), new Button.ClickListener() {
-            private static final long serialVersionUID = 9215577509351959739L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                UI.getCurrent().addWindow(new UpdateRemainTimeWindow());
-            }
-        });
-        updateRemainTimeBtn.setWidth("100%");
+        MButton updateRemainTimeBtn = new MButton(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS),
+                clickEvent -> UI.getCurrent().addWindow(new UpdateRemainTimeWindow())).withFullWidth();
         controlBtns.addComponent(updateRemainTimeBtn);
 
         NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();

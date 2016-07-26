@@ -32,8 +32,8 @@ import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.field.UrlLinkViewField;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.ui.field.UrlLinkViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -88,14 +88,14 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
         MButton btnChangeBasicInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean())))
-                .withStyleName(UIConstants.BUTTON_LINK);
+                .withStyleName(WebUIConstants.BUTTON_LINK);
 
         MHorizontalLayout userWrapper = new MHorizontalLayout(usernameLbl, btnChangeBasicInfo);
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
         GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
-        userFormLayout.getLayout().addStyleName(UIConstants.GRIDFORM_BORDERLESS);
+        userFormLayout.getLayout().addStyleName(WebUIConstants.GRIDFORM_BORDERLESS);
         userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
                 AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
         userFormLayout.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank")
@@ -107,7 +107,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
         MButton btnChangePassword = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                 clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean())))
-                .withStyleName(UIConstants.BUTTON_LINK);
+                .withStyleName(WebUIConstants.BUTTON_LINK);
         userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
                 AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 4);
         basicLayout.addComponent(userFormLayout.getLayout());
@@ -151,7 +151,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
                 MButton btnChangeContactInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean())))
-                        .withStyleName(UIConstants.BUTTON_LINK);
+                        .withStyleName(WebUIConstants.BUTTON_LINK);
                 contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
 
                 layout.addSection(new CssLayout(contactInformationHeader), contactLayout.getLayout());
@@ -161,7 +161,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
                 MButton btnChangeAdvanceInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean())))
-                        .withStyleName(UIConstants.BUTTON_LINK);
+                        .withStyleName(WebUIConstants.BUTTON_LINK);
 
                 advanceInfoHeader.with(advanceInfoHeaderLbl, btnChangeAdvanceInfo);
                 layout.addSection(new CssLayout(advanceInfoHeader), advancedInfoLayout.getLayout());

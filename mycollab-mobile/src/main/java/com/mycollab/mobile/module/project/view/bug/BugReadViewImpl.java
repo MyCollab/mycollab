@@ -49,10 +49,10 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.web.ui.field.DateViewField;
-import com.mycollab.vaadin.web.ui.field.DefaultViewField;
-import com.mycollab.vaadin.web.ui.field.I18nFormViewField;
-import com.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.DateViewField;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -235,7 +235,5 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             }
             return null;
         }
-
     }
-
 }

@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view.page;
 
+import com.hp.gagawa.java.elements.*;
+import com.lowagie.text.DocumentException;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
@@ -34,18 +36,17 @@ import com.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.*;
-import com.lowagie.text.DocumentException;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
@@ -146,7 +147,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
                 ProjectRolePermissionCollections.PAGES);
 
-        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants
+        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(WebUIConstants
                 .BUTTON_OPTION).withDescription("Export to PDF");
 
         FileDownloader fileDownloader = new FileDownloader(getPDFStream());

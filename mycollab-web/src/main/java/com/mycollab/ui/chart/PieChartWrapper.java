@@ -20,12 +20,10 @@ import com.mycollab.common.domain.GroupItem;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -178,7 +176,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
                 } else {
                     clickLegendItem(key.toString());
                 }
-            }).withStyleName(UIConstants.BUTTON_LINK).withDescription(btnCaption);
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(btnCaption);
             layout.with(lblCircle, btnLink);
             mainLayout.addComponent(layout);
         }

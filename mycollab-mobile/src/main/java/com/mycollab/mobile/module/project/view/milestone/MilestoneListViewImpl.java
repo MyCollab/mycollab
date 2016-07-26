@@ -31,7 +31,7 @@ import com.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.mobile.ui.SearchInputField;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
@@ -46,6 +46,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -115,19 +116,19 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
     private void updateTabStatus() {
         if (status == OptionI18nEnum.MilestoneStatus.Closed) {
             this.setCaption("Closed Phases");
-            closedMilestoneBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            inProgressMilestoneBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            futureMilestoneBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
+            inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
+            futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
         } else if (status == OptionI18nEnum.MilestoneStatus.Future) {
             this.setCaption("Future Phases");
-            closedMilestoneBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            inProgressMilestoneBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            futureMilestoneBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
+            inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
+            futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
         } else {
             this.setCaption("In Progress Phases");
-            closedMilestoneBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            inProgressMilestoneBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            futureMilestoneBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
+            inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
+            futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
         }
     }
 

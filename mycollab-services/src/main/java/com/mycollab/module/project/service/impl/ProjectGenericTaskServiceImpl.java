@@ -21,6 +21,7 @@ import com.mycollab.db.persistence.service.DefaultSearchService;
 import com.mycollab.module.project.dao.ProjectGenericTaskMapper;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
+import com.mycollab.module.user.domain.BillingAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,8 @@ import java.util.Map;
  * @since 1.0
  */
 @Service
-public class ProjectGenericTaskServiceImpl extends DefaultSearchService<ProjectGenericTaskSearchCriteria> implements ProjectGenericTaskService {
+public class ProjectGenericTaskServiceImpl extends DefaultSearchService<ProjectGenericTaskSearchCriteria>
+        implements ProjectGenericTaskService {
 
     @Autowired
     private ProjectGenericTaskMapper projectGenericTaskMapper;
@@ -51,7 +53,7 @@ public class ProjectGenericTaskServiceImpl extends DefaultSearchService<ProjectG
     }
 
     @Override
-    public List<Map> getAccountsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria) {
+    public List<BillingAccount> getAccountsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria) {
         return projectGenericTaskMapper.getAccountsHasOverdueAssignments(searchCriteria);
     }
 

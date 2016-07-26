@@ -37,12 +37,11 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -101,7 +100,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
         if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
             MButton createBtn = new MButton(AppContext.getMessage(CaseI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
-                    .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
             controlsBtnWrap.with(createBtn).withAlign(createBtn, Alignment.TOP_RIGHT);
         }
 
@@ -156,7 +155,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
                                 AccountCaseListComp.this.refresh();
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(deleteBtn);
             blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);

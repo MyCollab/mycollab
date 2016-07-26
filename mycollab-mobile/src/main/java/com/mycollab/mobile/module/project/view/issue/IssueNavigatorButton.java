@@ -35,12 +35,9 @@ public class IssueNavigatorButton extends NavigationButton {
 
     public IssueNavigatorButton() {
         super(AppContext.getMessage(TicketI18nEnum.M_TICKET_NUM, 0));
-        this.addClickListener(new NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButtonClickEvent event) {
-                if (milestoneId != null) {
-                    getNavigationManager().navigateTo(new IssueListView(milestoneId));
-                }
+        this.addClickListener(navigationButtonClickEvent -> {
+            if (milestoneId != null) {
+                getNavigationManager().navigateTo(new IssueListView(milestoneId));
             }
         });
     }

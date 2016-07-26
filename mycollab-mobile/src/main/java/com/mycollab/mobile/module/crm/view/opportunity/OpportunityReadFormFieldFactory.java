@@ -24,7 +24,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.vaadin.ui.Field;
 
 public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {

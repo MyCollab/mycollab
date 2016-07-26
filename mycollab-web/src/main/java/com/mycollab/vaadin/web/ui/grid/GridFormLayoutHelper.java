@@ -17,7 +17,8 @@
 package com.mycollab.vaadin.web.ui.grid;
 
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -64,7 +65,7 @@ public class GridFormLayoutHelper implements Serializable {
         helper.getLayout().setWidth("100%");
         helper.getLayout().setSpacing(false);
         helper.getLayout().setMargin(false);
-        helper.getLayout().addStyleName(UIConstants.GRIDFORM_STANDARD);
+        helper.getLayout().addStyleName(WebUIConstants.GRIDFORM_STANDARD);
         return helper;
     }
 
@@ -120,7 +121,7 @@ public class GridFormLayoutHelper implements Serializable {
                     .withAlign(captionLbl, alignment);
             if (StringUtils.isNotBlank(contextHelp)) {
                 ELabel contextHelpLbl = new ELabel("&nbsp;" + FontAwesome.QUESTION_CIRCLE.getHtml(), ContentMode.HTML)
-                        .withStyleName(UIConstants.INLINE_HELP).withDescription(contextHelp).withWidthUndefined();
+                        .withStyleName(WebUIConstants.INLINE_HELP).withDescription(contextHelp).withWidthUndefined();
                 captionWrapper.with(contextHelpLbl);
             }
             layout.addComponent(captionWrapper, 2 * columns, rows);

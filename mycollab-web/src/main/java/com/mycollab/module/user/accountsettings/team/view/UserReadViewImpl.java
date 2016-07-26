@@ -31,8 +31,12 @@ import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
+import com.mycollab.vaadin.ui.field.DateViewField;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.EmailViewField;
+import com.mycollab.vaadin.ui.field.UrlLinkViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.*;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.hp.gagawa.java.Node;
@@ -96,19 +100,19 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         }
 
         infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_ROLE)).withWidth
-                ("80px").withStyleName(UIConstants.META_COLOR), new Label(roleDiv.write(), ContentMode.HTML)).withMargin(new MarginInfo(true, false, true, false)));
+                ("80px").withStyleName(WebUIConstants.META_COLOR), new Label(roleDiv.write(), ContentMode.HTML)).withMargin(new MarginInfo(true, false, true, false)));
         infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY)).withWidth
-                ("80px").withStyleName(UIConstants.META_COLOR),
+                ("80px").withStyleName(WebUIConstants.META_COLOR),
                 new Label(AppContext.formatDate(user.getDateofbirth()))).withMargin(new MarginInfo(false, false, true, false)));
 
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
-            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(GenericI18Enum.FORM_EMAIL)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
+            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(GenericI18Enum.FORM_EMAIL)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
                     new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(), ContentMode.HTML)).withMargin(new MarginInfo(false, false, true, false)));
         }
 
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
                 new Label(TimezoneVal.getDisplayName(user.getTimezone()))).withMargin(new MarginInfo(false, false, true, false)));
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)).withWidth("80px").withStyleName(UIConstants.META_COLOR),
+        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
                 new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale()))).withMargin(new MarginInfo(false, false, true, false)));
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);

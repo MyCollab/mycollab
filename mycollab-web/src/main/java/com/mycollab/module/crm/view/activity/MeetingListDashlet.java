@@ -25,7 +25,7 @@ import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
@@ -47,9 +47,9 @@ public class MeetingListDashlet extends Depot {
         this.setMargin(new MarginInfo(true, false, false, false));
 
         tableItem = new MeetingTableDisplay(Arrays.asList(
-                new TableViewField(MeetingI18nEnum.FORM_SUBJECT, "subject", UIConstants.TABLE_X_LABEL_WIDTH),
-                new TableViewField(GenericI18Enum.FORM_START_DATE, "startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
-                new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_S_LABEL_WIDTH)));
+                new TableViewField(MeetingI18nEnum.FORM_SUBJECT, "subject", WebUIConstants.TABLE_X_LABEL_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_START_DATE, "startdate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_S_LABEL_WIDTH)));
 
         bodyContent.addComponent(tableItem);
 
@@ -63,7 +63,7 @@ public class MeetingListDashlet extends Depot {
         });
         customizeViewBtn.setIcon(FontAwesome.ADJUST);
         customizeViewBtn.setDescription("Layout Options");
-        customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+        customizeViewBtn.setStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
         this.addHeaderElement(customizeViewBtn);
     }

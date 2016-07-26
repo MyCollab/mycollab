@@ -50,7 +50,7 @@ import com.mycollab.module.project.i18n.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.*;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
@@ -172,7 +172,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
             helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
-            helpBtn.addStyleName(UIConstants.BUTTON_LINK);
+            helpBtn.addStyleName(WebUIConstants.BUTTON_LINK);
             ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/project-management/");
             BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
             helpOpener.extend(helpBtn);
@@ -349,12 +349,12 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                 project.setContextask(false);
                 projectService.updateSelectiveWithSession(project, AppContext.getUsername());
                 close();
-            }).withStyleName(UIConstants.BUTTON_OPTION);
+            }).withStyleName(WebUIConstants.BUTTON_OPTION);
 
             MButton addNewMembersBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.ACTION_ADD_MEMBERS), clickEvent -> {
                 close();
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
-            }).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, addNewMembersBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);

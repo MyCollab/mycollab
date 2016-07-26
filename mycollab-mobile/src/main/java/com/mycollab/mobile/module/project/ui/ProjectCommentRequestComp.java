@@ -17,8 +17,8 @@
 package com.mycollab.mobile.module.project.ui;
 
 
-import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.UI;

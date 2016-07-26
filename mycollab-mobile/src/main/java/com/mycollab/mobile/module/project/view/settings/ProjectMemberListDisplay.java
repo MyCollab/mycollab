@@ -16,9 +16,10 @@
  */
 package com.mycollab.mobile.module.project.view.settings;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -29,9 +30,8 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
@@ -52,26 +52,28 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
         super(AppContextUtil.getSpringBean(ProjectMemberService.class), new ProjectMemberRowDisplayHandler());
     }
 
+    public ProjectMemberListDisplay(RowDisplayHandler<SimpleProjectMember> rowDisplayHandler) {
+        super(AppContextUtil.getSpringBean(ProjectMemberService.class), rowDisplayHandler);
+    }
+
     private static class ProjectMemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
 
         @Override
         public Component generateRow(final SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout mainLayout = new MHorizontalLayout().withMargin(true).withFullWidth();
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
+            memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
 
             VerticalLayout memberInfoLayout = new VerticalLayout();
-            mainLayout.addStyleName(UIConstants.TRUNCATE);
             mainLayout.with(memberAvatar, memberInfoLayout).expand(memberInfoLayout);
 
             A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
                     .getProjectId(), member.getUsername())).appendText(member.getDisplayName());
-            Label memberLbl = new ELabel(memberLink.write(), ContentMode.HTML)
-                    .withWidthUndefined();
-            memberInfoLayout.addComponent(new MCssLayout(memberLbl).withFullWidth());
+            Label memberLbl = ELabel.html(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+            memberInfoLayout.addComponent(memberLbl);
 
-            Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
-                    member.getUsername()), ContentMode.HTML);
-            memberEmailLabel.addStyleName(UIConstants.META_INFO);
+            Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(), member.getUsername()))
+                    .withStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(memberEmailLabel);
 
             ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(member.getJoindate())))

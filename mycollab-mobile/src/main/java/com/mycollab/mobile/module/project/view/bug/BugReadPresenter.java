@@ -72,8 +72,7 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
                                     final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                                    bugService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    bugService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
                                 }
                             }

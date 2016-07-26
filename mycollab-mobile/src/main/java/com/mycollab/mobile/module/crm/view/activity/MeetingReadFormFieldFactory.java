@@ -20,7 +20,7 @@ import com.mycollab.mobile.module.crm.ui.RelatedReadItemField;
 import com.mycollab.module.crm.domain.SimpleMeeting;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.field.DateTimeViewField;
+import com.mycollab.vaadin.ui.field.DateTimeViewField;
 import com.vaadin.ui.Field;
 
 /**

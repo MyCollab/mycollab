@@ -34,7 +34,7 @@ import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.BrowserWindowOpener;
@@ -80,7 +80,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
         Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
         helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
-        helpBtn.addStyleName(UIConstants.BUTTON_LINK);
+        helpBtn.addStyleName(WebUIConstants.BUTTON_LINK);
         ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/account-management/");
         BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
         helpOpener.extend(helpBtn);

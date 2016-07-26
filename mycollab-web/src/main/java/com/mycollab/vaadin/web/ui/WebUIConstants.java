@@ -20,9 +20,8 @@ package com.mycollab.vaadin.web.ui;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class UIConstants {
+public class WebUIConstants {
     public static final String BOX = "box";
-    public static final String CIRCLE_BOX = "circle-box";
     public static final String DEFAULT_CONTROL_WIDTH = "250px";
     public static final String DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH = "180px";
     public static final String DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT = "180px";
@@ -43,8 +42,6 @@ public class UIConstants {
     public static final String STANDUP_ROW_CONTENT = "standup-row-content";
     public static final String MILESTONE_BOX = "milestone-box";
     public static final String MULTI_SELECT_BG = "multiselect";
-    public static final String LABEL_WORD_WRAP = "wordWrap";
-    public static final String TEXT_ELLIPSIS = "text-ellipsis";
     public static final String BTN_ACTIVE = "btn-group-default";
     public static final String CONTENT_WRAPPER = "content-wrapper";
     public static final String OPTION_POPUP_CONTENT = "optionPopupContent";
@@ -53,9 +50,8 @@ public class UIConstants {
     public static final String BUTTON_ICON_ONLY = "button-icon-only";
 
     public static final String INLINE_HELP = "inline-help";
-    public static final String META_INFO = "meta-info";
     public static final String META_COLOR = "meta-color";
-    public static final String TEXT_ALIGN_RIGHT="text-align-right";
+    public static final String TEXT_ALIGN_RIGHT = "text-align-right";
     public static final String LABEL_OVERDUE = "overdue";
 
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";

@@ -24,6 +24,31 @@
 	-ms-writing-mode: lr-tb;
 }
 
+.text-ellipsis a {
+	display: inline-block;
+	width: 100%;
+	white-space: nowrap !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.v-label.text-ellipsis {
+	display: inline-block;
+	width: 100%;
+	white-space: nowrap !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.row {
+	padding: 10px;
+	border-bottom: 1px solid $my-separator-color;
+}
+
+.row:last-child {
+	border-style: none;
+}
+
 .section {
 	width: 100%;
 	padding: 10px 5px 10px 5px;
@@ -50,6 +75,42 @@
 	-ms-writing-mode: lr-tb;
 }
 
+.text-ellipsis a {
+	display: inline-block;
+	width: 100%;
+	white-space: nowrap !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.v-label.text-ellipsis {
+	display: inline-block;
+	width: 100%;
+	white-space: nowrap !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.row {
+	padding: 10px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.row:last-child {
+	border-style: none;
+}
+
+.v-label.wordWrap {
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+.circle-box, img .circle-box {
+	border-radius: 50%;
+	background-color: #b9ecfb;
+	text-align: center;
+}
+
 .meta-info {
 	color: #999;
 	font-size: smaller !important;
@@ -69,17 +130,6 @@ hr {
 a {
 	color: #0083ce !important;
 	text-decoration: none !important;
-}
-
-.truncate .v-layout, .truncate .v-label, .truncate {
-	width: 100% !important;
-}
-
-.truncate .v-layout a, .truncate .v-label a, .truncate a {
-	display: block;
-	white-space: nowrap !important;
-	overflow: hidden !important;
-	text-overflow: ellipsis;
 }
 
 .v-gridlayout.colored-gridlayout {
@@ -129,7 +179,7 @@ a {
 
 .v-navbar-quickmenu-content {
 	width: 100%;
-	border-bottom: 1px solid #c5c5c5;
+	border-bottom: 1px solid #e5e5e5;
 }
 
 .v-navbar-quickmenu-content .v-button {
@@ -156,12 +206,8 @@ a {
 .v-touchkit-navbar-caption span {
 	display: block;
 	white-space: nowrap !important;
-	overflow: hidden !important;
+	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-.v-touchkit-navbar-left, .v-touchkit-navbar-right {
-	width: 68px !important;
 }
 
 .v-touchkit-navbar-right {
@@ -202,7 +248,7 @@ a {
 }
 
 .slidemenu .v-window-contents {
-	border-right: 1px solid #c5c5c5;
+	border-right: 1px solid #e5e5e5;
 }
 
 .slidemenu .v-window-contents .v-button {
@@ -345,31 +391,6 @@ body {
 .attachment-panel .v-label.attachment-name {
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-.noteList {
-	background-color: white;
-}
-
-.message {
-	border-bottom: 1px solid #cbcbcb;
-}
-
-.message .message-header .user-name {
-	color: #e39241;
-}
-
-.message .message-header .time-post {
-	color: #bfbfbf;
-}
-
-.message .message-body {
-	color: #959595;
-}
-
-.v-touchkit-navbutton:after {
-	content: "";
-	right: 0px !important;
 }
 
 .attachment-preview-view {
@@ -549,10 +570,6 @@ body {
 	padding: 1.2rem 0.8rem 0rem 0.8rem;
 }
 
-.message-list-view .message-block .user-avatar, .message-read-view .message-block .user-avatar {
-	padding-right: 0.8rem;
-}
-
 .message-list-view .message-block .title-row, .message-read-view .message-block .title-row {
 	padding: 0.5rem 0;
 }
@@ -582,13 +599,10 @@ body {
 	padding: 0.8rem;
 }
 
-.comment-list .comment-block .user-avatar {
-	padding-right: 0.8rem;
-}
-
 .comment-list .comment-block .right-col {
 	border: 1px solid #e5e5e5;
 	padding: 0.5rem 0.5rem 0 0.5rem;
+	border-radius: 0.5rem;
 }
 
 .comment-list .comment-block .right-col:before {

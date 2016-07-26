@@ -19,7 +19,7 @@ package com.mycollab.shell.view.components;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -43,7 +43,7 @@ public class NoSubDomainExistedWindow extends MVerticalLayout {
 
         Button backToHome = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE),
                 clickEvent -> getUI().getPage().setLocation("https://www.mycollab.com"));
-        backToHome.addStyleName(UIConstants.BUTTON_ACTION);
+        backToHome.addStyleName(WebUIConstants.BUTTON_ACTION);
         this.with(titleIcon, warningMsg, backToHome);
     }
 }

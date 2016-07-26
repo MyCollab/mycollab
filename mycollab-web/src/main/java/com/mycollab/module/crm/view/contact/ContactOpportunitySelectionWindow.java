@@ -24,7 +24,7 @@ import com.mycollab.module.crm.view.opportunity.OpportunitySearchPanel;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableDisplay;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableFieldDef;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindo
                 OpportunityTableFieldDef.expectedCloseDate()));
 
         Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
-        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         OpportunitySearchPanel searchPanel = new OpportunitySearchPanel();
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

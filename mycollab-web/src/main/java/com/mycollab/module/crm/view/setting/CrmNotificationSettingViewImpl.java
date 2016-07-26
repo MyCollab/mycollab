@@ -27,7 +27,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -105,7 +105,7 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements 
                 }
             }
         });
-        updateBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        updateBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         updateBtn.setIcon(FontAwesome.REFRESH);
         body.with(updateBtn).withAlign(updateBtn, Alignment.BOTTOM_LEFT);
 

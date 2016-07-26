@@ -20,13 +20,14 @@ import java.io.InputStream
 
 import com.mycollab.vaadin.AppContext
 import com.mycollab.vaadin.events.{HasMassItemActionHandler, MassItemActionHandler, ViewItemAction}
-import com.mycollab.vaadin.web.ui.UIConstants
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.reporting.ReportExportType
+import com.mycollab.vaadin.web.ui.WebUIConstants
 import com.vaadin.server.StreamResource.StreamSource
 import com.vaadin.server.{FileDownloader, FontAwesome, Resource, StreamResource}
 import com.vaadin.ui.Button
 import org.vaadin.peter.buttongroup.ButtonGroup
+import org.vaadin.viritin.button.MButton
 import org.vaadin.viritin.layouts.MHorizontalLayout
 
 /**
@@ -51,20 +52,15 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
       groupMap.put(groupId, group)
       this.addComponent(group)
     }
-    val optionBtn = new Button(null, new Button.ClickListener() {
+    val optionBtn = new MButton("", new Button.ClickListener() {
       def buttonClick(event: Button.ClickEvent) {
         changeOption(id)
       }
-    })
-    optionBtn.setIcon(resource)
-    if ("delete" == groupId) {
-      optionBtn.addStyleName(UIConstants.BUTTON_DANGER)
+    }).withIcon(resource).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING).withDescription(description)
+    groupId match {
+      case "delete" => optionBtn.addStyleName(WebUIConstants.BUTTON_DANGER)
+      case _ =>  optionBtn.addStyleName(WebUIConstants.BUTTON_ACTION)
     }
-    else {
-      optionBtn.addStyleName(UIConstants.BUTTON_ACTION)
-    }
-    optionBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING)
-    optionBtn.setDescription(description)
     group.addButton(optionBtn)
   }
 
@@ -111,13 +107,10 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
       groupMap.put(groupId, group)
       this.addComponent(group)
     }
-    val optionBtn = new Button("")
+    val optionBtn = new MButton("").withIcon(resource).withStyleName(WebUIConstants.BUTTON_ACTION, WebUIConstants.BUTTON_SMALL_PADDING)
+      .withDescription(description)
     val fileDownloader: FileDownloader = new FileDownloader(new StreamResource(new DownloadStreamSource(exportType), downloadFileName))
     fileDownloader.extend(optionBtn)
-    optionBtn.setIcon(resource)
-    optionBtn.addStyleName(UIConstants.BUTTON_ACTION)
-    optionBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING)
-    optionBtn.setDescription(description)
     group.addButton(optionBtn)
   }
 
@@ -129,12 +122,12 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
 
   protected def buildStreamResource(id: ReportExportType): StreamResource = {
     if (actionHandler != null) {
-      val streamResource: StreamResource = actionHandler.buildStreamResource(id)
+      val streamResource = actionHandler.buildStreamResource(id)
       if (streamResource != null) {
         return streamResource
       }
     }
-    return null
+    null
   }
 
   def setMassActionHandler(handler: MassItemActionHandler) {
@@ -150,9 +143,7 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
       this.exportType = exportType
     }
 
-    def getStream: InputStream = {
-      return buildStreamResource(exportType).getStreamSource.getStream
-    }
+    def getStream: InputStream = buildStreamResource(exportType).getStreamSource.getStream
   }
 
 }

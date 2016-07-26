@@ -36,7 +36,7 @@ import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -116,11 +116,11 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         }
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
-            removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+            removeLayoutStyleName(WebUIConstants.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
-            addLayoutStyleName(UIConstants.LINK_COMPLETED);
+            addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
         }
@@ -149,19 +149,19 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         quickActionStatusBtn = new MButton("", clickEvent -> {
             if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
                 beanItem.setStatus(StatusI18nEnum.Open.name());
-                ComponentReadViewImpl.this.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+                ComponentReadViewImpl.this.removeLayoutStyleName(WebUIConstants.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
                 quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
-                ComponentReadViewImpl.this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+                ComponentReadViewImpl.this.addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                 quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
             }
 
             ComponentService service = AppContextUtil.getSpringBean(ComponentService.class);
             service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
-        }).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION);
         componentPreviewForm.insertToControlBlock(quickActionStatusBtn);
         quickActionStatusBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
         return topPanel;

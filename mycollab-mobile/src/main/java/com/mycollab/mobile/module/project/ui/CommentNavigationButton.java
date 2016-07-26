@@ -37,13 +37,10 @@ public class CommentNavigationButton extends NavigationButton {
         super(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0));
         this.type = typeVal;
         this.typeId = typeIdVal;
-        this.addClickListener(new NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButtonClickEvent event) {
-                if (typeId != null) {
-                    getNavigationManager().navigateTo(new ProjectCommentListView(type, typeId,
-                            CurrentProjectVariables.getProjectId(), true));
-                }
+        this.addClickListener(navigationButtonClickEvent -> {
+            if (typeId != null) {
+                getNavigationManager().navigateTo(new ProjectCommentListView(type, typeId,
+                        CurrentProjectVariables.getProjectId(), true));
             }
         });
     }

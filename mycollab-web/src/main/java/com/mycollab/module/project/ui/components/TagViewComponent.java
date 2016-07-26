@@ -28,13 +28,12 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
 import org.vaadin.viritin.button.MButton;
@@ -79,7 +78,7 @@ public class TagViewComponent extends CssLayout {
 
     private Button createAddTagBtn() {
         final MButton addTagBtn = new MButton(AppContext.getMessage(TagI18nEnum.ACTION_ADD))
-                .withIcon(FontAwesome.PLUS_CIRCLE).withStyleName(UIConstants.BUTTON_LINK);
+                .withIcon(FontAwesome.PLUS_CIRCLE).withStyleName(WebUIConstants.BUTTON_LINK);
         addTagBtn.addClickListener(clickEvent -> {
             removeComponent(addTagBtn);
             addComponent(createSaveTagComp());
@@ -120,7 +119,7 @@ public class TagViewComponent extends CssLayout {
                 NotificationUtil.showWarningNotification(AppContext.getMessage(TagI18nEnum.ERROR_TAG_NAME_HAS_MORE_2_CHARACTERS));
             }
             tagQuery = "";
-        }).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION);
         layout.with(field, addBtn);
         return layout;
     }
@@ -160,7 +159,7 @@ public class TagViewComponent extends CssLayout {
             this.setStyleName("tag-block");
             MButton tagLink = new MButton(tag.getName(),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, tag)))
-                    .withStyleName(UIConstants.BUTTON_LINK);
+                    .withStyleName(WebUIConstants.BUTTON_LINK);
             this.addComponent(tagLink);
             if (canAddNewTag) {
                 MButton deleteBtn = new MButton(FontAwesome.TIMES, clickEvent -> {

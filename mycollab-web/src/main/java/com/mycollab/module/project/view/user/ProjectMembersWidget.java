@@ -39,6 +39,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
@@ -80,7 +81,7 @@ public class ProjectMembersWidget extends Depot {
             setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
         });
         sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-        sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        sortBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         addHeaderElement(sortBtn);
 
         final SearchTextField searchTextField = new SearchTextField() {
@@ -100,7 +101,7 @@ public class ProjectMembersWidget extends Depot {
         addHeaderElement(searchTextField);
 
         MButton inviteMemberBtn = new MButton("Invite", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_LINK)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         addHeaderElement(inviteMemberBtn);
 

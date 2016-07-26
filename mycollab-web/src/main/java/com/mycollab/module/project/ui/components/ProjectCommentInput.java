@@ -26,7 +26,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.ui.ReloadableComponent;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -81,7 +81,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
         uploadExt.addComponent(attachments);
 
         final MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         final MButton newCommentBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
             CommentWithBLOBs comment = new CommentWithBLOBs();
@@ -108,7 +108,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
             commentArea.setValue("");
             attachments.removeAllAttachmentsDisplay();
             component.reload();
-        }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEND);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEND);
 
         controlsLayout.with(uploadExt, new MHorizontalLayout(cancelBtn, newCommentBtn)).withAlign(uploadExt, Alignment.TOP_LEFT);
         textAreaWrap.with(commentArea, controlsLayout);

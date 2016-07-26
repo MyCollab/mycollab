@@ -26,9 +26,10 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.BeanList;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -88,7 +89,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                                 owner.removeRow(layout);
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             messageHeader.addComponent(msgDeleteBtn);
         }
 

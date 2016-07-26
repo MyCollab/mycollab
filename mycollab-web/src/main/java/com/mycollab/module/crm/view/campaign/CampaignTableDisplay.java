@@ -27,7 +27,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
@@ -68,13 +68,13 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
             b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(), AppContext.getDateFormat(),
                     campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-            b.setStyleName(UIConstants.BUTTON_LINK);
+            b.setStyleName(WebUIConstants.BUTTON_LINK);
 
             if ("Complete".equals(campaign.getStatus())) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else {
                 if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
-                    b.addStyleName(UIConstants.LINK_OVERDUE);
+                    b.addStyleName(WebUIConstants.LINK_OVERDUE);
                 }
             }
             return b;

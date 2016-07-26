@@ -38,7 +38,7 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
@@ -78,7 +78,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
             MButton convertButton = new MButton(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD),
                     clickEvent -> previewForm.fireExtraAction("convert", beanItem))
-                    .withIcon(FontAwesome.FLASK).withStyleName(UIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.FLASK).withStyleName(WebUIConstants.BUTTON_ACTION);
             controlsButton.insertToControlBlock(convertButton);
         }
 

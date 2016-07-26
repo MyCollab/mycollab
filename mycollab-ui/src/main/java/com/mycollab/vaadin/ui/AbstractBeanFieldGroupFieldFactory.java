@@ -21,7 +21,7 @@ import com.mycollab.core.arguments.NotBindable;
 import com.mycollab.core.utils.ClassUtils;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.validator.constraints.DateComparision;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;

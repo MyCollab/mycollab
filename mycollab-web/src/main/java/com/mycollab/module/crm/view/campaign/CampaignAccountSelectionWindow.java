@@ -24,7 +24,7 @@ import com.mycollab.module.crm.view.account.AccountSearchPanel;
 import com.mycollab.module.crm.view.account.AccountTableDisplay;
 import com.mycollab.module.crm.view.account.AccountTableFieldDef;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
                         AccountTableFieldDef.email(), AccountTableFieldDef.city()));
 
         Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
-        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         AccountSearchPanel accountSimpleSearchPanel = new AccountSearchPanel();
         accountSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

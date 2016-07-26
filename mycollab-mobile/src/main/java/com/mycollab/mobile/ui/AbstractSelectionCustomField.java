@@ -16,7 +16,9 @@
  */
 package com.mycollab.mobile.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
@@ -37,17 +39,10 @@ public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T> 
         try {
             final AbstractSelectionView<B> selectionView = targetSelectionViewCls.newInstance();
             selectionView.setSelectionField(this);
-            navButton = new NavigationButton("Select", selectionView);
+            navButton = new NavigationButton(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), selectionView);
             navButton.setTargetView(selectionView);
             navButton.setWidth("100%");
-            navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-                private static final long serialVersionUID = 7766417204333658973L;
-
-                @Override
-                public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    selectionView.load();
-                }
-            });
+            navButton.addClickListener(navigationButtonClickEvent -> selectionView.load());
         } catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException e) {
             throw new MyCollabException(e);
         }

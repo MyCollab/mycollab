@@ -25,7 +25,7 @@ import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -90,7 +90,7 @@ public class ImagePreviewCropWindow extends Window {
         previewBoxTitle.addComponent(lbPreview);
 
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         MButton acceptBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
             if (scaleImageData != null && scaleImageData.length > 0) {
@@ -102,7 +102,7 @@ public class ImagePreviewCropWindow extends Window {
                     throw new MyCollabException("Error when saving user avatar", e);
                 }
             }
-        }).withIcon(FontAwesome.CHECK).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.CHECK).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
 

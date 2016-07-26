@@ -43,7 +43,7 @@ public abstract class DepotWithChart extends Depot {
                 toggleViewBtn.setDescription("Simple mode");
                 displayChartMode();
             }
-        }).withIcon(FontAwesome.BAR_CHART_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+        }).withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         toggleViewBtn.setDescription("Simple mode");
         addHeaderElement(toggleViewBtn);
         setContentBorder(true);

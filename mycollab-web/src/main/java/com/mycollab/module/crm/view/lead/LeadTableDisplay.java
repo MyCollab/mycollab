@@ -69,7 +69,7 @@ public class LeadTableDisplay extends DefaultPagedBeanTable<LeadService, LeadSea
 
             LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder.generateLeadPreviewLinkFull(lead.getId()));
             if ("Dead".equals(lead.getStatus()) || "Converted".equals(lead.getStatus())) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             }
             b.setDescription(CrmTooltipGenerator.generateTooltipLead(
                     AppContext.getUserLocale(), lead,

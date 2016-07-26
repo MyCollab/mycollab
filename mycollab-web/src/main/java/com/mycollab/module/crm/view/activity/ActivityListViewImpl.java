@@ -27,7 +27,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 
 import java.util.Arrays;
@@ -58,12 +58,12 @@ public class ActivityListViewImpl extends AbstractListItemComp<ActivitySearchCri
     @Override
     protected AbstractPagedBeanTable<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
         return new ActivityTableDisplay(
-                new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
+                new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
                 Arrays.asList(
-                        new TableViewField(ActivityI18nEnum.FORM_SUBJECT, "subject", UIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_S_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_START_DATE, "startDate", UIConstants.TABLE_DATE_TIME_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_END_DATE, "endDate", UIConstants.TABLE_DATE_TIME_WIDTH)));
+                        new TableViewField(ActivityI18nEnum.FORM_SUBJECT, "subject", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_S_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_START_DATE, "startDate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_END_DATE, "endDate", WebUIConstants.TABLE_DATE_TIME_WIDTH)));
     }
 
     @Override

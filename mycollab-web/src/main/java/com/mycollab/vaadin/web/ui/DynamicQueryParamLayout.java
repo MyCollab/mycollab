@@ -76,14 +76,14 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     private HorizontalLayout createButtonControls() {
         MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                .withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH);
+                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH);
 
         MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> clearFields())
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         MButton basicSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
                 clickEvent -> ((DefaultGenericSearchPanel<S>) searchPanel).moveToBasicSearchLayout())
-                .withStyleName(UIConstants.BUTTON_LINK);
+                .withStyleName(WebUIConstants.BUTTON_LINK);
 
         return new MHorizontalLayout(searchBtn, clearBtn, basicSearchBtn).withMargin(new MarginInfo(false, true, false, true));
     }

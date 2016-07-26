@@ -24,7 +24,7 @@ import com.mycollab.module.project.view.user.UserUnresolvedAssignmentWidget;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -59,7 +59,7 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
         rightPanel.with(myProjectListComponent, activityStreamComponent);
         layout.with(leftPanel, rightPanel).expand(leftPanel);
 
-        MCssLayout contentWrapper = new MCssLayout().withStyleName(UIConstants.CONTENT_WRAPPER);
+        MCssLayout contentWrapper = new MCssLayout().withStyleName(WebUIConstants.CONTENT_WRAPPER);
         addComponent(contentWrapper);
         contentWrapper.addComponent(layout);
 

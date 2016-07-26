@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.project.ui;
 
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.mobile.ui.FormSectionBuilder;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
@@ -41,7 +41,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
     protected TimeLogComp() {
         this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
         this.setWidth("100%");
-        this.setStyleName(UIConstants.FULL_WIDTH_COMP);
+        this.setStyleName(MobileUIConstants.FULL_WIDTH_COMP);
     }
 
     public void displayTime(final V bean) {

@@ -24,7 +24,7 @@ import com.mycollab.module.crm.view.contact.ContactSearchPanel;
 import com.mycollab.module.crm.view.contact.ContactTableDisplay;
 import com.mycollab.module.crm.view.contact.ContactTableFieldDef;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class AccountContactSelectionWindow extends RelatedItemSelectionWindow<Si
                 ContactTableFieldDef.title(), ContactTableFieldDef.account(), ContactTableFieldDef.phoneOffice()));
 
         Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
-        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         ContactSearchPanel contactSimpleSearchPanel = new ContactSearchPanel();
         contactSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

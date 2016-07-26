@@ -25,7 +25,7 @@ import com.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -171,7 +171,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     }
                 }
             });
-            nextBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            nextBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             controlGroupBtn.with(nextBtn).withAlign(nextBtn, Alignment.MIDDLE_CENTER);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
@@ -182,7 +182,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     EntityImportWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
             controlGroupBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
             layout.with(controlGroupBtn).withAlign(controlGroupBtn, Alignment.MIDDLE_CENTER);
@@ -191,7 +191,7 @@ public abstract class EntityImportWindow<E> extends Window {
 
         private CssLayout fileConfigurationLayout() {
             final CssLayout bodyLayoutWapper = new CssLayout();
-            bodyLayoutWapper.addStyleName(UIConstants.BOX);
+            bodyLayoutWapper.addStyleName(WebUIConstants.BOX);
             bodyLayoutWapper.setWidth("100%");
 
             final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(true);
@@ -264,7 +264,7 @@ public abstract class EntityImportWindow<E> extends Window {
             final CssLayout bodyLayoutWapper = new CssLayout();
             bodyLayoutWapper.setWidth("100%");
             bodyLayoutWapper.setHeight("100%");
-            bodyLayoutWapper.addStyleName(UIConstants.BOX);
+            bodyLayoutWapper.addStyleName(WebUIConstants.BOX);
 
             final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(true).withFullHeight();
 
@@ -281,7 +281,7 @@ public abstract class EntityImportWindow<E> extends Window {
             uploadFieldVerticalLayout.addComponent(new Label("Select File"));
 
             uploadField = new SingleFileUploadField();
-            uploadField.addStyleName(UIConstants.BUTTON_ACTION);
+            uploadField.addStyleName(WebUIConstants.BUTTON_ACTION);
             uploadField.addListener(new ValueChangeListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -323,7 +323,7 @@ public abstract class EntityImportWindow<E> extends Window {
         public MappingCrmConfigurationLayout(final boolean checkboxChecked, final File uploadFile) {
             this.uploadFile = uploadFile;
             this.setWidth("100%");
-            this.addStyleName(UIConstants.BOX);
+            this.addStyleName(WebUIConstants.BOX);
 
             final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true));
 
@@ -457,7 +457,7 @@ public abstract class EntityImportWindow<E> extends Window {
                         }
                     });
 
-            saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            saveBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             controlGroupBtn.addComponent(saveBtn);
 
             Button previousBtn = new Button("Previous", new ClickListener() {
@@ -472,7 +472,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     EntityImportWindow.this.center();
                 }
             });
-            previousBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            previousBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             controlGroupBtn.addComponent(previousBtn);
 
             Button btnClose = new Button("Close", new ClickListener() {
@@ -484,7 +484,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     reloadWhenBackToListView();
                 }
             });
-            btnClose.addStyleName(UIConstants.BUTTON_ACTION);
+            btnClose.addStyleName(WebUIConstants.BUTTON_ACTION);
             controlGroupBtn.addComponent(btnClose);
             bodyLayout.addComponent(columnMappingCrmLayout);
             this.addComponent(bodyLayout);

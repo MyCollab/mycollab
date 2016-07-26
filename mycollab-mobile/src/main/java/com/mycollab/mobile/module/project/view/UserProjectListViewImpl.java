@@ -16,6 +16,8 @@
  */
 package com.mycollab.mobile.module.project.view;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
@@ -31,10 +33,10 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -75,36 +77,24 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         addSection("Views:");
 
         // Buttons with styling (slightly smaller with left-aligned text)
-        Button activityBtn = new Button("Activities", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                closeMenu();
-                EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this));
-            }
-        });
-        activityBtn.setIcon(FontAwesome.INBOX);
+        MButton activityBtn = new MButton("Activities", clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this));
+        }).withIcon(FontAwesome.INBOX);
         addMenuItem(activityBtn);
 
-        Button prjBtn = new Button("Projects", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                closeMenu();
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
-            }
-        });
-        prjBtn.setIcon(FontAwesome.BUILDING);
+        MButton prjBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
+        }).withIcon(FontAwesome.BUILDING);
         addMenuItem(prjBtn);
 
         addSection("Settings:");
 
-        Button logoutBtn = new Button("Logout", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                closeMenu();
-                EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
-            }
-        });
-        logoutBtn.setIcon(FontAwesome.SIGN_OUT);
+        MButton logoutBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
+        }).withIcon(FontAwesome.SIGN_OUT);
         addMenuItem(logoutBtn);
     }
 
@@ -113,12 +103,8 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(ProjectI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoAdd(this, null));
-            }
-        }));
+        content.with(new Button(AppContext.getMessage(ProjectI18nEnum.NEW),
+                clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;
     }

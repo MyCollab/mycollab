@@ -34,7 +34,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import org.jsoup.Jsoup;
@@ -88,9 +88,9 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             b.setIconLink(iconLink);
 
             if (simpleEvent.isCompleted()) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else if (simpleEvent.isOverdue()) {
-                b.addStyleName(UIConstants.LINK_OVERDUE);
+                b.addStyleName(WebUIConstants.LINK_OVERDUE);
             }
             b.setDescription(generateToolTip(simpleEvent));
             return b;

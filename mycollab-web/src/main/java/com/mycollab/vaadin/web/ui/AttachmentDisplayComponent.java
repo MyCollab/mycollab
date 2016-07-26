@@ -30,6 +30,8 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -63,8 +65,8 @@ public class AttachmentDisplayComponent extends CssLayout {
         }
 
         final AbsoluteLayout attachmentLayout = new AbsoluteLayout();
-        attachmentLayout.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
-        attachmentLayout.setHeight(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT);
+        attachmentLayout.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
+        attachmentLayout.setHeight(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT);
         attachmentLayout.setStyleName("attachment-block");
 
         CssLayout thumbnailWrap = new CssLayout();
@@ -89,17 +91,16 @@ public class AttachmentDisplayComponent extends CssLayout {
         ul.appendChild(new Li().appendText("Last modified: " + AppContext.formatPrettyTime(attachment.getLastModified().getTime())));
         contentTooltip.appendChild(ul);
         thumbnail.setDescription(contentTooltip.write());
-        thumbnail.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
+        thumbnail.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
         thumbnailWrap.addComponent(thumbnail);
 
         attachmentLayout.addComponent(thumbnailWrap, "top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 0;");
 
         CssLayout attachmentNameWrap = new CssLayout();
-        attachmentNameWrap.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
+        attachmentNameWrap.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
         attachmentNameWrap.setStyleName("attachment-name-wrap");
 
-        Label attachmentName = new Label(StringUtils.trim(docName, 60, true));
-        attachmentName.setStyleName("attachment-name");
+        Label attachmentName = new ELabel(docName).withStyleName(UIConstants.TEXT_ELLIPSIS);
         attachmentNameWrap.addComponent(attachmentName);
         attachmentLayout.addComponent(attachmentNameWrap, "bottom: 0px; left: 0px; right: 0px; z-index: 1;");
 

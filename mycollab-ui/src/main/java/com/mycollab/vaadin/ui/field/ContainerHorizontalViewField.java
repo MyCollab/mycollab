@@ -14,42 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.web.ui.field;
+package com.mycollab.vaadin.ui.field;
 
-import com.mycollab.vaadin.AppContext;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Label;
-
-import java.util.Date;
+import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- * @author MyCollab Ltd
- * @since 5.3.3
+ * @author MyCollab Ltd.
+ * @since 4.5.3
  */
-public class DateTimeOptionViewField extends CustomField<String> {
-    private Date date;
+public class ContainerHorizontalViewField extends CustomField {
+    private static final long serialVersionUID = 1L;
 
-    public DateTimeOptionViewField(Date dateVal) {
-        this.date = dateVal;
+    private MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
+
+    public void addComponentField(Component component) {
+        layout.addComponent(component);
+    }
+
+    public HorizontalLayout getLayout() {
+        return layout;
+    }
+
+    @Override
+    public Class<?> getType() {
+        return Object.class;
     }
 
     @Override
     protected Component initContent() {
-        final Label l = new Label();
-        l.setWidth("100%");
-        if (date == null) {
-            l.setValue("&nbsp;");
-            l.setContentMode(ContentMode.HTML);
-        } else {
-            l.setValue(AppContext.formatDateTime(date));
-        }
-        return l;
-    }
-
-    @Override
-    public Class<? extends String> getType() {
-        return String.class;
+        return layout;
     }
 }

@@ -39,13 +39,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -78,12 +75,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 .withFullWidth();
         MButton createBtn = new MButton(AppContext.getMessage(UserI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
         headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(UserI18nEnum.LIST_VALUE, 0));
 
-        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
@@ -111,14 +108,13 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         };
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
-        MButton printBtn = new MButton("", clickEvent -> {
-            UI.getCurrent().addWindow(new UserCustomizeReportOutputWindow(new LazyValueInjector() {
-                @Override
-                protected Object doEval() {
-                    return searchCriteria;
-                }
-            }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
+        MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new UserCustomizeReportOutputWindow(
+                new LazyValueInjector() {
+            @Override
+            protected Object doEval() {
+                return searchCriteria;
+            }
+        }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
                 .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
@@ -178,12 +174,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 asyncEventBus.post(invitationEvent);
                 NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS), AppContext
                         .getMessage(UserI18nEnum.OPT_SEND_INVITATION_SUCCESSFULLY, member.getDisplayName()));
-            }).withStyleName(UIConstants.BUTTON_LINK);
+            }).withStyleName(WebUIConstants.BUTTON_LINK);
             buttonControls.with(resendBtn);
         }
 
         MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member)))
-                .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK);
+                .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK);
         buttonControls.with(editBtn);
 
         MButton deleteBtn = new MButton("", clickEvent -> {
@@ -199,7 +195,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                             EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                         }
                     });
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK);
         buttonControls.with(deleteBtn);
 
         memberInfo.addComponent(buttonControls);
@@ -233,20 +229,20 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
             Label memberEmailLabel = new ELabel(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
-                    member.getUsername()), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants
-                    .META_INFO).withFullWidth();
+                    member.getUsername()), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants.META_INFO)
+                    .withFullWidth();
             memberInfo.addComponent(memberEmailLabel);
         }
 
         ELabel memberSinceLabel = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext
                 .formatPrettyTime(member.getRegisteredtime())))
-                .withDescription(AppContext.formatDateTime(member.getRegisteredtime())).withStyleName(UIConstants
-                        .META_INFO).withFullWidth();
+                .withDescription(AppContext.formatDateTime(member.getRegisteredtime())).withStyleName(UIConstants.META_INFO)
+                .withFullWidth();
         memberInfo.addComponent(memberSinceLabel);
 
         ELabel lastAccessTimeLbl = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext.formatPrettyTime
-                (member.getLastaccessedtime()))).withDescription(AppContext.formatDateTime(member.getLastaccessedtime()));
-        lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
+                (member.getLastaccessedtime()))).withDescription(AppContext.formatDateTime(member.getLastaccessedtime()))
+                .withStyleName(UIConstants.META_INFO);
         memberInfo.addComponent(lastAccessTimeLbl);
         blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);

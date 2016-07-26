@@ -54,7 +54,7 @@ import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FontAwesome;
@@ -161,7 +161,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                     return baseCriteria;
                 }
             }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION);
+        }).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION);
         printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
@@ -171,7 +171,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
             bug.setSaccountid(AppContext.getAccountId());
             bug.setLogby(AppContext.getUsername());
             UI.getCurrent().addWindow(new BugAddWindow(bug));
-        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION).withDescription(AppContext.getMessage(BugI18nEnum.NEW))
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION).withDescription(AppContext.getMessage(BugI18nEnum.NEW))
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
         groupWrapLayout.addComponent(newBugBtn);
 
@@ -285,7 +285,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 if (currentPage == innerPages) {
                     wrapBody.removeComponent(wrapBody.getComponent(1));
                 }
-            }).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(WebUIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
         List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));

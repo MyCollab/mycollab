@@ -25,8 +25,9 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -44,7 +45,7 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
     @Override
     public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
-        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", UIConstants.HOVER_EFFECT_NOT_BOX);
+        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", WebUIConstants.HOVER_EFFECT_NOT_BOX);
         ELabel link = ELabel.h3("");
         if (ProjectTypeConstants.BUG.equals(item.getType()) || ProjectTypeConstants.TASK.equals(item.getType())) {
             link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),

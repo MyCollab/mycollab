@@ -43,10 +43,11 @@ import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
@@ -59,7 +60,6 @@ import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -123,14 +123,14 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         ELabel headerLbl = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files");
 
         MButton createBtn = new MButton("New folder", clickEvent -> UI.getCurrent().addWindow(new AddNewFolderWindow()))
-                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         createBtn.setDescription("Create new folder");
 
         MButton uploadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
             MultiUploadContentWindow multiUploadWindow = new MultiUploadContentWindow();
             UI.getCurrent().addWindow(multiUploadWindow);
-        }).withIcon(FontAwesome.UPLOAD).withStyleName(UIConstants.BUTTON_ACTION)
+        }).withIcon(FontAwesome.UPLOAD).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         uploadBtn.setDescription("Upload");
 
@@ -248,7 +248,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                 MButton renameBtn = new MButton("Rename", clickEvent -> UI.getCurrent().addWindow(new
                         RenameResourceWindow(selectedResource)))
-                        .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK);
+                        .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK);
 
                 Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
 
@@ -271,11 +271,11 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(streamSource);
                 downloaderExt.extend(downloadBtn);
 
-                downloadBtn.addStyleName(UIConstants.BUTTON_LINK);
+                downloadBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 downloadBtn.setIcon(FontAwesome.DOWNLOAD);
 
                 MButton moveBtn = new MButton("Move to", clickEvent -> UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource)))
-                        .withIcon(FontAwesome.ARROWS).withStyleName(UIConstants.BUTTON_LINK);
+                        .withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_LINK);
 
                 Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -285,13 +285,13 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         deleteResourceAction(Collections.singletonList(selectedResource));
                     }
                 });
-                deleteBtn.addStyleName(UIConstants.BUTTON_LINK);
+                deleteBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 deleteBtn.setIcon(FontAwesome.TRASH_O);
                 selectedResourceControlLayout.with(new MVerticalLayout(renameBtn, downloadBtn, moveBtn, deleteBtn)
                         .withStyleName("panel-body"));
             } else {
                 selectedResourceControlLayout.removeAllComponents();
-                selectedResourceControlLayout.removeStyleName(UIConstants.BOX);
+                selectedResourceControlLayout.removeStyleName(WebUIConstants.BOX);
             }
         }
 
@@ -300,7 +300,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 return null;
             }
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                    .withFullWidth().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
+                    .withFullWidth().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
             layout.addLayoutClickListener(layoutClickEvent -> {
                 selectedResource = resource;
                 displaySelectedResourceControls();
@@ -467,7 +467,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
             });
             saveBtn.setIcon(FontAwesome.SAVE);
-            saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            saveBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -477,7 +477,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     RenameResourceWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
             controlButtons.with(cancelBtn, saveBtn);
             contentLayout.addComponent(controlButtons);
             contentLayout.setComponentAlignment(controlButtons, Alignment.MIDDLE_RIGHT);
@@ -533,7 +533,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     }
                 }
             });
-            saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            saveBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             saveBtn.setIcon(FontAwesome.SAVE);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
@@ -544,7 +544,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
             controlsLayout.with(cancelBtn, saveBtn);
 
             contentLayout.with(controlsLayout).withAlign(controlsLayout, Alignment.MIDDLE_RIGHT);
@@ -616,7 +616,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     }
                 }
             });
-            uploadBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            uploadBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             uploadBtn.setIcon(FontAwesome.UPLOAD);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
@@ -627,7 +627,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     MultiUploadContentWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+            cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
             controlsLayout.with(cancelBtn, uploadBtn);
 
             contentLayout.addComponent(controlsLayout);

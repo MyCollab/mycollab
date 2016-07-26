@@ -19,7 +19,7 @@ package com.mycollab.module.user.ui.components;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
@@ -54,12 +54,9 @@ public class LanguageSelectionField extends CustomField<String> {
             languageBox.addItem(language);
             languageBox.setItemCaption(language, locale.getDisplayName(AppContext.getUserLocale()));
         }
-        languageBox.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                String value = (String) valueChangeEvent.getProperty().getValue();
-                languageCode.setValue(value != null ? value : "");
-            }
+        languageBox.addValueChangeListener(valueChangeEvent -> {
+            String value = (String) valueChangeEvent.getProperty().getValue();
+            languageCode.setValue(value != null ? value : "");
         });
     }
 

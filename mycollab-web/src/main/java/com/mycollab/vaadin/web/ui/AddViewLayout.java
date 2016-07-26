@@ -48,7 +48,7 @@ public class AddViewLayout extends CustomLayoutExt {
         if (!(viewIcon instanceof FontAwesome)) {
             Image icon = new Image(null);
             icon.setIcon(viewIcon);
-            icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            icon.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             header.with(icon);
         }
         header.with(titleLbl).expand(titleLbl);

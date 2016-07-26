@@ -33,10 +33,10 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
-import com.mycollab.vaadin.web.ui.field.DateViewField;
-import com.mycollab.vaadin.web.ui.field.I18nFormViewField;
+import com.mycollab.vaadin.ui.field.DateViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -78,7 +78,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             } else if (Version.Field.status.equalTo(propertyId)) {
                 return new I18nFormViewField(beanItem.getStatus(), com.mycollab.common.i18n.OptionI18nEnum
                         .StatusI18nEnum.class).withStyleName
-                        (UIConstants.FIELD_NOTE);
+                        (WebUIConstants.FIELD_NOTE);
             }
             return null;
         }

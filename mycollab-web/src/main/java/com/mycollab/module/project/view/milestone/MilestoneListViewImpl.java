@@ -41,15 +41,15 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
@@ -150,7 +150,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             milestone.setSaccountid(AppContext.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
         createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
@@ -160,7 +160,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             protected Object doEval() {
                 return baseCriteria;
             }
-        }))).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         layout.addComponent(printBtn);
 
         Button kanbanBtn = new Button("Board");
@@ -247,7 +247,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private class MilestoneBox extends CssLayout {
         MilestoneBox(final SimpleMilestone milestone) {
-            this.addStyleName(UIConstants.MILESTONE_BOX);
+            this.addStyleName(WebUIConstants.MILESTONE_BOX);
             this.setWidth("100%");
 
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, 50);
@@ -285,7 +285,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             }
 
             taskSettingPopupBtn.setIcon(FontAwesome.COG);
-            taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            taskSettingPopupBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             taskSettingPopupBtn.setContent(filterBtnLayout);
 
             milestoneHeader.addComponent(taskSettingPopupBtn);

@@ -25,7 +25,7 @@ import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
@@ -46,13 +46,13 @@ public class MeetingTableDisplay extends DefaultPagedBeanTable<MeetingService, M
             final SimpleMeeting meeting = getBeanByIndex(itemId);
 
             LabelLink b = new LabelLink(meeting.getSubject(), CrmLinkBuilder.generateMeetingPreviewLinkFull(meeting.getId()));
-            b.addStyleName(UIConstants.LINK_COMPLETED);
+            b.addStyleName(WebUIConstants.LINK_COMPLETED);
 
             if ("Held".equals(meeting.getStatus())) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else {
                 if (meeting.getEnddate() != null && (meeting.getEnddate().before(new GregorianCalendar().getTime()))) {
-                    b.addStyleName(UIConstants.LINK_OVERDUE);
+                    b.addStyleName(WebUIConstants.LINK_OVERDUE);
                 }
             }
             return b;

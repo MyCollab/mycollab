@@ -38,7 +38,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -131,7 +131,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                     .appendText(" as role ").appendChild(new B().appendText(invitation.getRoleName()));
             contentLayout.with(ELabel.html(introDiv.write()));
 
-            MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(UIConstants.SCROLLABLE_CONTAINER);
+            MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
             new Restrain(linksContainer).setMaxHeight("400px");
             contentLayout.with(linksContainer);
 
@@ -147,12 +147,12 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             MButton addNewBtn = new MButton("Invite more member(s)", clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(CanSendEmailInstructionWindow.this, null));
                 close();
-            }).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             MButton doneBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                 close();
-            }).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             MHorizontalLayout controlsBtn = new MHorizontalLayout(addNewBtn, doneBtn).withMargin(true);
             contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);

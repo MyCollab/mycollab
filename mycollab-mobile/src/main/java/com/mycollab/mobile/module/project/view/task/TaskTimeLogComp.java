@@ -131,7 +131,5 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
         protected boolean isEnableAdd() {
             return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS);
         }
-
     }
-
 }

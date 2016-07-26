@@ -33,7 +33,7 @@ public class ButtonLink extends MButton {
 
     public ButtonLink(String caption, ClickListener listener) {
         super(caption);
-        this.setStyleName(UIConstants.BUTTON_LINK);
+        this.setStyleName(WebUIConstants.BUTTON_LINK);
         if (listener != null) {
             this.addClickListener(listener);
         }

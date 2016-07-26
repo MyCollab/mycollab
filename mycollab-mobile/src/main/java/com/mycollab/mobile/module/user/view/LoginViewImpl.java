@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.user.view;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.mobile.module.user.events.UserEvent;
 import com.mycollab.mobile.ui.AbstractMobileMainView;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -89,7 +89,7 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
             }
         });
         signInBtn.setWidth("100%");
-        signInBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        signInBtn.addStyleName(MobileUIConstants.BUTTON_ACTION);
         contentLayout.addComponent(signInBtn);
 
         this.addComponent(contentLayout);

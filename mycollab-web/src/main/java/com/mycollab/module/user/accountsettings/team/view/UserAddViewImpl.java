@@ -156,7 +156,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                         setFormBuffered(true);
                     }
                 });
-                moreInfoBtn.addStyleName(UIConstants.BUTTON_LINK);
+                moreInfoBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 MHorizontalLayout linkWrap = new MHorizontalLayout().withMargin(true).with(moreInfoBtn);
                 bottomPanel.with(linkWrap).withAlign(linkWrap, Alignment.MIDDLE_LEFT);
                 rolePermissionLayout = new RolePermissionContainer();

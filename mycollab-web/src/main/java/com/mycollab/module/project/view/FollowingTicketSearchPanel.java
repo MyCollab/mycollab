@@ -28,7 +28,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
@@ -139,7 +139,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             selectionLayout.addComponent(projectField, 3, 0, 3, 1);
 
             MButton queryBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), clickEvent -> doSearch())
-                    .withStyleName(UIConstants.BUTTON_ACTION);
+                    .withStyleName(WebUIConstants.BUTTON_ACTION);
             selectionLayout.addComponent(queryBtn, 4, 0);
 
             return basicSearchBody;

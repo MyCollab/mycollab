@@ -19,18 +19,19 @@ package com.mycollab.module.user.accountsettings.team.view;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.events.UserEvent;
-import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -63,20 +64,17 @@ public class NewUserAddedWindow extends Window {
         content.with(new ELabel(AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE)).withStyleName
                 (UIConstants.META_INFO));
 
-        Button createMoreUserBtn = new Button(AppContext.getMessage(UserI18nEnum.OPT_CREATE_ANOTHER_USER), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
-                close();
-            }
+        Button createMoreUserBtn = new Button(AppContext.getMessage(UserI18nEnum.OPT_CREATE_ANOTHER_USER), clickEvent -> {
+            EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
+            close();
         });
-        createMoreUserBtn.addStyleName(UIConstants.BUTTON_LINK);
+        createMoreUserBtn.addStyleName(WebUIConstants.BUTTON_LINK);
 
         Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
             EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
             close();
         });
-        doneBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        doneBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         MHorizontalLayout buttonControls = new MHorizontalLayout(createMoreUserBtn, doneBtn).withFullWidth()
                 .withAlign(createMoreUserBtn, Alignment.MIDDLE_LEFT).withAlign(doneBtn, Alignment.MIDDLE_RIGHT);
         content.with(buttonControls);

@@ -17,7 +17,7 @@
 package com.mycollab.module.project.view.bug.components;
 
 import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class SimpleListOrderComponent extends BugGroupOrderComponent {
     public SimpleListOrderComponent() {
-        this.setStyleName(UIConstants.BORDER_LIST);
+        this.setStyleName(WebUIConstants.BORDER_LIST);
     }
 
     @Override

@@ -35,7 +35,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -95,7 +95,7 @@ public class AssignTaskWindow extends Window {
                 layout.addComponent(informationLayout.getLayout());
 
                 MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                        .withStyleName(UIConstants.BUTTON_OPTION);
+                        .withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 MButton approveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
                     if (EditForm.this.validateForm()) {
@@ -122,7 +122,7 @@ public class AssignTaskWindow extends Window {
                         close();
                         EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
                     }
-                }).withIcon(FontAwesome.SHARE).withStyleName(UIConstants.BUTTON_ACTION);
+                }).withIcon(FontAwesome.SHARE).withStyleName(WebUIConstants.BUTTON_ACTION);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);

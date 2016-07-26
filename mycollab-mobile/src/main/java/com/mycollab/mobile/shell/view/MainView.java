@@ -20,12 +20,11 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.AbstractMobileMainView;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -58,7 +57,7 @@ public class MainView extends AbstractMobileMainView {
 
         Button crmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_CRM),
                 clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null)));
-        crmButton.addStyleName(UIConstants.BUTTON_ACTION);
+        crmButton.addStyleName(MobileUIConstants.BUTTON_ACTION);
         crmButton.setWidth("100%");
 
         contentLayout.addComponent(crmButton);
@@ -66,7 +65,7 @@ public class MainView extends AbstractMobileMainView {
         Button pmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
                 clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null)));
         pmButton.setWidth("100%");
-        pmButton.addStyleName(UIConstants.BUTTON_ACTION);
+        pmButton.addStyleName(MobileUIConstants.BUTTON_ACTION);
         contentLayout.addComponent(pmButton);
 
         this.addComponent(contentLayout);

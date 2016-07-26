@@ -56,7 +56,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FontAwesome;
@@ -167,7 +167,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                     protected Object doEval() {
                         return baseCriteria;
                     }
-                }))).withIcon(FontAwesome.PRINT).withStyleName(UIConstants.BUTTON_OPTION)
+                }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
                 .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
@@ -179,7 +179,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                 newTask.setLogby(AppContext.getUsername());
                 UI.getCurrent().addWindow(new TaskAddWindow(newTask));
             }
-        }).withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         groupWrapLayout.addComponent(newTaskBtn);
 
@@ -327,7 +327,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                     wrapBody.removeComponent(wrapBody.getComponent(1));
                 }
             });
-            moreBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            moreBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
         List<SimpleTask> tasks = projectTaskService.findPageableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));

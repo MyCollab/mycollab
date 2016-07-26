@@ -36,7 +36,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.ButtonI18nComp;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -104,7 +104,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                                 .withIcon(ProjectAssetsManager.getTaskPriority(priority.name()))
-                                .withStyleName(UIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
+                                .withStyleName(WebUIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
                                 .withWidth("110px");
 
                         priorityLayout.addComponent(priorityLink);
@@ -122,7 +122,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                     priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                             .withIcon(ProjectAssetsManager.getTaskPriority(priority.name()))
-                            .withStyleName(UIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
+                            .withStyleName(WebUIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
                             .withWidth("100px");
                     priorityLayout.addComponent(priorityLink);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);

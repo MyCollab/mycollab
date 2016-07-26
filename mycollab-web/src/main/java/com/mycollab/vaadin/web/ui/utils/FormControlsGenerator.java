@@ -19,7 +19,7 @@ package com.mycollab.vaadin.web.ui.utils;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.button.MButton;
@@ -40,7 +40,7 @@ public class FormControlsGenerator {
 
         if (isCancelBtnVisible) {
             MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> editForm.fireCancelForm())
-                    .withIcon(FontAwesome.MINUS).withStyleName(UIConstants.BUTTON_OPTION);
+                    .withIcon(FontAwesome.MINUS).withStyleName(WebUIConstants.BUTTON_OPTION);
             layout.addComponent(cancelBtn);
         }
 
@@ -49,7 +49,7 @@ public class FormControlsGenerator {
                 if (editForm.validateForm()) {
                     editForm.fireSaveAndNewForm();
                 }
-            }).withIcon(FontAwesome.SHARE_ALT).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SHARE_ALT).withStyleName(WebUIConstants.BUTTON_ACTION);
             layout.addComponent(saveAndNewBtn);
         }
 
@@ -58,7 +58,7 @@ public class FormControlsGenerator {
                 if (editForm.validateForm()) {
                     editForm.fireSaveForm();
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
             layout.addComponent(saveBtn);
         }
 

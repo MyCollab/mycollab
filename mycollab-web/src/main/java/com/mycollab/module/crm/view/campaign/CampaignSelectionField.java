@@ -22,7 +22,7 @@ import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -74,8 +74,8 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         Button browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        browseBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
+        browseBtn.addStyleName(WebUIConstants.BUTTON_SMALL_PADDING);
         browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -86,8 +86,8 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
         });
 
         Button clearBtn = new Button(null, FontAwesome.TRASH_O);
-        clearBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        clearBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
+        clearBtn.addStyleName(WebUIConstants.BUTTON_SMALL_PADDING);
         clearBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {

@@ -14,37 +14,42 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.web.ui.field;
+package com.mycollab.vaadin.ui.field;
 
+import com.mycollab.core.utils.StringUtils;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
+import com.vaadin.ui.Label;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class ContainerHorizontalViewField extends CustomField {
+public class RichTextViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    private MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
+    private String value;
+    private Label label;
 
-    public void addComponentField(Component component) {
-        layout.addComponent(component);
-    }
-
-    public HorizontalLayout getLayout() {
-        return layout;
+    public RichTextViewField(String value) {
+        this.value = value;
+        label = ELabel.html(StringUtils.formatRichText(value)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth();
     }
 
     @Override
-    public Class<?> getType() {
-        return Object.class;
+    public Class<String> getType() {
+        return String.class;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
     @Override
     protected Component initContent() {
-        return layout;
+        return label;
     }
 }

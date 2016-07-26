@@ -25,7 +25,7 @@ import com.mycollab.module.crm.service.CallService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Label;
@@ -48,7 +48,7 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
 
             LabelLink b = new LabelLink(call.getSubject(), CrmLinkBuilder.generateCallPreviewLinkFul(call.getId()));
             if ("Held".equals(call.getStatus())) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             }
             return b;
         });
@@ -56,7 +56,7 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
         this.addGeneratedColumn("isClosed", (source, itemId, columnId) -> {
             final SimpleCall call = getBeanByIndex(itemId);
             MButton b = new MButton("", clickEvent -> fireTableEvent(new TableClickEvent(CallTableDisplay.this, call, "isClosed")))
-                    .withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK);
+                    .withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK);
             b.setDescription("Close this call");
             return b;
         });

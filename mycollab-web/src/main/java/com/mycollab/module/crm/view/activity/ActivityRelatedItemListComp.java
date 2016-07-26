@@ -24,7 +24,7 @@ import com.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedListComp;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -59,7 +59,7 @@ public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity,
             });
             newTaskBtn.setIcon(FontAwesome.PLUS);
             newTaskBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
-            newTaskBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            newTaskBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
             buttonLayout.addComponent(newTaskBtn);
 
             final Button newCallBtn = new Button("New Call", new Button.ClickListener() {
@@ -72,7 +72,7 @@ public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity,
             });
             newCallBtn.setIcon(FontAwesome.PLUS);
             newCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
-            newCallBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            newCallBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             buttonLayout.addComponent(newCallBtn);
 
             final Button newMeetingBtn = new Button("New Meeting", new Button.ClickListener() {
@@ -85,7 +85,7 @@ public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity,
             });
             newMeetingBtn.setIcon(FontAwesome.PLUS);
             newMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-            newMeetingBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            newMeetingBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             buttonLayout.addComponent(newMeetingBtn);
 
             this.addComponent(buttonLayout);
@@ -93,10 +93,10 @@ public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity,
         }
 
         tableItem = new ActivityTableDisplay(Arrays.asList(
-                new TableViewField(ActivityI18nEnum.FORM_SUBJECT, "subject", UIConstants.TABLE_EX_LABEL_WIDTH),
-                new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_S_LABEL_WIDTH),
-                new TableViewField(GenericI18Enum.FORM_START_DATE, "startDate", UIConstants.TABLE_DATE_TIME_WIDTH),
-                new TableViewField(GenericI18Enum.FORM_END_DATE, "endDate", UIConstants.TABLE_DATE_TIME_WIDTH)));
+                new TableViewField(ActivityI18nEnum.FORM_SUBJECT, "subject", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_S_LABEL_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_START_DATE, "startDate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_END_DATE, "endDate", WebUIConstants.TABLE_DATE_TIME_WIDTH)));
 
         this.addComponent(tableItem);
     }

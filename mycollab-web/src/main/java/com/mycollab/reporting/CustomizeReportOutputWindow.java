@@ -32,7 +32,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
@@ -115,14 +115,14 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         MButton resetBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             listBuilder.setValue(getDefaultColumns());
             filterColumns();
-        }).withStyleName(UIConstants.BUTTON_LINK);
+        }).withStyleName(WebUIConstants.BUTTON_LINK);
 
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
 
         final Button exportBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
-        exportBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        exportBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         OnDemandFileDownloader pdfFileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
             @Override
             protected StreamResource.StreamSource buildStreamSource() {

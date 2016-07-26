@@ -19,10 +19,10 @@ package com.mycollab.module.project.dao;
 
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.mycollab.module.user.domain.BillingAccount;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -38,7 +38,8 @@ public interface ProjectGenericTaskMapper extends ISearchableDAO<ProjectGenericT
 
     Integer getTotalCountFromMilestone(@Param("searchCriteria") ProjectGenericTaskSearchCriteria criteria);
 
-    List<Map> getAccountsHasOverdueAssignments(@Param("searchCriteria") ProjectGenericTaskSearchCriteria criteria);
+    List<BillingAccount> getAccountsHasOverdueAssignments(@Param("searchCriteria") ProjectGenericTaskSearchCriteria
+                                                                  criteria);
 
     List<Integer> getProjectsHasOverdueAssignments(@Param("searchCriteria") ProjectGenericTaskSearchCriteria criteria);
 }

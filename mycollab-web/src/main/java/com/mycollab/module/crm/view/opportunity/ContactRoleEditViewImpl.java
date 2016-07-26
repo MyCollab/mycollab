@@ -40,12 +40,11 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AddViewLayout2;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -87,7 +86,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             SimpleContactOpportunityRel contactRole = new SimpleContactOpportunityRel();
             ContactRoleRowComp row = new ContactRoleRowComp(contactRole);
             contactRoleList.addRow(row);
-        }).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         HorizontalLayout buttonControls = new HorizontalLayout();
         buttonControls.addComponent(addMoreContactRolesBtn);
@@ -98,11 +97,11 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
     private ComponentContainer createButtonControls() {
         MButton updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent ->
-                updateContactRoles()).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
+                updateContactRoles()).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null)))
-                .withIcon(FontAwesome.TIMES).withStyleName(UIConstants.BUTTON_OPTION);
+                .withIcon(FontAwesome.TIMES).withStyleName(WebUIConstants.BUTTON_OPTION);
 
         return new MHorizontalLayout(cancelBtn, updateBtn);
     }
@@ -229,7 +228,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
             MButton accountLink = new MButton(contactOpp.getAccountName(),
                     clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, contactOpp.getAccountid())))
-                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT)).withStyleName(UIConstants.BUTTON_LINK);
+                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT)).withStyleName(WebUIConstants.BUTTON_LINK);
             accountLink.setWidth("250px");
             this.addComponent(accountLink);
 
@@ -251,7 +250,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
                     associateOpportunity.setOpportunityid(opportunity.getId());
                     contactService.removeContactOpportunityRelationship(associateOpportunity, AppContext.getAccountId());
                 }
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             this.addComponent(deleteBtn);
             this.setExpandRatio(deleteBtn, 1.0f);
         }

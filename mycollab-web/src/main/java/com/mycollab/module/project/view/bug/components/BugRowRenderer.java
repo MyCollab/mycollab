@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view.bug.components;
 
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
@@ -23,10 +25,9 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -40,7 +41,7 @@ public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<S
     public Component generateRow(AbstractBeanPagedList host, SimpleBug bug, int rowIndex) {
         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
-        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
+        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);
         rowComp.addStyleName("margin-bottom");
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
@@ -48,7 +49,7 @@ public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<S
         Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
 
         Span statusSpan = new Span().appendText(AppContext.getMessage(OptionI18nEnum.BugStatus.class,
-                bug.getStatus())).setCSSClass(UIConstants.FIELD_NOTE);
+                bug.getStatus())).setCSSClass(WebUIConstants.FIELD_NOTE);
 
         String avatarLink = StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName())

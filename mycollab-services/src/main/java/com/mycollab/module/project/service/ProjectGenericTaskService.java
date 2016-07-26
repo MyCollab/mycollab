@@ -19,16 +19,16 @@ package com.mycollab.module.project.service;
 
 import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.mycollab.module.user.domain.BillingAccount;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface ProjectGenericTaskService extends ISearchableService<ProjectGenericTaskSearchCriteria> {
-    List<Map> getAccountsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria);
+    List<BillingAccount> getAccountsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria);
 
     List<Integer> getProjectsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria);
 }

@@ -23,7 +23,6 @@ import com.mycollab.common.service.CommentService;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -87,9 +86,9 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
 
         @Override
         public Component generateRow(SimpleComment comment, int rowIndex) {
-            MHorizontalLayout commentBlock = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("comment-block");
+            MHorizontalLayout commentBlock = new MHorizontalLayout().withFullWidth().withStyleName("comment-block");
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(comment.getOwnerAvatarId(), 32);
-            userAvatarImg.setStyleName("user-avatar");
+            userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);
             commentBlock.addComponent(userAvatarImg);
 
             CssLayout rightCol = new CssLayout();
@@ -97,13 +96,11 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
             rightCol.setStyleName("right-col");
 
             MHorizontalLayout metadataRow = new MHorizontalLayout().withFullWidth();
-            ELabel userNameLbl = new ELabel(comment.getOwnerFullName()).withStyleName(UIConstants.META_INFO);
-            CssLayout userNameWrap = new CssLayout(userNameLbl);
-
+            ELabel userNameLbl = new ELabel(comment.getOwnerFullName()).withStyleName(UIConstants.META_INFO,
+                    UIConstants.TEXT_ELLIPSIS);
             ELabel commentTimePost = new ELabel(AppContext.formatPrettyTime(comment.getCreatedtime())).withStyleName
                     (UIConstants.META_INFO).withWidthUndefined();
-            metadataRow.with(userNameWrap, commentTimePost).withAlign(commentTimePost, Alignment.TOP_RIGHT).expand
-                    (userNameWrap);
+            metadataRow.with(userNameLbl, commentTimePost).withAlign(commentTimePost, Alignment.TOP_RIGHT).expand(userNameLbl);
             rightCol.addComponent(metadataRow);
 
 

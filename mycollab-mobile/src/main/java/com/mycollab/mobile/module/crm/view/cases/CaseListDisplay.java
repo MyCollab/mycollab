@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.crm.view.cases;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.CaseEvent;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.service.CaseService;
@@ -53,7 +53,7 @@ public class CaseListDisplay extends DefaultPagedBeanList<CaseService, CaseSearc
             });
 
             if ("Closed".equals(cases.getStatus()) || "Rejected".equals(cases.getStatus())) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(MobileUIConstants.LINK_COMPLETED);
             }
             b.setWidth("100%");
             return b;

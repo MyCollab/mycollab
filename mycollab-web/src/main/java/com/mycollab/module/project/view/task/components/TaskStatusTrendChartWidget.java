@@ -31,7 +31,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.GenericChartWrapper;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -168,7 +168,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                 String captionBtn = AppContext.getMessage(OptionI18nEnum.BugStatus.class, (String) key.getKey());
                 final Button btnLink = new Button(StringUtils.trim(captionBtn, 30, true));
                 btnLink.setDescription(captionBtn);
-                btnLink.addStyleName(UIConstants.BUTTON_LINK);
+                btnLink.addStyleName(WebUIConstants.BUTTON_LINK);
                 layout.with(lblCircle, btnLink);
                 mainLayout.addComponent(layout);
             }

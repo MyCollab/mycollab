@@ -24,6 +24,7 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.vaadin.TooltipHelper;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
@@ -43,7 +44,7 @@ public class ProjectUserLink extends Label {
         this.setContentMode(ContentMode.HTML);
         DivLessFormatter div = new DivLessFormatter();
         Img avatarLink = new Img("", StorageFactory.getAvatarPath(userAvatarId, 16));
-        avatarLink.setCSSClass("circle-box");
+        avatarLink.setCSSClass(UIConstants.CIRCLE_BOX);
         A memberLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 CurrentProjectVariables.getProjectId(), username)).appendText(StringUtils.trim(displayName, 30, true));
         memberLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));

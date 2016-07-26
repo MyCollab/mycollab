@@ -19,7 +19,7 @@ package com.mycollab.module.project.view.task.components;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.ui.components.IGroupComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -45,7 +45,7 @@ class DefaultTaskGroupComponent extends MVerticalLayout implements IGroupCompone
         this.setMargin(new MarginInfo(true, false, true, false));
         wrapBody = new CssLayout();
         wrapBody.setWidth("100%");
-        wrapBody.setStyleName(UIConstants.BORDER_LIST);
+        wrapBody.setStyleName(WebUIConstants.BORDER_LIST);
         headerLbl = ELabel.h3("");
         this.addComponent(headerLbl);
         this.addComponent(wrapBody);

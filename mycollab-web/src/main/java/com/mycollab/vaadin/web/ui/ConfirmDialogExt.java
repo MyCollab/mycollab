@@ -47,13 +47,13 @@ public class ConfirmDialogExt {
             d.setHeightUndefined();
 
             Button ok = d.getOkButton();
-            ok.setStyleName(UIConstants.BUTTON_ACTION);
+            ok.setStyleName(WebUIConstants.BUTTON_ACTION);
 
             HorizontalLayout buttons = (HorizontalLayout) ok.getParent();
             buttons.setHeightUndefined();
 
             Button cancelBtn = d.getCancelButton();
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            cancelBtn.setStyleName(WebUIConstants.BUTTON_OPTION);
             cancelBtn.focus();
 
             return d;

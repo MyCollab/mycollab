@@ -22,9 +22,8 @@ import com.mycollab.vaadin.mvp.IFormAddView;
 
 /**
  * @author MyCollab Ltd.
- * 
  * @since 4.5.0
  */
 public interface TaskAddView extends IFormAddView<SimpleTask> {
-	ProjectFormAttachmentUploadField getAttachUploadField();
+    ProjectFormAttachmentUploadField getAttachUploadField();
 }

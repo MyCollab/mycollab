@@ -27,7 +27,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FileDownloader;
@@ -113,7 +113,7 @@ public class FileDownloadWindow extends Window {
         FileDownloader fileDownloader = new FileDownloader(downloadResource);
         fileDownloader.extend(downloadBtn);
         downloadBtn.setIcon(FontAwesome.DOWNLOAD);
-        downloadBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        downloadBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
 
         final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -123,7 +123,7 @@ public class FileDownloadWindow extends Window {
                 close();
             }
         });
-        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
         buttonControls.with(cancelBtn, downloadBtn).alignAll(Alignment.TOP_RIGHT);
         layout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);
         this.setContent(layout);

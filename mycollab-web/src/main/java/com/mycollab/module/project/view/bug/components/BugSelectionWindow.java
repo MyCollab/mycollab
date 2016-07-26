@@ -26,13 +26,11 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ButtonLink;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -84,9 +82,9 @@ public class BugSelectionWindow extends Window {
             });
 
             if (bug.isCompleted()) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
-                b.addStyleName(UIConstants.LINK_OVERDUE);
+                b.addStyleName(WebUIConstants.LINK_OVERDUE);
             }
 
             b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat(),

@@ -23,9 +23,9 @@ import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.field.EmailViewField;
+import com.mycollab.vaadin.ui.field.EmailViewField;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
-import com.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 

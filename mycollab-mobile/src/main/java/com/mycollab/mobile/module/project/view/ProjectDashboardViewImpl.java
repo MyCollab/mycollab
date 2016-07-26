@@ -21,7 +21,6 @@ import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.*;
 import com.mycollab.mobile.module.project.ui.ProjectMobileMenuPageView;
-import com.mycollab.mobile.ui.UIConstants;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProject;
@@ -30,10 +29,10 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -111,8 +110,8 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
                 .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(billableHoursLbl);
 
-        Label nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
-                currentProject.getTotalNonBillableHours()), ContentMode.HTML)
+        Label nonBillableHoursLbl = ELabel.html(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
+                currentProject.getTotalNonBillableHours()))
                 .withDescription("Non billable hours").withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(nonBillableHoursLbl);
         projectInfo.addComponent(metaInfo);
@@ -121,11 +120,12 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         int totalAssignments = currentProject.getNumBugs() + currentProject.getNumTasks() + currentProject.getNumRisks();
         ELabel progressInfoLbl;
         if (totalAssignments > 0) {
-            progressInfoLbl = new ELabel(String.format("%d of %d issue(s) resolved. Progress (%d%%)",
+            progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                     (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                             * 100 / totalAssignments)).withWidthUndefined().withStyleName(UIConstants.META_INFO);
         } else {
-            progressInfoLbl = new ELabel("No issue").withWidthUndefined().withStyleName(UIConstants.META_INFO);
+            progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT)).withWidthUndefined().withStyleName
+                    (UIConstants.META_INFO);
         }
         projectInfo.addComponent(progressInfoLbl);
 
@@ -184,12 +184,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK), riskBtn));
 
         NavigationButton userBtn = new NavigationButton(AppContext.getMessage(ProjectMemberI18nEnum.LIST));
-        userBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-            }
-        });
+        userBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.USERS, userBtn));
 
         mainLayout.addComponent(btnGroup);
@@ -198,7 +193,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
     private static class NavigationButtonWrap extends MHorizontalLayout {
         NavigationButtonWrap(FontAwesome icon, NavigationButton button) {
             this.setStyleName("navigation-button-wrap");
-            ELabel iconLbl = new ELabel(icon.getHtml(), ContentMode.HTML).withWidthUndefined();
+            ELabel iconLbl = ELabel.fontIcon(icon).withWidthUndefined();
             with(iconLbl, button).withAlign(iconLbl, Alignment.MIDDLE_LEFT).expand(button);
         }
     }

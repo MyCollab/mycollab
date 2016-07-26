@@ -27,7 +27,7 @@ import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.FormSectionBuilder;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
@@ -47,8 +47,8 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.web.ui.field.DefaultViewField;
-import com.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -80,10 +80,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     protected void afterPreviewItem() {
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-            this.removeStyleName(UIConstants.STATUS_DISABLED);
+            this.removeStyleName(MobileUIConstants.STATUS_DISABLED);
         } else {
             quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-            this.addStyleName(UIConstants.STATUS_DISABLED);
+            this.addStyleName(MobileUIConstants.STATUS_DISABLED);
         }
         relatedComments.displayTotalComments(beanItem.getId() + "");
 
@@ -135,12 +135,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             if (beanItem.getStatus() != null && beanItem.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 beanItem.setStatus(StatusI18nEnum.Open.name());
                 beanItem.setPercentagecomplete(0d);
-                TaskReadViewImpl.this.removeStyleName(UIConstants.STATUS_DISABLED);
+                TaskReadViewImpl.this.removeStyleName(MobileUIConstants.STATUS_DISABLED);
                 quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
                 beanItem.setPercentagecomplete(100d);
-                TaskReadViewImpl.this.addStyleName(UIConstants.STATUS_DISABLED);
+                TaskReadViewImpl.this.addStyleName(MobileUIConstants.STATUS_DISABLED);
                 quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             }
 

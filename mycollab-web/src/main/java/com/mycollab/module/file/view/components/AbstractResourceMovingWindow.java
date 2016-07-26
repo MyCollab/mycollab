@@ -27,7 +27,7 @@ import com.mycollab.module.ecm.service.ResourceMover;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -215,7 +215,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 
         });
         moveBtn.setIcon(FontAwesome.ARROWS);
-        moveBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        moveBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
 
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -225,7 +225,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
                 close();
             }
         });
-        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
         controlGroupBtnLayout.with(cancelBtn, moveBtn);
 
         contentLayout.with(controlGroupBtnLayout).withAlign(controlGroupBtnLayout, Alignment.MIDDLE_RIGHT);

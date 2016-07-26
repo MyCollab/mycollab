@@ -31,7 +31,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.ButtonI18nComp;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -80,7 +80,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
                         MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                         statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         MButton statusLink = new ButtonI18nComp(status.name(), status, listener)
-                                .withIcon(FontAwesome.FLAG).withStyleName(UIConstants.BUTTON_LINK).withWidth("110px");
+                                .withIcon(FontAwesome.FLAG).withStyleName(WebUIConstants.BUTTON_LINK).withWidth("110px");
 
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
                                 .getValue().intValue(), false);
@@ -97,7 +97,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
                     Button statusLink = new ButtonI18nComp(status.name(), status, listener);
                     statusLink.setWidth("110px");
                     statusLink.setIcon(FontAwesome.FLAG);
-                    statusLink.setStyleName(UIConstants.BUTTON_LINK);
+                    statusLink.setStyleName(WebUIConstants.BUTTON_LINK);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
                     statusLayout.with(statusLink, indicator).expand(indicator);

@@ -36,8 +36,9 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -116,12 +117,12 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             });
             header.addComponent(addPopupView);
         }
-        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(UIConstants.INLINE_HELP)
+        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(WebUIConstants.INLINE_HELP)
                 .withDescription(AppContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP)));
 
         this.addComponent(header);
 
-        watcherLayout = new MCssLayout().withFullWidth().withStyleName(UIConstants.FLEX_DISPLAY);
+        watcherLayout = new MCssLayout().withFullWidth().withStyleName(WebUIConstants.FLEX_DISPLAY);
         this.addComponent(watcherLayout);
         loadWatchers();
     }
@@ -188,7 +189,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
         ModifyWatcherPopup() {
             new Restrain(this).setMaxHeight("600px");
-            this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+            this.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE));

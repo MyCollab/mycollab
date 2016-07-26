@@ -25,11 +25,10 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
 
@@ -78,7 +77,7 @@ public class SalesDashboardView extends Depot {
     private void initUI() {
         final PopupButton saleChartPopup = new PopupButton("");
         saleChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
-        saleChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+        saleChartPopup.setStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
         final OptionPopupContent filterBtnLayout = new OptionPopupContent();
 

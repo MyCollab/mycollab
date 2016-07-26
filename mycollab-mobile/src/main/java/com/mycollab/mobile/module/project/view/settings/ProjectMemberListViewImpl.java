@@ -64,5 +64,4 @@ public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMembe
         menu.setContent(content);
         return menu;
     }
-
 }

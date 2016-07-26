@@ -37,11 +37,10 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -83,7 +82,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
         if (AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.setSizeUndefined();
-            controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             controlsBtn.setCaption(AppContext.getMessage(CampaignI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
@@ -142,7 +141,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
                                 LeadCampaignListComp.this.refresh();
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

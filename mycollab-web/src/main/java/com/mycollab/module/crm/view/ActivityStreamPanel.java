@@ -41,8 +41,10 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.TooltipHelper;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -251,14 +253,14 @@ public class ActivityStreamPanel extends CssLayout {
             this.controlBarWrapper.setWidth("100%");
             this.controlBarWrapper.setStyleName("page-controls");
             ButtonGroup controlBtns = new ButtonGroup();
-            controlBtns.setStyleName(UIConstants.BUTTON_ACTION);
+            controlBtns.setStyleName(WebUIConstants.BUTTON_ACTION);
 
             MButton prevBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> navigateToPrevious())
-                    .withStyleName(UIConstants.BUTTON_ACTION).withWidth("64px");
+                    .withStyleName(WebUIConstants.BUTTON_ACTION).withWidth("64px");
             prevBtn.setEnabled(hasPrevious());
 
             MButton nextBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> navigateToNext())
-                    .withStyleName(UIConstants.BUTTON_ACTION).withWidth("64px");
+                    .withStyleName(WebUIConstants.BUTTON_ACTION).withWidth("64px");
             nextBtn.setEnabled(hasNext());
 
             controlBtns.addButton(prevBtn);
@@ -319,9 +321,8 @@ public class ActivityStreamPanel extends CssLayout {
 
             if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
                 int currentYear = cal2.get(Calendar.YEAR);
-                Label yearLbl = new Label("<div>" + String.valueOf(currentYear) + "</div>", ContentMode.HTML);
-                yearLbl.setStyleName("year-lbl");
-                yearLbl.setWidthUndefined();
+                Label yearLbl = ELabel.html("<div>" + String.valueOf(currentYear) + "</div>").withStyleName
+                        ("year-lbl").withWidthUndefined();
                 this.listContainer.addComponent(yearLbl);
             } else {
                 blockWrapper.setMargin(new MarginInfo(true, false, false, false));

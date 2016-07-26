@@ -27,7 +27,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -62,7 +62,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).withStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
-        final MButton sortBtn = new MButton("").withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+        final MButton sortBtn = new MButton("").withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             isSortAsc = !isSortAsc;
             if (searchCriteria != null) {
@@ -96,7 +96,7 @@ public class MyProjectListComponent extends MVerticalLayout {
 
         final PopupButton projectsPopup = new PopupButton("");
         projectsPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
-        projectsPopup.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        projectsPopup.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
         OptionPopupContent filterBtnLayout = new OptionPopupContent();
 

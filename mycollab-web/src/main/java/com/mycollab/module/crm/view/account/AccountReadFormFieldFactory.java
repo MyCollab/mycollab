@@ -20,6 +20,10 @@ import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.field.EmailViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.UrlLinkViewField;
 import com.mycollab.vaadin.web.ui.field.*;
 import com.vaadin.ui.Field;
 

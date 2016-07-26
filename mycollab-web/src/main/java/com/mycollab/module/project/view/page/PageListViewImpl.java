@@ -39,10 +39,11 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SortButton;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -157,13 +158,13 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         MButton newGroupBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW_GROUP),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow()))
-                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
         newGroupBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         headerLayout.with(newGroupBtn).withAlign(newGroupBtn, Alignment.MIDDLE_RIGHT);
 
         MButton newPageBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION);
+                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
         newPageBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         headerLayout.with(newPageBtn).withAlign(newPageBtn, Alignment.MIDDLE_RIGHT);
@@ -213,7 +214,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow(resource)))
-                .withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING).withIcon(FontAwesome.EDIT);
+                .withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING).withIcon(FontAwesome.EDIT);
         editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
@@ -230,7 +231,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                             displayPages(resources);
                         }
                     });
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING);
         deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
 
         container.addComponent(new MHorizontalLayout(editBtn, deleteBtn));
@@ -255,7 +256,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoEdit(PageListViewImpl.this, resource)))
-                .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);
+                .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING);
         editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
@@ -272,7 +273,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                             displayPages(resources);
                         }
                     });
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_LINK, UIConstants.BUTTON_SMALL_PADDING);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING);
         deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
 
         container.addComponent(new MHorizontalLayout(editBtn, deleteBtn));

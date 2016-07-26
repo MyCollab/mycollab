@@ -28,7 +28,7 @@ import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -72,7 +72,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
 
     private ComponentContainer buildControlsLayout() {
         MHorizontalLayout viewControlsLayout = new MHorizontalLayout().withFullWidth();
-        viewControlsLayout.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
+        viewControlsLayout.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         selectOptionButton.setSizeUndefined();

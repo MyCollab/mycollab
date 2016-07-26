@@ -30,7 +30,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import org.vaadin.viritin.button.MButton;
 
@@ -70,7 +70,7 @@ public class GenericTaskTableDisplay extends DefaultPagedBeanTable<ProjectGeneri
 
             MButton assignmentLink = new MButton(div.write(),
                     clickEvent -> fireTableEvent(new TableClickEvent(GenericTaskTableDisplay.this, task, "name")))
-                    .withStyleName(UIConstants.BUTTON_LINK);
+                    .withStyleName(WebUIConstants.BUTTON_LINK);
             assignmentLink.setCaptionAsHtml(true);
             return assignmentLink;
         });

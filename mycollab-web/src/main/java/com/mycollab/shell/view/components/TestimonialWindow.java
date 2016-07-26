@@ -24,7 +24,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -95,7 +95,7 @@ public class TestimonialWindow extends Window {
         content.addComponent(editForm);
 
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         MButton submitBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), clickEvent -> {
             if (editForm.validateForm()) {
@@ -116,7 +116,7 @@ public class TestimonialWindow extends Window {
                     LOG.error("Error when call remote api", e);
                 }
             }
-        }).withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.MAIL_FORWARD);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.MAIL_FORWARD);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, submitBtn).withMargin(true);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

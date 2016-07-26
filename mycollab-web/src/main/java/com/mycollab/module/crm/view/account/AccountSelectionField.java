@@ -22,7 +22,7 @@ import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -101,10 +101,10 @@ public class AccountSelectionField extends CustomField<Integer> implements Field
             AccountSelectionWindow accountWindow = new AccountSelectionWindow(AccountSelectionField.this);
             UI.getCurrent().addWindow(accountWindow);
             accountWindow.show();
-        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(UIConstants.BUTTON_OPTION, UIConstants.BUTTON_SMALL_PADDING);
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
 
         MButton clearBtn = new MButton("", clickEvent -> clearValue()).withIcon(FontAwesome.TRASH_O)
-                .withStyleName(UIConstants.BUTTON_OPTION, UIConstants.BUTTON_SMALL_PADDING);
+                .withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
 
         layout.with(accountName, browseBtn, clearBtn).expand(accountName);
         return layout;

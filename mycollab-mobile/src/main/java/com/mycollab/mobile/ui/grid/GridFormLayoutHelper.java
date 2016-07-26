@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.ui.grid;
 
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
@@ -55,7 +55,7 @@ public class GridFormLayoutHelper implements Serializable {
     public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows) {
         GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", "150px", Alignment.TOP_LEFT);
         helper.getLayout().setWidth("100%");
-        helper.getLayout().addStyleName(UIConstants.GRIDFORM_STANDARD);
+        helper.getLayout().addStyleName(MobileUIConstants.GRIDFORM_STANDARD);
         return helper;
     }
 

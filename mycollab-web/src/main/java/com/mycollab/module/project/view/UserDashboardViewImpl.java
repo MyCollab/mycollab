@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.SetSearchField;
@@ -34,11 +35,11 @@ import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -208,7 +209,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         MHorizontalLayout headerComp = new MHorizontalLayout();
         ELabel headerLbl = ELabel.h2(String.format(headerTitle, value, 0));
         Button backDashboard = new Button("Back to workboard", clickEvent -> showDashboard());
-        backDashboard.setStyleName(UIConstants.BUTTON_ACTION);
+        backDashboard.setStyleName(WebUIConstants.BUTTON_ACTION);
         headerComp.with(headerLbl, backDashboard).alignAll(Alignment.MIDDLE_LEFT);
         layout.with(headerComp);
 
@@ -242,12 +243,12 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
             content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_TO_ADD_PROJECT)));
 
             MButton skipBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
-                    .withStyleName(UIConstants.BUTTON_OPTION);
+                    .withStyleName(WebUIConstants.BUTTON_OPTION);
 
             MButton createNewBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW), clickEvent -> {
                 close();
                 UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
-            }).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, createNewBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);

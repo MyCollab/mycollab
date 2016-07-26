@@ -32,11 +32,10 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -53,11 +52,11 @@ public class BugRowComponent extends MVerticalLayout {
 
     public BugRowComponent(final SimpleBug bug) {
         this.bug = bug;
-        withSpacing(true).withMargin(false).withFullWidth().addStyleName(UIConstants.BORDER_LIST_ROW);
+        withSpacing(true).withMargin(false).withFullWidth().addStyleName(WebUIConstants.BORDER_LIST_ROW);
 
         bugSettingPopupBtn = new PopupButton();
         bugSettingPopupBtn.setIcon(FontAwesome.COGS);
-        bugSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        bugSettingPopupBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         OptionPopupContent filterBtnLayout = createPopupContent();
         bugSettingPopupBtn.setContent(filterBtnLayout);
 

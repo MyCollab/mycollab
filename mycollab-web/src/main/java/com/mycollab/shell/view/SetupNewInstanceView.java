@@ -31,15 +31,16 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
-import com.mycollab.vaadin.web.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.field.DateFormatField;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.DesktopApplication;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
         content.with(ELabel.h2("Last step, you are almost there!").withWidthUndefined());
         content.with(ELabel.h3("All fields are required *").withStyleName("overdue").withWidthUndefined());
         content.with(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
-                .withStyleName(UIConstants.META_COLOR));
+                .withStyleName(WebUIConstants.META_COLOR));
         GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8, "200px");
         formLayoutHelper.getLayout().setWidth("600px");
         final TextField adminField = formLayoutHelper.addComponent(new TextField(), "Admin email", 0, 0);
@@ -84,7 +85,9 @@ public class SetupNewInstanceView extends MVerticalLayout {
         languageBox.setValue(Locale.US.toLanguageTag());
         content.with(formLayoutHelper.getLayout());
 
-        Button installBtn = new Button("Setup", clickEvent -> {
+        CheckBox createSampleDataSelection = new CheckBox("Create sample data", true);
+
+        MButton installBtn = new MButton("Setup", clickEvent -> {
             String adminName = adminField.getValue();
             String password = passwordField.getValue();
             String retypePassword = retypePasswordField.getValue();
@@ -121,12 +124,16 @@ public class SetupNewInstanceView extends MVerticalLayout {
 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
-            billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true, true,
-                    AppContext.getAccountId());
+            if (Boolean.TRUE.equals(createSampleDataSelection.getValue())) {
+                billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true, true,
+                        AppContext.getAccountId());
+            }
+
             ((DesktopApplication) UI.getCurrent()).doLogin(adminName, password, false);
-        });
-        installBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        content.with(installBtn).withAlign(installBtn, Alignment.TOP_RIGHT);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION);
+
+        MHorizontalLayout buttonControls = new MHorizontalLayout(createSampleDataSelection, installBtn).alignAll(Alignment.MIDDLE_RIGHT);
+        content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
     }
 
     private boolean isValidDayPattern(String dateFormat) {

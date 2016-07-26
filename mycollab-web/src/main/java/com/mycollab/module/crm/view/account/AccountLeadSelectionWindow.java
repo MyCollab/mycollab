@@ -24,7 +24,7 @@ import com.mycollab.module.crm.view.lead.LeadSearchPanel;
 import com.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.mycollab.module.crm.view.lead.LeadTableFieldDef;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public class AccountLeadSelectionWindow extends RelatedItemSelectionWindow<Simpl
                         LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
         Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
-        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         LeadSearchPanel leadSimpleSearchPanel = new LeadSearchPanel();
         leadSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

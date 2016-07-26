@@ -21,7 +21,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
@@ -32,6 +32,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -69,7 +70,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         mainLayout.removeAllComponents();
         MHorizontalLayout messageBlock = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("message-block");
         Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(bean.getPostedUserAvatarId(), 32);
-        userAvatarImg.setStyleName("user-avatar");
+        userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);
         messageBlock.addComponent(userAvatarImg);
 
         CssLayout rightCol = new CssLayout();
@@ -78,7 +79,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         MHorizontalLayout metadataRow = new MHorizontalLayout().withFullWidth();
 
         ELabel userNameLbl = new ELabel(bean.getFullPostedUserName()).withStyleName(UIConstants.META_INFO);
-        userNameLbl.addStyleName(UIConstants.TRUNCATE);
+        userNameLbl.addStyleName(UIConstants.TEXT_ELLIPSIS);
         CssLayout userNameWrap = new CssLayout(userNameLbl);
 
         ELabel messageTimePost = new ELabel().prettyDateTime(bean.getPosteddate()).withStyleName(UIConstants.META_INFO).withWidthUndefined();

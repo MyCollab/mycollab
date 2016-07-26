@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.crm.view.activity;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.mobile.ui.UIConstants;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
@@ -59,10 +59,10 @@ public class ActivityListDisplay extends DefaultPagedBeanList<EventService, Acti
             });
 
             if ("Held".equals(simpleEvent.getStatus())) {
-                b.addStyleName(UIConstants.LINK_COMPLETED);
+                b.addStyleName(MobileUIConstants.LINK_COMPLETED);
             } else {
                 if (simpleEvent.getEndDate() != null && (simpleEvent.getEndDate().before(new GregorianCalendar().getTime()))) {
-                    b.addStyleName(UIConstants.LINK_OVERDUE);
+                    b.addStyleName(MobileUIConstants.LINK_OVERDUE);
                 }
             }
             b.setWidth("100%");

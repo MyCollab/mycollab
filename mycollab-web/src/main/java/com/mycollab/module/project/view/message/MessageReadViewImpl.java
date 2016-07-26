@@ -38,11 +38,10 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -71,7 +70,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         header = new MHorizontalLayout().withMargin(true).withStyleName("hdr-view").withFullWidth();
         previewForm = new AdvancedPreviewBeanForm<>();
 
-        contentWrapper = new MCssLayout().withStyleName(UIConstants.CONTENT_WRAPPER);
+        contentWrapper = new MCssLayout().withStyleName(WebUIConstants.CONTENT_WRAPPER);
         contentWrapper.addComponent(previewForm);
         contentWrapper.setWidth("900px");
         with(header, contentWrapper).expand(contentWrapper);
@@ -123,7 +122,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                                 previewForm.fireCancelForm(message);
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_DANGER);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             stickyCheck = new CheckBox(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), message.getIsstick());
@@ -174,7 +173,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentField = new HorizontalLayout();
                 Button attachmentIcon = new Button(null, FontAwesome.PAPERCLIP);
-                attachmentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+                attachmentIcon.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
                 attachmentField.addComponent(attachmentIcon);
 
                 Label lbAttachment = new Label(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));

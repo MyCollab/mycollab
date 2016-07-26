@@ -46,7 +46,7 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleMilestone] with ProjectMilestoneRelayEmailNotificationAction {
 
-  @Autowired var milestoneService: MilestoneService = _
+  @Autowired private val milestoneService: MilestoneService = null
 
   private val mapper = new MilestoneFieldNameMapper
 

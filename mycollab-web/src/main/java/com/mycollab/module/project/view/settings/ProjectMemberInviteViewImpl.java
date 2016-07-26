@@ -38,15 +38,12 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
@@ -110,11 +107,11 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
             String roleName = (item != null) ? item.getBean().getRolename() : "";
             ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
                     new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
-        }).withIcon(FontAwesome.SEND).withStyleName(UIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.SEND).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null)))
-                .withStyleName(UIConstants.BUTTON_OPTION);
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
         return new MHorizontalLayout(cancelBtn, inviteBtn);
     }
 
@@ -144,14 +141,14 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                     SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
                     projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
                             permissionMap, permissionPath)), AppContext.getMessage(permissionKey),
-                            AppContext.getMessage(permissionVal.desc()), i%2, i/2);
+                            AppContext.getMessage(permissionVal.desc()), i % 2, i / 2);
                 }
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
                 projectFormHelper.addComponent(new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS)),
-                        permissionPath, i%2, i/2);
+                        permissionPath, i % 2, i / 2);
             }
         }
     }

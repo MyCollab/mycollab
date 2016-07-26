@@ -24,5 +24,4 @@ public class AccountStatusConstants {
     public static final String ACTIVE = "Active";
     public static final String TRIAL = "Trial";
     public static final String INVALID = "Invalid";
-    public static final String PENDING = "Pending";
 }

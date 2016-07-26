@@ -36,10 +36,11 @@ import com.mycollab.module.project.view.task.ITaskStatusChartWidget;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewManager;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ButtonI18nComp;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -116,7 +117,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                         MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
                                 .withCaption(StringUtils.trim(statusCaption, 25, true))
                                 .withDescription(statusCaption)
-                                .withListener(listener).withStyleName(UIConstants.BUTTON_LINK).withIcon(FontAwesome.FLAG);
+                                .withListener(listener).withStyleName(WebUIConstants.BUTTON_LINK).withIcon(FontAwesome.FLAG);
                         statusLink.setWidth("110px");
 
                         statusLayout.addComponent(statusLink);
@@ -134,7 +135,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                     String statusCaption = AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
                     MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
                             .withCaption(StringUtils.trim(statusCaption, 25, true)).withDescription(statusCaption)
-                            .withListener(listener).withStyleName(UIConstants.BUTTON_LINK).withIcon(FontAwesome.FLAG);
+                            .withListener(listener).withStyleName(WebUIConstants.BUTTON_LINK).withIcon(FontAwesome.FLAG);
                     statusLink.addStyleName(UIConstants.TEXT_ELLIPSIS);
                     statusLink.setWidth("110px");
                     statusLayout.addComponent(statusLink);

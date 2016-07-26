@@ -39,7 +39,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.web.IDesktopModule;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -143,7 +143,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                     }
                     displayResults();
                 }
-            }).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             final TextField searchField = new TextField();
             searchField.setInputPrompt(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
@@ -151,7 +151,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             MButton searchBtn = new MButton("", clickEvent -> {
                 searchCriteria.setProjectName(StringSearchField.and(searchField.getValue()));
                 displayResults();
-            }).withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             MHorizontalLayout popupHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                     .withFullWidth().withStyleName("border-bottom");

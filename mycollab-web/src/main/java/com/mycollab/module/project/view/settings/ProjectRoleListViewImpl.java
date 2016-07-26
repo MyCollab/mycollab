@@ -37,7 +37,7 @@ import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
@@ -72,9 +72,9 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
 
     private void generateDisplayTable() {
         tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ProjectRoleService.class),
-                SimpleProjectRole.class, new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
-                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", UIConstants.TABLE_EX_LABEL_WIDTH)));
+                SimpleProjectRole.class, new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
+                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "rolename", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", WebUIConstants.TABLE_EX_LABEL_WIDTH)));
 
         tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
             final SimpleProjectRole role = tableItem.getBeanByIndex(itemId);
@@ -109,7 +109,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
         CssLayout layoutWrapper = new CssLayout();
         layoutWrapper.setWidth("100%");
         MHorizontalLayout layout = new MHorizontalLayout();
-        layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
+        layoutWrapper.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
         layoutWrapper.addComponent(layout);
 
         selectOptionButton = new SelectionOptionButton(this.tableItem);

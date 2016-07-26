@@ -46,6 +46,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.vaadin.event.ShortcutAction;
@@ -169,7 +170,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                             messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
                             messageList.setSearchCriteria(searchCriteria);
                         }
-                    })).withIcon(FontAwesome.TRASH_O).withStyleName(UIConstants.BUTTON_ICON_ONLY);
+                    })).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             MHorizontalLayout rightHeader = new MHorizontalLayout();
@@ -203,7 +204,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                 attachmentCountLbl.setSizeUndefined();
                 attachmentNotification.addComponent(attachmentCountLbl);
                 Button attachmentIcon = new Button(FontAwesome.PAPERCLIP);
-                attachmentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+                attachmentIcon.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
                 attachmentNotification.addComponent(attachmentIcon);
                 notification.addComponent(attachmentNotification);
             }
@@ -236,10 +237,10 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withWidthUndefined();
 
             nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
-                    .withWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+                    .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
 
             MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch())
-                    .withStyleName(UIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH)
+                    .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(nameField, searchBtn).withAlign(nameField, Alignment.MIDDLE_LEFT);
             this.setCompositionRoot(basicSearchBody);
@@ -304,7 +305,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
             MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                     clickEvent -> MessageListViewImpl.this.setCriteria(searchCriteria))
-                    .withStyleName(UIConstants.BUTTON_OPTION);
+                    .withStyleName(WebUIConstants.BUTTON_OPTION);
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
             MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
@@ -327,7 +328,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     titleField.addStyleName("errorField");
                     NotificationUtil.showErrorNotification(AppContext.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(UIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
 
@@ -342,7 +343,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             if (!isEmpty) {
                 MButton createMessageBtn = new MButton(AppContext.getMessage(MessageI18nEnum.NEW),
                         clickEvent -> createAddMessageLayout())
-                        .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.BUTTON_ACTION)
+                        .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                         .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
                 messagePanelBody.addComponent(createMessageBtn);

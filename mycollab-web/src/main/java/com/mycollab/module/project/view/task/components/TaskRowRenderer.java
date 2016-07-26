@@ -33,7 +33,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
@@ -57,11 +57,11 @@ public class TaskRowRenderer extends MVerticalLayout {
 
     public TaskRowRenderer(final SimpleTask task) {
         this.task = task;
-        withSpacing(true).withMargin(false).withFullWidth().addStyleName(UIConstants.BORDER_LIST_ROW);
+        withSpacing(true).withMargin(false).withFullWidth().addStyleName(WebUIConstants.BORDER_LIST_ROW);
 
         taskSettingPopupBtn = new PopupButton();
         taskSettingPopupBtn.setIcon(FontAwesome.COGS);
-        taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        taskSettingPopupBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
 
