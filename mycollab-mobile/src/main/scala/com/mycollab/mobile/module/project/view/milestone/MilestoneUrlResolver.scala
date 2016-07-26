@@ -42,7 +42,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val searchCriteria = new MilestoneSearchCriteria
       searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new Search(searchCriteria))
@@ -52,7 +52,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val milestone = new SimpleMilestone
       milestone.setProjectid(projectId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Add(milestone))
@@ -62,7 +62,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val milestoneId = token.getInt
       val milestoneService = AppContextUtil.getSpringBean(classOf[MilestoneService])
@@ -74,7 +74,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val milestoneId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Read(milestoneId))

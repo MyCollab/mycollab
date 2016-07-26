@@ -73,11 +73,11 @@ class ProjectUrlResolver extends UrlResolver {
 
   class DashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      if (params.length == 0) {
+      if (params.isEmpty) {
         EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null))
       }
       else {
-        val projectId = new UrlTokenizer(params(0)).getInt
+        val projectId = UrlTokenizer(params(0)).getInt
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.GotoDashboard)
         EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
@@ -86,7 +86,7 @@ class ProjectUrlResolver extends UrlResolver {
 
   class ActivityUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      if (params.length == 0) {
+      if (params.isEmpty) {
         val prjService = AppContextUtil.getSpringBean(classOf[ProjectService])
         val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
         val searchCriteria = new ActivityStreamSearchCriteria()
@@ -98,9 +98,9 @@ class ProjectUrlResolver extends UrlResolver {
         EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this, data))
       }
       else {
-        val projectId = new UrlTokenizer(params(0)).getInt
+        val projectId =  UrlTokenizer(params(0)).getInt
         val searchCriteria = new ActivityStreamSearchCriteria()
-        searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ));
+        searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
         searchCriteria.setExtraTypeIds(new SetSearchField(projectId))
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.ProjectActivities(searchCriteria))

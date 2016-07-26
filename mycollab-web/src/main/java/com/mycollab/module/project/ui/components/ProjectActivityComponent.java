@@ -89,7 +89,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     public ProjectActivityComponent(String type, Integer extraTypeId) {
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
-        this.groupFormatter = AuditLogRegistry.getFieldGroupFormatter(type);
+        this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
         headerLbl = new ELabel(AppContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));
 
         final OptionGroup sortDirection = new OptionGroup();

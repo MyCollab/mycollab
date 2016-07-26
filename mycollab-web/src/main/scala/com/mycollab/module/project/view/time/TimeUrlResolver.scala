@@ -35,7 +35,7 @@ class TimeUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val searchCriteria = new ItemTimeLoggingSearchCriteria
       searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
       searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates,

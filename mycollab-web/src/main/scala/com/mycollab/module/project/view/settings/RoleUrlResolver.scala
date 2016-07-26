@@ -41,7 +41,7 @@ class RoleUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val roleSearchCriteria = new ProjectRoleSearchCriteria
       roleSearchCriteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectRoleScreenData.Search(roleSearchCriteria))
@@ -51,18 +51,17 @@ class RoleUrlResolver extends ProjectUrlResolver {
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val roleId = token.getInt
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new ProjectRoleScreenData.Read(roleId))
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectRoleScreenData.Read(roleId))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val roleId = token.getInt
       val roleService = AppContextUtil.getSpringBean(classOf[ProjectRoleService])
@@ -74,7 +73,7 @@ class RoleUrlResolver extends ProjectUrlResolver {
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectRoleScreenData.Add(new ProjectRole()))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

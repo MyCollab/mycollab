@@ -50,7 +50,7 @@ public class ResetPasswordUpdatePage extends TemplateWebServletRequestHandler {
         String pathInfo = request.getPathInfo();
         try {
             if (pathInfo != null) {
-                UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+                UrlTokenizer urlTokenizer = UrlTokenizer.apply(pathInfo);
                 String username = urlTokenizer.getString();
                 User user = userService.findUserByUserName(username);
                 if (user == null) {

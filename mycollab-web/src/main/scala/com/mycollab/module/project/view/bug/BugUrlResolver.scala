@@ -43,7 +43,7 @@ class BugUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val tokenizer = new UrlTokenizer(params(0))
+      val tokenizer = UrlTokenizer(params(0))
       val projectId = tokenizer.getInt
       val query = tokenizer.getQuery
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
@@ -99,7 +99,7 @@ class BugUrlResolver extends ProjectUrlResolver {
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Add(new SimpleBug))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
@@ -107,7 +107,7 @@ class BugUrlResolver extends ProjectUrlResolver {
 
   private class KanbanUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*): Unit = {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.GotoKanbanView)
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }

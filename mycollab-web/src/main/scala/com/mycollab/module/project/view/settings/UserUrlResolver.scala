@@ -41,7 +41,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val memberSearchCriteria = new ProjectMemberSearchCriteria
       memberSearchCriteria.setProjectId(new NumberSearchField(projectId))
       memberSearchCriteria.setStatuses(new SetSearchField[String](ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET))
@@ -52,7 +52,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val memberName = token.getString
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
@@ -63,7 +63,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ProjectMemberScreenData.InviteProjectMembers)
@@ -73,7 +73,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val memberId = token.getInt
       val projectMemberService = AppContextUtil.getSpringBean(classOf[ProjectMemberService])

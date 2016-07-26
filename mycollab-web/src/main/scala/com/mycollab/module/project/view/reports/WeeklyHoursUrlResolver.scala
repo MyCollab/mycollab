@@ -32,9 +32,8 @@ class WeeklyHoursUrlResolver extends ProjectUrlResolver {
 
   class DefaultUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new ReportScreenData.GotoWeeklyTiming())
+      val projectId = UrlTokenizer(params(0)).getInt
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ReportScreenData.GotoWeeklyTiming())
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }

@@ -19,17 +19,15 @@ package com.mycollab.mobile.ui;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class IndustryComboBox extends ValueComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public IndustryComboBox() {
-		super();
-		setCaption(null);
-		loadData(CrmDataTypeFactory.getAccountIndustryList());
-	}
+    public IndustryComboBox() {
+        super();
+        setCaption(null);
+        loadData(CrmDataTypeFactory.getAccountIndustryList());
+    }
 }

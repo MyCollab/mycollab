@@ -41,7 +41,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val versionSearchCriteria = new VersionSearchCriteria
       versionSearchCriteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
@@ -52,7 +52,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val versionId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
@@ -63,7 +63,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
 
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val versionId = token.getInt
       val versionService = AppContextUtil.getSpringBean(classOf[VersionService])
@@ -76,7 +76,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new VersionScreenData.Add(new Version))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

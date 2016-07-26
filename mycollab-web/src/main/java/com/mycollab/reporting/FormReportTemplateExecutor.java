@@ -108,7 +108,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
         Map<String, Object> parameters = this.getParameters();
         B bean = (B) parameters.get("bean");
         FormReportLayout formReportLayout = (FormReportLayout) parameters.get("layout");
-        FieldGroupFormatter fieldGroupFormatter = AuditLogRegistry.getFieldGroupFormatter(formReportLayout.getModuleName());
+        FieldGroupFormatter fieldGroupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(formReportLayout.getModuleName());
 
         try {
             String titleValue = (String) PropertyUtils.getProperty(bean, formReportLayout.getTitleField());
@@ -280,7 +280,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
     private ComponentBuilder buildAuditBlock(SimpleAuditLog auditLog) {
         List<AuditChangeItem> changeItems = auditLog.getChangeItems();
         FormReportLayout formReportLayout = (FormReportLayout) parameters.get("layout");
-        FieldGroupFormatter fieldGroupFormatter = AuditLogRegistry.getFieldGroupFormatter(formReportLayout.getModuleName());
+        FieldGroupFormatter fieldGroupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(formReportLayout.getModuleName());
         if (CollectionUtils.isNotEmpty(changeItems)) {
             TextFieldBuilder<String> authorField = cmp.text(StringUtils.trimHtmlTags(AppContext.getMessage(
                     GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(), AppContext.formatPrettyTime

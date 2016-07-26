@@ -19,98 +19,96 @@ package com.mycollab.mobile.module.crm.events;
 import com.mycollab.events.ApplicationEvent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class ActivityEvent {
-	public static class TaskAdd extends ApplicationEvent {
-		private static final long serialVersionUID = -297079855849498749L;
+    public static class TaskAdd extends ApplicationEvent {
+        private static final long serialVersionUID = -297079855849498749L;
 
-		public TaskAdd(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public TaskAdd(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class TaskEdit extends ApplicationEvent {
-		private static final long serialVersionUID = -3058925851053273466L;
+    public static class TaskEdit extends ApplicationEvent {
+        private static final long serialVersionUID = -3058925851053273466L;
 
-		public TaskEdit(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public TaskEdit(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class TaskRead extends ApplicationEvent {
-		private static final long serialVersionUID = 3729273634721320786L;
+    public static class TaskRead extends ApplicationEvent {
+        private static final long serialVersionUID = 3729273634721320786L;
 
-		public TaskRead(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public TaskRead(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class MeetingAdd extends ApplicationEvent {
-		private static final long serialVersionUID = -6087559081474362239L;
+    public static class MeetingAdd extends ApplicationEvent {
+        private static final long serialVersionUID = -6087559081474362239L;
 
-		public MeetingAdd(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public MeetingAdd(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class MeetingEdit extends ApplicationEvent {
-		private static final long serialVersionUID = -5484004166527538238L;
+    public static class MeetingEdit extends ApplicationEvent {
+        private static final long serialVersionUID = -5484004166527538238L;
 
-		public MeetingEdit(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public MeetingEdit(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class MeetingRead extends ApplicationEvent {
-		private static final long serialVersionUID = 4660645508301244730L;
+    public static class MeetingRead extends ApplicationEvent {
+        private static final long serialVersionUID = 4660645508301244730L;
 
-		public MeetingRead(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public MeetingRead(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class CallAdd extends ApplicationEvent {
-		private static final long serialVersionUID = -4152647044241550707L;
+    public static class CallAdd extends ApplicationEvent {
+        private static final long serialVersionUID = -4152647044241550707L;
 
-		public CallAdd(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public CallAdd(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class CallEdit extends ApplicationEvent {
-		private static final long serialVersionUID = 240833870944170101L;
+    public static class CallEdit extends ApplicationEvent {
+        private static final long serialVersionUID = 240833870944170101L;
 
-		public CallEdit(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public CallEdit(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class CallRead extends ApplicationEvent {
-		private static final long serialVersionUID = 4670213836749669945L;
+    public static class CallRead extends ApplicationEvent {
+        private static final long serialVersionUID = 4670213836749669945L;
 
-		public CallRead(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public CallRead(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class GotoList extends ApplicationEvent {
-		private static final long serialVersionUID = -4100336975752268823L;
+    public static class GotoList extends ApplicationEvent {
+        private static final long serialVersionUID = -4100336975752268823L;
 
-		public GotoList(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public GotoList(Object source, Object data) {
+            super(source, data);
+        }
+    }
 
-	public static class GoToRelatedItems extends ApplicationEvent {
-		private static final long serialVersionUID = 6886861280155117098L;
+    public static class GoToRelatedItems extends ApplicationEvent {
+        private static final long serialVersionUID = 6886861280155117098L;
 
-		public GoToRelatedItems(Object source, Object data) {
-			super(source, data);
-		}
+        public GoToRelatedItems(Object source, Object data) {
+            super(source, data);
+        }
 
-	}
+    }
 }

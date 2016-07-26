@@ -16,19 +16,18 @@
  */
 package com.mycollab.module.project.view.page
 
-import com.mycollab.common.UrlTokenizer
+import com.mycollab.common.{InvalidTokenException, UrlTokenizer}
+import com.mycollab.core.MyCollabException
+import com.mycollab.core.utils.StringUtils
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.page.domain.Page
 import com.mycollab.module.page.service.PageService
 import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.{PageScreenData, ProjectScreenData}
+import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppContext
 import com.mycollab.vaadin.mvp.PageActionChain
-import com.mycollab.common.{InvalidTokenException, UrlTokenizer}
-import com.mycollab.core.MyCollabException
-import com.mycollab.core.utils.StringUtils
-import com.mycollab.spring.AppContextUtil
 
 /**
   * @author MyCollab Ltd
@@ -39,11 +38,11 @@ class PageUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("add", new AddUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
   this.addSubResolver("preview", new PreviewUrlResolver)
-
+  
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       try {
-        val tokenizer = new UrlTokenizer(params(0))
+        val tokenizer = UrlTokenizer(params(0))
         val projectId = tokenizer.getInt
         val pagePath = tokenizer.getRemainValue
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
@@ -55,11 +54,11 @@ class PageUrlResolver extends ProjectUrlResolver {
       }
     }
   }
-
+  
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       try {
-        val tokenizer = new UrlTokenizer(params(0))
+        val tokenizer = UrlTokenizer(params(0))
         val projectId = tokenizer.getInt
         val pagePath = tokenizer.getRemainValue
         val pageService = AppContextUtil.getSpringBean(classOf[PageService])
@@ -79,11 +78,11 @@ class PageUrlResolver extends ProjectUrlResolver {
       }
     }
   }
-
+  
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       try {
-        val tokenizer = new UrlTokenizer(params(0))
+        val tokenizer = UrlTokenizer(params(0))
         val projectId = tokenizer.getInt
         val pagePath = tokenizer.getRemainValue
         val pageService = AppContextUtil.getSpringBean(classOf[PageService])
@@ -103,17 +102,16 @@ class PageUrlResolver extends ProjectUrlResolver {
       }
     }
   }
-
+  
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       try {
-        val tokenizer: UrlTokenizer = new UrlTokenizer(params(0))
-        val projectId: Int = tokenizer.getInt
-        val pagePath: String = tokenizer.getRemainValue
-        val page: Page = new Page
+        val tokenizer = UrlTokenizer(params(0))
+        val projectId = tokenizer.getInt
+        val pagePath = tokenizer.getRemainValue
+        val page = new Page
         page.setPath(pagePath + "/" + StringUtils.generateSoftUniqueId)
-        val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-          new PageScreenData.Add(page))
+        val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new PageScreenData.Add(page))
         EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
       catch {
@@ -121,5 +119,5 @@ class PageUrlResolver extends ProjectUrlResolver {
       }
     }
   }
-
+  
 }

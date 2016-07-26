@@ -42,15 +42,12 @@ public class OptionValComboBox extends ComboBox {
         this.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
         this.enumCls = enumCls;
 
-        this.setItemStyleGenerator(new ComboBox.ItemStyleGenerator() {
-            @Override
-            public String getStyle(ComboBox source, Object itemId) {
-                OptionVal option = (OptionVal) itemId;
-                if (option != null) {
-                    return "" + option.hashCode();
-                }
-                return null;
+        this.setItemStyleGenerator((source, itemId) -> {
+            OptionVal option = (OptionVal) itemId;
+            if (option != null) {
+                return "" + option.hashCode();
             }
+            return null;
         });
         this.setConverter(new StringToOptionConverter());
     }

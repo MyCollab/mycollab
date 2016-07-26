@@ -92,7 +92,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
     public CrmActivityComponent(String type) {
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
-        this.groupFormatter = AuditLogRegistry.getFieldGroupFormatter(type);
+        this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
         headerLbl = new ELabel("");
 
         final OptionGroup sortDirection = new OptionGroup();

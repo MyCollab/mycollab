@@ -44,7 +44,7 @@ class ClientUrlResolver extends ProjectUrlResolver {
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val clientId = token.getInt
       EventBusFactory.getInstance().post(new GotoRead(this, clientId))
     }
@@ -58,7 +58,7 @@ class ClientUrlResolver extends ProjectUrlResolver {
 
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val clientId = token.getInt
       EventBusFactory.getInstance().post(new GotoEdit(this, clientId))
     }

@@ -41,7 +41,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val memberSearchCriteria = new ProjectMemberSearchCriteria
       memberSearchCriteria.setProjectId(new NumberSearchField(projectId))
       memberSearchCriteria.setStatuses(new SetSearchField[String](ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET))
@@ -52,7 +52,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token: UrlTokenizer = new UrlTokenizer(params(0))
+      val token: UrlTokenizer = UrlTokenizer(params(0))
       val projectId: Int = token.getInt
       val memberName: String = token.getString
       val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Read(memberName))
@@ -62,7 +62,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val memberId = token.getInt
       val memberService = AppContextUtil.getSpringBean(classOf[ProjectMemberService])
@@ -74,7 +74,7 @@ class UserUrlResolver extends ProjectUrlResolver {
 
   private class InviteUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.InviteProjectMembers)
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

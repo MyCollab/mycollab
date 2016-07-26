@@ -46,14 +46,14 @@ class LeadUrlResolver extends CrmUrlResolver {
 
   class EditUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      val leadId = new UrlTokenizer(params(0)).getInt
+      val leadId = UrlTokenizer(params(0)).getInt
       EventBusFactory.getInstance().post(new LeadEvent.GotoEdit(this, leadId))
     }
   }
 
   class PreviewUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      val leadId = new UrlTokenizer(params(0)).getInt
+      val leadId = UrlTokenizer(params(0)).getInt
       EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, leadId))
     }
   }

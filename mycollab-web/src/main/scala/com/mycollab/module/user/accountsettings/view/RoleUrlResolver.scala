@@ -47,7 +47,7 @@ class RoleUrlResolver extends AccountSettingUrlResolver {
 
   private class EditUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      val roleId = new UrlTokenizer(params(0)).getInt
+      val roleId = UrlTokenizer(params(0)).getInt
       val roleService = AppContextUtil.getSpringBean(classOf[RoleService])
       val role = roleService.findById(roleId, AppContext.getAccountId)
       EventBusFactory.getInstance().post(new RoleEvent.GotoEdit(EditUrlResolver.this, role))
@@ -56,7 +56,7 @@ class RoleUrlResolver extends AccountSettingUrlResolver {
 
   private class PreviewUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      val roleId = new UrlTokenizer(params(0)).getInt
+      val roleId = UrlTokenizer(params(0)).getInt
       EventBusFactory.getInstance().post(new RoleEvent.GotoRead(PreviewUrlResolver.this, roleId))
     }
   }

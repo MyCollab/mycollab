@@ -45,7 +45,7 @@ public class ConfirmEmailHandler extends GenericHttpServlet {
     protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateException {
         String pathInfo = request.getPathInfo();
         if (pathInfo != null) {
-            UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+            UrlTokenizer urlTokenizer = UrlTokenizer.apply(pathInfo);
             String username = urlTokenizer.getString();
             Integer accountId = urlTokenizer.getInt();
             SimpleUser user = userServices.findUserByUserNameInAccount(username, accountId);

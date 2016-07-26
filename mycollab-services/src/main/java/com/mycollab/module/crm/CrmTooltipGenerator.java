@@ -16,25 +16,25 @@
  */
 package com.mycollab.module.crm;
 
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Table;
+import com.hp.gagawa.java.elements.Td;
+import com.hp.gagawa.java.elements.Tr;
 import com.mycollab.common.TooltipBuilder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.i18n.LocalizationHelper;
-import com.mycollab.module.user.AccountLinkGenerator;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Table;
-import com.hp.gagawa.java.elements.Td;
-import com.hp.gagawa.java.elements.Tr;
 import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.*;
+import com.mycollab.module.user.AccountLinkGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static com.mycollab.common.TooltipBuilder.TdUtil.*;
+import static com.mycollab.common.TooltipBuilder.*;
 import static com.mycollab.core.utils.StringUtils.trimHtmlTags;
 
 /**

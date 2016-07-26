@@ -23,6 +23,8 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.validator.constraints.DateComparision;
+import com.vaadin.addon.touchkit.gwt.client.vcom.DatePickerState;
+import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.*;
@@ -144,6 +146,9 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                 } else if (formField instanceof DateField) {
                     ((DateField) formField).setTimeZone(AppContext.getUserTimeZone());
                     ((DateField) formField).setDateFormat(AppContext.getDateFormat());
+                } else if (formField instanceof DatePicker) {
+                    ((DatePicker)formField).setResolution(DatePickerState.Resolution.DAY);
+                    ((DatePicker)formField).setWidth("100px");
                 }
                 postCreateField(field.getName(), formField);
                 attachForm.attachField(field.getName(), formField);

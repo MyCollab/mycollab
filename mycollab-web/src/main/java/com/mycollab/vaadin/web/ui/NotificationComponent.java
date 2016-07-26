@@ -44,7 +44,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -85,16 +84,11 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         notificationContainer.removeAllComponents();
 
         if (notificationItems.size() > 0) {
-            Iterator<AbstractNotification> iterator = notificationItems.iterator();
-            while (iterator.hasNext()) {
-                AbstractNotification item = iterator.next();
+            for (AbstractNotification item : notificationItems) {
                 Component comp = buildComponentFromNotification(item);
                 comp.setStyleName("notification-type");
                 comp.addStyleName("notification-type-" + item.getType());
                 notificationContainer.addComponent(comp);
-                if (iterator.hasNext()) {
-                    notificationContainer.addComponent(ELabel.hr());
-                }
             }
         } else {
             Label noItemLbl = new Label(AppContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION));

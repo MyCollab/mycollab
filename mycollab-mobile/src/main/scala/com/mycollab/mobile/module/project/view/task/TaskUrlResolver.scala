@@ -45,7 +45,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val criteria = new TaskSearchCriteria
       criteria.setProjectId(new NumberSearchField(projectId))
@@ -72,7 +72,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
         }
       }
       else {
-        val tokenizer = new UrlTokenizer(params(0))
+        val tokenizer = UrlTokenizer(params(0))
         projectId = tokenizer.getInt
         taskId = tokenizer.getInt
       }
@@ -100,7 +100,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Add(new SimpleTask))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

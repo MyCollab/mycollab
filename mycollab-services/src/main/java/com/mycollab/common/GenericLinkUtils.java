@@ -26,7 +26,7 @@ import com.mycollab.spring.AppContextUtil;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class GenericLinkUtils {
+public final class GenericLinkUtils {
     public static final String URL_PREFIX_PARAM = "#";
 
     private GenericLinkUtils() {

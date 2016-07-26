@@ -87,7 +87,7 @@ class ProjectUrlResolver extends UrlResolver {
 
   class ProjectTagUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ProjectScreenData.GotoTagList(null))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
@@ -96,7 +96,7 @@ class ProjectUrlResolver extends UrlResolver {
 
   class ProjectFavoriteUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ProjectScreenData.GotoFavorite())
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
@@ -111,10 +111,10 @@ class ProjectUrlResolver extends UrlResolver {
 
   class ProjectDashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      if (params.length == 0) {
+      if (params.isEmpty) {
         EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null))
       } else {
-        val projectId = new UrlTokenizer(params(0)).getInt
+        val projectId = UrlTokenizer(params(0)).getInt
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
         EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
@@ -123,10 +123,10 @@ class ProjectUrlResolver extends UrlResolver {
 
   class ProjectEditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      if (params.length == 0) {
+      if (params.isEmpty) {
         EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null))
       } else {
-        val projectId = new UrlTokenizer(params(0)).getInt
+        val projectId = UrlTokenizer(params(0)).getInt
         val prjService = AppContextUtil.getSpringBean(classOf[ProjectService])
         val project = prjService.findById(projectId, AppContext.getAccountId)
         if (project != null) {
@@ -139,10 +139,10 @@ class ProjectUrlResolver extends UrlResolver {
 
   class RoadmapUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      if (params.length == 0) {
+      if (params.isEmpty) {
         EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null))
       } else {
-        val projectId = new UrlTokenizer(params(0)).getInt
+        val projectId = UrlTokenizer(params(0)).getInt
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Roadmap())
         EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
@@ -151,8 +151,8 @@ class ProjectUrlResolver extends UrlResolver {
 
   private class CalendarUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*): Unit = {
-      if (params.size > 0) {
-        val projectId = new UrlTokenizer(params(0)).getInt
+      if (params.nonEmpty) {
+        val projectId = UrlTokenizer(params(0)).getInt
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoCalendarView)
         EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
@@ -161,7 +161,7 @@ class ProjectUrlResolver extends UrlResolver {
 
   private class GanttUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoGanttChart)
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }

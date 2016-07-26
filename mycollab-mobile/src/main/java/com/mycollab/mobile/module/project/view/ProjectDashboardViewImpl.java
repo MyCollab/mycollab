@@ -90,7 +90,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         projectInfo.setWidth("100%");
         projectInfo.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-        ELabel projectIcon = ELabel.h2(FontAwesome.BUILDING_O.getHtml()).withStyleName("project-icon").withWidthUndefined();
+        ELabel projectIcon = ELabel.fontIcon(FontAwesome.BUILDING_O).withStyleName("project-icon").withWidthUndefined();
         projectInfo.addComponent(projectIcon);
 
         ELabel projectName = new ELabel(currentProject.getName()).withFullWidth().withStyleName("project-name");

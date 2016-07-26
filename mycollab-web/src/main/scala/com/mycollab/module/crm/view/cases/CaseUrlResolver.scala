@@ -46,14 +46,14 @@ class CaseUrlResolver extends CrmUrlResolver {
 
   class CaseEditUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      val caseId = new UrlTokenizer(params(0)).getInt
+      val caseId = UrlTokenizer(params(0)).getInt
       EventBusFactory.getInstance().post(new CaseEvent.GotoEdit(this, caseId))
     }
   }
 
   class CasePreviewUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      val caseId = new UrlTokenizer(params(0)).getInt
+      val caseId = UrlTokenizer(params(0)).getInt
       EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, caseId))
     }
   }

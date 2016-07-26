@@ -33,7 +33,7 @@ public class UrlTokenizerTest {
 
 	@Test
 	public void testGetProperValue() throws InvalidTokenException {
-		UrlTokenizer tokenizer = new UrlTokenizer(testData);
+		UrlTokenizer tokenizer = UrlTokenizer.apply(testData);
 		Assert.assertEquals(new Integer(1), tokenizer.getInt());
 		Assert.assertEquals("a", tokenizer.getString());
 		Assert.assertEquals("b", tokenizer.getString());

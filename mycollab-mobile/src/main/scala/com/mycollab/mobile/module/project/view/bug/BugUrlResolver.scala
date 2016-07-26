@@ -44,7 +44,7 @@ class BugUrlResolver extends ProjectUrlResolver {
 
   private class DashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val criteria = new BugSearchCriteria
       criteria.setProjectId(new NumberSearchField(projectId))
       criteria.setStatuses(new SetSearchField[String](BugStatus.Open.name, BugStatus.ReOpen.name))
@@ -100,7 +100,7 @@ class BugUrlResolver extends ProjectUrlResolver {
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Add(new SimpleBug))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }

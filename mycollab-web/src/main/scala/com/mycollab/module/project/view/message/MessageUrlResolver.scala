@@ -35,7 +35,7 @@ class MessageUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
+      val projectId = UrlTokenizer(params(0)).getInt
       val searchCriteria = new MessageSearchCriteria
       searchCriteria.setProjectids(new SetSearchField[Integer](projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
@@ -46,7 +46,7 @@ class MessageUrlResolver extends ProjectUrlResolver {
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token = new UrlTokenizer(params(0))
+      val token = UrlTokenizer(params(0))
       val projectId = token.getInt
       val messageId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),

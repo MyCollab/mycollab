@@ -15797,20 +15797,11 @@ div.v-button.token-field {
 
 .tasklist .taskrow {
 	padding: 10px;
-	border-style: solid;
-	border-color: #e9e9e9;
-	border-width: 0px 0px 1px 0px;
+	border-bottom: 1px solid #e9e9e9;
 }
 
 .tasklist .taskrow:last-child {
 	border-style: none;
-}
-
-.tasklist .taskrow:hover {
-	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
-	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
-	box-shadow: inset 5px 0px 0px 0px #0083ce;
-	background-color: #f5f5f5;
 }
 
 .selected {
@@ -16726,21 +16717,26 @@ input.v-textfield-pagedtable-pagefield {
 	box-shadow: 0 0 14px rgba(0, 0, 0, 0.4);
 }
 
-.v-popupbutton-popup-notification-button .popupContent .notification-type {
+.v-slot-notification-type {
 	padding: 10px;
+	border-bottom: 1px solid #e9e9e9;
 }
 
-.v-popupbutton-popup-notification-button .popupContent .notification-type.notification-type-warning .v-icon {
+.v-slot-notification-type:last-child {
+	border-style: none;
+}
+
+.v-slot-notification-type .notification-type-warning .v-icon {
 	color: #c31616;
 	font-size: 15px;
 }
 
-.v-popupbutton-popup-notification-button .popupContent .notification-type.notification-type-news .v-icon {
+.v-slot-notification-type .notification-type-news .v-icon {
 	color: #12ca07;
 	font-size: 15px;
 }
 
-.v-popupbutton-popup-notification-button .popupContent .notification-type .v-label span {
+.v-slot-notification-type .v-label span {
 	word-wrap: break-word;
 }
 

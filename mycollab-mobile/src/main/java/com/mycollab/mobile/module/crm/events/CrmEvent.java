@@ -24,12 +24,12 @@ import com.mycollab.events.ApplicationEvent;
  */
 public class CrmEvent {
 
-	public static class GotoContainer extends ApplicationEvent {
+    public static class GotoContainer extends ApplicationEvent {
 
-		private static final long serialVersionUID = 4746588959410782216L;
+        private static final long serialVersionUID = 4746588959410782216L;
 
-		public GotoContainer(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public GotoContainer(Object source, Object data) {
+            super(source, data);
+        }
+    }
 }

@@ -48,7 +48,7 @@ class UserUrlResolver extends AccountSettingUrlResolver {
 
   private class EditUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      val username = new UrlTokenizer(params(0)).getString
+      val username = UrlTokenizer(params(0)).getString
       val userService = AppContextUtil.getSpringBean(classOf[UserService])
       val user = userService.findUserByUserNameInAccount(username, AppContext.getAccountId)
       EventBusFactory.getInstance().post(new UserEvent.GotoEdit(EditUrlResolver.this, user))
@@ -57,7 +57,7 @@ class UserUrlResolver extends AccountSettingUrlResolver {
 
   private class PreviewUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      val username = new UrlTokenizer(params(0)).getString
+      val username = UrlTokenizer(params(0)).getString
       EventBusFactory.getInstance().post(new UserEvent.GotoRead(PreviewUrlResolver.this, username))
     }
   }

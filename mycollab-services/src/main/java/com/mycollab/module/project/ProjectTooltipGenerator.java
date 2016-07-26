@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static com.mycollab.common.TooltipBuilder.TdUtil.*;
+import static com.mycollab.common.TooltipBuilder.*;
 import static com.mycollab.core.utils.StringUtils.trimHtmlTags;
 
 /**
@@ -106,7 +106,7 @@ public class ProjectTooltipGenerator {
             }
 
             Tr trRow1 = new Tr();
-            Td cell11 = TooltipBuilder.TdUtil.buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
+            Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
             String startDate = DateTimeUtils.convertToStringWithUserTimeZone(task.getStartdate(), dateFormat, timeZone);
             Td cell12 = buildCellValue(startDate);
             Td cell13 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE));
