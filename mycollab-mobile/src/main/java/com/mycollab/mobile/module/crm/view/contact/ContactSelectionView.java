@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.contact;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
 import com.mycollab.module.crm.domain.SimpleContact;
@@ -53,7 +52,7 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
     @Override
     public void load() {
         ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         itemList.search(searchCriteria);
 
         SimpleContact clearContact = new SimpleContact();
@@ -64,17 +63,10 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 
         @Override
         public Component generateRow(final SimpleContact contact, int rowIndex) {
-            Button b = new Button(contact.getContactName(), new Button.ClickListener() {
-                private static final long serialVersionUID = -5218323555163873836L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    selectionField.fireValueChange(contact);
-                    ContactSelectionView.this.getNavigationManager().navigateBack();
-                }
+            return new Button(contact.getContactName(), clickEvent -> {
+                selectionField.fireValueChange(contact);
+                ContactSelectionView.this.getNavigationManager().navigateBack();
             });
-            return b;
         }
-
     }
 }

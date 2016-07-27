@@ -60,7 +60,7 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
                 LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = contactService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, nextId));
@@ -74,7 +74,7 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
                 LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, nextId));

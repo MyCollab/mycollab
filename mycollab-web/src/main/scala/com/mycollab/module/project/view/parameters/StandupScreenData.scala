@@ -16,13 +16,16 @@
  */
 package com.mycollab.module.project.view.parameters
 
-import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria
+import java.util.Date
+
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**
-  * @author MyCollab Ltd
-  * @since 5.2.10
+  * @author MyCollab Ltd.
+  * @since 5.0.3
   */
-object InvoiceScreenData {
-  class GotoInvoiceList() extends ScreenData[Any](null) {}
+object StandupScreenData {
+
+  class Search(param: Date) extends ScreenData[Date](param) {}
+
 }

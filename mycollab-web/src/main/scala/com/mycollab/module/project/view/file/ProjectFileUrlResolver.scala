@@ -16,12 +16,12 @@
  */
 package com.mycollab.module.project.view.file
 
+import com.mycollab.common.UrlTokenizer
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.{FileScreenData, ProjectScreenData}
 import com.mycollab.vaadin.mvp.PageActionChain
-import com.mycollab.common.UrlTokenizer
 
 /**
   * @author MyCollab Ltd
@@ -29,7 +29,7 @@ import com.mycollab.common.UrlTokenizer
   */
 class ProjectFileUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("dashboard", new ListUrlResolver)
-
+  
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -37,4 +37,5 @@ class ProjectFileUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
+  
 }

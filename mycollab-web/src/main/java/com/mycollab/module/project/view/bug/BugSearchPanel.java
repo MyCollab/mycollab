@@ -46,7 +46,7 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -128,7 +128,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        public BugBasicSearchLayout() {
+        BugBasicSearchLayout() {
             super(BugSearchPanel.this);
         }
 
@@ -170,7 +170,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
                 searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_assignee, PropertyListParam.BELONG_TO,
-                        ConstantValueInjector.valueOf(Arrays.asList(AppContext.getUsername()))));
+                        ConstantValueInjector.valueOf(Collections.singletonList(AppContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class,
@@ -188,7 +188,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
     private class BugAdvancedSearchLayout extends DynamicQueryParamLayout<BugSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
-        public BugAdvancedSearchLayout() {
+        BugAdvancedSearchLayout() {
             super(BugSearchPanel.this, ProjectTypeConstants.BUG);
         }
 
@@ -226,7 +226,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = super.fillUpSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
     }

@@ -108,14 +108,13 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = contactService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, nextId));
                 } else {
                     NotificationUtil.showGotoLastRecordNotification();
                 }
-
             }
 
             @Override
@@ -123,7 +122,7 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, nextId));

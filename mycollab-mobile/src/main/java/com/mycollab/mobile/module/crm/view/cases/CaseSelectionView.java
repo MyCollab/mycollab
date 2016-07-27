@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.cases;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
 import com.mycollab.module.crm.domain.SimpleCase;
@@ -54,7 +53,7 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
     @Override
     public void load() {
         CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleCase clearCase = new SimpleCase();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearCase, 0));
@@ -64,16 +63,10 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 
         @Override
         public Component generateRow(final SimpleCase cases, int rowIndex) {
-            Button b = new Button(cases.getSubject(), new Button.ClickListener() {
-                private static final long serialVersionUID = -8792072785486355790L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    selectionField.fireValueChange(cases);
-                    CaseSelectionView.this.getNavigationManager().navigateBack();
-                }
+            return new Button(cases.getSubject(), clickEvent -> {
+                selectionField.fireValueChange(cases);
+                CaseSelectionView.this.getNavigationManager().navigateBack();
             });
-            return b;
         }
     }
 }

@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.lead;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
 import com.mycollab.module.crm.domain.SimpleLead;
@@ -54,7 +53,7 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
     @Override
     public void load() {
         LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleLead clearLead = new SimpleLead();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearLead, 0));
@@ -64,14 +63,9 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 
         @Override
         public Component generateRow(final SimpleLead lead, int rowIndex) {
-            return new Button(lead.getLeadName(), new Button.ClickListener() {
-                private static final long serialVersionUID = 9024530145840868279L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    selectionField.fireValueChange(lead);
-                    LeadSelectionView.this.getNavigationManager().navigateBack();
-                }
+            return new Button(lead.getLeadName(), clickEvent -> {
+                selectionField.fireValueChange(lead);
+                LeadSelectionView.this.getNavigationManager().navigateBack();
             });
         }
     }

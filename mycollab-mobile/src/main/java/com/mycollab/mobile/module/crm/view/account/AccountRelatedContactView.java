@@ -16,8 +16,8 @@
  */
 package com.mycollab.mobile.module.crm.view.account;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
 import com.mycollab.mobile.shell.events.ShellEvent;
@@ -27,7 +27,6 @@ import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -57,8 +56,8 @@ public class AccountRelatedContactView extends AbstractRelatedListView<SimpleCon
 
     private void loadContacts() {
         final ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -73,23 +72,15 @@ public class AccountRelatedContactView extends AbstractRelatedListView<SimpleCon
         addContact.setStyleName("add-btn");
 
         MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
-        Button newContact = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem("");
-            }
-        });
+        Button newContact = new Button(AppContext.getMessage(ContactI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addButtons.addComponent(newContact);
 
-        Button selectContact = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AccountContactSelectionView contactSelectionView = new AccountContactSelectionView(AccountRelatedContactView.this);
-                final ContactSearchCriteria criteria = new ContactSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                contactSelectionView.setSearchCriteria(criteria);
-                EventBusFactory.getInstance().post(new ShellEvent.PushView(AccountRelatedContactView.this, contactSelectionView));
-            }
+        Button selectContact = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), clickEvent -> {
+            AccountContactSelectionView contactSelectionView = new AccountContactSelectionView(AccountRelatedContactView.this);
+            final ContactSearchCriteria criteria = new ContactSearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            contactSelectionView.setSearchCriteria(criteria);
+            EventBusFactory.getInstance().post(new ShellEvent.PushView(AccountRelatedContactView.this, contactSelectionView));
         });
         addButtons.addComponent(selectContact);
 

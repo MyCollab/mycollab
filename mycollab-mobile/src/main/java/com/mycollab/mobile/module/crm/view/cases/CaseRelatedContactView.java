@@ -53,8 +53,8 @@ public class CaseRelatedContactView extends AbstractRelatedListView<SimpleContac
 
     private void loadContacts() {
         ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setCaseId(new NumberSearchField(SearchField.AND, myCase.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setCaseId(new NumberSearchField(myCase.getId()));
         this.setSearchCriteria(criteria);
     }
 
@@ -70,23 +70,15 @@ public class CaseRelatedContactView extends AbstractRelatedListView<SimpleContac
 
         MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
-        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem("");
-            }
-        });
+        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addBtns.addComponent(newContactBtn);
 
-        Button selectContact = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                CaseContactSelectionView contactSelectionView = new CaseContactSelectionView(CaseRelatedContactView.this);
-                ContactSearchCriteria criteria = new ContactSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                contactSelectionView.setSearchCriteria(criteria);
-                EventBusFactory.getInstance().post(new ShellEvent.PushView(CaseRelatedContactView.this, contactSelectionView));
-            }
+        Button selectContact = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), clickEvent -> {
+            CaseContactSelectionView contactSelectionView = new CaseContactSelectionView(CaseRelatedContactView.this);
+            ContactSearchCriteria criteria = new ContactSearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            contactSelectionView.setSearchCriteria(criteria);
+            EventBusFactory.getInstance().post(new ShellEvent.PushView(CaseRelatedContactView.this, contactSelectionView));
         });
         addBtns.addComponent(selectContact);
         addContact.setContent(addBtns);

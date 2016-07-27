@@ -32,16 +32,8 @@ public class BitSearchField extends NumberSearchField {
         this(AND, 0);
     }
 
-    public BitSearchField(Number value) {
-        this(SearchField.AND, value, EQUAL);
-    }
-
     public BitSearchField(String oper, Number value) {
-        this(oper, value, EQUAL);
-    }
-
-    public BitSearchField(Number value, String compareOperator) {
-        this(SearchField.AND, value, compareOperator);
+        this(oper, value, NumberSearchField.EQUAL());
     }
 
     public BitSearchField(String oper, Number value, String compareOperator) {

@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+  * This file is part of mycollab-mobile.
+  *
+  * mycollab-mobile is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * mycollab-mobile is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package com.mycollab.mobile.module.project.view
 
 import com.google.common.eventbus.Subscribe
@@ -22,7 +38,7 @@ import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.BeanUtility
-import com.mycollab.db.arguments.{NumberSearchField, SearchField, SetSearchField, StringSearchField}
+import com.mycollab.db.arguments.{NumberSearchField, SetSearchField, StringSearchField}
 import com.mycollab.eventmanager.ApplicationEventListener
 import com.mycollab.mobile.module.project.events._
 import com.mycollab.mobile.module.project.view.bug.BugPresenter
@@ -57,7 +73,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
   bindTaskEvents()
   bindRiskEvents()
   bindMemberEvents()
-
+  
   private def bindProjectEvents() {
     this.register(new ApplicationEventListener[ProjectEvent.GotoAdd]() {
       @Subscribe def handle(event: ProjectEvent.GotoAdd): Unit = {
@@ -103,7 +119,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       }
     })
   }
-
+  
   private def bindBugEvents() {
     this.register(new ApplicationEventListener[BugEvent.GotoList]() {
       @Subscribe def handle(event: BugEvent.GotoList) {
@@ -144,7 +160,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       }
     })
   }
-
+  
   private def bindMessageEvents() {
     this.register(new ApplicationEventListener[MessageEvent.GotoAdd]() {
       @Subscribe def handle(event: MessageEvent.GotoAdd) {
@@ -170,7 +186,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       }
     })
   }
-
+  
   private def bindMilestoneEvents() {
     this.register(new ApplicationEventListener[MilestoneEvent.GotoList]() {
       @Subscribe def handle(event: MilestoneEvent.GotoList) {
@@ -211,12 +227,12 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       }
     })
   }
-
+  
   private def bindTaskEvents() {
     this.register(new ApplicationEventListener[TaskEvent.GotoList]() {
       @Subscribe def handle(event: TaskEvent.GotoList) {
         val criteria = new TaskSearchCriteria
-        criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
+        criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId))
         val data = new TaskScreenData.Search(criteria)
         val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
         presenter.go(navManager, data)
@@ -244,7 +260,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       }
     })
   }
-
+  
   private def bindRiskEvents() {
     this.register(new ApplicationEventListener[RiskEvent.GotoList]() {
       @Subscribe def handle(event: RiskEvent.GotoList) {
@@ -252,7 +268,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
         val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
         if (params == null) {
           val criteria = new RiskSearchCriteria
-          criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
+          criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId))
           presenter.go(navManager, new RiskScreenData.Search(criteria))
         }
         else if (params.isInstanceOf[RiskScreenData.Search]) {
@@ -285,13 +301,13 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       }
     })
   }
-
+  
   private def bindMemberEvents() {
     this.register(new ApplicationEventListener[ProjectMemberEvent.GotoList]() {
       @Subscribe def handle(event: ProjectMemberEvent.GotoList) {
         val criteria = new ProjectMemberSearchCriteria
-        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId))
+        criteria.setSaccountid(NumberSearchField.equal(AppContext.getAccountId))
         criteria.setStatuses(new SetSearchField(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET))
         val presenter = PresenterResolver.getPresenter(classOf[ProjectUserPresenter])
         presenter.go(navManager, new ProjectMemberScreenData.Search(criteria))

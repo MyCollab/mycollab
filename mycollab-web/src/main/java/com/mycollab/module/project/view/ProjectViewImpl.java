@@ -137,7 +137,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     bugPresenter.go(ProjectViewImpl.this, null);
                 } else if (ProjectTypeConstants.RISK.equals(caption)) {
                     RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
-                    searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                    searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                     riskPresenter.go(ProjectViewImpl.this, new RiskScreenData.Search(searchCriteria));
                 } else if (ProjectTypeConstants.FILE.equals(caption)) {
                     filePresenter.go(ProjectViewImpl.this, new FileScreenData.GotoDashboard());

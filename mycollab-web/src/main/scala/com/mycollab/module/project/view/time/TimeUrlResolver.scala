@@ -32,19 +32,17 @@ import com.mycollab.vaadin.mvp.PageActionChain
   */
 class TimeUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("list", new ListUrlResolver)
-
+  
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
       val searchCriteria = new ItemTimeLoggingSearchCriteria
       searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
-      searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates,
-        VariableInjector.THIS_WEEK));
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new TimeTrackingScreenData.Search(searchCriteria))
+      searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates, VariableInjector.THIS_WEEK))
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TimeTrackingScreenData.Search(searchCriteria))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
 }
 

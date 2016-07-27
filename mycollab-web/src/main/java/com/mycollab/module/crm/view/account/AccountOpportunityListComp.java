@@ -110,8 +110,8 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     private void loadOpportunities() {
         final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -120,7 +120,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         loadOpportunities();
     }
 
-    public class AccountOpportunityBlockDisplay implements BlockDisplayHandler<SimpleOpportunity> {
+    private class AccountOpportunityBlockDisplay implements BlockDisplayHandler<SimpleOpportunity> {
 
         @Override
         public Component generateBlock(final SimpleOpportunity opportunity, int blockIndex) {

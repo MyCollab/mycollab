@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view
 
+import com.mycollab.common.UrlTokenizer
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.service.ProjectService
@@ -27,17 +28,16 @@ import com.mycollab.module.project.view.milestone.MilestoneUrlResolver
 import com.mycollab.module.project.view.page.PageUrlResolver
 import com.mycollab.module.project.view.parameters.ProjectScreenData.{GotoCalendarView, GotoGanttChart}
 import com.mycollab.module.project.view.parameters.{MilestoneScreenData, ProjectScreenData}
-import com.mycollab.module.project.view.reports.{ReportUrlResolver, StandupUrlResolver}
+import com.mycollab.module.project.view.reports.ReportUrlResolver
 import com.mycollab.module.project.view.risk.RiskUrlResolver
 import com.mycollab.module.project.view.settings._
 import com.mycollab.module.project.view.task.ScheduleUrlResolver
 import com.mycollab.module.project.view.time.{InvoiceUrlResolver, TimeUrlResolver}
 import com.mycollab.shell.events.ShellEvent
+import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppContext
 import com.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
 import com.mycollab.vaadin.web.ui.ModuleHelper
-import com.mycollab.common.UrlTokenizer
-import com.mycollab.spring.AppContextUtil
 
 /**
   * @author MyCollab Ltd
@@ -71,7 +71,7 @@ class ProjectUrlResolver extends UrlResolver {
     this.addSubResolver("client", new ClientUrlResolver)
     return this
   }
-
+  
   override def handle(params: String*) {
     if (!ModuleHelper.isCurrentProjectModule) {
       EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, params))
@@ -80,11 +80,11 @@ class ProjectUrlResolver extends UrlResolver {
       super.handle(params: _*)
     }
   }
-
+  
   protected def defaultPageErrorHandler() {
     EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null))
   }
-
+  
   class ProjectTagUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -93,7 +93,7 @@ class ProjectUrlResolver extends UrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   class ProjectFavoriteUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -102,13 +102,13 @@ class ProjectUrlResolver extends UrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   class ProjectListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*): Unit = {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoList(this, null))
     }
   }
-
+  
   class ProjectDashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       if (params.isEmpty) {
@@ -120,7 +120,7 @@ class ProjectUrlResolver extends UrlResolver {
       }
     }
   }
-
+  
   class ProjectEditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       if (params.isEmpty) {
@@ -136,7 +136,7 @@ class ProjectUrlResolver extends UrlResolver {
       }
     }
   }
-
+  
   class RoadmapUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       if (params.isEmpty) {
@@ -148,7 +148,7 @@ class ProjectUrlResolver extends UrlResolver {
       }
     }
   }
-
+  
   private class CalendarUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*): Unit = {
       if (params.nonEmpty) {
@@ -158,7 +158,7 @@ class ProjectUrlResolver extends UrlResolver {
       }
     }
   }
-
+  
   private class GanttUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -166,5 +166,5 @@ class ProjectUrlResolver extends UrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
 }

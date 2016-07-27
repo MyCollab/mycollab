@@ -95,8 +95,8 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
 
     private void loadContacts() {
         final ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -105,7 +105,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
         loadContacts();
     }
 
-    public class AccountContactBlockDisplay implements BlockDisplayHandler<SimpleContact> {
+    private class AccountContactBlockDisplay implements BlockDisplayHandler<SimpleContact> {
 
         @Override
         public Component generateBlock(final SimpleContact contact, int blockIndex) {

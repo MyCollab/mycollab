@@ -40,7 +40,7 @@ class BugUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("kanban", new KanbanUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
   this.addSubResolver("preview", new PreviewUrlResolver)
-
+  
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val tokenizer = UrlTokenizer(params(0))
@@ -51,7 +51,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       var projectId: Integer = 0
@@ -76,7 +76,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       var bug: SimpleBug = null
@@ -96,7 +96,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -104,7 +104,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class KanbanUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*): Unit = {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -112,5 +112,5 @@ class BugUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
 }

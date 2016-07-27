@@ -16,17 +16,12 @@
  */
 package com.mycollab.module.project.view.parameters
 
-import java.util.Date
-
-import com.mycollab.module.project.domain.StandupReportWithBLOBs
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**
-  * @author MyCollab Ltd.
-  * @since 5.0.3
+  * @author MyCollab Ltd
+  * @since 5.2.10
   */
-object StandupScreenData {
-
-  class Search(param: Date) extends ScreenData[Date](param) {}
-
+object InvoiceScreenData {
+  class GotoInvoiceList() extends ScreenData[Any](null) {}
 }

@@ -18,7 +18,10 @@ package com.mycollab.module.project.view
 
 import java.util.GregorianCalendar
 
+import com.google.common.eventbus.Subscribe
 import com.mycollab.eventmanager.ApplicationEventListener
+import com.mycollab.module.crm.domain.SimpleAccount
+import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria
 import com.mycollab.module.project.events.ProjectEvent.{GotoMyProject, GotoUserDashboard}
 import com.mycollab.module.project.events.{ClientEvent, ProjectEvent, ReportEvent, StandUpEvent}
 import com.mycollab.module.project.view.client.IClientPresenter
@@ -26,9 +29,6 @@ import com.mycollab.module.project.view.parameters.ClientScreenData.{Add, Read}
 import com.mycollab.module.project.view.parameters.{ClientScreenData, ProjectScreenData, ReportScreenData, StandupScreenData}
 import com.mycollab.module.project.view.reports.IReportPresenter
 import com.mycollab.vaadin.mvp.{AbstractController, PageActionChain, PresenterResolver, ScreenData}
-import com.google.common.eventbus.Subscribe
-import com.mycollab.module.crm.domain.SimpleAccount
-import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria
 
 /**
   * @author MyCollab Ltd.
@@ -41,21 +41,21 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
       presenter.go(container, null)
     }
   })
-
+  
   this.register(new ApplicationEventListener[ProjectEvent.GotoMyProject]() {
     @Subscribe override def handle(event: GotoMyProject): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[ProjectViewPresenter])
       presenter.handleChain(container, event.getData.asInstanceOf[PageActionChain])
     }
   })
-
+  
   this.register(new ApplicationEventListener[ProjectEvent.GotoList]() {
     @Subscribe override def handle(event: ProjectEvent.GotoList): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[UserDashboardPresenter])
       presenter.go(container, new ProjectScreenData.GotoList())
     }
   })
-
+  
   this.register(new ApplicationEventListener[ClientEvent.GotoList]() {
     @Subscribe override def handle(event: ClientEvent.GotoList): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IClientPresenter])
@@ -63,7 +63,7 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
       presenter.go(container, new ClientScreenData.Search(searchCriteria))
     }
   })
-
+  
   this.register(new ApplicationEventListener[ClientEvent.GotoAdd]() {
     @Subscribe def handle(event: ClientEvent.GotoAdd): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IClientPresenter])
@@ -71,14 +71,14 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
       presenter.go(container, new Add(account))
     }
   })
-
+  
   this.register(new ApplicationEventListener[ClientEvent.GotoEdit]() {
     @Subscribe def handle(event: ClientEvent.GotoEdit): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IClientPresenter])
       presenter.go(container, new ScreenData.Edit[Any](event.getData))
     }
   })
-
+  
   this.register(new ApplicationEventListener[ClientEvent.GotoRead]() {
     @Subscribe def handle(event: ClientEvent.GotoRead): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IClientPresenter])
@@ -86,35 +86,35 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
       presenter.go(container, new Read(clientId))
     }
   })
-
+  
   this.register(new ApplicationEventListener[ReportEvent.GotoConsole]() {
     @Subscribe override def handle(event: ReportEvent.GotoConsole): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])
       presenter.go(container, null)
     }
   })
-
+  
   this.register(new ApplicationEventListener[ReportEvent.GotoTimesheetReport]() {
     @Subscribe override def handle(event: ReportEvent.GotoTimesheetReport): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])
       presenter.go(container, new ReportScreenData.GotoTimesheet())
     }
   })
-
+  
   this.register(new ApplicationEventListener[ReportEvent.GotoWeeklyTimingReport]() {
     @Subscribe override def handle(event: ReportEvent.GotoWeeklyTimingReport): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])
       presenter.go(container, new ReportScreenData.GotoWeeklyTiming())
     }
   })
-
+  
   this.register(new ApplicationEventListener[ReportEvent.GotoUserWorkloadReport]() {
     @Subscribe override def handle(event: ReportEvent.GotoUserWorkloadReport): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])
       presenter.go(container, new ReportScreenData.GotoUserWorkload())
     }
   })
-
+  
   this.register(new ApplicationEventListener[StandUpEvent.GotoList] {
     @Subscribe def handle(event: StandUpEvent.GotoList) {
       val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])

@@ -109,7 +109,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
             public void gotoNext(SimpleBug data) {
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
-                searchCriteria.setProjectId(NumberSearchField.and(data.getProjectid()));
+                searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.GREATER_THAN, data.getBugkey()));
                 Integer nextId = bugService.getNextItemKey(searchCriteria);
                 if (nextId != null) {
@@ -123,7 +123,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
             public void gotoPrevious(SimpleBug data) {
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
-                searchCriteria.setProjectId(NumberSearchField.and(data.getProjectid()));
+                searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.LESS_THAN,
                         data.getBugkey()));
                 Integer previousId = bugService.getNextItemKey(searchCriteria);

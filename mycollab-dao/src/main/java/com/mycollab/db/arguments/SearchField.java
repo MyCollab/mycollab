@@ -35,6 +35,10 @@ public class SearchField implements Serializable {
     public SearchField() {
     }
 
+    public SearchField(String operation) {
+        this.operation = operation;
+    }
+
     public String getOperation() {
         return operation;
     }

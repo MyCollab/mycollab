@@ -45,7 +45,7 @@ public class IssueNavigatorButton extends NavigationButton {
     public void displayTotalIssues(Integer milestoneId) {
         this.milestoneId = milestoneId;
         ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-        criteria.setMilestoneId(NumberSearchField.and(milestoneId));
+        criteria.setMilestoneId(NumberSearchField.equal(milestoneId));
         criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
         ProjectGenericTaskService ticketService = AppContextUtil.getSpringBean(ProjectGenericTaskService.class);

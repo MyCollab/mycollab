@@ -42,7 +42,6 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -114,7 +113,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                 CampaignService contactService = AppContextUtil.getSpringBean(CampaignService.class);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = contactService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(this, nextId));
@@ -129,7 +128,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                 CampaignService contactService = AppContextUtil.getSpringBean(CampaignService.class);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(this, nextId));

@@ -18,7 +18,6 @@ package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.Param;
@@ -125,9 +124,9 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
         @Override
         protected ContactSearchCriteria fillUpSearchCriteria() {
             ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-            if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
-                searchCriteria.setContactName(StringSearchField.and(this.nameField.getValue().trim()));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            if (StringUtils.isNotBlank(nameField.getValue())) {
+                searchCriteria.setContactName(StringSearchField.and(nameField.getValue().trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {

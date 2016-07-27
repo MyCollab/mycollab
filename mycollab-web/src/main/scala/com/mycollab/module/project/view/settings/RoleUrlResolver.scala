@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view.settings
 
+import com.mycollab.common.UrlTokenizer
+import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.project.domain.ProjectRole
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria
@@ -23,11 +25,9 @@ import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.service.ProjectRoleService
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.{ProjectRoleScreenData, ProjectScreenData}
+import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppContext
 import com.mycollab.vaadin.mvp.PageActionChain
-import com.mycollab.common.UrlTokenizer
-import com.mycollab.db.arguments.NumberSearchField
-import com.mycollab.spring.AppContextUtil
 
 /**
   * @author MyCollab Ltd
@@ -38,7 +38,7 @@ class RoleUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("preview", new PreviewUrlResolver())
   this.addSubResolver("edit", new EditUrlResolver())
   this.addSubResolver("add", new AddUrlResolver())
-
+  
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -48,7 +48,7 @@ class RoleUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val token = UrlTokenizer(params(0))
@@ -58,7 +58,7 @@ class RoleUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val token = UrlTokenizer(params(0))
@@ -70,7 +70,7 @@ class RoleUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val token = UrlTokenizer(params(0))
@@ -79,5 +79,5 @@ class RoleUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
 }

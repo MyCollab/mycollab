@@ -17,7 +17,6 @@
 package com.mycollab.module.project.view.parameters
 
 import com.mycollab.module.tracker.domain.BugWithBLOBs
-import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**

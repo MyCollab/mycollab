@@ -19,7 +19,6 @@ package com.mycollab.module.project.view.settings.component;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.tracker.domain.Component;
@@ -43,11 +42,10 @@ public class ComponentListSelect extends IntegerKeyListSelect {
 
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
         searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
-        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-        List<Component> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria,
-                0, Integer.MAX_VALUE));
+        List<Component> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (Component component : components) {
             this.addItem(component.getId());
             this.setItemCaption(component.getId(), component.getComponentname());

@@ -62,7 +62,7 @@ public class IssueListView extends AbstractMobilePageView {
 
     private void displayTickets() {
         ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-        criteria.setMilestoneId(NumberSearchField.and(milestoneId));
+        criteria.setMilestoneId(NumberSearchField.equal(milestoneId));
         criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
         int numTickets = ticketList.setSearchCriteria(criteria);

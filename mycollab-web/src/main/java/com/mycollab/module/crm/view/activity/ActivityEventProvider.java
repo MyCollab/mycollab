@@ -56,15 +56,13 @@ public class ActivityEventProvider implements CalendarEventProvider {
         List<CalendarEvent> events = new ArrayList<>();
 
         MeetingSearchCriteria searchCriteria = new MeetingSearchCriteria();
-        searchCriteria.setStartDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.GREATERTHANEQUAL, startDate));
-        searchCriteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESSTHANEQUAL, endDate));
+        searchCriteria.setStartDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.GREATER_THAN_EQUAL(), startDate));
+        searchCriteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESS_THAN_EQUAL(), endDate));
 
         LOG.debug("Get events from: " + startDate + " to " + endDate);
-        List<SimpleMeeting> crmEvents = meetingService
-                .findPageableListByCriteria(new BasicSearchRequest<>(
+        List<SimpleMeeting> crmEvents = meetingService.findPageableListByCriteria(new BasicSearchRequest<>(
                         searchCriteria, 0, Integer.MAX_VALUE));
-        LOG.debug("There are " + crmEvents.size() + " events from " + startDate
-                + " to " + endDate);
+        LOG.debug("There are " + crmEvents.size() + " events from " + startDate + " to " + endDate);
 
         filterListEventRecurringActivity(crmEvents, startDate, endDate);
 
@@ -89,8 +87,7 @@ public class ActivityEventProvider implements CalendarEventProvider {
                             if (crmEvent.getEnddate() != null) {
                                 if (crmEvent.getEnddate().compareTo(new Date()) == 0) {
                                     event.setStyleName("eventoverdue");
-                                } else if (crmEvent.getEnddate().compareTo(
-                                        new Date()) > 0) {
+                                } else if (crmEvent.getEnddate().compareTo(new Date()) > 0) {
                                     event.setStyleName("eventfuture");
                                 } else {
                                     event.setStyleName("eventoverdue");

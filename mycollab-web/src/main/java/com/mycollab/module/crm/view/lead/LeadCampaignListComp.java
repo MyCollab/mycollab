@@ -19,7 +19,6 @@ package com.mycollab.module.crm.view.lead;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CampaignLead;
@@ -64,8 +63,8 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
 
     private void loadCampaigns() {
         CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setLeadId(new NumberSearchField(SearchField.AND, lead.getId()));
+        criteria.setSaccountid(NumberSearchField.equal(AppContext.getAccountId()));
+        criteria.setLeadId(NumberSearchField.equal(lead.getId()));
         this.setSearchCriteria(criteria);
     }
 

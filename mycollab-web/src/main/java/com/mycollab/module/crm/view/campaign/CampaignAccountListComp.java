@@ -71,8 +71,8 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
 
     private void loadAccounts() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setCampaignId(new NumberSearchField(SearchField.AND, campaign.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setCampaignId(new NumberSearchField(campaign.getId()));
         this.setSearchCriteria(criteria);
     }
 

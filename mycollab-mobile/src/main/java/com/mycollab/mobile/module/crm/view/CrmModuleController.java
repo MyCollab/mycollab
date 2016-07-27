@@ -95,7 +95,7 @@ public class CrmModuleController extends AbstractController {
             public void handle(AccountEvent.GotoList event) {
                 AccountListPresenter presenter = PresenterResolver.getPresenter(AccountListPresenter.class);
                 AccountSearchCriteria criteria = new AccountSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(criteria));
             }
 
@@ -129,7 +129,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = -5805283303669877715L;
 
             @Subscribe
-            @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(AccountEvent.GotoRead event) {
                 AccountReadPresenter presenter = PresenterResolver.getPresenter(AccountReadPresenter.class);
@@ -158,7 +157,7 @@ public class CrmModuleController extends AbstractController {
             public void handle(ActivityEvent.GotoList event) {
                 ActivityListPresenter presenter = PresenterResolver.getPresenter(ActivityListPresenter.class);
                 ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(criteria));
             }
         });
@@ -289,7 +288,7 @@ public class CrmModuleController extends AbstractController {
                 ContactListPresenter presenter = PresenterResolver.getPresenter(ContactListPresenter.class);
 
                 ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
             }
         });
@@ -351,7 +350,7 @@ public class CrmModuleController extends AbstractController {
             public void handle(CampaignEvent.GotoList event) {
                 CampaignListPresenter presenter = PresenterResolver.getPresenter(CampaignListPresenter.class);
                 CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
             }
@@ -413,7 +412,7 @@ public class CrmModuleController extends AbstractController {
                 CaseListPresenter presenter = PresenterResolver.getPresenter(CaseListPresenter.class);
 
                 CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
             }
         });
@@ -473,7 +472,7 @@ public class CrmModuleController extends AbstractController {
             public void handle(LeadEvent.GotoList event) {
                 LeadListPresenter presenter = PresenterResolver.getPresenter(LeadListPresenter.class);
                 LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
             }
         });
@@ -533,7 +532,7 @@ public class CrmModuleController extends AbstractController {
             public void handle(OpportunityEvent.GotoList event) {
                 OpportunityListPresenter presenter = PresenterResolver.getPresenter(OpportunityListPresenter.class);
                 OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
 
             }

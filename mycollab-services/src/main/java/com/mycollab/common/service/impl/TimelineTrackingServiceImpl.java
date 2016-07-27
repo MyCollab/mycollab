@@ -79,7 +79,7 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
             DateTime startDate = new DateTime(start);
             final DateTime endDate = new DateTime(end);
             if (startDate.isAfter(endDate)) {
-                throw new UserInvalidInputException("Start date must be greater than end date");
+                throw new UserInvalidInputException("Start date must be greaterThan than end date");
             }
             List<Date> dates = boundDays(startDate, endDate.minusDays(1));
             Map<String, List<GroupItem>> items = new HashMap<>();

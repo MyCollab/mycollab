@@ -54,7 +54,7 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
     @Override
     public void load() {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleOpportunity clearOpportunity = new SimpleOpportunity();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearOpportunity, 0));
@@ -64,16 +64,10 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
 
         @Override
         public Component generateRow(final SimpleOpportunity opportunity, int rowIndex) {
-            return new Button(opportunity.getOpportunityname(), new Button.ClickListener() {
-                private static final long serialVersionUID = -8257474042598100147L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    selectionField.fireValueChange(opportunity);
-                    OpportunitySelectionView.this.getNavigationManager().navigateBack();
-                }
+            return new Button(opportunity.getOpportunityname(), clickEvent -> {
+                selectionField.fireValueChange(opportunity);
+                OpportunitySelectionView.this.getNavigationManager().navigateBack();
             });
         }
-
     }
 }

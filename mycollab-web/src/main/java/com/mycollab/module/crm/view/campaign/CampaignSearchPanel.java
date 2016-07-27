@@ -128,7 +128,7 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
         @Override
         protected CampaignSearchCriteria fillUpSearchCriteria() {
             CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(nameField.getValue())) {
                 searchCriteria.setCampaignName(StringSearchField.and(nameField.getValue()));

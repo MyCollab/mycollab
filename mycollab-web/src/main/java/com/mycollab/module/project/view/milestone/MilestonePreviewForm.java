@@ -49,7 +49,6 @@ import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
-import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -73,7 +72,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
     private static class MilestoneFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
         private static final long serialVersionUID = 1L;
 
-        public MilestoneFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
+        MilestoneFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
             super(form);
         }
 
@@ -117,57 +116,36 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
             final CheckBox openSelection = new CheckBox("Open", true);
-            openSelection.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    if (openSelection.getValue()) {
-                        searchCriteria.setIsOpenned(new SearchField());
-                    } else {
-                        searchCriteria.setIsOpenned(null);
-                    }
-                    updateSearchStatus();
+            openSelection.addValueChangeListener(valueChangeEvent -> {
+                if (openSelection.getValue()) {
+                    searchCriteria.setIsOpenned(new SearchField());
+                } else {
+                    searchCriteria.setIsOpenned(null);
                 }
+                updateSearchStatus();
             });
 
             final CheckBox overdueSelection = new CheckBox("Overdue", false);
-            overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    if (overdueSelection.getValue()) {
-                        searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS(), DateSearchField.LESSTHAN));
-                    } else {
-                        searchCriteria.setDueDate(null);
-                    }
-                    updateSearchStatus();
+            overdueSelection.addValueChangeListener(valueChangeEvent -> {
+                if (overdueSelection.getValue()) {
+                    searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
+                } else {
+                    searchCriteria.setDueDate(null);
                 }
+                updateSearchStatus();
             });
 
             Label spacingLbl1 = new Label("");
             Label spacingLbl2 = new Label("");
 
             final CheckBox taskSelection = new CheckBox(AppContext.getMessage(TaskI18nEnum.LIST), true);
-            taskSelection.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    updateTypeSearchStatus(taskSelection.getValue(), ProjectTypeConstants.TASK);
-                }
-            });
+            taskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(taskSelection.getValue(), ProjectTypeConstants.TASK));
 
             final CheckBox bugSelection = new CheckBox(AppContext.getMessage(BugI18nEnum.LIST), true);
-            bugSelection.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    updateTypeSearchStatus(bugSelection.getValue(), ProjectTypeConstants.BUG);
-                }
-            });
+            bugSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(bugSelection.getValue(), ProjectTypeConstants.BUG));
 
             final CheckBox riskSelection = new CheckBox(AppContext.getMessage(RiskI18nEnum.LIST), true);
-            riskSelection.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    updateTypeSearchStatus(riskSelection.getValue(), ProjectTypeConstants.RISK);
-                }
-            });
+            riskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(riskSelection.getValue(), ProjectTypeConstants.RISK));
 
             header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, riskSelection, spacingLbl2)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)

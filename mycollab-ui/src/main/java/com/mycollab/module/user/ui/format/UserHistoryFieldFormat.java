@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.user.ui.format;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.html.FormatUtils;
 import com.mycollab.module.mail.MailUtils;
@@ -23,10 +25,8 @@ import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.mycollab.vaadin.AppContext;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
+import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +41,7 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum
-                .FORM_EMPTY));
+        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override

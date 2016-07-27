@@ -114,7 +114,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
     private void loadCases() {
         final CaseSearchCriteria criteria = new CaseSearchCriteria();
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
+        criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }
 

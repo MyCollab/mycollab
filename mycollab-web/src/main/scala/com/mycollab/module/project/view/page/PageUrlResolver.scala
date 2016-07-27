@@ -64,8 +64,7 @@ class PageUrlResolver extends ProjectUrlResolver {
         val pageService = AppContextUtil.getSpringBean(classOf[PageService])
         val page = pageService.getPage(pagePath, AppContext.getUsername)
         if (page != null) {
-          val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-            new PageScreenData.Read(page))
+          val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new PageScreenData.Read(page))
           EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
         else {
@@ -88,8 +87,7 @@ class PageUrlResolver extends ProjectUrlResolver {
         val pageService = AppContextUtil.getSpringBean(classOf[PageService])
         val page = pageService.getPage(pagePath, AppContext.getUsername)
         if (page != null) {
-          val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-            new PageScreenData.Edit(page))
+          val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new PageScreenData.Edit(page))
           EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
         else {

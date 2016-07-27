@@ -18,7 +18,6 @@ package com.mycollab.module.project.view.settings;
 
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -98,8 +97,8 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
             public void gotoNext(SimpleComponent data) {
                 ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = componentService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, nextId));
@@ -113,8 +112,8 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
             public void gotoPrevious(SimpleComponent data) {
                 ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = componentService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, nextId));

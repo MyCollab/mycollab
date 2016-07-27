@@ -16,8 +16,8 @@
  */
 package com.mycollab.mobile.module.crm.view.lead;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.view.campaign.CampaignListDisplay;
 import com.mycollab.mobile.shell.events.ShellEvent;
@@ -27,7 +27,6 @@ import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -49,8 +48,8 @@ public class LeadRelatedCampaignView extends AbstractRelatedListView<SimpleCampa
 
     private void loadCampaigns() {
         final CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        searchCriteria.setLeadId(new NumberSearchField(SearchField.AND, this.lead.getId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setLeadId(new NumberSearchField(lead.getId()));
         this.itemList.search(searchCriteria);
     }
 
@@ -71,23 +70,15 @@ public class LeadRelatedCampaignView extends AbstractRelatedListView<SimpleCampa
 
         MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
-        Button newCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem("");
-            }
-        });
+        Button newCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addBtns.addComponent(newCampaignBtn);
 
-        Button selectCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.M_TITLE_SELECT_CAMPAIGNS), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                final LeadCampaignSelectionView campaignSelectionView = new LeadCampaignSelectionView(LeadRelatedCampaignView.this);
-                CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                campaignSelectionView.setSearchCriteria(criteria);
-                EventBusFactory.getInstance().post(new ShellEvent.PushView(LeadRelatedCampaignView.this, campaignSelectionView));
-            }
+        Button selectCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.M_TITLE_SELECT_CAMPAIGNS), clickEvent -> {
+            final LeadCampaignSelectionView campaignSelectionView = new LeadCampaignSelectionView(LeadRelatedCampaignView.this);
+            CampaignSearchCriteria criteria = new CampaignSearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            campaignSelectionView.setSearchCriteria(criteria);
+            EventBusFactory.getInstance().post(new ShellEvent.PushView(LeadRelatedCampaignView.this, campaignSelectionView));
         });
         addBtns.addComponent(selectCampaignBtn);
         addCampaign.setContent(addBtns);

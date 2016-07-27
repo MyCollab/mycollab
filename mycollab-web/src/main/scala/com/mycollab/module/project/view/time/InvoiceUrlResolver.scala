@@ -20,9 +20,9 @@ import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.InvoiceScreenData.GotoInvoiceList
-import com.mycollab.module.project.view.parameters.ProjectScreenData
 import com.mycollab.vaadin.mvp.PageActionChain
 import com.mycollab.common.UrlTokenizer
+import com.mycollab.module.project.view.parameters.ProjectScreenData
 
 /**
   * @author MyCollab Ltd

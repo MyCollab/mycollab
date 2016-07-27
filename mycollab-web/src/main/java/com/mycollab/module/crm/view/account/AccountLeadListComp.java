@@ -20,7 +20,6 @@ import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Account;
@@ -97,8 +96,8 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
 
     private void loadLeads() {
         LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
+        criteria.setSaccountid(NumberSearchField.equal(AppContext.getAccountId()));
+        criteria.setAccountId(NumberSearchField.equal(account.getId()));
         setSearchCriteria(criteria);
     }
 

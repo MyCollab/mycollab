@@ -101,7 +101,7 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
             public void gotoNext(SimpleProjectRole data) {
                 ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = projectRoleService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoRead(this, nextId));
@@ -114,7 +114,7 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
             public void gotoPrevious(SimpleProjectRole data) {
                 ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = projectRoleService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoRead(this, nextId));

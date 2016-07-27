@@ -95,7 +95,7 @@ public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
                 CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 CallSearchCriteria criteria = new CallSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = callService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, nextId));
@@ -109,7 +109,7 @@ public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
                 CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 CallSearchCriteria criteria = new CallSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = callService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, nextId));

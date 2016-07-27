@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.campaign;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
@@ -55,7 +54,7 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
     @Override
     public void load() {
         CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleCampaign clearCampaign = new SimpleCampaign();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearCampaign, 0));
@@ -65,16 +64,10 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
 
         @Override
         public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
-            return new Button(campaign.getCampaignname(), new Button.ClickListener() {
-                private static final long serialVersionUID = -2772809360324017746L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    selectionField.fireValueChange(campaign);
-                    CampaignSelectionView.this.getNavigationManager().navigateBack();
-                }
+            return new Button(campaign.getCampaignname(), clickEvent -> {
+                selectionField.fireValueChange(campaign);
+                CampaignSelectionView.this.getNavigationManager().navigateBack();
             });
         }
-
     }
 }

@@ -21,12 +21,12 @@ import com.mycollab.eventmanager.ApplicationEventListener
 import com.mycollab.module.crm.view.{CrmModulePresenter, CrmModuleScreenData}
 import com.mycollab.module.file.view.{FileModuleScreenData, IFileModulePresenter}
 import com.mycollab.module.project.view.ProjectModulePresenter
-import com.mycollab.module.project.view.parameters.ProjectModuleScreenData
 import com.mycollab.module.user.accountsettings.view.AccountModulePresenter
 import com.mycollab.premium.module.user.accountsettings.view.AccountModuleScreenData
 import com.mycollab.shell.events.ShellEvent
 import com.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.google.common.eventbus.Subscribe
+import com.mycollab.module.project.view.parameters.ProjectModuleScreenData
 
 /**
   * @author MyCollab Ltd

@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view.milestone
 
+import com.mycollab.common.UrlTokenizer
+import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.project.domain.SimpleMilestone
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
@@ -23,11 +25,9 @@ import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.service.MilestoneService
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.{MilestoneScreenData, ProjectScreenData}
+import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppContext
 import com.mycollab.vaadin.mvp.PageActionChain
-import com.mycollab.common.UrlTokenizer
-import com.mycollab.db.arguments.SetSearchField
-import com.mycollab.spring.AppContextUtil
 
 /**
   * @author MyCollab Ltd
@@ -38,7 +38,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("add", new AddUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
   this.addSubResolver("preview", new PreviewUrlResolver)
-
+  
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -49,7 +49,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
@@ -58,7 +58,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val token = UrlTokenizer(params(0))
@@ -70,7 +70,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val token = UrlTokenizer(params(0))
@@ -80,5 +80,5 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
 }

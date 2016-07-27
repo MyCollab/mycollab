@@ -36,7 +36,6 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 /**
  * @author MyCollab Ltd.
@@ -96,7 +95,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 TodoSearchCriteria criteria = new TodoSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, nextId));
@@ -111,7 +110,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 TodoSearchCriteria criteria = new TodoSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = taskService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, nextId));

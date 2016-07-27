@@ -16,12 +16,15 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.google.common.eventbus.Subscribe;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.utils.HumanTime;
 import com.mycollab.db.arguments.BooleanSearchField;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.core.utils.HumanTime;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -43,14 +46,11 @@ import com.mycollab.module.project.view.task.components.ToggleTaskSummaryWithPar
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.*;
-import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.ui.field.DateTimeOptionViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
-import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -62,6 +62,7 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.List;
 
@@ -262,19 +263,17 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         }
     }
 
-    private static class SelectChildTaskWindow extends Window {
+    private static class SelectChildTaskWindow extends MWindow {
         private TaskSearchPanel taskSearchPanel;
         private SimpleTask parentTask;
 
         SelectChildTaskWindow(SimpleTask parentTask) {
             super(AppContext.getMessage(TaskI18nEnum.ACTION_SELECT_TASK));
-            this.setWidth("800px");
-            this.setModal(true);
-            this.setResizable(false);
+            this.withModal(true).withResizable(false).withWidth("800px");
             this.parentTask = parentTask;
 
             TaskSearchCriteria baseSearchCriteria = new TaskSearchCriteria();
-            baseSearchCriteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+            baseSearchCriteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
             baseSearchCriteria.setHasParentTask(new BooleanSearchField(false));
 
             taskSearchPanel = new TaskSearchPanel(false);
@@ -282,7 +281,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     AppContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowRenderer(), 10);
             new Restrain(taskList).setMaxHeight((UIUtils.getBrowserHeight() - 120) + "px");
             taskSearchPanel.addSearchHandler(criteria -> {
-                criteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+                criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
                 criteria.setHasParentTask(new BooleanSearchField(false));
                 taskList.setSearchCriteria(criteria);
             });
@@ -294,9 +293,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         private class TaskRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<SimpleTask> {
             @Override
             public Component generateRow(AbstractBeanPagedList host, final SimpleTask item, int rowIndex) {
-                Button taskLink = new Button(item.getTaskname());
-                taskLink.addStyleName(WebUIConstants.BUTTON_LINK);
-                taskLink.addClickListener(clickEvent -> {
+                MButton taskLink = new MButton(item.getTaskname(), clickEvent -> {
                     if (item.getId().equals(parentTask.getId())) {
                         NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));
                     } else {
@@ -307,7 +304,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     }
 
                     close();
-                });
+                }).withStyleName(WebUIConstants.BUTTON_LINK);
                 return new MCssLayout(taskLink).withStyleName("list-row").withFullWidth();
             }
         }

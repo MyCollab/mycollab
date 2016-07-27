@@ -159,13 +159,13 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
         @Override
         protected CaseSearchCriteria fillUpSearchCriteria() {
             CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
-            if (StringUtils.isNotBlank(this.subjectField.getValue().trim())) {
-                searchCriteria.setSubject(StringSearchField.and(this.subjectField.getValue().trim()));
+            if (StringUtils.isNotBlank(subjectField.getValue())) {
+                searchCriteria.setSubject(StringSearchField.and(subjectField.getValue().trim()));
             }
 
-            if (this.myItemCheckbox.getValue()) {
+            if (myItemCheckbox.getValue()) {
                 searchCriteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);

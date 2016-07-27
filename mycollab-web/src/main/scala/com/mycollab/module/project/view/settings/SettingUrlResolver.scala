@@ -16,12 +16,12 @@
  */
 package com.mycollab.module.project.view.settings
 
+import com.mycollab.common.UrlTokenizer
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.{ProjectScreenData, ProjectSettingScreenData}
 import com.mycollab.vaadin.mvp.PageActionChain
-import com.mycollab.common.UrlTokenizer
 
 /**
   * @author MyCollab Ltd

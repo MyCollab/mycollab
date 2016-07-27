@@ -113,7 +113,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = opportunityService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, nextId));
@@ -127,7 +127,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = opportunityService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, nextId));

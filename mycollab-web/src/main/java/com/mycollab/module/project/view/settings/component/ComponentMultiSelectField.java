@@ -18,9 +18,8 @@
 package com.mycollab.module.project.view.settings.component;
 
 import com.mycollab.common.i18n.OptionI18nEnum;
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.tracker.domain.Component;
@@ -48,11 +47,10 @@ public class ComponentMultiSelectField extends MultiSelectComp {
     protected List<Component> createData() {
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
         searchCriteria.setStatus(StringSearchField.and(OptionI18nEnum.StatusI18nEnum.Open.name()));
-        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-        return componentService.findPageableListByCriteria(new BasicSearchRequest<>(
-                searchCriteria, 0, Integer.MAX_VALUE));
+        return componentService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
     }
 
     @Override

@@ -19,7 +19,6 @@ package com.mycollab.module.project.view.settings.component;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.tracker.domain.Version;
@@ -43,10 +42,10 @@ public class VersionListSelect extends IntegerKeyListSelect {
 
         VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
         searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
-        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
-        List<Version> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        List<Version> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (Version version : versions) {
             this.addItem(version.getId());
             this.setItemCaption(version.getId(), version.getVersionname());

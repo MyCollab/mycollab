@@ -110,7 +110,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
         @Override
         protected VersionSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new VersionSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setVersionname(StringSearchField.and(nameField.getValue().trim()));
             return searchCriteria;
         }

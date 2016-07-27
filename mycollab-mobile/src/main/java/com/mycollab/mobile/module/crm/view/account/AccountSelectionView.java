@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.account;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
 import com.mycollab.module.crm.domain.Account;
@@ -55,28 +54,20 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
     @Override
     public void load() {
         AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         itemList.search(searchCriteria);
 
         SimpleAccount clearAccount = new SimpleAccount();
-        itemList.getListContainer().addComponentAsFirst(
-                rowHandler.generateRow(clearAccount, 0));
+        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearAccount, 0));
     }
 
     private class AccountRowDisplayHandler implements RowDisplayHandler<SimpleAccount> {
 
         @Override
         public Component generateRow(final SimpleAccount account, int rowIndex) {
-            Button b = new Button(account.getAccountname(), new Button.ClickListener() {
-                private static final long serialVersionUID = -6728215631308893324L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    selectionField.fireValueChange(account);
-                    AccountSelectionView.this.getNavigationManager().navigateBack();
-                }
+            Button b = new Button(account.getAccountname(), clickEvent -> {
+                selectionField.fireValueChange(account);
+                AccountSelectionView.this.getNavigationManager().navigateBack();
             });
             if (account.getId() == null)
                 b.addStyleName("blank-item");

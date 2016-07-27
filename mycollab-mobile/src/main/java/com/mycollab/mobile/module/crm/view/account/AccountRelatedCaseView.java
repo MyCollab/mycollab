@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.account;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.module.crm.view.cases.CaseListDisplay;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.Account;
@@ -25,57 +24,43 @@ import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
-public class AccountRelatedCaseView extends
-		AbstractRelatedListView<SimpleCase, CaseSearchCriteria> {
-	private static final long serialVersionUID = -4559344487784697088L;
-	private Account account;
+public class AccountRelatedCaseView extends AbstractRelatedListView<SimpleCase, CaseSearchCriteria> {
+    private static final long serialVersionUID = -4559344487784697088L;
+    private Account account;
 
-	public AccountRelatedCaseView() {
-		initUI();
-	}
+    public AccountRelatedCaseView() {
+        initUI();
+    }
 
-	private void initUI() {
-		this.setCaption(AppContext
-				.getMessage(CaseI18nEnum.M_TITLE_RELATED_CASES));
-		itemList = new CaseListDisplay();
-		this.setContent(itemList);
-	}
+    private void initUI() {
+        this.setCaption(AppContext.getMessage(CaseI18nEnum.M_TITLE_RELATED_CASES));
+        itemList = new CaseListDisplay();
+        this.setContent(itemList);
+    }
 
-	public void displayCases(final Account account) {
-		this.account = account;
-		loadCases();
-	}
+    public void displayCases(final Account account) {
+        this.account = account;
+        loadCases();
+    }
 
-	private void loadCases() {
-		final CaseSearchCriteria criteria = new CaseSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+    private void loadCases() {
+        final CaseSearchCriteria criteria = new CaseSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(account.getId()));
+        setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadCases();
-	}
+    @Override
+    public void refresh() {
+        loadCases();
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		Button addCase = new Button();
-		addCase.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				fireNewRelatedItem("");
-			}
-		});
-		addCase.setStyleName("add-btn");
-		return addCase;
-	}
+    @Override
+    protected Component createRightComponent() {
+        return new MButton("", clickEvent -> fireNewRelatedItem("")).withStyleName("add-btn");
+    }
 
 }

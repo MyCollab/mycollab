@@ -33,7 +33,7 @@ import java.util.List;
 public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends CssLayout implements IPagedBeanList<S, B> {
     private static final long serialVersionUID = 1504984093640864283L;
 
-    protected int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
+    protected int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS();
     protected List<B> currentListData;
     private RowDisplayHandler<B> rowDisplayHandler;
 

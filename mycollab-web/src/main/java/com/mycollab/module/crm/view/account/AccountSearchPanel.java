@@ -154,8 +154,8 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
         @Override
         protected AccountSearchCriteria fillUpSearchCriteria() {
             AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-            searchCriteria.setAccountname(StringSearchField.and(this.nameField.getValue().trim()));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            searchCriteria.setAccountname(StringSearchField.and(nameField.getValue().trim()));
             if (myItemCheckbox.getValue()) {
                 searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
             } else {

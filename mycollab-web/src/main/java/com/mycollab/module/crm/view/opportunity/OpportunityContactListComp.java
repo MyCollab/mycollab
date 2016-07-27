@@ -131,8 +131,8 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
 
     private void loadContacts() {
         final ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setOpportunityId(new NumberSearchField(opportunity.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -141,7 +141,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         loadContacts();
     }
 
-    public class OpportunityContactBlockDisplay implements BlockDisplayHandler<SimpleContactOpportunityRel> {
+    private class OpportunityContactBlockDisplay implements BlockDisplayHandler<SimpleContactOpportunityRel> {
 
         @Override
         public Component generateBlock(final SimpleContactOpportunityRel contact, int blockIndex) {

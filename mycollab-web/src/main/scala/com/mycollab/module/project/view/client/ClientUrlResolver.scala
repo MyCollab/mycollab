@@ -21,7 +21,7 @@ import com.mycollab.module.project.domain.SimpleRisk
 import com.mycollab.module.project.events.ClientEvent.{GotoAdd, GotoEdit, GotoRead}
 import com.mycollab.module.project.events.{ClientEvent, ProjectEvent}
 import com.mycollab.module.project.view.ProjectUrlResolver
-import com.mycollab.module.project.view.parameters.{ProjectScreenData, RiskScreenData}
+import com.mycollab.module.project.view.parameters.RiskScreenData
 import com.mycollab.shell.events.ShellEvent
 import com.mycollab.vaadin.mvp.PageActionChain
 import com.mycollab.common.UrlTokenizer

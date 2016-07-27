@@ -36,7 +36,6 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 /**
  * @author MyCollab Ltd.
@@ -95,7 +94,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
                 CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 CallSearchCriteria criteria = new CallSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = callService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, nextId));
@@ -110,7 +109,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
                 CallService callService = AppContextUtil.getSpringBean(CallService.class);
                 CallSearchCriteria criteria = new CallSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = callService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, nextId));

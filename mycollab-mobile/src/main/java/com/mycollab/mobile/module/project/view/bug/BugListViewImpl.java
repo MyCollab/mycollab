@@ -33,7 +33,6 @@ import com.mycollab.mobile.module.project.events.BugEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
@@ -80,7 +79,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
             @Override
             protected BugSearchCriteria fillUpSearchCriteria(String value) {
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
-                searchCriteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_textDesc.buildSearchField(SearchField.AND,
                         StringParam.CONTAINS, value));
                 return searchCriteria;

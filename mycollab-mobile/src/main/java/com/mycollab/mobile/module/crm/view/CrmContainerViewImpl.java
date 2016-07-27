@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.module.crm.view.account.AccountListPresenter;
 import com.mycollab.mobile.module.crm.view.activity.ActivityListPresenter;
 import com.mycollab.mobile.module.crm.view.campaign.CampaignListPresenter;
@@ -27,11 +26,11 @@ import com.mycollab.mobile.module.crm.view.lead.LeadListPresenter;
 import com.mycollab.mobile.module.crm.view.opportunity.OpportunityListPresenter;
 import com.mycollab.mobile.ui.AbstractMobileTabPageView;
 import com.mycollab.mobile.ui.IconConstants;
+import com.mycollab.module.crm.domain.criteria.*;
+import com.mycollab.module.crm.i18n.*;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.module.crm.domain.criteria.*;
-import com.mycollab.module.crm.i18n.*;
 import com.vaadin.ui.Component;
 
 /**
@@ -110,37 +109,37 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements C
                 Component currentComponent = getSelelectedTab().getComponent();
                 if (currentComponent == getAccountTab()) {
                     AccountSearchCriteria criteria = new AccountSearchCriteria();
-                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                     accountPresenter.getView().getPagedBeanTable().search(criteria);
                     AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.LIST));
                 } else if (currentComponent == getContactTab()) {
                     ContactSearchCriteria criteria = new ContactSearchCriteria();
-                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                     contactPresenter.getView().getPagedBeanTable().search(criteria);
                     AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.LIST));
                 } else if (currentComponent == getCampaignTab()) {
                     CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                     campaignPresenter.getView().getPagedBeanTable().search(criteria);
                     AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.LIST));
                 } else if (currentComponent == getLeadTab()) {
                     LeadSearchCriteria criteria = new LeadSearchCriteria();
-                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                     leadPresenter.getView().getPagedBeanTable().search(criteria);
                     AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.LIST));
                 } else if (currentComponent == getOpportunityTab()) {
                     OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                     opportunityPresenter.getView().getPagedBeanTable().search(criteria);
                     AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.LIST));
                 } else if (currentComponent == getCaseTab()) {
                     CaseSearchCriteria criteria = new CaseSearchCriteria();
-                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                     casePresenter.getView().getPagedBeanTable().search(criteria);
                     AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.LIST));
                 } else if (currentComponent == getActivityTab()) {
                     ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                     activityPresenter.getView().getPagedBeanTable().search(criteria);
                     AppContext.addFragment("crm/activity/list", AppContext.getMessage(ActivityI18nEnum.M_VIEW_LIST_TITLE));
                 }

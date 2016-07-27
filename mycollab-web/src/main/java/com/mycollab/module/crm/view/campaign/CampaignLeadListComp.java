@@ -97,8 +97,8 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
 
     private void loadLeads() {
         final LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setCampaignId(new NumberSearchField(SearchField.AND, campaign.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setCampaignId(new NumberSearchField(campaign.getId()));
         setSearchCriteria(criteria);
     }
 

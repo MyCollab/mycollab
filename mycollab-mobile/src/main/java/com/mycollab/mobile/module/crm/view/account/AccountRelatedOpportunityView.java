@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.account;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.module.crm.view.opportunity.OpportunityListDisplay;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.Account;
@@ -25,8 +24,8 @@ import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -53,10 +52,8 @@ public class AccountRelatedOpportunityView extends AbstractRelatedListView<Simpl
 
     private void loadOpportunities() {
         final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-                .getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -67,17 +64,7 @@ public class AccountRelatedOpportunityView extends AbstractRelatedListView<Simpl
 
     @Override
     protected Component createRightComponent() {
-        Button addOpportunity = new Button();
-        addOpportunity.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7172838996944732255L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                fireNewRelatedItem("");
-            }
-        });
-        addOpportunity.setStyleName("add-btn");
-        return addOpportunity;
+        return new MButton("", clickEvent -> fireNewRelatedItem("")).withStyleName("add-btn");
     }
 
 }

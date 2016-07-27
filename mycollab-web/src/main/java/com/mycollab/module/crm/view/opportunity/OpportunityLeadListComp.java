@@ -97,8 +97,8 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
 
     private void loadLeads() {
         final LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setOpportunityId(new NumberSearchField(opportunity.getId()));
         setSearchCriteria(criteria);
     }
 
