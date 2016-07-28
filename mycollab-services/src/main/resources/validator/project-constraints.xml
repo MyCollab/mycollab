@@ -6,7 +6,7 @@
 
     <bean class="Project" ignore-annotations="false">
         <class>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Plan start date must be less than Plan end date</message>
                 <element name="firstDateField">planstartdate</element>
                 <element name="lastDateField">planenddate</element>
@@ -56,7 +56,7 @@
 
     <bean class="Milestone" ignore-annotations="false">
         <class>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>
@@ -76,18 +76,18 @@
 
     <bean class="Task" ignore-annotations="false">
         <class>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>
             </constraint>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Start date must be less than deadline date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">deadline</element>
             </constraint>
             <constraint
-                    annotation="com.mycollab.validator.constraints.DateComparision">
+                    annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>End date must be less than deadline date</message>
                 <element name="firstDateField">enddate</element>
                 <element name="lastDateField">deadline</element>

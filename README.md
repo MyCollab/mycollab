@@ -1,7 +1,7 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPLv3-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-5.3.4-brightgreen.svg)](https://community.mycollab.com/)
-[![SourceForge](https://img.shields.io/sourceforge/dt/mycollab.svg)](https://www.mycollab.com/ce-registration/)
+[![Version](https://img.shields.io/badge/Version-5.4.0-brightgreen.svg)](https://community.mycollab.com/)
+[![Github](https://img.shields.io/github/downloads/MyCollab/mycollab/total.svg)](https://github.com/MyCollab/mycollab/releases)
 
 
 ## Introduction
@@ -90,13 +90,13 @@ We use MyCollab in our daily jobs to manage our customers information, projects.
 ## System Requirements
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
 
-* Java Runtime Environment 7+: MyCollab could run when any JVM compatible platform such as Oracle JRE or OpenJDK.
+* Java Runtime Environment 8+: MyCollab could run when any JVM compatible platform such as Oracle JRE or OpenJDK.
 * MySQL database, version 5.5+: the higher version is recommended
 * 1 GB RAM minimum, 2 GB RAM recommended
 
 ## Installation
 
-The current MyCollab version is 5.3.4 released on 24th June, 2016. This branch focuses in reporting, customize options for on-demand edition.
+The current MyCollab version is 5.4.0 released on 28th July, 2016. This branch focuses in mobile, customize options for on-demand edition.
 
 1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
 2. Follow installation guideline at https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/installing-mycollab/

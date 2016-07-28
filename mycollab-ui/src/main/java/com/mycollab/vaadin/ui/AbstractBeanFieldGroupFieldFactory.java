@@ -22,7 +22,7 @@ import com.mycollab.core.utils.ClassUtils;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
-import com.mycollab.validator.constraints.DateComparision;
+import com.mycollab.validator.constraints.DateComparison;
 import com.vaadin.addon.touchkit.gwt.client.vcom.DatePickerState;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -220,9 +220,9 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                     fieldGroup.getField(propertyPath.toString()).addStyleName("errorField");
                 } else {
                     Annotation validateAnno = violation.getConstraintDescriptor().getAnnotation();
-                    if (validateAnno instanceof DateComparision) {
-                        String firstDateField = ((DateComparision) validateAnno).firstDateField();
-                        String lastDateField = ((DateComparision) validateAnno).lastDateField();
+                    if (validateAnno instanceof DateComparison) {
+                        String firstDateField = ((DateComparison) validateAnno).firstDateField();
+                        String lastDateField = ((DateComparison) validateAnno).lastDateField();
 
                         fieldGroup.getField(firstDateField).addStyleName("errorField");
                         fieldGroup.getField(lastDateField).addStyleName("errorField");

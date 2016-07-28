@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.3.5</version>
+        <version>5.4.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -22,37 +22,37 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-reporting</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>

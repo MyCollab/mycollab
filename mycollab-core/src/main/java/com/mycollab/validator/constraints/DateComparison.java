@@ -31,10 +31,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({METHOD, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = DateComparisionValidator.class)
+@Constraint(validatedBy = DateComparisonValidator.class)
 @Documented
-public @interface DateComparision {
-    String message() default "{com.mycollab.validator.constraints.DateComparision}";
+public @interface DateComparison {
+    String message() default "{com.mycollab.validator.constraints.DateComparison}";
 
     String firstDateField();
 

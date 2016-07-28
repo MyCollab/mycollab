@@ -27,12 +27,12 @@ import java.util.Date;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class DateComparisionValidator implements ConstraintValidator<DateComparision, Object> {
+public class DateComparisonValidator implements ConstraintValidator<DateComparison, Object> {
     private String firstDateField;
     private String lastDateField;
 
     @Override
-    public void initialize(DateComparision constraintAnnotation) {
+    public void initialize(DateComparison constraintAnnotation) {
         this.firstDateField = constraintAnnotation.firstDateField();
         this.lastDateField = constraintAnnotation.lastDateField();
     }

@@ -85,7 +85,7 @@
 
     <bean class="Campaign" ignore-annotations="false" >
         <class>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>
@@ -175,7 +175,7 @@
 
     <bean class="Task" ignore-annotations="false">
      	<class>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Start date must be less than due date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">duedate</element>
@@ -199,7 +199,7 @@
     </bean>
     <bean class="Meeting" ignore-annotations="false">
     	<class>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>

@@ -47,7 +47,7 @@ public class EventServiceTest extends IntegrationServiceTest {
     @Test
     public void testSearchByCriteria() throws ParseException {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(1));
+        criteria.setSaccountid(NumberSearchField.equal(1));
 
         List<SimpleActivity> list = eventService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(list.size()).isEqualTo(1);
@@ -65,7 +65,7 @@ public class EventServiceTest extends IntegrationServiceTest {
         criteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESS_THAN_EQUAL(), endDate));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleActivity> list = eventService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleActivity> list = eventService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(list.size()).isEqualTo(1);
         assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));
     }

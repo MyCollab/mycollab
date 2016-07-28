@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.3.5</version>
+        <version>5.4.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -16,62 +16,62 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-ui</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-caching</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-esb</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-scheduler</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>5.3.5</version>
+            <version>5.4.0</version>
         </dependency>
 
         <dependency>
@@ -278,6 +278,7 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-sass-compiler</artifactId>
             <version>0.9.13</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

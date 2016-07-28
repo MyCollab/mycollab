@@ -63,9 +63,7 @@ public class PermissionChecker {
                 return true;
             }
         } else {
-            throw new MyCollabException(
-                    "Do not support permission category except boolean and access permission, the check permission is "
-                            + flag);
+            throw new MyCollabException("Do not support permission category except boolean and access permission, the check permission is " + flag);
         }
     }
 }
