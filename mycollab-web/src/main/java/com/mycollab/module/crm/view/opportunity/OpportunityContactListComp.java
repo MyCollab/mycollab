@@ -16,10 +16,10 @@
  */
 package com.mycollab.module.crm.view.opportunity;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
@@ -29,6 +29,7 @@ import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactOpportunityService;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -39,7 +40,6 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -181,35 +181,24 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.CONTACT, contact.getId()) + "'>"
-                    + contact.getContactName() + "</a>", ContentMode.HTML);
+            Label contactName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.CONTACT, contact.getId())).appendText(contact.getContactName()).write());
 
             contactInfo.addComponent(contactName);
 
-            Label contactTitle = new Label("Title: "
-                    + (contact.getTitle() != null ? contact.getTitle() : ""));
+            Label contactTitle = new Label(AppContext.getMessage(ContactI18nEnum.FORM_TITLE) + ": " + MoreObjects.firstNonNull(contact.getTitle(), ""));
             contactInfo.addComponent(contactTitle);
 
-            Label contactEmail = new Label("Email: "
-                    + (contact.getEmail() != null ? "<a href='mailto:"
-                    + contact.getEmail() + "'>" + contact.getEmail()
-                    + "</a>" : ""), ContentMode.HTML);
+            String email = MoreObjects.firstNonNull(contact.getEmail(), "");
+            Label contactEmail = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + email).appendText(email).write());
             contactInfo.addComponent(contactEmail);
 
-            Label contactOfficePhone = new Label(
-                    "Office Phone: "
-                            + (contact.getOfficephone() != null ? contact
-                            .getOfficephone() : ""));
+            Label contactOfficePhone = new Label(AppContext.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE) + ": " +
+                    MoreObjects.firstNonNull(contact.getOfficephone(), ""));
             contactInfo.addComponent(contactOfficePhone);
 
-            Label contactRole = new Label(
-                    "Contact Role: "
-                            + (contact.getDecisionRole() != null ? contact
-                            .getDecisionRole() : ""));
+            Label contactRole = new Label(AppContext.getMessage(ContactI18nEnum.FORM_DECISION_ROLE) + ": " +
+                    MoreObjects.firstNonNull(contact.getDecisionRole(), ""));
             contactInfo.addComponent(contactRole);
 
             if (contact.getDecisionRole() != null) {

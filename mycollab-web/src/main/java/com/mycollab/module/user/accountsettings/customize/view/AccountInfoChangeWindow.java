@@ -30,9 +30,9 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.CurrencyComboBoxField;
+import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
@@ -42,25 +42,23 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.0.10
  */
-class AccountInfoChangeWindow extends Window {
+class AccountInfoChangeWindow extends MWindow {
     private SimpleBillingAccount billingAccount;
 
     private AdvancedEditBeanForm<SimpleBillingAccount> editForm;
 
     AccountInfoChangeWindow() {
         super(AppContext.getMessage(AdminI18nEnum.OPT_CHANGE_ACCOUNT_INFO));
-        this.setModal(true);
-        this.setResizable(false);
-        this.setWidth("700px");
+        MVerticalLayout content = new MVerticalLayout();
+        this.withModal(true).withResizable(false).withWidth("700px").withContent(content).withCenter();
 
         billingAccount = BeanUtility.deepClone(AppContext.getBillingAccount());
-        MVerticalLayout content = new MVerticalLayout();
-        this.setContent(content);
         editForm = new AdvancedEditBeanForm<>();
         editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
             private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9, "200px");

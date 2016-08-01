@@ -51,6 +51,7 @@ import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.GregorianCalendar;
 
@@ -58,7 +59,7 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ResolvedInputWindow extends Window {
+public class ResolvedInputWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private final SimpleBug bug;
@@ -68,16 +69,12 @@ public class ResolvedInputWindow extends Window {
     public ResolvedInputWindow(SimpleBug bugValue) {
         super(AppContext.getMessage(BugI18nEnum.OPT_RESOLVE_BUG, bugValue.getSummary()));
         this.bug = BeanUtility.deepClone(bugValue);
-        this.setWidth("900px");
-        this.setResizable(false);
-        this.setModal(true);
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
         VerticalLayout contentLayout = new VerticalLayout();
         contentLayout.setMargin(new MarginInfo(false, false, true, false));
         contentLayout.addComponent(editForm);
-        this.setContent(contentLayout);
-        this.center();
+        withWidth("900px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {

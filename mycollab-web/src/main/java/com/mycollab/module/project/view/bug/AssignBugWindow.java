@@ -45,6 +45,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.GregorianCalendar;
 
@@ -52,27 +53,21 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class AssignBugWindow extends Window {
+class AssignBugWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private final SimpleBug bug;
 
     AssignBugWindow(SimpleBug bug) {
         super(AppContext.getMessage(BugI18nEnum.OPT_ASSIGN_BUG, bug.getSummary()));
-        this.setWidth("750px");
-        this.setResizable(false);
-        this.setModal(true);
-
         this.bug = bug;
 
         VerticalLayout contentLayout = new VerticalLayout();
-
         EditForm editForm = new EditForm();
         contentLayout.addComponent(editForm);
         editForm.setBean(bug);
         contentLayout.setMargin(new MarginInfo(false, false, true, false));
 
-        this.setContent(contentLayout);
-        this.center();
+        this.withWidth("750px").withResizable(false).withModal(true).withContent(contentLayout).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
@@ -140,8 +135,7 @@ class AssignBugWindow extends Window {
                 if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2,
-                            "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
                 }
                 return null;
             }

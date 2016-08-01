@@ -36,26 +36,23 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-public class MilestoneAddWindow extends Window {
+public class MilestoneAddWindow extends MWindow {
     public MilestoneAddWindow(final SimpleMilestone milestone) {
         if (milestone.getId() == null) {
             setCaption("New milestone");
         } else {
             setCaption("Edit milestone");
         }
-        this.setWidth("800px");
-        this.setModal(true);
-        this.setResizable(false);
         VerticalLayout content = new VerticalLayout();
-        this.setContent(content);
+        withWidth("800px").withModal(true).withResizable(false).withContent(content).withCenter();
         final AdvancedEditBeanForm<SimpleMilestone> editForm = new AdvancedEditBeanForm<>();
         content.addComponent(editForm);
         editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.MILESTONE,

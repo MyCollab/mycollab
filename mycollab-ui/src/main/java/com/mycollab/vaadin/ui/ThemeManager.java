@@ -275,8 +275,8 @@ public class ThemeManager {
 
             extraStyles.append("div.v-button.token-field { background-color: " + ColorUtils.brighterColor("#" + accountTheme.getActionbtn()) + "; }");
 
-            extraStyles.append(".block {background-color: #" + accountTheme.getActionbtn() + ";}");
-            extraStyles.append(".block:hover {background-color: " + ColorUtils.darkerColor("#" + accountTheme.getActionbtn()) + ";}");
+//            extraStyles.append(".block {background-color: #" + accountTheme.getActionbtn() + ";}");
+//            extraStyles.append(".block:hover {background-color: " + ColorUtils.darkerColor("#" + accountTheme.getActionbtn()) + ";}");
 
             extraStyles.append(".v-context-menu-container .v-context-menu .v-context-submenu:hover " +
                     "{background-color:#" + accountTheme.getActionbtn() + ";}");

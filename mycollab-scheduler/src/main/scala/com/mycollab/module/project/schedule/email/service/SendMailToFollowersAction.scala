@@ -36,12 +36,12 @@ import org.springframework.beans.factory.annotation.Autowired
   * @since 4.6.0
   */
 abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificationAction {
-  @Autowired val extMailService: ExtMailService = null
-  @Autowired val projectService: ProjectService = null
-  @Autowired val projectMemberService: ProjectMemberService = null
-  @Autowired val commentService: CommentService = null
-  @Autowired val contentGenerator: IContentGenerator = null
-  @Autowired val auditLogService: AuditLogService = null
+  @Autowired var extMailService: ExtMailService = _
+  @Autowired var projectService: ProjectService = _
+  @Autowired var projectMemberService: ProjectMemberService = _
+  @Autowired var commentService: CommentService = _
+  @Autowired var contentGenerator: IContentGenerator = _
+  @Autowired var auditLogService: AuditLogService = _
   
   protected var bean: B = _
   protected var projectMember: SimpleProjectMember = _

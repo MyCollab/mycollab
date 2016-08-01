@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Calendar;
 import java.util.*;
@@ -49,7 +50,7 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public abstract class AbstractResourceMovingWindow extends Window {
+public abstract class AbstractResourceMovingWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private static Logger LOG = LoggerFactory.getLogger(AbstractResourceMovingWindow.class);
 
@@ -68,11 +69,8 @@ public abstract class AbstractResourceMovingWindow extends Window {
 
     AbstractResourceMovingWindow(Folder baseFolder, Collection<Resource> lstRes) {
         super("Moving asset(s)");
+        withModal(true).withResizable(false).withWidth("600px").withCenter();
         this.baseFolder = baseFolder;
-        center();
-        this.setWidth("600px");
-        this.setModal(true);
-        this.setResizable(false);
         this.movedResources = lstRes;
         this.resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         this.externalResourceService = AppContextUtil.getSpringBean(ExternalResourceService.class);

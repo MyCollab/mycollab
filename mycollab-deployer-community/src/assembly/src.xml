@@ -18,7 +18,6 @@
                 <include>${project.groupId}:mycollab-test</include>
                 <include>${project.groupId}:mycollab-localization</include>
                 <include>${project.groupId}:mycollab-caching</include>
-                <include>${project.groupId}:mycollab-caching-community</include>
                 <include>${project.groupId}:mycollab-jackrabbit</include>
                 <include>${project.groupId}:mycollab-migration</include>
                 <include>${project.groupId}:mycollab-services</include>

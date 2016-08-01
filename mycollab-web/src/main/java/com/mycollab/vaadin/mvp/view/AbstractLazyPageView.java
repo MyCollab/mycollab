@@ -16,14 +16,14 @@
  */
 package com.mycollab.vaadin.mvp.view;
 
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.LazyPageView;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd.
@@ -67,17 +67,12 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
 
     abstract protected void displayView();
 
-    private static class ProgressIndicator extends Window {
+    private static class ProgressIndicator extends MWindow {
         private static final long serialVersionUID = -6157950150738214354L;
 
         public ProgressIndicator() {
             super();
-            this.setDraggable(false);
-            this.setClosable(false);
-            this.setResizable(false);
-            this.setStyleName("lazyload-progress");
-            this.center();
-            this.setModal(true);
+            this.withDraggable(false).withClosable(false).withModal(true).withCenter().withStyleName("lazyload-progress");
 
             Div div = new Div().appendChild(new Div().setCSSClass("sk-cube sk-cube1"))
                     .appendChild(new Div().setCSSClass("sk-cube sk-cube2"))

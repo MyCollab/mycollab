@@ -173,12 +173,12 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
 
     private Component buildCommentBlock(final SimpleComment comment) {
         final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withFullWidth().withStyleName("message");
+                .withFullWidth();
 
         ProjectMemberBlock memberBlock = new ProjectMemberBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
-        MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
+        MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
 
         MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -236,13 +236,13 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         List<AuditChangeItem> changeItems = auditLog.getChangeItems();
         if (CollectionUtils.isNotEmpty(changeItems)) {
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                    .withFullWidth().withStyleName("message");
+                    .withFullWidth();
 
             ProjectMemberBlock memberBlock = new ProjectMemberBlock(auditLog.getPosteduser(), auditLog.getPostedUserAvatarId(),
                     auditLog.getPostedUserFullName());
             layout.addComponent(memberBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);

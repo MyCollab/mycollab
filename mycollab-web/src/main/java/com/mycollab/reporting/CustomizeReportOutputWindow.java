@@ -23,10 +23,10 @@ import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.FieldDefAnalyzer;
 import com.mycollab.common.service.CustomViewStoreService;
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.arguments.ValuedBean;
-import com.mycollab.db.query.VariableInjector;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.persistence.service.ISearchableService;
+import com.mycollab.db.query.VariableInjector;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.LazyStreamSource;
@@ -41,6 +41,7 @@ import org.vaadin.tepi.listbuilder.ListBuilder;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +52,7 @@ import java.util.Map;
  * @author MyCollab Ltd
  * @since 5.3.4
  */
-public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B extends ValuedBean> extends Window {
+public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B extends ValuedBean> extends MWindow {
     private VariableInjector<S> variableInjector;
     private ListBuilder listBuilder;
     private String viewId;
@@ -61,15 +62,10 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
     public CustomizeReportOutputWindow(final String viewId, final String reportTitle, final Class<B> beanCls,
                                        final ISearchableService<S> searchableService, final VariableInjector<S> variableInjector) {
         super("Export");
-        this.setModal(true);
-        this.setWidth("1000px");
-        this.setResizable(false);
-        this.center();
+        MVerticalLayout contentLayout = new MVerticalLayout();
+        this.withModal(true).withResizable(false).withWidth("1000px").withCenter().withContent(contentLayout);
         this.viewId = viewId;
         this.variableInjector = variableInjector;
-
-        MVerticalLayout contentLayout = new MVerticalLayout();
-        setContent(contentLayout);
 
         final OptionGroup optionGroup = new OptionGroup();
         optionGroup.addStyleName("sortDirection");
@@ -177,7 +173,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         sampleTableDisplay.setVisibleColumns(visibleColumns.toArray(new String[visibleColumns.size()]));
     }
 
-    protected Collection<TableViewField> getViewColumns() {
+    private Collection<TableViewField> getViewColumns() {
         CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
         CustomViewStore viewLayoutDef = customViewStoreService.getViewLayoutDef(AppContext.getAccountId(),
                 AppContext.getUsername(), viewId);

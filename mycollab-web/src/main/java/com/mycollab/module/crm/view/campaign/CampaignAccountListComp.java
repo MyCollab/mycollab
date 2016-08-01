@@ -16,10 +16,10 @@
  */
 package com.mycollab.module.crm.view.campaign;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CampaignAccount;
@@ -40,7 +40,6 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -107,7 +106,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
         return controlsBtnWrap;
     }
 
-    protected class CampaignAccountBlockDisplay implements BlockDisplayHandler<SimpleAccount> {
+    private class CampaignAccountBlockDisplay implements BlockDisplayHandler<SimpleAccount> {
 
         @Override
         public Component generateBlock(final SimpleAccount account, int blockIndex) {
@@ -126,49 +125,39 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
             VerticalLayout accountInfo = new VerticalLayout();
             accountInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton("", clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {
-                            if (confirmDialog.isConfirmed()) {
-                                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                                CampaignAccount associateAccount = new CampaignAccount();
-                                associateAccount.setAccountid(account.getId());
-                                associateAccount.setCampaignid(campaign.getId());
-                                campaignService.removeCampaignAccountRelationship(associateAccount, AppContext.getAccountId());
-                                CampaignAccountListComp.this.refresh();
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent ->
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
+                                    CampaignAccount associateAccount = new CampaignAccount();
+                                    associateAccount.setAccountid(account.getId());
+                                    associateAccount.setCampaignid(campaign.getId());
+                                    campaignService.removeCampaignAccountRelationship(associateAccount, AppContext.getAccountId());
+                                    CampaignAccountListComp.this.refresh();
+                                }
+                            })
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label accountName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.ACCOUNT, account.getId()) + "'>"
-                    + account.getAccountname() + "</a>", ContentMode.HTML);
+            Label accountName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.ACCOUNT, account.getId())).appendText(account.getAccountname()).write());
 
             accountInfo.addComponent(accountName);
 
-            Label accountOfficePhone = new Label(
-                    "Office Phone: "
-                            + (account.getPhoneoffice() != null ? account
-                            .getPhoneoffice() : ""));
+            Label accountOfficePhone = new Label(AppContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE) + ": " + MoreObjects.firstNonNull(account.getPhoneoffice(), ""));
             accountInfo.addComponent(accountOfficePhone);
-            Label accountEmail = new Label("Email: "
-                    + (account.getEmail() != null ? "<a href='mailto:"
-                    + account.getEmail() + "'>" + account.getEmail()
-                    + "</a>" : ""), ContentMode.HTML);
+            String email = MoreObjects.firstNonNull(account.getEmail(), "");
+            Label accountEmail = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + email).appendText(email).write());
             accountInfo.addComponent(accountEmail);
 
-            Label accountCity = new Label("City: "
-                    + (account.getCity() != null ? account.getCity() : ""));
+            Label accountCity = new Label(AppContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY) + ": " + MoreObjects.firstNonNull(account.getCity(), ""));
             accountInfo.addComponent(accountCity);
 
             blockTop.with(accountInfo).expand(accountInfo);

@@ -20,7 +20,6 @@ import com.mycollab.common.domain.MailRecipientField;
 import com.mycollab.configuration.EmailConfiguration;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.module.user.domain.SimpleUser;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.EmailException;
@@ -28,7 +27,6 @@ import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,10 +98,10 @@ public class DefaultMailer implements IMailer {
     }
 
     @Override
-    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
-                             List<MailRecipientField> bccEmail, String subject, String html) {
+    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmails, List<MailRecipientField> ccEmails,
+                             List<MailRecipientField> bccEmails, String subject, String html) {
         try {
-            HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html);
+            HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmails, ccEmails, bccEmails, subject, html);
             email.send();
         } catch (EmailException e) {
             throw new MyCollabException(e);
@@ -111,14 +109,14 @@ public class DefaultMailer implements IMailer {
     }
 
     @Override
-    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail,
-                             List<MailRecipientField> ccEmail, List<MailRecipientField> bccEmail,
+    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmails,
+                             List<MailRecipientField> ccEmails, List<MailRecipientField> bccEmails,
                              String subject, String html, List<? extends AttachmentSource> attachments) {
         try {
             if (CollectionUtils.isEmpty(attachments)) {
-                sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html);
+                sendHTMLMail(fromEmail, fromName, toEmails, ccEmails, bccEmails, subject, html);
             } else {
-                HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html);
+                HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmails, ccEmails, bccEmails, subject, html);
 
                 for (AttachmentSource attachment : attachments) {
                     email.attach(attachment.getAttachmentObj());
@@ -129,19 +127,6 @@ public class DefaultMailer implements IMailer {
         } catch (EmailException e) {
             throw new MyCollabException(e);
         }
-    }
-
-    @Override
-    public void sendHTMLMail(String fromEmail, String fromName, List<SimpleUser> users, String subject, String html,
-                             List<? extends AttachmentSource> attachment) {
-        List<MailRecipientField> lstRecipient = new ArrayList<>();
-        for (int i = 0; i < users.size(); i++) {
-            String mail = users.get(i).getEmail();
-            String mailName = isValidate(users.get(i).getDisplayName()) ? mail : users.get(i).getDisplayName();
-            lstRecipient.add(new MailRecipientField(mail, mailName));
-        }
-
-        this.sendHTMLMail(fromEmail, fromName, lstRecipient, null, null, subject, html, attachment);
     }
 
     private boolean isValidate(String val) {

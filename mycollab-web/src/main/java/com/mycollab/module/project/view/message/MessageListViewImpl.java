@@ -52,9 +52,7 @@ import com.mycollab.vaadin.web.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.viritin.button.MButton;
@@ -136,8 +134,8 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         @Override
         public Component generateRow(AbstractBeanPagedList host, final SimpleMessage message, int rowIndex) {
             final MHorizontalLayout messageLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false,
-                    true, false)).withStyleName("message").withFullWidth();
-            if (message.getIsstick() != null && message.getIsstick()) {
+                    true, false)).withFullWidth();
+            if (Boolean.TRUE.equals(message.getIsstick())) {
                 messageLayout.addStyleName("important-message");
             }
 
@@ -145,17 +143,15 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     message.getFullPostedUserName());
             messageLayout.addComponent(userBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName("message-container");
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
 
             A labelLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(message.getProjectid(), message.getId()),
                     new Text(message.getTitle()));
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
-                    false, false));
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
             messageHeader.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             CssLayout leftHeader = new CssLayout();
-            leftHeader.addComponent(new ELabel(labelLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3
-                    + " " + ValoTheme.LABEL_NO_MARGIN));
+            leftHeader.addComponent(ELabel.h3(labelLink.write()));
             ELabel timePostLbl = new ELabel().prettyDateTime(message.getPosteddate());
             timePostLbl.setStyleName(UIConstants.META_INFO);
 
@@ -188,8 +184,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             notification.setSizeUndefined();
             if (message.getCommentsCount() > 0) {
                 MHorizontalLayout commentNotification = new MHorizontalLayout();
-                Label commentCountLbl = new Label(Integer.toString(message.getCommentsCount()) + " " + FontAwesome.COMMENTS
-                        .getHtml(), ContentMode.HTML);
+                Label commentCountLbl = ELabel.html(Integer.toString(message.getCommentsCount()) + " " + FontAwesome.COMMENTS.getHtml());
                 commentCountLbl.setSizeUndefined();
                 commentNotification.addComponent(commentCountLbl);
                 notification.addComponent(commentNotification);
@@ -260,8 +255,8 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         private MHorizontalLayout messagePanelBody;
 
         TopMessagePanel() {
-            this.withFullWidth().withStyleName("message-toppanel");
-            messagePanelBody = new MHorizontalLayout().withSpacing(false).withStyleName("message-toppanel-body").withFullWidth();
+            this.withFullWidth().withStyleName(WebUIConstants.BOX);
+            messagePanelBody = new MHorizontalLayout().withSpacing(false).withFullWidth();
             messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             messageSearchPanel = new MessageSearchPanel();

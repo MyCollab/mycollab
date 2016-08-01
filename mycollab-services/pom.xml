@@ -107,10 +107,10 @@
     </dependencies>
     <build>
         <plugins>
-<!--
+
             <plugin>
-                <groupId>org.impl.generator</groupId>
-                <artifactId>impl-generator-maven-plugin</artifactId>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.3.2</version>
                 <dependencies>
                     <dependency>
@@ -125,6 +125,7 @@
                     </dependency>
                 </dependencies>
                 <executions>
+                    <!--
                     <execution>
                         <id>Crm Artifacts Generator</id>
                         <phase>validate</phase>
@@ -224,10 +225,10 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
-
+-->
                 </executions>
             </plugin>
--->
+
         </plugins>
     </build>
 

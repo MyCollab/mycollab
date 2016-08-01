@@ -16,10 +16,11 @@
  */
 package com.mycollab.module.crm.view.account;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
@@ -38,9 +39,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -164,29 +163,25 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             ELabel caseSubject = ELabel.h3(caseLink.write());
             caseInfo.addComponent(caseSubject);
 
-            Label casePriority = new Label("Priority: " + (oneCase.getPriority() != null ? oneCase.getPriority() : ""));
+            Label casePriority = new Label(AppContext.getMessage(CaseI18nEnum.FORM_PRIORITY) + ": " + MoreObjects.firstNonNull(oneCase.getPriority(), ""));
             caseInfo.addComponent(casePriority);
 
-            Label caseStatus = new Label("Status: " + (oneCase.getStatus() != null ? oneCase.getStatus() : ""));
+            Label caseStatus = new Label(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(oneCase.getStatus(), ""));
             caseInfo.addComponent(caseStatus);
 
             if (oneCase.getStatus() != null) {
                 beanBlock.addStyleName(colorsMap.get(oneCase.getStatus()));
             }
 
-            Label caseAssignUser = new Label("Assigned User: "
-                    + (oneCase.getAssignuser() != null ? "<a href='"
-                    + AccountLinkGenerator.generatePreviewFullUserLink(
-                    SiteConfiguration.getSiteUrl(AppContext
-                            .getUser().getSubdomain()),
-                    oneCase.getAssignuser()) + "'>"
-                    + oneCase.getAssignUserFullName() + "</a>" : ""),
-                    ContentMode.HTML);
+            String assigneeValue = (oneCase.getAssignuser() == null) ? new A().write() : new A(AccountLinkGenerator.generatePreviewFullUserLink(
+                    SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain()), oneCase.getAssignuser()))
+                    .appendText(oneCase.getAssignUserFullName()).write();
+            Label caseAssignUser = ELabel.html(assigneeValue);
             caseInfo.addComponent(caseAssignUser);
 
-            ELabel caseCreatedTime = new ELabel("Created Time: "
-                    + AppContext.formatPrettyTime(oneCase.getCreatedtime())).withDescription(AppContext
-                    .formatDateTime(oneCase.getCreatedtime()));
+            ELabel caseCreatedTime = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME) + ": "
+                    + AppContext.formatPrettyTime(oneCase.getCreatedtime()))
+                    .withDescription(AppContext.formatDateTime(oneCase.getCreatedtime()));
             caseInfo.addComponent(caseCreatedTime);
 
             blockTop.addComponent(caseInfo);

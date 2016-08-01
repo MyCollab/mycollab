@@ -16,8 +16,10 @@
  */
 package com.mycollab.vaadin.ui.field;
 
-import com.mycollab.core.utils.StringUtils;
 import com.hp.gagawa.java.elements.A;
+import com.mycollab.core.utils.StringUtils;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -50,12 +52,10 @@ public class UrlLinkViewField extends CustomField<String> {
     @Override
     protected Component initContent() {
         if (StringUtils.isBlank(url) || StringUtils.isBlank(caption)) {
-            Label lbl = new Label("&nbsp;");
-            lbl.setContentMode(ContentMode.HTML);
-            return lbl;
+            return new Label("&nbsp;", ContentMode.HTML);
         } else {
             final A link = new A(url).appendText(caption).setTarget("_blank");
-            return new Label(link.write(), ContentMode.HTML);
+            return ELabel.html(link.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
         }
     }
 }

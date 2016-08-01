@@ -27,9 +27,9 @@ import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -39,6 +39,7 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.GregorianCalendar;
 
@@ -46,19 +47,15 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 5.0.2
  */
-class GroupPageAddWindow extends Window {
+class GroupPageAddWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private Folder folder;
 
     GroupPageAddWindow(Folder editFolder) {
         super();
-        this.setModal(true);
-        this.setWidth("700px");
-        this.setResizable(false);
-        this.center();
         MVerticalLayout content = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
-
+        this.withModal(true).withResizable(false).withWidth("700px").withCenter().withContent(content);
         EditForm editForm = new EditForm();
 
         if (editFolder == null) {
@@ -73,8 +70,6 @@ class GroupPageAddWindow extends Window {
 
         editForm.setBean(folder);
         content.addComponent(editForm);
-
-        this.setContent(content);
     }
 
     GroupPageAddWindow() {

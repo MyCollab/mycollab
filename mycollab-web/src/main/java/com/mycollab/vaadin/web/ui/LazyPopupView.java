@@ -63,7 +63,7 @@ public class LazyPopupView extends PopupView {
 
         public PopupContent(String valueAsHtml) {
             this.valueAsHtml = valueAsHtml;
-            content = new MVerticalLayout();
+            content = new MVerticalLayout().withFullHeight().withFullWidth();
             new Restrain(content).setMaxHeight("600px").setMaxWidth("600px");
         }
 

@@ -53,12 +53,12 @@ class CrmCommentInput extends MHorizontalLayout {
 
     CrmCommentInput(final ReloadableComponent component, final String typeVal) {
         super();
-        this.withMargin(new MarginInfo(true, true, false, true)).withFullWidth().withStyleName("message");
+        this.withMargin(new MarginInfo(true, true, false, true)).withFullWidth();
 
         SimpleUser currentUser = AppContext.getUser();
         UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());
 
-        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName("message-container");
+        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
         this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
         type = typeVal;

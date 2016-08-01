@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.domain.CommentWithBLOBs;
@@ -44,6 +43,7 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.GregorianCalendar;
 
@@ -51,26 +51,18 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class AssignTaskWindow extends Window {
+public class AssignTaskWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private final Task task;
 
     public AssignTaskWindow(Task task) {
         super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getTaskname()));
-
-        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
-
         this.task = task;
-        this.setWidth("750px");
-        this.setResizable(false);
-        this.setModal(true);
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
+        this.withWidth("750px").withModal(true).withResizable(false).withCenter().withContent(contentLayout);
         EditForm editForm = new EditForm();
         contentLayout.addComponent(editForm);
         editForm.setBean(task);
-
-        this.setContent(contentLayout);
-
-        center();
     }
 
     private class EditForm extends AdvancedEditBeanForm<Task> {

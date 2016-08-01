@@ -30,7 +30,7 @@ import static com.mycollab.security.BooleanPermissionFlag.TRUE;
  */
 public class PermissionFlag {
     public static SecurityI18nEnum toVal(Integer flag) {
-        if (flag == NO_ACCESS) {
+        if (flag == null || flag == NO_ACCESS) {
             return SecurityI18nEnum.NO_ACCESS;
         } else if (flag == READ_ONLY) {
             return SecurityI18nEnum.READONLY;
@@ -38,7 +38,7 @@ public class PermissionFlag {
             return SecurityI18nEnum.READ_WRITE;
         } else if (flag == ACCESS) {
             return SecurityI18nEnum.ACCESS;
-        } else if (flag==TRUE) {
+        } else if (flag == TRUE) {
             return SecurityI18nEnum.YES;
         } else if (flag == FALSE) {
             return SecurityI18nEnum.NO;

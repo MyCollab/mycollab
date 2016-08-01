@@ -1601,7 +1601,7 @@ a.completed {
 }
 
 a.overdue {
-	color: red;
+	color: #B0470B;
 }
 
 a.pending {
@@ -1721,11 +1721,11 @@ a.pending {
 	padding: 3px 5px;
 	margin-right: 5px;
 	color: #ffffff;
-	background-color: #39d98e;
+	background-color: #76B38A;
 }
 
 .field-note:hover {
-	background-color: #28d082;
+	background-color: #66aa7c;
 }
 
 .arrow-btn {
@@ -1733,7 +1733,7 @@ a.pending {
 	text-align: center;
 	padding: 0 10px;
 	color: #ffffff;
-	background-color: #39d98e;
+	background-color: #76B38A;
 	position: relative;
 	display: inline-block;
 	margin-right: 10px;
@@ -1747,7 +1747,7 @@ a.pending {
 	height: 0px;
 	border-style: solid;
 	border-width: 10px 0 10px 10px;
-	border-color: transparent transparent transparent #39d98e;
+	border-color: transparent transparent transparent #76B38A;
 }
 
 .v-multifileupload-ext .v-verticallayout {
@@ -2151,11 +2151,16 @@ div.v-window {
 	padding: 3px 5px;
 	margin-right: 5px;
 	color: #ffffff;
+	background-color: #76B38A;
 	font-size: 13px;
 }
 
 .block a {
 	color: #ffffff;
+}
+
+.block:hover {
+	background-color: #66aa7c;
 }
 
 .wizard .wizard-progress-bar {
@@ -2444,7 +2449,7 @@ div.v-window {
 }
 
 .tm-container .tm-wrapper .timeline li .timestamp .date.overdue {
-	color: red;
+	color: #B0470B;
 }
 
 .tm-container .tm-wrapper .timeline li .status {
@@ -2479,28 +2484,31 @@ div.v-window {
 .tm-container .tm-wrapper .timeline li.closed .status:before {
 	content: "C";
 	background-color: #d9cfb5;
+	color: white;
 	border: none;
 	transition: all 200ms ease-in;
 }
 
 .tm-container .tm-wrapper .timeline li.inprogress .status {
-	border-top: 2px solid #66DC71;
+	border-top: 2px solid #0083ce;
 }
 
 .tm-container .tm-wrapper .timeline li.inprogress .status:before {
 	content: "P";
-	background-color: #66DC71;
+	background-color: #0083ce;
+	color: white;
 	border: none;
 	transition: all 200ms ease-in;
 }
 
 .tm-container .tm-wrapper .timeline li.future .status {
-	border-top: 2px solid #2981fe;
+	border-top: 2px solid #76B38A;
 }
 
 .tm-container .tm-wrapper .timeline li.future .status:before {
 	content: "F";
-	background-color: #2981fe;
+	background-color: #76B38A;
+	color: white;
 	border: none;
 	transition: all 200ms ease-in;
 }
@@ -14283,7 +14291,7 @@ a.completed {
 }
 
 a.overdue {
-	color: red;
+	color: #B0470B;
 }
 
 a.pending {
@@ -14403,11 +14411,11 @@ a.pending {
 	padding: 3px 5px;
 	margin-right: 5px;
 	color: #ffffff;
-	background-color: #39d98e;
+	background-color: #76B38A;
 }
 
 .field-note:hover {
-	background-color: #28d082;
+	background-color: #66aa7c;
 }
 
 .arrow-btn {
@@ -14415,7 +14423,7 @@ a.pending {
 	text-align: center;
 	padding: 0 10px;
 	color: #ffffff;
-	background-color: #39d98e;
+	background-color: #76B38A;
 	position: relative;
 	display: inline-block;
 	margin-right: 10px;
@@ -14429,7 +14437,7 @@ a.pending {
 	height: 0px;
 	border-style: solid;
 	border-width: 10px 0 10px 10px;
-	border-color: transparent transparent transparent #39d98e;
+	border-color: transparent transparent transparent #76B38A;
 }
 
 .v-multifileupload-ext .v-verticallayout {
@@ -14833,11 +14841,16 @@ div.v-window {
 	padding: 3px 5px;
 	margin-right: 5px;
 	color: #ffffff;
+	background-color: #76B38A;
 	font-size: 13px;
 }
 
 .block a {
 	color: #ffffff;
+}
+
+.block:hover {
+	background-color: #66aa7c;
 }
 
 .wizard .wizard-progress-bar {
@@ -15126,7 +15139,7 @@ div.v-window {
 }
 
 .tm-container .tm-wrapper .timeline li .timestamp .date.overdue {
-	color: red;
+	color: #B0470B;
 }
 
 .tm-container .tm-wrapper .timeline li .status {
@@ -15161,28 +15174,31 @@ div.v-window {
 .tm-container .tm-wrapper .timeline li.closed .status:before {
 	content: "C";
 	background-color: #d9cfb5;
+	color: white;
 	border: none;
 	transition: all 200ms ease-in;
 }
 
 .tm-container .tm-wrapper .timeline li.inprogress .status {
-	border-top: 2px solid #66DC71;
+	border-top: 2px solid #0083ce;
 }
 
 .tm-container .tm-wrapper .timeline li.inprogress .status:before {
 	content: "P";
-	background-color: #66DC71;
+	background-color: #0083ce;
+	color: white;
 	border: none;
 	transition: all 200ms ease-in;
 }
 
 .tm-container .tm-wrapper .timeline li.future .status {
-	border-top: 2px solid #2981fe;
+	border-top: 2px solid #76B38A;
 }
 
 .tm-container .tm-wrapper .timeline li.future .status:before {
 	content: "F";
-	background-color: #2981fe;
+	background-color: #76B38A;
+	color: white;
 	border: none;
 	transition: all 200ms ease-in;
 }
@@ -15454,23 +15470,7 @@ div .addview-layout-body {
 	margin-top: 15px;
 }
 
-.message-toppanel-body.v-margin-top {
-	padding-top: 7px;
-}
-
-.message-toppanel-body.v-margin-right {
-	padding-right: 5px;
-}
-
-.message-toppanel-body.v-margin-bottom {
-	padding-bottom: 7px;
-}
-
-.message-toppanel-body.v-margin-left {
-	padding-left: 18px;
-}
-
-.message .message-container {
+.message-container {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -15481,19 +15481,19 @@ div .addview-layout-body {
 	overflow: visible;
 }
 
-.message .message-container .v-verticallayout {
+.message-container .v-verticallayout {
 	display: block;
 }
 
-.message .message-container:hover {
+.message-container:hover {
 	background-color: #f5f5f5;
 }
 
-.message .message-container:hover:after {
+.message-container:hover:after {
 	border-color: transparent #f5f5f5;
 }
 
-.message .message-container:before {
+.message-container:before {
 	content: "";
 	position: absolute;
 	border-style: solid;
@@ -15506,7 +15506,7 @@ div .addview-layout-body {
 	border-radius: 0px;
 }
 
-.message .message-container:after {
+.message-container:after {
 	content: "";
 	position: absolute;
 	border-style: solid;
@@ -15519,56 +15519,17 @@ div .addview-layout-body {
 	border-radius: 0px;
 }
 
-.message.important-message .message-container {
-	border-color: #e9e9e9;
+.important-message .message-container {
+	border-color: #e8a052;
 }
 
-.message.important-message .message-container:before {
-	border-color: transparent #e9e9e9;
-}
-
-.message-toppanel {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border: 1px solid #e9e9e9;
-	background: none no-repeat left top #ffffff;
-	border-radius: 0px;
+.important-message .message-container:before {
+	border-color: transparent #e8a052;
 }
 
 .projectfeed-hdr-wrapper {
 	padding: 15px 30px;
 	border-bottom: 1px solid #e9e9e9;
-}
-
-.project-tableless {
-	display: table;
-	width: 100%;
-}
-
-.project-tableless:hover {
-	background-color: beige;
-}
-
-.project-tableless .columnExpand {
-	display: table-cell;
-	line-height: 20px;
-	padding: 5px;
-	padding-left: 0px;
-}
-
-.project-tableless .column100 {
-	display: table-cell;
-	width: 100px;
-	padding: 5px;
-	padding-left: 0px;
-}
-
-.project-tableless .column200 {
-	display: table-cell;
-	width: 160px;
-	padding: 5px;
-	padding-left: 0px;
 }
 
 div.v-csslayout.followers-container {
@@ -15880,6 +15841,10 @@ div.v-button.token-field {
 	border-color: #e9e9e9;
 	border-width: 0px 1px 1px 0px;
 	padding-left: 12px;
+}
+
+.gantt_container .v-table-table tr td.v-table-cell-content:first-child {
+	padding-top: 10px;
 }
 
 .gantt_container .v-table-table tr td.v-table-cell-content .v-disabled {
@@ -16539,11 +16504,11 @@ input.noBorderRight {
 }
 
 .v-label.overdue {
-	color: red;
+	color: #B0470B;
 }
 
 .v-label.overdue a {
-	color: red;
+	color: #B0470B;
 }
 
 .v-label.completed {
@@ -17265,13 +17230,13 @@ div.v-csslayout.main-body {
 
 .footer {
 	border-top: 1px solid #e9e9e9;
-	background-color: #3b3b3b;
-	color: #fff;
+	background-color: white;
+	color: #000;
 	font-size: 13px;
 }
 
 .footer a {
-	color: #fff;
+	color: #000;
 }
 
 .legendBoxContent {

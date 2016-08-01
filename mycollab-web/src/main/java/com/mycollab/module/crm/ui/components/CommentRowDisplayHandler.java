@@ -51,13 +51,13 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
     @Override
     public Component generateRow(final SimpleComment comment, int rowIndex) {
         final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false))
-                .withFullWidth().withStyleName("message");
+                .withFullWidth();
 
         UserBlock memberBlock = new UserBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
         CssLayout rowLayout = new CssLayout();
-        rowLayout.setStyleName("message-container");
+        rowLayout.setStyleName(WebUIConstants.MESSAGE_CONTAINER);
         rowLayout.setWidth("100%");
 
         MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true,

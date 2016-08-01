@@ -29,11 +29,11 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Window;
 import org.vaadin.tepi.listbuilder.ListBuilder;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.*;
 
@@ -41,7 +41,7 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class CustomizedTableWindow extends Window {
+public abstract class CustomizedTableWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private CustomViewStoreService customViewStoreService;
@@ -53,10 +53,7 @@ public abstract class CustomizedTableWindow extends Window {
     public CustomizedTableWindow(final String viewId, final AbstractPagedBeanTable<?, ?> table) {
         super(AppContext.getMessage(GenericI18Enum.OPT_CUSTOMIZE_VIEW));
         this.viewId = viewId;
-        this.setWidth("400px");
-        this.setResizable(false);
-        this.setModal(true);
-        this.center();
+        this.withWidth("400px").withModal(true).withResizable(false).withCenter();
 
         this.tableItem = table;
         customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);

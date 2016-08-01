@@ -41,4 +41,9 @@ public class DeploymentMode implements IDeploymentMode {
     public boolean isPremiumEdition() {
         return false;
     }
+
+    @Override
+    public String getSiteUrl(String subDomain) {
+        return "";
+    }
 }

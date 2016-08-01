@@ -44,6 +44,7 @@ import com.vaadin.ui.*;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -53,16 +54,13 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class TaskAddWindow extends Window {
+public class TaskAddWindow extends MWindow {
     public TaskAddWindow(SimpleTask task) {
         setCaption(task.getId() == null ? AppContext.getMessage(TaskI18nEnum.NEW) : AppContext.getMessage(TaskI18nEnum.DETAIL));
-        this.setWidth("1200px");
-        this.setModal(true);
-        this.setResizable(false);
 
         EditForm editForm = new EditForm();
         editForm.setBean(task);
-        this.setContent(editForm);
+        this.withWidth("1200px").withModal(true).withResizable(false).withContent(editForm).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<SimpleTask> {

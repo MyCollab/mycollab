@@ -16,8 +16,9 @@
  */
 package com.mycollab.module.crm.view.lead;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
@@ -38,7 +39,6 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -145,30 +145,22 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.CAMPAIGN, campaign.getId()) + "'>"
-                    + campaign.getCampaignname() + "</a>", ContentMode.HTML);
+            Label contactName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.CAMPAIGN, campaign.getId())).appendText(campaign.getCampaignname()).write());
 
             campaignInfo.addComponent(contactName);
 
-            Label campaignStatus = new Label(
-                    "Status: "
-                            + (campaign.getStatus() != null ? campaign
-                            .getStatus() : ""));
+            Label campaignStatus = new Label(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
+                    MoreObjects.firstNonNull(campaign.getStatus(), ""));
             campaignInfo.addComponent(campaignStatus);
 
-            Label campaignType = new Label("Type: "
-                    + (campaign.getType() != null ? campaign.getType() : ""));
+            Label campaignType = new Label(AppContext.getMessage(GenericI18Enum.FORM_TYPE) + ": " + MoreObjects
+                    .firstNonNull(campaign.getType(), ""));
             campaignInfo.addComponent(campaignType);
 
-            ELabel campaignEndDate = new ELabel(
-                    "End Date: "
-                            + AppContext
-                            .formatPrettyTime(campaign.getEnddate())).withDescription(AppContext.formatDate(campaign
-                    .getEnddate()));
+            ELabel campaignEndDate = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_END_DATE) + ": " +
+                    AppContext.formatPrettyTime(campaign.getEnddate()))
+                    .withDescription(AppContext.formatDate(campaign.getEnddate()));
             campaignInfo.addComponent(campaignEndDate);
 
             blockTop.with(campaignInfo).expand(campaignInfo);

@@ -16,12 +16,6 @@
  */
 package com.mycollab.common;
 
-import com.mycollab.configuration.IDeploymentMode;
-import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.module.user.domain.BillingAccount;
-import com.mycollab.module.user.service.BillingAccountService;
-import com.mycollab.spring.AppContextUtil;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -48,24 +42,5 @@ public final class GenericLinkUtils {
             }
         }
         return UrlEncodeDecoder.encode(paramStr.toString());
-    }
-
-    /**
-     * @param sAccountId
-     * @return
-     */
-    public static String generateSiteUrlByAccountId(Integer sAccountId) {
-        String siteUrl = "";
-        IDeploymentMode mode = AppContextUtil.getSpringBean(IDeploymentMode.class);
-        if (mode.isDemandEdition()) {
-            BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
-            BillingAccount account = billingAccountService.getAccountById(sAccountId);
-            if (account != null) {
-                siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
-            }
-        } else {
-            siteUrl = SiteConfiguration.getSiteUrl("");
-        }
-        return siteUrl;
     }
 }

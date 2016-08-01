@@ -20,13 +20,16 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * Mass update
@@ -35,25 +38,22 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class MassUpdateWindow<B> extends Window {
+public abstract class MassUpdateWindow<B> extends MWindow {
     private static final long serialVersionUID = 1L;
 
     protected B beanItem;
     protected AdvancedEditBeanForm<B> updateForm;
     protected MassUpdateLayout contentLayout;
 
-    protected MassUpdateCommand<B> massUpdateCommand;
+    private MassUpdateCommand<B> massUpdateCommand;
 
-    protected MButton updateBtn, closeBtn;
+    private MButton updateBtn, closeBtn;
 
     public MassUpdateWindow(String title, Resource iconResource, B initialValue, MassUpdateCommand<B> massUpdatePresenter) {
         super(title);
-        this.setWidth("1000px");
-        this.setResizable(false);
-        this.setModal(true);
+        this.withWidth("1000px").withResizable(false).withModal(true).withIcon(iconResource).withCenter();
         this.massUpdateCommand = massUpdatePresenter;
         this.beanItem = initialValue;
-        this.setIcon(iconResource);
 
         this.contentLayout = new MassUpdateLayout();
         this.updateForm = new AdvancedEditBeanForm<>();
@@ -65,8 +65,6 @@ public abstract class MassUpdateWindow<B> extends Window {
         updateForm.setFormLayoutFactory(buildFormLayoutFactory());
         updateForm.setBeanFormFieldFactory(buildBeanFormFieldFactory());
         updateForm.setBean(beanItem);
-
-        center();
     }
 
     abstract protected AbstractFormLayoutFactory buildFormLayoutFactory();

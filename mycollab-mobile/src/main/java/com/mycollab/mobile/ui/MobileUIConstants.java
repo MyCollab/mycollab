@@ -21,6 +21,7 @@ package com.mycollab.mobile.ui;
  * @since 3.0
  */
 public class MobileUIConstants {
+    public static final String LARGE = "large";
     public static final String BUTTON_ACTION = "action-btn";
     public static final String BUTTON_OPTION = "option-btn";
     public static final String BUTTON_DANGER = "danger-btn";

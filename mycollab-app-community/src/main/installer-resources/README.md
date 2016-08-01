@@ -40,6 +40,19 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.4.1
+-------------
+
+**Library Upgrades**
+
+* Spring framework 4.3.2.RELEASE
+
+**Improvements & New Features**
+
+* [Premium] Users can customize the project front pages
+* [Premium] Users can receive the notifications such as overdue assignments, or any assignment to her
+
+
 Version 5.4.0
 -------------
 

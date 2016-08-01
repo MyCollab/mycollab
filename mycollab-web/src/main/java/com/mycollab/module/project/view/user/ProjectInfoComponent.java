@@ -162,32 +162,33 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             }
             clientDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
                     .appendText(project.getClientName()));
-            ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(WebUIConstants.BUTTON_BLOCK)
+            ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(WebUIConstants.BUTTON_LINK)
                     .withWidthUndefined();
             footer.addComponents(accountBtn);
         }
 
         if (!SiteConfiguration.isCommunityEdition()) {
             MButton tagBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG), clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null)))
-                    .withIcon(FontAwesome.TAGS).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.TAGS).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_LINK);
             tagBtn.setDescription("Tag management");
             footer.addComponents(tagBtn);
 
             MButton favoriteBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoFavoriteView(this, null)))
-                    .withIcon(FontAwesome.STAR).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.STAR).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_LINK);
             favoriteBtn.setDescription("Your favorite list");
             footer.addComponents(favoriteBtn);
 
             MButton eventBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoCalendarView(this)))
-                    .withIcon(FontAwesome.CALENDAR).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.CALENDAR).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_LINK);
             eventBtn.setDescription("Calendar");
             footer.addComponents(eventBtn);
 
             MButton ganttChartBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoGanttChart(this, null)))
-                    .withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING,
+                            WebUIConstants.BUTTON_LINK);
             ganttChartBtn.setDescription("Gantt chart");
             footer.addComponents(ganttChartBtn);
         }

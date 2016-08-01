@@ -31,27 +31,22 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.3.1
  */
-public class NewUserAddedWindow extends Window {
+public class NewUserAddedWindow extends MWindow {
     public NewUserAddedWindow(final SimpleUser user, String uncryptPassword) {
         super(AppContext.getMessage(UserI18nEnum.NEW));
-        this.setModal(true);
-        this.setResizable(false);
-        this.setClosable(false);
-        this.center();
-        this.setWidth("600px");
         MVerticalLayout content = new MVerticalLayout();
-        this.setContent(content);
+        this.withModal(true).withResizable(false).withClosable(false).withCenter().withWidth("600px").withContent(content);
 
-        ELabel infoLbl = new ELabel(FontAwesome.CHECK_CIRCLE.getHtml() + AppContext.getMessage(UserI18nEnum.OPT_NEW_USER_CREATED,
-                user.getDisplayName()), ContentMode.HTML);
+        ELabel infoLbl = ELabel.html(FontAwesome.CHECK_CIRCLE.getHtml() + AppContext.getMessage(UserI18nEnum.OPT_NEW_USER_CREATED,
+                user.getDisplayName()));
         content.with(infoLbl);
 
         String signinInstruction = AppContext.getMessage(UserI18nEnum.OPT_SIGN_IN_MSG, AppContext.getSiteUrl(), AppContext.getSiteUrl());

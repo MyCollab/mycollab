@@ -37,19 +37,18 @@ import org.springframework.web.client.RestTemplate;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.3
  */
-public class TestimonialWindow extends Window {
+public class TestimonialWindow extends MWindow {
     private static Logger LOG = LoggerFactory.getLogger(TestimonialWindow.class);
 
     TestimonialWindow() {
         super("Thank you! We appreciate your help!");
-        this.setModal(true);
-        this.setResizable(false);
-        this.setWidth("900px");
+        this.withModal(true).withResizable(false).withWidth("900px").withCenter();
 
         MVerticalLayout content = new MVerticalLayout().withMargin(false);
 

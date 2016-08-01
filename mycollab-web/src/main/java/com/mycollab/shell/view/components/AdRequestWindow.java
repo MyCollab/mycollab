@@ -32,17 +32,16 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.3
  */
-public class AdRequestWindow extends Window {
+public class AdRequestWindow extends MWindow {
     public AdRequestWindow(final SimpleUser user) {
         super("Need help!");
-        this.setModal(true);
-        this.setResizable(false);
-        this.setWidth("600px");
+        this.withModal(true).withResizable(false).withWidth("600px").withCenter();
 
         MVerticalLayout content = new MVerticalLayout();
 

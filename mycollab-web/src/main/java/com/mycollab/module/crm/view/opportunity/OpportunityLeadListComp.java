@@ -16,10 +16,10 @@
  */
 package com.mycollab.module.crm.view.opportunity;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Opportunity;
@@ -40,7 +40,6 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -148,28 +147,19 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label leadName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.LEAD, lead.getId()) + "'>"
-                    + lead.getLeadName() + "</a>", ContentMode.HTML);
+            Label leadName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.LEAD, lead.getId())).appendText(lead.getLeadName()).write());
 
             leadInfo.addComponent(leadName);
 
-            Label leadStatus = new Label("Status: "
-                    + (lead.getStatus() != null ? lead.getStatus() : ""));
+            Label leadStatus = new Label(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(lead.getStatus(), ""));
             leadInfo.addComponent(leadStatus);
 
-            Label leadEmail = new Label("Email: "
-                    + (lead.getEmail() != null ? "<a href='mailto:"
-                    + lead.getEmail() + "'>" + lead.getEmail() + "</a>"
-                    : ""), ContentMode.HTML);
+            String email = MoreObjects.firstNonNull(lead.getEmail(), "");
+            Label leadEmail = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + email).appendText(email).write());
             leadInfo.addComponent(leadEmail);
 
-            Label leadOfficePhone = new Label("Office Phone: "
-                    + (lead.getOfficephone() != null ? lead.getOfficephone()
-                    : ""));
+            Label leadOfficePhone = new Label(AppContext.getMessage(LeadI18nEnum.FORM_OFFICE_PHONE) + ": " + MoreObjects.firstNonNull(lead.getOfficephone(), ""));
             leadInfo.addComponent(leadOfficePhone);
 
             blockTop.with(leadInfo).expand(leadInfo);

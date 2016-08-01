@@ -43,12 +43,12 @@ public class AppContextUtil implements ApplicationContextAware {
 
     public static <T> T getSpringBean(String name, Class<T> classType) {
         if (ctx == null) {
-            return null;
+            throw new MyCollabException("Can not find service " + name);
         }
         try {
             return ctx.getBean(name, classType);
         } catch (Exception e) {
-            return null;
+            throw new MyCollabException("Can not find service " + name);
         }
     }
 

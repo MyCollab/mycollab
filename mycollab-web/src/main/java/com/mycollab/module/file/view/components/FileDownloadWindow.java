@@ -27,19 +27,20 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +49,13 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class FileDownloadWindow extends Window {
+public class FileDownloadWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private final Content content;
 
     public FileDownloadWindow(final Content content) {
         super(content.getName());
-        this.setWidth("500px");
-        this.center();
-        this.setResizable(false);
-        this.setModal(true);
+        withModal(true).withResizable(false).withCenter().withWidth("500px");
 
         this.content = content;
         this.constructBody();
@@ -81,7 +79,7 @@ public class FileDownloadWindow extends Window {
                 descLbl.setValue("&nbsp;");
                 descLbl.setContentMode(ContentMode.HTML);
             }
-            inforLayout.addComponent(descLbl, "Description", 0, 0);
+            inforLayout.addComponent(descLbl, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0);
         }
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
@@ -98,13 +96,12 @@ public class FileDownloadWindow extends Window {
         inforLayout.addComponent(size, "Size", 0, 2);
 
         ELabel dateCreate = new ELabel().prettyDateTime(content.getCreated().getTime());
-        inforLayout.addComponent(dateCreate, "Created date", 0, 3);
+        inforLayout.addComponent(dateCreate, AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME), 0, 3);
 
         layout.addComponent(inforLayout.getLayout());
 
-        final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false));
-
-        final Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
+        MButton downloadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
+                .withIcon(FontAwesome.DOWNLOAD).withStyleName(WebUIConstants.BUTTON_ACTION);
         List<Resource> resources = new ArrayList<>();
         resources.add(content);
 
@@ -112,19 +109,10 @@ public class FileDownloadWindow extends Window {
 
         FileDownloader fileDownloader = new FileDownloader(downloadResource);
         fileDownloader.extend(downloadBtn);
-        downloadBtn.setIcon(FontAwesome.DOWNLOAD);
-        downloadBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
 
-        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                close();
-            }
-        });
-        cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
-        buttonControls.with(cancelBtn, downloadBtn).alignAll(Alignment.TOP_RIGHT);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
+        final MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, downloadBtn).withMargin(true);
         layout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);
         this.setContent(layout);
     }

@@ -64,7 +64,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
 
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
         optionBtn = new PopupButton();
-        optionBtn.addStyleName(WebUIConstants.BOX);
+        optionBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
         optionBtn.setIcon(FontAwesome.ELLIPSIS_H);
 
         if (permissionItem != null) {

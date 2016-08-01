@@ -30,8 +30,8 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -39,12 +39,9 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd
  * @since 5.3.0
  */
-public class VersionAddWindow extends Window implements IEditFormHandler<Version> {
+public class VersionAddWindow extends MWindow implements IEditFormHandler<Version> {
     public VersionAddWindow() {
         super(AppContext.getMessage(VersionI18nEnum.NEW));
-        this.setWidth("750px");
-        this.setResizable(false);
-        this.setModal(true);
         AdvancedEditBeanForm<Version> editForm = new AdvancedEditBeanForm<>();
         editForm.addFormHandler(this);
         editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_VERSION,
@@ -56,8 +53,8 @@ public class VersionAddWindow extends Window implements IEditFormHandler<Version
         version.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
         editForm.setBean(version);
         ComponentContainer buttonControls = generateEditFormControls(editForm, true, false, true);
-        this.setContent(new MVerticalLayout(editForm, buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT));
-        this.center();
+        withWidth("750px").withModal(true).withResizable(false).withContent(new MVerticalLayout(editForm,
+                buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT)).withCenter();
     }
 
     @Override

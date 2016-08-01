@@ -54,14 +54,13 @@ public class ProjectCommentInput extends MHorizontalLayout {
     private Integer extraTypeId;
 
     ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal) {
-        super();
-        this.withMargin(new MarginInfo(true, true, false, false)).withFullWidth().withStyleName("message");
+        this.withMargin(new MarginInfo(true, true, false, false)).withFullWidth().withHeightUndefined();
 
         SimpleUser currentUser = AppContext.getUser();
         ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(),
                 currentUser.getDisplayName());
 
-        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName("message-container");
+        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
         this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
         type = typeVal;

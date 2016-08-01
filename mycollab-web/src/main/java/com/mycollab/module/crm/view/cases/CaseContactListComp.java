@@ -16,8 +16,9 @@
  */
 package com.mycollab.module.crm.view.cases;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
@@ -38,9 +39,9 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -103,7 +104,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
         return controlsBtnWrap;
     }
 
-    protected class CaseContactBlockDisplay implements BlockDisplayHandler<SimpleContact> {
+    private class CaseContactBlockDisplay implements BlockDisplayHandler<SimpleContact> {
 
         @Override
         public Component generateBlock(final SimpleContact contact, int blockIndex) {
@@ -112,61 +113,49 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            HorizontalLayout blockTop = new HorizontalLayout();
-            blockTop.setSpacing(true);
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel contactAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
             iconWrap.addComponent(contactAvatar);
+            MHorizontalLayout blockTop = new MHorizontalLayout();
             blockTop.addComponent(iconWrap);
 
             VerticalLayout contactInfo = new VerticalLayout();
             contactInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton("", clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {
-                            if (confirmDialog.isConfirmed()) {
-                                final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                                ContactCase associateContact = new ContactCase();
-                                associateContact.setCaseid(cases.getId());
-                                associateContact.setContactid(contact.getId());
-                                contactService.removeContactCaseRelationship(associateContact, AppContext.getAccountId());
-                                CaseContactListComp.this.refresh();
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent ->
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
+                                    ContactCase associateContact = new ContactCase();
+                                    associateContact.setCaseid(cases.getId());
+                                    associateContact.setContactid(contact.getId());
+                                    contactService.removeContactCaseRelationship(associateContact, AppContext.getAccountId());
+                                    CaseContactListComp.this.refresh();
+                                }
+                            })
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.CONTACT, contact.getId()) + "'>"
-                    + contact.getContactName() + "</a>", ContentMode.HTML);
+            Label contactName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.CONTACT, contact.getId())).appendText(contact.getContactName()).write());
 
             contactInfo.addComponent(contactName);
 
-            Label contactTitle = new Label("Title: "
-                    + (contact.getTitle() != null ? contact.getTitle() : ""));
+            Label contactTitle = new Label(AppContext.getMessage(ContactI18nEnum.FORM_TITLE) + ": " + MoreObjects.firstNonNull(contact.getTitle(), ""));
             contactInfo.addComponent(contactTitle);
 
-            Label contactEmail = new Label("Email: "
-                    + (contact.getEmail() != null ? "<a href='mailto:"
-                    + contact.getEmail() + "'>" + contact.getEmail()
-                    + "</a>" : ""), ContentMode.HTML);
+            Label contactEmail = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + contact.getEmail()).appendText(contact.getEmail()));
             contactInfo.addComponent(contactEmail);
 
-            Label contactOfficePhone = new Label(
-                    "Office Phone: "
-                            + (contact.getOfficephone() != null ? contact
-                            .getOfficephone() : ""));
+            Label contactOfficePhone = new Label(AppContext.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE) + ": " + MoreObjects.firstNonNull(contact.getOfficephone(), ""));
             contactInfo.addComponent(contactOfficePhone);
 
             blockTop.addComponent(contactInfo);

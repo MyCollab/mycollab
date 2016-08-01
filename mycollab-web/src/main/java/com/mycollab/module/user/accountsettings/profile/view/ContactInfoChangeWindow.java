@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.user.accountsettings.profile.view;
 
+import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
@@ -25,16 +26,15 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -44,7 +44,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class ContactInfoChangeWindow extends Window {
+class ContactInfoChangeWindow extends MWindow {
     private TextField txtWorkPhone = new TextField();
     private TextField txtHomePhone = new TextField();
     private TextField txtFaceBook = new TextField();
@@ -55,14 +55,11 @@ class ContactInfoChangeWindow extends Window {
     private User user;
 
     ContactInfoChangeWindow(User user) {
+        super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
         this.user = user;
-        this.setWidth("450px");
-        this.setResizable(false);
-        this.setModal(true);
+        this.withWidth("450px").withResizable(false).withModal(true).withCenter();
         this.validation = AppContextUtil.getValidator();
         this.initUI();
-        this.center();
-        this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
     }
 
     private void initUI() {

@@ -39,12 +39,13 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
-public class LinkIssueWindow extends Window {
+public class LinkIssueWindow extends MWindow {
     private RelatedBugEditForm editForm;
     private BugSelectionField bugSelectionField;
     private SimpleBug hostedBug;
@@ -52,9 +53,6 @@ public class LinkIssueWindow extends Window {
 
     public LinkIssueWindow(SimpleBug bug) {
         super("Dependencies");
-        this.setResizable(false);
-        this.setModal(true);
-
         this.hostedBug = bug;
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false).withFullWidth();
 
@@ -64,9 +62,8 @@ public class LinkIssueWindow extends Window {
         relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
         editForm.setBean(relatedBug);
         contentLayout.add(editForm);
-        this.center();
-        this.setWidth("750px");
-        this.setContent(contentLayout);
+
+        this.withWidth("750px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
     }
 
     private class RelatedBugEditForm extends AdvancedEditBeanForm<RelatedBug> {

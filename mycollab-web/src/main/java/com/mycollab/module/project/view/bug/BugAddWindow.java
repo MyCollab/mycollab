@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.bug;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.i18n.FollowerI18nEnum;
@@ -38,13 +39,13 @@ import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.google.common.eventbus.AsyncEventBus;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -54,20 +55,18 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-public class BugAddWindow extends Window {
+public class BugAddWindow extends MWindow {
     public BugAddWindow(SimpleBug bug) {
         if (bug.getId() == null) {
             setCaption("New bug");
         } else {
             setCaption("Edit bug");
         }
-        this.setWidth("1200px");
-        this.setModal(true);
-        this.setResizable(false);
 
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
-        this.setContent(editForm);
+
+        withWidth("1200px").withModal(true).withResizable(false).withContent(editForm).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<SimpleBug> {
@@ -88,11 +87,10 @@ public class BugAddWindow extends Window {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 9);
                 layout.addComponent(informationLayout.getLayout());
 
-                MButton updateAllBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS),
-                        clickEvent -> {
-                            EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugAddWindow.this, bean));
-                            close();
-                        }).withStyleName(WebUIConstants.BUTTON_LINK);
+                MButton updateAllBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
+                    EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugAddWindow.this, bean));
+                    close();
+                }).withStyleName(WebUIConstants.BUTTON_LINK);
                 MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);

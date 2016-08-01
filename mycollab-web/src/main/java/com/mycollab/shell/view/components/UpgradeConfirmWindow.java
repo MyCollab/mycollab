@@ -16,6 +16,8 @@
  */
 package com.mycollab.shell.view.components;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
@@ -24,18 +26,16 @@ import com.mycollab.server.jetty.ServerInstance;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.io.File;
 import java.util.concurrent.Future;
@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
-public class UpgradeConfirmWindow extends Window {
+public class UpgradeConfirmWindow extends MWindow {
     private static final Logger LOG = LoggerFactory.getLogger(UpgradeConfirmWindow.class);
 
     private UI currentUI;
@@ -53,10 +53,7 @@ public class UpgradeConfirmWindow extends Window {
 
     public UpgradeConfirmWindow(final String version, String manualDownloadLink, final String installerFilePath) {
         super(AppContext.getMessage(ShellI18nEnum.OPT_NEW_UPGRADE_IS_READY));
-        this.setModal(true);
-        this.setResizable(false);
-        this.center();
-        this.setWidth("600px");
+        this.withModal(true).withResizable(false).withCenter().withWidth("600px");
         this.installerFilePath = installerFilePath;
 
         currentUI = UI.getCurrent();

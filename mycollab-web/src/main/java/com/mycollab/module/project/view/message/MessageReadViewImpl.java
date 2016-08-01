@@ -138,9 +138,9 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)
                     .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT).expand(headerText);
 
-            MHorizontalLayout messageLayout = new MHorizontalLayout().withStyleName("message").withFullWidth();
+            MHorizontalLayout messageLayout = new MHorizontalLayout().withFullWidth();
 
-            if (message.getIsstick() != null && message.getIsstick()) {
+            if (Boolean.TRUE.equals(message.getIsstick())) {
                 messageLayout.addStyleName("important-message");
             }
 
@@ -149,7 +149,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
 
             messageLayout.addComponent(userBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(true).withFullWidth().withStyleName("message-container");
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(true).withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);

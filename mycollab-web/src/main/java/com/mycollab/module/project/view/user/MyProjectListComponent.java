@@ -59,7 +59,8 @@ public class MyProjectListComponent extends MVerticalLayout {
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         this.addStyleName("myprojectlist");
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).withStyleName("panel-header");
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
+                .withStyleName(WebUIConstants.PANEL_HEADER);
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
         final MButton sortBtn = new MButton("").withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);

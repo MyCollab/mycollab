@@ -115,6 +115,7 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
         import scala.collection.JavaConversions._
         for (user <- notifiers) {
           val context = new MailContext[B](notification, user, siteUrl)
+          contentGenerator.putVariable("context", context)
           context.setWrappedBean(bean)
           buildExtraTemplateVariables(context)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)

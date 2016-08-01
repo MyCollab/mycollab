@@ -35,16 +35,16 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.Window;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class PasswordChangeWindow extends Window {
+public class PasswordChangeWindow extends MWindow {
     private PasswordField txtNewPassword;
     private PasswordField txtConfirmPassword;
 
@@ -52,11 +52,8 @@ public class PasswordChangeWindow extends Window {
 
     public PasswordChangeWindow(final User user) {
         super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
-        this.setWidth("600px");
+        this.withWidth("600px").withCenter().withResizable(false).withModal(true);
         this.initUI();
-        this.center();
-        this.setResizable(false);
-        this.setModal(true);
         this.user = user;
     }
 

@@ -31,9 +31,9 @@ import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.ui.Window;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
 
@@ -41,7 +41,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugSelectionWindow extends Window {
+public class BugSelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private FieldSelection<SimpleBug> fieldSelection;
@@ -49,9 +49,7 @@ public class BugSelectionWindow extends Window {
     public BugSelectionWindow(FieldSelection<SimpleBug> fieldSelection) {
         super("Bug Selection");
 
-        this.setWidth("900px");
-        this.setModal(true);
-        this.setResizable(false);
+        this.withWidth("900px").withModal(true).withResizable(false).withCenter();
         this.fieldSelection = fieldSelection;
 
         final DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> tableItem = createBugTable();

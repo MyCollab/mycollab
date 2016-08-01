@@ -18,6 +18,8 @@ package com.mycollab.mobile.ui;
 
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.io.Serializable;
 
@@ -25,7 +27,7 @@ import java.io.Serializable;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class ConfirmDialog extends Window {
+public class ConfirmDialog extends MWindow {
     private static final long serialVersionUID = 4412730322944493887L;
 
     public interface CloseListener extends Serializable {
@@ -38,11 +40,7 @@ public class ConfirmDialog extends Window {
 
     public ConfirmDialog() {
         super();
-        setStyleName("confirm-dialog");
-        setWidth("280px");
-        setClosable(false);
-        setDraggable(false);
-        setResizable(false);
+        withStyleName("confirm-dialog").withWidth("280px").withClosable(false).withDraggable(false).withResizable(false);
     }
 
     public static ConfirmDialog show(final UI currentUI, final String message, final String okCaption, final String cancelCaption,
@@ -79,18 +77,12 @@ public class ConfirmDialog extends Window {
         cancelBtn.setWidth("100%");
         cancelBtn.setHeight("35px");
 
-        Button.ClickListener listener = new Button.ClickListener() {
-            private static final long serialVersionUID = -8306231710367659086L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ConfirmDialog.this.setConfirmed(event.getButton() == okBtn);
-                if (ConfirmDialog.this.getListener() != null) {
-                    ConfirmDialog.this.getListener().onClose(ConfirmDialog.this);
-                }
-                ConfirmDialog.this.close();
+        ClickListener listener = (clickEvent)-> {
+            ConfirmDialog.this.setConfirmed(clickEvent.getButton() == okBtn);
+            if (ConfirmDialog.this.getListener() != null) {
+                ConfirmDialog.this.getListener().onClose(ConfirmDialog.this);
             }
-
+            close();
         };
 
         okBtn.addClickListener(listener);
@@ -103,8 +95,7 @@ public class ConfirmDialog extends Window {
         this.setContent(layout);
     }
 
-    public final void show(final UI parentUI, final CloseListener listener,
-                           final boolean modal) {
+    public final void show(final UI parentUI, final CloseListener listener, final boolean modal) {
         closeListener = listener;
         center();
         setModal(modal);

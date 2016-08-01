@@ -213,15 +213,8 @@ public class SiteConfiguration {
     }
 
     public static String getSiteUrl(String subDomain) {
-        String siteUrl;
         IDeploymentMode modeService = AppContextUtil.getSpringBean(IDeploymentMode.class);
-        if (modeService.isDemandEdition()) {
-            siteUrl = String.format(ApplicationProperties.getString(ApplicationProperties.APP_URL), subDomain);
-        } else {
-            siteUrl = String.format(ApplicationProperties.getString(ApplicationProperties.APP_URL),
-                    instance.serverAddress, instance.serverPort);
-        }
-        return siteUrl;
+        return modeService.getSiteUrl(subDomain);
     }
 
     public static boolean isDemandEdition() {

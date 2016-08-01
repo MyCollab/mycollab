@@ -50,6 +50,7 @@ import org.jsoup.safety.Whitelist;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.GregorianCalendar;
 
@@ -57,24 +58,20 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ReOpenWindow extends Window {
+public class ReOpenWindow extends MWindow {
     private final SimpleBug bug;
     private VersionMultiSelectField affectedVersionsSelect;
 
     public ReOpenWindow(final SimpleBug bugValue) {
         super(AppContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bugValue.getSummary()));
         this.bug = BeanUtility.deepClone(bugValue);
-        this.setResizable(false);
-        this.setModal(true);
-        this.setWidth("800px");
 
         MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
         contentLayout.addComponent(editForm);
 
-        this.setContent(contentLayout);
-        this.center();
+        withWidth("800px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<SimpleBug> {

@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -47,7 +48,7 @@ import java.io.IOException;
  * @author MyCollab Ltd
  * @since 5.2.12
  */
-public class ImagePreviewCropWindow extends Window {
+public class ImagePreviewCropWindow extends MWindow {
     private static final Logger LOG = LoggerFactory.getLogger(ImagePreviewCropWindow.class);
 
     private VerticalLayout previewPhoto;
@@ -56,13 +57,8 @@ public class ImagePreviewCropWindow extends Window {
 
     public ImagePreviewCropWindow(final ImageSelectionCommand imageSelectionCommand, final byte[] imageData) {
         super("Preview and modify image");
-        setModal(true);
-        setResizable(false);
-        setWidth("700px");
-        center();
-
         MVerticalLayout content = new MVerticalLayout();
-        setContent(content);
+        withModal(true).withResizable(false).withWidth("700px").withCenter().withContent(content);
 
         try {
             originalImage = ImageIO.read(new ByteArrayInputStream(imageData));
@@ -71,8 +67,7 @@ public class ImagePreviewCropWindow extends Window {
         }
         originalImage = ImageUtil.scaleImage(originalImage, 650, 650);
 
-        MHorizontalLayout previewBox = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false,
-                true, true, false)).withFullWidth();
+        MHorizontalLayout previewBox = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, false)).withFullWidth();
 
         previewPhoto = new VerticalLayout();
         previewPhoto.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

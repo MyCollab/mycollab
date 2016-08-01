@@ -26,4 +26,6 @@ public interface IDeploymentMode {
     boolean isCommunityEdition();
 
     boolean isPremiumEdition();
+
+    String getSiteUrl(String subDomain);
 }

@@ -57,7 +57,7 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
             MVerticalLayout layout = new MVerticalLayout();
             A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(String.format
                     ("[%s] %s", project.getShortname(), project.getName()));
-            layout.with(ELabel.html(prjLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS));
+            layout.with(ELabel.html(prjLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS, MobileUIConstants.LARGE));
 
             MHorizontalLayout metaInfo = new MHorizontalLayout();
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);

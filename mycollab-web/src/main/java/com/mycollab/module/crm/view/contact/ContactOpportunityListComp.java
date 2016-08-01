@@ -16,8 +16,9 @@
  */
 package com.mycollab.module.crm.view.contact;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
@@ -39,7 +40,6 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -147,26 +147,21 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label opportunityName = new Label(String.format("Name: <a href='%s%s'>%s</a>",
-                    SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain()),
-                    CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.OPPORTUNITY, opportunity.getId()),
-                    opportunity.getOpportunityname()),
-                    ContentMode.HTML);
+            Label opportunityName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.OPPORTUNITY, opportunity.getId())).appendText(opportunity.getOpportunityname()).write());
 
             opportunityInfo.addComponent(opportunityName);
 
-            Label opportunityAmount = new Label("Amount: " + (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
-            if (opportunity.getCurrencyid() != null && opportunity.getAmount() != null) {
-                opportunityAmount.setValue(opportunityAmount.getValue() + opportunity.getCurrencyid());
-            }
+            Label opportunityAmount = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT) + " : " +
+                    MoreObjects.firstNonNull(opportunity.getAmount(), ""));
             opportunityInfo.addComponent(opportunityAmount);
 
-            Label opportunitySaleStage = new Label("Sale Stage: " + (opportunity.getSalesstage() != null ? opportunity.getSalesstage() : ""));
+            Label opportunitySaleStage = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
+                    MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
-            ELabel opportunityExpectedCloseDate = new ELabel("Expected Closed Date: " +
-                    AppContext.formatPrettyTime(opportunity.getExpectedcloseddate())).withDescription(AppContext.formatDate(opportunity
-                    .getExpectedcloseddate()));
+            ELabel opportunityExpectedCloseDate = new ELabel(AppContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE) + ": " +
+                    AppContext.formatPrettyTime(opportunity.getExpectedcloseddate())).withDescription(AppContext.formatDate(opportunity.getExpectedcloseddate()));
             opportunityInfo.addComponent(opportunityExpectedCloseDate);
 
             blockTop.with(opportunityInfo).expand(opportunityInfo);

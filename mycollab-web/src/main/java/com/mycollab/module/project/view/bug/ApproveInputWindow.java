@@ -46,6 +46,7 @@ import org.jsoup.safety.Whitelist;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.GregorianCalendar;
 
@@ -53,23 +54,19 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ApproveInputWindow extends Window {
+public class ApproveInputWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private final SimpleBug bug;
 
     public ApproveInputWindow(SimpleBug bug) {
         super(AppContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
-        this.setResizable(false);
-        this.setModal(true);
-        this.setWidth("750px");
         this.bug = bug;
 
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
         contentLayout.addComponent(editForm);
-        this.setContent(contentLayout);
-        this.center();
+        this.withResizable(false).withModal(true).withWidth("750px").withContent(contentLayout).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
@@ -127,7 +124,7 @@ public class ApproveInputWindow extends Window {
                 MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(new MarginInfo(true, true, true, false));
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
