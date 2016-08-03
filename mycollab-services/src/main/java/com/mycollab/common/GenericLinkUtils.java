@@ -31,7 +31,7 @@ public final class GenericLinkUtils {
      * @return
      */
     public static String encodeParam(Object... params) {
-        StringBuffer paramStr = new StringBuffer("");
+        StringBuilder paramStr = new StringBuilder("");
         for (int i = 0; i < params.length; i++) {
             if (params[i] == null) {
                 return "";

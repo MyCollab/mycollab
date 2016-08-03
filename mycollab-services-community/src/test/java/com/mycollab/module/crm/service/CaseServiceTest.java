@@ -16,14 +16,14 @@
  */
 package com.mycollab.module.crm.service;
 
-import com.mycollab.module.crm.domain.SimpleCase;
-import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntegrationServiceTest;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.module.crm.domain.SimpleCase;
+import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.mycollab.test.DataSet;
+import com.mycollab.test.service.IntegrationServiceTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class CaseServiceTest extends IntegrationServiceTest {
         CaseSearchCriteria criteria = new CaseSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
@@ -61,7 +61,7 @@ public class CaseServiceTest extends IntegrationServiceTest {
         criteria.setSubject(StringSearchField.and("a"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
@@ -74,7 +74,7 @@ public class CaseServiceTest extends IntegrationServiceTest {
         criteria.setAssignUsers(new SetSearchField<>("linh", "admin"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
@@ -87,7 +87,7 @@ public class CaseServiceTest extends IntegrationServiceTest {
         criteria.setPriorities(new SetSearchField<>("High", "Medium"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
@@ -100,7 +100,7 @@ public class CaseServiceTest extends IntegrationServiceTest {
         criteria.setStatuses(new SetSearchField<>("New", "Test Status"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null, 0, Integer.MAX_VALUE));
+        List<SimpleCase> cases = caseService.findPageableListByCriteria(new BasicSearchRequest<>(null));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));

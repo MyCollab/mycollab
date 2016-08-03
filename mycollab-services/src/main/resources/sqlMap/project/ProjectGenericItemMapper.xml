@@ -300,12 +300,12 @@
     </sql>
 
     <sql id="selectTaskItem">
-        SELECT 'Project-Task' AS type, m_prj_task.taskkey AS typeId, s_user.username AS createdUser, s_user.avatarId AS
+        SELECT 'Project-Task' AS type, m_prj_task.id AS typeId, s_user.username AS createdUser, s_user.avatarId AS
         createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
         m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.taskname AS summary, m_prj_task.notes
         AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-        m_prj_project.shortname AS projectShortName, m_prj_task.id AS extraTypeId
+        m_prj_project.shortname AS projectShortName, m_prj_task.taskkey AS extraTypeId
         FROM m_prj_task
         LEFT OUTER JOIN s_user ON (m_prj_task.logBy = s_user.username)
         INNER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
@@ -337,12 +337,12 @@
     </sql>
 
     <sql id="selectBugItem">
-        SELECT 'Project-Bug' AS type, m_tracker_bug.bugkey AS typeId, s_user.username AS createdUser, s_user.avatarId
+        SELECT 'Project-Bug' AS type, m_tracker_bug.id AS typeId, s_user.username AS createdUser, s_user.avatarId
         AS createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
         m_tracker_bug.createdTime, m_tracker_bug.lastUpdatedTime, m_tracker_bug.summary,
         m_tracker_bug.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-        m_prj_project.shortname AS projectShortName, m_tracker_bug.id AS extraTypeId
+        m_prj_project.shortname AS projectShortName, m_tracker_bug.bugkey AS extraTypeId
         FROM m_tracker_bug
         LEFT OUTER JOIN s_user ON (m_tracker_bug.logby = s_user.username)
         INNER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
@@ -369,8 +369,8 @@
         m_tracker_version.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_tracker_version
-        LEFT OUTER JOIN s_user ON (m_tracker_version.createdUser = s_user.username)
-        INNER JOIN m_prj_project ON (m_tracker_version.projectId = m_prj_project.id)
+            LEFT OUTER JOIN s_user ON (m_tracker_version.createdUser = s_user.username)
+            INNER JOIN m_prj_project ON (m_tracker_version.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectRiskItem">
@@ -381,8 +381,8 @@
         m_prj_risk.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_risk
-        LEFT OUTER JOIN s_user ON (m_prj_risk.raisedbyuser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_risk.projectId = m_prj_project.id)
+            LEFT OUTER JOIN s_user ON (m_prj_risk.raisedbyuser = s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_risk.projectId = m_prj_project.id)
     </sql>
 
     <select id="findPageableListByCriteria" parameterType="ProjectGenericItemSearchCriteria"
@@ -457,39 +457,36 @@
         SELECT count(*) as totalCount
         FROM m_prj_task
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTaskSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTaskSearchCriteria" />
+            #end
         #end
     </select>
-    <select id="getTotalCountFromMessage" parameterType="ProjectGenericItemSearchCriteria"
-            resultType="int" lang="velocity">
+    <select id="getTotalCountFromMessage" parameterType="ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_prj_message
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryMessageSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryMessageSearchCriteria" />
+            #end
         #end
     </select>
-    <select id="getTotalCountFromMilestone" parameterType="ProjectGenericItemSearchCriteria"
-            resultType="int" lang="velocity">
+    <select id="getTotalCountFromMilestone" parameterType="ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_prj_milestone
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryMilestoneSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryMilestoneSearchCriteria" />
+            #end
         #end
     </select>
-    <select id="getTotalCountFromBug" parameterType="ProjectGenericItemSearchCriteria"
-            resultType="int" lang="velocity">
+    <select id="getTotalCountFromBug" parameterType="ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_tracker_bug
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryBugSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryBugSearchCriteria" />
+            #end
         #end
     </select>
     <select id="getTotalCountFromComponent" parameterType="ProjectGenericItemSearchCriteria"
@@ -497,9 +494,9 @@
         SELECT count(*) as totalCount
         FROM m_tracker_component
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryComponentSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryComponentSearchCriteria" />
+            #end
         #end
     </select>
     <select id="getTotalCountFromVersion" parameterType="ProjectGenericItemSearchCriteria"
@@ -507,9 +504,9 @@
         SELECT count(*) as totalCount
         FROM m_tracker_version
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryVersionSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryVersionSearchCriteria" />
+            #end
         #end
     </select>
     <select id="getTotalCountFromRisk" parameterType="ProjectGenericItemSearchCriteria"
@@ -517,9 +514,9 @@
         SELECT count(*) as totalCount
         FROM m_prj_risk
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryRiskSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryRiskSearchCriteria" />
+            #end
         #end
     </select>
 </mapper>

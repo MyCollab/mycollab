@@ -18,6 +18,7 @@ package com.mycollab.module.file.service.impl;
 
 import com.mycollab.configuration.FileStorage;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.module.file.service.RawContentService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -54,8 +55,7 @@ public class FileRawContentServiceImpl implements RawContentService {
             }
         }
 
-        try (BufferedOutputStream outStream = new BufferedOutputStream(
-                new FileOutputStream(new File(baseFolder, objectPath)))) {
+        try (BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(new File(baseFolder, objectPath)))) {
             byte[] buffer = new byte[BUFFER_SIZE];
             int byteRead;
 
@@ -74,7 +74,7 @@ public class FileRawContentServiceImpl implements RawContentService {
             File file = new File(baseFolder, objectPath);
             return new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            throw new MyCollabException(e);
+            throw new ResourceNotFoundException(e);
         }
     }
 

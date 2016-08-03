@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.milestone;
 
 import com.hp.gagawa.java.elements.Img;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.db.arguments.DateSearchField;
@@ -115,7 +116,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             withMargin(false).withFullWidth();
             MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
-            final CheckBox openSelection = new CheckBox("Open", true);
+            final CheckBox openSelection = new CheckBox(AppContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
                 if (openSelection.getValue()) {
                     searchCriteria.setIsOpenned(new SearchField());
@@ -125,7 +126,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 updateSearchStatus();
             });
 
-            final CheckBox overdueSelection = new CheckBox("Overdue", false);
+            final CheckBox overdueSelection = new CheckBox(AppContext.getMessage(StatusI18nEnum.Overdue), false);
             overdueSelection.addValueChangeListener(valueChangeEvent -> {
                 if (overdueSelection.getValue()) {
                     searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
@@ -154,13 +155,11 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
 
             assignmentsLayout = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowRenderer());
             assignmentsLayout.setMargin(new MarginInfo(true, true, true, false));
-            assignmentsLayout.setControlStyle("");
             this.with(header, assignmentsLayout);
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setIsOpenned(new SearchField());
-            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
-                    ProjectTypeConstants.RISK));
+            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
             searchCriteria.setMilestoneId(new NumberSearchField(beanItem.getId()));
             updateSearchStatus();
         }
@@ -197,10 +196,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             } else if (genericTask.isMilestone()) {
                 status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
             } else if (genericTask.isRisk()) {
-                status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
-                        genericTask.getStatus());
+                status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             } else if (genericTask.isTask()) {
-                status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
+                status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             }
             rowComp.with(new ELabel(status).withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined());
             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);

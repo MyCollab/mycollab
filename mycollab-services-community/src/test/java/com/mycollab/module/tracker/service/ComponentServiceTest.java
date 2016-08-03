@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.tracker.service;
 
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
@@ -54,9 +54,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testGetListComponents() throws ParseException {
-        List<SimpleComponent> components = componentService
-                .findPageableListByCriteria(new BasicSearchRequest<>(
-                        getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 
         assertThat(components.size()).isEqualTo(4);
         assertThat(components).extracting("id", "description", "status",
@@ -72,8 +70,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testTotalCount() {
-        List<SimpleComponent> components = componentService
-                .findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
         assertThat(components.size()).isEqualTo(4);
     }
 
@@ -84,7 +81,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
         ComponentSearchCriteria criteria = new ComponentSearchCriteria();
         criteria.setId(new NumberSearchField(1));
 
-        List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
                 "componentname", "numBugs", "numOpenBugs").contains(
@@ -101,8 +98,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
         criteria.setStatus(StringSearchField.and("Closed"));
         criteria.setUserlead(StringSearchField.and("nghiemle"));
 
-        List<SimpleComponent> components = componentService
-                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
                 "componentname", "numBugs", "numOpenBugs").contains(

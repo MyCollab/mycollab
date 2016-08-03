@@ -19,6 +19,7 @@ package com.mycollab.vaadin;
 import ch.qos.cal10n.IMessageConveyor;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.SessionExpireException;
 import com.mycollab.core.utils.BeanUtility;
@@ -187,7 +188,7 @@ public class AppContext implements Serializable {
 
     public static String getMessage(Enum<?> key, Object... objects) {
         try {
-            return (key != null) ? getInstance().messageHelper.getMessage(key, objects) : "";
+            return (key != null) ? getInstance().messageHelper.getMessage(key, objects) : AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED);
         } catch (Exception e) {
             return LocalizationHelper.getMessage(LocalizationHelper.defaultLocale, key, objects);
         }
@@ -197,11 +198,10 @@ public class AppContext implements Serializable {
         try {
             if (option == null)
                 return "";
-
             Enum key = Enum.valueOf(enumCls, option);
             return getMessage(key, objects);
         } catch (Exception e) {
-            return option;
+            return AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED);
         }
     }
 

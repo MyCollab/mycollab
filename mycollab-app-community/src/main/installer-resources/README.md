@@ -45,7 +45,6 @@ Version 5.4.1
 
 **Library Upgrades**
 
-* Spring framework 4.3.2.RELEASE
 
 **Improvements & New Features**
 
@@ -63,8 +62,9 @@ Version 5.4.0
 **Library Upgrades**
 
 * Jackrabbit 2.13.1
-* Spring framework 4.3.1.RELEASE
+* Spring framework 4.3.2.RELEASE
 * Vaadin 7.6.8
+* DynamicReports 4.1.1
 * Jetty 9.3.10.v20160621
 * Jackson 2.8.1
 * Flyway 4.0.3
@@ -81,8 +81,12 @@ Version 5.4.0
 
 **Bug Fixes**
 
+* Fix the pdfEncoding mistyping in the reporting module (Thanks to mchubby)
+* The NumberFormatException throws when user type a valid day duration in task form. 
+* [Premium] Not adding the second cache layer to the service classes
 * [Premium] Can not remove favorite flag in Favorite view 
 * [Premium] Fix the form layout text 
+* [Premium] Not include the total risks in the milestone information
 
 Version 5.3.4
 -----------------------------

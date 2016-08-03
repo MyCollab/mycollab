@@ -155,10 +155,11 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
 
     private Component msgWhenEmptyList() {
         String value = stringWhenEmptyList();
-        if (StringUtils.isBlank(value)) {
+        if (StringUtils.isNotBlank(value)) {
+            return new MHorizontalLayout().withMargin(true).withFullWidth().with(new Label());
+        } else {
             return null;
         }
-        return new MHorizontalLayout().withMargin(true).withFullWidth().withStyleName("panel-body").with(new Label(stringWhenEmptyList()));
     }
 
     public Component insertRowAt(T item, int index) {

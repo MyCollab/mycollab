@@ -43,7 +43,7 @@ public class MilestoneServiceTest extends IntegrationServiceTest {
     private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Autowired
-    protected MilestoneService itemTimeLoggingService;
+    private MilestoneService itemTimeLoggingService;
 
     private MilestoneSearchCriteria getCriteria() {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
@@ -52,7 +52,6 @@ public class MilestoneServiceTest extends IntegrationServiceTest {
         return criteria;
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetListMilestones() throws ParseException {
@@ -62,7 +61,7 @@ public class MilestoneServiceTest extends IntegrationServiceTest {
         criteria.setStatuses(new SetSearchField<>("Open"));
         criteria.setMilestoneName(StringSearchField.and("milestone 1"));
 
-        List<SimpleMilestone> milestones = itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(milestones.size()).isEqualTo(1);
         assertThat(milestones).extracting("id", "description", "createdUserFullName", "createdtime", "ownerFullName",
@@ -71,12 +70,10 @@ public class MilestoneServiceTest extends IntegrationServiceTest {
                         2, 2));
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetListMilestonesByCriteria() throws ParseException {
-        List<SimpleMilestone> milestones = itemTimeLoggingService
-                .findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 
         assertThat(milestones.size()).isEqualTo(4);
         assertThat(milestones).extracting("id", "description",
@@ -98,7 +95,7 @@ public class MilestoneServiceTest extends IntegrationServiceTest {
 
     @DataSet
     @Test
-    public void testgetTotalCount() {
+    public void testGetTotalCount() {
         int milestoneSize = itemTimeLoggingService.getTotalCount(getCriteria());
         assertThat(milestoneSize).isEqualTo(4);
     }

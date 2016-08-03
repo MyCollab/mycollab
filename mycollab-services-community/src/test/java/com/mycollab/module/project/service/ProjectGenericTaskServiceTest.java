@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.tuple;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProjectGenericTaskServiceTest extends IntegrationServiceTest {
     @Autowired
-    protected ProjectGenericTaskService projectGenericTaskService;
+    private ProjectGenericTaskService projectGenericTaskService;
 
     @DataSet
     @Test

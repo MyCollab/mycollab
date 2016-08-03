@@ -17,8 +17,8 @@
 package com.mycollab.module.project.service.impl;
 
 import com.mycollab.common.ModuleNameConstants;
-import com.mycollab.common.interceptor.aspect.ClassInfo;
-import com.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.mycollab.aspect.ClassInfo;
+import com.mycollab.aspect.ClassInfoMap;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;

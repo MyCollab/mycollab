@@ -176,8 +176,4 @@ public final class StringUtils {
         return true;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Hello: " + isValidPhoneNumber("123-456-7890 ext123"));
-    }
-
 }

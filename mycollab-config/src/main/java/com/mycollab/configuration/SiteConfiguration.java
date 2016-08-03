@@ -124,7 +124,7 @@ public class SiteConfiguration {
         instance.googleUrl = ApplicationProperties.getString(GOOGLE_URL, "https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub");
         instance.linkedinUrl = ApplicationProperties.getString(LINKEDIN_URL, "http://www.linkedin.com/company/mycollab");
 
-        Configuration configuration = new Configuration(Configuration.VERSION_2_3_24);
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_25);
         configuration.setDefaultEncoding("UTF-8");
         try {
             List<TemplateLoader> loaders = new ArrayList<>();

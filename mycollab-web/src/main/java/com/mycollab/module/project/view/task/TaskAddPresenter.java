@@ -108,8 +108,8 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
         item.setSaccountid(AppContext.getAccountId());
         item.setProjectid(CurrentProjectVariables.getProjectId());
         if (item.getPercentagecomplete() == null) {
-            item.setPercentagecomplete(new Double(0));
-        } else if (item.getPercentagecomplete().doubleValue() == 100d) {
+            item.setPercentagecomplete(0d);
+        } else if (item.getPercentagecomplete() == 100d) {
             item.setStatus(StatusI18nEnum.Closed.name());
         }
 

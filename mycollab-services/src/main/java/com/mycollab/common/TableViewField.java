@@ -52,7 +52,7 @@ public class TableViewField {
 
         TableViewField that = (TableViewField) o;
 
-        if (!descKey.equals(that.descKey)) return false;
+        if (descKey != null ? !descKey.equals(that.descKey) : that.descKey != null) return false;
         if (!field.equals(that.field)) return false;
         return defaultWidth.equals(that.defaultWidth);
 
@@ -60,7 +60,7 @@ public class TableViewField {
 
     @Override
     public int hashCode() {
-        int result = descKey.hashCode();
+        int result = descKey != null ? descKey.hashCode() : 0;
         result = 31 * result + field.hashCode();
         result = 31 * result + defaultWidth.hashCode();
         return result;

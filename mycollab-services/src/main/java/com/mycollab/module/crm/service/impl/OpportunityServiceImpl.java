@@ -18,10 +18,10 @@ package com.mycollab.module.crm.service.impl;
 
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.GroupItem;
-import com.mycollab.common.interceptor.aspect.ClassInfo;
-import com.mycollab.common.interceptor.aspect.ClassInfoMap;
-import com.mycollab.common.interceptor.aspect.Traceable;
-import com.mycollab.common.interceptor.aspect.Watchable;
+import com.mycollab.aspect.ClassInfo;
+import com.mycollab.aspect.ClassInfoMap;
+import com.mycollab.aspect.Traceable;
+import com.mycollab.aspect.Watchable;
 import com.mycollab.core.cache.CacheKey;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;

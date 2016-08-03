@@ -41,34 +41,40 @@ class AuditLogRegistry extends InitializingBean {
   
   def generatorDetailChangeOfActivity(activityStream: SimpleActivityStream): String = {
     if (activityStream.getAssoAuditLog != null) {
-      val groupFormatter = auditPrinters(activityStream.getType)
-      if (groupFormatter != null) {
-        val str = new StringBuilder("")
-        var isAppended = false
-        val changeItems: java.util.List[AuditChangeItem] = activityStream.getAssoAuditLog.getChangeItems
-        if (CollectionUtils.isNotEmpty(changeItems)) {
-          import scala.collection.JavaConversions._
-          for (item <- changeItems) {
-            val fieldName = item.getField
-            val fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName)
-            if (fieldDisplayHandler != null) {
-              isAppended = true
-              str.append(fieldDisplayHandler.generateLogItem(item))
+      val value = auditPrinters.get(activityStream.getType)
+      value match {
+        case Some(groupFormatter) =>
+          val str = new StringBuilder("")
+          var isAppended = false
+          val changeItems: java.util.List[AuditChangeItem] = activityStream.getAssoAuditLog.getChangeItems
+          if (CollectionUtils.isNotEmpty(changeItems)) {
+            import scala.collection.JavaConversions._
+            for (item <- changeItems) {
+              val fieldName = item.getField
+              val fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName)
+              if (fieldDisplayHandler != null) {
+                isAppended = true
+                str.append(fieldDisplayHandler.generateLogItem(item))
+              }
             }
           }
-        }
-        if (isAppended) {
-          str.insert(0, "<p>").insert(0, "<ul>")
-          str.append("</ul>").append("</p>")
-        }
-        return str.toString
+          if (isAppended) {
+            str.insert(0, "<p>").insert(0, "<ul>")
+            str.append("</ul>").append("</p>")
+          }
+          return str.toString
+        case None => return ""
       }
     }
     ""
   }
   
   def getFieldGroupFormatter(typeVal: String): FieldGroupFormatter = {
-    auditPrinters(typeVal)
+    val fieldGroupFormatter = auditPrinters.get(typeVal)
+    fieldGroupFormatter match {
+      case Some(field) => field
+      case None => new FieldGroupFormatter
+    }
   }
 }
 

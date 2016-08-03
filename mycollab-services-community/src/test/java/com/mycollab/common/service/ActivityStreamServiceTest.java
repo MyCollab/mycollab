@@ -18,8 +18,8 @@ package com.mycollab.common.service;
 
 import com.mycollab.common.domain.SimpleActivityStream;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.test.DataSet;
 import com.mycollab.test.service.IntegrationServiceTest;
@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.tuple;
 public class ActivityStreamServiceTest extends IntegrationServiceTest {
 
     @Autowired
-    protected ActivityStreamService activityStreamService;
+    private ActivityStreamService activityStreamService;
 
     @Test
     @DataSet
@@ -46,8 +46,7 @@ public class ActivityStreamServiceTest extends IntegrationServiceTest {
         searchCriteria.setModuleSet(new SetSearchField<>("aa", "bb"));
         searchCriteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleActivityStream> activities = activityStreamService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
-                Integer.MAX_VALUE));
+        List<SimpleActivityStream> activities = activityStreamService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         assertThat(activities.size()).isEqualTo(3);
     }
 
@@ -58,8 +57,7 @@ public class ActivityStreamServiceTest extends IntegrationServiceTest {
         searchCriteria.setModuleSet(new SetSearchField<>("bb"));
         searchCriteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleActivityStream> activities = activityStreamService
-                .findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleActivityStream> activities = activityStreamService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
         assertThat(activities.size()).isEqualTo(1);
         assertThat(activities).extracting("saccountid", "module", "action").contains(tuple(1, "bb", "update"));

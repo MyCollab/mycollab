@@ -13,6 +13,8 @@
         <result column="numTasks" jdbcType="INTEGER" property="numTasks" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
+        <result column="numOpenRisks" jdbcType="INTEGER" property="numOpenRisks" />
+        <result column="numRisks" jdbcType="INTEGER" property="numRisks" />
         <result column="projectName" property="projectName" jdbcType="VARCHAR" />
         <result column="projectShortName" property="projectShortName" jdbcType="VARCHAR" />
         <result column="totalTaskBillableHours" property="totalTaskBillableHours" jdbcType="DOUBLE"/>
@@ -107,9 +109,11 @@
                    s_user.avatarId AS ownerAvatarId,
                    concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerFullName,
                    (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id) AS numTasks,
-                   (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id AND m_prj_task.status='Open') AS numOpenTasks,
+                   (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id AND m_prj_task.status<>'Closed') AS numOpenTasks,
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id) AS numBugs,
-                   (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
+                   (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status NOT IN ('Verified')) AS numOpenBugs,
+                   (SELECT COUNT(*) FROM m_prj_risk WHERE m_prj_risk.milestoneId=m_prj_milestone.id) AS numRisks,
+                   (SELECT COUNT(*) FROM m_prj_risk WHERE m_prj_risk.milestoneId=m_prj_milestone.id AND m_prj_risk.status <> 'Closed') AS numOpenRisks,
                    m_prj_project.name as projectName, m_prj_project.shortname AS projectShortName,
                    (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectId
                      AND m_prj_task.milestoneId=m_prj_milestone.id

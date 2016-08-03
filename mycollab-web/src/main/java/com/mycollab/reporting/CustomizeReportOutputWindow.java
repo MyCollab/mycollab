@@ -61,7 +61,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
     public CustomizeReportOutputWindow(final String viewId, final String reportTitle, final Class<B> beanCls,
                                        final ISearchableService<S> searchableService, final VariableInjector<S> variableInjector) {
-        super("Export");
+        super(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         MVerticalLayout contentLayout = new MVerticalLayout();
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter().withContent(contentLayout);
         this.viewId = viewId;
@@ -85,9 +85,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         listBuilder.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
         final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(TableViewField.class, this.getAvailableColumns());
         listBuilder.setContainerDataSource(container);
-        Iterator<TableViewField> iterator = getAvailableColumns().iterator();
-        while (iterator.hasNext()) {
-            TableViewField field = iterator.next();
+        for (TableViewField field : getAvailableColumns()) {
             listBuilder.setItemCaption(field, AppContext.getMessage(field.getDescKey()));
         }
         final Collection<TableViewField> viewColumnIds = this.getViewColumns();

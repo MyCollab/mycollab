@@ -127,8 +127,8 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
 
             Div timestampDiv = new Div().setCSSClass("timestamp");
 
-            int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks();
-            int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks();
+            int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks() + milestone.getNumOpenRisks();
+            int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks() + milestone.getNumRisks();
             if (totalAssignments > 0) {
                 timestampDiv.appendChild(new Span().appendText((totalAssignments -
                         openAssignments) * 100 / totalAssignments + "%"));

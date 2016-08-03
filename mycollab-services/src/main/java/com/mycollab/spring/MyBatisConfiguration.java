@@ -22,6 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.Resource;
@@ -40,9 +41,13 @@ import java.util.ArrayList;
 @Profile("production")
 @Import(DataSourceConfiguration.class)
 @DependsOn("dbMigration")
+@MapperScan(basePackages = {"com.mycollab.common.dao", "com.mycollab.form.dao", "com.mycollab.module.crm.dao",
+        "com.mycollab.module.ecm.dao", "com.mycollab.ondemand.module.billing.dao", "com.mycollab.module.user.dao",
+        "com.mycollab.module.project.dao", "com.mycollab.module.tracker.dao", "com.mycollab.pro.common.dao",
+        "com.mycollab.pro.module.project.dao", "com.mycollab.ondemand.module.support.dao"})
 public class MyBatisConfiguration {
     @Autowired
-    DataSourceConfiguration dbConfig;
+    private DataSourceConfiguration dbConfig;
 
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {

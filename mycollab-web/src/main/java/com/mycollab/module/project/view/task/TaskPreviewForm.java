@@ -20,6 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.HumanTime;
 import com.mycollab.db.arguments.BooleanSearchField;
@@ -122,7 +123,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             } else if (Task.Field.parenttaskid.equalTo(propertyId)) {
                 return new SubTasksComp(beanItem);
             } else if (Task.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class)
+                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class)
                         .withStyleName(WebUIConstants.FIELD_NOTE);
             }
             return null;
@@ -221,10 +222,10 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
             Span priorityLink = new Span().appendText(ProjectAssetsManager.getTaskPriorityHtml(subTask.getPriority()))
                     .setTitle(subTask.getPriority());
-            layout.with(new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined());
+            layout.with(ELabel.html(priorityLink.write()).withWidthUndefined());
 
-            final ELabel statusLbl = new ELabel(AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, subTask.getStatus())).withStyleName(WebUIConstants.FIELD_NOTE)
-                    .withWidthUndefined();
+            String taskStatus = AppContext.getMessage(StatusI18nEnum.class, subTask.getStatus());
+            final ELabel statusLbl = new ELabel(taskStatus).withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined();
             layout.with(statusLbl);
 
             String avatarLink = StorageFactory.getAvatarPath(subTask.getAssignUserAvatarId(), 16);
@@ -239,16 +240,13 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 Boolean selectedFlag = checkBox.getValue();
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 if (selectedFlag) {
-                    statusLbl.setValue(AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum
-                            .StatusI18nEnum.class, com.mycollab.common.i18n.OptionI18nEnum
-                            .StatusI18nEnum.Closed.name()));
-                    subTask.setStatus(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed.name());
+                    statusLbl.setValue(AppContext.getMessage(StatusI18nEnum.class, StatusI18nEnum.Closed.name()));
+                    subTask.setStatus(StatusI18nEnum.Closed.name());
                     subTask.setPercentagecomplete(100d);
                     toggleTaskSummaryField.closeTask();
                 } else {
-                    statusLbl.setValue(AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum
-                            .StatusI18nEnum.class, com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Open.name()));
-                    subTask.setStatus(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Open.name());
+                    statusLbl.setValue(AppContext.getMessage(StatusI18nEnum.class, StatusI18nEnum.Open.name()));
+                    subTask.setStatus(StatusI18nEnum.Open.name());
                     subTask.setPercentagecomplete(0d);
                     if (subTask.isOverdue()) {
                         toggleTaskSummaryField.overdueTask();

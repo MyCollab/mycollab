@@ -37,12 +37,12 @@ import com.mycollab.test.service.IntegrationServiceTest;
 public class TaskServiceTest extends IntegrationServiceTest {
 
 	@Autowired
-	protected TaskService taskService;
+	private TaskService taskService;
 
 	@DataSet
 	@Test
 	public void testSearchByCriteria() {
-		List<SimpleTask> tasks = taskService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+		List<SimpleTask> tasks = taskService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 
 		assertThat(tasks.size()).isEqualTo(1);
 		assertThat(tasks).extracting("id", "status", "subject").contains(tuple(1, "Completed", "aaa"));
@@ -51,7 +51,7 @@ public class TaskServiceTest extends IntegrationServiceTest {
 	@DataSet
 	@Test
 	public void testGetTotalCounts() {
-		List<SimpleTask> tasks = taskService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+		List<SimpleTask> tasks = taskService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 		assertThat(tasks.size()).isEqualTo(1);
 	}
 

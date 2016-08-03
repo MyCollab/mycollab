@@ -176,7 +176,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(String.format(XHTML_PAGE, beanItem.getSubject(), beanItem.getSubject(), beanItem.getContent()));
         renderer.layout();
-        File file = File.createTempFile(beanItem.getSubject(), "pdf");
+        File file = File.createTempFile(beanItem.getSubject() + "abc", "pdf");
         file.deleteOnExit();
         try (OutputStream os = new FileOutputStream(file)) {
             renderer.createPDF(os);

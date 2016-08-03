@@ -39,13 +39,12 @@ import static org.assertj.core.api.Assertions.tuple;
 public class BugServiceTest extends IntegrationServiceTest {
 
     @Autowired
-    protected BugService bugService;
+    private BugService bugService;
 
     @DataSet
     @Test
     public void testGetListBugs() {
-        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<BugSearchCriteria>(
-                null, 0, Integer.MAX_VALUE));
+        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(null));
 
         assertThat(bugs.size()).isEqualTo(3);
         assertThat(bugs).extracting("id", "detail", "summary").contains(
@@ -63,7 +62,7 @@ public class BugServiceTest extends IntegrationServiceTest {
         criteria.setSummary(StringSearchField.and("summary"));
         criteria.setDetail(StringSearchField.and("detail"));
 
-        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(bugs.size()).isEqualTo(1);
         assertThat(bugs).extracting("id", "detail", "summary").contains(tuple(2, "detail 2", "summary 2"));
     }
@@ -85,7 +84,7 @@ public class BugServiceTest extends IntegrationServiceTest {
         BugSearchCriteria criteria = new BugSearchCriteria();
         criteria.setComponentids(new SetSearchField<>(1, 2));
 
-        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(bugs.size()).isEqualTo(1);
         assertThat(bugs).extracting("id", "detail", "summary").contains(
@@ -107,7 +106,7 @@ public class BugServiceTest extends IntegrationServiceTest {
         criteria.setFixedversionids(new SetSearchField<>(1, 2, 3));
         criteria.setAffectedversionids(new SetSearchField<>(1, 2, 3));
 
-        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(bugs.size()).isEqualTo(1);
         assertThat(bugs).extracting("id", "detail", "summary").contains(tuple(1, "detail 1", "summary 1"));
@@ -142,9 +141,9 @@ public class BugServiceTest extends IntegrationServiceTest {
     @Test
     public void testBugStatus() {
         BugSearchCriteria criteria = new BugSearchCriteria();
-        List<GroupItem> groupitems = bugService.getStatusSummary(criteria);
-        assertThat(groupitems.size()).isEqualTo(1);
-        assertThat(groupitems).extracting("groupid", "value", "extraValue").contains(tuple("1", 3.0, null));
+        List<GroupItem> groupItems = bugService.getStatusSummary(criteria);
+        assertThat(groupItems.size()).isEqualTo(1);
+        assertThat(groupItems).extracting("groupid", "value", "extraValue").contains(tuple("1", 3.0, null));
     }
 
     @Test

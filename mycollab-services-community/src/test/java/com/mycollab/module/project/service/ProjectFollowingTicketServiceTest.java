@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.project.service;
 
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.domain.FollowingTicket;
@@ -57,9 +57,7 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testGetListProjectFollowingTicket() throws ParseException {
-        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPageableListByCriteria(new BasicSearchRequest<>(
-                        getCriteria(), 0, Integer.MAX_VALUE));
+        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -77,15 +75,12 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         assertThat(projectFollowingTickets.size()).isEqualTo(12);
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
-    public void testGetListProjectFollowingTicketBySummary()
-            throws ParseException {
+    public void testGetListProjectFollowingTicketBySummary() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setSummary(StringSearchField.and("1"));
-        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(projectFollowingTickets).extracting("type", "summary", "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
                 tuple("Project-Bug", "bug 1", DATE_FORMAT.parse("2014-10-23 00:00:00")),
@@ -93,15 +88,12 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         assertThat(projectFollowingTickets.size()).isEqualTo(3);
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
-    public void testGetListProjectFollowingTicketOfTaskAndBug()
-            throws ParseException {
+    public void testGetListProjectFollowingTicketOfTaskAndBug() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setTypes(new SetSearchField<>("Project-Task", "Project-Bug"));
-        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -115,14 +107,12 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         assertThat(projectFollowingTickets.size()).isEqualTo(8);
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetListProjectFollowingTicketOfTask() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setType(StringSearchField.and("Project-Task"));
-        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -132,14 +122,12 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         assertThat(projectFollowingTickets.size()).isEqualTo(4);
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetListProjectFollowingTicketOfRisk() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setType(StringSearchField.and("Project-Risk"));
-        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(
@@ -150,14 +138,12 @@ public class ProjectFollowingTicketServiceTest extends IntegrationServiceTest {
         assertThat(projectFollowingTickets.size()).isEqualTo(4);
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetListProjectFollowingTicketOfBug() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
         criteria.setType(StringSearchField.and("Project-Bug"));
-        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
-                .findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(projectFollowingTickets).extracting("type", "summary",
                 "monitorDate").contains(

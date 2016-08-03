@@ -12,7 +12,7 @@
         <maven>3.0.4</maven>
     </prerequisites>
     <properties>
-        <springVersion>4.3.1.RELEASE</springVersion>
+        <springVersion>4.3.2.RELEASE</springVersion>
         <aspectjVersion>1.8.9</aspectjVersion>
         <javaVersion>1.8</javaVersion>
         <slf4jVersion>1.7.21</slf4jVersion>

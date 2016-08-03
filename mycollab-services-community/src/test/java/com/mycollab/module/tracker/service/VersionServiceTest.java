@@ -16,8 +16,18 @@
  */
 package com.mycollab.module.tracker.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
+import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.module.tracker.domain.SimpleVersion;
+import com.mycollab.module.tracker.domain.Version;
+import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
+import com.mycollab.test.DataSet;
+import com.mycollab.test.service.IntegrationServiceTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,19 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.module.tracker.domain.SimpleVersion;
-import com.mycollab.module.tracker.domain.Version;
-import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
-import com.mycollab.test.DataSet;
-import com.mycollab.test.service.IntegrationServiceTest;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class VersionServiceTest extends IntegrationServiceTest {
@@ -58,9 +57,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 	@DataSet
 	@Test
 	public void testGetListVersions() throws ParseException {
-		List<SimpleVersion> versions = versionService
-				.findPageableListByCriteria(new BasicSearchRequest<>(
-						getCriteria(), 0, Integer.MAX_VALUE));
+		List<SimpleVersion> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 
 		assertThat(versions.size()).isEqualTo(4);
 		assertThat(versions).extracting("id", "description", "status",
@@ -72,27 +69,20 @@ public class VersionServiceTest extends IntegrationServiceTest {
 				tuple(1, "Version 1.0.0", "Open", "1.0.0", 1, 1, dateformat.parse("2014-09-10 10:10:10"), dateformat.parse("2014-06-10 10:10:10")));
 	}
 
-	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testTotalCount() {
-		List<SimpleVersion> versions = versionService
-				.findPageableListByCriteria(new BasicSearchRequest<>(
-						getCriteria(), 0, Integer.MAX_VALUE));
-
+		List<SimpleVersion> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 		assertThat(versions.size()).isEqualTo(4);
 	}
 
-	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testFindVersionById() {
 		VersionSearchCriteria criteria = new VersionSearchCriteria();
 		criteria.setId(new NumberSearchField(1));
 
-		List<SimpleVersion> versions = versionService
-				.findPageableListByCriteria(new BasicSearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
+		List<SimpleVersion> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",
 				"versionname", "numBugs", "numOpenBugs").contains(
@@ -108,9 +98,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 		criteria.setStatus(StringSearchField.and("Closed"));
 		criteria.setVersionname(StringSearchField.and("2.0.0"));
 
-		List<SimpleVersion> versions = versionService
-				.findPageableListByCriteria(new BasicSearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
+		List<SimpleVersion> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",
 				"versionname", "numBugs", "numOpenBugs").contains(

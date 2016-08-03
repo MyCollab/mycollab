@@ -42,6 +42,9 @@ public class SimpleMilestone extends Milestone {
     private Integer numOpenBugs;
     private Integer numBugs;
 
+    private Integer numOpenRisks;
+    private Integer numRisks;
+
     private Double totalTaskBillableHours;
     private Double totalTaskNonBillableHours;
     private Double totalBugBillableHours;
@@ -91,6 +94,22 @@ public class SimpleMilestone extends Milestone {
 
     public void setNumOpenBugs(Integer numOpenBugs) {
         this.numOpenBugs = numOpenBugs;
+    }
+
+    public Integer getNumOpenRisks() {
+        return numOpenRisks;
+    }
+
+    public void setNumOpenRisks(Integer numOpenRisks) {
+        this.numOpenRisks = numOpenRisks;
+    }
+
+    public Integer getNumRisks() {
+        return numRisks;
+    }
+
+    public void setNumRisks(Integer numRisks) {
+        this.numRisks = numRisks;
     }
 
     public Integer getNumBugs() {

@@ -16,9 +16,9 @@
  */
 package com.mycollab.module.project.service;
 
+import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.DateSearchField;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
@@ -41,19 +41,16 @@ import static org.assertj.core.api.Assertions.tuple;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GenericTaskServiceTest extends IntegrationServiceTest {
     @Autowired
-    protected ProjectGenericTaskService genericTaskService;
+    private ProjectGenericTaskService genericTaskService;
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGenericTaskListFindPageable() {
-        List<ProjectGenericTask> tasks = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<ProjectGenericTaskSearchCriteria>(
-                        null, 0, Integer.MAX_VALUE));
+        List<ProjectGenericTask> tasks = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(null));
         assertThat(tasks.size()).isEqualTo(2);
         assertThat(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"), tuple("Project-Bug", "summary 1"));
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testCountTaskOverDue() throws ParseException {
@@ -63,7 +60,7 @@ public class GenericTaskServiceTest extends IntegrationServiceTest {
         criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<ProjectGenericTask> tasks = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<ProjectGenericTask> tasks = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(tasks.size()).isEqualTo(1);
         assertThat(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"));
     }
@@ -79,7 +76,7 @@ public class GenericTaskServiceTest extends IntegrationServiceTest {
         criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<ProjectGenericTask> taskList = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<ProjectGenericTask> taskList = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(taskList.size()).isEqualTo(1);
         assertThat(taskList).extracting("type", "name").contains(tuple("Project-Risk", "b"));

@@ -45,17 +45,14 @@ public class ResourceMoverImpl implements ResourceMover {
             List<Resource> lstRes;
 
             if (ResourceUtils.getType(destRes) != ResourceType.MyCollab) {
-                ExternalResourceService destService = ResourceUtils
-                        .getExternalResourceService(ResourceUtils.getType(destRes));
-                createdFolder = destService.createNewFolder(
-                        ResourceUtils.getExternalDrive(destRes), destMovePath);
+                ExternalResourceService destService = ResourceUtils.getExternalResourceService(ResourceUtils.getType(destRes));
+                createdFolder = destService.createNewFolder(ResourceUtils.getExternalDrive(destRes), destMovePath);
             } else {
                 createdFolder = resourceService.createNewFolder(destRes.getPath(), srcRes.getName(), "", userMove);
             }
 
             if (ResourceUtils.getType(srcRes) != ResourceType.MyCollab) {
-                ExternalResourceService srcService = ResourceUtils
-                        .getExternalResourceService(ResourceUtils.getType(srcRes));
+                ExternalResourceService srcService = ResourceUtils.getExternalResourceService(ResourceUtils.getType(srcRes));
                 lstRes = srcService.getResources(ResourceUtils.getExternalDrive(srcRes), srcRes.getPath());
             } else {
                 lstRes = resourceService.getResources(srcRes.getPath());
@@ -82,7 +79,6 @@ public class ResourceMoverImpl implements ResourceMover {
         ExternalResourceService srcService;
         if (ResourceUtils.getType(srcRes) != ResourceType.MyCollab) {
             srcService = ResourceUtils.getExternalResourceService(ResourceUtils.getType(srcRes));
-
             in = srcService.download(ResourceUtils.getExternalDrive(srcRes), srcRes.getPath());
         } else {
             in = resourceService.getContentStream(srcPath);
@@ -93,10 +89,8 @@ public class ResourceMoverImpl implements ResourceMover {
 
         // ------------------------------------------------
         if (ResourceUtils.getType(destRes) != ResourceType.MyCollab) {
-            ExternalResourceService destService = ResourceUtils
-                    .getExternalResourceService(ResourceUtils.getType(destRes));
-            destService.saveContent(ResourceUtils.getExternalDrive(destRes),
-                    srcRes, in);
+            ExternalResourceService destService = ResourceUtils.getExternalResourceService(ResourceUtils.getType(destRes));
+            destService.saveContent(ResourceUtils.getExternalDrive(destRes), srcRes, in);
         } else {
             resourceService.saveContent(srcRes, userMove, in, sAccountId);
         }

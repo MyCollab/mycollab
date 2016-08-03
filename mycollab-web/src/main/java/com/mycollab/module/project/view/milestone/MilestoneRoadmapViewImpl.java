@@ -171,14 +171,12 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private void displayMilestones() {
         roadMapView.removeAllComponents();
-        List<SimpleMilestone> milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(baseCriteria, 0,
-                Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(baseCriteria));
         for (SimpleMilestone milestone : milestones) {
             roadMapView.addComponent(new MilestoneBlock(milestone));
         }
 
-        headerText.setValue(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " Roadmap ("
-                + milestones.size() + ")");
+        headerText.setValue(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " Roadmap (" + milestones.size() + ")");
     }
 
     private void initUI() {
@@ -207,14 +205,14 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
-        MButton printBtn = new MButton("", clickEvent -> {
-            UI.getCurrent().addWindow(new MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
-                @Override
-                protected Object doEval() {
-                    return baseCriteria;
-                }
-            }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
+        MButton printBtn = new MButton("", clickEvent ->
+                UI.getCurrent().addWindow(new MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return baseCriteria;
+                    }
+                }))
+        ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
                 .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         layout.addComponent(printBtn);
@@ -268,8 +266,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
             MHorizontalLayout progressLayout = new MHorizontalLayout();
             progressLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-            int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks();
-            int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks();
+            int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks() + milestone.getNumOpenRisks();
+            int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks() + milestone.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,

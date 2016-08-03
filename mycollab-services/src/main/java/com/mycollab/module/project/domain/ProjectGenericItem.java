@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.domain;
 
+import com.mycollab.module.project.ProjectTypeConstants;
+
 import java.util.Date;
 
 /**
@@ -151,5 +153,13 @@ public class ProjectGenericItem {
 
     public void setTypeId(String typeId) {
         this.typeId = typeId;
+    }
+
+    public boolean isBug() {
+        return ProjectTypeConstants.BUG.equals(getType());
+    }
+
+    public boolean isTask() {
+        return ProjectTypeConstants.TASK.equals(getType());
     }
 }

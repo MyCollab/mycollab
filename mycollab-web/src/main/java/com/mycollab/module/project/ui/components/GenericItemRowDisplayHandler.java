@@ -16,22 +16,22 @@
  */
 package com.mycollab.module.project.ui.components;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.ProjectLinkBuilder;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectGenericItem;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.ui.Component;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -47,25 +47,20 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
     public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
         MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", WebUIConstants.HOVER_EFFECT_NOT_BOX);
         ELabel link = ELabel.h3("");
-        if (ProjectTypeConstants.BUG.equals(item.getType()) || ProjectTypeConstants.TASK.equals(item.getType())) {
-            link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
-                    item.getProjectId(), item.getSummary(), item.getType(), item.getExtraTypeId() + ""));
-        } else {
-            link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
-                    item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
-        }
+        link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
+                item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
 
         String desc = (StringUtils.isBlank(item.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : item.getDescription();
         SafeHtmlLabel descLbl = new SafeHtmlLabel(desc);
 
         Div div = new Div().setStyle("width:100%");
         Text createdByTxt = new Text("Created by: ");
-        Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(item.getLastUpdatedTime
-                ()))).setTitle(AppContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;" +
-                "margin-right:5px");
+        Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(item.getLastUpdatedTime())))
+                .setTitle(AppContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;margin-right:5px");
 
         if (StringUtils.isBlank(item.getCreatedUser())) {
-            div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"), lastUpdatedOn);
+            div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), new Text(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)),
+                    lastUpdatedOn);
         } else {
             Img userAvatar = new Img("", StorageFactory.getAvatarPath(item.getCreatedUserAvatarId(), 16))
                     .setCSSClass(UIConstants.CIRCLE_BOX);

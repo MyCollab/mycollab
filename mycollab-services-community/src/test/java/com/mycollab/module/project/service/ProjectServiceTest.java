@@ -18,16 +18,16 @@ package com.mycollab.module.project.service;
 
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
+import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
+import com.mycollab.db.arguments.SetSearchField;
+import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.test.DataSet;
 import com.mycollab.test.service.IntegrationServiceTest;
-import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.db.arguments.StringSearchField;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,9 +64,7 @@ public class ProjectServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testGetListProjects() {
-        List projects = projectService
-                .findPageableListByCriteria(new BasicSearchRequest<ProjectSearchCriteria>(
-                        null, 0, Integer.MAX_VALUE));
+        List projects = projectService.findPageableListByCriteria(new BasicSearchRequest<>(null));
         Assert.assertEquals(projects.size(), 4);
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
@@ -78,7 +76,7 @@ public class ProjectServiceTest extends IntegrationServiceTest {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List projects = projectService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List projects = projectService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(projects.size()).isEqualTo(4);
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
@@ -88,29 +86,22 @@ public class ProjectServiceTest extends IntegrationServiceTest {
     @Test
     public void testGetListProjectsByUsername() {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-        criteria.setInvolvedMember(StringSearchField.and(
-                "admin"));
+        criteria.setInvolvedMember(StringSearchField.and("admin"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List projects = projectService
-                .findPageableListByCriteria(new BasicSearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List projects = projectService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(projects.size()).isEqualTo(2);
-        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
-                tuple(2, "B"));
-
+        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"));
     }
 
     @DataSet
     @Test
     public void testGetProjectsUserInvolved() {
-        List<SimpleProject> projects = projectService.getProjectsUserInvolved(
-                "admin", 1);
+        List<SimpleProject> projects = projectService.getProjectsUserInvolved("admin", 1);
         Assert.assertEquals(2, projects.size());
         assertThat(projects.size()).isEqualTo(2);
-        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
-                tuple(2, "B"));
+        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"));
     }
 
     @DataSet
@@ -120,9 +111,7 @@ public class ProjectServiceTest extends IntegrationServiceTest {
         criteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
         criteria.setExtraTypeIds(new SetSearchField<>(4));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<ProjectActivityStream> streams = projectActivityStreamService
-                .getProjectActivityStreams(new BasicSearchRequest<>(
-                        criteria));
+        List<ProjectActivityStream> streams = projectActivityStreamService.getProjectActivityStreams(new BasicSearchRequest<>(criteria));
 
         assertThat(streams.size()).isEqualTo(3);
         assertThat(streams).extracting("type", "typeid", "itemKey").contains(

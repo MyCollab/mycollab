@@ -102,8 +102,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         fileBreadCrumb.addSearchHandler(criteria -> {
             Resource selectedFolder;
             if (StorageNames.DROPBOX.equals(criteria.getStorageName())) {
-                selectedFolder = externalResourceService.getCurrentResourceByPath(
-                        criteria.getExternalDrive(), criteria.getBaseFolder());
+                selectedFolder = externalResourceService.getCurrentResourceByPath(criteria.getExternalDrive(), criteria.getBaseFolder());
             } else {
                 selectedFolder = resourceService.getResource(criteria.getBaseFolder());
             }
@@ -325,12 +324,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     if (content instanceof ExternalContent) {
                         final byte[] thumbnailBytes = ((ExternalContent) content).getThumbnailBytes();
                         if (thumbnailBytes != null) {
-                            resourceIcon = new Embedded(null, new StreamResource(new StreamSource() {
-                                @Override
-                                public InputStream getStream() {
-                                    return new ByteArrayInputStream(thumbnailBytes);
-                                }
-                            }, String.format("thumbnail%s.%s", content.getPath(), "png")));
+                            resourceIcon = new Embedded(null, new StreamResource((StreamSource) () -> new ByteArrayInputStream(
+                                    thumbnailBytes), String.format("thumbnail%s.%s", content.getPath(), "png")));
                             resourceIcon.setWidth("38px");
                             resourceIcon.setHeight("38px");
                         }

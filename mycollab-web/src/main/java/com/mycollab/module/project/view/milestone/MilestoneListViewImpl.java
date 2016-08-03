@@ -267,20 +267,20 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             }
 
             if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES)) {
-                MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            confirmDialog -> {
-                                if (confirmDialog.isConfirmed()) {
-                                    MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
-                                    projectTaskService.removeWithSession(milestone, AppContext.getUsername(), AppContext.getAccountId());
-                                    displayMilestones();
-                                }
-                            });
-                }).withIcon(FontAwesome.TRASH_O);
+                MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent ->
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                confirmDialog -> {
+                                    if (confirmDialog.isConfirmed()) {
+                                        MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
+                                        projectTaskService.removeWithSession(milestone, AppContext.getUsername(), AppContext.getAccountId());
+                                        displayMilestones();
+                                    }
+                                })
+                ).withIcon(FontAwesome.TRASH_O);
                 filterBtnLayout.addDangerOption(deleteBtn);
             }
 
@@ -291,8 +291,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             milestoneHeader.addComponent(taskSettingPopupBtn);
             this.addComponent(milestoneHeader);
 
-            int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks();
-            int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks();
+            int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks() + milestone.getNumOpenRisks();
+            int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks() + milestone.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,

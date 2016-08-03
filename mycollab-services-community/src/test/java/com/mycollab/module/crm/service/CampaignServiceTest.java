@@ -43,19 +43,16 @@ public class CampaignServiceTest extends IntegrationServiceTest {
     @DataSet
     @Test
     public void testSearchByCriteria() {
-        List<SimpleCampaign> campaigns = campaignService.findPageableListByCriteria(
-                new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleCampaign> campaigns = campaignService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 
         assertThat(campaigns.size()).isEqualTo(2);
-        assertThat(campaigns).extracting("id", "campaignname", "status")
-                .contains(tuple(1, "AAA", "a"), tuple(2, "ABB", "b"));
+        assertThat(campaigns).extracting("id", "campaignname", "status").contains(tuple(1, "AAA", "a"), tuple(2, "ABB", "b"));
     }
 
     @DataSet
     @Test
     public void testGetTotalCounts() {
-        List<SimpleCampaign> campaigns = campaignService.findPageableListByCriteria(
-                new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleCampaign> campaigns = campaignService.findPageableListByCriteria(new BasicSearchRequest<>(getCriteria()));
 
         assertThat(campaigns.size()).isEqualTo(2);
     }

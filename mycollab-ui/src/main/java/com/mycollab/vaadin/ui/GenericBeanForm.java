@@ -20,6 +20,8 @@ import com.mycollab.core.MyCollabException;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 
+import static com.mycollab.core.utils.BeanUtility.deepClone;
+
 /**
  * @param <B>
  * @author MyCollab Ltd.
@@ -71,8 +73,8 @@ public class GenericBeanForm<B> extends CssLayout {
         return bean;
     }
 
-    public void setBean(B bean) {
-        this.bean = bean;
+    public void setBean(B beanVal) {
+        this.bean = deepClone(beanVal);
 
         this.removeAllComponents();
         this.addComponent(layoutFactory.getLayout());
