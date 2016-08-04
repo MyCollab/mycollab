@@ -36,10 +36,10 @@ public abstract class CrmListNoItemView extends AbstractPageView {
         ELabel title = ELabel.h2(titleMessage()).withWidthUndefined();
         ELabel hintLabel = new ELabel(hintMessage()).withWidthUndefined();
 
-        MButton createItemBtn = new MButton(actionMessage(), actionListener())
-                .withStyleName(WebUIConstants.BUTTON_ACTION).withVisible(hasPermission());
+        MButton createItemBtn = new MButton(actionMessage(), actionListener()).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withVisible(hasPermission());
         MHorizontalLayout links = new MHorizontalLayout(createItemBtn);
-        MVerticalLayout layout = new MVerticalLayout(image, title, hintLabel, links).withWidth("800px");
+        MVerticalLayout layout = new MVerticalLayout(image, title, hintLabel, links).withWidth("800px").alignAll(Alignment.TOP_CENTER);
         this.with(layout).withAlign(layout, Alignment.TOP_CENTER);
     }
 

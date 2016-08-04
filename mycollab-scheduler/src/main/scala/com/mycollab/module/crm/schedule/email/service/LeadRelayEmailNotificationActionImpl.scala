@@ -16,22 +16,20 @@
  */
 package com.mycollab.module.crm.schedule.email.service
 
-import com.mycollab.html.FormatUtils
-import com.mycollab.module.crm.domain.Lead
-import com.mycollab.module.user.service.UserService
-import com.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction
 import com.hp.gagawa.java.elements.Span
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.StringUtils
-import com.mycollab.html.LinkUtils
+import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.crm.CrmLinkGenerator
 import com.mycollab.module.crm.domain.{Lead, SimpleLead}
 import com.mycollab.module.crm.i18n.LeadI18nEnum
 import com.mycollab.module.crm.service.LeadService
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
+import com.mycollab.module.user.service.UserService
+import com.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction
 import com.mycollab.schedule.email.format.{EmailLinkFieldFormat, FieldFormat}
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
@@ -49,41 +47,41 @@ import org.springframework.stereotype.Component
 class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAction[SimpleLead] with LeadRelayEmailNotificationAction {
   @Autowired var leadService: LeadService = _
   private val mapper = new LeadFieldNameMapper
-
+  
   override protected def getBeanInContext(notification: SimpleRelayEmailNotification): SimpleLead =
     leadService.findById(notification.getTypeid.toInt, notification.getSaccountid)
-
+  
   override protected def getCreateSubjectKey: Enum[_] = LeadI18nEnum.MAIL_CREATE_ITEM_SUBJECT
-
+  
   override protected def getCommentSubjectKey: Enum[_] = LeadI18nEnum.MAIL_COMMENT_ITEM_SUBJECT
-
+  
   override protected def getItemFieldMapper: ItemFieldMapper = mapper
-
+  
   override protected def getItemName: String = StringUtils.trim(bean.getLeadName, 100)
-
+  
   override protected def buildExtraTemplateVariables(context: MailContext[SimpleLead]): Unit = {
     val summary = bean.getLeadName
     val summaryLink = CrmLinkGenerator.generateLeadPreviewFullLink(siteUrl, bean.getId)
-
+    
     val emailNotification = context.getEmailNotification
-
+    
     val avatarId = if (changeUser != null) changeUser.getAvatarid else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
-
-    val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+    
+    val makeChangeUser = userAvatar.toString + " " + emailNotification.getChangeByUserFullName
     val actionEnum = emailNotification.getAction match {
       case MonitorTypeConstants.CREATE_ACTION => LeadI18nEnum.MAIL_CREATE_ITEM_HEADING
       case MonitorTypeConstants.UPDATE_ACTION => LeadI18nEnum.MAIL_UPDATE_ITEM_HEADING
       case MonitorTypeConstants.ADD_COMMENT_ACTION => LeadI18nEnum.MAIL_COMMENT_ITEM_HEADING
     }
-
+    
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
-
+  
   override protected def getUpdateSubjectKey: Enum[_] = LeadI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
-
+  
   class LeadFieldNameMapper extends ItemFieldMapper {
     put(Lead.Field.firstname, LeadI18nEnum.FORM_FIRSTNAME)
     put(Lead.Field.email, new EmailLinkFieldFormat("email", GenericI18Enum.FORM_EMAIL))
@@ -113,9 +111,9 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
     put(Lead.Field.othercountry, LeadI18nEnum.FORM_OTHER_COUNTRY)
     put(Lead.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
-
+  
   class LeadAssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
+    
     def formatField(context: MailContext[_]): String = {
       val lead = context.getWrappedBean.asInstanceOf[SimpleLead]
       if (lead.getAssignuser != null) {
@@ -130,7 +128,7 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         new Span().write
@@ -149,5 +147,5 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
       }
     }
   }
-
+  
 }

@@ -1,4 +1,4 @@
-package org.apache.velocity.tools.generic.directive;
+package org.mybatis.scripting.velocity;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;

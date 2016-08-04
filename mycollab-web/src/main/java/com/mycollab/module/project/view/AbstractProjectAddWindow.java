@@ -22,24 +22,26 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ViewScope;
-import com.vaadin.ui.Window;
 import org.vaadin.teemu.wizards.WizardStep;
+import org.vaadin.viritin.layouts.MWindow;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd
  * @since 5.3.5
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public abstract class AbstractProjectAddWindow extends Window implements CacheableComponent {
+public abstract class AbstractProjectAddWindow extends MWindow implements CacheableComponent {
     protected Project project;
 
     public AbstractProjectAddWindow(Project valuePrj) {
-        setCaption(AppContext.getMessage(ProjectI18nEnum.NEW));
-        this.setWidth("900px");
-        this.center();
-        this.setResizable(false);
-        this.setModal(true);
+        super(AppContext.getMessage(ProjectI18nEnum.NEW));
+        this.withWidth("900px").withModal(true).withResizable(false).withCenter();
         this.project = valuePrj;
+        if (project.getProjectstatus() == null) {
+            project.setProjectstatus(StatusI18nEnum.Open.name());
+        }
     }
 
     public interface FormWizardStep extends WizardStep {

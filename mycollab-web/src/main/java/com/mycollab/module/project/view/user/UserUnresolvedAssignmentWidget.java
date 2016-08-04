@@ -17,11 +17,11 @@
 package com.mycollab.module.project.view.user;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.db.arguments.RangeDateSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
@@ -32,7 +32,6 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.vaadin.data.Property;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 import org.joda.time.LocalDate;
@@ -52,22 +51,19 @@ public class UserUnresolvedAssignmentWidget extends Depot {
         super("", new CssLayout());
         this.setWidth("100%");
         final CheckBox myItemsSelection = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
-        myItemsSelection.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                boolean isMyItemsOption = myItemsSelection.getValue();
-                if (searchCriteria != null) {
-                    if (isMyItemsOption) {
-                        searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
-                    } else {
-                        searchCriteria.setAssignUser(null);
-                    }
-                    updateSearchResult();
+        myItemsSelection.addValueChangeListener(valueChangeEvent -> {
+            boolean isMyItemsOption = myItemsSelection.getValue();
+            if (searchCriteria != null) {
+                if (isMyItemsOption) {
+                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                } else {
+                    searchCriteria.setAssignUser(null);
                 }
+                updateSearchResult();
             }
         });
-        taskList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectGenericTaskService.class),
-                new GenericTaskRowDisplayHandler(), 10) {
+        taskList = new DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask>
+                (AppContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
                 return AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT);

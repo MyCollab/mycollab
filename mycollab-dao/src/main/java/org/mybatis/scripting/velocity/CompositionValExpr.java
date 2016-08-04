@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-dao.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.apache.velocity.tools.generic.directive;
+package org.mybatis.scripting.velocity;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -26,11 +26,15 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 
+import com.mycollab.db.arguments.CompositionSearchField;
+
 /**
- * @author <a href="mailto:shinobu@ieee.org">Shinobu Kawai</a>
- * @version $Id: $
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ *
  */
-public class Ifnull extends Directive {
+public class CompositionValExpr extends Directive {
 
 	/*
 	 * (non-Javadoc)
@@ -38,7 +42,7 @@ public class Ifnull extends Directive {
 	 * @see org.apache.velocity.runtime.directive.Directive#getName()
 	 */
 	public String getName() {
-		return "ifnull";
+		return "compositionvalexpr";
 	}
 
 	/*
@@ -58,15 +62,13 @@ public class Ifnull extends Directive {
 	 * .context.InternalContextAdapter, java.io.Writer,
 	 * org.apache.velocity.runtime.parser.node.Node)
 	 */
-	public boolean render(InternalContextAdapter context, Writer writer,
-			Node node) throws IOException, ResourceNotFoundException,
+	public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException, ResourceNotFoundException,
 			ParseErrorException, MethodInvocationException {
 		Object value = node.jjtGetChild(0).value(context);
-		if (value == null) {
+		if (value instanceof CompositionSearchField) {
 			Node content = node.jjtGetChild(1);
 			content.render(context, writer);
 		}
 		return true;
 	}
-
 }

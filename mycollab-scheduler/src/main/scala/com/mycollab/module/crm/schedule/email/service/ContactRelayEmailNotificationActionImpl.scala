@@ -16,24 +16,20 @@
  */
 package com.mycollab.module.crm.schedule.email.service
 
-import com.mycollab.html.FormatUtils
-import com.mycollab.module.crm.domain.Contact
-import com.mycollab.module.crm.service.ContactService
-import com.mycollab.module.crm.CrmTypeConstants
-import com.mycollab.module.user.service.UserService
-import com.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction
 import com.hp.gagawa.java.elements.{Span, Text}
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.StringUtils
-import com.mycollab.html.LinkUtils
+import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.crm.domain.{Contact, SimpleContact}
-import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
 import com.mycollab.module.crm.i18n.ContactI18nEnum
 import com.mycollab.module.crm.service.{AccountService, ContactService}
+import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
+import com.mycollab.module.user.service.UserService
+import com.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction
 import com.mycollab.schedule.email.format.{DateFieldFormat, EmailLinkFieldFormat, FieldFormat}
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
@@ -51,45 +47,45 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAction[SimpleContact] with ContactRelayEmailNotificationAction {
   private val LOG = LoggerFactory.getLogger(classOf[ContactRelayEmailNotificationActionImpl])
-
+  
   @Autowired var contactService: ContactService = _
-
+  
   private val mapper = new ContactFieldNameMapper
-
+  
   override protected def getBeanInContext(notification: SimpleRelayEmailNotification): SimpleContact =
     contactService.findById(notification.getTypeid.toInt, notification.getSaccountid)
-
+  
   override protected def getCreateSubjectKey: Enum[_] = ContactI18nEnum.MAIL_CREATE_ITEM_SUBJECT
-
+  
   override protected def getCommentSubjectKey: Enum[_] = ContactI18nEnum.MAIL_COMMENT_ITEM_SUBJECT
-
+  
   override protected def getItemFieldMapper: ItemFieldMapper = mapper
-
+  
   override protected def getItemName: String = StringUtils.trim(bean.getContactName, 100)
-
+  
   override protected def buildExtraTemplateVariables(context: MailContext[SimpleContact]): Unit = {
     val summary = bean.getContactName
     val summaryLink = CrmLinkGenerator.generateContactPreviewFullLink(siteUrl, bean.getId)
-
+    
     val emailNotification = context.getEmailNotification
-
+    
     val avatarId = if (changeUser != null) changeUser.getAvatarid else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
-
-    val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+    
+    val makeChangeUser = userAvatar.toString + " " + emailNotification.getChangeByUserFullName
     val actionEnum = emailNotification.getAction match {
       case MonitorTypeConstants.CREATE_ACTION => ContactI18nEnum.MAIL_CREATE_ITEM_HEADING
       case MonitorTypeConstants.UPDATE_ACTION => ContactI18nEnum.MAIL_UPDATE_ITEM_HEADING
       case MonitorTypeConstants.ADD_COMMENT_ACTION => ContactI18nEnum.MAIL_COMMENT_ITEM_HEADING
     }
-
+    
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
-
+  
   override protected def getUpdateSubjectKey: Enum[_] = ContactI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
-
+  
   class ContactFieldNameMapper extends ItemFieldMapper {
     put(Contact.Field.firstname, ContactI18nEnum.FORM_FIRSTNAME)
     put(Contact.Field.officephone, ContactI18nEnum.FORM_OFFICE_PHONE)
@@ -120,9 +116,9 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     put(Contact.Field.othercountry, ContactI18nEnum.FORM_OTHER_COUNTRY)
     put(Contact.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
-
+  
   class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
+    
     def formatField(context: MailContext[_]): String = {
       val contact = context.getWrappedBean.asInstanceOf[SimpleContact]
       if (contact.getAssignuser != null) {
@@ -137,7 +133,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         new Span().write
@@ -156,9 +152,9 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
       }
     }
   }
-
+  
   class AccountFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
+    
     def formatField(context: MailContext[_]): String = {
       val contact = context.getWrappedBean.asInstanceOf[SimpleContact]
       if (contact.getAccountid != null) {
@@ -171,7 +167,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         new Span().write
@@ -193,5 +189,5 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
       value
     }
   }
-
+  
 }

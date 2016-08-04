@@ -188,7 +188,7 @@ public class AppContext implements Serializable {
 
     public static String getMessage(Enum<?> key, Object... objects) {
         try {
-            return (key != null) ? getInstance().messageHelper.getMessage(key, objects) : AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED);
+            return (key != null) ? getInstance().messageHelper.getMessage(key, objects) : "";
         } catch (Exception e) {
             return LocalizationHelper.getMessage(LocalizationHelper.defaultLocale, key, objects);
         }
@@ -201,7 +201,7 @@ public class AppContext implements Serializable {
             Enum key = Enum.valueOf(enumCls, option);
             return getMessage(key, objects);
         } catch (Exception e) {
-            return AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED);
+            return option;
         }
     }
 

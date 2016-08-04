@@ -74,7 +74,7 @@ public class GenericBeanForm<B> extends CssLayout {
     }
 
     public void setBean(B beanVal) {
-        this.bean = deepClone(beanVal);
+        this.bean = beanVal;
 
         this.removeAllComponents();
         this.addComponent(layoutFactory.getLayout());

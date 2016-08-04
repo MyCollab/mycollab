@@ -123,11 +123,8 @@ public class SetupNewInstanceView extends MVerticalLayout {
             billingAccountMapper.updateByPrimaryKey(billingAccount);
 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
-
-            if (Boolean.TRUE.equals(createSampleDataSelection.getValue())) {
-                billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true, true,
-                        AppContext.getAccountId());
-            }
+            billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true,
+                    createSampleDataSelection.getValue(), AppContext.getAccountId());
 
             ((DesktopApplication) UI.getCurrent()).doLogin(adminName, password, false);
         }).withStyleName(WebUIConstants.BUTTON_ACTION);

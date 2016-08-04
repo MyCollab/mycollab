@@ -32,7 +32,6 @@ public class MyCollabUIProvider extends UIProvider {
     private static final String MOBILE_APP = "com.mycollab.mobile.MobileApplication";
     private static final String DESKTOP_APP = "com.mycollab.web.DesktopApplication";
 
-    @SuppressWarnings("unchecked")
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
         VaadinRequest request = event.getRequest();

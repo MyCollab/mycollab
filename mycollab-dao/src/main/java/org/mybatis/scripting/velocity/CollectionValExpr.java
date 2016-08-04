@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-dao.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.apache.velocity.tools.generic.directive;
+package org.mybatis.scripting.velocity;
 
 import java.io.IOException;
 import java.io.Writer;

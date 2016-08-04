@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-dao.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.apache.velocity.tools.generic.directive;
+package org.mybatis.scripting.velocity;
 
-import com.mycollab.db.arguments.OneValueSearchField;
+import com.mycollab.db.arguments.BetweenValuesSearchField;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -31,7 +31,7 @@ import java.io.Writer;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class OneValExpr extends Directive {
+public class BetweenValExpr extends Directive {
 
     /*
      * (non-Javadoc)
@@ -39,7 +39,7 @@ public class OneValExpr extends Directive {
      * @see org.apache.velocity.runtime.directive.Directive#getName()
      */
     public String getName() {
-        return "onevalexpr";
+        return "betweenvalexpr";
     }
 
     /*
@@ -62,7 +62,7 @@ public class OneValExpr extends Directive {
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException {
         Object value = node.jjtGetChild(0).value(context);
-        if (value instanceof OneValueSearchField) {
+        if (value instanceof BetweenValuesSearchField) {
             Node content = node.jjtGetChild(1);
             content.render(context, writer);
         }

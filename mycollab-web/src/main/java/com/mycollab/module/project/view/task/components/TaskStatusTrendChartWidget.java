@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.task.components;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.common.service.TimelineTrackingService;
 import com.mycollab.db.arguments.StringSearchField;
@@ -57,6 +58,9 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed;
 
 /**
  * @author MyCollab Ltd
@@ -83,7 +87,7 @@ public class TaskStatusTrendChartWidget extends Depot {
         private Map<String, List<GroupItem>> groupItems;
         private TimeSeriesCollection dataset;
 
-        public TaskStatusChartWrapper() {
+        private TaskStatusChartWrapper() {
             super(350, 280);
             timelineTrackingService = AppContextUtil.getSpringBean(TimelineTrackingService.class);
         }
@@ -95,7 +99,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                 Set<Map.Entry<String, List<GroupItem>>> entries = groupItems.entrySet();
                 Map<Date, Double> openMap = new HashMap<>(30);
                 for (Map.Entry<String, List<GroupItem>> entry : entries) {
-                    if (com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed.name().equals(entry.getKey())) {
+                    if (Closed.name().equals(entry.getKey())) {
                         TimeSeries series = new TimeSeries(entry.getKey());
                         for (GroupItem item : entry.getValue()) {
                             series.add(new Day(formatter.parseDateTime(item.getGroupname()).toDate()), item.getValue());
@@ -114,7 +118,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                     }
                 }
 
-                TimeSeries series = new TimeSeries("Unresolved");
+                TimeSeries series = new TimeSeries(AppContext.getMessage(StatusI18nEnum.Unresolved));
                 for (Map.Entry<Date, Double> entry : openMap.entrySet()) {
                     series.add(new Day(entry.getKey()), entry.getValue());
                 }
@@ -165,7 +169,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                 final String color = "<div style = \" width:13px;height:13px;background: #" + CHART_COLOR_STR.get(colorIndex) + "\" />";
                 final Label lblCircle = new Label(color);
                 lblCircle.setContentMode(ContentMode.HTML);
-                String captionBtn = AppContext.getMessage(OptionI18nEnum.BugStatus.class, (String) key.getKey());
+                String captionBtn = AppContext.getMessage(StatusI18nEnum.class, (String) key.getKey());
                 final Button btnLink = new Button(StringUtils.trim(captionBtn, 30, true));
                 btnLink.setDescription(captionBtn);
                 btnLink.addStyleName(WebUIConstants.BUTTON_LINK);
@@ -184,10 +188,7 @@ public class TaskStatusTrendChartWidget extends Depot {
             OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
             List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
                     CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
-            List<String> options = new ArrayList<>();
-            for (OptionVal optionVal : optionVals) {
-                options.add(optionVal.getTypeval());
-            }
+            List<String> options = optionVals.stream().map(OptionVal::getTypeval).collect(Collectors.toList());
             groupItems = timelineTrackingService.findTimelineItems("status", options, startDate.toDate(), endDate.toDate(), searchCriteria);
             displayChart();
         }

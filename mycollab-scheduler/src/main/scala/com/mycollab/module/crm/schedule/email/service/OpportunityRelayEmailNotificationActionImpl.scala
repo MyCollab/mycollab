@@ -16,24 +16,20 @@
  */
 package com.mycollab.module.crm.schedule.email.service
 
-import com.mycollab.html.FormatUtils
-import com.mycollab.module.crm.domain.SimpleOpportunity
-import com.mycollab.module.crm.service.OpportunityService
-import com.mycollab.module.crm.CrmTypeConstants
-import com.mycollab.module.user.service.UserService
-import com.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction
 import com.hp.gagawa.java.elements.{Span, Text}
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.StringUtils
-import com.mycollab.html.LinkUtils
+import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.crm.domain.{Opportunity, SimpleOpportunity}
-import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum
 import com.mycollab.module.crm.service.{AccountService, CampaignService, OpportunityService}
+import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
+import com.mycollab.module.user.service.UserService
+import com.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction
 import com.mycollab.schedule.email.format.{CurrencyFieldFormat, DateFieldFormat, FieldFormat}
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
@@ -51,44 +47,44 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAction[SimpleOpportunity] with OpportunityRelayEmailNotificationAction {
   private val LOG: Logger = LoggerFactory.getLogger(classOf[OpportunityRelayEmailNotificationActionImpl])
-
+  
   @Autowired var opportunityService: OpportunityService = _
   private val mapper: OpportunityFieldNameMapper = new OpportunityFieldNameMapper
-
+  
   override protected def getBeanInContext(notification: SimpleRelayEmailNotification): SimpleOpportunity =
     opportunityService.findById(notification.getTypeid.toInt, notification.getSaccountid)
-
+  
   override protected def getCreateSubjectKey: Enum[_] = OpportunityI18nEnum.MAIL_CREATE_ITEM_SUBJECT
-
+  
   override protected def getUpdateSubjectKey: Enum[_] = OpportunityI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
-
+  
   override protected def getCommentSubjectKey: Enum[_] = OpportunityI18nEnum.MAIL_COMMENT_ITEM_SUBJECT
-
+  
   override protected def getItemFieldMapper: ItemFieldMapper = mapper
-
+  
   override protected def getItemName: String = StringUtils.trim(bean.getOpportunityname, 100)
-
+  
   override protected def buildExtraTemplateVariables(context: MailContext[SimpleOpportunity]): Unit = {
     val summary = bean.getOpportunityname
     val summaryLink = CrmLinkGenerator.generateOpportunityPreviewFullLink(siteUrl, bean.getId)
-
+    
     val emailNotification = context.getEmailNotification
-
+    
     val avatarId = if (changeUser != null) changeUser.getAvatarid else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
-
-    val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+    
+    val makeChangeUser = userAvatar.toString + " " + emailNotification.getChangeByUserFullName
     val actionEnum = emailNotification.getAction match {
       case MonitorTypeConstants.CREATE_ACTION => OpportunityI18nEnum.MAIL_CREATE_ITEM_HEADING
       case MonitorTypeConstants.UPDATE_ACTION => OpportunityI18nEnum.MAIL_UPDATE_ITEM_HEADING
       case MonitorTypeConstants.ADD_COMMENT_ACTION => OpportunityI18nEnum.MAIL_COMMENT_ITEM_HEADING
     }
-
+    
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
-
+  
   class OpportunityFieldNameMapper extends ItemFieldMapper {
     put(Opportunity.Field.opportunityname, GenericI18Enum.FORM_NAME)
     put(Opportunity.Field.accountid, new AccountFieldFormat(Opportunity.Field.accountid.name, OpportunityI18nEnum.FORM_ACCOUNT_NAME))
@@ -105,9 +101,9 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
     put(Opportunity.Field.assignuser, new AssigneeFieldFormat(Opportunity.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(Opportunity.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
-
+  
   class AccountFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
+    
     def formatField(context: MailContext[_]): String = {
       val simpleOpportunity = context.getWrappedBean.asInstanceOf[SimpleOpportunity]
       if (simpleOpportunity.getAccountid != null) {
@@ -121,7 +117,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         return new Span().write
@@ -142,9 +138,9 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
       value
     }
   }
-
+  
   class CampaignFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
+    
     def formatField(context: MailContext[_]): String = {
       val opportunity = context.getWrappedBean.asInstanceOf[SimpleOpportunity]
       if (opportunity.getCampaignid != null) {
@@ -157,7 +153,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         new Span().write
@@ -175,13 +171,13 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
       } catch {
         case e: Exception => LOG.error("Error", e)
       }
-
+      
       value
     }
   }
-
+  
   class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
+    
     def formatField(context: MailContext[_]): String = {
       val opportunity = context.getWrappedBean.asInstanceOf[SimpleOpportunity]
       if (opportunity.getAssignuser != null) {
@@ -195,7 +191,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         new Span().write
@@ -214,5 +210,5 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
       }
     }
   }
-
+  
 }

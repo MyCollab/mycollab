@@ -188,7 +188,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
         userAccount.setUsername(username);
 
         userAccountMapper.insert(userAccount);
-        asyncEventBus.post(new AccountCreatedEvent(sAccountId, username, true));
+        asyncEventBus.post(new AccountCreatedEvent(sAccountId, username, isCreatedDefaultData));
     }
 
     private int saveEmployeeRole(int accountId) {

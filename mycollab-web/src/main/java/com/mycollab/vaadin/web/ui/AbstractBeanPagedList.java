@@ -20,6 +20,7 @@ import com.mycollab.db.arguments.SearchRequest;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.events.HasPagableHandlers;
 import com.mycollab.vaadin.events.PageableHandler;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -156,7 +157,7 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
     private Component msgWhenEmptyList() {
         String value = stringWhenEmptyList();
         if (StringUtils.isNotBlank(value)) {
-            return new MHorizontalLayout().withMargin(true).withFullWidth().with(new Label());
+            return new MHorizontalLayout().withStyleName("panel-body").withMargin(true).withFullWidth().with(new Label(value));
         } else {
             return null;
         }

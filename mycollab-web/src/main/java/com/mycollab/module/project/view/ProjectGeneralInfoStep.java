@@ -18,6 +18,7 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextAreaDynaFieldBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
@@ -129,7 +130,7 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
                 projectCombo.setRequired(true);
                 projectCombo.setRequiredError("Project status must be not null");
                 if (project.getProjectstatus() == null) {
-                    project.setProjectstatus(OptionI18nEnum.StatusI18nEnum.Open.name());
+                    project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
                 return projectCombo;
             } else if (Project.Field.shortname.equalTo(propertyId)) {
