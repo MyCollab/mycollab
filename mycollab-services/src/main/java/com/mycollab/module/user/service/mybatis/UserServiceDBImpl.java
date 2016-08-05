@@ -145,8 +145,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         if (userMapper.countByExample(userEx) == 0) {
             userMapper.insert(record);
             userAvatarService.uploadDefaultAvatar(record.getUsername());
-        } else {
-            userMapper.updateByExampleSelective(record, userEx);
         }
 
         // save record in s_user_account table

@@ -17,7 +17,6 @@
 package com.mycollab.module.project.view.page;
 
 import com.hp.gagawa.java.elements.*;
-import com.lowagie.text.DocumentException;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
@@ -40,6 +39,8 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.resources.LazyStreamSource;
+import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -47,23 +48,17 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
-import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Label;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.io.*;
 import java.util.Calendar;
 import java.util.List;
 
@@ -76,12 +71,6 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 @ViewComponent
 public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements PageReadView {
     private static final long serialVersionUID = 1L;
-    private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-            + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
-            + "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body><h1>%s</h1><br/>%s" +
-            "</body></html>";
-
-    private static final Logger LOG = LoggerFactory.getLogger(PageReadViewImpl.class);
 
     private ProjectActivityComponent commentListComp;
     private PageVersionSelectionBox pageVersionsSelection;
@@ -150,38 +139,21 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(WebUIConstants
                 .BUTTON_OPTION).withDescription("Export to PDF");
 
-        FileDownloader fileDownloader = new FileDownloader(getPDFStream());
+        OnDemandFileDownloader fileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
+            @Override
+            protected StreamResource.StreamSource buildStreamSource() {
+                return new PageReportStreamSource(beanItem);
+            }
+
+            @Override
+            public String getFilename() {
+                return "Document.pdf";
+            }
+        });
         fileDownloader.extend(exportPdfBtn);
 
         pagesPreviewForm.insertToControlBlock(exportPdfBtn);
         return buttonControls;
-    }
-
-    private StreamResource getPDFStream() {
-        return new StreamResource(new StreamSource() {
-            private static final long serialVersionUID = 1L;
-
-            public InputStream getStream() {
-                try {
-                    return new FileInputStream(writePdf());
-                } catch (Exception e) {
-                    LOG.error("Error while export PDF", e);
-                    return null;
-                }
-            }
-        }, "Document.pdf");
-    }
-
-    private File writePdf() throws IOException, DocumentException {
-        ITextRenderer renderer = new ITextRenderer();
-        renderer.setDocumentFromString(String.format(XHTML_PAGE, beanItem.getSubject(), beanItem.getSubject(), beanItem.getContent()));
-        renderer.layout();
-        File file = File.createTempFile(beanItem.getSubject() + "abc", "pdf");
-        file.deleteOnExit();
-        try (OutputStream os = new FileOutputStream(file)) {
-            renderer.createPDF(os);
-        }
-        return file;
     }
 
     @Override
@@ -230,7 +202,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
         private HorizontalLayout content;
 
-        public PageVersionSelectionBox() {
+        private PageVersionSelectionBox() {
             content = new HorizontalLayout();
             this.setCompositionRoot(content);
         }

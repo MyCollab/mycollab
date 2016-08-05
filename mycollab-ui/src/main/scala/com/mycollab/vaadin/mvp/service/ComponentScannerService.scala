@@ -72,7 +72,6 @@ class ComponentScannerService extends InitializingBean {
     val aClass = cachePresenterClasses.get(presenterClass)
     aClass match {
       case None =>
-        
         for (classInstance <- presenterClasses) {
           if (presenterClass.isAssignableFrom(classInstance) && !classInstance.isInterface) {
             cachePresenterClasses += (presenterClass -> classInstance)
