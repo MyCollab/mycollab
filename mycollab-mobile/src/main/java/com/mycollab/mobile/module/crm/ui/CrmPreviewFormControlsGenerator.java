@@ -71,14 +71,9 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    final T item = previewForm.getBean();
-                    previewForm.fireDeleteForm(item);
-                }
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                final T item = previewForm.getBean();
+                previewForm.fireDeleteForm(item);
             });
             editButtons.addComponent(deleteBtn);
             editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);

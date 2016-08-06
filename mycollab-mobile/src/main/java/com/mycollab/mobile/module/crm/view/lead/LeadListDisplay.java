@@ -37,16 +37,12 @@ public class LeadListDisplay extends DefaultPagedBeanList<LeadService, LeadSearc
         super(AppContextUtil.getSpringBean(LeadService.class), new LeadRowDisplayHandler());
     }
 
-    static public class LeadRowDisplayHandler implements RowDisplayHandler<SimpleLead> {
+    private static class LeadRowDisplayHandler implements RowDisplayHandler<SimpleLead> {
 
         @Override
         public Component generateRow(final SimpleLead lead, int rowIndex) {
-            final Button b = new Button(lead.getLeadName(), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, lead.getId()));
-                }
-            });
+            final Button b = new Button(lead.getLeadName(), clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this,
+                    lead.getId())));
             b.setWidth("100%");
             return b;
         }

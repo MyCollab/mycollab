@@ -17,7 +17,6 @@
 package com.mycollab.mobile.ui;
 
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -77,7 +76,7 @@ public class ConfirmDialog extends MWindow {
         cancelBtn.setWidth("100%");
         cancelBtn.setHeight("35px");
 
-        ClickListener listener = (clickEvent)-> {
+        ClickListener listener = (clickEvent) -> {
             ConfirmDialog.this.setConfirmed(clickEvent.getButton() == okBtn);
             if (ConfirmDialog.this.getListener() != null) {
                 ConfirmDialog.this.getListener().onClose(ConfirmDialog.this);

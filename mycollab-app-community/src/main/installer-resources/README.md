@@ -77,6 +77,7 @@ Version 5.4.0
 
 * Improve the email template theme
 * Remove redundant files in the community edition
+* Support German, French, Portuguese (Brazil) and Chinese languages (Contributor: Marco Gantenbein, BonnetYB, Cpichard, Dawnchen, Wilkance, Eduardofl)
 * Other minor improvements
 
 **Bug Fixes**

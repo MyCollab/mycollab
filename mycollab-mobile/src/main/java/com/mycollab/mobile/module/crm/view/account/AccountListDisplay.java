@@ -41,12 +41,7 @@ public class AccountListDisplay extends DefaultPagedBeanList<AccountService, Acc
 
         @Override
         public Component generateRow(final SimpleAccount account, int rowIndex) {
-            final Button b = new Button(account.getAccountname(), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, account.getId()));
-                }
-            });
+            final Button b = new Button(account.getAccountname(), clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, account.getId())));
             b.setWidth("100%");
             return b;
         }

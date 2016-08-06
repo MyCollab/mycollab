@@ -21,14 +21,11 @@ package com.mycollab.mobile.module.crm.view.opportunity;
 
 import com.mycollab.mobile.module.crm.ui.AbstractRelatedItemSelectionView;
 import com.mycollab.mobile.module.crm.view.lead.LeadListDisplay;
-import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Inc.
@@ -44,24 +41,16 @@ public class OpportunityLeadSelectionView extends AbstractRelatedItemSelectionVi
     @Override
     protected void initUI() {
         this.itemList = new LeadListDisplay();
-        this.itemList.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleLead>() {
-            @Override
-            public Component generateRow(final SimpleLead obj, int rowIndex) {
-                final SelectableButton b = new SelectableButton(obj.getLeadName());
-                if (selections.contains(obj)) b.select();
-                b.addClickListener(new Button.ClickListener() {
-                    private static final long serialVersionUID = -9086838156625853470L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        if (b.isSelected())
-                            selections.add(obj);
-                        else
-                            selections.remove(obj);
-                    }
-                });
-                return b;
-            }
+        this.itemList.setRowDisplayHandler((lead, rowIndex) -> {
+            final SelectableButton b = new SelectableButton(lead.getLeadName());
+            if (selections.contains(lead)) b.select();
+            b.addClickListener(clickEvent -> {
+                if (b.isSelected())
+                    selections.add(lead);
+                else
+                    selections.remove(lead);
+            });
+            return b;
         });
     }
 }

@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.crm.view.activity;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.mycollab.mobile.module.crm.ui.AbstractListViewComp;
@@ -28,7 +29,6 @@ import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -58,28 +58,17 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
 
         MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
-        Button addTask = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
-            }
-        });
+        Button addTask = new Button(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
+                new ActivityEvent.TaskAdd(this, null))
+        );
         addButtons.addComponent(addTask);
 
-        Button addCall = new Button(AppContext.getMessage(CallI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
-            }
-        });
+        Button addCall = new Button(AppContext.getMessage(CallI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
+                new ActivityEvent.CallAdd(this, null)));
         addButtons.addComponent(addCall);
 
-        Button addMeeting = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
-            }
-        });
+        Button addMeeting = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
+                new ActivityEvent.MeetingAdd(this, null)));
         addButtons.addComponent(addMeeting);
 
         addActivity.setContent(addButtons);

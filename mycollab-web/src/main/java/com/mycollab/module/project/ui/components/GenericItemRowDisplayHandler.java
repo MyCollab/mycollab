@@ -47,8 +47,13 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
     public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
         MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", WebUIConstants.HOVER_EFFECT_NOT_BOX);
         ELabel link = ELabel.h3("");
-        link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
-                item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
+        if (item.isBug() || item.isTask()) {
+            link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
+                    item.getProjectId(), item.getSummary(), item.getType(), item.getExtraTypeId() + ""));
+        } else {
+            link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
+                    item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
+        }
 
         String desc = (StringUtils.isBlank(item.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : item.getDescription();
         SafeHtmlLabel descLbl = new SafeHtmlLabel(desc);

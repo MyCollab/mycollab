@@ -26,8 +26,8 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
 
@@ -49,43 +49,19 @@ public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity,
         if (allowCreateNew) {
             HorizontalLayout buttonLayout = new HorizontalLayout();
             buttonLayout.setSpacing(true);
-            final Button newTaskBtn = new Button("New Task", new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    fireNewRelatedItem("task");
-                }
-            });
-            newTaskBtn.setIcon(FontAwesome.PLUS);
-            newTaskBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
-            newTaskBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+            final MButton newTaskBtn = new MButton("New Task", clickEvent -> fireNewRelatedItem("task"))
+                    .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                    .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
             buttonLayout.addComponent(newTaskBtn);
 
-            final Button newCallBtn = new Button("New Call", new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    fireNewRelatedItem("call");
-                }
-            });
-            newCallBtn.setIcon(FontAwesome.PLUS);
-            newCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
-            newCallBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+            final MButton newCallBtn = new MButton("New Call", clickEvent -> fireNewRelatedItem("call"))
+                    .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                    .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
             buttonLayout.addComponent(newCallBtn);
 
-            final Button newMeetingBtn = new Button("New Meeting", new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    fireNewRelatedItem("call");
-                }
-            });
-            newMeetingBtn.setIcon(FontAwesome.PLUS);
-            newMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-            newMeetingBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+            final MButton newMeetingBtn = new MButton("New Meeting", clickEvent -> fireNewRelatedItem("meeting"))
+                    .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                    .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
             buttonLayout.addComponent(newMeetingBtn);
 
             this.addComponent(buttonLayout);

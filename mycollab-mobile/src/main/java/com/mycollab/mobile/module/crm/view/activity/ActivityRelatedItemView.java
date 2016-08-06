@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.crm.view.activity;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
@@ -27,7 +28,6 @@ import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -78,28 +78,13 @@ public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActiv
 
         MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
-        Button addTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem(CrmTypeConstants.TASK);
-            }
-        });
+        Button addTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> fireNewRelatedItem(CrmTypeConstants.TASK));
         addButtons.addComponent(addTaskBtn);
 
-        Button addCallBtn = new Button(AppContext.getMessage(CallI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem(CrmTypeConstants.CALL);
-            }
-        });
+        Button addCallBtn = new Button(AppContext.getMessage(CallI18nEnum.NEW), clickEvent -> fireNewRelatedItem(CrmTypeConstants.CALL));
         addButtons.addComponent(addCallBtn);
 
-        Button addMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem(CrmTypeConstants.MEETING);
-            }
-        });
+        Button addMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> fireNewRelatedItem(CrmTypeConstants.MEETING));
         addButtons.addComponent(addMeetingBtn);
 
         addActivity.setContent(addButtons);

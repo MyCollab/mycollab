@@ -16,50 +16,46 @@
  */
 package com.mycollab.form;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.mycollab.core.utils.JsonDeSerializer;
 import com.mycollab.form.view.builder.AbstractDynaFieldBuilder;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.AbstractDynaField;
 import com.mycollab.form.view.builder.type.TextDynaField;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class TestSeDeserializeFormJson {
 
-	@Test
-	public void testFromJsonWithExcludeProps() {
-		DynaSectionBuilder builder = new DynaSectionBuilder().header("example");
+    @Test
+    public void testFromJsonWithExcludeProps() {
+        DynaSectionBuilder builder = new DynaSectionBuilder().header("example");
 
-		AbstractDynaFieldBuilder<TextDynaField> val1Builder = new TextDynaFieldBuilder()
-				.maxLength(22).fieldIndex(1).fieldName("field1")
-				.displayName("Field 1");
+        AbstractDynaFieldBuilder<TextDynaField> val1Builder = new TextDynaFieldBuilder()
+                .maxLength(22).fieldIndex(1).fieldName("field1")
+                .displayName("Field 1");
 
-		builder.fields(val1Builder);
+        builder.fields(val1Builder);
 
-		AbstractDynaField field = val1Builder.build();
-		Assert.assertNotNull(field.getOwnSection());
+        AbstractDynaField field = val1Builder.build();
+        Assert.assertNotNull(field.getOwnSection());
+    }
 
-		String expectedVal = "{\"maxLength\":22,\"mandatory\":false,\"required\":false,\"custom\":false,\"colSpan\":false}";
-		Assert.assertEquals(expectedVal, JsonDeSerializer.toJson(field));
-	}
+    @Test
+    public void testToJsonWithExcludeProps() {
+        DynaSectionBuilder builder = new DynaSectionBuilder().header("example");
 
-	@Test
-	public void testToJsonWithExcludeProps() {
-		DynaSectionBuilder builder = new DynaSectionBuilder().header("example");
+        AbstractDynaFieldBuilder<TextDynaField> val1Builder = new TextDynaFieldBuilder()
+                .maxLength(22).fieldIndex(1).fieldName("field1")
+                .displayName("Field 1");
 
-		AbstractDynaFieldBuilder<TextDynaField> val1Builder = new TextDynaFieldBuilder()
-				.maxLength(22).fieldIndex(1).fieldName("field1")
-				.displayName("Field 1");
+        builder.fields(val1Builder);
 
-		builder.fields(val1Builder);
+        AbstractDynaField field = val1Builder.build();
+        String jsonTxt = JsonDeSerializer.toJson(field);
 
-		AbstractDynaField field = val1Builder.build();
-		String jsonTxt = JsonDeSerializer.toJson(field);
-
-		TextDynaField stringField = JsonDeSerializer.fromJson(jsonTxt, TextDynaField.class);
-		Assert.assertEquals(22, stringField.getMaxLength());
-		Assert.assertNull(stringField.getOwnSection());
-	}
+        TextDynaField stringField = JsonDeSerializer.fromJson(jsonTxt, TextDynaField.class);
+        Assert.assertEquals(22, stringField.getMaxLength());
+        Assert.assertNull(stringField.getOwnSection());
+    }
 }

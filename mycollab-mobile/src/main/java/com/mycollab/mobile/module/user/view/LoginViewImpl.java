@@ -77,15 +77,12 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
         rememberPassword.setValue(true);
         contentLayout.addComponent(rememberPassword);
 
-        Button signInBtn = new Button("Sign In", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                try {
-                    LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new UserEvent.PlainLogin(
-                            emailField.getValue(), pwdField.getValue(), rememberPassword.getValue())));
-                } catch (Exception e) {
-                    throw new MyCollabException(e);
-                }
+        Button signInBtn = new Button("Sign In", clickEvent -> {
+            try {
+                LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new UserEvent.PlainLogin(
+                        emailField.getValue(), pwdField.getValue(), rememberPassword.getValue())));
+            } catch (Exception e) {
+                throw new MyCollabException(e);
             }
         });
         signInBtn.setWidth("100%");

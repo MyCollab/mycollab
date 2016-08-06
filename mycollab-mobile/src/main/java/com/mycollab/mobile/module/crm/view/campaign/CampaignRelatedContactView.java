@@ -70,23 +70,15 @@ public class CampaignRelatedContactView extends AbstractRelatedListView<SimpleCo
 
         MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
-        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem("");
-            }
-        });
+        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addButtons.addComponent(newContactBtn);
 
-        Button selectContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                CampaignContactSelectionView contactSelectionView = new CampaignContactSelectionView(CampaignRelatedContactView.this);
-                ContactSearchCriteria criteria = new ContactSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                contactSelectionView.setSearchCriteria(criteria);
-                EventBusFactory.getInstance().post(new ShellEvent.PushView(CampaignRelatedContactView.this, contactSelectionView));
-            }
+        Button selectContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), clickEvent -> {
+            CampaignContactSelectionView contactSelectionView = new CampaignContactSelectionView(CampaignRelatedContactView.this);
+            ContactSearchCriteria criteria = new ContactSearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            contactSelectionView.setSearchCriteria(criteria);
+            EventBusFactory.getInstance().post(new ShellEvent.PushView(CampaignRelatedContactView.this, contactSelectionView));
         });
         addButtons.addComponent(selectContactBtn);
         addContact.setContent(addButtons);

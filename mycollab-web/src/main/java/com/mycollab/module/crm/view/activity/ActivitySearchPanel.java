@@ -64,52 +64,27 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         splitBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         splitBtn.setIcon(FontAwesome.PLUS);
         splitBtn.setCaption("New Task");
-        splitBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void splitButtonClick(
-                    final SplitButton.SplitButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
-            }
-        });
+        splitBtn.addClickListener(event -> EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null)));
 
         OptionPopupContent btnControlsLayout = new OptionPopupContent();
         splitBtn.setContent(btnControlsLayout);
 
-        Button createMeetingBtn = new Button("New Meeting", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                splitBtn.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
-            }
+        Button createMeetingBtn = new Button("New Meeting", clickEvent -> {
+            splitBtn.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
         });
         btnControlsLayout.addOption(createMeetingBtn);
         createMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-        final Button createCallBtn = new Button("New Call", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                splitBtn.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
-            }
+        final Button createCallBtn = new Button("New Call", clickEvent -> {
+            splitBtn.setPopupVisible(false);
+            EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
         });
         createCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
         btnControlsLayout.addOption(createCallBtn);
 
         ButtonGroup viewSwitcher = new ButtonGroup();
 
-        Button calendarViewBtn = new Button("Calendar", new Button.ClickListener() {
-            private static final long serialVersionUID = -793215433929884575L;
-
-            @Override
-            public void buttonClick(ClickEvent evt) {
-                EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
-            }
-        });
+        Button calendarViewBtn = new Button("Calendar", clickEvent -> EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null)));
         calendarViewBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(calendarViewBtn);
 

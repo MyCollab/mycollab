@@ -25,7 +25,6 @@ import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 
 /**
@@ -39,18 +38,12 @@ public class CaseListDisplay extends DefaultPagedBeanList<CaseService, CaseSearc
         super(AppContextUtil.getSpringBean(CaseService.class), new CaseRowDisplayHandler());
     }
 
-    static public class CaseRowDisplayHandler implements RowDisplayHandler<SimpleCase> {
+    private static class CaseRowDisplayHandler implements RowDisplayHandler<SimpleCase> {
 
         @Override
         public Component generateRow(final SimpleCase cases, int rowIndex) {
-            Button b = new Button(cases.getSubject(), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, cases.getId()));
-                }
-            });
+            Button b = new Button(cases.getSubject(), clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this,
+                    cases.getId())));
 
             if ("Closed".equals(cases.getStatus()) || "Rejected".equals(cases.getStatus())) {
                 b.addStyleName(MobileUIConstants.LINK_COMPLETED);

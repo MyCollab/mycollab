@@ -25,7 +25,6 @@ import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
 
@@ -49,11 +48,7 @@ public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCrite
 
     @Override
     protected Component createRightComponent() {
-        return new MButton("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
-            }
-        }).withStyleName("add-btn");
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null)))
+                .withStyleName("add-btn");
     }
 }

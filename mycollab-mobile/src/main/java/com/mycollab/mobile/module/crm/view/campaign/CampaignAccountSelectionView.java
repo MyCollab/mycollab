@@ -15,66 +15,46 @@
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * 
+ *
  */
 package com.mycollab.mobile.module.crm.view.campaign;
 
 import com.mycollab.mobile.module.crm.ui.AbstractRelatedItemSelectionView;
 import com.mycollab.mobile.module.crm.view.account.AccountListDisplay;
-import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Inc.
- * 
  * @since 4.3.1
  */
-public class CampaignAccountSelectionView extends
-		AbstractRelatedItemSelectionView<SimpleAccount, AccountSearchCriteria> {
+public class CampaignAccountSelectionView extends AbstractRelatedItemSelectionView<SimpleAccount, AccountSearchCriteria> {
 
-	private static final long serialVersionUID = -801602909364348692L;
+    private static final long serialVersionUID = -801602909364348692L;
 
-	public CampaignAccountSelectionView(
-			AbstractRelatedListView<SimpleAccount, AccountSearchCriteria> relatedListView) {
-		super(AppContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS),
-				relatedListView);
-	}
+    public CampaignAccountSelectionView(AbstractRelatedListView<SimpleAccount, AccountSearchCriteria> relatedListView) {
+        super(AppContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS), relatedListView);
+    }
 
-	@Override
-	protected void initUI() {
-		this.itemList = new AccountListDisplay();
-		this.itemList
-				.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleAccount>() {
+    @Override
+    protected void initUI() {
+        this.itemList = new AccountListDisplay();
+        this.itemList.setRowDisplayHandler((account, rowIndex) -> {
+            final SelectableButton b = new SelectableButton(account.getAccountname());
+            if (selections.contains(account))
+                b.select();
 
-					@Override
-					public Component generateRow(final SimpleAccount obj,
-							int rowIndex) {
-						final SelectableButton b = new SelectableButton(obj
-								.getAccountname());
-						if (selections.contains(obj))
-							b.select();
-
-						b.addClickListener(new Button.ClickListener() {
-							private static final long serialVersionUID = 3421125241167437144L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								if (b.isSelected())
-									selections.add(obj);
-								else
-									selections.remove(obj);
-							}
-						});
-						return b;
-					}
-
-				});
-	}
+            b.addClickListener(clickEvent -> {
+                if (b.isSelected())
+                    selections.add(account);
+                else
+                    selections.remove(account);
+            });
+            return b;
+        });
+    }
 
 }

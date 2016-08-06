@@ -42,7 +42,6 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -114,15 +113,8 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
                 + AppContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
-        relatedContacts.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance()
-                        .post(new OpportunityEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateContacts)));
-            }
-        });
+        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+                new CrmRelatedItemsScreenData(associateContacts))));
         toolbarLayout.addComponent(relatedContacts);
 
         Button relatedLeads = new Button();
@@ -131,14 +123,8 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
                 + "\"></span><div class=\"screen-reader-text\">"
                 + AppContext.getMessage(LeadI18nEnum.LIST) + "</div>");
         relatedLeads.setHtmlContentAllowed(true);
-        relatedLeads.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateLeads)));
-            }
-        });
+        relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+                new CrmRelatedItemsScreenData(associateLeads))));
         toolbarLayout.addComponent(relatedLeads);
 
         Button relatedActivities = new Button();
@@ -148,15 +134,8 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
                 + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
-                        new CrmRelatedItemsScreenData(associateActivities)));
-            }
-        });
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+                new CrmRelatedItemsScreenData(associateActivities))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;

@@ -25,8 +25,8 @@ import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -47,17 +47,8 @@ public class LeadListViewImpl extends AbstractListViewComp<LeadSearchCriteria, S
 
     @Override
     protected Component createRightComponent() {
-        Button addLead = new Button();
-        addLead.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = -6024437571619598638L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
-            }
-        });
-        addLead.setStyleName("add-btn");
-        return addLead;
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null)))
+                .withStyleName("add-btn");
     }
 
 }

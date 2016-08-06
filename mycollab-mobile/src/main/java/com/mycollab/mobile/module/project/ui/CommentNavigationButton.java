@@ -39,8 +39,7 @@ public class CommentNavigationButton extends NavigationButton {
         this.typeId = typeIdVal;
         this.addClickListener(navigationButtonClickEvent -> {
             if (typeId != null) {
-                getNavigationManager().navigateTo(new ProjectCommentListView(type, typeId,
-                        CurrentProjectVariables.getProjectId(), true));
+                getNavigationManager().navigateTo(new ProjectCommentListView(type, typeId, CurrentProjectVariables.getProjectId(), true));
             }
         });
     }

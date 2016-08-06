@@ -45,16 +45,13 @@ public class ActivityListDisplay extends DefaultPagedBeanList<EventService, Acti
 
         @Override
         public Component generateRow(final SimpleActivity simpleEvent, int rowIndex) {
-            Button b = new Button(simpleEvent.getSubject(), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    if (simpleEvent.getEventType().equals(CrmTypeConstants.TASK)) {
-                        EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, simpleEvent.getId()));
-                    } else if (simpleEvent.getEventType().equals(CrmTypeConstants.CALL)) {
-                        EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, simpleEvent.getId()));
-                    } else if (simpleEvent.getEventType().equals(CrmTypeConstants.MEETING)) {
-                        EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, simpleEvent.getId()));
-                    }
+            Button b = new Button(simpleEvent.getSubject(), clickEvent -> {
+                if (simpleEvent.getEventType().equals(CrmTypeConstants.TASK)) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, simpleEvent.getId()));
+                } else if (simpleEvent.getEventType().equals(CrmTypeConstants.CALL)) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, simpleEvent.getId()));
+                } else if (simpleEvent.getEventType().equals(CrmTypeConstants.MEETING)) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, simpleEvent.getId()));
                 }
             });
 

@@ -139,48 +139,23 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.INBOX, activityBtn));
 
         NavigationButton messageBtn = new NavigationButton(AppContext.getMessage(MessageI18nEnum.LIST));
-        messageBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
-            }
-        });
+        messageBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE), messageBtn));
 
         NavigationButton milestoneBtn = new NavigationButton(AppContext.getMessage(MilestoneI18nEnum.LIST));
-        milestoneBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
-            }
-        });
+        milestoneBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), milestoneBtn));
 
         NavigationButton taskBtn = new NavigationButton(AppContext.getMessage(TaskI18nEnum.LIST));
-        taskBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null));
-            }
-        });
+        taskBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), taskBtn));
 
         NavigationButton bugBtn = new NavigationButton(AppContext.getMessage(BugI18nEnum.LIST));
-        bugBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
-            }
-        });
+        bugBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), bugBtn));
 
         NavigationButton riskBtn = new NavigationButton(AppContext.getMessage(RiskI18nEnum.LIST));
-        riskBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                EventBusFactory.getInstance().post(new RiskEvent.GotoList(this, null));
-            }
-        });
+        riskBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK), riskBtn));
 
         NavigationButton userBtn = new NavigationButton(AppContext.getMessage(ProjectMemberI18nEnum.LIST));

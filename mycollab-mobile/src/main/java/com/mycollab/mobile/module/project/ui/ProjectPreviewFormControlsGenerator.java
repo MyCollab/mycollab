@@ -61,53 +61,39 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    T item = previewForm.getBean();
-                    previewForm.fireEditForm(item);
-                }
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
+                T item = previewForm.getBean();
+                previewForm.fireEditForm(item);
             });
-            editButtons.addComponent(editBtn);
             editBtn.setEnabled(canWrite);
+            editButtons.addComponent(editBtn);
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    T item = previewForm.getBean();
-                    previewForm.fireDeleteForm(item);
-                }
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                T item = previewForm.getBean();
+                previewForm.fireDeleteForm(item);
             });
-            editButtons.addComponent(deleteBtn);
             deleteBtn.setEnabled(canAccess);
+            editButtons.addComponent(deleteBtn);
         }
 
         if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    T item = previewForm.getBean();
-                    previewForm.fireCloneForm(item);
-                }
+            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
+                T item = previewForm.getBean();
+                previewForm.fireCloneForm(item);
             });
-            editButtons.addComponent(cloneBtn);
             cloneBtn.setEnabled(canWrite);
+            editButtons.addComponent(cloneBtn);
         }
 
         if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-            Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    T item = previewForm.getBean();
-                    previewForm.fireAssignForm(item);
-                }
+            Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
+                T item = previewForm.getBean();
+                previewForm.fireAssignForm(item);
             });
-            editButtons.addComponent(assignBtn);
             editButtons.setEnabled(canWrite);
+            editButtons.addComponent(assignBtn);
         }
 
         return editButtons;

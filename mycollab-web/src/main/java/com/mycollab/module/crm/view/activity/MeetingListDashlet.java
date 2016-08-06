@@ -31,6 +31,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
 
@@ -53,17 +54,8 @@ public class MeetingListDashlet extends Depot {
 
         bodyContent.addComponent(tableItem);
 
-        Button customizeViewBtn = new Button("", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-
-            }
-        });
-        customizeViewBtn.setIcon(FontAwesome.ADJUST);
-        customizeViewBtn.setDescription("Layout Options");
-        customizeViewBtn.setStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+        MButton customizeViewBtn = new MButton("", clickEvent -> {}).withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
+                .withDescription("Layout Options");
 
         this.addHeaderElement(customizeViewBtn);
     }

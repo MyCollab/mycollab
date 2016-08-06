@@ -16,14 +16,12 @@
  */
 package com.mycollab.mobile.ui;
 
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.SearchHandler;
-import com.vaadin.data.Property;
 import com.vaadin.ui.TextField;
 import org.vaadin.jouni.dom.Dom;
-import org.vaadin.resetbuttonfortextfield.ResetButtonClickListener;
 import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
 
 import java.util.ArrayList;
@@ -43,23 +41,17 @@ public abstract class SearchInputField<S extends SearchCriteria> extends TextFie
         dom.setAttribute("placeholder", "Search");
         this.setTextChangeEventMode(TextChangeEventMode.TIMEOUT);
         this.setTextChangeTimeout(3000);
-        this.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                String value = getValue();
-                if (StringUtils.isNotBlank(value)) {
-                    final S searchCriteria = fillUpSearchCriteria(value);
-                    notifySearchHandler(searchCriteria);
-                }
+        this.addValueChangeListener(valueChangeEvent -> {
+            String value = getValue();
+            if (StringUtils.isNotBlank(value)) {
+                final S searchCriteria = fillUpSearchCriteria(value);
+                notifySearchHandler(searchCriteria);
             }
         });
         ResetButtonForTextField resetBtn = ResetButtonForTextField.extend(this);
-        resetBtn.addResetButtonClickedListener(new ResetButtonClickListener() {
-            @Override
-            public void resetButtonClicked() {
-                final S searchCriteria = fillUpSearchCriteria(null);
-                notifySearchHandler(searchCriteria);
-            }
+        resetBtn.addResetButtonClickedListener(() -> {
+            final S searchCriteria = fillUpSearchCriteria(null);
+            notifySearchHandler(searchCriteria);
         });
     }
 

@@ -31,8 +31,6 @@ import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 
@@ -42,7 +40,6 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@SuppressWarnings("serial")
 public class CallListDashlet extends Depot {
 
     private CallTableDisplay tableItem;
@@ -69,13 +66,7 @@ public class CallListDashlet extends Depot {
         });
         bodyContent.addComponent(tableItem);
 
-        MButton customizeViewBtn = new MButton("", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-
-            }
+        MButton customizeViewBtn = new MButton("", clickEvent -> {
         }).withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY).withDescription("Layout Options");
         this.addHeaderElement(customizeViewBtn);
     }

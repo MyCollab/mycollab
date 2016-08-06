@@ -147,16 +147,11 @@ public class RelatedItemSelectionField extends CustomField<Integer> implements F
         final RelatedItemSelectionView targetView = new RelatedItemSelectionView(this);
         navButton.setWidth("100%");
         navButton.setTargetView(targetView);
-        navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-            private static final long serialVersionUID = -3929991734772006774L;
-
-            @Override
-            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                try {
-                    targetView.selectTab((String) PropertyUtils.getProperty(bean, "type"));
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    LOG.error("Error when select tab", e);
-                }
+        navButton.addClickListener(navigationButtonClickEvent -> {
+            try {
+                targetView.selectTab((String) PropertyUtils.getProperty(bean, "type"));
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                LOG.error("Error when select tab", e);
             }
         });
         return navButton;

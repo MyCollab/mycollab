@@ -23,6 +23,7 @@ import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -59,13 +60,13 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
         itemList.search(criteria);
     }
 
-    protected class SelectableButton extends Button {
+    protected class SelectableButton extends MButton {
         private static final long serialVersionUID = 8233451662822791473L;
         private boolean selected = false;
 
         public SelectableButton(String caption) {
             super(caption);
-            addClickListener(clickEvent -> {
+            withListener(clickEvent -> {
                 selected = !selected;
                 if (selected) {
                     addStyleName(SELECTED_STYLENAME);

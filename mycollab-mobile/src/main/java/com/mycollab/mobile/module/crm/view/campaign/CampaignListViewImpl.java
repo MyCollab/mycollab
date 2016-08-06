@@ -25,46 +25,31 @@ import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-
 @ViewComponent
-public class CampaignListViewImpl extends
-		AbstractListViewComp<CampaignSearchCriteria, SimpleCampaign> implements
-		CampaignListView {
-	private static final long serialVersionUID = -8743010493576179868L;
+public class CampaignListViewImpl extends AbstractListViewComp<CampaignSearchCriteria, SimpleCampaign> implements CampaignListView {
+    private static final long serialVersionUID = -8743010493576179868L;
 
-	public CampaignListViewImpl() {
-		super();
+    public CampaignListViewImpl() {
+        super();
+        setCaption(AppContext.getMessage(CampaignI18nEnum.LIST));
+    }
 
-		setCaption(AppContext.getMessage(CampaignI18nEnum.LIST));
-	}
+    @Override
+    protected AbstractPagedBeanList<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
+        return new CampaignListDisplay();
+    }
 
-	@Override
-	protected AbstractPagedBeanList<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
-		return new CampaignListDisplay();
-	}
-
-	@Override
-	protected Component createRightComponent() {
-		Button addCampaign = new Button();
-		addCampaign.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null));
-			}
-		});
-		addCampaign.setStyleName("add-btn");
-		return addCampaign;
-	}
+    @Override
+    protected Component createRightComponent() {
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null)))
+                .withStyleName("add-btn");
+    }
 
 }

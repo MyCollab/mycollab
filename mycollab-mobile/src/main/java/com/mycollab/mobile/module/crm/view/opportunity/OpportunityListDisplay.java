@@ -41,12 +41,8 @@ public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityServ
 
         @Override
         public Component generateRow(final SimpleOpportunity opportunity, int rowIndex) {
-            final Button b = new Button(opportunity.getOpportunityname(), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunity.getId()));
-                }
-            });
+            final Button b = new Button(opportunity.getOpportunityname(), clickEvent -> EventBusFactory.getInstance().post(
+                    new OpportunityEvent.GotoRead(this, opportunity.getId())));
             b.setWidth("100%");
             return b;
         }

@@ -82,14 +82,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
                 if (!indicators.isEmpty()) {
                     rowWrap.replaceComponent(indicators.remove(0),
                             MobileAttachmentUtils.renderAttachmentFieldRow(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                    new Button.ClickListener() {
-                                        private static final long serialVersionUID = 581451358291203810L;
-
-                                        @Override
-                                        public void buttonClick(Button.ClickEvent event) {
-                                            fileStores.remove(fileName);
-                                        }
-                                    }));
+                                    clickEvent -> fileStores.remove(fileName)));
                 }
 
                 if (indicators.size() == 0) {

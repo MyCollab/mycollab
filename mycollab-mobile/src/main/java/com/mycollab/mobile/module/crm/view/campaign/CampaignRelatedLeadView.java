@@ -16,8 +16,8 @@
  */
 package com.mycollab.mobile.module.crm.view.campaign;
 
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.view.lead.LeadListDisplay;
 import com.mycollab.mobile.shell.events.ShellEvent;
@@ -27,7 +27,6 @@ import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -71,23 +70,15 @@ public class CampaignRelatedLeadView extends AbstractRelatedListView<SimpleLead,
 
         MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
-        Button newLead = new Button(AppContext.getMessage(LeadI18nEnum.NEW), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fireNewRelatedItem("");
-            }
-        });
+        Button newLead = new Button(AppContext.getMessage(LeadI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addBtns.addComponent(newLead);
 
-        Button selectLead = new Button(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                CampaignLeadSelectionView leadSelectionView = new CampaignLeadSelectionView(CampaignRelatedLeadView.this);
-                LeadSearchCriteria criteria = new LeadSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                leadSelectionView.setSearchCriteria(criteria);
-                EventBusFactory.getInstance().post(new ShellEvent.PushView(CampaignRelatedLeadView.this, leadSelectionView));
-            }
+        Button selectLead = new Button(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), clickEvent -> {
+            CampaignLeadSelectionView leadSelectionView = new CampaignLeadSelectionView(CampaignRelatedLeadView.this);
+            LeadSearchCriteria criteria = new LeadSearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            leadSelectionView.setSearchCriteria(criteria);
+            EventBusFactory.getInstance().post(new ShellEvent.PushView(CampaignRelatedLeadView.this, leadSelectionView));
         });
         addBtns.addComponent(selectLead);
         addLead.setContent(addBtns);

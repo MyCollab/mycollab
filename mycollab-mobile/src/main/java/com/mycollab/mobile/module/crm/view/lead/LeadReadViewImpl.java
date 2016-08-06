@@ -40,7 +40,6 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -109,16 +108,8 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
                 + AppContext.getMessage(CampaignI18nEnum.LIST)
                 + "</div>");
         relatedCampaigns.setHtmlContentAllowed(true);
-        relatedCampaigns.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7027681785871215444L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(
-                        new LeadEvent.GoToRelatedItems(LeadReadViewImpl.this,
-                                new CrmRelatedItemsScreenData(associateCampaigns)));
-            }
-        });
+        relatedCampaigns.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(
+                LeadReadViewImpl.this, new CrmRelatedItemsScreenData(associateCampaigns))));
         toolbarLayout.addComponent(relatedCampaigns);
 
         Button relatedActivities = new Button();
@@ -128,15 +119,8 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
                 + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(this,
-                        new CrmRelatedItemsScreenData(associateActivities)));
-            }
-        });
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(this,
+                new CrmRelatedItemsScreenData(associateActivities))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;

@@ -25,8 +25,8 @@ import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -48,17 +48,8 @@ public class CaseListViewImpl extends AbstractListViewComp<CaseSearchCriteria, S
 
     @Override
     protected Component createRightComponent() {
-        Button addCase = new Button();
-        addCase.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
-            }
-        });
-        addCase.setStyleName("add-btn");
-        return addCase;
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null)))
+                .withStyleName("add-btn");
     }
 
 }

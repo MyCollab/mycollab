@@ -21,14 +21,11 @@ package com.mycollab.mobile.module.crm.view.cases;
 
 import com.mycollab.mobile.module.crm.ui.AbstractRelatedItemSelectionView;
 import com.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
-import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Inc.
@@ -44,29 +41,17 @@ public class CaseContactSelectionView extends AbstractRelatedItemSelectionView<S
     @Override
     protected void initUI() {
         this.itemList = new ContactListDisplay();
-        this.itemList.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleContact>() {
-
-            @Override
-            public Component generateRow(final SimpleContact obj,
-                                         int rowIndex) {
-                final SelectableButton b = new SelectableButton(obj.getContactName());
-                if (selections.contains(obj))
-                    b.select();
-                b.addClickListener(new Button.ClickListener() {
-
-                    private static final long serialVersionUID = 5941188641800994460L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        if (b.isSelected())
-                            selections.add(obj);
-                        else
-                            selections.remove(obj);
-
-                    }
-                });
-                return b;
-            }
+        this.itemList.setRowDisplayHandler((contact, rownIndex) -> {
+            final SelectableButton b = new SelectableButton(contact.getContactName());
+            if (selections.contains(contact))
+                b.select();
+            b.addClickListener(clickEvent -> {
+                if (b.isSelected())
+                    selections.add(contact);
+                else
+                    selections.remove(contact);
+            });
+            return b;
         });
     }
 

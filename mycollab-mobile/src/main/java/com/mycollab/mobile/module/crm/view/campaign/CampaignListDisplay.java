@@ -37,16 +37,12 @@ public class CampaignListDisplay extends DefaultPagedBeanList<CampaignService, C
         super(AppContextUtil.getSpringBean(CampaignService.class), new CampaignRowDisplayHandler());
     }
 
-    static public class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {
+    private static class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {
 
         @Override
         public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
-            final Button b = new Button(campaign.getCampaignname(), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(this, campaign.getId()));
-                }
-            });
+            final Button b = new Button(campaign.getCampaignname(), clickEvent -> EventBusFactory.getInstance().post(
+                    new CampaignEvent.GotoRead(this, campaign.getId())));
             b.setWidth("100%");
             return b;
         }

@@ -44,20 +44,11 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
 
     @Override
     protected void buildExtraControls() {
-        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new CaseListCustomizeWindow(tableItem));
-            }
-        });
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(clickEvent -> UI.getCurrent().addWindow(
+                new CaseListCustomizeWindow(tableItem)));
         this.addExtraButton(customizeViewBtn);
 
-        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new CaseImportWindow());
-            }
-        });
+        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(clickEvent -> UI.getCurrent().addWindow(new CaseImportWindow()));
         importBtn.setVisible(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         this.addExtraButton(importBtn);
     }

@@ -74,15 +74,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
                         + AppContext.getMessage(OpportunityI18nEnum.LIST)
                         + "</div>");
         relatedOpportunities.setHtmlContentAllowed(true);
-        relatedOpportunities.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new ContactEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(
-                        associateOpportunityList)));
-            }
-        });
+        relatedOpportunities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GoToRelatedItems(this,
+                new CrmRelatedItemsScreenData(associateOpportunityList))));
 
         toolbarLayout.addComponent(relatedOpportunities);
 
@@ -93,15 +86,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
                 + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent evt) {
-                EventBusFactory.getInstance().post(
-                        new ContactEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateActivityList)));
-            }
-        });
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GoToRelatedItems(this,
+                new CrmRelatedItemsScreenData(associateActivityList))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;
