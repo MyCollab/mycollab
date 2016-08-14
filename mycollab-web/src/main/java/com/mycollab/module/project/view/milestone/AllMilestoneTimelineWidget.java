@@ -16,25 +16,27 @@
  */
 package com.mycollab.module.project.view.milestone;
 
-import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.db.arguments.SetSearchField;
+import com.hp.gagawa.java.elements.*;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.UserDashboardView;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.hp.gagawa.java.elements.*;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -58,12 +60,10 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
     private CssLayout timelineContainer;
 
     public void display() {
-        this.withMargin(new MarginInfo(true, false, true, false));
-        this.setWidth("100%");
-        this.addStyleName("tm-container");
+        this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("tm-container").withFullWidth();
 
         MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
-        ELabel titleLbl = ELabel.h2("Phase Timeline");
+        ELabel titleLbl = ELabel.h2(AppContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
         final CheckBox includeNoDateSet = new CheckBox("No date set");
         includeNoDateSet.setValue(false);
@@ -71,18 +71,8 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
         final CheckBox includeClosedMilestone = new CheckBox("Closed phase");
         includeClosedMilestone.setValue(false);
 
-        includeNoDateSet.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue());
-            }
-        });
-        includeClosedMilestone.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue());
-            }
-        });
+        includeNoDateSet.addValueChangeListener(valueChangeEvent -> displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue()));
+        includeClosedMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue()));
         headerLayout.with(titleLbl, includeNoDateSet, includeClosedMilestone).expand(titleLbl).withAlign(includeNoDateSet, Alignment
                 .MIDDLE_RIGHT).withAlign(includeClosedMilestone, Alignment.MIDDLE_RIGHT);
 
@@ -91,7 +81,7 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
         searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
         searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField(Milestone.Field.enddate.name(), "ASC")));
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-        milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
         this.addComponent(headerLayout);
         timelineContainer = new CssLayout();
@@ -140,8 +130,8 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
                 timestampDiv.appendChild(new Span().setCSSClass("date").appendText("No date set"));
             } else {
                 if (milestone.isOverdue()) {
-                    timestampDiv.appendChild(new Span().setCSSClass("date overdue").appendText(AppContext.formatDate
-                            (milestone.getEnddate()) + " (Due in " + AppContext.formatDuration(milestone.getEnddate()) + ")"));
+                    timestampDiv.appendChild(new Span().setCSSClass("date overdue").appendText(AppContext.formatDate(milestone.getEnddate()) +
+                            " (" + AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(milestone.getEnddate())) + ")"));
                 } else {
                     timestampDiv.appendChild(new Span().setCSSClass("date").appendText(AppContext.formatDate(milestone.getEnddate())));
                 }

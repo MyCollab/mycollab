@@ -26,6 +26,7 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.TooltipHelper;
@@ -33,10 +34,8 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
@@ -90,14 +89,11 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
             taskLink.setCSSClass("completed");
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            issueDiv.appendChild(new Span().appendText(" - Due in " + AppContext.formatDuration(genericTask.getDueDate()))
-                    .setCSSClass(UIConstants.META_INFO));
+            issueDiv.appendChild(new Span().appendText(" - " + AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN,
+                    AppContext.formatDuration(genericTask.getDueDate()))).setCSSClass(UIConstants.META_INFO));
         }
 
-        MHorizontalLayout iconsLayout = new MHorizontalLayout().with(new ELabel(ProjectAssetsManager.getAsset
-                (genericTask.getType()).getHtml(), ContentMode.HTML), new ELabel(img.write(), ContentMode.HTML));
-        Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
-        rowComp.with(issueLbl);
+        rowComp.with(ELabel.html(issueDiv.write()));
         return rowComp;
     }
 }

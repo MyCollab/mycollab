@@ -66,7 +66,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
   @Autowired val contentGenerator: IContentGenerator = null
   protected var bean: B = _
   protected var changeUser: SimpleUser = _
-  protected var siteUrl: String = null
+  protected var siteUrl: String = _
 
   override def sendNotificationForCreateAction(notification: SimpleRelayEmailNotification): Unit = {
     val notifiers = getListNotifyUserWithFilter(notification, MonitorTypeConstants.CREATE_ACTION)
@@ -93,7 +93,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List(userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-            null, null, subject, contentGenerator.parseFile("mailCrmItemCreatedNotifier.ftl", context.getLocale), null)
+            subject, contentGenerator.parseFile("mailCrmItemCreatedNotifier.ftl", context.getLocale))
         }
       }
     }
@@ -132,7 +132,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List(userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-            null, null, subject, contentGenerator.parseFile("mailCrmItemUpdatedNotifier.ftl", context.getLocale), null)
+            subject, contentGenerator.parseFile("mailCrmItemUpdatedNotifier.ftl", context.getLocale))
         }
       }
     }
@@ -171,7 +171,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
         val userMail = new MailRecipientField(user.getEmail, user.getUsername)
         val recipients = List(userMail)
         extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, seqAsJavaList(recipients),
-          null, null, subject, contentGenerator.parseFile("mailCrmItemAddNoteNotifier.ftl", context.getLocale), null)
+          subject, contentGenerator.parseFile("mailCrmItemAddNoteNotifier.ftl", context.getLocale))
       }
     }
   }

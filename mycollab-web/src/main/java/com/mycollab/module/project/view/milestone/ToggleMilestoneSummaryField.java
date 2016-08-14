@@ -25,16 +25,15 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleMilestone;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.data.Property;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -74,22 +73,12 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                     editField.focus();
                     ToggleMilestoneSummaryField.this.addComponent(editField);
                     ToggleMilestoneSummaryField.this.removeStyleName("editable-field");
-                    editField.addValueChangeListener(new Property.ValueChangeListener() {
-                        @Override
-                        public void valueChange(Property.ValueChangeEvent event) {
-                            updateFieldValue(editField);
-                        }
-                    });
-                    editField.addBlurListener(new FieldEvents.BlurListener() {
-                        @Override
-                        public void blur(FieldEvents.BlurEvent event) {
-                            updateFieldValue(editField);
-                        }
-                    });
+                    editField.addValueChangeListener(valueChangeEvent -> updateFieldValue(editField));
+                    editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withDescription("Edit task name").withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
-
+            }).withDescription(AppContext.getMessage(MilestoneI18nEnum.OPT_EDIT_PHASE_NAME))
+                    .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(instantEditBtn);
             this.addComponent(buttonControls);
         }
@@ -118,8 +107,8 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         Div milestoneDiv = new Div().appendChild(milestoneLink);
         if (milestone.isOverdue()) {
             milestoneLink.setCSSClass("overdue");
-            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
-                    .formatDuration(milestone.getEnddate())));
+            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + AppContext
+                    .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(milestone.getEnddate()))));
         } else if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
             milestoneLink.setCSSClass("completed");
         }

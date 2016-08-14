@@ -27,6 +27,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.Risk;
 import com.mycollab.module.project.domain.Task;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.service.RiskService;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
@@ -37,7 +38,6 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -147,8 +147,8 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
             taskLink.setCSSClass("completed");
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
-                    .formatDuration(genericTask.getDueDate())));
+            issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + AppContext
+                    .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(genericTask.getDueDate()))));
         }
         return issueDiv.write();
     }

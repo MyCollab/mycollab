@@ -98,7 +98,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
     class BugAssigneeLink extends MButton {
         private static final long serialVersionUID = 1L;
 
-        public BugAssigneeLink(final String assignee, final String assigneeAvatarId, final String assigneeFullName) {
+        BugAssigneeLink(final String assignee, final String assigneeAvatarId, final String assigneeFullName) {
             super(StringUtils.trim(assigneeFullName, 25, true));
 
             this.withListener(clickEvent -> {

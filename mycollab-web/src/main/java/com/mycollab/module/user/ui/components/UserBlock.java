@@ -20,11 +20,10 @@ import com.hp.gagawa.java.elements.A;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.user.AccountLinkBuilder;
 import com.mycollab.vaadin.TooltipHelper;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
@@ -44,7 +43,6 @@ public class UserBlock extends MVerticalLayout {
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
 
-        Label userLbl = new Label(userLink.write(), ContentMode.HTML);
-        with(avatar, userLbl);
+        with(avatar, ELabel.html(userLink.write()));
     }
 }

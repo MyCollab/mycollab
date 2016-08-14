@@ -72,8 +72,7 @@ object NewUserJoinCommand {
     searchCriteria.setRegisterStatuses(new SetSearchField[String](RegisterStatusConstants.ACTIVE))
     searchCriteria.addExtraField(new OneValueSearchField(SearchField.AND, "s_user_account.isAccountOwner = ", 1))
     import scala.collection.JavaConverters._
-    val accountOwners = userService.findPageableListByCriteria(new BasicSearchRequest[UserSearchCriteria](searchCriteria, 0,
-      Integer.MAX_VALUE)).asScala.toList
+    val accountOwners = userService.findPageableListByCriteria(new BasicSearchRequest[UserSearchCriteria](searchCriteria)).asScala.toList
     val newUser = userService.findUserByUserNameInAccount(username, sAccountId)
     val recipients = ListBuffer[MailRecipientField]()
     accountOwners.foreach(user => {
@@ -85,7 +84,7 @@ object NewUserJoinCommand {
     contentGenerator.putVariable("newUser", newUser)
     contentGenerator.putVariable("formatter", new Formatter)
     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
-      null, null, String.format("%s has just joined on MyCollab workspace", newUser.getDisplayName),
-      contentGenerator.parseFile("mailNewUserJoinAccountNotifier.ftl", Locale.US), null)
+      String.format("%s has just joined on MyCollab workspace", newUser.getDisplayName),
+      contentGenerator.parseFile("mailNewUserJoinAccountNotifier.ftl", Locale.US))
   }
 }

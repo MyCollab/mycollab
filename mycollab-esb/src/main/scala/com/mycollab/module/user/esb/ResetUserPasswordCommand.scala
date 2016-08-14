@@ -54,10 +54,10 @@ import org.springframework.stereotype.Component
       val recipient = new MailRecipientField(user.getEmail, user.getUsername)
       val lst = List[MailRecipientField](recipient)
       import scala.collection.JavaConversions._
-      extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, lst, null, null,
+      extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, lst,
         LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
           SiteConfiguration.getDefaultSiteName),
-        contentGenerator.parseFile("mailUserRecoveryPasswordNotifier.ftl", locale), null)
+        contentGenerator.parseFile("mailUserRecoveryPasswordNotifier.ftl", locale))
     }
   }
 }

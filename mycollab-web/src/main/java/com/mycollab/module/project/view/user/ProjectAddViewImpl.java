@@ -52,7 +52,6 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 @ViewComponent
 public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddView {
 
@@ -253,7 +252,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
     }
 
     private static class ProjectStatusComboBox extends I18nValueComboBox {
-        public ProjectStatusComboBox() {
+        ProjectStatusComboBox() {
             super(false, StatusI18nEnum.Open, StatusI18nEnum.Closed);
         }
     }

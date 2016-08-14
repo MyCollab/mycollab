@@ -133,7 +133,7 @@ class OverdueProjectAssignmentsNotificationJob extends GenericQuartzJobBean {
               val recipients = util.Arrays.asList(userMail)
               val content = contentGenerator.parseFile("mailProjectOverdueAssignmentsNotifier.ftl", Locale.US)
               extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-                null, null, "[%s] Overdue assignments".format(projectName), content, null)
+                "[%s] Overdue assignments".format(projectName), content)
             }
           }
         }

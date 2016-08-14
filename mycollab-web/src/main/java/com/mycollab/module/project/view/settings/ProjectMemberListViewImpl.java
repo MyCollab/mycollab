@@ -16,18 +16,20 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.LazyValueInjector;
-import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.events.ProjectMemberEvent;
-import com.mycollab.module.project.*;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
@@ -46,8 +48,6 @@ import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -148,8 +148,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                     SearchCriteria.DESC)));
         }
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleProjectMember> memberLists = prjMemberService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
-                Integer.MAX_VALUE));
+        List<SimpleProjectMember> memberLists = prjMemberService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
         headerText.updateTitle(String.format("%s (%d)", AppContext.getMessage(ProjectMemberI18nEnum.LIST), memberLists.size()));
         for (SimpleProjectMember member : memberLists) {
@@ -245,9 +244,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                 " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
                 .setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
-        Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
-        memberWorkStatus.addStyleName(UIConstants.META_INFO);
-        blockTop.addComponent(memberWorkStatus);
+        blockTop.addComponent(ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO));
 
         blockContent.addComponent(blockTop);
         blockContent.setExpandRatio(blockTop, 1.0f);

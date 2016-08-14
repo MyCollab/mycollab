@@ -27,6 +27,8 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -82,7 +84,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                     isRead = !isRead;
                 }
             }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
-            instantEditBtn.setDescription("Edit task name");
+            instantEditBtn.setDescription(AppContext.getMessage(TaskI18nEnum.OPT_EDIT_TASK_NAME));
             buttonControls.with(instantEditBtn);
             this.addComponent(buttonControls);
         }
@@ -111,8 +113,8 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(taskLink);
         if (task.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
-                    .formatDuration(task.getDeadline())));
+            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + AppContext
+                    .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(task.getDeadline()))));
         } else if (task.isCompleted()) {
             taskLink.setCSSClass("completed");
         }

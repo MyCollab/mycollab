@@ -190,7 +190,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
     private class UserInvolvedProjectsListSelect extends ListSelect {
         private static final long serialVersionUID = 1L;
 
-        public UserInvolvedProjectsListSelect() {
+        UserInvolvedProjectsListSelect() {
             FollowingTicketSearchPanel.this.projects = AppContextUtil.getSpringBean(ProjectService.class)
                     .getProjectsUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
 

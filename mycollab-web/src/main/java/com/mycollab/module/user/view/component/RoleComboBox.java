@@ -42,7 +42,7 @@ public class RoleComboBox extends ComboBox {
         RoleSearchCriteria criteria = new RoleSearchCriteria();
 
         RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-        List<SimpleRole> roleList = roleService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleRole> roleList = roleService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         BeanContainer<String, SimpleRole> beanItem = new BeanContainer<>(SimpleRole.class);
         beanItem.setBeanIdProperty("id");
@@ -65,5 +65,4 @@ public class RoleComboBox extends ComboBox {
             this.setValue(-1);
         }
     }
-
 }

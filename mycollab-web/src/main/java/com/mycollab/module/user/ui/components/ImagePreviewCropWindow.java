@@ -19,6 +19,7 @@ package com.mycollab.module.user.ui.components;
 import com.esofthead.vaadin.cropField.CropField;
 import com.esofthead.vaadin.cropField.client.VCropSelection;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ImageUtil;
@@ -56,7 +57,7 @@ public class ImagePreviewCropWindow extends MWindow {
     private byte[] scaleImageData;
 
     public ImagePreviewCropWindow(final ImageSelectionCommand imageSelectionCommand, final byte[] imageData) {
-        super("Preview and modify image");
+        super(AppContext.getMessage(ShellI18nEnum.OPT_PREVIEW_EDIT_IMAGE));
         MVerticalLayout content = new MVerticalLayout();
         withModal(true).withResizable(false).withWidth("700px").withCenter().withContent(content);
 
@@ -77,12 +78,7 @@ public class ImagePreviewCropWindow extends MWindow {
 
         VerticalLayout previewBoxTitle = new VerticalLayout();
         previewBoxTitle.setMargin(new MarginInfo(false, true, false, true));
-        Label lbPreview = new Label("<p style='margin: 0px;'><strong>To the bottom is what your profile photo will " +
-                "look like.</strong></p>" +
-                "<p style='margin-top: 0px;'>To make adjustment, you can drag around and resize the selection square below. " +
-                "When you are happy with your photo, click the &ldquo;Accept&ldquo; button.</p>",
-                ContentMode.HTML);
-        previewBoxTitle.addComponent(lbPreview);
+        previewBoxTitle.addComponent(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
 
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);

@@ -43,7 +43,7 @@
                 </td>
             </tr>
             <#list lastComments as commentItem>
-                <@lib.commentBlock avatar=commentItem.ownerAvatarId displayName=commentItem.ownerFullName comment=commentItem.comment/>
+                <@lib.commentBlock avatar=commentItem.ownerAvatarId! displayName=commentItem.ownerFullName comment=commentItem.comment/>
             </#list>
         </#if>
     </table>

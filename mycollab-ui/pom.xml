@@ -82,7 +82,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.54</version>
+            <version>1.55</version>
         </dependency>
 
         <dependency>

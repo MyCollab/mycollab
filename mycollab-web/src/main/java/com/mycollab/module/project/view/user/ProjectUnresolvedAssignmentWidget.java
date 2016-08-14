@@ -52,17 +52,14 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
         super("", new CssLayout());
         this.setWidth("100%");
         final CheckBox myItemsSelection = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
-        myItemsSelection.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                boolean isMyItemsOption = myItemsSelection.getValue();
-                if (isMyItemsOption) {
-                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
-                } else {
-                    searchCriteria.setAssignUser(null);
-                }
-                updateSearchResult();
+        myItemsSelection.addValueChangeListener(valueChangeEvent -> {
+            boolean isMyItemsOption = myItemsSelection.getValue();
+            if (isMyItemsOption) {
+                searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+            } else {
+                searchCriteria.setAssignUser(null);
             }
+            updateSearchResult();
         });
         taskList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectGenericTaskService.class),
                 new GenericTaskRowDisplayHandler(), 10) {

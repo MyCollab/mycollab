@@ -16,23 +16,20 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
-import com.mycollab.html.FormatUtils
-import com.mycollab.module.project.domain.{ProjectRelayEmailNotification, Risk, SimpleRisk}
-import com.mycollab.module.project.service.{MilestoneService, RiskService}
-import com.mycollab.module.project.ProjectLinkGenerator
-import com.mycollab.module.user.service.UserService
-import com.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction
 import com.hp.gagawa.java.elements.{Span, Text}
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.i18n.{GenericI18Enum, OptionI18nEnum}
-import com.mycollab.core.SimpleLogging
 import com.mycollab.core.utils.StringUtils
-import com.mycollab.html.LinkUtils
+import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.mail.MailUtils
-import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
+import com.mycollab.module.project.domain.{ProjectRelayEmailNotification, Risk, SimpleRisk}
 import com.mycollab.module.project.i18n.RiskI18nEnum
+import com.mycollab.module.project.service.{MilestoneService, RiskService}
+import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
 import com.mycollab.module.user.AccountLinkGenerator
+import com.mycollab.module.user.service.UserService
 import com.mycollab.schedule.email.format.{DateFieldFormat, FieldFormat, I18nFieldFormat}
+import com.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
 import org.springframework.beans.factory.annotation.Autowired
@@ -49,45 +46,45 @@ import org.springframework.stereotype.Component
 class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleRisk] with ProjectRiskRelayEmailNotificationAction {
   @Autowired var riskService: RiskService = _
   private val mapper = new ProjectFieldNameMapper
-
+  
   override protected def getItemName: String = StringUtils.trim(bean.getRiskname, 100)
-
+  
   override protected def getCreateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(
     RiskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
-
+  
   override protected def getUpdateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(
     RiskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
-
+  
   override protected def getCommentSubject(context: MailContext[SimpleRisk]): String = context.getMessage(
     RiskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
-
+  
   override protected def getItemFieldMapper: ItemFieldMapper = mapper
-
+  
   override protected def getBeanInContext(notification: ProjectRelayEmailNotification): SimpleRisk =
     riskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
-
+  
   override protected def buildExtraTemplateVariables(context: MailContext[SimpleRisk]) {
     val emailNotification = context.getEmailNotification
     val summary = bean.getRiskname
     val summaryLink = ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-
+    
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
     val userAvatar = LinkUtils.newAvatar(avatarId)
-
+    
     val makeChangeUser = userAvatar.toString + " " + emailNotification.getChangeByUserFullName
     val actionEnum = emailNotification.getAction match {
       case MonitorTypeConstants.CREATE_ACTION => RiskI18nEnum.MAIL_CREATE_ITEM_HEADING
       case MonitorTypeConstants.UPDATE_ACTION => RiskI18nEnum.MAIL_UPDATE_ITEM_HEADING
       case MonitorTypeConstants.ADD_COMMENT_ACTION => RiskI18nEnum.MAIL_COMMENT_ITEM_HEADING
     }
-  
+    
     contentGenerator.putVariable("projectName", bean.getProjectName)
     contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean.getProjectid))
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
     contentGenerator.putVariable("summary", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
-
+  
   class ProjectFieldNameMapper extends ItemFieldMapper {
     put(Risk.Field.riskname, GenericI18Enum.FORM_NAME, isColSpan = true)
     put(Risk.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
@@ -103,7 +100,7 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
     put(Risk.Field.raisedbyuser, new RaisedByFieldFormat(Risk.Field.raisedbyuser.name, RiskI18nEnum.FORM_RAISED_BY))
     put(Risk.Field.response, RiskI18nEnum.FORM_RESPONSE, isColSpan = true)
   }
-
+  
   class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
     def formatField(context: MailContext[_]): String = {
       val risk = context.getWrappedBean.asInstanceOf[SimpleRisk]
@@ -119,7 +116,7 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         new Span().write
@@ -138,7 +135,7 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
       }
     }
   }
-
+  
   class RaisedByFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
     def formatField(context: MailContext[_]): String = {
       val risk = context.getWrappedBean.asInstanceOf[SimpleRisk]
@@ -154,7 +151,7 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         return new Span().write
@@ -172,9 +169,9 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
         value
     }
   }
-
+  
   class MilestoneFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
+    
     def formatField(context: MailContext[_]): String = {
       val risk = context.getWrappedBean.asInstanceOf[SimpleRisk]
       if (risk.getMilestoneid != null) {
@@ -188,28 +185,23 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
         new Span().write
       }
     }
-
+    
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
         return new Span().write
       }
-      try {
-        val milestoneId = value.toInt
-        val milestoneService = AppContextUtil.getSpringBean(classOf[MilestoneService])
-        val milestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
-        if (milestone != null) {
-          val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
-          val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
-            milestone.getProjectid, milestone.getId)
-          val link = FormatUtils.newA(milestoneLink, milestone.getName)
-          return FormatUtils.newLink(img, link).write
-        }
-      }
-      catch {
-        case e: Exception => SimpleLogging.error("Error", e)
+      val milestoneId = value.toInt
+      val milestoneService = AppContextUtil.getSpringBean(classOf[MilestoneService])
+      val milestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
+      if (milestone != null) {
+        val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
+        val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
+          milestone.getProjectid, milestone.getId)
+        val link = FormatUtils.newA(milestoneLink, milestone.getName)
+        return FormatUtils.newLink(img, link).write
       }
       value
     }
   }
-
+  
 }

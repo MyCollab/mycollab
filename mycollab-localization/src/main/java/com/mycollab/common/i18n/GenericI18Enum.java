@@ -178,6 +178,7 @@ public enum GenericI18Enum {
     OPT_SUCCESS,
     OPT_PLAIN,
     OPT_USER,
+    OPT_LAYOUT_OPTIONS,
 
     M_BUTTON_BACK,
     M_BUTTON_SEND,

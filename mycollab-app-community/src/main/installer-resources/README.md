@@ -45,11 +45,16 @@ Version 5.4.1
 
 **Library Upgrades**
 
+* Java Mail 1.5.6
+* Other libraries
 
 **Improvements & New Features**
 
-* [Premium] Users can customize the project front pages
-* [Premium] Users can receive the notifications such as overdue assignments, or any assignment to her
+* Minor improvements
+
+**Bug Fixes**
+
+* Can not send email for user who do not have the avatar
 
 
 Version 5.4.0
@@ -83,7 +88,7 @@ Version 5.4.0
 **Bug Fixes**
 
 * Fix the pdfEncoding mistyping in the reporting module (Thanks to mchubby)
-* The NumberFormatException throws when user type a valid day duration in task form. 
+* The NumberFormatException throws when the user types a valid day duration in task form. 
 * [Premium] Not adding the second cache layer to the service classes
 * [Premium] Can not remove favorite flag in Favorite view 
 * [Premium] Fix the form layout text 

@@ -37,7 +37,6 @@ import java.util.List;
 public class ActiveUserListSelect extends ListSelect {
     private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings("unchecked")
     public ActiveUserListSelect() {
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
         this.setMultiSelect(true);
@@ -47,7 +46,7 @@ public class ActiveUserListSelect extends ListSelect {
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        List<SimpleUser> userList = userService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleUser> userList = userService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         for (SimpleUser user : userList) {
             this.addItem(user.getUsername());

@@ -16,6 +16,7 @@
  */
 package com.mycollab.reporting;
 
+import com.google.common.collect.Ordering;
 import com.mycollab.common.domain.AuditChangeItem;
 import com.mycollab.common.domain.SimpleAuditLog;
 import com.mycollab.common.domain.SimpleComment;
@@ -25,22 +26,20 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.AuditLogService;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.core.MyCollabException;
-import com.mycollab.core.SimpleLogging;
-import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
+import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.form.view.builder.type.AbstractDynaField;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.formatter.DefaultFieldDisplayHandler;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
-import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
-import com.google.common.collect.Ordering;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.component.*;
 import net.sf.dynamicreports.report.constant.PageOrientation;
@@ -249,8 +248,8 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                 .setStyle(reportStyles.getH3Style()));
         titleContent.add(historyHeader, reportStyles.line(), cmp.verticalGap(10));
 
-        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
-        List<SimpleAuditLog> auditLogs = auditLogService.findPageableListByCriteria(new BasicSearchRequest<>(logCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria));
+        List<SimpleAuditLog> auditLogs = auditLogService.findPageableListByCriteria(new BasicSearchRequest<>(logCriteria));
         List activities = new ArrayList(commentCount + logCount);
         activities.addAll(comments);
         activities.addAll(auditLogs);
@@ -264,7 +263,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                     titleContent.add(component, cmp.verticalGap(10));
                 }
             } else {
-                SimpleLogging.error("Do not support activity " + activity);
+                LOG.error("Do not support activity " + activity);
             }
         }
     }

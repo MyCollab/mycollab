@@ -55,7 +55,7 @@ public class MeetingListDashlet extends Depot {
         bodyContent.addComponent(tableItem);
 
         MButton customizeViewBtn = new MButton("", clickEvent -> {}).withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
-                .withDescription("Layout Options");
+                .withDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
 
         this.addHeaderElement(customizeViewBtn);
     }

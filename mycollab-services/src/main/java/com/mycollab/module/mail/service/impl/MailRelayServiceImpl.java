@@ -17,6 +17,7 @@
 package com.mycollab.module.mail.service.impl;
 
 import com.mycollab.common.dao.RelayEmailMapper;
+import com.mycollab.common.domain.MailRecipientField;
 import com.mycollab.common.domain.RelayEmailExample;
 import com.mycollab.common.domain.RelayEmailWithBLOBs;
 import com.mycollab.configuration.SiteConfiguration;
@@ -34,12 +35,12 @@ public class MailRelayServiceImpl implements MailRelayService {
     private RelayEmailMapper relayEmailMapper;
 
     @Override
-    public void saveRelayEmail(String[] toNames, String[] toEmails, String subject, String bodyContent) {
+    public void saveRelayEmail(List<MailRecipientField> recipients, String subject, String bodyContent) {
         RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
         relayEmail.setFromemail(SiteConfiguration.getNotifyEmail());
         relayEmail.setFromname(SiteConfiguration.getDefaultSiteName());
 
-        String recipientList = JsonDeSerializer.toJson(new String[][]{toEmails, toNames});
+        String recipientList = JsonDeSerializer.toJson(recipients);
         relayEmail.setRecipients(recipientList);
         relayEmail.setSubject(subject);
         relayEmail.setBodycontent(bodyContent);

@@ -67,14 +67,11 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             return new BugPriorityComboBox();
         } else if (propertyId.equals("assignuser")) {
             ProjectMemberSelectionField field = new ProjectMemberSelectionField();
-            field.addValueChangeListener(new Property.ValueChangeListener() {
-                @Override
-                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                    Property property = valueChangeEvent.getProperty();
-                    SimpleProjectMember member = (SimpleProjectMember) property.getValue();
-                    if (member != null) {
-                        subscribersComp.addFollower(member.getUsername());
-                    }
+            field.addValueChangeListener(valueChangeEvent -> {
+                Property property = valueChangeEvent.getProperty();
+                SimpleProjectMember member = (SimpleProjectMember) property.getValue();
+                if (member != null) {
+                    subscribersComp.addFollower(member.getUsername());
                 }
             });
             return field;
@@ -106,14 +103,9 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             return tf;
         } else if (propertyId.equals("milestoneid")) {
             final MilestoneComboBox milestoneBox = new MilestoneComboBox();
-            milestoneBox.addValueChangeListener(new Property.ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(Property.ValueChangeEvent event) {
-                    String milestoneName = milestoneBox.getItemCaption(milestoneBox.getValue());
-                    beanItem.setMilestoneName(milestoneName);
-                }
+            milestoneBox.addValueChangeListener(valueChangeEvent -> {
+                String milestoneName = milestoneBox.getItemCaption(milestoneBox.getValue());
+                beanItem.setMilestoneName(milestoneName);
             });
             return milestoneBox;
         } else if (propertyId.equals("estimatetime") || (propertyId.equals("estimateremaintime"))) {

@@ -55,6 +55,10 @@ public class ELabel extends Label {
         return withWidth("-1px");
     }
 
+    public ELabel witHeightUndefined() {
+        return withHeight("-1px");
+    }
+
     public ELabel withWidth(String width) {
         this.setWidth(width);
         return this;
@@ -62,6 +66,11 @@ public class ELabel extends Label {
 
     public ELabel withFullWidth() {
         this.setWidth("100%");
+        return this;
+    }
+
+    public ELabel withHeight(String width) {
+        this.setHeight(width);
         return this;
     }
 

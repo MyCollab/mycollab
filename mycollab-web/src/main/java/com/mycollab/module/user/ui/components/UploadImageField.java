@@ -39,7 +39,7 @@ public class UploadImageField extends UploadField {
     protected void updateDisplay() {
         byte[] imageData = (byte[]) this.getValue();
         String mimeType = this.getLastMimeType();
-        if (mimeType.equals("image/jpeg")) {
+        if (mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
             imageData = ImageUtil.convertJpgToPngFormat(imageData);
             if (imageData == null) {
                 throw new UserInvalidInputException("Can not convert image to jpg format");

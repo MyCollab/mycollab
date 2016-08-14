@@ -118,7 +118,7 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
                 .setStyle(reportStyles.getH3Style()));
         titleContent.add(historyHeader, reportStyles.line(), cmp.verticalGap(10));
 
-        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria));
         Collections.sort(comments, dateComparator.reverse());
         for (SimpleComment activity : comments) {
             titleContent.add(buildCommentBlock(activity), cmp.verticalGap(10));

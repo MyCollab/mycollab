@@ -33,6 +33,7 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.events.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
+import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -145,18 +146,21 @@ public class ProjectMembersWidget extends Depot {
             } else {
                 roleVal = member.getRoleName();
             }
-            ELabel memberRole = new ELabel(roleVal, ContentMode.HTML).withDescription("Role").withStyleName(UIConstants.META_INFO);
+            ELabel memberRole = ELabel.html(roleVal).withDescription(AppContext.getMessage(ProjectRoleI18nEnum.SINGLE))
+                    .withStyleName(UIConstants.META_INFO);
             footer.addComponent(memberRole);
 
-            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + "&nbsp;" + new Span
-                    ().appendText("" + member.getNumOpenTasks()).setTitle("Open tasks") + "&nbsp;&nbsp;" + ProjectAssetsManager.getAsset
-                    (ProjectTypeConstants.BUG).getHtml() + "&nbsp;" + new Span().appendText("" + member.getNumOpenBugs())
-                    .setTitle("Open bugs") + "&nbsp;&nbsp;"
+            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + "&nbsp;" +
+                    new Span().appendText("" + member.getNumOpenTasks()).setTitle("Open tasks") + "&nbsp;&nbsp;" +
+                    ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() + "&nbsp;" +
+                    new Span().appendText("" + member.getNumOpenBugs()).setTitle("Open bugs") + "&nbsp;&nbsp;"
                     + FontAwesome.MONEY.getHtml() + "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2,
-                    member.getTotalBillableLogTime())).setTitle("Billable hours") + "&nbsp;&nbsp;" + FontAwesome.GIFT.getHtml() +
-                    "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
+                    member.getTotalBillableLogTime())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) + "&nbsp;&nbsp;" +
+                    FontAwesome.GIFT.getHtml() +
+                    "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
+                    .setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
-            ELabel memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withStyleName(UIConstants.META_INFO);
+            ELabel memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
             footer.addComponent(memberWorkStatus);
 
             content.addComponent(footer);

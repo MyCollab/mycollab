@@ -140,7 +140,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         }
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        List<SimpleUser> userAccountList = userService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleUser> userAccountList = userService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         headerText.updateTitle(AppContext.getMessage(UserI18nEnum.LIST_VALUE, userAccountList.size()));
 
         for (SimpleUser userAccount : userAccountList) {

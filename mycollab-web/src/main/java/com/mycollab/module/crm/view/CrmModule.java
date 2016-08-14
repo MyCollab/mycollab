@@ -215,8 +215,8 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
             addPopupMenu.setPopupVisible(false);
 
             int i = 0;
-            for (Iterator<Component> it = serviceMenu.iterator(); it.hasNext(); ) {
-                Button btn = (Button) it.next();
+            for (Component aServiceMenu : serviceMenu) {
+                Button btn = (Button) aServiceMenu;
                 if (selectedBtnCaption.equals(btn.getCaption())) {
                     serviceMenu.selectService(i);
                     break;
@@ -233,8 +233,8 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
             if (crmModule.serviceMenu != null) {
                 ServiceMenu serviceMenu = crmModule.serviceMenu;
                 int i = 0;
-                for (Iterator<Component> it = serviceMenu.iterator(); it.hasNext(); ) {
-                    Button btn = (Button) it.next();
+                for (Component aServiceMenu : serviceMenu) {
+                    Button btn = (Button) aServiceMenu;
                     if (type.equals(btn.getId())) {
                         serviceMenu.selectService(i);
                         break;

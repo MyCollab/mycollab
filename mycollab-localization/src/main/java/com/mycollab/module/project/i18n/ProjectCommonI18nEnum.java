@@ -77,6 +77,7 @@ public enum ProjectCommonI18nEnum {
     OPT_RESOLVING_TREND_IN_DURATION,
     OPT_OPEN_TASKS,
     OPT_OPEN_BUGS,
+    OPT_DUE_IN,
 
     ERROR_NOT_EDIT_CELL_IN_GANTT_HELP,
 

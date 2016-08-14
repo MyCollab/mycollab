@@ -53,10 +53,15 @@ public class ExtMailServiceImpl implements ExtMailService {
     }
 
     @Override
+    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, String subject, String html) {
+        getMailer().sendHTMLMail(fromEmail, fromName, toEmail, null, null, subject, html, null);
+    }
+
+    @Override
     public void sendHTMLMail(String fromEmail, String fromName,
                              List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                              List<MailRecipientField> bccEmail, String subject, String html,
-                             List<? extends AttachmentSource> attachments) {
+                             List<? extends AttachmentSource> attachments, boolean canRetry) {
         getMailer().sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html, attachments);
     }
 }

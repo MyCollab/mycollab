@@ -58,7 +58,6 @@ public class VersionMultiSelectField extends MultiSelectComp {
         UI.getCurrent().addWindow(new VersionAddWindow());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void setPropertyDataSource(Property newDataSource) {
         List<Version> versions = (List<Version>) newDataSource.getValue();

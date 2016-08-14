@@ -28,6 +28,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class MailFormWindow extends Window {
+public class MailFormWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private EmailTokenField tokenFieldMailTo;
@@ -57,26 +58,19 @@ public class MailFormWindow extends Window {
     private List<String> lstMail;
 
     public MailFormWindow() {
-        this.setModal(true);
         initLayout();
     }
 
     public MailFormWindow(List<String> lstMail) {
-        this.setModal(true);
         this.lstMail = lstMail;
         initLayout();
     }
 
     private void initLayout() {
-        this.setWidth("830px");
-        this.setHeightUndefined();
+        withModal(true).withResizable(false).withWidth("830px").withCenter();
         initUI();
-        center();
-        this.setModal(true);
-        this.setResizable(false);
     }
 
-    @SuppressWarnings("serial")
     private void initButtonLinkCcBcc() {
         btnLinkCc = new Button("Add Cc");
         btnLinkCc.setStyleName(WebUIConstants.BUTTON_LINK);
@@ -88,21 +82,8 @@ public class MailFormWindow extends Window {
         inputLayout.addComponent(btnLinkBcc, 2, 0);
         inputLayout.setComponentAlignment(btnLinkBcc, Alignment.MIDDLE_CENTER);
 
-        btnLinkCc.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                buttonLinkCcClick(event);
-            }
-        });
-
-        btnLinkBcc.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                butonLinkBccClick(event);
-            }
-        });
+        btnLinkCc.addClickListener(clickEvent -> toggleCcLink());
+        btnLinkBcc.addClickListener(clickEvent -> toggleBccLink());
     }
 
     private Layout createTextFieldMail(String title, Component component) {
@@ -140,17 +121,14 @@ public class MailFormWindow extends Window {
 
         tokenFieldMailTo = new EmailTokenField();
 
-        inputLayout.addComponent(createTextFieldMail("To:", tokenFieldMailTo),
-                0, 0);
+        inputLayout.addComponent(createTextFieldMail("To:", tokenFieldMailTo), 0, 0);
 
         if (lstMail != null) {
             for (String mail : lstMail) {
                 if (StringUtils.isNotBlank(mail)) {
                     if (mail.indexOf("<") > -1) {
-                        String strMail = mail.substring(mail.indexOf("<") + 1,
-                                mail.lastIndexOf(">"));
-                        if (strMail != null
-                                && !strMail.equalsIgnoreCase("null")) {
+                        String strMail = mail.substring(mail.indexOf("<") + 1, mail.lastIndexOf(">"));
+                        if (strMail != null && !strMail.equalsIgnoreCase("null")) {
 
                         }
                     } else {
@@ -191,57 +169,37 @@ public class MailFormWindow extends Window {
 
         controlsLayout.setSpacing(true);
 
-        Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        MailFormWindow.this.close();
-                    }
-                });
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
 
         cancelBtn.setStyleName(WebUIConstants.BUTTON_OPTION);
         controlsLayout.addComponent(cancelBtn);
         controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
 
-        Button sendBtn = new Button("Send", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+        Button sendBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), clickEvent -> {
+            if (tokenFieldMailTo.getListRecipient().size() <= 0 || subject.getValue().equals("")) {
+                NotificationUtil
+                        .showErrorNotification("To Email field and Subject field must be not empty! Please fulfil them before sending email.");
+                return;
+            }
+            if (AppContext.getUser().getEmail() != null && AppContext.getUser().getEmail().length() > 0) {
+                ExtMailService systemMailService = AppContextUtil.getSpringBean(ExtMailService.class);
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-
-                if (tokenFieldMailTo.getListRecipient().size() <= 0
-                        || subject.getValue().equals("")) {
-                    NotificationUtil
-                            .showErrorNotification("To Email field and Subject field must be not empty! Please fulfil them before sending email.");
-                    return;
-                }
-                if (AppContext.getUser().getEmail() != null
-                        && AppContext.getUser().getEmail().length() > 0) {
-                    ExtMailService systemMailService = AppContextUtil
-                            .getSpringBean(ExtMailService.class);
-
-                    List<File> listFile = attachments.files();
-                    List<AttachmentSource> attachmentSource = null;
-                    if (listFile != null && listFile.size() > 0) {
-                        attachmentSource = new ArrayList<>();
-                        for (File file : listFile) {
-                            attachmentSource
-                                    .add(new FileAttachmentSource(file));
-                        }
+                List<File> listFile = attachments.files();
+                List<AttachmentSource> attachmentSource = null;
+                if (listFile != null && listFile.size() > 0) {
+                    attachmentSource = new ArrayList<>();
+                    for (File file : listFile) {
+                        attachmentSource.add(new FileAttachmentSource(file));
                     }
-
-                    systemMailService.sendHTMLMail(AppContext.getUser().getEmail(), AppContext.getUser().getDisplayName(),
-                            tokenFieldMailTo.getListRecipient(), tokenFieldMailCc.getListRecipient(),
-                            tokenFieldMailBcc.getListRecipient(), subject.getValue(),
-                            noteArea.getValue(), attachmentSource);
-                    MailFormWindow.this.close();
-                } else {
-                    NotificationUtil
-                            .showErrorNotification("Your email is empty value, please fulfil it before sending email!");
                 }
+
+                systemMailService.sendHTMLMail(AppContext.getUser().getEmail(), AppContext.getUser().getDisplayName(),
+                        tokenFieldMailTo.getListRecipient(), tokenFieldMailCc.getListRecipient(),
+                        tokenFieldMailBcc.getListRecipient(), subject.getValue(),
+                        noteArea.getValue(), attachmentSource, true);
+                close();
+            } else {
+                NotificationUtil.showErrorNotification("Your email is empty value, please fulfil it before sending email!");
             }
         });
         sendBtn.setIcon(FontAwesome.SEND);
@@ -264,7 +222,7 @@ public class MailFormWindow extends Window {
         }
     }
 
-    private void buttonLinkCcClick(ClickEvent event) {
+    private void toggleCcLink() {
         removeAllInputField();
         if (!isAddCc) {
             btnLinkCc.setCaption("Remove Cc");
@@ -317,7 +275,7 @@ public class MailFormWindow extends Window {
         inputLayout.removeComponent(btnLinkBcc);
     }
 
-    private void butonLinkBccClick(ClickEvent event) {
+    private void toggleBccLink() {
         removeAllInputField();
 
         if (!isAddBcc) {

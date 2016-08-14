@@ -34,15 +34,10 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
 
     @Override
     protected void displayView() {
-        withMargin(new MarginInfo(true, false, false, false));
-
-        CssLayout contentWrapper = new CssLayout();
-        contentWrapper.setStyleName("content-wrapper");
-        contentWrapper.setWidth("100%");
-        this.addComponent(contentWrapper);
+        withMargin(new MarginInfo(true, true, false, true));
 
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
-        contentWrapper.addComponent(layout);
+        this.addComponent(layout);
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
 
         MilestoneTimelineWidget milestoneTimelineWidget = new MilestoneTimelineWidget();

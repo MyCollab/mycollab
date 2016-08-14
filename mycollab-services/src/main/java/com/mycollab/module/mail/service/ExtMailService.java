@@ -30,6 +30,17 @@ public interface ExtMailService extends IService {
     boolean isMailSetupValid();
 
     /**
+     *
+     * @param fromEmail
+     * @param fromName
+     * @param toEmail
+     * @param subject
+     * @param html
+     */
+    void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, String subject, String html);
+
+    /**
+     *
      * @param fromEmail
      * @param fromName
      * @param toEmail
@@ -38,9 +49,10 @@ public interface ExtMailService extends IService {
      * @param subject
      * @param html
      * @param attachments
+     * @param canRetry
      */
     void sendHTMLMail(String fromEmail, String fromName,
                       List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                       List<MailRecipientField> bccEmail, String subject, String html,
-                      List<? extends AttachmentSource> attachments);
+                      List<? extends AttachmentSource> attachments, boolean canRetry);
 }

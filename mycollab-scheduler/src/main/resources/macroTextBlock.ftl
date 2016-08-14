@@ -15,7 +15,7 @@
     <a href="${webLink}" class="actionBtn">${displayName}</a>
 </#macro>
 
-<#macro commentBlock avatar displayName comment>
+<#macro commentBlock avatar="" displayName="" comment="">
 <tr>
     <td style="padding: 10px 30px;">
         <img class="circle-box" style="float:left" src="${storageFactory.getAvatarPath(avatar, 32)}" alt>

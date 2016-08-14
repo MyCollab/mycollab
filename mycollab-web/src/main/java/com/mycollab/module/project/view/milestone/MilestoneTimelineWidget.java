@@ -26,7 +26,9 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -54,11 +56,10 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
     private List<SimpleMilestone> milestones;
 
     public void display() {
-        this.setWidth("100%");
-        this.addStyleName("tm-container");
+        this.withFullWidth().withStyleName("tm-container");
 
         MHorizontalLayout headerLayout = new MHorizontalLayout();
-        ELabel titleLbl = ELabel.h2("Phase Timeline");
+        ELabel titleLbl = ELabel.h2(AppContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
         final CheckBox noDateSetMilestone = new CheckBox("No date set");
         noDateSetMilestone.setValue(false);
@@ -76,7 +77,7 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField(Milestone.Field.enddate.name(), "ASC")));
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-        milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
         this.addComponent(headerLayout);
         timelineContainer = new CssLayout();
@@ -124,8 +125,9 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
                 timestampDiv.appendChild(new Span().setCSSClass("date").appendText("No date set"));
             } else {
                 if (milestone.isOverdue()) {
-                    timestampDiv.appendChild(new Span().setCSSClass("date overdue").appendText(AppContext.formatDate
-                            (milestone.getEnddate()) + " (Due in " + AppContext.formatDuration(milestone.getEnddate()) + ")"));
+                    timestampDiv.appendChild(new Span().setCSSClass("date overdue").appendText(String.format("%s (%s)",
+                            AppContext.formatDate(milestone.getEnddate()),
+                            AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(milestone.getEnddate())))));
                 } else {
                     timestampDiv.appendChild(new Span().setCSSClass("date").appendText(AppContext.formatDate(milestone.getEnddate())));
                 }

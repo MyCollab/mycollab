@@ -568,8 +568,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
             SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-            List<SaveSearchResult> result = saveSearchResultService.findPageableListByCriteria(new BasicSearchRequest<>(
-                    searchCriteria, 0, Integer.MAX_VALUE));
+            List<SaveSearchResult> result = saveSearchResultService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
             beanItem = new BeanContainer<>(SaveSearchResult.class);
             beanItem.setBeanIdProperty("id");
 

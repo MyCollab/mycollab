@@ -26,6 +26,8 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
@@ -35,10 +37,7 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
@@ -81,8 +80,8 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
-            instantEditBtn.setDescription("Edit task name");
+            }).withDescription(AppContext.getMessage(BugI18nEnum.OPT_EDIT_BUG_NAME))
+                    .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(instantEditBtn);
             this.addComponent(buttonControls);
         }
@@ -111,8 +110,8 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);
         if (SimpleBug.isOverdue(bug)) {
             bugLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - Due in " + AppContext
-                    .formatDuration(bug.getDuedate())));
+            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO)
+                    .appendText(" - " + AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(bug.getDuedate()))));
         } else if (SimpleBug.isCompleted(bug)) {
             bugLink.setCSSClass("completed");
         }

@@ -134,7 +134,7 @@ public class ActivityStreamPanel extends CssLayout {
                 }
 
                 for (SimpleActivityStream item : currentListData) {
-                    if (checkReadPermisson(item.getType())) {
+                    if (checkReadPermission(item.getType())) {
                         currentItemsDisplay++;
                         showItem(item);
                     }
@@ -170,34 +170,24 @@ public class ActivityStreamPanel extends CssLayout {
             doSearch(true);
         }
 
-        private boolean checkReadPermisson(String type) {
-            if (CrmTypeConstants.ACCOUNT.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+        private boolean checkReadPermission(String type) {
+            if (CrmTypeConstants.ACCOUNT.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
                 return false;
-            } else if (CrmTypeConstants.CONTACT.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
+            } else if (CrmTypeConstants.CONTACT.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
                 return false;
-            } else if (CrmTypeConstants.CAMPAIGN.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+            } else if (CrmTypeConstants.CAMPAIGN.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
                 return false;
-            } else if (CrmTypeConstants.LEAD.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+            } else if (CrmTypeConstants.LEAD.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
                 return false;
-            } else if (CrmTypeConstants.OPPORTUNITY.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
+            } else if (CrmTypeConstants.OPPORTUNITY.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
                 return false;
-            } else if (CrmTypeConstants.CASE.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
+            } else if (CrmTypeConstants.CASE.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
                 return false;
-            } else if (CrmTypeConstants.TASK.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
+            } else if (CrmTypeConstants.TASK.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
                 return false;
-            } else if (CrmTypeConstants.MEETING.equals(type)
-                    && !AppContext
-                    .canRead(RolePermissionCollections.CRM_MEETING)) {
+            } else if (CrmTypeConstants.MEETING.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
                 return false;
-            } else if (CrmTypeConstants.CALL.equals(type)
-                    && !AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+            } else if (CrmTypeConstants.CALL.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
                 return false;
             }
             return true;

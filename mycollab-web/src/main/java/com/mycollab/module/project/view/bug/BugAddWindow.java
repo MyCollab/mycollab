@@ -58,9 +58,9 @@ import java.util.List;
 public class BugAddWindow extends MWindow {
     public BugAddWindow(SimpleBug bug) {
         if (bug.getId() == null) {
-            setCaption("New bug");
+            setCaption(AppContext.getMessage(BugI18nEnum.NEW));
         } else {
-            setCaption("Edit bug");
+            setCaption(AppContext.getMessage(BugI18nEnum.SINGLE) + ": " + bug.getSummary());
         }
 
         EditForm editForm = new EditForm();

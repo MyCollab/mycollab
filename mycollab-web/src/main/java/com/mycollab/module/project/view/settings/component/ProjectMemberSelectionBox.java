@@ -46,11 +46,11 @@ public class ProjectMemberSelectionBox extends ComboBox {
 
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        criteria.setStatuses(new SetSearchField<String>(ProjectMemberStatusConstants.ACTIVE));
+        criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE));
         criteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
 
         ProjectMemberService userService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleProjectMember> memberList = userService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleProjectMember> memberList = userService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         loadUserList(memberList);
     }
 

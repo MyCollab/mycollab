@@ -102,10 +102,9 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
             LabelLink b = new LabelLink(project.getName(), ProjectLinkBuilder.generateProjectFullLink(project.getId()));
             b.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), AppContext.getDateFormat(),
                     project, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-            MHorizontalLayout layout = new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project
+            return new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project
                     .getShortname(), project.getId(), project.getAvatarid(), 32), b)
                     .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false).withFullHeight();
-            return layout;
         });
 
         tableItem.addGeneratedColumn(Project.Field.lead.name(), (source, itemId, columnId) -> {
@@ -179,7 +178,7 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new ProjectListCustomizeWindow(tableItem)))
                 .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.ADJUST);
-        customizeViewBtn.setDescription("Layout Options");
+        customizeViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         layout.with(customizeViewBtn).withAlign(customizeViewBtn, Alignment.MIDDLE_RIGHT);
 
         return layout;

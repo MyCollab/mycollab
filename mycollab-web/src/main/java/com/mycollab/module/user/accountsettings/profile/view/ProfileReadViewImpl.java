@@ -194,7 +194,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         private class PreviewFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<User> {
             private static final long serialVersionUID = 1L;
 
-            public PreviewFormFieldFactory(GenericBeanForm<User> form) {
+            PreviewFormFieldFactory(GenericBeanForm<User> form) {
                 super(form);
             }
 

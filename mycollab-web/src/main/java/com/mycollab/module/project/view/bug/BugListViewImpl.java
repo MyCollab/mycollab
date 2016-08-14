@@ -54,8 +54,8 @@ import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -154,14 +154,14 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        MButton printBtn = new MButton("", clickEvent -> {
+        MButton printBtn = new MButton("", clickEvent ->
             UI.getCurrent().addWindow(new BugCustomizeReportOutputWindow(new LazyValueInjector() {
                 @Override
                 protected Object doEval() {
                     return baseCriteria;
                 }
-            }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION);
+            }))
+        ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION);
         printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 

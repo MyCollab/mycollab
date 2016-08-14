@@ -16,6 +16,9 @@
  */
 package com.mycollab.module.project.ui.components;
 
+import com.google.common.collect.Ordering;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.AuditChangeItem;
 import com.mycollab.common.domain.SimpleAuditLog;
@@ -25,29 +28,30 @@ import com.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.AuditLogService;
 import com.mycollab.common.service.CommentService;
-import com.mycollab.core.SimpleLogging;
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.ReloadableComponent;
+import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.formatter.DefaultFieldDisplayHandler;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
-import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.google.common.collect.Ordering;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MMarginInfo;
@@ -63,6 +67,7 @@ import java.util.List;
  * @since 5.1.4
  */
 public class ProjectActivityComponent extends MVerticalLayout implements ReloadableComponent {
+    private static Logger LOG = LoggerFactory.getLogger(ProjectActivityComponent.class);
     private String type;
     private String typeId;
     private ELabel headerLbl;
@@ -163,7 +168,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                     activityBox.addComponent(auditBlock);
                 }
             } else {
-                SimpleLogging.error("Do not support activity " + activity);
+                LOG.error("Do not support activity " + activity);
             }
         }
     }

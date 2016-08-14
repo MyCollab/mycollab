@@ -16,6 +16,8 @@
  */
 package com.mycollab.configuration;
 
+import com.mycollab.core.MyCollabException;
+import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
 
@@ -49,7 +51,11 @@ public class EnDecryptHelper {
     }
 
     public static String decryptText(String text) {
-        return basicTextEncryptor.decrypt(text);
+        try {
+            return basicTextEncryptor.decrypt(text);
+        } catch (EncryptionOperationNotPossibleException e) {
+            throw new MyCollabException("Can not decrypt the text " + text);
+        }
     }
 
     /**

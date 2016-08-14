@@ -17,6 +17,7 @@
 
 package com.mycollab.module.crm.view.lead;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
@@ -49,7 +50,7 @@ public class LeadListDashlet extends Depot {
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem)))
                 .withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
-        customizeViewBtn.setDescription("Layout Options");
+        customizeViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         this.addHeaderElement(customizeViewBtn);
     }
 

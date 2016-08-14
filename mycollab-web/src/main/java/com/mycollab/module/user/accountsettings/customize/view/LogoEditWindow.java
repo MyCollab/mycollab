@@ -20,6 +20,7 @@ import com.esofthead.vaadin.cropField.CropField;
 import com.esofthead.vaadin.cropField.client.VCropSelection;
 import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ImageUtil;
@@ -35,7 +36,6 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,10 +92,7 @@ public class LogoEditWindow extends MWindow {
 
         MVerticalLayout previewBoxRight = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true));
 
-        Label lbPreview = new Label("<p style='margin: 0px;'><strong>To the below is what your logo will look like.</strong></p><p " +
-                "style='margin-top: 0px;'>To make adjustment, you can drag around and resize the selection square below. " +
-                "When you are happy with your photo, click the <strong>Accept</strong> button.</p>", ContentMode.HTML);
-        previewBoxRight.addComponent(lbPreview);
+        previewBoxRight.addComponent(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
 
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new SettingEvent.GotoGeneralSetting(LogoEditWindow.this, null)))

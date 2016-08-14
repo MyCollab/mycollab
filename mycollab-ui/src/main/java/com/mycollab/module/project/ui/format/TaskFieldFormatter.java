@@ -17,22 +17,24 @@
 package com.mycollab.module.project.ui.format;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.core.SimpleLogging;
 import com.mycollab.core.utils.HumanTime;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
-import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.4
  */
 public final class TaskFieldFormatter extends FieldGroupFormatter {
+    private static Logger LOG = LoggerFactory.getLogger(TaskFieldFormatter.class);
     private static TaskFieldFormatter _instance = new TaskFieldFormatter();
 
     private TaskFieldFormatter() {
@@ -70,7 +72,7 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
                     HumanTime humanTime = new HumanTime(duration);
                     return humanTime.getExactly();
                 } catch (Exception e) {
-                    SimpleLogging.error("Parse value failed " + value, e);
+                    LOG.error("Parse value failed " + value, e);
                     return msgIfBlank;
                 }
             }

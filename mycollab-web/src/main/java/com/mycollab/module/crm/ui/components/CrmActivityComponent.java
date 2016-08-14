@@ -28,7 +28,6 @@ import com.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.AuditLogService;
 import com.mycollab.common.service.CommentService;
-import com.mycollab.core.SimpleLogging;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
@@ -52,6 +51,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -66,6 +67,7 @@ import java.util.List;
  * @since 5.1.4
  */
 public class CrmActivityComponent extends MVerticalLayout implements ReloadableComponent {
+    private static Logger LOG = LoggerFactory.getLogger(CrmActivityComponent.class);
     private String type;
     private String typeId;
     private ELabel headerLbl;
@@ -146,8 +148,8 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         final int logCount = auditLogService.getTotalCount(logCriteria);
         setTotalNums(commentCount + logCount);
 
-        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
-        List<SimpleAuditLog> auditLogs = auditLogService.findPageableListByCriteria(new BasicSearchRequest<>(logCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria));
+        List<SimpleAuditLog> auditLogs = auditLogService.findPageableListByCriteria(new BasicSearchRequest<>(logCriteria));
         List activities = new ArrayList(commentCount + logCount);
         activities.addAll(comments);
         activities.addAll(auditLogs);
@@ -166,7 +168,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
                     activityBox.addComponent(auditBlock);
                 }
             } else {
-                SimpleLogging.error("Do not support activity " + activity);
+                LOG.error("Do not support activity " + activity);
             }
         }
     }
@@ -190,20 +192,20 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
-            MButton msgDeleteBtn = new MButton("", clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {
-                            if (confirmDialog.isConfirmed()) {
-                                CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
-                                activityBox.removeComponent(layout);
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            MButton msgDeleteBtn = new MButton("", clickEvent ->
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                    commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                    activityBox.removeComponent(layout);
+                                }
+                            })
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {
@@ -256,8 +258,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
 
             rowLayout.addComponent(messageHeader);
 
-            for (int i = 0; i < changeItems.size(); i++) {
-                AuditChangeItem item = changeItems.get(i);
+            for (AuditChangeItem item : changeItems) {
                 String fieldName = item.getField();
 
                 DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);

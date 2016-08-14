@@ -67,7 +67,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             custom.addStyleName("customLoginForm");
             custom.addComponent(usernameField, "usernameField");
             StringLengthValidator passwordValidator = new StringLengthValidator(
-                    "Password length must be greaterThan than 6", 6, Integer.MAX_VALUE, false);
+                    "Password length must be greater than 6", 6, Integer.MAX_VALUE, false);
             passwordField.addValidator(passwordValidator);
             custom.addComponent(passwordField, "passwordField");
 

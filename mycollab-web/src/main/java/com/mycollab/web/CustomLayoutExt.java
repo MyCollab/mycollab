@@ -32,8 +32,7 @@ public class CustomLayoutExt extends CustomLayout {
         super();
 
         try {
-            initTemplateContentsFromInputStream(CustomLayoutExt.class
-                    .getClassLoader().getResourceAsStream("layouts/" + layoutId + ".html"));
+            initTemplateContentsFromInputStream(CustomLayoutExt.class.getClassLoader().getResourceAsStream("layouts/" + layoutId + ".html"));
         } catch (Exception e) {
             this.setTemplateName(layoutId);
         }

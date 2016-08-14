@@ -17,11 +17,11 @@
 package com.mycollab.module.project.view.user;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.db.arguments.DateSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -31,7 +31,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.vaadin.data.Property;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 
@@ -51,18 +50,15 @@ public class TaskStatusComponent extends Depot {
         super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_ASSIGNMENTS_TITLE, 0), new CssLayout());
 
         final CheckBox myItemsOnly = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
-        myItemsOnly.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                if (searchCriteria != null) {
-                    boolean selectMyItemsOnly = myItemsOnly.getValue();
-                    if (selectMyItemsOnly) {
-                        searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
-                    } else {
-                        searchCriteria.setAssignUser(null);
-                    }
-                    taskComponents.setSearchCriteria(searchCriteria);
+        myItemsOnly.addValueChangeListener(valueChangeEvent -> {
+            if (searchCriteria != null) {
+                boolean selectMyItemsOnly = myItemsOnly.getValue();
+                if (selectMyItemsOnly) {
+                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                } else {
+                    searchCriteria.setAssignUser(null);
                 }
+                taskComponents.setSearchCriteria(searchCriteria);
             }
         });
 
@@ -88,7 +84,7 @@ public class TaskStatusComponent extends Depot {
     private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectGenericTaskService,
             ProjectGenericTaskSearchCriteria, ProjectGenericTask> {
 
-        public TaskStatusPagedList() {
+        TaskStatusPagedList() {
             super(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowDisplayHandler(), 10);
         }
 

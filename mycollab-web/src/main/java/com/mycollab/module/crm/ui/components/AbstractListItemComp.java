@@ -50,11 +50,11 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
     protected DefaultGenericSearchPanel<S> searchPanel;
     protected AbstractPagedBeanTable<S, B> tableItem;
 
-    protected Label selectedItemsNumberLabel = new Label();
+    private Label selectedItemsNumberLabel = new Label();
 
-    protected SelectionOptionButton selectOptionButton;
-    protected DefaultMassItemActionHandlerContainer tableActionControls;
-    protected ButtonGroup extraControlsLayout;
+    private SelectionOptionButton selectOptionButton;
+    private DefaultMassItemActionHandlerContainer tableActionControls;
+    private ButtonGroup extraControlsLayout;
 
     public AbstractListItemComp() {
         super();
@@ -78,8 +78,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
         selectOptionButton.setSizeUndefined();
         tableActionControls = createActionControls();
 
-        MHorizontalLayout leftContainer = new MHorizontalLayout().with(selectOptionButton, tableActionControls,
-                selectedItemsNumberLabel);
+        MHorizontalLayout leftContainer = new MHorizontalLayout(selectOptionButton, tableActionControls, selectedItemsNumberLabel);
         leftContainer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         extraControlsLayout = new ButtonGroup();

@@ -106,8 +106,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
             ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
             searchCriteria.addExtraField(ProjectSearchCriteria.p_template.buildParamIsEqual(SearchField.AND, 1));
-            List<SimpleProject> projectTemplates = projectService.findPageableListByCriteria(new BasicSearchRequest<>
-                    (searchCriteria, 0, Integer.MAX_VALUE));
+            List<SimpleProject> projectTemplates = projectService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
             this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
             for (SimpleProject prjTemplate : projectTemplates) {
                 this.addItem(prjTemplate);

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.mail.service;
 
+import com.mycollab.common.domain.MailRecipientField;
 import com.mycollab.common.domain.RelayEmailWithBLOBs;
 import com.mycollab.db.persistence.service.IService;
 
@@ -27,12 +28,12 @@ import java.util.List;
  */
 public interface MailRelayService extends IService {
     /**
-     * @param toNames
-     * @param toEmails
+     *
+     * @param recipients
      * @param subject
      * @param bodyContent
      */
-    void saveRelayEmail(String[] toNames, String[] toEmails, String subject, String bodyContent);
+    void saveRelayEmail(List<MailRecipientField> recipients, String subject, String bodyContent);
 
     /**
      * @return
