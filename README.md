@@ -13,22 +13,22 @@ MyCollab does work well on both desktop and mobile devices.
 <table>
   <tr>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1668/25912423433_a9d652f375_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://c2.staticflickr.com/2/1668/25912423433_710952b8f2.jpg" alt="Project Dashboard">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Dashboard.png" target="_blank" title="Project Dashboard">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Dashboard-300x151.png" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1599/25912415863_9df3386e77_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://c2.staticflickr.com/2/1599/25912415863_c93075e925.jpg" alt="Bug Dashboard">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard.png" target="_blank" title="Bug Dashboard">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard-300x151.png" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://c2.staticflickr.com/2/1622/26489354656_7f312aa807_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://c2.staticflickr.com/2/1622/26489354656_0a8d987faa.jpg" alt="Task Dashboard">
+    <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Task-Dashboard.png" target="_blank" title="Task Dashboard">
+      <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Task-Dashboard-300x151.png" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -36,22 +36,22 @@ MyCollab does work well on both desktop and mobile devices.
   </tr>
   <tr>
     <td align="center">
-    <a href="https://c2.staticflickr.com/2/1483/25912422783_391a2209e4_o.png" target="_blank" title="Kanban Board">
-        <img src="https://c2.staticflickr.com/2/1483/25912422783_614dba0c9b.jpg" alt="Kanban Board">
+    <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Kanban-Board.png" target="_blank" title="Kanban Board">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Kanban-Board-300x151.png" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1696/26422968362_46842d4320_o.png" target="_blank" title="Roadmap">
-        <img src="https://c2.staticflickr.com/2/1696/26422968362_12ea2e82f0.jpg" alt="Roadmap">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Roadmap-2.png" target="_blank" title="Roadmap">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Roadmap-2-300x151.png" alt="Roadmap">
       </a>
       <br />
       <em>Roadmap</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1474/26489353536_bc387724fd_o.png" target="_blank" title="Gantt Chart">
-        <img src="https://c2.staticflickr.com/2/1474/26489353536_2547ec4e50.jpg" alt="Gantt Chart">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Member.png" target="_blank" title="Project Members">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Member-300x151.png" alt="Project Members">
       </a>
       <br />
       <em>Project Members</em>
