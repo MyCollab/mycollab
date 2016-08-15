@@ -95,8 +95,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
         @Override
         public Component generateRow(final SimpleMessage message, int rowIndex) {
-            MHorizontalLayout mainLayout = new MHorizontalLayout();
-            mainLayout.setStyleName("message-block");
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withStyleName("message-block").withFullWidth();
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(message.getPostedUserAvatarId(), 32);
             userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);
             mainLayout.addComponent(userAvatarImg);
@@ -150,9 +149,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
                 rightCol.addComponent(attachmentPanel);
             }
 
-            mainLayout.addComponent(rightCol);
-            mainLayout.setExpandRatio(rightCol, 1.0f);
-            mainLayout.setWidth("100%");
+            mainLayout.with(rightCol).expand(rightCol);
             return mainLayout;
         }
     }

@@ -51,7 +51,7 @@ class ReOpenView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ReOpenView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption("Reopen [" + CurrentProjectVariables.getProject().getShortname() + "-" + bug.getBugkey() + "]");
+        this.setCaption(AppContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bug.getSummary()));
         this.bug = bug;
         this.callbackForm = callbackForm;
 
@@ -134,7 +134,7 @@ class ReOpenView extends AbstractMobilePageView {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+            EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
                 super(form);
             }
 

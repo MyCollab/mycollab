@@ -76,17 +76,11 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.CloseListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    ContactService ContactService = AppContextUtil.getSpringBean(ContactService.class);
-                                    ContactService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
-                                }
+                        dialog -> {
+                            if (dialog.isConfirmed()) {
+                                ContactService ContactService = AppContextUtil.getSpringBean(ContactService.class);
+                                ContactService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
                             }
                         });
             }

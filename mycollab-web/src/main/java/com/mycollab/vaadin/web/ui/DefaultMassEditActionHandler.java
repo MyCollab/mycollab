@@ -22,11 +22,8 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.events.MassItemActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
-import com.mycollab.reporting.ReportExportType;
-import com.mycollab.reporting.RpFieldsBuilder;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 import java.util.HashMap;
 import java.util.Map;

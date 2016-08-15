@@ -115,17 +115,17 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
 
     private void updateTabStatus() {
         if (status == OptionI18nEnum.MilestoneStatus.Closed) {
-            this.setCaption("Closed Phases");
+            this.setCaption(AppContext.getMessage(OptionI18nEnum.MilestoneStatus.Closed));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
         } else if (status == OptionI18nEnum.MilestoneStatus.Future) {
-            this.setCaption("Future Phases");
+            this.setCaption(AppContext.getMessage(OptionI18nEnum.MilestoneStatus.Future));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
         } else {
-            this.setCaption("In Progress Phases");
+            this.setCaption(AppContext.getMessage(OptionI18nEnum.MilestoneStatus.InProgress));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);

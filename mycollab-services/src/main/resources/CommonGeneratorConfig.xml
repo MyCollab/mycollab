@@ -31,7 +31,6 @@
         <table schema="mycollab_base" tableName="s_activitystream" domainObjectName="ActivityStream"/>
         <table schema="mycollab_base" tableName="m_comment" domainObjectName="Comment"/>
         <table schema="mycollab_base" tableName="s_customer_feedback" domainObjectName="CustomerFeedback"/>
-        <table schema="mycollab_base" tableName="s_relay_mail" domainObjectName="RelayEmail"/>
         <table schema="mycollab_base" tableName="s_relay_email_notification" domainObjectName="RelayEmailNotification"/>
         <table schema="mycollab_base" tableName="m_options" domainObjectName="OptionVal"/>
         <table schema="mycollab_base" tableName="m_audit_log" domainObjectName="AuditLog"/>

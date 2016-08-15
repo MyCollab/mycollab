@@ -16,7 +16,9 @@
  */
 package com.mycollab.module.user.accountsettings.profile.view;
 
+import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
@@ -28,7 +30,6 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -53,7 +54,7 @@ class BasicInfoChangeWindow extends MWindow {
 
     private final User user;
 
-    public BasicInfoChangeWindow(final User user) {
+    BasicInfoChangeWindow(final User user) {
         super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
         this.user = user;
         this.withModal(true).withResizable(false).withWidth("600px").withCenter();
@@ -76,7 +77,8 @@ class BasicInfoChangeWindow extends MWindow {
         passInfo.addComponent(timeZoneField, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
         timeZoneField.setValue(user.getTimezone());
 
-        passInfo.addComponent(languageBox, AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
+        passInfo.addComponent(languageBox, AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE),
+                AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), 0, 5);
         languageBox.setValue(user.getLanguage());
 
         txtFirstName.setValue(MoreObjects.firstNonNull(user.getFirstname(), ""));

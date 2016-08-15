@@ -70,19 +70,13 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.CloseListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                                    accountService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null));
-                                }
+                        dialog -> {
+                            if (dialog.isConfirmed()) {
+                                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
+                                accountService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null));
                             }
                         });
-
             }
 
             @Override

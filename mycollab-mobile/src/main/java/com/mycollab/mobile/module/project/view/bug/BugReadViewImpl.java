@@ -191,10 +191,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             } else if (propertyId.equals("createdtime")) {
                 return new DateViewField(beanItem.getCreatedtime());
             } else if (propertyId.equals("assignuserFullName")) {
-                DefaultViewField field = new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink
+                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink
                         (CurrentProjectVariables.getProjectId(), beanItem.getAssignuser(), beanItem.getAssignuserFullName(),
                                 beanItem.getAssignUserAvatarId(), false), ContentMode.HTML);
-                return field;
             } else if (propertyId.equals("loguserFullName")) {
                 return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
                         .getProjectId(), beanItem.getLogby(), beanItem.getLoguserFullName(), beanItem

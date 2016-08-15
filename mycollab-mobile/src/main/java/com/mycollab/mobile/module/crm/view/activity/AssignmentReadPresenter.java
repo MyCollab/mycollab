@@ -68,16 +68,11 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.CloseListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-                                    taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
-                                }
+                        dialog -> {
+                            if (dialog.isConfirmed()) {
+                                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
+                                taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
                             }
                         });
             }
@@ -150,5 +145,4 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             NotificationUtil.showMessagePermissionAlert();
         }
     }
-
 }

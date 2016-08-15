@@ -103,7 +103,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(user.getTimezone())),
                 AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
         userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),
-                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 3);
+                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), 0, 3);
 
         MButton btnChangePassword = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                 clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean())))

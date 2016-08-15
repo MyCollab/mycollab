@@ -19,8 +19,8 @@ package com.mycollab.mobile.module.project.view.task;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.TaskEvent;
-import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.module.project.view.AbstractProjectPresenter;
+import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
@@ -62,17 +62,11 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.CloseListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(
-                                    final ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                                    taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-                                }
+                        dialog -> {
+                            if (dialog.isConfirmed()) {
+                                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                                taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                             }
                         });
             }

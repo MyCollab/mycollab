@@ -43,12 +43,12 @@ public class MilestoneComboBox extends ValueComboBox {
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-        List<SimpleMilestone> milestoneList = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<>(SimpleMilestone.class);
         beanItem.setBeanIdProperty("id");
 
-        for (SimpleMilestone milestone : milestoneList) {
+        for (SimpleMilestone milestone : milestones) {
             beanItem.addBean(milestone);
         }
 

@@ -27,6 +27,7 @@ import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
@@ -52,7 +53,7 @@ class ApproveInputView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ApproveInputView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption("Approve [" + CurrentProjectVariables.getProject().getShortname() + "-" + bug.getBugkey() + "]");
+        this.setCaption(AppContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
         this.bug = bug;
         this.callbackForm = callbackForm;
 
@@ -62,7 +63,7 @@ class ApproveInputView extends AbstractMobilePageView {
     }
 
     private void constructUI() {
-        final Button approveBtn = new Button("Approve & Close", clickEvent -> {
+        final Button approveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), clickEvent -> {
             if (editForm.validateForm()) {
                 // Save bug status and assignee
                 ApproveInputView.this.bug.setStatus(BugStatus.Verified.name());
@@ -127,7 +128,7 @@ class ApproveInputView extends AbstractMobilePageView {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+            EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
                 super(form);
             }
 

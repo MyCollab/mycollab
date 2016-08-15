@@ -24,10 +24,9 @@ import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.UI;
-import org.vaadin.dialogs.ConfirmDialog;
 
 /**
  * @author MyCollab Ltd.

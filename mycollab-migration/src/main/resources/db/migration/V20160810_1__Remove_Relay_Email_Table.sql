@@ -1,0 +1,4 @@
+ALTER TABLE `s_account`
+ADD COLUMN `trialFrom` TIMESTAMP NULL,
+ADD COLUMN `trialTo` TIMESTAMP NULL;
+DROP TABLE `s_relay_mail`;

@@ -31,7 +31,7 @@ import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.shell.view.AbstractMainView;
 import com.mycollab.shell.view.components.AbstractAboutWindow;
-import com.mycollab.shell.view.components.AdRequestWindow;
+import com.mycollab.community.shell.view.components.AdRequestWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -98,7 +98,7 @@ public class MainViewImpl extends AbstractMainView {
         GregorianCalendar tenDaysAgo = new GregorianCalendar();
         tenDaysAgo.add(Calendar.DATE, -10);
 
-        if (Boolean.TRUE.equals(user.getRequestad()) && user.getRegisteredtime().before(tenDaysAgo.getTime())) {
+        if (!Boolean.TRUE.equals(user.getRequestad()) && user.getRegisteredtime().before(tenDaysAgo.getTime())) {
             UI.getCurrent().addWindow(new AdRequestWindow(user));
         }
 

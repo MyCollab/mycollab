@@ -27,8 +27,8 @@ import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.service.LeadService;
@@ -77,16 +77,11 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.CloseListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    LeadService LeadService = AppContextUtil.getSpringBean(LeadService.class);
-                                    LeadService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
-                                }
+                        dialog -> {
+                            if (dialog.isConfirmed()) {
+                                LeadService LeadService = AppContextUtil.getSpringBean(LeadService.class);
+                                LeadService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
                             }
                         });
             }
@@ -126,70 +121,67 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
-                    EventBusFactory.getInstance().post(
-                            new LeadEvent.GotoRead(this, nextId));
+                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, nextId));
                 } else {
                     NotificationUtil.showGotoFirstRecordNotification();
                 }
             }
         });
-        view.getRelatedCampaignHandlers().addRelatedListHandler(
-                new RelatedListHandler<SimpleCampaign>() {
+        view.getRelatedCampaignHandlers().addRelatedListHandler(new RelatedListHandler<SimpleCampaign>() {
 
-                    @Override
-                    public void selectAssociateItems(Set<SimpleCampaign> items) {
-                        SimpleLead lead = view.getItem();
-                        List<CampaignLead> associateCampaigns = new ArrayList<>();
-                        for (SimpleCampaign campaign : items) {
-                            CampaignLead associateCampaign = new CampaignLead();
-                            associateCampaign.setCampaignid(campaign.getId());
-                            associateCampaign.setLeadid(lead.getId());
-                            associateCampaign.setCreatedtime(new GregorianCalendar().getTime());
-                            associateCampaigns.add(associateCampaign);
-                        }
+            @Override
+            public void selectAssociateItems(Set<SimpleCampaign> items) {
+                SimpleLead lead = view.getItem();
+                List<CampaignLead> associateCampaigns = new ArrayList<>();
+                for (SimpleCampaign campaign : items) {
+                    CampaignLead associateCampaign = new CampaignLead();
+                    associateCampaign.setCampaignid(campaign.getId());
+                    associateCampaign.setLeadid(lead.getId());
+                    associateCampaign.setCreatedtime(new GregorianCalendar().getTime());
+                    associateCampaigns.add(associateCampaign);
+                }
 
-                        CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                        campaignService.saveCampaignLeadRelationship(associateCampaigns, AppContext.getAccountId());
-                        EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-                    }
+                CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
+                campaignService.saveCampaignLeadRelationship(associateCampaigns, AppContext.getAccountId());
+                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+            }
 
-                    @Override
-                    public void createNewRelatedItem(String itemId) {
-                        SimpleCampaign campaign = new SimpleCampaign();
-                        campaign.setExtraData(view.getItem());
-                        EventBusFactory.getInstance().post(new CampaignEvent.GotoEdit(LeadReadPresenter.this, campaign));
+            @Override
+            public void createNewRelatedItem(String itemId) {
+                SimpleCampaign campaign = new SimpleCampaign();
+                campaign.setExtraData(view.getItem());
+                EventBusFactory.getInstance().post(new CampaignEvent.GotoEdit(LeadReadPresenter.this, campaign));
 
-                    }
-                });
-        view.getRelatedActivityHandlers().addRelatedListHandler(
-                new RelatedListHandler<SimpleActivity>() {
+            }
+        });
+        view.getRelatedActivityHandlers().addRelatedListHandler(new RelatedListHandler<SimpleActivity>() {
 
-                    @Override
-                    public void selectAssociateItems(Set<SimpleActivity> items) {
-                        // TODO Auto-generated method stub
+            @Override
+            public void selectAssociateItems(Set<SimpleActivity> items) {
+                // TODO Auto-generated method stub
 
-                    }
+            }
 
-                    @Override
-                    public void createNewRelatedItem(String itemId) {
-                        if (itemId.equals(CrmTypeConstants.TASK)) {
-                            final SimpleTask task = new SimpleTask();
-                            task.setType(CrmTypeConstants.ACCOUNT);
-                            task.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(LeadReadPresenter.this, task));
-                        } else if (itemId.equals(CrmTypeConstants.MEETING)) {
-                            final SimpleMeeting meeting = new SimpleMeeting();
-                            meeting.setType(CrmTypeConstants.ACCOUNT);
-                            meeting.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(LeadReadPresenter.this, meeting));
-                        } else if (itemId.equals(CrmTypeConstants.CALL)) {
-                            final SimpleCall call = new SimpleCall();
-                            call.setType(CrmTypeConstants.ACCOUNT);
-                            call.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(LeadReadPresenter.this, call));
-                        }
-                    }
-                });
+            @Override
+            public void createNewRelatedItem(String itemId) {
+                if (itemId.equals(CrmTypeConstants.TASK)) {
+                    final SimpleTask task = new SimpleTask();
+                    task.setType(CrmTypeConstants.ACCOUNT);
+                    task.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(LeadReadPresenter.this, task));
+                } else if (itemId.equals(CrmTypeConstants.MEETING)) {
+                    final SimpleMeeting meeting = new SimpleMeeting();
+                    meeting.setType(CrmTypeConstants.ACCOUNT);
+                    meeting.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(LeadReadPresenter.this, meeting));
+                } else if (itemId.equals(CrmTypeConstants.CALL)) {
+                    final SimpleCall call = new SimpleCall();
+                    call.setType(CrmTypeConstants.ACCOUNT);
+                    call.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(LeadReadPresenter.this, call));
+                }
+            }
+        });
     }
 
     @Override

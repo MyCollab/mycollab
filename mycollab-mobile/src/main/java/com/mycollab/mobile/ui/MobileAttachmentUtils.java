@@ -126,16 +126,11 @@ public class MobileAttachmentUtils {
                     AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    new ConfirmDialog.CloseListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                                attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
-                                ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
-                            }
+                    dialog -> {
+                        if (dialog.isConfirmed()) {
+                            ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
+                            attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
+                            ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName(MobileUIConstants.BUTTON_LINK);

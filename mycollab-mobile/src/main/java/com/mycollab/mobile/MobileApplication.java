@@ -123,18 +123,13 @@ public class MobileApplication extends MyCollabUI {
                                     AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    new ConfirmDialog.CloseListener() {
-                                        private static final long serialVersionUID = 1L;
-
-                                        @Override
-                                        public void onClose(ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                Collection<Window> windowsList = UI.getCurrent().getWindows();
-                                                for (Window window : windowsList) {
-                                                    window.close();
-                                                }
-                                                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+                                    dialog -> {
+                                        if (dialog.isConfirmed()) {
+                                            Collection<Window> windowsList = UI.getCurrent().getWindows();
+                                            for (Window window : windowsList) {
+                                                window.close();
                                             }
+                                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
                                         }
                                     });
 

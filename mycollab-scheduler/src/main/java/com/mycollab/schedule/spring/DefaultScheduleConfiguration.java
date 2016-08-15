@@ -34,12 +34,6 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
  */
 @Configuration
 public class DefaultScheduleConfiguration {
-    @Bean
-    public JobDetailFactoryBean sendRelayEmailJob() {
-        JobDetailFactoryBean bean = new JobDetailFactoryBean();
-        bean.setJobClass(SendingRelayEmailJob.class);
-        return bean;
-    }
 
     @Bean
     public JobDetailFactoryBean cleanTimelineTrackingCacheJob() {
@@ -73,14 +67,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean liveInstanceMonitorJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(LiveInstanceMonitorJob.class);
-        return bean;
-    }
-
-    @Bean
-    public CronTriggerFactoryBean sendingRelayEmailTrigger() {
-        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
-        bean.setJobDetail(sendRelayEmailJob().getObject());
-        bean.setCronExpression("0 * * * * ?");
         return bean;
     }
 
@@ -143,7 +129,6 @@ public class DefaultScheduleConfiguration {
         bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey");
 
         bean.setTriggers(
-                sendingRelayEmailTrigger().getObject(),
                 projectSendRelayNotificationEmailTrigger().getObject(),
                 projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
                 crmSendRelayNotificationEmailTrigger().getObject(),
