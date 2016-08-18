@@ -59,7 +59,7 @@ public class ResetPasswordUpdatePage extends TemplateWebServletRequestHandler {
                     String loginURL = (deploymentMode.isDemandEdition())
                             ? ("https://www.mycollab.com/sign-in?username=" + username) : (request.getContextPath() + "/");
 
-                    String redirectURL = request.getContextPath() + "/" + "user/recoverypassword/action";
+                    String redirectURL = request.getContextPath() + "/user/recoverypassword/action";
                     Map<String, Object> context = new HashMap<>();
                     context.put("username", username);
                     context.put("loginURL", loginURL);
@@ -76,5 +76,4 @@ public class ResetPasswordUpdatePage extends TemplateWebServletRequestHandler {
             throw new MyCollabException(e);
         }
     }
-
 }

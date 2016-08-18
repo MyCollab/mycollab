@@ -51,8 +51,8 @@ import java.util.TimeZone;
  * @author MyCollab Ltd
  * @since 5.3.0
  */
-public class SetupNewInstanceView extends MVerticalLayout {
-    public SetupNewInstanceView() {
+class SetupNewInstanceView extends MVerticalLayout {
+    SetupNewInstanceView() {
         this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
         MVerticalLayout content = new MVerticalLayout().withWidth("600px");
         this.with(content);

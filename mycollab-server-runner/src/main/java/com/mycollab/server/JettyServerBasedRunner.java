@@ -23,7 +23,6 @@ import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.logging.LogConfig;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.FileUtils;
-import com.mycollab.server.jetty.ServerInstance;
 import com.mycollab.servlet.*;
 import com.zaxxer.hikari.HikariDataSource;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
@@ -55,8 +54,8 @@ import java.util.Properties;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class GenericServerRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(GenericServerRunner.class);
+public abstract class JettyServerBasedRunner implements IServerRunner {
+    private static final Logger LOG = LoggerFactory.getLogger(JettyServerBasedRunner.class);
 
     private Server server;
     private int port = 8080;
@@ -91,7 +90,7 @@ public abstract class GenericServerRunner {
      * @param args
      * @throws Exception
      */
-    void run(String[] args) throws Exception {
+    public void run(String[] args) throws Exception {
         ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         root.setLevel(Level.INFO);
         ServerInstance.getInstance().registerInstance(this);
@@ -314,7 +313,7 @@ public abstract class GenericServerRunner {
 
                     try {
                         appContext = initWebAppContext();
-                        appContext.setClassLoader(GenericServerRunner.class.getClassLoader());
+                        appContext.setClassLoader(JettyServerBasedRunner.class.getClassLoader());
                         contexts.addHandler(appContext);
 
                         ServletContextHandler upgradeContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);

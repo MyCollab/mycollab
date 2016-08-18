@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.ecm;
 
+import com.mycollab.configuration.DatabaseConfiguration;
+import com.mycollab.configuration.SiteConfiguration;
 import org.apache.jackrabbit.core.journal.DatabaseJournal;
 
 /**
@@ -25,8 +27,11 @@ import org.apache.jackrabbit.core.journal.DatabaseJournal;
 public class MyCollabDatabaseJournal extends DatabaseJournal {
 
     public MyCollabDatabaseJournal() {
-        this.setDriver("javax.naming.InitialContext");
-        this.setUrl("java:comp/env/jdbc/mycollabdatasource");
+        DatabaseConfiguration dbConf = SiteConfiguration.getDatabaseConfiguration();
+        setDriver(dbConf.getDriverClass());
+        setUser(dbConf.getUser());
+        setPassword(dbConf.getPassword());
+        setUrl(dbConf.getDbUrl());
         this.setDatabaseType("mysql");
     }
 }

@@ -16,7 +16,7 @@
  */
 package com.mycollab.servlet;
 
-import com.mycollab.server.jetty.ServerInstance;
+import com.mycollab.server.ServerInstance;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

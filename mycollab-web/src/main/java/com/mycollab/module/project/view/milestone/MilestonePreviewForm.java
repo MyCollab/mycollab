@@ -200,7 +200,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             } else if (genericTask.isTask()) {
                 status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             }
-            rowComp.with(new ELabel(status).withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined());
+            rowComp.with(new ELabel(status).withStyleName(WebUIConstants.BLOCK).withWidthUndefined());
             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
             Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                     .setTitle(genericTask.getAssignUserFullName());

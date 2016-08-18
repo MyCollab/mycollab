@@ -56,8 +56,7 @@ public class AccountFavIconServiceImpl implements AccountFavIconService {
         }
         BillingAccount account = billingAccountService.getAccountById(sAccountId);
         if (account == null) {
-            throw new MyCollabException(
-                    "There's no account associated with provided id " + sAccountId);
+            throw new MyCollabException("There's no account associated with provided id " + sAccountId);
         }
 
         logo = ImageUtil.scaleImage(logo, 32, 32);

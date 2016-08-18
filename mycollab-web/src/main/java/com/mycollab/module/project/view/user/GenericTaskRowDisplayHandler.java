@@ -20,12 +20,14 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectGenericTask;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.AppContext;
@@ -54,14 +56,14 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
 
         String status = "";
         if (genericTask.isBug()) {
-            status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
+            status = AppContext.getMessage(BugStatus.class, genericTask.getStatus());
         } else if (genericTask.isMilestone()) {
-            status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
+            status = AppContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
         } else if (genericTask.isRisk()) {
-            status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
+            status = AppContext.getMessage(StatusI18nEnum.class,
                     genericTask.getStatus());
         } else if (genericTask.isTask()) {
-            status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
+            status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
         }
         issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebUIConstants.FIELD_NOTE));
 

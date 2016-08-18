@@ -201,13 +201,6 @@
         </dependency>
 
         <dependency>
-            <groupId>fr.xebia.web</groupId>
-            <artifactId>xebia-servlet-extras</artifactId>
-            <version>1.0.8</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.googlecode.ez-vcard</groupId>
             <artifactId>ez-vcard</artifactId>
             <version>0.9.10</version>
@@ -249,18 +242,6 @@
             <artifactId>vaadin-sass-compiler</artifactId>
             <version>0.9.13</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>se.jiderhamn</groupId>
-            <artifactId>classloader-leak-prevention</artifactId>
-            <version>1.15.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>

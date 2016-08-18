@@ -18,6 +18,7 @@ package com.mycollab.shell.view;
 
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.core.UserInvalidInputException;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.shell.ShellController;
@@ -61,7 +62,7 @@ public class MainWindowContainer extends CssLayout {
         } else {
             // Read previously stored cookie value
             BrowserCookie.detectCookieValue(DesktopApplication.ACCOUNT_COOKIE, value -> {
-                if (value != null && !value.equals("")) {
+                if (StringUtils.isNotBlank(value)) {
                     String[] loginParams = value.split("\\$");
                     if (loginParams.length == 2) {
                         try {

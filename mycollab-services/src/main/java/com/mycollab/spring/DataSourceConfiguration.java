@@ -16,6 +16,9 @@
  */
 package com.mycollab.spring;
 
+import com.mycollab.configuration.DatabaseConfiguration;
+import com.mycollab.configuration.SiteConfiguration;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -24,6 +27,7 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * @author MyCollab Ltd.
@@ -36,9 +40,22 @@ public class DataSourceConfiguration {
 
     @Bean(name = "dataSource")
     public DataSource dataSource() {
-        JndiDataSourceLookup ds = new JndiDataSourceLookup();
-        ds.setResourceRef(true);
-        return ds.getDataSource("java:comp/env/jdbc/mycollabdatasource");
+        DatabaseConfiguration dbConf = SiteConfiguration.getDatabaseConfiguration();
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName(dbConf.getDriverClass());
+        dataSource.setJdbcUrl(dbConf.getDbUrl());
+        dataSource.setUsername(dbConf.getUser());
+        dataSource.setPassword(dbConf.getPassword());
+
+        Properties dsProperties = new Properties();
+        dsProperties.setProperty("cachePrepStmts", "true");
+        dsProperties.setProperty("prepStmtCacheSize", "250");
+        dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
+        dsProperties.setProperty("useServerPrepStmts", "true");
+        dsProperties.setProperty("maximumPoolSize", "20");
+        dsProperties.setProperty("initializationFailFast", "false");
+        dataSource.setDataSourceProperties(dsProperties);
+        return dataSource;
     }
 
     @Bean

@@ -5,7 +5,7 @@
     <resultMap id="BaseResultMap"
         type="com.mycollab.module.project.domain.ProjectGenericTask">
         <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="description" jdbcType="LONGVARCHAR" property="description" />
         <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
         <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
         <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />

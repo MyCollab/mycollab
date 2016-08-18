@@ -61,16 +61,16 @@ public class AccountLogoServiceImpl implements AccountLogoService {
         // Construct new logoid
         String newLogoId = UUID.randomUUID().toString();
 
-        for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-            uploadLogoToStorage(uploadedUser, image, newLogoId, SUPPORT_SIZES[i], sAccountId);
+        for (int SUPPORT_SIZE : SUPPORT_SIZES) {
+            uploadLogoToStorage(uploadedUser, image, newLogoId, SUPPORT_SIZE, sAccountId);
         }
 
         // account old logo
         if (account.getLogopath() != null) {
-            for (int i = 0; i < SUPPORT_SIZES.length; i++) {
+            for (int SUPPORT_SIZE : SUPPORT_SIZES) {
                 try {
-                    resourceService.removeResource(PathUtils.buildLogoPath(sAccountId, account.getLogopath(),
-                            SUPPORT_SIZES[i]), uploadedUser, sAccountId);
+                    resourceService.removeResource(PathUtils.buildLogoPath(sAccountId, account.getLogopath(), SUPPORT_SIZE),
+                            uploadedUser, sAccountId);
                 } catch (Exception e) {
                     LOG.error("Error while delete old logo", e);
                 }

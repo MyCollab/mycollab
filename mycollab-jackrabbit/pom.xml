@@ -31,6 +31,12 @@
             <version>5.4.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.mycollab</groupId>
+            <artifactId>mycollab-config</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
         <!-- ECM -->
         <dependency>
             <groupId>javax.jcr</groupId>
@@ -78,6 +84,12 @@
             <groupId> org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-spi-commons</artifactId>
             <version>${jackrabbitVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
         </dependency>
 
     </dependencies>

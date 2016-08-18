@@ -67,7 +67,7 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
         } else if (genericTask.isTask()) {
             status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
         }
-        issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebUIConstants.FIELD_NOTE));
+        issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebUIConstants.BLOCK));
 
         String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
         Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)

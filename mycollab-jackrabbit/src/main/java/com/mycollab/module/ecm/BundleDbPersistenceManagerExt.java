@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.ecm;
 
+import com.mycollab.configuration.DatabaseConfiguration;
+import com.mycollab.configuration.SiteConfiguration;
 import org.apache.jackrabbit.core.persistence.PMContext;
 import org.apache.jackrabbit.core.persistence.pool.BundleDbPersistenceManager;
 
@@ -31,8 +33,11 @@ public class BundleDbPersistenceManagerExt extends BundleDbPersistenceManager {
      * {@inheritDoc}
      */
     public void init(PMContext context) throws Exception {
-        setDriver("javax.naming.InitialContext");
-        setUrl("java:comp/env/jdbc/mycollabdatasource");
+        DatabaseConfiguration dbConf = SiteConfiguration.getDatabaseConfiguration();
+        setDriver(dbConf.getDriverClass());
+        setUser(dbConf.getUser());
+        setPassword(dbConf.getPassword());
+        setUrl(dbConf.getDbUrl());
 
         if (getSchemaObjectPrefix() == null) {
             setSchemaObjectPrefix("ecm_p_workspace");

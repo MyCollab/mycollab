@@ -12,10 +12,6 @@
         <listener-class>com.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>se.jiderhamn.classloader.leak.prevention.ClassLoaderLeakPreventor</listener-class>
-    </listener>
-
     <context-param>
         <param-name>ClassLoaderLeakPreventor.threadWaitMs</param-name>
         <param-value>60000</param-value>

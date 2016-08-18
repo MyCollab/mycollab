@@ -29,31 +29,33 @@ public class ResourceLoader {
             LOG.error("Error", e);
             return;
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    // Obtaining watch keys
-                    final WatchKey key = watchService.poll();
-                    if (key != null) {
-                        for (WatchEvent<?> watchEvent : key.pollEvents()) {
-                            final WatchEvent.Kind<?> kind = watchEvent.kind();
-                            // Overflow event
-                            if (StandardWatchEventKinds.OVERFLOW == kind) {
-                                continue; // loop
-                            } else if (StandardWatchEventKinds.ENTRY_MODIFY == kind) {
-                                // A new Path was created
-                                Path newPath = ((WatchEvent<Path>) watchEvent).context();
-                                File changeFile = newPath.toFile();
-                                CAL10NBundleExt cal10NBundleExt = bundleMap.get(changeFile.getName());
-                                if (cal10NBundleExt != null) {
-                                    cal10NBundleExt.setChanged(true);
-                                }
+        new Thread(()-> {
+            while (true) {
+                // Obtaining watch keys
+                WatchKey key = null;
+                try {
+                    key = watchService.take();
+                } catch (InterruptedException e) {
+                    break;
+                }
+                if (key != null) {
+                    for (WatchEvent<?> watchEvent : key.pollEvents()) {
+                        final WatchEvent.Kind<?> kind = watchEvent.kind();
+                        // Overflow event
+                        if (StandardWatchEventKinds.OVERFLOW == kind) {
+                            continue; // loop
+                        } else if (StandardWatchEventKinds.ENTRY_MODIFY == kind) {
+                            // A new Path was created
+                            Path newPath = ((WatchEvent<Path>) watchEvent).context();
+                            File changeFile = newPath.toFile();
+                            CAL10NBundleExt cal10NBundleExt = bundleMap.get(changeFile.getName());
+                            if (cal10NBundleExt != null) {
+                                cal10NBundleExt.setChanged(true);
                             }
                         }
-                        if (!key.reset()) {
-                            break; //loop
-                        }
+                    }
+                    if (!key.reset()) {
+                        break; //loop
                     }
                 }
             }

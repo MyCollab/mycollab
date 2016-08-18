@@ -16,6 +16,8 @@
  */
 package com.mycollab.core;
 
+import org.joda.time.DateTime;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +31,10 @@ public class MyCollabVersion {
 
     public static String getVersion() {
         return "5.4.0";
+    }
+
+    public static DateTime getReleasedDate() {
+        return new DateTime(2016, 8, 16, 0, 0, 0);
     }
 
     static int[] getVersionNumbers(String ver) {

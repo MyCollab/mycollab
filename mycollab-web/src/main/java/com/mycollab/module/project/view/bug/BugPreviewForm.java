@@ -156,7 +156,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Component component : beanItem.getComponents()) {
                         MButton componentLink = new MButton(StringUtils.trim(component.getComponentname(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId())))
-                                .withDescription(component.getComponentname()).withStyleName(WebUIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(component.getComponentname()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(componentLink);
                     }
                     return componentContainer;
@@ -170,7 +170,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Version version : beanItem.getAffectedVersions()) {
                         MButton versionLink = new MButton(StringUtils.trim(version.getVersionname(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;
@@ -184,7 +184,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Version version : beanItem.getFixedVersions()) {
                         MButton versionLink = new MButton(StringUtils.trim(version.getVersionname(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BUTTON_BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;

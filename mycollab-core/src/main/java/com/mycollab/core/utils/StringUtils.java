@@ -135,7 +135,7 @@ public final class StringUtils {
         } else {
             String str = Jsoup.parse(value).text();
             if (str.length() > limitedCharacters) {
-                str = str.substring(0, limitedCharacters);
+                str = str.substring(0, limitedCharacters) + "...";
             }
             return str;
         }

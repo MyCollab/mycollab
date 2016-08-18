@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.server.jetty;
+package com.mycollab.server;
 
 import com.mycollab.core.MyCollabException;
-import com.mycollab.server.GenericServerRunner;
 
 import java.io.File;
 
@@ -27,13 +26,13 @@ import java.io.File;
  */
 public class ServerInstance {
     private static ServerInstance instance = new ServerInstance();
-    private GenericServerRunner server;
+    private JettyServerBasedRunner server;
     private boolean isUpgrading = false;
 
     private ServerInstance() {
     }
 
-    public void registerInstance(GenericServerRunner serverProcess) {
+    public void registerInstance(JettyServerBasedRunner serverProcess) {
         if (server != null) {
             throw new MyCollabException("There is a running server instance already");
         }

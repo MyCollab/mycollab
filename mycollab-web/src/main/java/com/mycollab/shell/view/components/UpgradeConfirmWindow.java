@@ -22,7 +22,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.IgnoreException;
-import com.mycollab.server.jetty.ServerInstance;
+import com.mycollab.server.ServerInstance;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;

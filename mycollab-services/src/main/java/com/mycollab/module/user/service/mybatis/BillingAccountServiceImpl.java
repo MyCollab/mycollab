@@ -215,14 +215,14 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
         return roleId;
     }
 
-    private int saveGuestRole(int accountId) {
+    private int saveGuestRole(Integer accountId) {
         // Register default role for account
         final Role role = new Role();
         role.setRolename(SimpleRole.GUEST);
         role.setDescription("");
         role.setSaccountid(accountId);
         role.setIssystemrole(true);
-        final int roleId = roleService.saveWithSession(role, "");
+        final Integer roleId = roleService.saveWithSession(role, "");
         roleService.savePermission(roleId, PermissionMap.buildGuestPermissionCollection(), accountId);
         return roleId;
     }

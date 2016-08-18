@@ -16,6 +16,7 @@
             s_account.defaultCurrencyId, s_account.defaultYYMMDDFormat, s_account.defaultMMDDFormat,
             s_account.defaultHumanDateFormat, s_account.defaultLanguageTag,
             s_account.logoPath, s_account.faviconPath, s_account.displayEmailPublicly,
+            s_account.trialFrom, s_account.trialTo,
             s_billing_plan.id AS plan_id, s_billing_plan.billingType AS plan_billingType,
             s_billing_plan.numUsers AS plan_numUsers, s_billing_plan.volume AS plan_volume,
             s_billing_plan.numProjects AS plan_numProjects,

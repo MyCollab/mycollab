@@ -71,7 +71,7 @@ public abstract class GenericHttpServlet extends HttpServlet {
         }
     }
 
-    protected Locale getResponseLocale(HttpServletRequest request) {
+    private Locale getResponseLocale(HttpServletRequest request) {
         String locale = request.getParameter("locale");
         return (locale == null) ? Locale.US : LocalizationHelper.getLocaleInstance(locale);
     }

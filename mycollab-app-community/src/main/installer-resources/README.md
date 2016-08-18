@@ -50,11 +50,13 @@ Version 5.4.1
 
 **Improvements & New Features**
 
+* Update the language files. Add the Danish to the supported list (Contributor: KrestenB)
 * Minor improvements
 
 **Bug Fixes**
 
 * Can not send email for user who do not have the avatar
+* Remove the false thread causes the CPU always high 100%
 
 
 Version 5.4.0

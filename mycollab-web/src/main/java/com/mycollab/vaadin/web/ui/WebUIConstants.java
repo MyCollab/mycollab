@@ -30,7 +30,7 @@ public class WebUIConstants {
     public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
     public static final String POPUP_WITHOUT_INDICATOR = "nonPopupIndicator";
     public static final String TABLE_ACTION_CONTROLS = "table-actionctls";
-    public static final String BUTTON_BLOCK = "block";
+    public static final String BLOCK = "block";
     public static final String BUTTON_ACTION = "greenbtn";
     public static final String BUTTON_OPTION = "graybtn";
     public static final String BUTTON_DANGER = "redbtn";

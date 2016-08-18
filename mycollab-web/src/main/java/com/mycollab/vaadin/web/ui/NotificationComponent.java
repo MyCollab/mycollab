@@ -176,7 +176,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 MButton upgradeBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), clickEvent -> {
                     UI.getCurrent().addWindow(new UpgradeConfirmWindow(notification.getVersion(), notification.getManualDownloadLink(), notification.getInstallerFile()));
                     NotificationComponent.this.setPopupVisible(false);
-                }).withStyleName(WebUIConstants.BUTTON_BLOCK);
+                }).withStyleName(WebUIConstants.BLOCK);
                 wrapper.addComponent(upgradeBtn);
             }
         } else if (item instanceof RequestUploadAvatarNotification) {
@@ -185,13 +185,13 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             MButton uploadAvatarBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
                 NotificationComponent.this.setPopupVisible(false);
-            }).withStyleName(WebUIConstants.BUTTON_BLOCK);
+            }).withStyleName(WebUIConstants.BLOCK);
             wrapper.add(uploadAvatarBtn);
         } else if (item instanceof SmtpSetupNotification) {
             MButton smtpBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SETUP), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
                 NotificationComponent.this.setPopupVisible(false);
-            }).withStyleName(WebUIConstants.BUTTON_BLOCK);
+            }).withStyleName(WebUIConstants.BLOCK);
             Label lbl = ELabel.html(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING));
             MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);

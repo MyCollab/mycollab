@@ -240,11 +240,10 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         private boolean showIssues = false;
 
         MilestoneBlock(final SimpleMilestone milestone) {
-            this.setMargin(new MarginInfo(true, false, true, false));
-            this.setStyleName("roadmap-block");
+            this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("roadmap-block");
 
             ELabel statusLbl = new ELabel(AppContext.getMessage(MilestoneStatus.class, milestone.getStatus()))
-                    .withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined();
+                    .withStyleName(WebUIConstants.BLOCK).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
                     (toggleMilestoneSummaryField).withFullWidth();
@@ -314,7 +313,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             } else if (genericTask.isTask()) {
                                 status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
                             }
-                            rowComp.with(new ELabel(status).withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined());
+                            rowComp.with(new ELabel(status).withStyleName(WebUIConstants.BLOCK).withWidthUndefined());
                             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
                             Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                                     .setTitle(genericTask.getAssignUserFullName());

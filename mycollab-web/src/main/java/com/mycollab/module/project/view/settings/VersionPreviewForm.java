@@ -16,11 +16,12 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.bug.components.BugRowRenderer;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.Version;
@@ -30,14 +31,13 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.field.DateViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
-import com.mycollab.vaadin.ui.field.DateViewField;
-import com.mycollab.vaadin.ui.field.I18nFormViewField;
-import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
@@ -76,9 +76,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
                 containerField.addComponentField(new BugsComp(beanItem));
                 return containerField;
             } else if (Version.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), com.mycollab.common.i18n.OptionI18nEnum
-                        .StatusI18nEnum.class).withStyleName
-                        (WebUIConstants.FIELD_NOTE);
+                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(WebUIConstants.FIELD_NOTE);
             }
             return null;
         }
@@ -92,15 +90,14 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             withMargin(false).withFullWidth();
             MHorizontalLayout header = new MHorizontalLayout();
 
-            final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);
-            CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpen, true);
-            CheckBox verifiedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Verified, true);
-            CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
+            final CheckBox openSelection = new BugStatusCheckbox(BugStatus.Open, true);
+            CheckBox reOpenSelection = new BugStatusCheckbox(BugStatus.ReOpen, true);
+            CheckBox verifiedSelection = new BugStatusCheckbox(BugStatus.Verified, true);
+            CheckBox resolvedSelection = new BugStatusCheckbox(BugStatus.Resolved, true);
 
             Label spacingLbl1 = new Label("");
 
-            header.with(openSelection, reOpenSelection, verifiedSelection, resolvedSelection,
-                    spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
+            header.with(openSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
 
             bugList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(BugService.class), new BugRowRenderer());
             bugList.setMargin(new MarginInfo(true, true, true, false));
@@ -109,8 +106,8 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
-            searchCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
-                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()));
+            searchCriteria.setStatuses(new SetSearchField<>(BugStatus.Open.name(), BugStatus.ReOpen.name(),
+                    BugStatus.Verified.name(), BugStatus.Resolved.name()));
             updateSearchStatus();
 
             this.with(header, bugList);
@@ -137,12 +134,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
         private class BugStatusCheckbox extends CheckBox {
             BugStatusCheckbox(final Enum name, boolean defaultValue) {
                 super(AppContext.getMessage(name), defaultValue);
-                this.addValueChangeListener(new ValueChangeListener() {
-                    @Override
-                    public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                        updateTypeSearchStatus(BugStatusCheckbox.this.getValue(), name.name());
-                    }
-                });
+                this.addValueChangeListener(event -> updateTypeSearchStatus(getValue(), name.name()));
             }
         }
     }

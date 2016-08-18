@@ -49,7 +49,7 @@ public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<S
         Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
 
         Span statusSpan = new Span().appendText(AppContext.getMessage(OptionI18nEnum.BugStatus.class,
-                bug.getStatus())).setCSSClass(WebUIConstants.FIELD_NOTE);
+                bug.getStatus())).setCSSClass(WebUIConstants.BLOCK);
 
         String avatarLink = StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName())

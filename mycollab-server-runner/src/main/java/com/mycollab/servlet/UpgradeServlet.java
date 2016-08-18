@@ -17,7 +17,7 @@
 package com.mycollab.servlet;
 
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.server.jetty.ServerInstance;
+import com.mycollab.server.ServerInstance;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

@@ -17,6 +17,7 @@
 package com.mycollab.module.user.accountsettings.profile.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.core.InvalidPasswordException;
 import com.mycollab.core.utils.PasswordCheckerUtil;
@@ -44,13 +45,13 @@ import org.vaadin.viritin.layouts.MWindow;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class PasswordChangeWindow extends MWindow {
+class PasswordChangeWindow extends MWindow {
     private PasswordField txtNewPassword;
     private PasswordField txtConfirmPassword;
 
     private final User user;
 
-    public PasswordChangeWindow(final User user) {
+    PasswordChangeWindow(final User user) {
         super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
         this.withWidth("600px").withCenter().withResizable(false).withModal(true);
         this.initUI();
@@ -71,10 +72,10 @@ public class PasswordChangeWindow extends MWindow {
         GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
         txtNewPassword = new PasswordField();
-        passInfo.addComponent(txtNewPassword, "New Password", 0, 0);
+        passInfo.addComponent(txtNewPassword, AppContext.getMessage(ShellI18nEnum.OPT_NEW_PASSWORD), 0, 0);
 
         txtConfirmPassword = new PasswordField();
-        passInfo.addComponent(txtConfirmPassword, "Confirmed Password", 0, 1);
+        passInfo.addComponent(txtConfirmPassword, AppContext.getMessage(ShellI18nEnum.OPT_CONFIRMED_PASSWORD), 0, 1);
 
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.MIDDLE_CENTER);

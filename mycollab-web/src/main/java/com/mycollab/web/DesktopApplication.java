@@ -51,15 +51,13 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
 import com.vaadin.shared.communication.PushMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.JavaScript;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.util.BrowserCookie;
 
 import java.util.*;
