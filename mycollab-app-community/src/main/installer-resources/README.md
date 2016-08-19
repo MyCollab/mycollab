@@ -46,11 +46,12 @@ Version 5.4.1
 **Library Upgrades**
 
 * Java Mail 1.5.6
+* Jetty 9.3.11.v20160721
 * Other libraries
 
 **Improvements & New Features**
 
-* Update the language files. Add the Danish to the supported list (Contributor: KrestenB)
+* Update the language files. Add the Danish (Contributor: KrestenB), Spanish (Contributor: jfigueroa) to the supported list 
 * Minor improvements
 
 **Bug Fixes**

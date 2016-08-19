@@ -272,7 +272,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         unresolvedTaskByStatusWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTaskByStatusWidget);
 
-        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();

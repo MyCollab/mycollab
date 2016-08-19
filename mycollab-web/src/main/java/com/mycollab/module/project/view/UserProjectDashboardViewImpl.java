@@ -49,9 +49,9 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
         ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
         UserUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new UserUnresolvedAssignmentWidget();
         UserUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedAssignmentWidget();
-        MVerticalLayout leftPanel = new MVerticalLayout().withMargin(new MarginInfo(true,
-                true, false, false)).withFullWidth().with(milestoneTimelineWidget,
-                unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskStatusComponent);
+        MVerticalLayout leftPanel = new MVerticalLayout(milestoneTimelineWidget,
+                unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskStatusComponent)
+                .withMargin(new MarginInfo(true, true, false, false)).withFullWidth();
 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false).withWidth("550px");
         MyProjectListComponent myProjectListComponent = new MyProjectListComponent();

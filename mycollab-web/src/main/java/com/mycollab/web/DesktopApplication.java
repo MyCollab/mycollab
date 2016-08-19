@@ -368,7 +368,7 @@ public class DesktopApplication extends MyCollabUI {
         @Subscribe
         public void handle(ShellEvent.NotifyErrorEvent event) {
             final Throwable e = (Throwable) event.getData();
-            AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+            AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     handleException(null, e);

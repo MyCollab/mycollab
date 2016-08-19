@@ -167,7 +167,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 List<OptionVal> optionVals = new ArrayList<>();

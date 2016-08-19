@@ -174,8 +174,8 @@ public class ActivityStreamComponent extends CssLayout {
                                 assigneeValue, type, itemLink, projectLink));
 
                         if (activityStream.getAssoAuditLog() != null) {
-                            content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog()
-                                    .getChangeset()).append("\"</li></ul></p>");
+                            content.append("<p><ul><li>\"").append(StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(),
+                                    200)).append("\"</li></ul></p>");
                         }
                     } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
                         if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {

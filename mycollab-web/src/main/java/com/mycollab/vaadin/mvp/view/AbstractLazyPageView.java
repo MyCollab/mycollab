@@ -40,7 +40,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
         if (!isRunning) {
             this.removeAllComponents();
             isRunning = true;
-            AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+            AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     progressIndicator = new ProgressIndicator();

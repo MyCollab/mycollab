@@ -100,7 +100,7 @@ public class CommunitySliderPanel {
                 content.removeAllComponents();
                 content.addComponent(new Label("Waiting to load feeds"));
                 lastTimeAccess = now;
-                AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+                AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
                     @Override
                     public void run() {
                         try {

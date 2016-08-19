@@ -64,10 +64,6 @@ public class AsyncInvoker {
         }
     }
 
-    public static void access(final PageCommand pageCommand) {
-        access(UI.getCurrent(), pageCommand);
-    }
-
     public static abstract class PageCommand {
         UI currentUI;
 

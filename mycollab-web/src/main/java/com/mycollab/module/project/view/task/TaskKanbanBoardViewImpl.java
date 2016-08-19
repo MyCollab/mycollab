@@ -263,7 +263,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
@@ -300,7 +300,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
 
     @Override
     public void addColumn(final OptionVal option) {
-        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 KanbanBlock kanbanBlock = new KanbanBlock(option);
