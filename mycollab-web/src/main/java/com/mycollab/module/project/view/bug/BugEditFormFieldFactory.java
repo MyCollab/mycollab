@@ -16,8 +16,11 @@
  */
 package com.mycollab.module.project.view.bug;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
+import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.mycollab.module.project.view.bug.components.BugPriorityComboBox;
@@ -97,7 +100,8 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             if (isValidateForm) {
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError("Summary must be not null");
+                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        AppContext.getMessage(BugI18nEnum.FORM_SUMMARY)));
             }
 
             return tf;

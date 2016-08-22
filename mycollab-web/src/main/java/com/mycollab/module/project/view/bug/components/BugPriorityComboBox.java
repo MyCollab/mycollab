@@ -43,14 +43,11 @@ public class BugPriorityComboBox extends I18nValueComboBox {
         this.setItemIcon(BugPriority.Minor.name(), FontAwesome.ARROW_DOWN);
         this.setItemIcon(BugPriority.Trivial.name(), FontAwesome.ARROW_DOWN);
 
-        this.setItemStyleGenerator(new ItemStyleGenerator() {
-            @Override
-            public String getStyle(ComboBox source, Object itemId) {
-                if (itemId != null) {
-                    return String.format("bug-%s", itemId.toString().toLowerCase());
-                }
-                return null;
+        this.setItemStyleGenerator((source, itemId) -> {
+            if (itemId != null) {
+                return String.format("bug-%s", itemId.toString().toLowerCase());
             }
+            return null;
         });
     }
 
@@ -58,7 +55,7 @@ public class BugPriorityComboBox extends I18nValueComboBox {
     public void setPropertyDataSource(Property newDataSource) {
         Object value = newDataSource.getValue();
         if (value == null) {
-            newDataSource.setValue(OptionI18nEnum.BugPriority.Major.name());
+            newDataSource.setValue(BugPriority.Major.name());
         }
         super.setPropertyDataSource(newDataSource);
     }

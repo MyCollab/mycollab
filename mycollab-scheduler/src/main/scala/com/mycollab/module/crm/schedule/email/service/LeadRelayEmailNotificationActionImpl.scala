@@ -83,9 +83,9 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
   override protected def getUpdateSubjectKey: Enum[_] = LeadI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
   
   class LeadFieldNameMapper extends ItemFieldMapper {
-    put(Lead.Field.firstname, LeadI18nEnum.FORM_FIRSTNAME)
+    put(Lead.Field.firstname, GenericI18Enum.FORM_FIRSTNAME)
     put(Lead.Field.email, new EmailLinkFieldFormat("email", GenericI18Enum.FORM_EMAIL))
-    put(Lead.Field.lastname, LeadI18nEnum.FORM_LASTNAME)
+    put(Lead.Field.lastname, GenericI18Enum.FORM_LASTNAME)
     put(Lead.Field.officephone, LeadI18nEnum.FORM_OFFICE_PHONE)
     put(Lead.Field.title, LeadI18nEnum.FORM_TITLE)
     put(Lead.Field.mobile, LeadI18nEnum.FORM_MOBILE)

@@ -87,9 +87,9 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
   override protected def getUpdateSubjectKey: Enum[_] = ContactI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
   
   class ContactFieldNameMapper extends ItemFieldMapper {
-    put(Contact.Field.firstname, ContactI18nEnum.FORM_FIRSTNAME)
+    put(Contact.Field.firstname, GenericI18Enum.FORM_FIRSTNAME)
     put(Contact.Field.officephone, ContactI18nEnum.FORM_OFFICE_PHONE)
-    put(Contact.Field.lastname, ContactI18nEnum.FORM_LASTNAME)
+    put(Contact.Field.lastname, GenericI18Enum.FORM_LASTNAME)
     put(Contact.Field.mobile, ContactI18nEnum.FORM_MOBILE)
     put(Contact.Field.accountid, new AccountFieldFormat(Contact.Field.accountid.name, ContactI18nEnum.FORM_ACCOUNTS))
     put(Contact.Field.homephone, ContactI18nEnum.FORM_HOME_PHONE)

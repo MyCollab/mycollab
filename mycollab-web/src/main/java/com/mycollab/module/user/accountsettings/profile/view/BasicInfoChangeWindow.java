@@ -17,6 +17,7 @@
 package com.mycollab.module.user.accountsettings.profile.view;
 
 import com.google.common.base.MoreObjects;
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -105,13 +106,15 @@ class BasicInfoChangeWindow extends MWindow {
         txtEmail.removeStyleName("errorField");
 
         if (txtLastName.getValue().equals("")) {
-            NotificationUtil.showErrorNotification("The last name must be not null!");
+            NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                    AppContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
             txtLastName.addStyleName("errorField");
             return;
         }
 
         if (txtEmail.getValue().equals("")) {
-            NotificationUtil.showErrorNotification("The email must be not null!");
+            NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                    AppContext.getMessage(GenericI18Enum.FORM_EMAIL)));
             txtLastName.addStyleName("errorField");
             return;
         }

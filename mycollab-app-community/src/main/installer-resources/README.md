@@ -40,6 +40,13 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.4.2
+-------------
+
+**Bug Fixes**
+
+* Can not recognize some languages files due to the incompatibility issue of getlocalization service
+
 Version 5.4.1
 -------------
 

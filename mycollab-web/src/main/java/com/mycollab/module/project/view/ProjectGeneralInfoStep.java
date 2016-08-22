@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -128,7 +129,8 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
             } else if (Project.Field.projectstatus.equalTo(propertyId)) {
                 ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
                 projectCombo.setRequired(true);
-                projectCombo.setRequiredError("Project status must be not null");
+                projectCombo.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        AppContext.getMessage(GenericI18Enum.FORM_STATUS)));
                 if (project.getProjectstatus() == null) {
                     project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
@@ -137,13 +139,15 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
                 TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError("Project short name must be not null");
+                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME)));
                 return tf;
             } else if (Project.Field.name.equalTo(propertyId)) {
                 TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError("Project name must be not null");
+                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        AppContext.getMessage(GenericI18Enum.FORM_NAME)));
                 return tf;
             } else if (Project.Field.lead.equalTo(propertyId)) {
                 return new ActiveUserComboBox();

@@ -26,6 +26,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.module.project.view.settings.component.VersionMultiSelectField;
@@ -98,7 +99,7 @@ public class ReOpenWindow extends MWindow {
                 MButton reOpenBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         bug.setStatus(BugStatus.ReOpen.name());
-                        bug.setResolution(OptionI18nEnum.BugResolution.None.name());
+                        bug.setResolution(BugResolution.None.name());
 
                         // Save bug status and assignee
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);

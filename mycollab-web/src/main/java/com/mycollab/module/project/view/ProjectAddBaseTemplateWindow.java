@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchField;
@@ -76,7 +77,8 @@ public class ProjectAddBaseTemplateWindow extends Window {
             }
             String newPrjName = prjNameField.getValue();
             if (newPrjName.length() == 0) {
-                NotificationUtil.showErrorNotification("Project name must be not null");
+                NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        AppContext.getMessage(GenericI18Enum.FORM_NAME)));
                 return;
             }
             String newPrjKey = prjKeyField.getValue();

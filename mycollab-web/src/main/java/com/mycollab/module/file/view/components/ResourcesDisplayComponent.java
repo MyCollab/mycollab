@@ -18,6 +18,7 @@ package com.mycollab.module.file.view.components;
 
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.collect.Collections2;
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
@@ -496,7 +497,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     resourcesContainer.constructBody(baseFolder);
                     close();
                 } else {
-                    NotificationUtil.showErrorNotification("Folder name must be not null");
+                    NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                            AppContext.getMessage(GenericI18Enum.FORM_NAME)));
                 }
             }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 

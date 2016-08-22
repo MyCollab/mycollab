@@ -23,6 +23,7 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.GenericChartWrapper;
@@ -92,7 +93,7 @@ public class BugStatusTrendChartWidget extends Depot {
                 Set<Map.Entry<String, List<GroupItem>>> entries = groupItems.entrySet();
                 Map<Date, Integer> openMap = new HashMap<>(30);
                 for (Map.Entry<String, List<GroupItem>> entry : entries) {
-                    if (OptionI18nEnum.BugStatus.Verified.name().equals(entry.getKey())) {
+                    if (BugStatus.Verified.name().equals(entry.getKey())) {
                         TimeSeries series = new TimeSeries(entry.getKey());
                         for (GroupItem item : entry.getValue()) {
                             series.add(new Day(formatter.parseDateTime(item.getGroupname()).toDate()), item.getValue());
@@ -163,7 +164,7 @@ public class BugStatusTrendChartWidget extends Depot {
                         + CHART_COLOR_STR.get(colorIndex) + "\" />";
                 final Label lblCircle = new Label(color);
                 lblCircle.setContentMode(ContentMode.HTML);
-                String captionBtn = AppContext.getMessage(OptionI18nEnum.BugStatus.class, (String) key.getKey());
+                String captionBtn = AppContext.getMessage(BugStatus.class, (String) key.getKey());
                 final Button btnLink = new Button(StringUtils.trim(captionBtn, 25, true));
                 btnLink.setDescription(captionBtn);
                 btnLink.addStyleName(WebUIConstants.BUTTON_LINK);
@@ -180,9 +181,7 @@ public class BugStatusTrendChartWidget extends Depot {
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);
             groupItems = timelineTrackingService.findTimelineItems("status", Arrays.asList(
-                    OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
-                    OptionI18nEnum.BugStatus.Resolved.name(),
-                    OptionI18nEnum.BugStatus.Verified.name()),
+                    BugStatus.Open.name(), BugStatus.ReOpen.name(), BugStatus.Resolved.name(), BugStatus.Verified.name()),
                     startDate.toDate(), endDate.toDate(), searchCriteria);
             displayChart();
         }

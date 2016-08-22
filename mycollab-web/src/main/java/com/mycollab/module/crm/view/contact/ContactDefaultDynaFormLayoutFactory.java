@@ -40,7 +40,7 @@ public class ContactDefaultDynaFormLayoutFactory {
                 .build();
 
         contactSection.fields(new TextDynaFieldBuilder().fieldName(Contact.Field.firstname)
-                .displayName(AppContext.getMessage(ContactI18nEnum.FORM_FIRSTNAME))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_FIRSTNAME))
                 .fieldIndex(0).build());
 
         contactSection.fields(new PhoneDynaFieldBuilder().fieldName(Contact.Field.officephone)
@@ -48,7 +48,7 @@ public class ContactDefaultDynaFormLayoutFactory {
                 .fieldIndex(1).build());
 
         contactSection.fields(new TextDynaFieldBuilder().fieldName(Contact.Field.lastname)
-                .displayName(AppContext.getMessage(ContactI18nEnum.FORM_LASTNAME))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_LASTNAME))
                 .fieldIndex(2).mandatory(true).build());
 
         contactSection.fields(new PhoneDynaFieldBuilder().fieldName(Contact.Field.mobile)

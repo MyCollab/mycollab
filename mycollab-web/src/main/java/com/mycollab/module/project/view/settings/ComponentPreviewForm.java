@@ -21,6 +21,7 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.bug.components.BugRowRenderer;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.mycollab.module.tracker.domain.Component;
@@ -88,26 +89,25 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
             withMargin(false).withFullWidth();
             MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
-            final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);
-            CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpen, true);
-            CheckBox verifiedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Verified, true);
-            CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
+            final CheckBox openSelection = new BugStatusCheckbox(BugStatus.Open, true);
+            CheckBox reOpenSelection = new BugStatusCheckbox(BugStatus.ReOpen, true);
+            CheckBox verifiedSelection = new BugStatusCheckbox(BugStatus.Verified, true);
+            CheckBox resolvedSelection = new BugStatusCheckbox(BugStatus.Resolved, true);
 
             Label spacingLbl1 = new Label("");
 
             header.with(openSelection, reOpenSelection, verifiedSelection,
                     resolvedSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT).expand(spacingLbl1);
 
-            bugList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(BugService.class), new
-                    BugRowRenderer());
+            bugList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(BugService.class), new BugRowRenderer());
             bugList.setControlStyle("");
             bugList.setMargin(new MarginInfo(true, true, true, false));
 
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentids(new SetSearchField<>(beanItem.getId()));
-            searchCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
-                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()));
+            searchCriteria.setStatuses(new SetSearchField<>(BugStatus.Open.name(), BugStatus.ReOpen.name(),
+                    BugStatus.Verified.name(), BugStatus.Resolved.name()));
             updateSearchStatus();
 
             this.with(header, bugList);

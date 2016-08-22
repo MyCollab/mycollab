@@ -16,8 +16,9 @@
  */
 package com.mycollab.module.project.view.bug.components;
 
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
+
+import static com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution.*;
 
 /**
  * @author MyCollab Ltd.
@@ -31,7 +32,6 @@ public class BugResolutionComboBox extends I18nValueComboBox {
     }
 
     public static BugResolutionComboBox getInstanceForResolvedBugWindow() {
-        return new BugResolutionComboBox(false, BugResolution.Fixed, BugResolution.CannotReproduce,
-                BugResolution.Duplicate, BugResolution.Invalid, BugResolution.InComplete);
+        return new BugResolutionComboBox(false, Fixed, CannotReproduce, Duplicate, Invalid, InComplete);
     }
 }

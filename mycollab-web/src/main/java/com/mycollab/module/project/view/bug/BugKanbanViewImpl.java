@@ -31,6 +31,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.mycollab.module.project.view.bug.components.ToggleBugSummaryField;
@@ -171,7 +172,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             @Override
             public void run() {
                 List<OptionVal> optionVals = new ArrayList<>();
-                for (OptionI18nEnum.BugStatus bugStatus : OptionI18nEnum.bug_statuses) {
+                for (BugStatus bugStatus : OptionI18nEnum.bug_statuses) {
                     OptionVal option = new OptionVal();
                     option.setTypeval(bugStatus.name());
                     option.setType(ProjectTypeConstants.BUG);
@@ -335,7 +336,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
             HorizontalLayout headerLayout = new HorizontalLayout();
             headerLayout.setWidth("100%");
-            header = new Label(AppContext.getMessage(OptionI18nEnum.BugStatus.class, optionVal.getTypeval()));
+            header = new Label(AppContext.getMessage(BugStatus.class, optionVal.getTypeval()));
             header.addStyleName("header");
             headerLayout.addComponent(header);
             headerLayout.setComponentAlignment(header, Alignment.MIDDLE_LEFT);
@@ -343,7 +344,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
             root.with(headerLayout, dragLayoutContainer);
 
-            if (OptionI18nEnum.BugStatus.Open.name().equals(optionVal.getTypeval())) {
+            if (BugStatus.Open.name().equals(optionVal.getTypeval())) {
                 OptionPopupContent popupContent = new OptionPopupContent();
                 PopupButton controlsBtn = new PopupButton();
                 controlsBtn.addStyleName(WebUIConstants.BUTTON_LINK);
@@ -372,7 +373,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         }
 
         private void updateComponentCount() {
-            header.setValue(String.format("%s (%d)", AppContext.getMessage(OptionI18nEnum.BugStatus.class, optionVal.getTypeval()),
+            header.setValue(String.format("%s (%d)", AppContext.getMessage(BugStatus.class, optionVal.getTypeval()),
                     dragLayoutContainer.getComponentCount()));
         }
 

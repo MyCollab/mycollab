@@ -16,8 +16,11 @@
  */
 package com.mycollab.module.project.view.page;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.WikiI18nEnum;
 import com.mycollab.module.page.domain.Page;
+import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -72,7 +75,8 @@ class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Pa
         } else if (propertyId.equals("subject")) {
             TextField subjectField = new TextField();
             subjectField.setRequired(true);
-            subjectField.setRequiredError("Subject must be not null");
+            subjectField.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                    AppContext.getMessage(PageI18nEnum.FORM_SUBJECT)));
             return subjectField;
         }
 

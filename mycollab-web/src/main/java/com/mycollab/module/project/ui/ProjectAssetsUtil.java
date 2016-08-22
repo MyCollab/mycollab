@@ -20,11 +20,10 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.file.PathUtils;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
@@ -37,9 +36,9 @@ import com.vaadin.ui.*;
 public class ProjectAssetsUtil {
 
     public static FontAwesome getPhaseIcon(String status) {
-        if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(status)) {
+        if (MilestoneStatus.Closed.name().equals(status)) {
             return FontAwesome.MINUS_CIRCLE;
-        } else if (OptionI18nEnum.MilestoneStatus.Future.name().equals(status)) {
+        } else if (MilestoneStatus.Future.name().equals(status)) {
             return FontAwesome.CLOCK_O;
         } else {
             return FontAwesome.SPINNER;

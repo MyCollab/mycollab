@@ -188,7 +188,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
 
     @Override
     public SimpleUser getActiveUserOfProject(String username, Integer projectId, @CacheKey Integer sAccountId) {
-        return projectMemberMapperExt.getActiveUserOfProject(username, projectId);
+        return projectMemberMapperExt.getActiveUserOfProject(username, projectId, sAccountId);
     }
 
     @Override

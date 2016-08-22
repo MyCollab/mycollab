@@ -22,6 +22,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.bug.IStatusSummaryChartWidget;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
@@ -72,7 +73,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
         bodyContent.removeAllComponents();
         BugStatusClickListener listener = new BugStatusClickListener();
         if (!groupItems.isEmpty()) {
-            for (OptionI18nEnum.BugStatus status : OptionI18nEnum.bug_statuses) {
+            for (BugStatus status : OptionI18nEnum.bug_statuses) {
                 boolean isFound = false;
                 for (GroupItem item : groupItems) {
                     if (status.name().equals(item.getGroupid())) {
@@ -82,16 +83,15 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
                         MButton statusLink = new ButtonI18nComp(status.name(), status, listener)
                                 .withIcon(FontAwesome.FLAG).withStyleName(WebUIConstants.BUTTON_LINK).withWidth("110px");
 
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item
-                                .getValue().intValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue().intValue(), false);
                         indicator.setWidth("100%");
                         statusLayout.with(statusLink, indicator).expand(indicator);
                         bodyContent.addComponent(statusLayout);
                     }
                 }
 
-                if (!isFound && !status.name().equals(OptionI18nEnum.BugStatus.Resolved.name()) &&
-                        !status.name().equals(OptionI18nEnum.BugStatus.Verified.name())) {
+                if (!isFound && !status.name().equals(BugStatus.Resolved.name()) &&
+                        !status.name().equals(BugStatus.Verified.name())) {
                     MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                     statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     Button statusLink = new ButtonI18nComp(status.name(), status, listener);

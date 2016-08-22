@@ -16,25 +16,26 @@
  */
 package com.mycollab.module.project.service.impl;
 
+import com.google.common.eventbus.AsyncEventBus;
+import com.mycollab.aspect.ClassInfo;
+import com.mycollab.aspect.ClassInfoMap;
+import com.mycollab.aspect.Traceable;
+import com.mycollab.aspect.Watchable;
 import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.common.event.TimelineTrackingAdjustIfEntityDeleteEvent;
 import com.mycollab.common.event.TimelineTrackingUpdateEvent;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.aspect.ClassInfo;
-import com.mycollab.aspect.ClassInfoMap;
-import com.mycollab.aspect.Traceable;
-import com.mycollab.aspect.Watchable;
 import com.mycollab.common.service.TimelineTrackingService;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.core.cache.CacheKey;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.core.cache.CacheKey;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.lock.DistributionLockUtil;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.dao.TaskMapper;
@@ -44,9 +45,8 @@ import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.domain.TaskExample;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.esb.DeleteProjectTaskEvent;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.mycollab.module.project.service.*;
-import com.google.common.eventbus.AsyncEventBus;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -121,7 +121,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         }
 
         if (record.getPriority() == null) {
-            record.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
+            record.setPriority(TaskPriority.Medium.name());
         }
         record.setLogby(username);
         Lock lock = DistributionLockUtil.getLock("task-" + record.getSaccountid());

@@ -227,7 +227,7 @@ public class ResolvedInputWindow extends MWindow {
                     fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
                     resolutionComboBox.addValueChangeListener(valueChangeEvent -> {
                         String value = (String) resolutionComboBox.getValue();
-                        if (OptionI18nEnum.BugResolution.Duplicate.name().equals(value)) {
+                        if (BugResolution.Duplicate.name().equals(value)) {
                             bugSelectionField = new BugSelectionField();
                             layout.with(new Label(" with "), bugSelectionField);
                         } else {

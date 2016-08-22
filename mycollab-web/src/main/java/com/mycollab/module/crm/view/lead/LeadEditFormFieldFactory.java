@@ -16,15 +16,18 @@
  */
 package com.mycollab.module.crm.view.lead;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.Lead;
+import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
 import com.mycollab.vaadin.web.ui.PrefixNameComboBox;
-import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
@@ -69,7 +72,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
             if (isValidateForm) {
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError("Last name must not be null");
+                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
             }
 
             return tf;
@@ -79,7 +82,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
             TextField txtField = new TextField();
             if (isValidateForm) {
                 txtField.setRequired(true);
-                txtField.setRequiredError("Account name must be not null");
+                txtField.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return txtField;
@@ -88,7 +91,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
         return null;
     }
 
-    class LeadFirstNamePrefixField extends CompoundCustomField<Lead> {
+    private class LeadFirstNamePrefixField extends CompoundCustomField<Lead> {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -99,14 +102,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
             prefixSelect.setValue(attachForm.getBean().getPrefixname());
             layout.addComponent(prefixSelect);
 
-            prefixSelect.addValueChangeListener(new Property.ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(Property.ValueChangeEvent event) {
-                    attachForm.getBean().setPrefixname((String) prefixSelect.getValue());
-                }
-            });
+            prefixSelect.addValueChangeListener(event -> attachForm.getBean().setPrefixname((String) prefixSelect.getValue()));
 
             TextField firstnameTxtField = new TextField();
             firstnameTxtField.setWidth("100%");

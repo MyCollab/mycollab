@@ -20,7 +20,10 @@ import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
@@ -61,8 +64,8 @@ public class BugCustomizeReportOutputWindow extends CustomizeReportOutputWindow<
 
     @Override
     protected Object[] buildSampleData() {
-        return new Object[]{"Bug A", "Virtual Environment", OptionI18nEnum.BugPriority.Critical.name(),
-                OptionI18nEnum.BugSeverity.Major.name(), OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugResolution.None.name(),
+        return new Object[]{"Bug A", "Virtual Environment", BugPriority.Critical.name(),
+                BugSeverity.Major.name(), BugStatus.Open.name(), BugResolution.None.name(),
                 "John Adam", AppContext.formatDate(new LocalDate().minusDays(2).toDate()), AppContext.formatDate(new
                 LocalDate().plusDays(1).toDate()), AppContext.formatDate(new LocalDate().plusDays(2).toDate()),
                 "Will Smith", "Project Execution", "10", "2"};

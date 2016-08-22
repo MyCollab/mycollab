@@ -30,8 +30,8 @@ public class ContactFieldFormatter extends FieldGroupFormatter {
     private static final ContactFieldFormatter _instance = new ContactFieldFormatter();
 
     private ContactFieldFormatter() {
-        generateFieldDisplayHandler("firstname", ContactI18nEnum.FORM_FIRSTNAME);
-        generateFieldDisplayHandler("lastname", ContactI18nEnum.FORM_LASTNAME);
+        generateFieldDisplayHandler("firstname", GenericI18Enum.FORM_FIRSTNAME);
+        generateFieldDisplayHandler("lastname", GenericI18Enum.FORM_LASTNAME);
         generateFieldDisplayHandler("title", ContactI18nEnum.FORM_TITLE);
         generateFieldDisplayHandler("department", ContactI18nEnum.FORM_DEPARTMENT);
         generateFieldDisplayHandler("email", GenericI18Enum.FORM_EMAIL);

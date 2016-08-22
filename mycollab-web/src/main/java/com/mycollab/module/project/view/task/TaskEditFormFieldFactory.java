@@ -40,6 +40,7 @@ import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.MethodProperty;
+import com.vaadin.data.util.TransactionalPropertyWrapper;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
@@ -118,7 +119,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                         DateTime endDateJoda = new DateTime(calculatedDate.toDate());
                         DateTimeOptionField endDateField = (DateTimeOptionField) fieldGroup.getField(Task.Field.enddate.name());
                         beanItem.setEnddate(endDateJoda.toDate());
-                        endDateField.setPropertyDataSource(new MethodProperty(beanItem, "enddate"));
+                        endDateField.setPropertyDataSource(new TransactionalPropertyWrapper<>(new MethodProperty(beanItem, "enddate")));
                     }
                 }
             });

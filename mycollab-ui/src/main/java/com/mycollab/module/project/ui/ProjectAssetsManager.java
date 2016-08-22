@@ -18,7 +18,8 @@ package com.mycollab.module.project.ui;
 
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.vaadin.server.FontAwesome;
 
 import java.util.HashMap;
@@ -61,8 +62,8 @@ public class ProjectAssetsManager {
     }
 
     public static FontAwesome getBugPriority(String bugPriority) {
-        if (OptionI18nEnum.BugPriority.Blocker.name().equals(bugPriority) || OptionI18nEnum.TaskPriority.High.name()
-                .equals(bugPriority) || OptionI18nEnum.BugPriority.Major.name().equals(bugPriority)) {
+        if (BugPriority.Blocker.name().equals(bugPriority) || TaskPriority.High.name()
+                .equals(bugPriority) || BugPriority.Major.name().equals(bugPriority)) {
             return FontAwesome.ARROW_UP;
         } else {
             return FontAwesome.ARROW_DOWN;
@@ -71,7 +72,7 @@ public class ProjectAssetsManager {
 
     public static String getBugPriorityHtml(String bugPriority) {
         if (StringUtils.isBlank(bugPriority)) {
-            bugPriority = OptionI18nEnum.BugPriority.Major.name();
+            bugPriority = BugPriority.Major.name();
         }
 
         FontAwesome fontAwesome = getBugPriority(bugPriority);
@@ -80,8 +81,8 @@ public class ProjectAssetsManager {
     }
 
     public static FontAwesome getTaskPriority(String taskPriority) {
-        if (OptionI18nEnum.TaskPriority.Urgent.name().equals(taskPriority) || OptionI18nEnum.TaskPriority.High.name()
-                .equals(taskPriority) || OptionI18nEnum.TaskPriority.Medium.name().equals(taskPriority) || taskPriority == null) {
+        if (TaskPriority.Urgent.name().equals(taskPriority) || TaskPriority.High.name()
+                .equals(taskPriority) || TaskPriority.Medium.name().equals(taskPriority) || taskPriority == null) {
             return FontAwesome.ARROW_UP;
         } else {
             return FontAwesome.ARROW_DOWN;
@@ -90,7 +91,7 @@ public class ProjectAssetsManager {
 
     public static String getTaskPriorityHtml(String taskPriority) {
         if (StringUtils.isBlank(taskPriority)) {
-            taskPriority = OptionI18nEnum.TaskPriority.Medium.name();
+            taskPriority = TaskPriority.Medium.name();
         }
         FontAwesome fontAwesome = getTaskPriority(taskPriority);
         return String.format("<span class=\"task-%s v-icon\" style=\"font-family: FontAwesome;\">&#x%s;</span>",

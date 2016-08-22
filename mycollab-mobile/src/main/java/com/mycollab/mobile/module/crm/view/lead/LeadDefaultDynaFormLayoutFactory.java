@@ -38,7 +38,7 @@ public class LeadDefaultDynaFormLayoutFactory {
                 .header(AppContext.getMessage(LeadI18nEnum.SECTION_LEAD_INFORMATION)).build();
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("firstname")
-                .displayName(AppContext.getMessage(LeadI18nEnum.FORM_FIRSTNAME))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_FIRSTNAME))
                 .fieldIndex(0).build());
 
         infoSection.fields(new EmailDynaFieldBuilder().fieldName("email")
@@ -46,7 +46,7 @@ public class LeadDefaultDynaFormLayoutFactory {
                 .fieldIndex(1).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("lastname")
-                .displayName(AppContext.getMessage(LeadI18nEnum.FORM_LASTNAME))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_LASTNAME))
                 .fieldIndex(2).build());
 
         infoSection.fields(new PhoneDynaFieldBuilder().fieldName("officephone")

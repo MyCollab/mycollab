@@ -23,6 +23,7 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
@@ -58,7 +59,7 @@ public class MilestoneCustomizeReportOutputWindow extends CustomizeReportOutputW
     @Override
     protected Object[] buildSampleData() {
         return new Object[]{"Milestone 1", AppContext.formatDate(new LocalDate().minusDays(30).toDate()), AppContext
-                .formatDate(new LocalDate().plusDays(7).toDate()), AppContext.getMessage(OptionI18nEnum.MilestoneStatus.InProgress),
+                .formatDate(new LocalDate().plusDays(7).toDate()), AppContext.getMessage(MilestoneStatus.InProgress),
                 "John Adam", "10", "2"};
     }
 }

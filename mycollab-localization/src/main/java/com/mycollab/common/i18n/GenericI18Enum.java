@@ -132,6 +132,8 @@ public enum GenericI18Enum {
     FORM_DUE_DATE,
     FORM_STATUS,
     FORM_NAME,
+    FORM_FIRSTNAME,
+    FORM_LASTNAME,
     FORM_PHONE,
     FORM_EMAIL,
     FORM_TYPE,

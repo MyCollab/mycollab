@@ -41,7 +41,8 @@ public interface ProjectMemberMapperExt extends ISearchableDAO<ProjectMemberSear
 
     List<SimpleUser> getActiveUsersInProjects(@Param("projectIds") List<Integer> projectIds, @Param("sAccountId") Integer sAccountId);
 
-    SimpleUser getActiveUserOfProject(@Param("username") String username, @Param("projectId") Integer projectId);
+    SimpleUser getActiveUserOfProject(@Param("username") String username, @Param("projectId") Integer projectId,
+                                      @Param("sAccountId") Integer sAccountId);
 
     List<SimpleProjectMember> findMembersHourlyInProject(@Param("projectId") Integer projectId, @Param("sAccountId") Integer sAccountId,
                                                          @Param("start") Date start, @Param("end") Date end);

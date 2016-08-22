@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -24,6 +25,7 @@ import com.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleMeeting;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
@@ -46,7 +48,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.*;
@@ -57,6 +58,7 @@ import com.vaadin.ui.components.calendar.handler.BasicWeekClickHandler;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -662,14 +664,10 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         private void resetTime(boolean max) {
             if (max) {
-                calendar.set(GregorianCalendar.HOUR_OF_DAY,
-                        calendar.getMaximum(GregorianCalendar.HOUR_OF_DAY));
-                calendar.set(GregorianCalendar.MINUTE,
-                        calendar.getMaximum(GregorianCalendar.MINUTE));
-                calendar.set(GregorianCalendar.SECOND,
-                        calendar.getMaximum(GregorianCalendar.SECOND));
-                calendar.set(GregorianCalendar.MILLISECOND,
-                        calendar.getMaximum(GregorianCalendar.MILLISECOND));
+                calendar.set(GregorianCalendar.HOUR_OF_DAY, calendar.getMaximum(GregorianCalendar.HOUR_OF_DAY));
+                calendar.set(GregorianCalendar.MINUTE, calendar.getMaximum(GregorianCalendar.MINUTE));
+                calendar.set(GregorianCalendar.SECOND, calendar.getMaximum(GregorianCalendar.SECOND));
+                calendar.set(GregorianCalendar.MILLISECOND, calendar.getMaximum(GregorianCalendar.MILLISECOND));
             } else {
                 calendar.set(GregorianCalendar.HOUR_OF_DAY, 0);
                 calendar.set(GregorianCalendar.MINUTE, 0);
@@ -719,40 +717,22 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 private static final long serialVersionUID = 1L;
 
                 public FormLayoutFactory() {
-                    super(meeting.getId() == null ? "New Meeting" : meeting.getSubject());
+                    super(meeting.getId() == null ? AppContext.getMessage(MeetingI18nEnum.NEW) : meeting.getSubject());
                 }
 
                 private Layout createButtonControls() {
-                    final MHorizontalLayout layout = new MHorizontalLayout().withStyleName("addNewControl");
-                    Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            if (EditForm.this.validateForm()) {
-                                MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
-                                meetingService.saveWithSession(meeting, AppContext.getUsername());
-                                EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
-                                close();
-                            }
-                        }
-                    });
-                    saveBtn.setIcon(FontAwesome.SAVE);
-                    saveBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-                    layout.addComponent(saveBtn);
-                    layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
-                    Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(ClickEvent event) {
+                    MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), event -> {
+                        if (EditForm.this.validateForm()) {
+                            MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
+                            meetingService.saveWithSession(meeting, AppContext.getUsername());
+                            EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                             close();
                         }
-                    });
-                    cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
-                    layout.addComponent(cancelBtn);
-                    layout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
-                    return layout;
+                    }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+                    MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), event -> close())
+                            .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    return new MHorizontalLayout(saveBtn, cancelBtn).withStyleName("addNewControl");
                 }
 
                 @Override
@@ -781,7 +761,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         if (isValidateForm) {
                             tf.setNullRepresentation("");
                             tf.setRequired(true);
-                            tf.setRequiredError("Subject must be not null");
+                            tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(MeetingI18nEnum.FORM_SUBJECT)));
                         }
 
                         return tf;

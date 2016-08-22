@@ -28,6 +28,7 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -97,7 +98,7 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
 
         for (SimpleMilestone milestone : milestones) {
             if (!includeClosedMilestone) {
-                if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
+                if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
                     continue;
                 }
             }
@@ -107,11 +108,11 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
                 }
             }
             Li li = new Li();
-            if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
+            if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
                 li.setCSSClass("li closed");
-            } else if (OptionI18nEnum.MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
+            } else if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
                 li.setCSSClass("li inprogress");
-            } else if (OptionI18nEnum.MilestoneStatus.Future.name().equals(milestone.getStatus())) {
+            } else if (MilestoneStatus.Future.name().equals(milestone.getStatus())) {
                 li.setCSSClass("li future");
             }
 

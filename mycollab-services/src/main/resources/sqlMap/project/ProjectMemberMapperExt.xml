@@ -232,14 +232,15 @@
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,
                 s_user_account.accountId, s_user.language, s_user.avatarid
             FROM s_user, s_user_account
-         WHERE s_user.username=@{username} AND s_user.username=s_user_account.username AND
-               EXISTS (SELECT 1
-                FROM m_prj_member
-                WHERE m_prj_member.username = s_user.username
-                    AND m_prj_member.status='Active'
-                    AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}
-                    AND s_user_account.username=s_user.username
-                    LIMIT 1)
+        WHERE s_user.username=@{username} AND s_user.username=s_user_account.username AND
+             s_user_account.accountId=@{sAccountId} AND
+             EXISTS (SELECT 1
+                 FROM m_prj_member
+                 WHERE m_prj_member.username = s_user.username
+                     AND m_prj_member.status='Active'
+                     AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}
+                     AND s_user_account.username=s_user.username
+                     LIMIT 1)
         ]]>
     </select>
 

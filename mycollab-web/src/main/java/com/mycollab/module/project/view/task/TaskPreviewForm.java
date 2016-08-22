@@ -35,7 +35,7 @@ import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.events.TaskEvent;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -106,7 +106,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     FontAwesome fontPriority = ProjectAssetsManager.getTaskPriority(beanItem.getPriority());
-                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(OptionI18nEnum.TaskPriority.class, beanItem.getPriority());
+                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
                     field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
                     return field;
@@ -175,7 +175,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     SimpleTask task = new SimpleTask();
                     task.setMilestoneid(beanItem.getMilestoneid());
                     task.setParenttaskid(beanItem.getId());
-                    task.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
+                    task.setPriority(TaskPriority.Medium.name());
                     task.setProjectid(beanItem.getProjectid());
                     task.setSaccountid(beanItem.getSaccountid());
                     UI.getCurrent().addWindow(new TaskAddWindow(task));

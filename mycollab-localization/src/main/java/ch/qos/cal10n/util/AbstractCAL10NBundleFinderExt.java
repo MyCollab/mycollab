@@ -40,6 +40,12 @@ public abstract class AbstractCAL10NBundleFinderExt implements
             cprbLanguageAndCountry.setParent(cprbLanguageOnly);
             return cprbLanguageAndCountry;
         }
+
+        if (cprbLanguageOnly == null) {
+            String language = locale.getLanguage();
+            languageOnlyCandidate = String.format("%s_%s-%s.properties", baseName, language, language.toUpperCase());
+            cprbLanguageOnly = makePropertyResourceBundle(languageOnlyCandidate, charset);
+        }
         return cprbLanguageOnly;
     }
 
@@ -57,7 +63,7 @@ public abstract class AbstractCAL10NBundleFinderExt implements
     abstract protected URL getResource(String resourceCandidate);
 
     private CAL10NBundleExt makePropertyResourceBundle(String resourceCandidate,
-                                                    String charset) {
+                                                       String charset) {
 
         CAL10NBundleExt prb = null;
         URL url = getResource(resourceCandidate);
@@ -69,6 +75,7 @@ public abstract class AbstractCAL10NBundleFinderExt implements
                 prb = new CAL10NBundleExt(reader, urlToFile(url));
                 in.close();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return prb;

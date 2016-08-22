@@ -38,6 +38,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.bug.components.*;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -298,7 +299,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         baseCriteria = new BugSearchCriteria();
         baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
-        statisticSearchCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name()));
+        statisticSearchCriteria.setStatuses(new SetSearchField<>(BugStatus.Open.name(), BugStatus.ReOpen.name()));
         if (StringUtils.isNotBlank(query)) {
             try {
                 String jsonQuery = UrlEncodeDecoder.decode(query);

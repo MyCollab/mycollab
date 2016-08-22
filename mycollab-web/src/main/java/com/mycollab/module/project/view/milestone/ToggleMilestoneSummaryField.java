@@ -26,7 +26,7 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.spring.AppContextUtil;
@@ -109,7 +109,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
             milestoneLink.setCSSClass("overdue");
             milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + AppContext
                     .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(milestone.getEnddate()))));
-        } else if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
+        } else if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
             milestoneLink.setCSSClass("completed");
         }
         return milestoneDiv.write();

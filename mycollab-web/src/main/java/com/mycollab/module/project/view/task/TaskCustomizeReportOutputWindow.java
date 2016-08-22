@@ -21,7 +21,7 @@ import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.reporting.CustomizeReportOutputWindow;
@@ -46,7 +46,7 @@ public class TaskCustomizeReportOutputWindow extends CustomizeReportOutputWindow
     protected Object[] buildSampleData() {
         return new Object[]{"Task A", "Note 1", AppContext.formatDate(new LocalDate().minusDays(2).toDate()),
                 AppContext.formatDate(new LocalDate().plusDays(1).toDate()), AppContext.formatDate(new LocalDate().plusDays(1).toDate()),
-                OptionI18nEnum.TaskPriority.High.name(), "50", "Will Smith", "Jonh Adam", "3", "1", "true",
+                TaskPriority.High.name(), "50", "Will Smith", "Jonh Adam", "3", "1", "true",
                 "Project Closing", "3", "2"};
     }
 

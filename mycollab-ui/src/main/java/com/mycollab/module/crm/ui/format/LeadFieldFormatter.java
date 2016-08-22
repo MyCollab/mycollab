@@ -30,8 +30,8 @@ public class LeadFieldFormatter extends FieldGroupFormatter {
 
     private LeadFieldFormatter() {
         generateFieldDisplayHandler("prefixname", LeadI18nEnum.FORM_PREFIX);
-        generateFieldDisplayHandler("firstname", LeadI18nEnum.FORM_FIRSTNAME);
-        generateFieldDisplayHandler("lastname", LeadI18nEnum.FORM_LASTNAME);
+        generateFieldDisplayHandler("firstname", GenericI18Enum.FORM_FIRSTNAME);
+        generateFieldDisplayHandler("lastname", GenericI18Enum.FORM_LASTNAME);
         generateFieldDisplayHandler("title", LeadI18nEnum.FORM_TITLE);
         generateFieldDisplayHandler("department", LeadI18nEnum.FORM_DEPARTMENT);
         generateFieldDisplayHandler("accountname", LeadI18nEnum.FORM_ACCOUNT_NAME);
