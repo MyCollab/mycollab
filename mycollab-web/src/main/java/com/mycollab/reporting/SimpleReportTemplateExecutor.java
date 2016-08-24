@@ -71,7 +71,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
                 continue;
             }
 
-            DRIDataType<Object, ? extends Object> jrType = DRIDataTypeFactory.detectType(objField);
+            DRIDataType<Object, ?> jrType = DRIDataTypeFactory.detectType(objField);
             if (jrType != null) {
                 LOG.debug("  Add field: " + objField.getName());
                 reportBuilder.addField(objField.getName(), jrType);

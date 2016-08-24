@@ -46,6 +46,7 @@ public enum DayI18nEnum {
     OPT_TODAY,
     OPT_WEEK,
     OPT_MONTH,
+    OPT_YEAR,
     OPT_DATE,
     OPT_FROM,
     OPT_TO,

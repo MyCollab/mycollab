@@ -33,7 +33,6 @@ public enum CaseI18nEnum {
     FORM_PRIORITY,
     FORM_ACCOUNT,
     FORM_ORIGIN,
-    FORM_PHONE,
     FORM_REASON,
     FORM_SUBJECT,
     FORM_RESOLUTION,

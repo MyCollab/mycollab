@@ -32,7 +32,7 @@ public class CaseFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("priority", CaseI18nEnum.FORM_PRIORITY);
         generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS);
         generateFieldDisplayHandler("accountid", CaseI18nEnum.FORM_ACCOUNT, new AccountHistoryFieldFormat());
-        generateFieldDisplayHandler("phonenumber", CaseI18nEnum.FORM_PHONE);
+        generateFieldDisplayHandler("phonenumber", GenericI18Enum.FORM_PHONE);
         generateFieldDisplayHandler("origin", CaseI18nEnum.FORM_ORIGIN);
         generateFieldDisplayHandler("type", GenericI18Enum.FORM_TYPE);
         generateFieldDisplayHandler("reason", CaseI18nEnum.FORM_REASON);

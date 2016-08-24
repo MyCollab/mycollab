@@ -43,9 +43,19 @@ Last changelog
 Version 5.4.2
 -------------
 
+**Improvements & New Features**
+
+* Show the card board of assignments in the milestone view
+* Ask users if they want to close the child tasks when he close the parent task
+* Add the Russia language, and update the language files
+* Minor improvements
+
 **Bug Fixes**
 
 * Can not recognize some languages files due to the incompatibility issue of getlocalization service
+* Can not create the new case
+* Can not navigate to the task preview in mobile devices
+* Can not export the CSV, Excel with Asia languages like Japanese, Korean and Chinese
 
 Version 5.4.1
 -------------

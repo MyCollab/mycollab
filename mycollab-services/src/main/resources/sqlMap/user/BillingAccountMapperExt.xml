@@ -21,7 +21,8 @@
             s_billing_plan.numUsers AS plan_numUsers, s_billing_plan.volume AS plan_volume,
             s_billing_plan.numProjects AS plan_numProjects,
             s_billing_plan.pricing AS plan_pricing, s_billing_plan.description AS plan_description,
-            s_billing_plan.shoppingUrl AS plan_shoppingUrl
+            s_billing_plan.shoppingUrl AS plan_shoppingUrl, s_billing_plan.bankTransferPath AS plan_bankTransferPath,
+            s_billing_plan.yearlyShoppingUrl AS plan_yearlyShoppingUrl
         FROM s_account
             LEFT OUTER JOIN s_billing_plan ON (s_billing_plan.id=s_account.billingPlanId)
         WHERE s_account.id = #{accountId,jdbcType=NUMERIC}

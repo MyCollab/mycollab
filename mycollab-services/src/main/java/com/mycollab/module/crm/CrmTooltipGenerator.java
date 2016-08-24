@@ -474,7 +474,7 @@ public class CrmTooltipGenerator {
             tooltipManager.appendRow(trRow3);
 
             Tr trRow4 = new Tr();
-            Td cell41 = buildCellName(LocalizationHelper.getMessage(locale, CaseI18nEnum.FORM_PHONE));
+            Td cell41 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_PHONE));
             Td cell42 = buildCellValue(cases.getPhonenumber());
             Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (cases.getAssignuser() != null) ? AccountLinkGenerator
@@ -591,8 +591,7 @@ public class CrmTooltipGenerator {
 
             return tooltipManager.create().write();
         } catch (Exception e) {
-            LOG.error("Error while generate CRM Call servlert tooltip servlet",
-                    e);
+            LOG.error("Error while generate CRM Call servlert tooltip servlet", e);
             return null;
         }
     }
