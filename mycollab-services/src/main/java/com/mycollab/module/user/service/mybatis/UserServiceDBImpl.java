@@ -353,8 +353,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccountEx.createCriteria().andUsernameNotIn(usernames).andAccountidEqualTo(accountId)
                 .andIsaccountownerEqualTo(true).andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE);
         if (userAccountMapper.countByExample(userAccountEx) == 0) {
-            throw new UserInvalidInputException("Can not delete users. The reason is there is no " +
-                    "account owner in the rest users");
+            throw new UserInvalidInputException("Can not delete users. The reason is there is no account owner in the rest users");
         }
 
         userAccountEx = new UserAccountExample();

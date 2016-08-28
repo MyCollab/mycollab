@@ -21,13 +21,9 @@ import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.events.SearchHandler;
-import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Window;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -58,22 +54,19 @@ public class LeadSelectionWindow extends MWindow {
     }
 
     private void createLeadList() {
-        tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),
-                LeadTableFieldDef.status(), LeadTableFieldDef.assignedUser(),
-                LeadTableFieldDef.accountName()));
+        tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
+                LeadTableFieldDef.assignedUser(), LeadTableFieldDef.accountName()));
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
         tableItem.addGeneratedColumn("leadName", (source, itemId, columnId) -> {
-                final SimpleLead lead = tableItem.getBeanByIndex(itemId);
+            final SimpleLead lead = tableItem.getBeanByIndex(itemId);
 
-                ButtonLink b = new ButtonLink(lead.getLeadName(), clickEvent -> {
-                    fieldSelection.fireValueChange(lead);
-                    close();
-                });
-                b.setDescription(CrmTooltipGenerator.generateTooltipLead(AppContext.getUserLocale(), lead,
-                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                return b;
+            return new MButton(lead.getLeadName(), clickEvent -> {
+                fieldSelection.fireValueChange(lead);
+                close();
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipLead(AppContext.getUserLocale(),
+                    lead, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
         });
         tableItem.setSearchCriteria(new LeadSearchCriteria());
     }

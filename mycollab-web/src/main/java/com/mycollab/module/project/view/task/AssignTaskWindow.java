@@ -128,7 +128,7 @@ public class AssignTaskWindow extends MWindow {
                 if (Task.Field.assignuser.equalTo(propertyId)) {
                     return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
                 }
                 return null;
             }

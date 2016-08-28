@@ -26,7 +26,7 @@ import com.vaadin.ui.*;
 class GridCellWrapper extends HorizontalLayout {
     private static final long serialVersionUID = 1L;
 
-    public GridCellWrapper() {
+    GridCellWrapper() {
         this.setStyleName("gridform-field");
         this.setMargin(true);
         this.setWidth("100%");

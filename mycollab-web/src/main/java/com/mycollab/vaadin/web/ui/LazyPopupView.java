@@ -36,17 +36,25 @@ public class LazyPopupView extends PopupView {
                 doHide();
             }
         });
+        ((PopupContent)getContent()).setDimensionConstraint(getConstraintWidth(), getConstraintHeight());
         this.setStyleName("block-popupedit");
         this.setHideOnMouseOut(false);
     }
 
-    final public MVerticalLayout getWrapContent() {
-        PopupView.Content content = getContent();
-        MVerticalLayout layout = (MVerticalLayout) content.getPopupComponent();
-        return layout;
+    protected String getConstraintWidth() {
+        return "600px";
     }
 
-    final public void setMinimizedValueAsHTML(String valueAsHtml) {
+    protected String getConstraintHeight() {
+        return "600px";
+    }
+
+    public MVerticalLayout getWrapContent() {
+        PopupView.Content content = getContent();
+        return (MVerticalLayout) content.getPopupComponent();
+    }
+
+    public void setMinimizedValueAsHTML(String valueAsHtml) {
         PopupContent content = (PopupContent) getContent();
         content.setMinimizedValueAsHTML(valueAsHtml);
     }
@@ -61,13 +69,16 @@ public class LazyPopupView extends PopupView {
         private String valueAsHtml;
         private MVerticalLayout content;
 
-        public PopupContent(String valueAsHtml) {
+        PopupContent(String valueAsHtml) {
             this.valueAsHtml = valueAsHtml;
             content = new MVerticalLayout().withFullHeight().withFullWidth();
-            new Restrain(content).setMaxHeight("600px").setMaxWidth("600px");
         }
 
-        public void setMinimizedValueAsHTML(String valueAsHtml) {
+        void setDimensionConstraint(String width, String height) {
+            new Restrain(content).setMaxWidth(width).setMaxHeight(height);
+        }
+
+        void setMinimizedValueAsHTML(String valueAsHtml) {
             this.valueAsHtml = valueAsHtml;
         }
 

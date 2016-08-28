@@ -326,8 +326,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             this.removeAllComponents();
             this.withMargin(false);
 
-            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+            Label peopleInfoHeader = ELabel.html(FontAwesome.USER.getHtml() + " " +
+                    AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 

@@ -331,17 +331,12 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
 
             CssLayout footer = new CssLayout();
 
-            AbstractComponent commentField = popupFieldFactory.createCommentsPopupField(task);
-            footer.addComponent(commentField);
-
-            AbstractComponent followerField = popupFieldFactory.createFollowersPopupField(task);
-            footer.addComponent(followerField);
-
-            AbstractComponent deadlineField = popupFieldFactory.createDeadlinePopupField(task);
-            footer.addComponent(deadlineField);
-
-            AbstractComponent assigneeField = popupFieldFactory.createAssigneePopupField(task);
-            footer.addComponent(assigneeField);
+            footer.addComponent(popupFieldFactory.createCommentsPopupField(task));
+            footer.addComponent(popupFieldFactory.createFollowersPopupField(task));
+            footer.addComponent(popupFieldFactory.createStartDatePopupField(task));
+            footer.addComponent(popupFieldFactory.createEndDatePopupField(task));
+            footer.addComponent(popupFieldFactory.createDeadlinePopupField(task));
+            footer.addComponent(popupFieldFactory.createAssigneePopupField(task));
 
             root.addComponent(footer);
         }

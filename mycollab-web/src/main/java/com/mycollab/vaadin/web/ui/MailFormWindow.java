@@ -25,9 +25,9 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
 import java.io.File;
@@ -155,30 +155,15 @@ public class MailFormWindow extends MWindow {
         mainLayout.addComponent(noteArea, 0, 1);
         mainLayout.setComponentAlignment(noteArea, Alignment.MIDDLE_CENTER);
 
-        HorizontalLayout controlsLayout = new HorizontalLayout();
-        controlsLayout.setWidth("100%");
-
         final AttachmentPanel attachments = new AttachmentPanel();
         attachments.setWidth("500px");
 
-        MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
-        uploadExt.addComponent(attachments);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        controlsLayout.addComponent(uploadExt);
-        controlsLayout.setExpandRatio(uploadExt, 1.0f);
-
-        controlsLayout.setSpacing(true);
-
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
-
-        cancelBtn.setStyleName(WebUIConstants.BUTTON_OPTION);
-        controlsLayout.addComponent(cancelBtn);
-        controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
-
-        Button sendBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), clickEvent -> {
+        MButton sendBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), clickEvent -> {
             if (tokenFieldMailTo.getListRecipient().size() <= 0 || subject.getValue().equals("")) {
-                NotificationUtil
-                        .showErrorNotification("To Email field and Subject field must be not empty! Please fulfil them before sending email.");
+                NotificationUtil.showErrorNotification("To Email field and Subject field must be not empty! Please fulfil them before sending email.");
                 return;
             }
             if (AppContext.getUser().getEmail() != null && AppContext.getUser().getEmail().length() > 0) {
@@ -201,13 +186,10 @@ public class MailFormWindow extends MWindow {
             } else {
                 NotificationUtil.showErrorNotification("Your email is empty value, please fulfil it before sending email!");
             }
-        });
-        sendBtn.setIcon(FontAwesome.SEND);
-        sendBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
-        controlsLayout.addComponent(sendBtn);
-        controlsLayout.setComponentAlignment(sendBtn, Alignment.MIDDLE_RIGHT);
-        mainLayout.addComponent(controlsLayout, 0, 2);
+        }).withIcon(FontAwesome.SEND).withStyleName(WebUIConstants.BUTTON_ACTION);
 
+        MHorizontalLayout controlsLayout = new MHorizontalLayout(attachments, cancelBtn, sendBtn).expand(attachments).withFullWidth();
+        mainLayout.addComponent(controlsLayout, 0, 2);
         this.setContent(mainLayout);
     }
 

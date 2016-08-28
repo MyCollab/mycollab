@@ -22,7 +22,8 @@ import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.ButtonLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -39,7 +40,7 @@ public class CampaignSelectionWindow extends MWindow {
 
     public CampaignSelectionWindow(FieldSelection<CampaignWithBLOBs> fieldSelection) {
         super("Campaign Selection");
-        this.withModal(true).withResizable(false).withWidth("1000px");
+        this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
     }
 
@@ -49,27 +50,22 @@ public class CampaignSelectionWindow extends MWindow {
         campaignSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         this.setContent(new MVerticalLayout(campaignSimpleSearchPanel, tableItem));
         tableItem.setSearchCriteria(new CampaignSearchCriteria());
-        center();
     }
 
     private void createCampaignList() {
-        tableItem = new CampaignTableDisplay(Arrays.asList(
-                CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.type(),
-                CampaignTableFieldDef.status(), CampaignTableFieldDef.endDate(),
-                CampaignTableFieldDef.assignUser()));
+        tableItem = new CampaignTableDisplay(Arrays.asList(CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.type(),
+                CampaignTableFieldDef.status(), CampaignTableFieldDef.endDate(), CampaignTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
         tableItem.addGeneratedColumn("campaignname", (source, itemId, columnId) -> {
             final SimpleCampaign campaign = tableItem.getBeanByIndex(itemId);
 
-            ButtonLink campaignLink = new ButtonLink(campaign.getCampaignname(), clickEvent -> {
+            return new MButton(campaign.getCampaignname(), clickEvent -> {
                 fieldSelection.fireValueChange(campaign);
                 close();
-            });
-            campaignLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(),
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(),
                     AppContext.getDateFormat(), campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-            return campaignLink;
         });
     }
 }

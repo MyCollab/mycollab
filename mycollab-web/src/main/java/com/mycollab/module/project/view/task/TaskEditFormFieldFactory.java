@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.BusinessDayTimeUtils;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.HumanTime;
@@ -46,6 +47,7 @@ import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.vaadin.viritin.fields.MTextField;
 
 import java.util.Date;
 
@@ -83,11 +85,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             richTextArea.setNullRepresentation("");
             return richTextArea;
         } else if (Task.Field.taskname.equalTo(propertyId)) {
-            final TextField tf = new TextField();
-            tf.setNullRepresentation("");
-            tf.setRequired(true);
-            tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, "Name"));
-            return tf;
+            return new MTextField().withNullRepresentation("").withRequired(true).withRequiredError(AppContext
+                    .getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(GenericI18Enum.FORM_NAME)));
         } else if (Task.Field.status.equalTo(propertyId)) {
             return new TaskStatusComboBox();
         } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
@@ -135,12 +134,13 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             endDateField.addValueChangeListener(valueChangeEvent -> calculateDurationBaseOnStartAndEndDates());
             return endDateField;
         } else if (Task.Field.id.equalTo(propertyId)) {
-            attachmentUploadField = new AttachmentUploadField();
             Task beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
                         beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId());
-                attachmentUploadField.getAttachments(attachmentPath);
+                attachmentUploadField = new AttachmentUploadField(attachmentPath);
+            } else {
+                attachmentUploadField = new AttachmentUploadField();
             }
             return attachmentUploadField;
         } else if (Task.Field.deadline.equalTo(propertyId)) {
@@ -155,8 +155,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
         DateTimeOptionField startDateField = (DateTimeOptionField) fieldGroup.getField(Task.Field.startdate.name());
         DateTimeOptionField endDateField = (DateTimeOptionField) fieldGroup.getField(Task.Field.enddate.name());
         TextField durationField = (TextField) fieldGroup.getField(Task.Field.duration.name());
-        Date startDate = null;
-        Date endDate = null;
+        Date startDate = null, endDate = null;
         if (startDateField != null) {
             startDate = startDateField.getValue();
         }

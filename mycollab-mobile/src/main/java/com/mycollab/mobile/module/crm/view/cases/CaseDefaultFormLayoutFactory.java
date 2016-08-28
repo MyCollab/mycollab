@@ -22,7 +22,6 @@ import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -35,60 +34,60 @@ public class CaseDefaultFormLayoutFactory {
         defaultForm = new DynaForm();
 
         DynaSection infoSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-                .header(AppContext.getMessage(CaseI18nEnum.SECTION_CASE_INFORMATION))
+                .header(CaseI18nEnum.SECTION_CASE_INFORMATION)
                 .build();
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("priority")
-                .displayName(AppContext.getMessage(CaseI18nEnum.FORM_PRIORITY))
+                .displayName(CaseI18nEnum.FORM_PRIORITY)
                 .fieldIndex(0).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("type")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_TYPE))
+                .displayName(GenericI18Enum.FORM_TYPE)
                 .fieldIndex(1).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("status")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
+                .displayName(GenericI18Enum.FORM_STATUS)
                 .fieldIndex(2).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("reason")
-                .displayName(AppContext.getMessage(CaseI18nEnum.FORM_REASON))
+                .displayName(CaseI18nEnum.FORM_REASON)
                 .fieldIndex(3).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("accountid")
-                .displayName(AppContext.getMessage(CaseI18nEnum.FORM_ACCOUNT))
+                .displayName(CaseI18nEnum.FORM_ACCOUNT)
                 .fieldIndex(4).mandatory(true).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("subject")
-                .displayName(AppContext.getMessage(CaseI18nEnum.FORM_SUBJECT))
+                .displayName(CaseI18nEnum.FORM_SUBJECT)
                 .fieldIndex(5).mandatory(true).build());
 
         infoSection.fields(new PhoneDynaFieldBuilder().fieldName("phonenumber")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_PHONE))
+                .displayName(GenericI18Enum.FORM_PHONE)
                 .fieldIndex(6).build());
 
         infoSection.fields(new EmailDynaFieldBuilder().fieldName("email")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_EMAIL))
+                .displayName(GenericI18Enum.FORM_EMAIL)
                 .fieldIndex(7).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("origin")
-                .displayName(AppContext.getMessage(CaseI18nEnum.FORM_ORIGIN))
+                .displayName(CaseI18nEnum.FORM_ORIGIN)
                 .fieldIndex(8).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("assignuser")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+                .displayName(GenericI18Enum.FORM_ASSIGNEE)
                 .fieldIndex(9).build());
 
         defaultForm.sections(infoSection);
 
         DynaSection descSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
-                .header(AppContext.getMessage(CaseI18nEnum.SECTION_DESCRIPTION))
+                .header(CaseI18nEnum.SECTION_DESCRIPTION)
                 .build();
 
         descSection.fields(new TextAreaDynaFieldBuilder().fieldName("description")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(0).build());
         descSection.fields(new TextAreaDynaFieldBuilder().fieldName("resolution")
-                .displayName(AppContext.getMessage(CaseI18nEnum.FORM_RESOLUTION))
+                .displayName(CaseI18nEnum.FORM_RESOLUTION)
                 .fieldIndex(1).build());
 
         defaultForm.sections(descSection);

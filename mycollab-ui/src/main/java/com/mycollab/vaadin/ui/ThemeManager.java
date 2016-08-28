@@ -147,6 +147,7 @@ public class ThemeManager {
         /* Top Menu */
         if (accountTheme.getTopmenubg() != null) {
             extraStyles.append(".topNavigation { background-color: #" + accountTheme.getTopmenubg() + "; }");
+            extraStyles.append("#login-header { background-color: #" + accountTheme.getTopmenubg() + "; }");
             extraStyles.append(".topNavigation #mainLogo { background-color: " + ColorUtils.darkerColor("#" + accountTheme.getTopmenubg()) + "; }");
         }
 

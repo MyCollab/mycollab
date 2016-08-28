@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.ui.form.field;
 
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.mycollab.mobile.ui.TempFileFactory;
@@ -219,7 +220,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
-            NotificationUtil.showWarningNotification("File " + fileName + " is already existed.");
+            NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_FILE_IS_EXISTED, fileName));
         } else {
             fileStores.put(fileName, file);
         }

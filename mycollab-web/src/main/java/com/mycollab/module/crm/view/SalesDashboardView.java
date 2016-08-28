@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view;
 
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.crm.view.opportunity.IOpportunityLeadSourceDashboard;
 import com.mycollab.module.crm.view.opportunity.IOpportunitySalesStageDashboard;
 import com.mycollab.vaadin.AppContext;
@@ -42,7 +43,7 @@ public class SalesDashboardView extends Depot {
     private int currentReportIndex = 0;
 
     public SalesDashboardView() {
-        super("Sales Dashboard", new VerticalLayout());
+        super(AppContext.getMessage(OpportunityI18nEnum.OPT_SALES_DASHBOARD), new VerticalLayout());
         this.bodyContent.setSizeFull();
         this.initUI();
         this.setContentBorder(true);
@@ -56,7 +57,7 @@ public class SalesDashboardView extends Depot {
         bodyContent.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         if ("OpportunitySalesStage".equals(reportName)) {
-            this.setTitle("Opportunity Sales Stage");
+            this.setTitle(AppContext.getMessage(OpportunityI18nEnum.OPT_SALES_STAGE));
             IOpportunitySalesStageDashboard salesStageDashboard = ViewManager.getCacheComponent(IOpportunitySalesStageDashboard.class);
             bodyContent.addComponent(salesStageDashboard);
 
@@ -64,7 +65,7 @@ public class SalesDashboardView extends Depot {
             criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             salesStageDashboard.displayChart(criteria);
         } else if ("OpportunityLeadSource".equals(reportName)) {
-            this.setTitle("Opportunity Lead Source");
+            this.setTitle(AppContext.getMessage(OpportunityI18nEnum.OPT_LEAD_SOURCES));
             IOpportunityLeadSourceDashboard leadSourceDashboard = ViewManager.getCacheComponent(IOpportunityLeadSourceDashboard.class);
             bodyContent.addComponent(leadSourceDashboard);
 
@@ -81,14 +82,14 @@ public class SalesDashboardView extends Depot {
 
         final OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
-        final Button btnOpportunitySales = new Button("Opportunity Sales Stage", clickEvent -> {
+        final Button btnOpportunitySales = new Button(AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE), clickEvent -> {
             saleChartPopup.setPopupVisible(false);
             currentReportIndex = 0;
             displayReport();
         });
         filterBtnLayout.addOption(btnOpportunitySales);
 
-        final Button btnOpportunityLead = new Button("Opportunity Lead Source", clickEvent -> {
+        final Button btnOpportunityLead = new Button(AppContext.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE), clickEvent -> {
             saleChartPopup.setPopupVisible(false);
             currentReportIndex = 1;
             displayReport();

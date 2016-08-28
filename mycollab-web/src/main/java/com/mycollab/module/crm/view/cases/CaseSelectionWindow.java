@@ -21,8 +21,8 @@ import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.ButtonLink;
-import com.vaadin.ui.Window;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -53,22 +53,18 @@ public class CaseSelectionWindow extends MWindow {
     }
 
     private void createCaseList() {
-        tableItem = new CaseTableDisplay(Arrays.asList(
-                CaseTableFieldDef.subject(), CaseTableFieldDef.account(),
-                CaseTableFieldDef.priority(), CaseTableFieldDef.status(),
-                CaseTableFieldDef.assignUser()));
+        tableItem = new CaseTableDisplay(Arrays.asList(CaseTableFieldDef.subject(), CaseTableFieldDef.account(),
+                CaseTableFieldDef.priority(), CaseTableFieldDef.status(), CaseTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
 
         tableItem.addGeneratedColumn("subject", (source, itemId, columnId) -> {
-                final SimpleCase cases = tableItem.getBeanByIndex(itemId);
+            final SimpleCase cases = tableItem.getBeanByIndex(itemId);
 
-                ButtonLink b = new ButtonLink(cases.getSubject(), clickEvent -> {
-                    fieldSelection.fireValueChange(cases);
-                    close();
-                });
-                b.setDescription(CrmTooltipGenerator.generateTooltipCases(
-                        AppContext.getUserLocale(), cases, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-                return b;
+            return new MButton(cases.getSubject(), clickEvent -> {
+                fieldSelection.fireValueChange(cases);
+                close();
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCases(
+                    AppContext.getUserLocale(), cases, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
         });
     }
 }

@@ -31,6 +31,7 @@ import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.events.ProjectEvent;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
@@ -95,7 +96,8 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             MHorizontalLayout metaInfo = new MHorizontalLayout().withFullWidth();
             metaInfo.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            Div activeMembersDiv = new Div().appendText(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers()).setTitle("Active members");
+            Div activeMembersDiv = new Div().appendText(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers())
+                    .setTitle(AppContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
             Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + AppContext
                     .formatPrettyTime(project.getCreatedtime())).setTitle(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
             Div billableHoursDiv = new Div().appendText(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours())).
@@ -109,7 +111,8 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(project
                                 .getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE(),
                         new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
-                                .appendText(StringUtils.trim(project.getLeadFullName(), 30, true))).setTitle("Manager");
+                                .appendText(StringUtils.trim(project.getLeadFullName(), 30, true))).setTitle
+                        (AppContext.getMessage(ProjectI18nEnum.FORM_LEADER));
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
@@ -131,8 +134,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
             metaDiv.setCSSClass(WebUIConstants.FLEX_DISPLAY);
-            metaInfo.addComponent(new ELabel(metaDiv.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO)
-                    .withWidthUndefined());
+            metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(UIConstants.META_INFO).withWidthUndefined());
 
             linkIconFix.addComponent(metaInfo);
 

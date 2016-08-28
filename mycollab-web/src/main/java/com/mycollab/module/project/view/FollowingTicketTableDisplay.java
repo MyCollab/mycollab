@@ -36,13 +36,13 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -61,7 +61,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
 
         this.addGeneratedColumn("summary", (source, itemId, columnId) -> {
             final FollowingTicket ticket = getBeanByIndex(itemId);
-            final ButtonLink ticketLink = new ButtonLink(ticket.getSummary());
+            final MButton ticketLink = new MButton(ticket.getSummary()).withStyleName(WebUIConstants.BUTTON_LINK);
 
             if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
                 ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));

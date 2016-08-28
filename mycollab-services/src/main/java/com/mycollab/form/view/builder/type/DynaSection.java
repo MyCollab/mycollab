@@ -26,18 +26,18 @@ import java.util.List;
  * @since 1.0
  */
 public class DynaSection implements Comparable<DynaSection> {
-    private String header;
+    private Enum header;
     private int orderIndex;
     private boolean isDeletedSection = false;
     private LayoutType layoutType;
     private List<AbstractDynaField> fields = new ArrayList<>();
     private DynaForm parentForm;
 
-    public String getHeader() {
+    public Enum getHeader() {
         return header;
     }
 
-    public void setHeader(String header) {
+    public void setHeader(Enum header) {
         this.header = header;
     }
 

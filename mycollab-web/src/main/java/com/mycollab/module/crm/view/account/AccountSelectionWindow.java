@@ -22,8 +22,8 @@ import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.ButtonLink;
-import com.vaadin.ui.Window;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -68,13 +68,11 @@ public class AccountSelectionWindow extends MWindow {
         tableItem.addGeneratedColumn("accountname", (source, itemId, columnId) -> {
             final SimpleAccount account = tableItem.getBeanByIndex(itemId);
 
-            ButtonLink accountLink = new ButtonLink(account.getAccountname(), clickEvent -> {
+            return new MButton(account.getAccountname(), clickEvent -> {
                 fieldSelection.fireValueChange(account);
                 close();
-            });
-            accountLink.setDescription(CrmTooltipGenerator.generateToolTipAccount(
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipAccount(
                     AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
-            return accountLink;
         });
     }
 }

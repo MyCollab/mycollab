@@ -26,6 +26,9 @@ public enum LeadI18nEnum {
     NEW,
     LIST,
     SINGLE,
+
+    MY_ITEMS,
+
     VIEW_CONVERTED_LEAD_TITLE,
 
     WINDOW_CONVERT_LEAD_TITLE,

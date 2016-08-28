@@ -19,7 +19,6 @@ package com.mycollab.vaadin;
 import ch.qos.cal10n.IMessageConveyor;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.ErrorI18nEnum;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.SessionExpireException;
 import com.mycollab.core.utils.BeanUtility;
@@ -35,6 +34,7 @@ import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.MyCollabSession;
+import com.mycollab.vaadin.ui.ThemeManager;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import org.joda.time.DateTime;
@@ -235,6 +235,7 @@ public class AppContext implements Serializable {
 
             LOG.debug("Get billing account {} of subDomain {}", BeanUtility.printBeanObj(account), domain);
             accountId = account.getId();
+            ThemeManager.loadDesktopTheme(accountId);
         }
     }
 

@@ -17,6 +17,7 @@
 package com.mycollab.mobile.module.project.view;
 
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.*;
@@ -99,11 +100,12 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         MHorizontalLayout metaInfo = new MHorizontalLayout();
 
         Label projectMemberBtn = ELabel.html(FontAwesome.USERS.getHtml() + " " + currentProject.getNumActiveMembers())
-                .withDescription("Active members").withStyleName(UIConstants.META_INFO);
+                .withDescription(AppContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS)).withStyleName(UIConstants.META_INFO);
 
         metaInfo.addComponent(projectMemberBtn);
         Label createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime
-                (currentProject.getCreatedtime())).withDescription("Created time").withStyleName(UIConstants.META_INFO);
+                (currentProject.getCreatedtime())).withDescription(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
+                .withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(createdTimeLbl);
 
         Label billableHoursLbl = ELabel.html(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, currentProject.getTotalBillableHours()))
@@ -112,7 +114,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
 
         Label nonBillableHoursLbl = ELabel.html(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
                 currentProject.getTotalNonBillableHours()))
-                .withDescription("Non billable hours").withStyleName(UIConstants.META_INFO);
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(nonBillableHoursLbl);
         projectInfo.addComponent(metaInfo);
 

@@ -26,6 +26,7 @@ import com.mycollab.module.crm.domain.SimpleMeeting;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.events.ActivityEvent;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
+import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
@@ -40,10 +41,11 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.mycollab.vaadin.web.ui.StyleCalendarExp;
+import com.mycollab.vaadin.web.ui.ValueComboBox;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -206,20 +208,17 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             }
         };
 
-        ButtonLink todoBtn = new ButtonLink("New Task", listener);
+        MButton todoBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK)).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
         actionBtnLayout.addOption(todoBtn);
-        todoBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
-        todoBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
 
-        Button callBtn = new ButtonLink("New Call", listener);
+        MButton callBtn = new MButton(AppContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL)).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
         actionBtnLayout.addOption(callBtn);
-        callBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
-        callBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
 
-        ButtonLink meetingBtn = new ButtonLink("New Meeting", listener);
+        MButton meetingBtn = new MButton(AppContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING)).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
         actionBtnLayout.addOption(meetingBtn);
-        meetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
-        meetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
 
         calendarActionBtn.setContent(actionBtnLayout);
 
@@ -230,15 +229,10 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         calendarViewBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(calendarViewBtn);
 
-        Button activityListBtn = new Button("Activities", new Button.ClickListener() {
-            private static final long serialVersionUID = 2156576556541398934L;
-
-            @Override
-            public void buttonClick(ClickEvent evt) {
-                ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
-            }
+        Button activityListBtn = new Button("Activities", event -> {
+            ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
         });
         activityListBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(activityListBtn);
@@ -327,74 +321,38 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
     }
 
     private void addCalendarEvent() {
-        this.datePicker.getStyleCalendar().addValueChangeListener(
-                new ValueChangeListener() {
-                    private static final long serialVersionUID = 1L;
+        this.datePicker.getStyleCalendar().addValueChangeListener(event -> {
+            final Date selectedDate = (Date) event.getProperty().getValue();
+            if (calendarComponent.viewMode == ActivityCalendarViewImpl.Mode.WEEK) {
+                datePicker.selectWeek(selectedDate);
+            } else {
+                datePicker.selectDate(selectedDate);
+            }
+            calendarComponent.switchCalendarByDatePicker(selectedDate);
+            datePicker.setLabelTime(AppContext.formatDate(selectedDate));
+            updateLabelCaption(selectedDate);
+            // dateHdr.setPopupVisible(false);
+        });
 
-                    @Override
-                    public void valueChange(final ValueChangeEvent event) {
-                        final Date selectedDate = (Date) event.getProperty()
-                                .getValue();
-                        if (calendarComponent.viewMode == ActivityCalendarViewImpl.Mode.WEEK) {
-                            datePicker.selectWeek(selectedDate);
-                        } else {
-                            datePicker.selectDate(selectedDate);
-                        }
-                        calendarComponent
-                                .switchCalendarByDatePicker(selectedDate);
-                        datePicker.setLabelTime(AppContext
-                                .formatDate(selectedDate));
-                        updateLabelCaption(selectedDate);
-                        // dateHdr.setPopupVisible(false);
-                    }
-                });
+        this.datePicker.getBtnShowNextYear().addClickListener(event -> {
+            datePicker.getStyleCalendar().showNextYear();
+            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+        });
 
-        this.datePicker.getBtnShowNextYear().addClickListener(
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        this.datePicker.getBtnShowNextMonth().addClickListener(event -> {
+            datePicker.getStyleCalendar().showNextMonth();
+            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+        });
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        datePicker.getStyleCalendar().showNextYear();
-                        datePicker.setLabelTime(AppContext
-                                .formatDate(datePicker.getStyleCalendar()
-                                        .getShowingDate()));
-                    }
-                });
+        this.datePicker.getBtnShowPreviousMonth().addClickListener(event -> {
+            datePicker.getStyleCalendar().showPreviousMonth();
+            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+        });
 
-        this.datePicker.getBtnShowNextMonth().addClickListener(
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        datePicker.getStyleCalendar().showNextMonth();
-                        datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar()
-                                .getShowingDate()));
-                    }
-                });
-
-        this.datePicker.getBtnShowPreviousMonth().addClickListener(
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        datePicker.getStyleCalendar().showPreviousMonth();
-                        datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
-                    }
-                });
-
-        this.datePicker.getBtnShowPreviousYear().addClickListener(
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        datePicker.getStyleCalendar().showPreviousYear();
-                        datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
-                    }
-                });
+        this.datePicker.getBtnShowPreviousYear().addClickListener(event -> {
+            datePicker.getStyleCalendar().showPreviousYear();
+            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+        });
     }
 
     private void initLabelCaption() {
@@ -427,7 +385,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         private Date currentMonthsFirstDate = null;
         private Mode viewMode = Mode.MONTH;
 
-        public CalendarDisplay() {
+        CalendarDisplay() {
             super(new ActivityEventProvider());
             this.setTimeFormat(TimeFormat.Format12H);
             this.setSizeFull();
@@ -458,13 +416,9 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
                 @Override
                 public void eventClick(EventClick event) {
-                    CrmEvent calendarEvent = (CrmEvent) event
-                            .getCalendarEvent();
+                    CrmEvent calendarEvent = (CrmEvent) event.getCalendarEvent();
                     SimpleMeeting source = calendarEvent.getSource();
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.MeetingRead(
-                                    ActivityCalendarViewImpl.this, source
-                                    .getId()));
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(ActivityCalendarViewImpl.this, source.getId()));
                 }
             });
 

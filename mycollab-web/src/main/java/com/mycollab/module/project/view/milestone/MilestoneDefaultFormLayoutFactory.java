@@ -23,7 +23,6 @@ import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -38,31 +37,29 @@ public class MilestoneDefaultFormLayoutFactory {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(
                 DynaSection.LayoutType.TWO_COLUMN).build();
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.name).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_NAME)).fieldIndex(0).mandatory(true).required(true).colSpan(true).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.name).displayName(GenericI18Enum.FORM_NAME)
+                .fieldIndex(0).mandatory(true).required(true).colSpan(true).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.startdate).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_START_DATE)).fieldIndex(1).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.startdate).displayName(GenericI18Enum.FORM_START_DATE)
+                .fieldIndex(1).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.enddate).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_END_DATE)).fieldIndex(2).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.enddate).displayName(GenericI18Enum.FORM_END_DATE)
+                .fieldIndex(2).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.owner).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_ASSIGNEE)).fieldIndex(3)
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.owner).displayName(GenericI18Enum.FORM_ASSIGNEE).fieldIndex(3)
                 .build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_STATUS)).contextHelp(AppContext.getMessage(MilestoneI18nEnum
-                .FORM_STATUS_FIELD_HELP)).fieldIndex(4).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(GenericI18Enum.FORM_STATUS)
+                .contextHelp(MilestoneI18nEnum.FORM_STATUS_FIELD_HELP).fieldIndex(4).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(5).colSpan(true).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(GenericI18Enum.FORM_DESCRIPTION)
+                .fieldIndex(5).colSpan(true).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(AppContext
-                .getMessage(MilestoneI18nEnum.FORM_ASSIGNMENTS)).fieldIndex(6).colSpan(true).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(MilestoneI18nEnum.FORM_ASSIGNMENTS)
+                .fieldIndex(6).colSpan(true).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.saccountid).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_ATTACHMENTS)).fieldIndex(7).colSpan(true).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.saccountid).displayName(GenericI18Enum.FORM_ATTACHMENTS)
+                .fieldIndex(7).colSpan(true).build());
 
         defaultForm.sections(mainSection);
     }

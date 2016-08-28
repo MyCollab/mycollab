@@ -55,11 +55,12 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
                     item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
         }
 
-        String desc = (StringUtils.isBlank(item.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : item.getDescription();
+        String desc = (StringUtils.isBlank(item.getDescription())) ? AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :
+                item.getDescription();
         SafeHtmlLabel descLbl = new SafeHtmlLabel(desc);
 
         Div div = new Div().setStyle("width:100%");
-        Text createdByTxt = new Text("Created by: ");
+        Text createdByTxt = new Text(AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY) + ": ");
         Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(item.getLastUpdatedTime())))
                 .setTitle(AppContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;margin-right:5px");
 

@@ -41,12 +41,12 @@ public abstract class AbstractDynaFieldBuilder<F extends AbstractDynaField> {
         return this;
     }
 
-    public AbstractDynaFieldBuilder<F> displayName(String displayName) {
+    public AbstractDynaFieldBuilder<F> displayName(Enum displayName) {
         field.setDisplayName(displayName);
         return this;
     }
 
-    public AbstractDynaFieldBuilder<F> contextHelp(String contextHelp) {
+    public AbstractDynaFieldBuilder<F> contextHelp(Enum contextHelp) {
         field.setContextHelp(contextHelp);
         return this;
     }

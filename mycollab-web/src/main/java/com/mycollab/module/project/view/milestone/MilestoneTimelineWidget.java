@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.milestone;
 
+import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SetSearchField;
@@ -61,11 +62,11 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
         MHorizontalLayout headerLayout = new MHorizontalLayout();
         ELabel titleLbl = ELabel.h2(AppContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
-        final CheckBox noDateSetMilestone = new CheckBox("No date set");
+        final CheckBox noDateSetMilestone = new CheckBox(AppContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         noDateSetMilestone.setValue(false);
 
 
-        final CheckBox includeClosedMilestone = new CheckBox("Closed phase");
+        final CheckBox includeClosedMilestone = new CheckBox(AppContext.getMessage(MilestoneStatus.Closed));
         includeClosedMilestone.setValue(false);
 
         noDateSetMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(noDateSetMilestone.getValue(), includeClosedMilestone.getValue()));
@@ -122,7 +123,7 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
             }
 
             if (milestone.getEnddate() == null) {
-                timestampDiv.appendChild(new Span().setCSSClass("date").appendText("No date set"));
+                timestampDiv.appendChild(new Span().setCSSClass("date").appendText(AppContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET)));
             } else {
                 if (milestone.isOverdue()) {
                     timestampDiv.appendChild(new Span().setCSSClass("date overdue").appendText(String.format("%s (%s)",

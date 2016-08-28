@@ -67,7 +67,6 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
     public AbstractMainView() {
         this.setSizeFull();
         ControllerRegistry.addController(new MainViewController(this));
-        ThemeManager.loadDesktopTheme(AppContext.getAccountId());
     }
 
     @Override

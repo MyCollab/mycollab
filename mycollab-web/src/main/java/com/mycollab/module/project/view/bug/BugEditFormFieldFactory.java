@@ -17,12 +17,11 @@
 package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
-import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
-import com.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.mycollab.module.project.view.bug.components.BugPriorityComboBox;
 import com.mycollab.module.project.view.bug.components.BugSeverityComboBox;
 import com.mycollab.module.project.view.milestone.MilestoneComboBox;
@@ -35,6 +34,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.DoubleField;
+import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Field;
@@ -52,7 +52,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
     private VersionMultiSelectField affectedVersionSelect;
     private VersionMultiSelectField fixedVersionSelect;
     private ProjectSubscribersComp subscribersComp;
-    private ProjectFormAttachmentUploadField attachmentUploadField;
+    private AttachmentUploadField attachmentUploadField;
 
     BugEditFormFieldFactory(GenericBeanForm<SimpleBug> form, Integer prjId) {
         super(form);
@@ -79,9 +79,12 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             });
             return field;
         } else if (propertyId.equals("id")) {
-            attachmentUploadField = new ProjectFormAttachmentUploadField();
             if (beanItem.getId() != null) {
-                attachmentUploadField.getAttachments(beanItem.getProjectid(), ProjectTypeConstants.BUG, beanItem.getId());
+                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                        beanItem.getProjectid(), ProjectTypeConstants.BUG, "" + beanItem.getId());
+                attachmentUploadField = new AttachmentUploadField(attachmentPath);
+            } else {
+                attachmentUploadField = new AttachmentUploadField();
             }
             return attachmentUploadField;
         } else if (propertyId.equals("severity")) {
@@ -140,7 +143,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         return subscribersComp;
     }
 
-    public ProjectFormAttachmentUploadField getAttachmentUploadField() {
+    public AttachmentUploadField getAttachmentUploadField() {
         return attachmentUploadField;
     }
 }

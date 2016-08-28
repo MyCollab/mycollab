@@ -23,12 +23,12 @@ import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.MonitorItemService;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.AssignmentEvent;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
-import com.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelatedItemService;
@@ -38,6 +38,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -110,9 +111,10 @@ public class BugAddWindow extends MWindow {
                         bugRelatedItemService.saveComponentsOfBug(bugId, bugEditFormFieldFactory.getComponentSelect().getSelectedItems());
                         asyncEventBus.post(new CleanCacheEvent(AppContext.getAccountId(), new Class[]{BugService.class}));
 
-                        ProjectFormAttachmentUploadField uploadField = bugEditFormFieldFactory.getAttachmentUploadField();
-                        uploadField.saveContentsToRepo(bean.getProjectid(),
-                                ProjectTypeConstants.BUG, bugId);
+                        AttachmentUploadField uploadField = bugEditFormFieldFactory.getAttachmentUploadField();
+                        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bean.getProjectid(),
+                                ProjectTypeConstants.BUG, "" + bugId);
+                        uploadField.saveContentsToRepo(attachPath);
                         EventBusFactory.getInstance().post(new BugEvent.NewBugAdded(BugAddWindow.this, bugId));
                         EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(BugAddWindow.this,
                                 ProjectTypeConstants.BUG, bugId));

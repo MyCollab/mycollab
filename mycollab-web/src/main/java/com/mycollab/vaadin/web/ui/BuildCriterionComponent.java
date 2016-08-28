@@ -27,10 +27,7 @@ import com.mycollab.db.arguments.*;
 import com.mycollab.db.query.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.I18nValueListSelect;
-import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.PopupDateFieldExt;
-import com.mycollab.vaadin.ui.ValueListSelect;
+import com.mycollab.vaadin.ui.*;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanContainer;
@@ -226,9 +223,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             this.addComponent(indexLbl, 0, 0);
 
             if (index == 1) {
-                Label placeHolder = new Label("&nbsp;", ContentMode.HTML);
-                placeHolder.setWidth("90px");
-                this.addComponent(placeHolder, 1, 0);
+                this.addComponent(ELabel.html("&nbsp;").withWidth("90px"), 1, 0);
             } else {
                 operatorSelectionBox = new ValueComboBox(false, SearchField.AND, SearchField.OR);
                 operatorSelectionBox.setWidth("90px");
@@ -237,22 +232,14 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             buildFieldSelectionBox();
 
             valueBox = new MVerticalLayout().withMargin(false).withWidth("300px");
-            deleteBtn = new Button("", new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    int compIndex = searchContainer.getComponentIndex(CriteriaSelectionLayout.this);
-                    searchContainer.removeComponent(CriteriaSelectionLayout.this);
-                    for (int i = compIndex; i < searchContainer.getComponentCount(); i++) {
-                        CriteriaSelectionLayout searchCriteriaLayout = (CriteriaSelectionLayout) searchContainer.getComponent(i);
-                        searchCriteriaLayout.updateIndex();
-                    }
+            deleteBtn = new MButton("", event -> {
+                int compIndex = searchContainer.getComponentIndex(CriteriaSelectionLayout.this);
+                searchContainer.removeComponent(CriteriaSelectionLayout.this);
+                for (int i = compIndex; i < searchContainer.getComponentCount(); i++) {
+                    CriteriaSelectionLayout searchCriteriaLayout = (CriteriaSelectionLayout) searchContainer.getComponent(i);
+                    searchCriteriaLayout.updateIndex();
                 }
-            });
-            deleteBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
-            deleteBtn.setIcon(FontAwesome.TRASH_O);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             this.addComponent(fieldSelectionBox, 2, 0);
             this.addComponent(compareSelectionBox, 3, 0);

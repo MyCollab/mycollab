@@ -17,7 +17,6 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.core.MyCollabException;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.form.service.MasterFormService;
 import com.mycollab.form.view.builder.type.AbstractDynaField;
 import com.mycollab.form.view.builder.type.DynaForm;
@@ -78,8 +77,8 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                 continue;
             }
 
-            if (StringUtils.isNotBlank(section.getHeader())) {
-                Label header = new Label(section.getHeader());
+            if (section.getHeader() != null) {
+                Label header = new Label(AppContext.getMessage(section.getHeader()));
                 MCssLayout formSection = new MCssLayout(header).withStyleName(WebUIConstants.FORM_SECTION).withFullWidth();
                 formSection.addStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);
                 layout.addComponent(formSection);
@@ -97,7 +96,8 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                 for (int j = 0; j < section.getFieldCount(); j++) {
                     AbstractDynaField dynaField = section.getField(j);
                     if (!excludeFields.contains(dynaField.getFieldName())) {
-                        gridLayout.buildCell(dynaField.getDisplayName(), dynaField.getContextHelp(), 0,
+                        gridLayout.buildCell(AppContext.getMessage(dynaField.getDisplayName()),
+                                AppContext.getMessage(dynaField.getContextHelp()), 0,
                                 gridLayout.getRows() - 1, 2, "100%", Alignment.TOP_LEFT);
                         if (j < section.getFieldCount() - 1) {
                             gridLayout.appendRow();
@@ -120,14 +120,16 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                             if (columnIndex > 0) {
                                 gridLayout.appendRow();
                             }
-                            gridLayout.buildCell(dynaField.getDisplayName(), dynaField.getContextHelp(), 0,
+                            gridLayout.buildCell(AppContext.getMessage(dynaField.getDisplayName()),
+                                    AppContext.getMessage(dynaField.getContextHelp()), 0,
                                     gridLayout.getRows() - 1, 2, "100%", Alignment.TOP_LEFT);
                             columnIndex = 0;
                             if (j < section.getFieldCount() - 1) {
                                 gridLayout.appendRow();
                             }
                         } else {
-                            gridLayout.buildCell(dynaField.getDisplayName(), dynaField.getContextHelp(), columnIndex, gridLayout.getRows() - 1);
+                            gridLayout.buildCell(AppContext.getMessage(dynaField.getDisplayName()),
+                                    AppContext.getMessage(dynaField.getContextHelp()), columnIndex, gridLayout.getRows() - 1);
                             columnIndex++;
                             if (columnIndex == 2) {
                                 columnIndex = 0;
@@ -160,7 +162,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
             GridFormLayoutHelper gridLayout = sectionMappings.get(section);
-            HorizontalLayout componentWrapper = gridLayout.getComponentWrapper(dynaField.getDisplayName());
+            HorizontalLayout componentWrapper = gridLayout.getComponentWrapper(AppContext.getMessage(dynaField.getDisplayName()));
             if (componentWrapper != null) {
                 componentWrapper.addComponent(field);
             }

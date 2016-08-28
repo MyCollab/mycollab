@@ -17,6 +17,7 @@
 package com.mycollab.module.user.accountsettings.setup.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.ApplicationProperties;
 import com.mycollab.configuration.EmailConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
@@ -87,7 +88,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
 
         @Override
         public ComponentContainer getLayout() {
-            AddViewLayout formAddLayout = new AddViewLayout("SMTP Settings", FontAwesome.WRENCH);
+            AddViewLayout formAddLayout = new AddViewLayout(AppContext.getMessage(ShellI18nEnum.OPT_SMTP_SETTING), FontAwesome.WRENCH);
             FormContainer layout = new FormContainer();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
             layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION), informationLayout.getLayout());
@@ -110,9 +111,8 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                         saveEmailConfiguration();
                     } catch (UserInvalidInputException e) {
                         ConfirmDialogExt.show(UI.getCurrent(),
-                                "Invalid SMTP account?",
-                                "We can not connect to the SMTP server. The root cause is " + e.getMessage() +
-                                        ". Save the configuration anyway?",
+                                AppContext.getMessage(ShellI18nEnum.OPT_INVALID_SMTP_ACCOUNT),
+                                AppContext.getMessage(ShellI18nEnum.OPT_CAN_NOT_ACCESS_SMTP_ACCOUNT, e.getMessage()),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                 confirmDialog -> {
@@ -141,7 +141,8 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                     p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.getIsSsl());
                     p.setProperty(ApplicationProperties.MAIL_NOTIFY, emailConf.getUser());
                     p.save();
-                    NotificationUtil.showNotification("Congrats", "Set up SMTP account successfully");
+                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                            AppContext.getMessage(ShellI18nEnum.OPT_SETUP_SMTP_SUCCESSFULLY));
                 } catch (Exception e) {
                     LOG.error("Can not save email props", e);
                     throw new UserInvalidInputException("Can not save properties file successfully");
@@ -156,7 +157,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
             } else if (propertyId.equals("user")) {
                 return informationLayout.addComponent(field, "User Name", 0, 1);
             } else if (propertyId.equals("password")) {
-                return informationLayout.addComponent(field, "Password", 0, 2);
+                return informationLayout.addComponent(field, AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 2);
             } else if (propertyId.equals("port")) {
                 return informationLayout.addComponent(field, "Port", 0, 3);
             } else if (propertyId.equals("isStartTls")) {

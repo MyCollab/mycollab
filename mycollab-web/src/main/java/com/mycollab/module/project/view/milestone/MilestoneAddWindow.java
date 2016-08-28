@@ -24,6 +24,7 @@ import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.events.AssignmentEvent;
 import com.mycollab.module.project.events.MilestoneEvent;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -47,9 +48,9 @@ import org.vaadin.viritin.layouts.MWindow;
 public class MilestoneAddWindow extends MWindow {
     public MilestoneAddWindow(final SimpleMilestone milestone) {
         if (milestone.getId() == null) {
-            setCaption("New milestone");
+            setCaption(AppContext.getMessage(MilestoneI18nEnum.NEW));
         } else {
-            setCaption("Edit milestone");
+            setCaption(AppContext.getMessage(MilestoneI18nEnum.SINGLE) + ": " + milestone.getName());
         }
         VerticalLayout content = new VerticalLayout();
         withWidth("800px").withModal(true).withResizable(false).withContent(content).withCenter();

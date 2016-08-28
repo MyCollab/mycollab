@@ -27,6 +27,7 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericItemService;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
+import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -42,13 +43,13 @@ import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.List;
 
@@ -184,13 +185,13 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         };
         headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.TOP_RIGHT);
         headerContent.with(headerContentTop);
-        MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel("Email:").withStyleName
-                (UIConstants.META_INFO), new ELabel(new A(String.format("mailto:%s", AppContext.getUsername()))
-                .appendText(AppContext.getUsername()).write(), ContentMode.HTML));
-        metaInfoLayout.with(new ELabel("Member since: ").withStyleName(UIConstants.META_INFO),
-                new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getRegisteredtime())));
-        metaInfoLayout.with(new ELabel("Logged in: ").withStyleName(UIConstants.META_INFO),
-                new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getLastaccessedtime())));
+        MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel(AppContext.getMessage
+                        (GenericI18Enum.FORM_EMAIL) + ": ").withStyleName(UIConstants.META_INFO),
+                ELabel.html(new A(String.format("mailto:%s", AppContext.getUsername())).appendText(AppContext.getUsername()).write()));
+        metaInfoLayout.with(ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE,
+                AppContext.formatPrettyTime(AppContext.getUser().getRegisteredtime()))));
+        metaInfoLayout.with(ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN,
+                AppContext.formatPrettyTime(AppContext.getUser().getLastaccessedtime()))));
         metaInfoLayout.alignAll(Alignment.TOP_LEFT);
         headerContent.addComponent(metaInfoLayout);
         headerWrapper.with(headerContent).expand(headerContent);
@@ -230,15 +231,11 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         }
     }
 
-    private static class AskCreateNewProjectWindow extends Window {
+    private static class AskCreateNewProjectWindow extends MWindow {
         AskCreateNewProjectWindow() {
             super(AppContext.getMessage(GenericI18Enum.OPT_QUESTION));
-            this.setWidth("600px");
-            this.setResizable(false);
-            this.setModal(true);
-            this.center();
             MVerticalLayout content = new MVerticalLayout();
-            this.setContent(content);
+            this.withWidth("600px").withResizable(false).withModal(true).withCenter().withContent(content);
 
             content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_TO_ADD_PROJECT)));
 
@@ -246,8 +243,8 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
 
             MButton createNewBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW), clickEvent -> {
-                close();
                 UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
+                close();
             }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, createNewBtn);

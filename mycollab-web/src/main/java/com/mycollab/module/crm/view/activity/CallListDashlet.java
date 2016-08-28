@@ -45,7 +45,7 @@ public class CallListDashlet extends Depot {
     private CallTableDisplay tableItem;
 
     public CallListDashlet() {
-        super("My Calls", new VerticalLayout());
+        super(AppContext.getMessage(CallI18nEnum.MY_ITEMS), new VerticalLayout());
 
         this.setMargin(new MarginInfo(true, false, false, false));
 

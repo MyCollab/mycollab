@@ -24,7 +24,6 @@ import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.tracker.domain.Version;
-import com.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -39,19 +38,19 @@ public class VersionDefaultFormLayoutFactory {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.versionname)
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_NAME))
+                .displayName(GenericI18Enum.FORM_NAME)
                 .required(true).mandatory(true).fieldIndex(0).colSpan(true).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.description)
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(1).colSpan(true).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.duedate)
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE))
+                .displayName(GenericI18Enum.FORM_DUE_DATE)
                 .fieldIndex(2).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.id).displayName(AppContext
-                .getMessage(BugI18nEnum.LIST)).colSpan(true).fieldIndex(3).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.id).displayName(BugI18nEnum.LIST)
+                .colSpan(true).fieldIndex(3).build());
 
         defaultForm.sections(mainSection);
     }

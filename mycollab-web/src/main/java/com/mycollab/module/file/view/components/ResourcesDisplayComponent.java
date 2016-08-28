@@ -19,6 +19,7 @@ package com.mycollab.module.file.view.components;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.collect.Collections2;
 import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
@@ -60,13 +61,15 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -122,17 +125,16 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         });
         ELabel headerLbl = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files");
 
-        MButton createBtn = new MButton("New folder", clickEvent -> UI.getCurrent().addWindow(new AddNewFolderWindow()))
+        MButton createBtn = new MButton(AppContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER), clickEvent -> UI.getCurrent().addWindow
+                (new AddNewFolderWindow()))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
-        createBtn.setDescription("Create new folder");
 
         MButton uploadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
             MultiUploadContentWindow multiUploadWindow = new MultiUploadContentWindow();
             UI.getCurrent().addWindow(multiUploadWindow);
         }).withIcon(FontAwesome.UPLOAD).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
-        uploadBtn.setDescription("Upload");
 
         MHorizontalLayout headerLayout = new MHorizontalLayout(headerLbl, new MHorizontalLayout(createBtn, uploadBtn)).expand(headerLbl);
         resourcesContainer = new ResourcesContainer();
@@ -166,7 +168,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         }
 
                         resourcesContainer.constructBody(baseFolder);
-                        NotificationUtil.showNotification("Congrats", "Deleted content successfully.");
+                        NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                                "Deleted content successfully.");
                     }
                 });
     }
@@ -246,8 +249,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         (false, true, false, true)).withStyleName(WebUIConstants.PANEL_HEADER).withFullWidth().alignAll(Alignment.MIDDLE_LEFT);
                 selectedResourceControlLayout.with(headerLayout);
 
-                MButton renameBtn = new MButton("Rename", clickEvent -> UI.getCurrent().addWindow(new
-                        RenameResourceWindow(selectedResource)))
+                MButton renameBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_RENAME), clickEvent -> UI.getCurrent()
+                        .addWindow(new RenameResourceWindow(selectedResource)))
                         .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK);
 
                 Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
@@ -407,7 +410,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
 
             layout.with(informationLayout).withAlign(informationLayout, Alignment.MIDDLE_LEFT).expand(informationLayout);
-
             return layout;
         }
 
@@ -468,15 +470,14 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
 
         AddNewFolderWindow() {
-            this.setCaption("New Folder");
+            this.setCaption(AppContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER));
 
             MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, true, false));
             withModal(true).withResizable(false).withWidth("500px").withCenter().withContent(contentLayout);
 
             GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
-            final TextField folderName = layoutHelper.addComponent(new TextField(), "Folder Name", 0, 0);
-            final TextArea descAreaField = layoutHelper.addComponent(new TextArea(), AppContext.getMessage
-                    (GenericI18Enum.FORM_DESCRIPTION), 0, 1);
+            final TextField folderName = layoutHelper.addComponent(new TextField(), AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+            final TextArea descAreaField = layoutHelper.addComponent(new TextArea(), AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1);
             contentLayout.addComponent(layoutHelper.getLayout());
 
             MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
@@ -513,24 +514,19 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         private final GridFormLayoutHelper layoutHelper;
-        private final MultiFileUploadExt multiFileUploadExt;
 
         MultiUploadContentWindow() {
-            super("Upload");
+            super(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD));
             this.withWidth("600px").withResizable(false).withModal(true).withCenter();
 
             VerticalLayout contentLayout = new VerticalLayout();
             contentLayout.setMargin(new MarginInfo(false, false, true, false));
             this.setContent(contentLayout);
-            final AttachmentPanel attachmentPanel = new AttachmentPanel();
 
             layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
 
-            multiFileUploadExt = new MultiFileUploadExt(attachmentPanel);
-            multiFileUploadExt.addComponent(attachmentPanel);
-            multiFileUploadExt.setWidth("100%");
-
-            layoutHelper.addComponent(multiFileUploadExt, "File", 0, 0);
+            final AttachmentPanel attachmentPanel = new AttachmentPanel();
+            layoutHelper.addComponent(attachmentPanel, AppContext.getMessage(FileI18nEnum.SINGLE), 0, 0);
             contentLayout.addComponent(layoutHelper.getLayout());
 
             MButton uploadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
@@ -540,7 +536,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         try {
                             String attachmentName = FileUtils.escape(attachment.getName());
                             if (!FileUtils.isValidFileName(attachmentName)) {
-                                NotificationUtil.showWarningNotification("Please upload valid file-name except any follow characters : <>:&/\\|?*&");
+                                NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_INVALID_FILE_NAME));
                                 return;
                             }
                             Content content = new Content(String.format("%s/%s", baseFolder.getPath(), attachmentName));
@@ -559,9 +555,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     }
                     resourcesContainer.constructBody(baseFolder);
                     MultiUploadContentWindow.this.close();
-                    NotificationUtil.showNotification("Congrats", "Upload successfully.");
+                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                            "Upload successfully.");
                 } else {
-                    NotificationUtil.showWarningNotification("It seems you did not attach file yet!");
+                    NotificationUtil.showWarningNotification("It seems you do not attach any file yet!");
                 }
             }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.UPLOAD);
 
@@ -585,7 +582,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             fileBreadCrumb.gotoFolder(folder);
             resourcesContainer.constructBody(folder);
             if (!checking) {
-                NotificationUtil.showNotification("Congrats", "Moved asset(s) successfully.");
+                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                        "Moved asset(s) successfully.");
             } else {
                 NotificationUtil.showWarningNotification("Moving assets is finished, some items can't move to destination. Please " +
                         "check duplicated file-name and try again.");

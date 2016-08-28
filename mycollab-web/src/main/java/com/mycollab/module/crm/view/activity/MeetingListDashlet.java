@@ -28,8 +28,6 @@ import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 
@@ -44,7 +42,7 @@ public class MeetingListDashlet extends Depot {
     private MeetingTableDisplay tableItem;
 
     public MeetingListDashlet() {
-        super("My Meetings", new VerticalLayout());
+        super(AppContext.getMessage(MeetingI18nEnum.MY_ITEMS), new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
 
         tableItem = new MeetingTableDisplay(Arrays.asList(
@@ -54,7 +52,8 @@ public class MeetingListDashlet extends Depot {
 
         bodyContent.addComponent(tableItem);
 
-        MButton customizeViewBtn = new MButton("", clickEvent -> {}).withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
+        MButton customizeViewBtn = new MButton("", clickEvent -> {
+        }).withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
                 .withDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
 
         this.addHeaderElement(customizeViewBtn);

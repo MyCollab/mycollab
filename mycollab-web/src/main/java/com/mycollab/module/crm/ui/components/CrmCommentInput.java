@@ -29,11 +29,9 @@ import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -69,13 +67,6 @@ class CrmCommentInput extends MHorizontalLayout {
 
         final AttachmentPanel attachments = new AttachmentPanel();
 
-        final MHorizontalLayout controlsLayout = new MHorizontalLayout().withFullWidth();
-        controlsLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
-
-        final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
-        uploadExt.addComponent(attachments);
-        controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
-
         MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
@@ -101,10 +92,10 @@ class CrmCommentInput extends MHorizontalLayout {
             // save success, clear comment area and load list
             // comments again
             commentArea.setValue("");
-            attachments.removeAllAttachmentsDisplay();
             component.reload();
         }).withIcon(FontAwesome.SEND).withStyleName(WebUIConstants.BUTTON_ACTION);
-        controlsLayout.with(cancelBtn, newCommentBtn);
+        final MHorizontalLayout controlsLayout = new MHorizontalLayout(attachments, cancelBtn, newCommentBtn)
+                .expand(attachments).withFullWidth();
         textAreaWrap.with(commentArea, controlsLayout);
     }
 

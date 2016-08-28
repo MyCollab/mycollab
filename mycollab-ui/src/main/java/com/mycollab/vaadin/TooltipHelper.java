@@ -30,7 +30,7 @@ public class TooltipHelper {
         String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
         String timezoneVal = "'" + AppContext.getUser().getTimezone() + "'";
         String accountIdVal = "'" + AppContext.getAccountId() + "'";
-        String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
+        String localeVal = "'" + AppContext.getUserLocale().toLanguageTag() + "'";
 
         return String.format("return showUserTooltip(%s,%s,%s,%s,%s,%s,%s);", uidVal, usernameVal, urlVal,
                 siteUrlVal, timezoneVal, accountIdVal, localeVal);
@@ -44,7 +44,7 @@ public class TooltipHelper {
         String accountIdVal = "'" + AppContext.getAccountId() + "'";
         String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
         String timezoneVal = "'" + AppContext.getAccountId() + "'";
-        String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
+        String localeVal = "'" + AppContext.getUserLocale().toLanguageTag() + "'";
         String dateFormatVal = "'" + AppContext.getDateFormat() + "'";
 
         return String.format("return overIt(%s,%s,%s,%s,%s,%s,%s,%s,%s);", uidVal, typeVal, typeIdVal,
@@ -59,7 +59,7 @@ public class TooltipHelper {
         String accountIdVal = "'" + AppContext.getAccountId() + "'";
         String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
         String timezoneVal = "'" + AppContext.getAccountId() + "'";
-        String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
+        String localeVal = "'" + AppContext.getUserLocale().toLanguageTag() + "'";
         String dateFormatVal = "'" + AppContext.getDateFormat() + "'";
         return String.format("return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s,%s);",
                 uidVal, typeVal, typeIdVal, urlVal, accountIdVal, siteUrlVal, timezoneVal, localeVal, dateFormatVal);

@@ -26,6 +26,10 @@ public enum CallI18nEnum {
     NEW,
     SINGLE,
 
+    MY_ITEMS,
+    SECTION_INFORMATION,
+    SECTION_RESULT,
+
     FORM_SUBJECT,
     FORM_START_DATE_TIME,
     FORM_RELATED,

@@ -18,10 +18,12 @@
 package com.mycollab.module.user.view.component;
 
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.SimpleRole;
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.service.RoleService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppContext;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.ui.ComboBox;
 
@@ -49,7 +51,7 @@ public class RoleComboBox extends ComboBox {
 
         SimpleRole ownerRole = new SimpleRole();
         ownerRole.setId(-1);
-        ownerRole.setRolename("Account Owner");
+        ownerRole.setRolename(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         beanItem.addBean(ownerRole);
 
         for (SimpleRole role : roleList) {

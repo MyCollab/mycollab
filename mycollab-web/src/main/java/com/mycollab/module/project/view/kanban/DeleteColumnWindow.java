@@ -17,18 +17,15 @@
 package com.mycollab.module.project.view.kanban;
 
 import com.mycollab.module.project.view.IKanbanView;
-import com.vaadin.ui.Window;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-public class DeleteColumnWindow extends Window {
+public class DeleteColumnWindow extends MWindow {
     public DeleteColumnWindow(final IKanbanView kanbanView, final String type) {
         super("Delete columns");
-        this.setWidth("800px");
-        this.setModal(true);
-        this.setResizable(false);
-        this.center();
+        this.withWidth("800px").withModal(true).withResizable(false).withCenter();
     }
 }

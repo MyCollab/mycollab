@@ -126,8 +126,8 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                 continue;
             }
 
-            if (StringUtils.isNotBlank(section.getHeader())) {
-                HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text(section.getHeader())
+            if (section.getHeader() != null) {
+                HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text(AppContext.getMessage(section.getHeader()))
                         .setStyle(reportStyles.getH3Style()));
                 titleContent.add(historyHeader, reportStyles.line(), cmp.verticalGap(10));
             }
@@ -153,7 +153,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                         } catch (Exception e) {
                             LOG.error("Error while getting property {}", dynaField.getFieldName(), e);
                         }
-                        HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(dynaField.getDisplayName())
+                        HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(AppContext.getMessage(dynaField.getDisplayName()))
                                         .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
                                 cmp.text(fieldGroupFormatter.getFieldDisplayHandler
                                         (dynaField.getFieldName()).getFormat().toString(value, false, "")));
@@ -182,7 +182,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
 
                         try {
                             if (dynaField.isColSpan()) {
-                                HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(dynaField.getDisplayName())
+                                HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(AppContext.getMessage(dynaField.getDisplayName()))
                                                 .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
                                         cmp.text(fieldGroupFormatter.getFieldDisplayHandler
                                                 (dynaField.getFieldName()).getFormat().toString(value, false, "")));
@@ -190,14 +190,14 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                                 columnIndex = 0;
                             } else {
                                 if (columnIndex == 0) {
-                                    tmpRow = cmp.horizontalList().add(cmp.text(dynaField.getDisplayName()).setFixedWidth(FORM_CAPTION).setStyle
-                                                    (reportStyles.getFormCaptionStyle()),
+                                    tmpRow = cmp.horizontalList().add(cmp.text(AppContext.getMessage(dynaField.getDisplayName()))
+                                                    .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
                                             cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
                                                     .getFormat().toString(value, false, "")));
                                     titleContent.add(tmpRow);
                                 } else {
-                                    tmpRow.add(cmp.text(dynaField.getDisplayName()).setFixedWidth(FORM_CAPTION).setStyle
-                                                    (reportStyles.getFormCaptionStyle()),
+                                    tmpRow.add(cmp.text(AppContext.getMessage(dynaField.getDisplayName())).setFixedWidth(FORM_CAPTION)
+                                                    .setStyle(reportStyles.getFormCaptionStyle()),
                                             cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
                                                     .getFormat().toString(value, false, "")));
                                 }

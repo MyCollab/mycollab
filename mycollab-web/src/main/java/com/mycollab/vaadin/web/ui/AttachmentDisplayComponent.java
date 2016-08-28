@@ -20,6 +20,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Span;
 import com.hp.gagawa.java.elements.Ul;
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.core.utils.MimeTypesUtil;
@@ -37,6 +38,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.addons.fancybox.Fancybox;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 import java.util.List;
 
@@ -52,12 +54,10 @@ public class AttachmentDisplayComponent extends CssLayout {
     }
 
     public AttachmentDisplayComponent(List<Content> attachments) {
-        for (Content attachment : attachments) {
-            this.addAttachmentRow(attachment);
-        }
+        attachments.forEach(this::addAttachmentRow);
     }
 
-    public void addAttachmentRow(final Content attachment) {
+    void addAttachmentRow(final Content attachment) {
         String docName = attachment.getPath();
         int lastIndex = docName.lastIndexOf("/");
         if (lastIndex != -1) {
@@ -86,9 +86,10 @@ public class AttachmentDisplayComponent extends CssLayout {
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
-        Ul ul = new Ul().appendChild(new Li().appendText("Size: " + FileUtils.getVolumeDisplay(attachment.getSize()))).
-                setStyle("line-height:1.5em");
-        ul.appendChild(new Li().appendText("Last modified: " + AppContext.formatPrettyTime(attachment.getLastModified().getTime())));
+        Ul ul = new Ul().appendChild(new Li().appendText(AppContext.getMessage(FileI18nEnum.OPT_SIZE_VALUE,
+                FileUtils.getVolumeDisplay(attachment.getSize())))).setStyle("line-height:1.5em");
+        ul.appendChild(new Li().appendText(AppContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
+                AppContext.formatPrettyTime(attachment.getLastModified().getTime()))));
         contentTooltip.appendChild(ul);
         thumbnail.setDescription(contentTooltip.write());
         thumbnail.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
@@ -96,9 +97,8 @@ public class AttachmentDisplayComponent extends CssLayout {
 
         attachmentLayout.addComponent(thumbnailWrap, "top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 0;");
 
-        CssLayout attachmentNameWrap = new CssLayout();
-        attachmentNameWrap.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
-        attachmentNameWrap.setStyleName("attachment-name-wrap");
+        MCssLayout attachmentNameWrap = new MCssLayout().withWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH)
+                .withStyleName("attachment-name-wrap");
 
         Label attachmentName = new ELabel(docName).withStyleName(UIConstants.TEXT_ELLIPSIS);
         attachmentNameWrap.addComponent(attachmentName);
@@ -120,13 +120,10 @@ public class AttachmentDisplayComponent extends CssLayout {
         }).withIcon(FontAwesome.TRASH_O).withStyleName("attachment-control");
         attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
-        Button downloadBtn = new Button();
+        MButton downloadBtn = new MButton().withIcon(FontAwesome.DOWNLOAD).withStyleName("attachment-control");
         FileDownloader fileDownloader = new FileDownloader(VaadinResourceFactory.getInstance()
                 .getStreamResource(attachment.getPath()));
         fileDownloader.extend(downloadBtn);
-
-        downloadBtn.setIcon(FontAwesome.DOWNLOAD);
-        downloadBtn.setStyleName("attachment-control");
         attachmentLayout.addComponent(downloadBtn, "right: 9px; top: 9px; z-index: 1;");
         this.addComponent(attachmentLayout);
     }

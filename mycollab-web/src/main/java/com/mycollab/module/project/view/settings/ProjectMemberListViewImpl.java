@@ -214,23 +214,20 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         blockTop.addComponent(memberRole);
 
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
-            Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
-                    member.getUsername()), ContentMode.HTML);
-            memberEmailLabel.addStyleName(UIConstants.META_INFO);
-            memberEmailLabel.setWidth("100%");
+            Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(), member.getUsername()))
+                    .withStyleName(UIConstants.META_INFO).withFullWidth();
             blockTop.addComponent(memberEmailLabel);
         }
 
-        ELabel memberSinceLabel = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext.formatPrettyTime(member.getJoindate())))
-                .withDescription(AppContext.formatDateTime(member.getJoindate()));
-        memberSinceLabel.addStyleName(UIConstants.META_INFO);
-        memberSinceLabel.setWidth("100%");
+        ELabel memberSinceLabel = ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE,
+                AppContext.formatPrettyTime(member.getJoindate()))).withDescription(AppContext.formatDateTime(member.getJoindate()))
+                .withFullWidth();
         blockTop.addComponent(memberSinceLabel);
 
         if (ProjectMemberStatusConstants.ACTIVE.equals(member.getStatus())) {
-            ELabel lastAccessTimeLbl = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext.formatPrettyTime(member.getLastAccessTime())))
+            ELabel lastAccessTimeLbl = ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext
+                    .formatPrettyTime(member.getLastAccessTime())))
                     .withDescription(AppContext.formatDateTime(member.getLastAccessTime()));
-            lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
             blockTop.addComponent(lastAccessTimeLbl);
         }
 

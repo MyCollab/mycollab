@@ -94,7 +94,7 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
 
             Button.ClickListener listener = new CreateItemListener();
 
-            addPopupMenu = new PopupButton("Quick Add");
+            addPopupMenu = new PopupButton(AppContext.getMessage(CrmCommonI18nEnum.ACTION_QUICK_ADD));
             addPopupMenu.setIcon(FontAwesome.PLUS_CIRCLE);
             addPopupMenu.addStyleName("add-btn-popup");
             addPopupMenu.setDirection(Alignment.BOTTOM_LEFT);

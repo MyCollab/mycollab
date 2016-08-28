@@ -22,6 +22,9 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
+import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.RiskI18nEnum;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -104,7 +107,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
             summaryField = new TextField();
             summaryField.setWidth("100%");
-            summaryField.setInputPrompt("Query by name");
+            summaryField.setInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT));
             selectionLayout.addComponent(summaryField, 1, 0);
 
             Label typeLb = new Label("Type:");
@@ -115,13 +118,13 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             MHorizontalLayout typeSelectWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
             selectionLayout.addComponent(typeSelectWrapper, 1, 1);
 
-            this.taskSelect = new CheckBox("Task", true);
+            this.taskSelect = new CheckBox(AppContext.getMessage(TaskI18nEnum.SINGLE), true);
             this.taskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 
-            this.bugSelect = new CheckBox("Bug", true);
+            this.bugSelect = new CheckBox(AppContext.getMessage(BugI18nEnum.SINGLE), true);
             this.bugSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
-            this.riskSelect = new CheckBox("Risk", true);
+            this.riskSelect = new CheckBox(AppContext.getMessage(RiskI18nEnum.SINGLE), true);
             this.riskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 
             typeSelectWrapper.with(this.taskSelect, this.bugSelect, this.riskSelect);

@@ -70,12 +70,13 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
             descArea.setNullRepresentation("");
             return descArea;
         } else if (Milestone.Field.saccountid.equalTo(propertyId)) {
-            attachmentUploadField = new AttachmentUploadField();
             Milestone beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
                         beanItem.getProjectid(), ProjectTypeConstants.MILESTONE, "" + beanItem.getId());
-                attachmentUploadField.getAttachments(attachmentPath);
+                attachmentUploadField = new AttachmentUploadField(attachmentPath);
+            } else {
+                attachmentUploadField = new AttachmentUploadField();
             }
             return attachmentUploadField;
         }

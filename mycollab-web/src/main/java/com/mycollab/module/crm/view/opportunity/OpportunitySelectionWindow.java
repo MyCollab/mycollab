@@ -22,7 +22,8 @@ import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.ButtonLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -63,13 +64,11 @@ public class OpportunitySelectionWindow extends MWindow {
         tableItem.addGeneratedColumn(Opportunity.Field.opportunityname.name(), (source, itemId, columnId) -> {
             final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
 
-            ButtonLink b = new ButtonLink(opportunity.getOpportunityname(), clickEvent -> {
+            return new MButton(opportunity.getOpportunityname(), clickEvent -> {
                 fieldSelection.fireValueChange(opportunity);
                 close();
-            });
-            b.setDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(), AppContext.getDateFormat(),
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(), AppContext.getDateFormat(),
                     opportunity, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-            return b;
         });
     }
 }

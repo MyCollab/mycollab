@@ -26,6 +26,9 @@ public enum MeetingI18nEnum {
     NEW,
     SINGLE,
 
+    MY_ITEMS,
+    SECTION_INFORMATION,
+
     FORM_SUBJECT,
     FORM_START_DATE_TIME,
     FORM_END_DATE_TIME,

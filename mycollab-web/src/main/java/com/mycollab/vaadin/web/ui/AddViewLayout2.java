@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
@@ -56,7 +58,7 @@ public class AddViewLayout2 extends VerticalLayout {
 
         if (title == null) {
             if (icon != null) {
-                this.setTitle("Undefined");
+                this.setTitle(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
             }
         } else {
             this.setTitle(title);

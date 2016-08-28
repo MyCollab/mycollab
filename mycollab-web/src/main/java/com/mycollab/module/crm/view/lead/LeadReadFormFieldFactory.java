@@ -23,7 +23,8 @@ import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.EmailViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.ui.field.UrlLinkViewField;
-import com.mycollab.vaadin.web.ui.field.*;
+import com.mycollab.vaadin.web.ui.field.LinkViewField;
+import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -33,7 +34,7 @@ import com.vaadin.ui.Field;
 class LeadReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleLead> {
     private static final long serialVersionUID = 1L;
 
-    public LeadReadFormFieldFactory(GenericBeanForm<SimpleLead> form) {
+    LeadReadFormFieldFactory(GenericBeanForm<SimpleLead> form) {
         super(form);
     }
 

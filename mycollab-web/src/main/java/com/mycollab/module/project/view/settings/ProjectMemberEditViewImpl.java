@@ -170,7 +170,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         private static final long serialVersionUID = 1L;
         private ProjectRoleComboBox roleComboBox;
 
-        public AdminRoleSelectionField() {
+        AdminRoleSelectionField() {
             roleComboBox = new ProjectRoleComboBox();
             roleComboBox.addValueChangeListener(valueChangeEvent -> displayRolePermission((Integer) roleComboBox.getValue()));
         }
@@ -183,8 +183,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                     beanItem.setIsadmin(Boolean.TRUE);
                     this.setInternalValue(null);
                 } else {
-                    throw new UserInvalidInputException("Only the Project Owner can assign the role Project " +
-                            "Owner to the user");
+                    throw new UserInvalidInputException(AppContext.getMessage(ProjectRoleI18nEnum.ERROR_ONLY_OWNER_ASSIGN_ROLE_OWNER));
                 }
             } else {
                 beanItem.setIsadmin(Boolean.FALSE);
@@ -195,7 +194,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
 
         @Override
-        public void setPropertyDataSource(@SuppressWarnings("rawtypes") Property newDataSource) {
+        public void setPropertyDataSource(Property newDataSource) {
             Object value = newDataSource.getValue();
             if (value instanceof Integer) {
                 roleComboBox.setValue(value);

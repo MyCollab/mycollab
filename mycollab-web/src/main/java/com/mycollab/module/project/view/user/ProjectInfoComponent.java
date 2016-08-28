@@ -114,18 +114,18 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         footer.addStyleName(UIConstants.META_INFO);
         footer.addStyleName(WebUIConstants.FLEX_DISPLAY);
 
-        ELabel createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project
-                .getCreatedtime()), ContentMode.HTML).withDescription(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
+        ELabel createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project
+                .getCreatedtime())).withDescription(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
                 .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
         footer.addComponents(createdTimeLbl);
 
-        billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
-                ContentMode.HTML).withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS))
+        billableHoursLbl = ELabel.html(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()))
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS))
                 .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
         footer.addComponents(billableHoursLbl);
 
-        nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours(),
-                ContentMode.HTML).withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS))
+        nonBillableHoursLbl = ELabel.html(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours())
+                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS))
                 .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
         footer.addComponents(nonBillableHoursLbl);
 
@@ -139,15 +139,16 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             footer.addComponents(leadLbl);
         }
         if (project.getHomepage() != null) {
-            ELabel homepageLbl = new ELabel(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
-                    .appendText(project.getHomepage()).setTarget("_blank").write(), ContentMode.HTML)
+            ELabel homepageLbl = ELabel.html(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
+                    .appendText(project.getHomepage()).setTarget("_blank").write())
                     .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
             homepageLbl.setDescription(AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
         }
 
         if (project.getNumActiveMembers() > 0) {
-            ELabel activeMembersLbl = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
-                    ContentMode.HTML).withDescription("Active members").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+            ELabel activeMembersLbl = ELabel.html(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers())
+                    .withDescription(AppContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS))
+                    .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
             footer.addComponents(activeMembersLbl);
         }
 

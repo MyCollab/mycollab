@@ -45,10 +45,10 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
     private String fieldName;
 
     @JsonIgnore
-    private String displayName;
+    private Enum displayName;
 
     @JsonIgnore
-    private String contextHelp;
+    private Enum contextHelp;
 
     @JsonIgnore
     private Boolean isMandatory = false;
@@ -73,11 +73,11 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
         this.fieldName = fieldName;
     }
 
-    public String getContextHelp() {
+    public Enum getContextHelp() {
         return contextHelp;
     }
 
-    public void setContextHelp(String contextHelp) {
+    public void setContextHelp(Enum contextHelp) {
         this.contextHelp = contextHelp;
     }
 
@@ -105,11 +105,11 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
         this.ownSection = ownSection;
     }
 
-    public String getDisplayName() {
+    public Enum getDisplayName() {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    public void setDisplayName(Enum displayName) {
         this.displayName = displayName;
     }
 

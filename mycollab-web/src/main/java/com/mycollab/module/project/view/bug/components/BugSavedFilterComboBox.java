@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.bug.components;
 
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.query.CurrentProjectIdInjector;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -48,14 +49,15 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
     public BugSavedFilterComboBox() {
         super(ProjectTypeConstants.BUG);
 
-        SearchQueryInfo allBugsQuery = new SearchQueryInfo(ALL_BUGS, "All Bugs", SearchFieldInfo.inCollection
-                (BugSearchCriteria.p_projectIds, new CurrentProjectIdInjector()));
+        SearchQueryInfo allBugsQuery = new SearchQueryInfo(ALL_BUGS, AppContext.getMessage(BugI18nEnum.VAL_ALL_BUGS),
+                SearchFieldInfo.inCollection(BugSearchCriteria.p_projectIds, new CurrentProjectIdInjector()));
 
-        SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, "All Open Bugs", SearchFieldInfo.inCollection(
+        SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, AppContext.getMessage(BugI18nEnum.VAL_ALL_OPEN_BUGS),
+                SearchFieldInfo.inCollection(
                 BugSearchCriteria.p_status, ConstantValueInjector.valueOf(String.class,
                         Arrays.asList(BugStatus.Open.name(), BugStatus.ReOpen.name()))));
 
-        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, "Overdue Bugs",
+        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, AppContext.getMessage(BugI18nEnum.VAL_OVERDUE_BUGS),
                 new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE,
                         new VariableInjector() {
                             @Override
@@ -82,23 +84,23 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                         "m_tracker_bug", "status"), StringParam.IS_NOT,
                         ConstantValueInjector.valueOf(BugStatus.Verified.name())));
 
-        SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, "My Bugs", SearchFieldInfo.inCollection
-                (BugSearchCriteria.p_assignee, ConstantValueInjector.valueOf(String.class,
+        SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, AppContext.getMessage(BugI18nEnum.VAL_MY_BUGS),
+                SearchFieldInfo.inCollection(BugSearchCriteria.p_assignee, ConstantValueInjector.valueOf(String.class,
                         Collections.singletonList(AppContext.getUsername()))));
 
-        SearchQueryInfo newBugsThisWeekQuery = new SearchQueryInfo(NEW_THIS_WEEK, "New This Week", SearchFieldInfo
-                .inDateRange(BugSearchCriteria.p_createddate, VariableInjector.THIS_WEEK));
+        SearchQueryInfo newBugsThisWeekQuery = new SearchQueryInfo(NEW_THIS_WEEK, AppContext.getMessage(BugI18nEnum.VAL_NEW_THIS_WEEK),
+                SearchFieldInfo.inDateRange(BugSearchCriteria.p_createddate, VariableInjector.THIS_WEEK));
 
-        SearchQueryInfo updateBugsThisWeekQuery = new SearchQueryInfo(UPDATE_THIS_WEEK, "Update This Week",
+        SearchQueryInfo updateBugsThisWeekQuery = new SearchQueryInfo(UPDATE_THIS_WEEK, AppContext.getMessage(BugI18nEnum.VAL_UPDATE_THIS_WEEK),
                 SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjector.THIS_WEEK));
 
-        SearchQueryInfo newBugsLastWeekQuery = new SearchQueryInfo(NEW_LAST_WEEK, "New Last Week", SearchFieldInfo
-                .inDateRange(BugSearchCriteria.p_createddate, VariableInjector.LAST_WEEK));
+        SearchQueryInfo newBugsLastWeekQuery = new SearchQueryInfo(NEW_LAST_WEEK, AppContext.getMessage(BugI18nEnum.VAL_NEW_LAST_WEEK),
+                SearchFieldInfo.inDateRange(BugSearchCriteria.p_createddate, VariableInjector.LAST_WEEK));
 
-        SearchQueryInfo updateBugsLastWeekQuery = new SearchQueryInfo(UPDATE_LAST_WEEK, "Update Last Week",
+        SearchQueryInfo updateBugsLastWeekQuery = new SearchQueryInfo(UPDATE_LAST_WEEK, AppContext.getMessage(BugI18nEnum.VAL_UPDATE_LAST_WEEK),
                 SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjector.LAST_WEEK));
 
-        SearchQueryInfo waitForApproveQuery = new SearchQueryInfo(WAITING_FOR_APPROVAL, "Waiting For Approval",
+        SearchQueryInfo waitForApproveQuery = new SearchQueryInfo(WAITING_FOR_APPROVAL, AppContext.getMessage(BugI18nEnum.VAL_WAITING_APPROVAL),
                 SearchFieldInfo.inCollection(BugSearchCriteria.p_status, ConstantValueInjector.valueOf(String.class,
                         Arrays.asList(BugStatus.Resolved.name()))));
 

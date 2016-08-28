@@ -91,11 +91,11 @@ public class LocalizationHelper {
         }
     }
 
-    public static final Locale[] getAvailableLocales() {
+    public static Locale[] getAvailableLocales() {
         return Locale.getAvailableLocales();
     }
 
-    public final static Locale getLocaleInstance(String languageTag) {
+    public static Locale getLocaleInstance(String languageTag) {
         try {
             return (languageTag == null) ? Locale.US : Locale.forLanguageTag(languageTag);
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class LocalizationHelper {
         }
     }
 
-    public static final Enum localizeYesNo(Boolean value) {
+    public static Enum localizeYesNo(Boolean value) {
         return Boolean.TRUE.equals(value) ? GenericI18Enum.BUTTON_YES : GenericI18Enum.BUTTON_NO;
     }
 }

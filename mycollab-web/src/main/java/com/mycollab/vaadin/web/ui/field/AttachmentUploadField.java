@@ -16,11 +16,18 @@
  */
 package com.mycollab.vaadin.web.ui.field;
 
+import com.mycollab.core.utils.StringUtils;
+import com.mycollab.module.ecm.domain.Content;
+import com.mycollab.module.ecm.service.ResourceService;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.VerticalLayout;
-import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -29,14 +36,17 @@ import org.vaadin.easyuploads.MultiFileUploadExt;
 public class AttachmentUploadField extends CustomField {
     private static final long serialVersionUID = 1L;
 
+    private ResourceService resourceService;
     private AttachmentPanel attachmentPanel;
+    private String attachmentPath;
 
     public AttachmentUploadField() {
-        attachmentPanel = new AttachmentPanel();
+        this(null);
     }
 
-    public void getAttachments(String attachmentPath) {
-        attachmentPanel.getAttachments(attachmentPath);
+    public AttachmentUploadField(String attachmentPath) {
+        this.attachmentPath = attachmentPath;
+        resourceService = AppContextUtil.getSpringBean(ResourceService.class);
     }
 
     @Override
@@ -50,10 +60,17 @@ public class AttachmentUploadField extends CustomField {
 
     @Override
     protected Component initContent() {
-        final VerticalLayout layout = new VerticalLayout();
-        MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachmentPanel);
-        uploadExt.addComponent(attachmentPanel);
-        layout.addComponent(uploadExt);
-        return layout;
+        attachmentPanel = new AttachmentPanel();
+        if (StringUtils.isNotBlank(attachmentPath)) {
+            List<Content> attachments = resourceService.getContents(attachmentPath);
+            if (CollectionUtils.isNotEmpty(attachments)) {
+                AttachmentDisplayComponent attachmentDisplayComponent = new AttachmentDisplayComponent(attachments);
+                return new MVerticalLayout(attachmentDisplayComponent, attachmentPanel);
+            } else {
+                return attachmentPanel;
+            }
+        } else {
+            return attachmentPanel;
+        }
     }
 }

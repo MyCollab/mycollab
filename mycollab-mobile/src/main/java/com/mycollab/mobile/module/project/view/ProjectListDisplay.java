@@ -19,6 +19,7 @@ package com.mycollab.mobile.module.project.view;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.html.DivLessFormatter;
@@ -28,6 +29,8 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -62,24 +65,24 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
             MHorizontalLayout metaInfo = new MHorizontalLayout();
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-            Div activeMembersDiv = new Div().appendText(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers()).setTitle("Active " +
-                    "members");
+            Div activeMembersDiv = new Div().appendText(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers())
+                    .setTitle(AppContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
 
             Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + AppContext
-                    .formatPrettyTime(project.getCreatedtime())).setTitle("Created time");
+                    .formatPrettyTime(project.getCreatedtime())).setTitle(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
 
             Div billableHoursDiv = new Div().appendText(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble
-                    (2, project.getTotalBillableHours())).setTitle("Billable hours");
+                    (2, project.getTotalBillableHours())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS));
 
             Div nonBillableHoursDiv = new Div().appendText(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalNonBillableHours()));
-            nonBillableHoursDiv.setTitle("Non billable hours");
+            nonBillableHoursDiv.setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
             Div metaDiv = new Div().appendChild(activeMembersDiv, DivLessFormatter.EMPTY_SPACE(), createdTimeDiv, DivLessFormatter.EMPTY_SPACE(),
                     billableHoursDiv, DivLessFormatter.EMPTY_SPACE(), nonBillableHoursDiv);
             if (project.getLead() != null) {
                 Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(project
                         .getLeadAvatarId(), 16)), new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
-                        .appendText(project.getLeadFullName())).setTitle("Manager");
+                        .appendText(project.getLeadFullName())).setTitle(AppContext.getMessage(ProjectI18nEnum.FORM_LEADER));
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }

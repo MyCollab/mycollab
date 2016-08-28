@@ -39,7 +39,6 @@ public enum TaskI18nEnum {
     ACTION_CHANGE_COLOR,
 
     FORM_PHASE,
-    FORM_COMMENT,
     FORM_TASK_KEY,
     FORM_DURATION,
     FORM_PRIORITY,

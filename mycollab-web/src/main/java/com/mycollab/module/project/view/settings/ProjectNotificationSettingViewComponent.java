@@ -90,7 +90,8 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
                 } else {
                     projectNotificationSettingService.updateWithSession(bean, AppContext.getUsername());
                 }
-                NotificationUtil.showNotification("Congrats", AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                        AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }

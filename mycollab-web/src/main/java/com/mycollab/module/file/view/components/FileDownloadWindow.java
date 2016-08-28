@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.file.view.components;
 
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.module.ecm.domain.Content;
@@ -86,14 +87,14 @@ public class FileDownloadWindow extends MWindow {
         SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), AppContext.getAccountId());
         if (user == null) {
             inforLayout.addComponent(new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
-                    AppContext.getUserDisplayName()), "Created by", 0, 1);
+                    AppContext.getUserDisplayName()), AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
         } else {
-            inforLayout.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()), "Created by", 0, 1);
+            inforLayout.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()),
+                    AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
         }
 
-
         final Label size = new Label(FileUtils.getVolumeDisplay(content.getSize()));
-        inforLayout.addComponent(size, "Size", 0, 2);
+        inforLayout.addComponent(size, AppContext.getMessage(FileI18nEnum.OPT_SIZE), 0, 2);
 
         ELabel dateCreate = new ELabel().prettyDateTime(content.getCreated().getTime());
         inforLayout.addComponent(dateCreate, AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME), 0, 3);

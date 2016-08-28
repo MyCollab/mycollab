@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.page;
 
 import com.hp.gagawa.java.elements.*;
 import com.mycollab.common.i18n.DayI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
@@ -51,10 +52,8 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -186,13 +185,14 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                         .getProjectid(), member.getUsername())).appendText(StringUtils.trim(member.getMemberFullName(), 30, true));
                 userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-                footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;Created by: "), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
-                        DivLessFormatter.EMPTY_SPACE());
+                footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;" + AppContext.getMessage
+                                (GenericI18Enum.OPT_CREATED_BY) + ": "), userAvatar,
+                        DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE());
             } else {
                 footer.appendChild(lastUpdatedTimeTxt);
             }
 
-            header.addComponent(new Label(footer.write(), ContentMode.HTML));
+            header.addComponent(ELabel.html(footer.write()));
             this.addHeader(header);
         }
     }

@@ -22,8 +22,9 @@ import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.ButtonLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Window;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
@@ -65,13 +66,11 @@ public class ContactSelectionWindow extends Window {
         tableItem.addGeneratedColumn("contactName", (source, itemId, columnId) -> {
             final SimpleContact contact = tableItem.getBeanByIndex(itemId);
 
-            ButtonLink b = new ButtonLink(contact.getContactName(), clickEvent -> {
+            return new MButton(contact.getContactName(), clickEvent -> {
                 fieldSelection.fireValueChange(contact);
                 close();
-            });
-            b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat(),
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat(),
                     contact, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
-            return b;
         });
     }
 }

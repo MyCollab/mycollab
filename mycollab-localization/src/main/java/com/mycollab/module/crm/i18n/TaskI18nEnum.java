@@ -26,6 +26,8 @@ public enum TaskI18nEnum {
     NEW,
     SINGLE,
 
+    SECTION_TASK_INFORMATION,
+
     FORM_SUBJECT,
     FORM_CONTACT,
     FORM_PRIORITY,

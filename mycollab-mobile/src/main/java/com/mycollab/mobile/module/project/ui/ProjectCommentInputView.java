@@ -17,6 +17,7 @@
 package com.mycollab.mobile.module.project.ui;
 
 import com.mycollab.common.domain.CommentWithBLOBs;
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.core.utils.ImageUtil;
@@ -68,7 +69,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
     private CssLayout statusWrapper;
 
     public ProjectCommentInputView(String typeVal, String typeIdVal, Integer extraTypeIdVal) {
-        this.setCaption("Add a comment");
+        this.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_ADD_COMMENT));
         resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         MVerticalLayout content = new MVerticalLayout().withFullWidth().withStyleName("comment-input");
         this.setContent(content);
@@ -115,7 +116,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         receiver = createReceiver();
 
         uploadField = new MultiUpload();
-        uploadField.setButtonCaption("Click to upload");
+        uploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD));
         uploadField.setImmediate(true);
         uploadField.setHandler(new MobileUploadHandler());
     }
@@ -200,7 +201,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
-            NotificationUtil.showWarningNotification("File " + fileName + " is already existed.");
+            NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_FILE_IS_EXISTED, fileName));
         } else {
             fileStores.put(fileName, file);
         }

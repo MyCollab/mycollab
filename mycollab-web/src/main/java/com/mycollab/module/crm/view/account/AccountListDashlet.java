@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -40,7 +41,7 @@ public class AccountListDashlet extends Depot {
     private AccountTableDisplay tableItem;
 
     public AccountListDashlet() {
-        super("My Accounts", new VerticalLayout());
+        super(AppContext.getMessage(AccountI18nEnum.MY_ITEMS), new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
         tableItem = new AccountTableDisplay(Arrays.asList(AccountTableFieldDef.accountname(),
                 AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email()));

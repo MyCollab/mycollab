@@ -21,6 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -41,7 +42,7 @@ public class LeadListDashlet extends Depot {
     private LeadTableDisplay tableItem;
 
     public LeadListDashlet() {
-        super("My Leads", new VerticalLayout());
+        super(AppContext.getMessage(LeadI18nEnum.MY_ITEMS), new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
 
         tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),

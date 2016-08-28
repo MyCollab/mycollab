@@ -17,6 +17,7 @@
 package com.mycollab.shell.view;
 
 import com.ejt.vaadin.loginform.LoginForm;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
@@ -29,6 +30,7 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -82,6 +84,11 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null)))
                     .withStyleName(WebUIConstants.BUTTON_LINK);
             custom.addComponent(forgotPasswordBtn, "forgotLink");
+
+            custom.addComponent(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_SIGNIN_MYCOLLAB)), "newToUs");
+            custom.addComponent(ELabel.html(new A("https://www.mycollab.com/pricing/", "_blank").appendText
+                    (AppContext.getMessage(ShellI18nEnum.ACTION_CREATE_ACCOUNT)).write())
+                    .withWidthUndefined(), "createAccountLink");
 
             return custom;
         }

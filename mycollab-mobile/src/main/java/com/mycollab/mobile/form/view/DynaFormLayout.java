@@ -90,7 +90,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
             if (section.isDeletedSection()) {
                 continue;
             }
-            Label header = new Label(section.getHeader());
+            Label header = new Label(AppContext.getMessage(section.getHeader()));
             header.setStyleName("h2");
             layout.addComponent(header);
 
@@ -114,7 +114,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
             GridFormLayoutHelper gridLayout = sectionMappings.get(section);
-            return gridLayout.addComponent(field, dynaField.getDisplayName(), 0, dynaField.getFieldIndex());
+            return gridLayout.addComponent(field, AppContext.getMessage(dynaField.getDisplayName()), 0, dynaField.getFieldIndex());
         }
         return null;
     }

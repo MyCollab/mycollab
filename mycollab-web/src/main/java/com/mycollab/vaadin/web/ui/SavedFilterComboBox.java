@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.QueryAnalyzer;
 import com.mycollab.common.domain.SaveSearchResult;
 import com.mycollab.common.domain.criteria.SaveSearchResultCriteria;
@@ -126,7 +127,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
     private void initContentPopup() {
         popupContent.removeOptions();
-        popupContent.addSection("Created by users");
+        popupContent.addSection(AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY_USERS));
         for (final SearchQueryInfo queryInfo : savedQueries) {
             Button queryOption = new QueryInfoOption(queryInfo);
             popupContent.addOption(queryOption);
@@ -185,7 +186,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
     public static class QuerySelectEvent extends Component.Event {
         private List<SearchFieldInfo> searchFieldInfos;
 
-        public QuerySelectEvent(Component source, List<SearchFieldInfo> searchFieldInfos) {
+        QuerySelectEvent(Component source, List<SearchFieldInfo> searchFieldInfos) {
             super(source);
             this.searchFieldInfos = searchFieldInfos;
         }

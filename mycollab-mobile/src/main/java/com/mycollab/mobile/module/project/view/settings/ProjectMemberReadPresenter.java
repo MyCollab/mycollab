@@ -88,8 +88,7 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
 
             } else if (data.getParams() instanceof String) {
                 String username = (String) data.getParams();
-                prjMember = prjMemberService.findMemberByUsername(username, CurrentProjectVariables.getProjectId(),
-                        AppContext.getAccountId());
+                prjMember = prjMemberService.findMemberByUsername(username, CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
             }
             if (prjMember != null) {
                 this.view.previewItem(prjMember);

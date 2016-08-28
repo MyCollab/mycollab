@@ -68,7 +68,7 @@ public class MasterFormServiceImpl implements MasterFormService {
                 DynaSection dySection = new DynaSection();
                 dySection.setLayoutType(LayoutType.from(section.getLayouttype()));
 
-                dySection.setHeader(section.getName());
+//                dySection.setHeader(section.getName());
                 dySection.setOrderIndex(section.getLayoutindex());
                 dySection.setDeletedSection(section.getIsdeletesection());
 
@@ -83,7 +83,7 @@ public class MasterFormServiceImpl implements MasterFormService {
                             throw new MyCollabException(e);
                         }
                         AbstractDynaField dynaField = (AbstractDynaField) JsonDeSerializer.fromJson(field.getFieldformat(), clsType);
-                        dynaField.setDisplayName(field.getDisplayname());
+//                        dynaField.setDisplayName(field.getDisplayname());
                         dynaField.setFieldIndex(field.getFieldindex());
                         dynaField.setFieldName(field.getFieldname());
                         dynaField.setMandatory(field.getIsmandatory());
@@ -121,7 +121,7 @@ public class MasterFormServiceImpl implements MasterFormService {
             formSection.setModule(moduleName);
             formSection.setLayoutindex(section.getOrderIndex());
             formSection.setLayouttype(LayoutType.to(section.getLayoutType()));
-            formSection.setName(section.getHeader());
+//            formSection.setName(section.getHeader());
             formSection.setIsdeletesection(section.isDeletedSection());
             formSection.setSaccountid(sAccountId);
 
@@ -137,7 +137,7 @@ public class MasterFormServiceImpl implements MasterFormService {
 
                 FormSectionField dbField = new FormSectionField();
                 dbField.setSectionid(sectionId);
-                dbField.setDisplayname(field.getDisplayName());
+//                dbField.setDisplayname(field.getDisplayName());
                 dbField.setFieldformat(JsonDeSerializer.toJson(field));
                 dbField.setFieldindex(field.getFieldIndex());
                 dbField.setFieldname(field.getFieldName());

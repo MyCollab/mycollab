@@ -250,8 +250,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                         "<span aria-hidden=\"true\" data-icon=\""
                                 + IconConstants.CIRCLE_CHECK
                                 + "\"></span><div class=\"screen-reader-text\">"
-                                + AppContext
-                                .getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE)
+                                + AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE)
                                 + "</div>");
                 billableLbl.setContentMode(ContentMode.HTML);
                 billableLbl.setWidthUndefined();

@@ -18,7 +18,6 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextAreaDynaFieldBuilder;
@@ -61,30 +60,28 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
         DynaForm defaultForm = new DynaForm();
         DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.name).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_NAME)).fieldIndex(0).mandatory(true).required(true).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.name).displayName(GenericI18Enum.FORM_NAME)
+                .fieldIndex(0).mandatory(true).required(true).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.homepage).displayName(AppContext
-                .getMessage(ProjectI18nEnum.FORM_HOME_PAGE)).fieldIndex(1).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.homepage).displayName(ProjectI18nEnum.FORM_HOME_PAGE).fieldIndex(1).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.shortname).displayName(AppContext
-                .getMessage(ProjectI18nEnum.FORM_SHORT_NAME)).contextHelp(AppContext.getMessage(ProjectI18nEnum
-                .FORM_SHORT_NAME_HELP)).fieldIndex(2).mandatory(true).required(true).build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.shortname).displayName(ProjectI18nEnum.FORM_SHORT_NAME)
+                .contextHelp(ProjectI18nEnum.FORM_SHORT_NAME_HELP).fieldIndex(2).mandatory(true).required(true).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.planstartdate).displayName
-                (AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).fieldIndex(3).build());
+                (GenericI18Enum.FORM_START_DATE).fieldIndex(3).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.projectstatus).displayName
-                (AppContext.getMessage(GenericI18Enum.FORM_STATUS)).fieldIndex(4).build());
+                (GenericI18Enum.FORM_STATUS).fieldIndex(4).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.planenddate).displayName
-                (AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).fieldIndex(5).build());
+                (GenericI18Enum.FORM_END_DATE).fieldIndex(5).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.lead).displayName
-                (AppContext.getMessage(ProjectI18nEnum.FORM_LEADER)).fieldIndex(6).build());
+                (ProjectI18nEnum.FORM_LEADER).fieldIndex(6).build());
 
         mainSection.fields(new TextAreaDynaFieldBuilder().fieldName(Project.Field.description).displayName
-                (AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(7).colSpan(true).build());
+                (GenericI18Enum.FORM_DESCRIPTION).fieldIndex(7).colSpan(true).build());
         defaultForm.sections(mainSection);
 
         return new DefaultDynaFormLayout(defaultForm);
@@ -118,7 +115,7 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
     private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
         private static final long serialVersionUID = 1L;
 
-        public EditFormFieldFactory(GenericBeanForm<Project> form) {
+        EditFormFieldFactory(GenericBeanForm<Project> form) {
             super(form);
         }
 

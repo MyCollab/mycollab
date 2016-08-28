@@ -995,7 +995,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.6.8";
+	content: "7.7.0";
 }
 
 .v-widget {
@@ -1750,7 +1750,7 @@ a.pending {
 	border-color: transparent transparent transparent #76B38A;
 }
 
-.v-multifileupload-ext .v-verticallayout {
+.attachment-panel .v-verticallayout {
 	display: block;
 }
 
@@ -1770,6 +1770,21 @@ a.pending {
 	display: flex;
 	padding: 0px;
 	margin: 0px;
+}
+
+.v-multifileupload-dropzone {
+	background: #e4e4e4 !important;
+	cursor: pointer;
+	width: 100% !important;
+	height: 30px !important;
+}
+
+.v-multifileupload-dropzone .v-label {
+	margin-top: 5px;
+}
+
+.v-multifileupload-uploads {
+	display: none !important;
 }
 
 .v-progressbar {
@@ -4075,21 +4090,20 @@ a.v-disabled {
 	-ms-backface-visibility: hidden;
 	backface-visibility: hidden;
 	padding: 3px 3px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	position: relative;
-	z-index: 1;
-}
-
-.v-filterselect-suggestpopup [class$="suggestmenu"][style*="height"] {
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
+	position: relative;
+	z-index: 1;
+	display: block;
 }
 
 .v-filterselect-suggestpopup table, .v-filterselect-suggestpopup tbody, .v-filterselect-suggestpopup tr, .v-filterselect-suggestpopup td {
 	display: block;
+	width: 100%;
+	overflow-y: hidden;
+	float: left;
+	clear: both;
 }
 
 .v-filterselect-suggestpopup .gwt-MenuItem {
@@ -4100,6 +4114,10 @@ a.v-disabled {
 	font-weight: 400;
 	white-space: nowrap;
 	position: relative;
+	height: 21px;
+	box-sizing: border-box;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
 }
 
 .v-filterselect-suggestpopup .gwt-MenuItem:active:before {
@@ -10201,6 +10219,11 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 	display: inline;
 }
 
+.v-on.v-disabled, .v-off.v-disabled {
+	opacity: 0.5;
+	filter: alpha(opacity=50) ;
+}
+
 .v-off:before {
 	visibility: hidden;
 }
@@ -11918,6 +11941,12 @@ tbody.v-drag-element tr {
 	content: "\f054";
 }
 
+.v-select-twincol-error .v-select-twincol-options, .v-select-twincol-error .v-select-twincol-selections {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
 .v-select select {
 	border: 1px solid #e9e9e9;
 	background-color: #fafafa;
@@ -11944,6 +11973,12 @@ tbody.v-drag-element tr {
 .v-select-select  + .v-textfield  + .v-nativebutton {
 	margin-top: 7px;
 	margin-left: 7px;
+}
+
+.v-select-error .v-select-select {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
 }
 
 .v-calendar-header-day {
@@ -12386,6 +12421,11 @@ tbody.v-drag-element tr {
 	user-select: text;
 }
 
+.v-label.v-disabled {
+	opacity: 0.5;
+	filter: alpha(opacity=50) ;
+}
+
 .v-label-undef-w {
 	white-space: nowrap;
 }
@@ -12666,6 +12706,12 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 .v-select-select  + .v-textfield  + .v-nativebutton {
 	margin-top: 7px;
 	margin-left: 7px;
+}
+
+.v-select-error .v-select-select {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
 }
 
 .v-popupview {
@@ -14440,7 +14486,7 @@ a.pending {
 	border-color: transparent transparent transparent #76B38A;
 }
 
-.v-multifileupload-ext .v-verticallayout {
+.attachment-panel .v-verticallayout {
 	display: block;
 }
 
@@ -14460,6 +14506,21 @@ a.pending {
 	display: flex;
 	padding: 0px;
 	margin: 0px;
+}
+
+.v-multifileupload-dropzone {
+	background: #e4e4e4 !important;
+	cursor: pointer;
+	width: 100% !important;
+	height: 30px !important;
+}
+
+.v-multifileupload-dropzone .v-label {
+	margin-top: 5px;
+}
+
+.v-multifileupload-uploads {
+	display: none !important;
 }
 
 .v-progressbar {
@@ -16797,7 +16858,6 @@ input.v-textfield-errorField {
 	text-align: center;
 	font-size: 27px;
 	height: 60px;
-	background-color: #1a8fcb;
 }
 
 #login-header #logo-here {

@@ -138,8 +138,7 @@ public class FileUtils {
     public static void assertValidFolderName(String name) {
         Matcher matcher = ILLEGAL_FOLDER_PATTERN.matcher(name);
         if (matcher.find()) {
-            throw new UserInvalidInputException("Please enter valid folder name except any " +
-                    "follow characters : " + ILLEGAL_FOLDER_PATTERN.pattern());
+            throw new UserInvalidInputException("Please enter valid folder name except any follow characters: " + ILLEGAL_FOLDER_PATTERN.pattern());
         }
     }
 

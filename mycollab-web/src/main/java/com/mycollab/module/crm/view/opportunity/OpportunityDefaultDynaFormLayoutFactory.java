@@ -22,7 +22,6 @@ import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -35,65 +34,65 @@ public class OpportunityDefaultDynaFormLayoutFactory {
         defaultForm = new DynaForm();
 
         DynaSection infoSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-                .header(AppContext.getMessage(OpportunityI18nEnum.SECTION_OPPORTUNITY_INFORMATION))
+                .header(OpportunityI18nEnum.SECTION_OPPORTUNITY_INFORMATION)
                 .build();
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("opportunityname")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_NAME))
+                .displayName(GenericI18Enum.FORM_NAME)
                 .mandatory(true).fieldIndex(0).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("accountid")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_ACCOUNT_NAME))
+                .displayName(OpportunityI18nEnum.FORM_ACCOUNT_NAME)
                 .fieldIndex(1).build());
 
         infoSection.fields(new CurrencyDynaFieldBuilder().fieldName("currencyid")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_CURRENCY))
+                .displayName(GenericI18Enum.FORM_CURRENCY)
                 .fieldIndex(2).build());
 
         infoSection.fields(new DateDynaFieldBuilder().fieldName("expectedcloseddate")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE))
+                .displayName(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE)
                 .fieldIndex(3).build());
 
         infoSection.fields(new NumberDynaFieldBuilder().fieldName("amount")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT))
+                .displayName(OpportunityI18nEnum.FORM_AMOUNT)
                 .fieldIndex(4).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("opportunitytype")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_TYPE))
+                .displayName(GenericI18Enum.FORM_TYPE)
                 .fieldIndex(5).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("salesstage")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE))
+                .displayName(OpportunityI18nEnum.FORM_SALE_STAGE)
                 .fieldIndex(6).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("source")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE))
+                .displayName(OpportunityI18nEnum.FORM_LEAD_SOURCE)
                 .fieldIndex(7).build());
 
         infoSection.fields(new PercentageDynaFieldBuilder().fieldName("probability")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_PROBABILITY))
+                .displayName(OpportunityI18nEnum.FORM_PROBABILITY)
                 .fieldIndex(8).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("campaignid")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME))
+                .displayName(OpportunityI18nEnum.FORM_CAMPAIGN_NAME)
                 .fieldIndex(9).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("nextstep")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_NEXT_STEP))
+                .displayName(OpportunityI18nEnum.FORM_NEXT_STEP)
                 .fieldIndex(10).build());
 
         infoSection.fields(new TextDynaFieldBuilder().fieldName("assignuser")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+                .displayName(GenericI18Enum.FORM_ASSIGNEE)
                 .fieldIndex(11).build());
 
         defaultForm.sections(infoSection);
 
         DynaSection descSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
-                .header(AppContext.getMessage(OpportunityI18nEnum.SECTION_DESCRIPTION))
+                .header(OpportunityI18nEnum.SECTION_DESCRIPTION)
                 .build();
 
         descSection.fields(new TextAreaDynaFieldBuilder().fieldName("description")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(0).build());
 
         defaultForm.sections(descSection);

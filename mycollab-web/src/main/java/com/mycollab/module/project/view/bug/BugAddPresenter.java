@@ -16,17 +16,18 @@
  */
 package com.mycollab.module.project.view.bug;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.service.MonitorItemService;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
-import com.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.module.tracker.domain.SimpleBug;
@@ -39,7 +40,7 @@ import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
-import com.google.common.eventbus.AsyncEventBus;
+import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.ComponentContainer;
 
 import java.util.ArrayList;
@@ -112,8 +113,10 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
             bug.setStatus(BugStatus.Open.name());
             bug.setLogby(AppContext.getUsername());
             int bugId = bugService.saveWithSession(bug, AppContext.getUsername());
-            ProjectFormAttachmentUploadField uploadField = view.getAttachUploadField();
-            uploadField.saveContentsToRepo(bug.getProjectid(), ProjectTypeConstants.BUG, bugId);
+            AttachmentUploadField uploadField = view.getAttachUploadField();
+            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bug.getProjectid(),
+                    ProjectTypeConstants.BUG, "" + bugId);
+            uploadField.saveContentsToRepo(attachPath);
 
             // save component
             BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
@@ -140,8 +143,10 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
             }
         } else {
             bugService.updateWithSession(bug, AppContext.getUsername());
-            ProjectFormAttachmentUploadField uploadField = view.getAttachUploadField();
-            uploadField.saveContentsToRepo(bug.getProjectid(), ProjectTypeConstants.BUG, bug.getId());
+            AttachmentUploadField uploadField = view.getAttachUploadField();
+            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bug.getProjectid(),
+                    ProjectTypeConstants.BUG, "" + bug.getId());
+            uploadField.saveContentsToRepo(attachPath);
 
             int bugId = bug.getId();
             BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);

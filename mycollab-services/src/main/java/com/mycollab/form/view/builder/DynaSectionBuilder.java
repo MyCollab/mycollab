@@ -31,7 +31,7 @@ public class DynaSectionBuilder {
         section = new DynaSection();
     }
 
-    public DynaSectionBuilder header(String header) {
+    public DynaSectionBuilder header(Enum header) {
         section.setHeader(header);
         return this;
     }

@@ -24,8 +24,8 @@ import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
+import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
-import com.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -38,29 +38,29 @@ public class MeetingDefaultFormLayoutFactory {
         defaultForm = new DynaForm();
 
         DynaSection meetingSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-                .header("Meeting Information").build();
+                .header(MeetingI18nEnum.SECTION_INFORMATION).build();
 
         meetingSection.fields(new TextDynaFieldBuilder().fieldName("subject")
-                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_SUBJECT))
+                .displayName(MeetingI18nEnum.FORM_SUBJECT)
                 .mandatory(true).fieldIndex(0).build());
 
         meetingSection.fields(new TextDynaFieldBuilder().fieldName("status")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
+                .displayName(GenericI18Enum.FORM_STATUS)
                 .fieldIndex(1).build());
 
         meetingSection.fields(new DateTimeDynaFieldBuilder().fieldName("startdate")
-                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_START_DATE_TIME))
+                .displayName(MeetingI18nEnum.FORM_START_DATE_TIME)
                 .fieldIndex(2).build());
 
         meetingSection.fields(new TextDynaFieldBuilder().fieldName("type")
-                .displayName("Related To").fieldIndex(3).build());
+                .displayName(CallI18nEnum.FORM_RELATED).fieldIndex(3).build());
 
         meetingSection.fields(new DateTimeDynaFieldBuilder().fieldName("enddate")
-                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_END_DATE_TIME))
+                .displayName(MeetingI18nEnum.FORM_END_DATE_TIME)
                 .fieldIndex(4).build());
 
         meetingSection.fields(new TextDynaFieldBuilder().fieldName("location")
-                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_LOCATION))
+                .displayName(MeetingI18nEnum.FORM_LOCATION)
                 .fieldIndex(5).build());
         // meetingSection.addField(new CheckBoxDynaFieldBuilder()
         // .fieldName("isrecurrence").displayName("Recurring Activity")
@@ -70,9 +70,9 @@ public class MeetingDefaultFormLayoutFactory {
 
         DynaSection descSection = new DynaSectionBuilder()
                 .layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
-                .header("Description").build();
+                .header(GenericI18Enum.FORM_DESCRIPTION).build();
         descSection.fields(new TextAreaDynaFieldBuilder()
-                .fieldName("description").displayName("Description")
+                .fieldName("description").displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(0).build());
 
         defaultForm.sections(descSection);

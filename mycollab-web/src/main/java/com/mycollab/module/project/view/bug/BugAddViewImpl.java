@@ -21,7 +21,6 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.AbstractEditItemComp;
-import com.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.Version;
@@ -32,6 +31,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -50,7 +50,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
     private BugEditFormFieldFactory editFormFieldFactory;
 
     @Override
-    public ProjectFormAttachmentUploadField getAttachUploadField() {
+    public AttachmentUploadField getAttachUploadField() {
         return editFormFieldFactory.getAttachmentUploadField();
     }
 

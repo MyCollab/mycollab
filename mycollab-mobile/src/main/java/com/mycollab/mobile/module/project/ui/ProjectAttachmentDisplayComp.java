@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -43,8 +44,7 @@ public class ProjectAttachmentDisplayComp extends CssLayout {
 
     private void constructUI() {
         this.setStyleName("attachment-display-comp");
-        Label compHeader = new Label(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
-        compHeader.setStyleName("h2");
+        ELabel compHeader = ELabel.h2(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
         this.addComponent(compHeader);
         VerticalLayout comp = new VerticalLayout();
         comp.setStyleName("attachment-view-panel");

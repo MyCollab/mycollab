@@ -33,8 +33,8 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.OptionGroup;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -84,29 +84,22 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements 
             optionGroup.select(levelVal);
         }
 
-        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    notification.setLevel((String) optionGroup.getValue());
-                    CrmNotificationSettingService crmNotificationSettingService = AppContextUtil
-                            .getSpringBean(CrmNotificationSettingService.class);
-                    if (notification.getId() == null) {
-                        crmNotificationSettingService.saveWithSession(notification, AppContext.getUsername());
-                    } else {
-                        crmNotificationSettingService.updateWithSession(notification, AppContext.getUsername());
-                    }
-                    NotificationUtil.showNotification("Congrats", AppContext
-                            .getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
-                } catch (Exception e) {
-                    throw new MyCollabException(e);
+        Button updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+            try {
+                notification.setLevel((String) optionGroup.getValue());
+                CrmNotificationSettingService crmNotificationSettingService = AppContextUtil
+                        .getSpringBean(CrmNotificationSettingService.class);
+                if (notification.getId() == null) {
+                    crmNotificationSettingService.saveWithSession(notification, AppContext.getUsername());
+                } else {
+                    crmNotificationSettingService.updateWithSession(notification, AppContext.getUsername());
                 }
+                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                        AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+            } catch (Exception e) {
+                throw new MyCollabException(e);
             }
-        });
-        updateBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-        updateBtn.setIcon(FontAwesome.REFRESH);
+        }).withIcon(FontAwesome.REFRESH).withStyleName(WebUIConstants.BUTTON_ACTION);
         body.with(updateBtn).withAlign(updateBtn, Alignment.BOTTOM_LEFT);
 
         bodyWrapper.addComponent(body);

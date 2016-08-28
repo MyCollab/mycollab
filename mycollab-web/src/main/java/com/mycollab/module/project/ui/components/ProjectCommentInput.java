@@ -24,8 +24,8 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.ui.ReloadableComponent;
+import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -33,7 +33,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -75,10 +74,6 @@ public class ProjectCommentInput extends MHorizontalLayout {
         final MHorizontalLayout controlsLayout = new MHorizontalLayout().withFullWidth();
         controlsLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 
-        final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
-        uploadExt.setWidth("100%");
-        uploadExt.addComponent(attachments);
-
         final MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
@@ -105,11 +100,11 @@ public class ProjectCommentInput extends MHorizontalLayout {
             // save success, clear comment area and load list
             // comments again
             commentArea.setValue("");
-            attachments.removeAllAttachmentsDisplay();
             component.reload();
         }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEND);
 
-        controlsLayout.with(uploadExt, new MHorizontalLayout(cancelBtn, newCommentBtn)).withAlign(uploadExt, Alignment.TOP_LEFT);
+        controlsLayout.with(attachments, new MHorizontalLayout(cancelBtn, newCommentBtn)).expand(attachments)
+                .withAlign(attachments, Alignment.TOP_LEFT);
         textAreaWrap.with(commentArea, controlsLayout);
     }
 

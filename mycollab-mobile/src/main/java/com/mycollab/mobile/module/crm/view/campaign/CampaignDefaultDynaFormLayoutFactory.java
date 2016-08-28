@@ -22,7 +22,6 @@ import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
-import com.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -35,67 +34,65 @@ public class CampaignDefaultDynaFormLayoutFactory {
         defaultForm = new DynaForm();
 
         DynaSection campaignSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-                .header(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION))
+                .header(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION)
                 .build();
 
         campaignSection.fields(new TextDynaFieldBuilder().fieldName("campaignname")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_NAME))
+                .displayName(GenericI18Enum.FORM_NAME)
                 .mandatory(true).fieldIndex(0).build());
 
         campaignSection.fields(new TextDynaFieldBuilder().fieldName("status")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
+                .displayName(GenericI18Enum.FORM_STATUS)
                 .fieldIndex(1).build());
 
         campaignSection.fields(new DateDynaFieldBuilder().fieldName("startdate")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_START_DATE))
+                .displayName(GenericI18Enum.FORM_START_DATE)
                 .fieldIndex(2).build());
 
         campaignSection.fields(new TextDynaFieldBuilder().fieldName("type")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_TYPE))
+                .displayName(GenericI18Enum.FORM_TYPE)
                 .fieldIndex(3).build());
 
         campaignSection.fields(new DateDynaFieldBuilder().fieldName("enddate")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_END_DATE))
+                .displayName(GenericI18Enum.FORM_END_DATE)
                 .fieldIndex(4).build());
 
         campaignSection.fields(new TextDynaFieldBuilder().fieldName("assignuser")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+                .displayName(GenericI18Enum.FORM_ASSIGNEE)
                 .fieldIndex(5).build());
 
         defaultForm.sections(campaignSection);
 
-        DynaSection goalSection = new DynaSectionBuilder()
-                .layoutType(LayoutType.TWO_COLUMN).orderIndex(1)
-                .header(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL))
-                .build();
+        DynaSection goalSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(1)
+                .header(CampaignI18nEnum.SECTION_GOAL).build();
 
         goalSection.fields(new CurrencyDynaFieldBuilder().fieldName("currencyid")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_CURRENCY))
+                .displayName(GenericI18Enum.FORM_CURRENCY)
                 .fieldIndex(0).build());
 
         goalSection.fields(new NumberDynaFieldBuilder().fieldName("expectedcost")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_COST))
+                .displayName(CampaignI18nEnum.FORM_EXPECTED_COST)
                 .fieldIndex(1).build());
 
         goalSection.fields(new NumberDynaFieldBuilder().fieldName("budget")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_BUDGET))
+                .displayName(CampaignI18nEnum.FORM_BUDGET)
                 .fieldIndex(2).build());
 
         goalSection.fields(new NumberDynaFieldBuilder().fieldName("expectedrevenue")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_REVENUE))
+                .displayName(CampaignI18nEnum.FORM_EXPECTED_REVENUE)
                 .fieldIndex(3).build());
 
         goalSection.fields(new NumberDynaFieldBuilder().fieldName("actualcost")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_ACTUAL_COST))
+                .displayName(CampaignI18nEnum.FORM_ACTUAL_COST)
                 .fieldIndex(4).build());
 
         defaultForm.sections(goalSection);
 
         DynaSection descSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).orderIndex(2)
-                .header(AppContext.getMessage(CampaignI18nEnum.SECTION_DESCRIPTION)).build();
+                .header(CampaignI18nEnum.SECTION_DESCRIPTION).build();
 
         descSection.fields(new TextAreaDynaFieldBuilder().fieldName("description")
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(0).build());
 
         defaultForm.sections(descSection);

@@ -28,10 +28,10 @@ import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.ButtonLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -74,10 +74,10 @@ public class BugSelectionWindow extends MWindow {
         tableItem.addGeneratedColumn("summary", (source, itemId, columnId) -> {
             final SimpleBug bug = tableItem.getBeanByIndex(itemId);
 
-            ButtonLink b = new ButtonLink(bug.getSummary(), clickEvent -> {
+            MButton b = new MButton(bug.getSummary(), clickEvent -> {
                 fieldSelection.fireValueChange(bug);
                 close();
-            });
+            }).withStyleName(WebUIConstants.BUTTON_LINK);
 
             if (bug.isCompleted()) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);

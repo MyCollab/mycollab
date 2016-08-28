@@ -16,12 +16,12 @@
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.IFormAddView;
+import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public interface BugAddView extends IFormAddView<SimpleBug> {
 
     HasEditFormHandlers<SimpleBug> getEditFormHandlers();
 
-    ProjectFormAttachmentUploadField getAttachUploadField();
+    AttachmentUploadField getAttachUploadField();
 
     List<Component> getComponents();
 
