@@ -20,6 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
@@ -28,14 +29,12 @@ import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.ThemeManager;
 import com.mycollab.vaadin.web.ui.ModuleHelper;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.web.CustomLayoutExt;
 import com.mycollab.web.IDesktopModule;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomLayout;
@@ -110,9 +109,9 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
         MHorizontalLayout footer = new MHorizontalLayout().withFullWidth()
                 .withMargin(new MarginInfo(false, true, false, true)).withStyleName("footer").withHeight("40px");
 
-        Div companyInfoDiv = new Div().appendText("Powered by ").appendChild(new A("https://www.mycollab.com",
-                "_blank").appendText("MyCollab")).appendText(" &copy; " + new LocalDate().getYear()).appendText(". All rights reserved");
-        ELabel companyInfoLbl = ELabel.html(companyInfoDiv.write()).withWidthUndefined();
+        Div copyrightInfoDiv = new Div().appendText(AppContext.getMessage(ShellI18nEnum.OPT_MYCOLLAB_COPY_RIGHT, new A("https://www.mycollab.com",
+                "_blank").appendText("MyCollab").write(), new LocalDate().getYear() + ""));
+        ELabel companyInfoLbl = ELabel.html(copyrightInfoDiv.write()).withWidthUndefined();
         footer.with(companyInfoLbl).withAlign(companyInfoLbl, Alignment.MIDDLE_LEFT);
 
         Div socialLinksDiv = new Div().appendText(FontAwesome.RSS.getHtml())

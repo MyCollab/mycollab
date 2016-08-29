@@ -26,6 +26,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.ui.components.HumanTimeConverter;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.mycollab.module.project.ui.components.TaskSliderField;
@@ -99,9 +100,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             final SimpleTask beanItem = attachForm.getBean();
             if (beanItem.getNumSubTasks() != null && beanItem.getNumSubTasks() > 0) {
                 field.setEnabled(false);
-                field.setDescription("Because this row has sub-tasks, this cell " +
-                        "is a summary value and can not be edited directly. You can edit cells " +
-                        "beneath this row to change its value");
+                field.setDescription(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_EDIT_PARENT_TASK_FIELD));
             }
 
             //calculate the end date if the start date is set

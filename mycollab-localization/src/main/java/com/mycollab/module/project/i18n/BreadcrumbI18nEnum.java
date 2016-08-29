@@ -26,7 +26,6 @@ public enum BreadcrumbI18nEnum {
     FRA_TASK_DASHBOARD,
     FRA_TIME_TRACKING,
     FRA_FILES,
-    FRA_CALENDAR,
     FRA_STANDUP,
     FRA_STANDUP_FOR_DAY,
     FRA_MEMBERS,

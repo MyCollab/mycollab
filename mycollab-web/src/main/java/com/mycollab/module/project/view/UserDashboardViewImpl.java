@@ -23,6 +23,7 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.domain.ProjectGenericItem;
 import com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericItemService;
 import com.mycollab.module.project.service.ProjectService;
@@ -75,9 +76,9 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         tabSheet = new TabSheet();
         tabSheet.addTab(buildDashboardComp(), AppContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), FontAwesome.DASHBOARD);
         tabSheet.addTab(buildProjectListComp(), AppContext.getMessage(ProjectI18nEnum.LIST), FontAwesome.BUILDING_O);
-        tabSheet.addTab(buildFollowingTicketComp(), "Following Items", FontAwesome.EYE);
+        tabSheet.addTab(buildFollowingTicketComp(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), FontAwesome.EYE);
         if (!SiteConfiguration.isCommunityEdition()) {
-            tabSheet.addTab(buildCalendarComp(), "Calendar", FontAwesome.CALENDAR);
+            tabSheet.addTab(buildCalendarComp(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), FontAwesome.CALENDAR);
         }
 
 //        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);

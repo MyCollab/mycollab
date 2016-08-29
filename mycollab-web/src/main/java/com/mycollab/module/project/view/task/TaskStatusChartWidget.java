@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.common.domain.OptionVal;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.core.utils.BeanUtility;
@@ -55,7 +56,7 @@ public class TaskStatusChartWidget extends PieChartWrapper<TaskSearchCriteria> i
         List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
                 CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
         for (OptionVal optionVal : optionVals) {
-            if (com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed.name().equals(optionVal.getTypeval())) {
+            if (StatusI18nEnum.Closed.name().equals(optionVal.getTypeval())) {
                 continue;
             }
             boolean isFound = false;

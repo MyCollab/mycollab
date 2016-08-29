@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.domain.GroupItem;
+import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.mycollab.ui.chart.PieChartWrapper;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.core.utils.BeanUtility;
@@ -38,7 +39,7 @@ import java.util.List;
 @ViewComponent
 public class TaskPriorityChartWidget extends PieChartWrapper<TaskSearchCriteria> implements ITaskPriorityChartWidget {
     public TaskPriorityChartWidget() {
-        super(OptionI18nEnum.TaskPriority.class, 350, 280);
+        super(TaskPriority.class, 350, 280);
     }
 
     @Override
@@ -46,8 +47,8 @@ public class TaskPriorityChartWidget extends PieChartWrapper<TaskSearchCriteria>
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        OptionI18nEnum.TaskPriority[] priorities = OptionI18nEnum.task_priorities;
-        for (OptionI18nEnum.TaskPriority priority : priorities) {
+        TaskPriority[] priorities = OptionI18nEnum.task_priorities;
+        for (TaskPriority priority : priorities) {
             boolean isFound = false;
             for (GroupItem item : groupItems) {
                 if (priority.name().equals(item.getGroupid())) {

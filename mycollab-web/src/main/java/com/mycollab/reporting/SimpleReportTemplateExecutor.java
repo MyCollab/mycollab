@@ -184,7 +184,6 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
             return super.headerCreator(title + "(" + totalItems + ")");
         }
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
         @Override
         protected void fillReport() {
             BeanDataSource ds = new BeanDataSource(data);

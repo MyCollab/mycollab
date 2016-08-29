@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ColorUtils;
 import com.mycollab.module.user.domain.AccountTheme;
@@ -36,9 +37,7 @@ public class ThemeManager {
         if (accountTheme == null) {
             accountTheme = themeService.findDefaultTheme(AppContext.getAccountId());
             if (accountTheme == null) {
-                throw new UserInvalidInputException("Can not load theme for this account. You may get bad experience " +
-                        "while using MyCollab. Please contact your site administrator to solve this issue or fill a " +
-                        "support request to MyCollab team");
+                throw new UserInvalidInputException(AppContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
             }
         }
 
@@ -137,9 +136,7 @@ public class ThemeManager {
         if (accountTheme == null) {
             accountTheme = themeService.findDefaultTheme(AppContext.getAccountId());
             if (accountTheme == null) {
-                throw new UserInvalidInputException("Can not load theme for this account. You may get bad experience " +
-                        "while using MyCollab. Please contact your site administrator to solve this issue or fill a " +
-                        "support request to MyCollab team");
+                throw new UserInvalidInputException(AppContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
             }
         }
 

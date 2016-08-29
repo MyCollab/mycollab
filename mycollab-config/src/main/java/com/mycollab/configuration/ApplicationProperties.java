@@ -24,6 +24,7 @@ import org.jasypt.properties.EncryptableProperties;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
@@ -89,8 +90,8 @@ public class ApplicationProperties {
             File myCollabResourceFile = getAppConfigFile();
 
             if (myCollabResourceFile != null) {
-                try (FileInputStream propsStream = new FileInputStream(myCollabResourceFile)) {
-                    properties.load(propsStream);
+                try (InputStreamReader isr = new InputStreamReader(new FileInputStream(myCollabResourceFile), "UTF-8")) {
+                    properties.load(isr);
                 }
             } else {
                 InputStream propStreams = Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES);
@@ -98,7 +99,9 @@ public class ApplicationProperties {
                     // Probably we are running testing
                     InputStream propStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("default-mycollab-test.properties");
                     if (propStream != null) {
-                        properties.load(propStream);
+                        try (InputStreamReader isr = new InputStreamReader(propStream, "UTF-8")) {
+                            properties.load(isr);
+                        }
                     }
                 }
             }

@@ -28,10 +28,10 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.*;
 import com.mycollab.module.project.events.*;
+import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.Version;
-import com.mycollab.module.project.i18n.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
@@ -309,22 +309,25 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
     public void gotoGanttView() {
         this.select(0);
-        this.addLink(new Button("Gantt chart"));
-        AppContext.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()), "Gantt chart");
+        this.addLink(new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART)));
+        AppContext.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()),
+                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART));
     }
 
     public void gotoTaskKanbanView() {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(TaskI18nEnum.LIST), new GotoTaskAssignmentDashboard()));
         this.setLinkEnabled(true, 1);
-        this.addLink(new Button("Kanban"));
-        AppContext.addFragment("project/task/kanban/" + UrlEncodeDecoder.encode(project.getId()), "Kanban View");
+        this.addLink(new Button(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
+        AppContext.addFragment("project/task/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+                AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoCalendar() {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR)));
-        AppContext.addFragment("project/calendar/" + UrlEncodeDecoder.encode(project.getId()), "Calendar");
+        AppContext.addFragment("project/calendar/" + UrlEncodeDecoder.encode(project.getId()),
+                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR));
     }
 
     public void gotoTaskRead(SimpleTask task) {
@@ -366,8 +369,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(BugI18nEnum.LIST), new GotoBugListListener()));
         this.setLinkEnabled(true, 1);
-        this.addLink(new Button("Kanban"));
-        AppContext.addFragment("project/bug/kanban/" + UrlEncodeDecoder.encode(project.getId()), "Kanban View");
+        this.addLink(new Button(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
+        AppContext.addFragment("project/bug/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+                AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoBugList(String query) {

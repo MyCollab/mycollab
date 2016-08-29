@@ -32,6 +32,7 @@ import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.mycollab.module.project.view.bug.components.ToggleBugSummaryField;
@@ -114,12 +115,11 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        MButton advanceDisplayBtn = new MButton("List", clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)))
+        MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST), clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)))
                 .withWidth("100px").withIcon(FontAwesome.SITEMAP);
-        advanceDisplayBtn.setDescription("Detail");
 
-        MButton kanbanBtn = new MButton("Kanban").withWidth("100px").withIcon(FontAwesome.TH);
-        kanbanBtn.setDescription("Kanban View");
+        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withWidth("100px").withIcon
+                (FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);

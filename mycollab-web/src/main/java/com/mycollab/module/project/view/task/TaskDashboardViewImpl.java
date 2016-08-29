@@ -40,6 +40,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.events.TaskEvent;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.task.components.*;
@@ -183,9 +184,11 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         groupWrapLayout.addComponent(newTaskBtn);
 
-        MButton advanceDisplayBtn = new MButton("List").withIcon(FontAwesome.SITEMAP).withWidth("100px");
+        MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST))
+                .withIcon(FontAwesome.SITEMAP).withWidth("100px");
 
-        MButton kanbanBtn = new MButton("Kanban", clickEvent -> displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
+        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
+                displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
