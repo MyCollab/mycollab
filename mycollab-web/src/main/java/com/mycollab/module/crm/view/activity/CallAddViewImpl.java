@@ -18,10 +18,12 @@ package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CallWithBLOBs;
+import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
@@ -30,6 +32,7 @@ import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -43,7 +46,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? "New Call" : beanItem.getSubject();
+        return (beanItem.getId() == null) ? AppContext.getMessage(CallI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override
@@ -76,7 +79,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
         private CallStatusTypeField callStatusField;
 
-        public CallEditFormFieldFactory(GenericBeanForm<CallWithBLOBs> form) {
+        CallEditFormFieldFactory(GenericBeanForm<CallWithBLOBs> form) {
             super(form);
 
             callStatusField = new CallStatusTypeField();
@@ -214,16 +217,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
         @Override
         protected Component initContent() {
-            HorizontalLayout layout = new HorizontalLayout();
-            layout.setSpacing(true);
-
-            layout.addComponent(hourField);
-
-            layout.addComponent(minutesField);
-
-            layout.addComponent(new Label("(hours/minutes)"));
-
-            return layout;
+            return new MHorizontalLayout(hourField, minutesField, new Label("(hours/minutes)"));
         }
 
         @Override
@@ -234,41 +228,23 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
     private class CallTypeComboBox extends ValueComboBox {
 
-        private static final long serialVersionUID = 1L;
-
-        public CallTypeComboBox() {
+        CallTypeComboBox() {
             super();
             setCaption(null);
             this.setWidth("80px");
             this.loadData("Inbound", "Outbound");
-            this.addValueChangeListener(new Property.ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-                    beanItem.setCalltype((String) CallTypeComboBox.this.getValue());
-                }
-            });
+            this.addValueChangeListener(valueChangeEvent -> beanItem.setCalltype((String) CallTypeComboBox.this.getValue()));
         }
     }
 
     private class CallStatusComboBox extends ValueComboBox {
 
-        private static final long serialVersionUID = 1L;
-
-        public CallStatusComboBox() {
+        CallStatusComboBox() {
             super();
             setCaption(null);
             this.setWidth("100px");
             this.loadData("Planned", "Held", "Not Held");
-            this.addValueChangeListener(new Property.ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-                    beanItem.setStatus((String) CallStatusComboBox.this.getValue());
-                }
-            });
+            this.addValueChangeListener(valueChangeEvent -> beanItem.setStatus((String) CallStatusComboBox.this.getValue()));
         }
     }
 }

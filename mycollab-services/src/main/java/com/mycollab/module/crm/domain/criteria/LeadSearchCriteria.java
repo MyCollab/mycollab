@@ -22,10 +22,10 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.db.query.*;
 
 import java.util.Arrays;
 
@@ -68,10 +68,10 @@ public class LeadSearchCriteria extends SearchCriteria {
                     Arrays.asList(CountryValueFactory.getCountryList())));
 
     public static final Param p_statuses = CacheParamMapper.register(CrmTypeConstants.LEAD, GenericI18Enum.FORM_STATUS,
-            new StringListParam("status", "m_crm_lead", "status", Arrays.asList(CrmDataTypeFactory.getLeadStatusList())));
+            new I18nStringListParam("status", "m_crm_lead", "status", Arrays.asList(CrmDataTypeFactory.getLeadStatusList())));
 
-    public static final Param p_sources = CacheParamMapper.register(CrmTypeConstants.LEAD, LeadI18nEnum.FORM_LEAD_SOURCE,
-            new StringListParam("source", "m_crm_lead", "source", Arrays.asList(CrmDataTypeFactory.getLeadSourceList())));
+    public static final I18nStringListParam p_sources = CacheParamMapper.register(CrmTypeConstants.LEAD, LeadI18nEnum.FORM_LEAD_SOURCE,
+            new I18nStringListParam("source", "m_crm_lead", "source", Arrays.asList(CrmDataTypeFactory.getLeadSourceList())));
 
     public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.LEAD, GenericI18Enum.FORM_ASSIGNEE,
             new PropertyListParam("assignuser", "m_crm_lead", "assignUser"));

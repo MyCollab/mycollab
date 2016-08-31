@@ -16,10 +16,12 @@
  */
 package com.mycollab.module.crm.view.opportunity;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -40,7 +42,7 @@ public class OpportunitySelectionWindow extends MWindow {
     private FieldSelection fieldSelection;
 
     public OpportunitySelectionWindow(FieldSelection fieldSelection) {
-        super("Opportunity Selection");
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(OpportunityI18nEnum.SINGLE)));
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
     }

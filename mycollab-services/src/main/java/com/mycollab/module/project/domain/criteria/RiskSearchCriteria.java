@@ -47,8 +47,8 @@ public class RiskSearchCriteria extends SearchCriteria {
             new DateParam("raiseddate", "m_prj_risk", "dateraised"));
 
     public static final Param p_status = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_STATUS,
-            new StringListParam("status", "m_prj_risk", "status", Arrays.asList(
-                    StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name())));
+            new I18nStringListParam("status", "m_prj_risk", "status", Arrays.asList(
+                    StatusI18nEnum.Open, StatusI18nEnum.Closed)));
 
     public static final Param p_probalitity = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_PROBABILITY,
             new StringListParam("probalitity", "m_prj_risk", "probalitity",

@@ -37,6 +37,7 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.AbstractProjectPageView;
+import com.mycollab.module.project.view.settings.component.NotificationSettingWindow;
 import com.mycollab.module.project.view.user.ProjectActivityStreamPagedList;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.spring.AppContextUtil;
@@ -53,6 +54,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -150,7 +152,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         return new ProjectMemberFormFieldFactory(previewForm);
     }
 
-    protected class ProjectMemberReadLayoutFactory extends AbstractFormLayoutFactory {
+    private class ProjectMemberReadLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 8833593761607165873L;
 
         @Override
@@ -163,19 +165,21 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             MVerticalLayout memberInfo = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
 
-            ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withFullWidth();
-            memberInfo.addComponent(memberLink);
+            ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withWidthUndefined();
+            MButton editNotificationBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum
+                    .ACTION_EDIT_NOTIFICATION), clickEvent -> UI.getCurrent().addWindow(new NotificationSettingWindow(beanItem)))
+                    .withStyleName(WebUIConstants.BUTTON_LINK);
+            memberInfo.addComponent(new MHorizontalLayout(memberLink, editNotificationBtn).alignAll(Alignment.MIDDLE_LEFT));
 
             String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                     ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid()));
-            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.META_INFO);
+            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.META_INFO).withWidthUndefined();
             if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,
                         AppContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY)));
             } else {
                 memberRole.setValue(memberRoleLinkPrefix + "style=\"color:gray;font-size:12px;\">" + beanItem.getRoleName() + "</a>");
             }
-            memberRole.setSizeUndefined();
             memberInfo.addComponent(memberRole);
 
             if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {

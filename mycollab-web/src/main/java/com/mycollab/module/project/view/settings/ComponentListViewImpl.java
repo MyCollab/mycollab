@@ -37,6 +37,7 @@ import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -113,6 +114,11 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
         tableItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
             SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
             return new ProgressBarIndicator(bugComponent.getNumBugs(), bugComponent.getNumOpenBugs(), false);
+        });
+
+        tableItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
+            SimpleComponent version = tableItem.getBeanByIndex(itemId);
+            return ELabel.richText(version.getDescription());
         });
 
         tableItem.setWidth("100%");

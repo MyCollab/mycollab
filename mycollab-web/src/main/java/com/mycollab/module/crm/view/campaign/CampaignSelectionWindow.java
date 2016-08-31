@@ -16,10 +16,12 @@
  */
 package com.mycollab.module.crm.view.campaign;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -39,7 +41,7 @@ public class CampaignSelectionWindow extends MWindow {
     private FieldSelection<CampaignWithBLOBs> fieldSelection;
 
     public CampaignSelectionWindow(FieldSelection<CampaignWithBLOBs> fieldSelection) {
-        super("Campaign Selection");
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(CampaignI18nEnum.SINGLE)));
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
     }

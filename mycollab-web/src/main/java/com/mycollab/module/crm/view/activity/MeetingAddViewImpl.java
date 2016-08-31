@@ -18,9 +18,11 @@ package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.MeetingWithBLOBs;
+import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -45,7 +47,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? "New Meeting" : beanItem.getSubject();
+        return (beanItem.getId() == null) ? AppContext.getMessage(MeetingI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override
@@ -116,7 +118,6 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
     }
 
     private static class MeetingStatusComboBox extends ValueComboBox {
-        private static final long serialVersionUID = 1L;
 
         MeetingStatusComboBox() {
             super();

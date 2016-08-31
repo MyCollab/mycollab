@@ -26,6 +26,7 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -42,7 +43,6 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
         Object value = newDataSource.getValue();
         if (value instanceof Integer) {
             setCampaignByVal((Integer) value);
-
             super.setPropertyDataSource(newDataSource);
         } else {
             super.setPropertyDataSource(newDataSource);
@@ -73,28 +73,16 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Button browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
-        browseBtn.addStyleName(WebUIConstants.BUTTON_SMALL_PADDING);
-        browseBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(CampaignSelectionField.this);
-                UI.getCurrent().addWindow(campaignWindow);
-                campaignWindow.show();
-            }
-        });
+        MButton browseBtn = new MButton("", clickEvent -> {
+            CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(CampaignSelectionField.this);
+            UI.getCurrent().addWindow(campaignWindow);
+            campaignWindow.show();
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
 
-        Button clearBtn = new Button(null, FontAwesome.TRASH_O);
-        clearBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
-        clearBtn.addStyleName(WebUIConstants.BUTTON_SMALL_PADDING);
-        clearBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                campaignName.setValue("");
-                internalValue = null;
-            }
-        });
+        MButton clearBtn = new MButton("", clickEvent -> {
+            campaignName.setValue("");
+            internalValue = null;
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
 
         layout.with(campaignName, browseBtn, clearBtn).expand(campaignName);
         return layout;

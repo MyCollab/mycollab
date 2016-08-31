@@ -20,15 +20,15 @@ import com.mycollab.db.arguments.CollectionValueSearchField;
 
 import java.util.Collection;
 
+import static com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
 public class PropertyListParam<P> extends ColumnParam {
-    public static final String BELONG_TO = "belong to";
-    public static final String NOT_BELONG_TO = "not belong to";
 
-    public static final String[] OPTIONS = {BELONG_TO, NOT_BELONG_TO};
+    public static final CollectionI18nEnum[] OPTIONS = {CollectionI18nEnum.IN, CollectionI18nEnum.NOT_IN};
 
     public PropertyListParam(String id, String table, String column) {
         super(id, table, column);

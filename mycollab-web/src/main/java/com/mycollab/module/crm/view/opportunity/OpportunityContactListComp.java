@@ -30,6 +30,7 @@ import com.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.events.OpportunityEvent;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.service.ContactOpportunityService;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -62,7 +63,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
     static {
         Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getOpportunityContactRoleList().length; i++) {
-            String roleKeyName = CrmDataTypeFactory.getOpportunityContactRoleList()[i];
+            String roleKeyName = CrmDataTypeFactory.getOpportunityContactRoleList()[i].name();
             if (!tmpMap.containsKey(roleKeyName)) {
                 tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
@@ -88,10 +89,10 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         CssLayout noteBlock = new CssLayout();
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
-        for (int i = 0; i < CrmDataTypeFactory.getOpportunityContactRoleList().length; i++) {
-            Label note = new Label(CrmDataTypeFactory.getOpportunityContactRoleList()[i]);
+        for (OptionI18nEnum.OpportunityContactRole role : CrmDataTypeFactory.getOpportunityContactRoleList()) {
+            Label note = new Label(AppContext.getMessage(role));
             note.setStyleName("note-label");
-            note.addStyleName(colormap.get(CrmDataTypeFactory.getOpportunityContactRoleList()[i]));
+            note.addStyleName(colormap.get(role.name()));
             note.setSizeUndefined();
             noteBlock.addComponent(note);
         }

@@ -19,10 +19,12 @@ package com.mycollab.module.crm.ui.format;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.mycollab.module.user.ui.format.UserHistoryFieldFormat;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
+
+import static com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
 
 /**
  * @author MyCollab Ltd
@@ -39,9 +41,9 @@ public class AccountFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("fax", AccountI18nEnum.FORM_FAX);
         generateFieldDisplayHandler("numemployees", AccountI18nEnum.FORM_EMPLOYEES);
         generateFieldDisplayHandler("alternatephone", AccountI18nEnum.FORM_OTHER_PHONE);
-        generateFieldDisplayHandler("industry", AccountI18nEnum.FORM_INDUSTRY);
+        generateFieldDisplayHandler("industry", AccountI18nEnum.FORM_INDUSTRY, new I18nHistoryFieldFormat(AccountIndustry.class));
         generateFieldDisplayHandler("email", GenericI18Enum.FORM_EMAIL);
-        generateFieldDisplayHandler("type", GenericI18Enum.FORM_TYPE, new I18nHistoryFieldFormat(OptionI18nEnum.AccountType.class));
+        generateFieldDisplayHandler("type", GenericI18Enum.FORM_TYPE, new I18nHistoryFieldFormat(AccountType.class));
         generateFieldDisplayHandler("ownership", AccountI18nEnum.FORM_OWNERSHIP);
         generateFieldDisplayHandler("annualrevenue", AccountI18nEnum.FORM_ANNUAL_REVENUE);
         generateFieldDisplayHandler("billingaddress", AccountI18nEnum.FORM_BILLING_ADDRESS);

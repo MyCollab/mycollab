@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.bug.components;
 
 import com.mycollab.db.arguments.SearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -24,12 +25,13 @@ import com.mycollab.module.project.query.CurrentProjectIdInjector;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
-import com.mycollab.db.query.*;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+
+import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
 
 /**
  * @author MyCollab Ltd
@@ -54,8 +56,8 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
 
         SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, AppContext.getMessage(BugI18nEnum.VAL_ALL_OPEN_BUGS),
                 SearchFieldInfo.inCollection(
-                BugSearchCriteria.p_status, ConstantValueInjector.valueOf(String.class,
-                        Arrays.asList(BugStatus.Open.name(), BugStatus.ReOpen.name()))));
+                        BugSearchCriteria.p_status, ConstantValueInjector.valueOf(String.class,
+                                Arrays.asList(BugStatus.Open.name(), BugStatus.ReOpen.name()))));
 
         SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, AppContext.getMessage(BugI18nEnum.VAL_OVERDUE_BUGS),
                 new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE,
@@ -81,7 +83,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                             }
                         }),
                 new SearchFieldInfo(SearchField.AND, new StringParam("id-status",
-                        "m_tracker_bug", "status"), StringParam.IS_NOT,
+                        "m_tracker_bug", "status"), StringI18nEnum.IS_NOT.name(),
                         ConstantValueInjector.valueOf(BugStatus.Verified.name())));
 
         SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, AppContext.getMessage(BugI18nEnum.VAL_MY_BUGS),

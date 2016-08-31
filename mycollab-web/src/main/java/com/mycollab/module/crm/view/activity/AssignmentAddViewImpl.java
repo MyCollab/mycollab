@@ -19,14 +19,17 @@ package com.mycollab.module.crm.view.activity;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Task;
+import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.Resource;
@@ -34,6 +37,8 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
+
+import java.util.Arrays;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -47,7 +52,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? "New Task" : beanItem.getSubject();
+        return (beanItem.getId() == null) ? AppContext.getMessage(TaskI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override
@@ -78,7 +83,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
     private static class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
         private static final long serialVersionUID = 1L;
 
-        public AssignmentEditFormFieldFactory(GenericBeanForm<Task> form) {
+        AssignmentEditFormFieldFactory(GenericBeanForm<Task> form) {
             super(form);
         }
 
@@ -117,23 +122,23 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
         }
     }
 
-    private static class TaskPriorityComboBox extends ValueComboBox {
+    private static class TaskPriorityComboBox extends I18nValueComboBox {
         private static final long serialVersionUID = 1L;
 
-        public TaskPriorityComboBox() {
+        TaskPriorityComboBox() {
             super();
             setCaption(null);
-            this.loadData(CrmDataTypeFactory.getTaskPriorities());
+            this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskPriorities()));
         }
     }
 
-    private static class TaskStatusComboBox extends ValueComboBox {
+    private static class TaskStatusComboBox extends I18nValueComboBox {
         private static final long serialVersionUID = 1L;
 
         TaskStatusComboBox() {
             super();
             setCaption(null);
-            this.loadData(CrmDataTypeFactory.getTaskStatuses());
+            this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskStatuses()));
         }
     }
 }

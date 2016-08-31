@@ -25,7 +25,6 @@ import ch.qos.cal10n.LocaleData;
 public enum UserI18nEnum {
     SINGLE,
     LIST,
-    LIST_VALUE,
     DETAIL,
     NEW,
 

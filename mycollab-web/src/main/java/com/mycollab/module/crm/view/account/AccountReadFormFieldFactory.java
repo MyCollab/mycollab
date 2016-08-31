@@ -16,8 +16,11 @@
  */
 package com.mycollab.module.crm.view.account;
 
+import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.EmailViewField;
@@ -49,7 +52,9 @@ public class AccountReadFormFieldFactory extends AbstractBeanFieldGroupViewField
         } else if (propertyId.equals("website")) {
             return new UrlLinkViewField(account.getWebsite());
         } else if (propertyId.equals("type")) {
-            return new I18nFormViewField(account.getType(), OptionI18nEnum.AccountType.class);
+            return new I18nFormViewField(account.getType(), AccountType.class);
+        } else if (Account.Field.industry.equalTo(propertyId)) {
+            return new I18nFormViewField(account.getIndustry(), AccountIndustry.class);
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(account.getDescription());
         }

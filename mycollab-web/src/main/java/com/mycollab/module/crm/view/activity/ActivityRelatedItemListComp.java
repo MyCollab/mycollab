@@ -21,6 +21,9 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.ActivityI18nEnum;
+import com.mycollab.module.crm.i18n.CallI18nEnum;
+import com.mycollab.module.crm.i18n.MeetingI18nEnum;
+import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedListComp;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.AppContext;
@@ -49,17 +52,17 @@ public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity,
         if (allowCreateNew) {
             HorizontalLayout buttonLayout = new HorizontalLayout();
             buttonLayout.setSpacing(true);
-            final MButton newTaskBtn = new MButton("New Task", clickEvent -> fireNewRelatedItem("task"))
+            final MButton newTaskBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> fireNewRelatedItem("task"))
                     .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
             buttonLayout.addComponent(newTaskBtn);
 
-            final MButton newCallBtn = new MButton("New Call", clickEvent -> fireNewRelatedItem("call"))
+            final MButton newCallBtn = new MButton(AppContext.getMessage(CallI18nEnum.NEW), clickEvent -> fireNewRelatedItem("call"))
                     .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
             buttonLayout.addComponent(newCallBtn);
 
-            final MButton newMeetingBtn = new MButton("New Meeting", clickEvent -> fireNewRelatedItem("meeting"))
+            final MButton newMeetingBtn = new MButton(AppContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> fireNewRelatedItem("meeting"))
                     .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
             buttonLayout.addComponent(newMeetingBtn);

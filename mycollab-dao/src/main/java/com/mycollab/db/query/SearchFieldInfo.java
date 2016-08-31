@@ -16,19 +16,23 @@
  */
 package com.mycollab.db.query;
 
-import com.mycollab.core.MyCollabException;
-import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.db.arguments.SearchField;
-import com.mycollab.core.utils.BeanUtility;
-import com.mycollab.core.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mycollab.common.i18n.QueryI18nEnum;
+import com.mycollab.core.MyCollabException;
+import com.mycollab.core.utils.BeanUtility;
+import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.db.arguments.SearchField;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import static com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum.IN;
+import static com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum.valueOf;
 
 /**
  * @author MyCollab Ltd.
@@ -56,11 +60,15 @@ public class SearchFieldInfo implements Serializable {
     }
 
     public static SearchFieldInfo inCollection(PropertyListParam param, VariableInjector value) {
-        return new SearchFieldInfo(SearchField.AND, param, PropertyListParam.BELONG_TO, value);
+        return new SearchFieldInfo(SearchField.AND, param, QueryI18nEnum.CollectionI18nEnum.IN.name(), value);
+    }
+
+    public static SearchFieldInfo inCollection(I18nStringListParam param, VariableInjector value) {
+        return new SearchFieldInfo(SearchField.AND, param, QueryI18nEnum.CollectionI18nEnum.IN.name(), value);
     }
 
     public static SearchFieldInfo inCollection(StringListParam param, VariableInjector value) {
-        return new SearchFieldInfo(SearchField.AND, param, StringListParam.IN, value);
+        return new SearchFieldInfo(SearchField.AND, param, IN.name(), value);
     }
 
     public static SearchFieldInfo inDateRange(DateParam param, VariableInjector value) {
@@ -112,18 +120,18 @@ public class SearchFieldInfo implements Serializable {
             return wrapParam.buildSearchField(prefixOper, compareOper, (String) this.eval());
         } else if (param instanceof StringListParam) {
             StringListParam listParam = (StringListParam) param;
-            if (this.getCompareOper().equals(StringListParam.IN)) {
+            if (this.getCompareOper().equals(IN.name())) {
                 return listParam.buildStringParamInList(prefixOper, (Collection<String>) this.eval());
             } else {
                 return listParam.buildStringParamNotInList(prefixOper, (Collection<String>) this.eval());
             }
         } else if (param instanceof I18nStringListParam) {
             I18nStringListParam wrapParam = (I18nStringListParam) param;
-
-            switch (compareOper) {
-                case StringListParam.IN:
+            QueryI18nEnum.CollectionI18nEnum compareValue = valueOf(compareOper);
+            switch (compareValue) {
+                case IN:
                     return wrapParam.buildStringParamInList(prefixOper, (Collection<String>) this.eval());
-                case StringListParam.NOT_IN:
+                case NOT_IN:
                     return wrapParam.buildStringParamNotInList(prefixOper, (Collection<String>) this.eval());
                 default:
                     throw new MyCollabException("Not support yet");
@@ -141,20 +149,22 @@ public class SearchFieldInfo implements Serializable {
             return null;
         } else if (param instanceof PropertyListParam) {
             PropertyListParam wrapParam = (PropertyListParam) param;
-            switch (compareOper) {
-                case PropertyListParam.BELONG_TO:
+            QueryI18nEnum.CollectionI18nEnum compareValue = QueryI18nEnum.CollectionI18nEnum.valueOf(compareOper);
+            switch (compareValue) {
+                case IN:
                     return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());
-                case PropertyListParam.NOT_BELONG_TO:
+                case NOT_IN:
                     return wrapParam.buildPropertyParamNotInList(prefixOper, (Collection<?>) this.eval());
                 default:
                     throw new MyCollabException("Not support yet");
             }
         } else if (param instanceof CustomSqlParam) {
             CustomSqlParam wrapParam = (CustomSqlParam) param;
-            switch (compareOper) {
-                case PropertyListParam.BELONG_TO:
+            QueryI18nEnum.CollectionI18nEnum compareValue = QueryI18nEnum.CollectionI18nEnum.valueOf(compareOper);
+            switch (compareValue) {
+                case IN:
                     return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());
-                case PropertyListParam.NOT_BELONG_TO:
+                case NOT_IN:
                     return wrapParam.buildPropertyParamNotInList(prefixOper, (Collection<?>) this.eval());
                 default:
                     throw new MyCollabException("Not support yet");

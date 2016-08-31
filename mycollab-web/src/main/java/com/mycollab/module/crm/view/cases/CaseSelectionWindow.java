@@ -16,9 +16,11 @@
  */
 package com.mycollab.module.crm.view.cases;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -38,7 +40,7 @@ public class CaseSelectionWindow extends MWindow {
     private FieldSelection fieldSelection;
 
     public CaseSelectionWindow(FieldSelection fieldSelection) {
-        super("Case Name Lookup");
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(CaseI18nEnum.SINGLE)));
         this.withModal(true).withResizable(false).withWidth("1000px");
         this.fieldSelection = fieldSelection;
     }

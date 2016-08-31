@@ -113,6 +113,11 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
             return new ProgressBarIndicator(version.getNumBugs(), version.getNumOpenBugs(), false);
         });
 
+        tableItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
+            SimpleVersion version = tableItem.getBeanByIndex(itemId);
+            return ELabel.richText(version.getDescription());
+        });
+
         tableItem.setWidth("100%");
 
         versionListLayout.addComponent(constructTableActionControls());

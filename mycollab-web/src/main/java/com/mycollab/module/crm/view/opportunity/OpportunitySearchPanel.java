@@ -48,7 +48,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class OpportunitySearchPanel extends DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 
     private static Param[] paramFields = new Param[]{
@@ -70,11 +69,10 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
     @Override
     protected Component buildExtraControls() {
-        MButton newBtn = new MButton(AppContext.getMessage(OpportunityI18nEnum.NEW),
+        return new MButton(AppContext.getMessage(OpportunityI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-        return newBtn;
     }
 
     @Override
@@ -87,14 +85,12 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
         return new OpportunityAdvancedSearchLayout();
     }
 
-    @SuppressWarnings("rawtypes")
     private class OpportunityBasicSearchLayout extends BasicSearchLayout<OpportunitySearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        @SuppressWarnings("unchecked")
-        public OpportunityBasicSearchLayout() {
+        OpportunityBasicSearchLayout() {
             super(OpportunitySearchPanel.this);
         }
 
@@ -152,7 +148,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
     private class OpportunityAdvancedSearchLayout extends DynamicQueryParamLayout<OpportunitySearchCriteria> {
 
-        public OpportunityAdvancedSearchLayout() {
+        OpportunityAdvancedSearchLayout() {
             super(OpportunitySearchPanel.this, CrmTypeConstants.OPPORTUNITY);
         }
 

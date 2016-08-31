@@ -16,42 +16,40 @@
  */
 package com.mycollab.db.query;
 
+import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NoValueSearchField;
 import com.mycollab.db.arguments.OneValueSearchField;
 import com.mycollab.db.arguments.SearchField;
+
+import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
 public class StringParam extends ColumnParam {
-    public static final String IS = "is";
-    public static final String IS_NOT = "isn't";
-    public static final String CONTAINS = "contains";
-    public static final String NOT_CONTAINS = "doesn't contains";
-    public static final String IS_EMPTY = "is empty";
-    public static final String IS_NOT_EMPTY = "is not empty";
 
-    public static String[] OPTIONS = {IS, IS_NOT, CONTAINS, NOT_CONTAINS, IS_EMPTY, IS_NOT_EMPTY};
+    public static StringI18nEnum[] OPTIONS = {IS, IS_NOT, CONTAINS, NOT_CONTAINS, IS_EMPTY, IS_NOT_EMPTY};
 
     public StringParam(String id, String table, String column) {
         super(id, table, column);
     }
 
     public SearchField buildSearchField(String prefixOper, String compareOper, String value) {
-        switch (compareOper) {
-            case StringParam.IS_EMPTY:
+        StringI18nEnum compareVal = valueOf(compareOper);
+        switch (compareVal) {
+            case IS_EMPTY:
                 return this.buildStringParamIsNull(prefixOper);
-            case StringParam.IS_NOT_EMPTY:
+            case IS_NOT_EMPTY:
                 return this.buildStringParamIsNotNull(prefixOper);
-            case StringParam.IS:
+            case IS:
                 return this.buildStringParamIsEqual(prefixOper, value);
-            case StringParam.IS_NOT:
+            case IS_NOT:
                 return this.buildStringParamIsNotEqual(prefixOper, value);
-            case StringParam.CONTAINS:
+            case CONTAINS:
                 return this.buildStringParamIsLike(prefixOper, value);
-            case StringParam.NOT_CONTAINS:
+            case NOT_CONTAINS:
                 return this.buildStringParamIsNotLike(prefixOper, value);
             default:
                 throw new MyCollabException("Not support yet");

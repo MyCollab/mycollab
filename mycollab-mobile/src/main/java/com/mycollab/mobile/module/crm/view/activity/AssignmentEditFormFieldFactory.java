@@ -18,6 +18,7 @@ package com.mycollab.mobile.module.crm.view.activity;
 
 import com.mycollab.mobile.module.crm.view.contact.ContactSelectionField;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
+import com.mycollab.mobile.ui.I18nValueComboBox;
 import com.mycollab.mobile.ui.ValueComboBox;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.domain.Task;
@@ -29,74 +30,74 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AssignmentEditFormFieldFactory(GenericBeanForm<Task> form) {
-		super(form);
-	}
+    public AssignmentEditFormFieldFactory(GenericBeanForm<Task> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("startdate")) {
-			return new DatePicker();
-		} else if (propertyId.equals("duedate")) {
-			return new DatePicker();
-		} else if (propertyId.equals("status")) {
-			return new TaskStatusComboBox();
-		} else if (propertyId.equals("priority")) {
-			return new TaskPriorityComboBox();
-		} else if (propertyId.equals("description")) {
-			TextArea descArea = new TextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
-		} else if (propertyId.equals("contactid")) {
-			return new ContactSelectionField();
-		} else if (propertyId.equals("subject")) {
-			TextField tf = new TextField();
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("startdate")) {
+            return new DatePicker();
+        } else if (propertyId.equals("duedate")) {
+            return new DatePicker();
+        } else if (propertyId.equals("status")) {
+            return new TaskStatusComboBox();
+        } else if (propertyId.equals("priority")) {
+            return new TaskPriorityComboBox();
+        } else if (propertyId.equals("description")) {
+            TextArea descArea = new TextArea();
+            descArea.setNullRepresentation("");
+            return descArea;
+        } else if (propertyId.equals("contactid")) {
+            return new ContactSelectionField();
+        } else if (propertyId.equals("subject")) {
+            TextField tf = new TextField();
 
-			if (isValidateForm) {
-				tf.setRequired(true);
-				tf.setRequiredError("Subject must not be null");
-				tf.setNullRepresentation("");
-			}
+            if (isValidateForm) {
+                tf.setRequired(true);
+                tf.setRequiredError("Subject must not be null");
+                tf.setNullRepresentation("");
+            }
 
-			return tf;
-		} else if (propertyId.equals("typeid")) {
-			return new RelatedItemSelectionField(attachForm.getBean());
-		} else if (propertyId.equals("type")) {
-			return new DummyCustomField<String>();
-		} else if (propertyId.equals("assignuser")) {
-			ActiveUserComboBox userBox = new ActiveUserComboBox();
-			userBox.select(attachForm.getBean().getAssignuser());
-			return userBox;
-		}
-		return null;
-	}
+            return tf;
+        } else if (propertyId.equals("typeid")) {
+            return new RelatedItemSelectionField(attachForm.getBean());
+        } else if (propertyId.equals("type")) {
+            return new DummyCustomField<String>();
+        } else if (propertyId.equals("assignuser")) {
+            ActiveUserComboBox userBox = new ActiveUserComboBox();
+            userBox.select(attachForm.getBean().getAssignuser());
+            return userBox;
+        }
+        return null;
+    }
 
-	static class TaskPriorityComboBox extends ValueComboBox {
-		private static final long serialVersionUID = 1L;
+    static class TaskPriorityComboBox extends I18nValueComboBox {
+        private static final long serialVersionUID = 1L;
 
-		public TaskPriorityComboBox() {
-			super();
-			setCaption(null);
-			this.loadData(CrmDataTypeFactory.getTaskPriorities());
-		}
-	}
+        public TaskPriorityComboBox() {
+            super();
+            setCaption(null);
+            this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskPriorities()));
+        }
+    }
 
-	static class TaskStatusComboBox extends ValueComboBox {
-		private static final long serialVersionUID = 1L;
+    static class TaskStatusComboBox extends I18nValueComboBox {
+        private static final long serialVersionUID = 1L;
 
-		public TaskStatusComboBox() {
-			super();
-			setCaption(null);
-			this.loadData(CrmDataTypeFactory.getTaskStatuses());
-		}
-	}
+        public TaskStatusComboBox() {
+            super();
+            setCaption(null);
+            this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskStatuses()));
+        }
+    }
 }

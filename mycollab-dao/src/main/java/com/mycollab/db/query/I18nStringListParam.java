@@ -22,15 +22,15 @@ import com.mycollab.db.arguments.SearchField;
 import java.util.Collection;
 import java.util.List;
 
+import static com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.3.0
  */
 public class I18nStringListParam extends ColumnParam {
-    static final String IN = "in";
-    static final String NOT_IN = "not in";
 
-    public static String[] OPTIONS = {IN, NOT_IN};
+    public static CollectionI18nEnum[] OPTIONS = {CollectionI18nEnum.IN, CollectionI18nEnum.NOT_IN};
 
     private List<? extends Enum<?>> lstValues;
 

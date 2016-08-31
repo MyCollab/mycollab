@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.message;
 
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Text;
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
@@ -275,7 +276,8 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             MHorizontalLayout titleLayout = new MHorizontalLayout().withFullWidth();
             Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
             final TextField titleField = new MTextField().withFullWidth().withNullRepresentation("").withRequired(true)
-                    .withRequiredError(AppContext.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
+                    .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                            AppContext.getMessage(MessageI18nEnum.FORM_TITLE)));
 
             titleLayout.with(titleLbl, titleField).expand(titleField);
 
@@ -307,7 +309,8 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     attachments.saveContentsToRepo(attachmentPath);
                 } else {
                     titleField.addStyleName("errorField");
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
+                    NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                            AppContext.getMessage(MessageI18nEnum.FORM_TITLE)));
                 }
             }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 

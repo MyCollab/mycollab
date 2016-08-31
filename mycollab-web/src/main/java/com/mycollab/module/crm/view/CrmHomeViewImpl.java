@@ -33,7 +33,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 @ViewComponent
 public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView {
     private AccountListDashlet accountDashlet;

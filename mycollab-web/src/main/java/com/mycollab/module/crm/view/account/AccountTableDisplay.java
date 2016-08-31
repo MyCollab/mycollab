@@ -21,9 +21,13 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
@@ -75,6 +79,16 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
         addGeneratedColumn("assignUserFullName", (source, itemId, columnId) -> {
             SimpleAccount account = getBeanByIndex(itemId);
             return new UserLink(account.getAssignuser(), account.getAssignUserAvatarId(), account.getAssignUserFullName());
+        });
+
+        addGeneratedColumn("industry", (source, itemId, columnId) -> {
+            SimpleAccount account = getBeanByIndex(itemId);
+            return ELabel.i18n(account.getIndustry(), AccountIndustry.class);
+        });
+
+        addGeneratedColumn("type", (source, itemId, columnId) -> {
+            SimpleAccount account = getBeanByIndex(itemId);
+            return ELabel.i18n(account.getType(), AccountType.class);
         });
 
         addGeneratedColumn("website", (source, itemId, columnId) -> {

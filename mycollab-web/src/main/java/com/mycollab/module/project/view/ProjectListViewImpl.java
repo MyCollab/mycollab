@@ -18,6 +18,7 @@ package com.mycollab.module.project.view;
 
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -38,6 +39,7 @@ import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
@@ -133,6 +135,11 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
         tableItem.addGeneratedColumn(Project.Field.planenddate.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
             return new Label(AppContext.formatDate(project.getPlanenddate()));
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.projectstatus.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return ELabel.i18n(project.getProjectstatus(), StatusI18nEnum.class);
         });
 
         tableItem.addGeneratedColumn(Project.Field.createdtime.name(), (source, itemId, columnId) -> {

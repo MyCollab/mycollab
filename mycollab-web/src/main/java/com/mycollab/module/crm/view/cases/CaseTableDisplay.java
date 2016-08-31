@@ -21,6 +21,8 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -85,6 +87,31 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
             SimpleCase cases = getBeanByIndex(itemId);
             return new ELabel(AppContext.formatPrettyTime(cases.getCreatedtime())).withDescription(AppContext
                     .formatDateTime(cases.getCreatedtime()));
+        });
+
+        this.addGeneratedColumn("origin", (source, itemId, columnId) -> {
+            SimpleCase cases = getBeanByIndex(itemId);
+            return ELabel.i18n(cases.getOrigin(), CaseOrigin.class);
+        });
+
+        this.addGeneratedColumn("priority", (source, itemId, columnId) -> {
+            SimpleCase cases = getBeanByIndex(itemId);
+            return ELabel.i18n(cases.getPriority(), CasePriority.class);
+        });
+
+        this.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            SimpleCase cases = getBeanByIndex(itemId);
+            return ELabel.i18n(cases.getStatus(), CaseStatus.class);
+        });
+
+        this.addGeneratedColumn("reason", (source, itemId, columnId) -> {
+            SimpleCase cases = getBeanByIndex(itemId);
+            return ELabel.i18n(cases.getReason(), CaseReason.class);
+        });
+
+        this.addGeneratedColumn("type", (source, itemId, columnId) -> {
+            SimpleCase cases = getBeanByIndex(itemId);
+            return ELabel.i18n(cases.getType(), CaseType.class);
         });
 
         this.setWidth("100%");

@@ -42,6 +42,7 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -114,8 +115,7 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            HorizontalLayout blockTop = new HorizontalLayout();
-            blockTop.setSpacing(true);
+            MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel contactAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
@@ -139,7 +139,7 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
                                 associateContact.setCampaignid(campaign.getId());
                                 campaignService.removeCampaignContactRelationship(associateContact,
                                         AppContext.getAccountId());
-                                CampaignContactListComp.this.refresh();
+                                refresh();
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
@@ -163,11 +163,8 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
                     MoreObjects.firstNonNull(contact.getOfficephone(), ""));
             contactInfo.addComponent(contactOfficePhone);
 
-            blockTop.addComponent(contactInfo);
-            blockTop.setExpandRatio(contactInfo, 1.0f);
-            blockTop.setWidth("100%");
+            blockTop.with(contactInfo).expand(contactInfo);
             blockContent.addComponent(blockTop);
-
             blockContent.setWidth("100%");
 
             beanBlock.addComponent(blockContent);

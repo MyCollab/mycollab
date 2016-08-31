@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.lead;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.campaign.CampaignSearchPanel;
 import com.mycollab.module.crm.view.campaign.CampaignTableDisplay;
@@ -36,7 +37,7 @@ import java.util.Arrays;
 class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
 
     LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
-        super("Select Campaigns", associateLeadList);
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, CampaignI18nEnum.LIST), associateLeadList);
         this.setWidth("1000px");
     }
 
@@ -54,5 +55,4 @@ class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampa
 
         bodyContent.with(searchPanel, selectBtn, tableItem);
     }
-
 }

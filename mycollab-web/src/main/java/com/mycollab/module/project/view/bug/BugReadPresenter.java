@@ -17,11 +17,11 @@
 package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.QueryI18nEnum.NumberI18nEnum;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
-import com.mycollab.db.query.NumberParam;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -109,7 +109,8 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
-                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.GREATER_THAN, data.getBugkey()));
+                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberI18nEnum.GREATER_THAN.name(),
+                        data.getBugkey()));
                 Integer nextId = bugService.getNextItemKey(searchCriteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, nextId));
@@ -123,7 +124,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
-                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.LESS_THAN,
+                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberI18nEnum.LESS_THAN.name(),
                         data.getBugkey()));
                 Integer previousId = bugService.getNextItemKey(searchCriteria);
                 if (previousId != null) {

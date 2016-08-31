@@ -17,9 +17,13 @@
 package com.mycollab.module.project.view.task.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
-import com.mycollab.db.query.*;
+import com.mycollab.db.query.ConstantValueInjector;
+import com.mycollab.db.query.Param;
+import com.mycollab.db.query.PropertyListParam;
+import com.mycollab.db.query.SearchFieldInfo;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -45,6 +49,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -171,10 +177,10 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         @Override
         protected TaskSearchCriteria fillUpSearchCriteria() {
             List<SearchFieldInfo> searchFieldInfos = new ArrayList<>();
-            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_taskname, StringParam.CONTAINS,
+            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_taskname, StringI18nEnum.CONTAINS.name(),
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
-                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_assignee, PropertyListParam.BELONG_TO,
+                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_assignee, QueryI18nEnum.CollectionI18nEnum.IN.name(),
                         ConstantValueInjector.valueOf(Arrays.asList(AppContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));

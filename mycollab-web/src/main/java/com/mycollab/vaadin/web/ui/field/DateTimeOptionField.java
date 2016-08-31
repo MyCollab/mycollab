@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.web.ui.field;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -87,10 +88,10 @@ public class DateTimeOptionField extends CustomField<Date> {
         container.addStyleName(WebUIConstants.FLEX_DISPLAY);
 
         if (hideTimeOption) {
-            toggleTimeBtn.setCaption("Set time");
+            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SET_TIME));
             container.with(popupDateField, toggleTimeBtn);
         } else {
-            toggleTimeBtn.setCaption("Hide time");
+            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_HIDE_TIME));
             container.with(popupDateField, new MHorizontalLayout(hourPickerComboBox, minutePickerComboBox,
                     timeFormatComboBox), toggleTimeBtn);
         }
@@ -121,10 +122,10 @@ public class DateTimeOptionField extends CustomField<Date> {
         trickModified = true;
         container.removeAllComponents();
         if (hideTimeOption) {
-            toggleTimeBtn.setCaption("Set time");
+            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SET_TIME));
             container.with(popupDateField, toggleTimeBtn);
         } else {
-            toggleTimeBtn.setCaption("Hide time");
+            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_HIDE_TIME));
             container.with(popupDateField, new MHorizontalLayout(hourPickerComboBox, minutePickerComboBox,
                     timeFormatComboBox), toggleTimeBtn);
         }
@@ -215,7 +216,7 @@ public class DateTimeOptionField extends CustomField<Date> {
         private static final long serialVersionUID = 1L;
         private String[] MINUS = new String[]{"00", "15", "30", "45"};
 
-        public MinutePickerComboBox() {
+        MinutePickerComboBox() {
             super();
             setCaption(null);
             this.loadData(MINUS);

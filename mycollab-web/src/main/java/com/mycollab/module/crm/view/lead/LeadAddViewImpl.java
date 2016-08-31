@@ -18,8 +18,10 @@ package com.mycollab.module.crm.view.lead;
 
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleLead;
+import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -40,7 +42,7 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? "New Lead" : beanItem.getLeadName();
+        return (beanItem.getId() == null) ? AppContext.getMessage(LeadI18nEnum.NEW) : beanItem.getLeadName();
     }
 
     @Override

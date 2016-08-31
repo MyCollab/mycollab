@@ -21,9 +21,9 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.db.query.*;
 
 import java.util.Arrays;
 
@@ -50,10 +50,10 @@ public class CampaignSearchCriteria extends SearchCriteria {
             GenericI18Enum.FORM_LAST_UPDATED_TIME, new DateParam("lastUpdatedTime", "m_crm_campaign", "lastUpdatedTime"));
 
     public static final Param p_types = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_TYPE,
-            new StringListParam("type", "m_crm_campaign", "type", Arrays.asList(CrmDataTypeFactory.getCampaignTypeList())));
+            new I18nStringListParam("type", "m_crm_campaign", "type", Arrays.asList(CrmDataTypeFactory.getCampaignTypeList())));
 
     public static final Param p_statuses = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_STATUS,
-            new StringListParam("status", "m_crm_campaign", "status", Arrays.asList(CrmDataTypeFactory.getCampaignStatusList())));
+            new I18nStringListParam("status", "m_crm_campaign", "status", Arrays.asList(CrmDataTypeFactory.getCampaignStatusList())));
 
     public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_ASSIGNEE,
             new PropertyListParam("assignuser", "m_crm_campaign", "assignUser"));

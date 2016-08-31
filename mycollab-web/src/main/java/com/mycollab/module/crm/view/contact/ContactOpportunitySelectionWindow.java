@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.contact;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.opportunity.OpportunitySearchPanel;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableDisplay;
@@ -36,7 +37,8 @@ import java.util.Arrays;
 public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindow<SimpleOpportunity, OpportunitySearchCriteria> {
 
     public ContactOpportunitySelectionWindow(ContactOpportunityListComp associateOpportunityList) {
-        super("Select Opportunities", associateOpportunityList);
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(OpportunityI18nEnum.LIST)),
+                associateOpportunityList);
         this.setWidth("1000px");
     }
 

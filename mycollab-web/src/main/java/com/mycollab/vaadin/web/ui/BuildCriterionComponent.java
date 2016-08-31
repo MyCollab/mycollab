@@ -28,15 +28,12 @@ import com.mycollab.db.query.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.*;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,16 +100,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         SavedSearchResultComboBox filterComboBox = new SavedSearchResultComboBox();
         filterBox.addComponent(filterComboBox);
 
-        Button saveSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NEW_FILTER), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                buildSaveFilterBox();
-            }
-        });
-        saveSearchBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-        saveSearchBtn.setIcon(FontAwesome.PLUS);
+        MButton saveSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NEW_FILTER), clickEvent -> buildSaveFilterBox())
+                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
         filterBox.addComponent(saveSearchBtn);
     }
 
@@ -122,28 +111,14 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         final TextField queryTextField = new TextField();
         filterBox.addComponent(queryTextField);
 
-        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                String queryText = queryTextField.getValue();
-                saveSearchCriteria(queryText);
-            }
-        });
-        saveBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
-        saveBtn.setIcon(FontAwesome.SAVE);
+        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            String queryText = queryTextField.getValue();
+            saveSearchCriteria(queryText);
+        }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
         filterBox.addComponent(saveBtn);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                buildFilterBox(null);
-            }
-        });
-        cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> buildFilterBox(null))
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
         filterBox.addComponent(cancelBtn);
     }
 
@@ -207,7 +182,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         private Label indexLbl;
         private ValueComboBox operatorSelectionBox;
         private ComboBox fieldSelectionBox;
-        private ValueComboBox compareSelectionBox;
+        private I18nValueComboBox compareSelectionBox;
         private MVerticalLayout valueBox;
         private Button deleteBtn;
 
@@ -348,51 +323,39 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 fieldSelectionBox.setItemCaption(field, AppContext.getMessage(valueParam.getDisplayName()));
             }
 
-            fieldSelectionBox.addValueChangeListener(new ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
+            fieldSelectionBox.addValueChangeListener(valueChangeEvent -> {
+                compareSelectionBox.removeAllItems();
 
-                @Override
-                public void valueChange(ValueChangeEvent event) {
-                    compareSelectionBox.removeAllItems();
-
-                    Param field = (Param) fieldSelectionBox.getValue();
-                    if (field != null) {
-                        if (field instanceof StringParam) {
-                            compareSelectionBox.loadData(StringParam.OPTIONS);
-                        } else if (field instanceof NumberParam) {
-                            compareSelectionBox.loadData(NumberParam.OPTIONS);
-                        } else if (field instanceof DateParam) {
-                            compareSelectionBox.loadData(DateParam.OPTIONS);
-                        } else if (field instanceof PropertyParam) {
-                            compareSelectionBox.loadData(PropertyParam.OPTIONS);
-                        } else if (field instanceof PropertyListParam || field instanceof CustomSqlParam) {
-                            compareSelectionBox.loadData(PropertyListParam.OPTIONS);
-                        } else if (field instanceof StringListParam) {
-                            compareSelectionBox.loadData(StringListParam.OPTIONS);
-                        } else if (field instanceof I18nStringListParam) {
-                            compareSelectionBox.loadData(I18nStringListParam.OPTIONS);
-                        } else if (field instanceof CompositionStringParam) {
-                            compareSelectionBox.loadData(StringParam.OPTIONS);
-                        } else if (field instanceof ConcatStringParam) {
-                            compareSelectionBox.loadData(ConcatStringParam.OPTIONS);
-                        }
-
-                        displayAssociateInputField((Param) fieldSelectionBox.getValue());
+                Param field = (Param) fieldSelectionBox.getValue();
+                if (field != null) {
+                    if (field instanceof StringParam) {
+                        compareSelectionBox.loadData(Arrays.asList(StringParam.OPTIONS));
+                    } else if (field instanceof NumberParam) {
+                        compareSelectionBox.loadData(Arrays.asList(NumberParam.OPTIONS));
+                    } else if (field instanceof DateParam) {
+                        compareSelectionBox.loadData(DateParam.OPTIONS);
+                    } else if (field instanceof PropertyParam) {
+                        compareSelectionBox.loadData(Arrays.asList(PropertyParam.OPTIONS));
+                    } else if (field instanceof PropertyListParam || field instanceof CustomSqlParam) {
+                        compareSelectionBox.loadData(Arrays.asList(PropertyListParam.OPTIONS));
+                    } else if (field instanceof StringListParam) {
+                        compareSelectionBox.loadData(Arrays.asList(StringListParam.OPTIONS));
+                    } else if (field instanceof I18nStringListParam) {
+                        compareSelectionBox.loadData(Arrays.asList(I18nStringListParam.OPTIONS));
+                    } else if (field instanceof CompositionStringParam) {
+                        compareSelectionBox.loadData(Arrays.asList(StringParam.OPTIONS));
+                    } else if (field instanceof ConcatStringParam) {
+                        compareSelectionBox.loadData(Arrays.asList(ConcatStringParam.OPTIONS));
                     }
-                }
-            });
 
-            compareSelectionBox = new ValueComboBox(false, "");
-            compareSelectionBox.setWidth("150px");
-            compareSelectionBox.setImmediate(true);
-            compareSelectionBox.addValueChangeListener(new ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(ValueChangeEvent event) {
                     displayAssociateInputField((Param) fieldSelectionBox.getValue());
                 }
             });
+
+            compareSelectionBox = new I18nValueComboBox(false);
+            compareSelectionBox.setWidth("150px");
+            compareSelectionBox.setImmediate(true);
+            compareSelectionBox.addValueChangeListener(valueChangeEvent -> displayAssociateInputField((Param) fieldSelectionBox.getValue()));
         }
 
         private void displayAssociateInputField(Param field) {
@@ -490,59 +453,49 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
             buildQuerySelectComponent();
 
-            this.addValueChangeListener(new ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
+            this.addValueChangeListener(valueChangeEvent -> {
+                Object itemId = SavedSearchResultComboBox.this.getValue();
+                if (itemId != null) {
+                    final SaveSearchResult data = beanItem.getItem(itemId).getBean();
 
-                @Override
-                public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-                    Object itemId = SavedSearchResultComboBox.this.getValue();
-                    if (itemId != null) {
-                        final SaveSearchResult data = beanItem.getItem(itemId).getBean();
+                    String queryText = data.getQuerytext();
+                    try {
+                        List<SearchFieldInfo> fieldInfos = QueryAnalyzer.toSearchFieldInfos(queryText, searchCategory);
+                        fillSearchFieldInfoAndInvokeSearchRequest(fieldInfos);
+                        hostSearchLayout.callSearchAction();
+                    } catch (Exception e) {
+                        LOG.error("Error of invalid query", e);
+                        NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.QUERY_SEARCH_IS_INVALID));
+                    }
 
-                        String queryText = data.getQuerytext();
-                        try {
-                            List<SearchFieldInfo> fieldInfos = QueryAnalyzer.toSearchFieldInfos(queryText, searchCategory);
-                            fillSearchFieldInfoAndInvokeSearchRequest(fieldInfos);
-                            hostSearchLayout.callSearchAction();
-                        } catch (Exception e) {
-                            LOG.error("Error of invalid query", e);
-                            NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.QUERY_SEARCH_IS_INVALID));
-                        }
+                    if (filterBox.getComponentCount() <= 3) {
+                        MButton updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+                            List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
+                            SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
+                            data.setSaveuser(AppContext.getUsername());
+                            data.setSaccountid(AppContext.getAccountId());
+                            data.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
+                            saveSearchResultService.updateWithSession(data, AppContext.getUsername());
+                        }).withIcon(FontAwesome.REFRESH).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-                        if (filterBox.getComponentCount() <= 3) {
-                            Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
-                                    clickEvent -> {
-                                        List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
-                                        SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-                                        data.setSaveuser(AppContext.getUsername());
-                                        data.setSaccountid(AppContext.getAccountId());
-                                        data.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
-                                        saveSearchResultService.updateWithSession(data, AppContext.getUsername());
-                                    });
-                            updateBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
-                            updateBtn.setIcon(FontAwesome.REFRESH);
+                        MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                            SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
+                            saveSearchResultService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                            searchContainer.removeAllComponents();
+                            if (filterBox.getComponentCount() > 2) {
+                                filterBox.removeComponent(filterBox.getComponent(1));
+                            }
+                            buildQuerySelectComponent();
+                        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER);
 
-                            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
-                                SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-                                saveSearchResultService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
-                                searchContainer.removeAllComponents();
-                                if (filterBox.getComponentCount() > 2) {
-                                    filterBox.removeComponent(filterBox.getComponent(1));
-                                }
-                                buildQuerySelectComponent();
-                            });
-                            deleteBtn.setStyleName(WebUIConstants.BUTTON_DANGER);
-                            deleteBtn.setIcon(FontAwesome.TRASH_O);
+                        filterBox.addComponent(deleteBtn, 1);
+                        filterBox.addComponent(updateBtn, 1);
+                    }
 
-                            filterBox.addComponent(deleteBtn, 1);
-                            filterBox.addComponent(updateBtn, 1);
-                        }
-
-                    } else {
-                        searchContainer.removeAllComponents();
-                        if (filterBox.getComponentCount() > 3) {
-                            filterBox.removeComponent(filterBox.getComponent(1));
-                        }
+                } else {
+                    searchContainer.removeAllComponents();
+                    if (filterBox.getComponentCount() > 3) {
+                        filterBox.removeComponent(filterBox.getComponent(1));
                     }
                 }
             });

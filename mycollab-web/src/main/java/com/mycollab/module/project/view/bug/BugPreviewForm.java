@@ -24,6 +24,9 @@ import com.mycollab.module.project.events.BugComponentEvent;
 import com.mycollab.module.project.events.BugVersionEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.ui.form.ProjectItemViewField;
@@ -204,7 +207,8 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                         (WebUIConstants.FIELD_NOTE);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " " + beanItem.getPriority();
+                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " "
+                            + AppContext.getMessage(BugPriority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
                     field.addStyleName("bug-" + beanItem.getPriority().toLowerCase());
                     return field;
@@ -212,13 +216,13 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
             } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
                     String severityLink = FontAwesome.STAR.getHtml() + " " +
-                            AppContext.getMessage(OptionI18nEnum.BugSeverity.class, beanItem.getSeverity());
+                            AppContext.getMessage(BugSeverity.class, beanItem.getSeverity());
                     DefaultViewField lbPriority = new DefaultViewField(severityLink, ContentMode.HTML);
                     lbPriority.addStyleName("bug-severity-" + beanItem.getSeverity().toLowerCase());
                     return lbPriority;
                 }
             } else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getResolution(), OptionI18nEnum.BugResolution.class);
+                return new I18nFormViewField(beanItem.getResolution(), BugResolution.class);
             }
             return null;
         }

@@ -21,10 +21,10 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.mycollab.db.query.*;
 
 import java.util.Arrays;
 
@@ -36,22 +36,22 @@ public class CaseSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
     public static final Param p_priority = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_PRIORITY,
-            new StringListParam("priority", "m_crm_case", "priority", Arrays.asList(CrmDataTypeFactory.getCasesPriorityList())));
+            new I18nStringListParam("priority", "m_crm_case", "priority", Arrays.asList(CrmDataTypeFactory.getCasesPriorityList())));
 
     public static final Param p_account = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_ACCOUNT,
             new PropertyParam("account", "m_crm_case", "accountId"));
 
     public static final Param p_status = CacheParamMapper.register(CrmTypeConstants.CASE, GenericI18Enum.FORM_STATUS,
-            new StringListParam("status", "m_crm_case", "status", Arrays.asList(CrmDataTypeFactory.getCasesStatusList())));
+            new I18nStringListParam("status", "m_crm_case", "status", Arrays.asList(CrmDataTypeFactory.getCasesStatusList())));
 
     public static final Param p_type = CacheParamMapper.register(CrmTypeConstants.CASE, GenericI18Enum.FORM_TYPE,
-            new StringListParam("type", "m_crm_case", "type", Arrays.asList(CrmDataTypeFactory.getCasesType())));
+            new I18nStringListParam("type", "m_crm_case", "type", Arrays.asList(CrmDataTypeFactory.getCasesType())));
 
     public static final Param p_reason = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_REASON,
-            new StringListParam("reason", "m_crm_case", "reason", Arrays.asList(CrmDataTypeFactory.getCasesReason())));
+            new I18nStringListParam("reason", "m_crm_case", "reason", Arrays.asList(CrmDataTypeFactory.getCasesReason())));
 
     public static final Param p_origin = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_ORIGIN,
-            new StringListParam("origin", "m_crm_case", "origin", Arrays.asList(CrmDataTypeFactory.getCasesOrigin())));
+            new I18nStringListParam("origin", "m_crm_case", "origin", Arrays.asList(CrmDataTypeFactory.getCasesOrigin())));
 
     public static final Param p_subject = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_SUBJECT,
             new StringParam("subject", "m_crm_case", "subject"));

@@ -20,6 +20,9 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.user.ui.format.UserHistoryFieldFormat;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
+import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
+
+import static com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 
 /**
  * @author MyCollab Ltd
@@ -32,13 +35,13 @@ public class OpportunityFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("opportunityname", GenericI18Enum.FORM_NAME);
         generateFieldDisplayHandler("currencyid", GenericI18Enum.FORM_CURRENCY, CURRENCY_FIELD);
         generateFieldDisplayHandler("amount", OpportunityI18nEnum.FORM_AMOUNT);
-        generateFieldDisplayHandler("salesstage", OpportunityI18nEnum.FORM_SALE_STAGE);
-        generateFieldDisplayHandler("probability", OpportunityI18nEnum.FORM_SALE_STAGE);
+        generateFieldDisplayHandler("salesstage", OpportunityI18nEnum.FORM_SALE_STAGE, new I18nHistoryFieldFormat(OpportunitySalesStage.class));
+        generateFieldDisplayHandler("probability", OpportunityI18nEnum.FORM_PROBABILITY);
         generateFieldDisplayHandler("nextstep", OpportunityI18nEnum.FORM_NEXT_STEP);
         generateFieldDisplayHandler("accountid", OpportunityI18nEnum.FORM_ACCOUNT_NAME, new AccountHistoryFieldFormat());
         generateFieldDisplayHandler("expectedcloseddate", OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE, PRETTY_DATE_FIELD);
-        generateFieldDisplayHandler("opportunitytype", GenericI18Enum.FORM_TYPE);
-        generateFieldDisplayHandler("source", OpportunityI18nEnum.FORM_LEAD_SOURCE);
+        generateFieldDisplayHandler("opportunitytype", GenericI18Enum.FORM_TYPE, new I18nHistoryFieldFormat(OpportunityType.class));
+        generateFieldDisplayHandler("source", OpportunityI18nEnum.FORM_LEAD_SOURCE, new I18nHistoryFieldFormat(OpportunityLeadSource.class));
         generateFieldDisplayHandler("campaignid", OpportunityI18nEnum.FORM_CAMPAIGN_NAME, new CampaignHistoryFieldFormat());
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);

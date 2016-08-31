@@ -22,6 +22,9 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.i18n.CallI18nEnum;
+import com.mycollab.module.crm.i18n.MeetingI18nEnum;
+import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.AppContext;
@@ -63,19 +66,19 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         splitBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL) || AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
         splitBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         splitBtn.setIcon(FontAwesome.PLUS);
-        splitBtn.setCaption("New Task");
+        splitBtn.setCaption(AppContext.getMessage(TaskI18nEnum.NEW));
         splitBtn.addClickListener(event -> EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null)));
 
         OptionPopupContent btnControlsLayout = new OptionPopupContent();
         splitBtn.setContent(btnControlsLayout);
 
-        Button createMeetingBtn = new Button("New Meeting", clickEvent -> {
+        Button createMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> {
             splitBtn.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
         });
         btnControlsLayout.addOption(createMeetingBtn);
         createMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-        final Button createCallBtn = new Button("New Call", clickEvent -> {
+        final Button createCallBtn = new Button(AppContext.getMessage(CallI18nEnum.NEW), clickEvent -> {
             splitBtn.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
         });
@@ -106,7 +109,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        public EventBasicSearchLayout() {
+        EventBasicSearchLayout() {
             super(ActivitySearchPanel.this);
         }
 

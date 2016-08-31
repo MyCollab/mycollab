@@ -16,11 +16,14 @@
  */
 package com.mycollab.mobile.module.crm.view.lead;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.mobile.ui.CountryComboBox;
 import com.mycollab.mobile.ui.IndustryComboBox;
 import com.mycollab.mobile.ui.PrefixNameComboBox;
 import com.mycollab.module.crm.domain.Lead;
+import com.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -29,6 +32,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -74,10 +78,10 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
             descArea.setNullRepresentation("");
             return descArea;
         } else if (propertyId.equals("accountname")) {
-            TextField txtField = new TextField();
+            MTextField txtField = new MTextField();
             if (isValidateForm) {
-                txtField.setRequired(true);
-                txtField.setRequiredError("Account name must be not null");
+                txtField.withNullRepresentation("").withRequired(true).withRequiredError(AppContext.getMessage
+                        (ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return txtField;

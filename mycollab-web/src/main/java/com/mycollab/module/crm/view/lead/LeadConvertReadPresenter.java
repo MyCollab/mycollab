@@ -25,6 +25,7 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.events.LeadEvent;
+import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.module.crm.view.CrmModule;
@@ -95,7 +96,8 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
                 view.previewItem(lead);
 
                 AppContext.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Lead", lead.getLeadName()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, AppContext.getMessage(LeadI18nEnum.SINGLE),
+                                lead.getLeadName()));
             }
         } else {
             throw new SecureAccessException();

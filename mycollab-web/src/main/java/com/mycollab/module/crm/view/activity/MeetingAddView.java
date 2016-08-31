@@ -21,6 +21,5 @@ import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.IFormAddView;
 
 public interface MeetingAddView extends IFormAddView<MeetingWithBLOBs> {
-	HasEditFormHandlers<MeetingWithBLOBs> getEditFormHandlers();
-
+    HasEditFormHandlers<MeetingWithBLOBs> getEditFormHandlers();
 }

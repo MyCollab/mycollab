@@ -45,7 +45,7 @@ public class ProjectAssetsUtil {
         }
     }
 
-    public static final Component buildProjectLogo(String projectShortname, Integer projectId, String projectAvatarId, int size) {
+    public static Component buildProjectLogo(String projectShortname, Integer projectId, String projectAvatarId, int size) {
         AbstractComponent wrapper;
         if (!StringUtils.isBlank(projectAvatarId)) {
             wrapper = new Image(null, new ExternalResource(StorageFactory.getResourcePath
@@ -65,7 +65,7 @@ public class ProjectAssetsUtil {
         return wrapper;
     }
 
-    public static final Component buildClientLogo(SimpleAccount account, int size) {
+    public static Component buildClientLogo(SimpleAccount account, int size) {
         AbstractComponent wrapper;
         if (!StringUtils.isBlank(account.getAvatarid())) {
             wrapper = new Image(null, new ExternalResource(StorageFactory.getEntityLogoPath(AppContext

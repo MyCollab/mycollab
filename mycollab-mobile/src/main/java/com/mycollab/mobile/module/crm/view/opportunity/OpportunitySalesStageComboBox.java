@@ -16,20 +16,19 @@
  */
 package com.mycollab.mobile.module.crm.view.opportunity;
 
-import com.mycollab.mobile.ui.ValueComboBox;
+import com.mycollab.mobile.ui.I18nValueComboBox;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-@SuppressWarnings("serial")
-public class OpportunitySalesStageComboBox extends ValueComboBox {
+public class OpportunitySalesStageComboBox extends I18nValueComboBox {
 
-	public OpportunitySalesStageComboBox() {
-		this.loadData(CrmDataTypeFactory.getOpportunitySalesStageList());
-		this.setNullSelectionAllowed(false);
-	}
+    public OpportunitySalesStageComboBox() {
+        this.loadData(Arrays.asList(CrmDataTypeFactory.getOpportunitySalesStageList()));
+        this.setNullSelectionAllowed(false);
+    }
 }

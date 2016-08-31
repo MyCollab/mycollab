@@ -48,6 +48,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mycollab.module.crm.i18n.OptionI18nEnum.CaseStatus;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.0
@@ -61,7 +63,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
     static {
         Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
-            String roleKeyName = CrmDataTypeFactory.getCasesStatusList()[i];
+            String roleKeyName = CrmDataTypeFactory.getCasesStatusList()[i].name();
             if (!tmpMap.containsKey(roleKeyName)) {
                 tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
@@ -87,11 +89,9 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         CssLayout noteBlock = new CssLayout();
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
-        for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
-            Label note = new Label(CrmDataTypeFactory.getCasesStatusList()[i]);
-            note.setStyleName("note-label");
-            note.addStyleName(colorsMap.get(CrmDataTypeFactory.getCasesStatusList()[i]));
-            note.setSizeUndefined();
+        for (CaseStatus status : CrmDataTypeFactory.getCasesStatusList()) {
+            ELabel note = new ELabel(AppContext.getMessage(status)).withStyleName("note-label", colorsMap.get(status
+                    .name())).withWidthUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
@@ -122,7 +122,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         loadCases();
     }
 
-    public class AccountCaseBlockDisplay implements BlockDisplayHandler<SimpleCase> {
+    class AccountCaseBlockDisplay implements BlockDisplayHandler<SimpleCase> {
 
         @Override
         public Component generateBlock(final SimpleCase oneCase, int blockIndex) {

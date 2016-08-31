@@ -33,6 +33,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
@@ -76,6 +77,8 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new BugsComp(beanItem));
                 return containerField;
+            } else if (Component.Field.description.equalTo(propertyId)) {
+                return new RichTextViewField(beanItem.getDescription());
             }
             return null;
         }

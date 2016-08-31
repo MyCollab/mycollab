@@ -155,7 +155,7 @@ public class TagViewComponent extends CssLayout {
     }
 
     private class TagBlock extends CssLayout {
-        TagBlock(final Tag tag) {
+        TagBlock(Tag tag) {
             this.setStyleName("tag-block");
             MButton tagLink = new MButton(tag.getName(),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, tag)))

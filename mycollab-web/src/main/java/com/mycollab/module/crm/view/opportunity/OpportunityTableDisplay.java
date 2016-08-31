@@ -21,14 +21,17 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityType;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
@@ -68,7 +71,8 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
             final SimpleOpportunity opportunity = getBeanByIndex(itemId);
 
             LabelLink b = new LabelLink(opportunity.getOpportunityname(), CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity.getId()));
-            if ("Closed Won".equals(opportunity.getSalesstage()) || "Closed Lost".equals(opportunity.getSalesstage())) {
+            if (OpportunitySalesStage.Closed_Won.name().equals(opportunity.getSalesstage()) ||
+                    OpportunitySalesStage.Closed_Lost.name().equals(opportunity.getSalesstage())) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else {
                 if (opportunity.isOverdue()) {
@@ -100,7 +104,6 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
             final SimpleOpportunity opportunity = getBeanByIndex(itemId);
             return new UserLink(opportunity.getAssignuser(), opportunity.getAssignUserAvatarId(),
                     opportunity.getAssignUserFullName());
-
         });
 
         this.addGeneratedColumn("accountName", (source, itemId, columnId) -> {
@@ -109,13 +112,28 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
         });
 
         this.addGeneratedColumn("campaignName", (source, itemId, columnId) -> {
-            final SimpleOpportunity opportunity = OpportunityTableDisplay.this.getBeanByIndex(itemId);
+            final SimpleOpportunity opportunity = getBeanByIndex(itemId);
             return new LabelLink(opportunity.getCampaignName(), CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity.getCampaignid()));
         });
 
         this.addGeneratedColumn("expectedcloseddate", (source, itemId, columnId) -> {
             final SimpleOpportunity opportunity = getBeanByIndex(itemId);
             return new ELabel().prettyDate(opportunity.getExpectedcloseddate());
+        });
+
+        this.addGeneratedColumn("salesstage", (source, itemId, columnId) -> {
+            final SimpleOpportunity opportunity = getBeanByIndex(itemId);
+            return ELabel.i18n(opportunity.getSalesstage(), OpportunitySalesStage.class);
+        });
+
+        this.addGeneratedColumn("opportunitytype", (source, itemId, columnId) -> {
+            final SimpleOpportunity opportunity = getBeanByIndex(itemId);
+            return ELabel.i18n(opportunity.getOpportunitytype(), OpportunityType.class);
+        });
+
+        this.addGeneratedColumn("source", (source, itemId, columnId) -> {
+            final SimpleOpportunity opportunity = getBeanByIndex(itemId);
+            return ELabel.i18n(opportunity.getSource(), OpportunityLeadSource.class);
         });
 
         this.setWidth("100%");

@@ -93,7 +93,7 @@ public class LinkIssueWindow extends MWindow {
                         }
 
                         if (selectedBug.getId().equals(hostedBug.getId())) {
-                            throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
+                            throw new UserInvalidInputException("The relation is invalid since the both entries are the same");
                         }
 
                         relatedBug.setRelatedid(selectedBug.getId());

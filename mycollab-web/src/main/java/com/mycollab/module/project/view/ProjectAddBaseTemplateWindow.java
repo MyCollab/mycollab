@@ -25,6 +25,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.events.ProjectEvent;
+import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.service.ProjectTemplateService;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -83,7 +84,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
             }
             String newPrjKey = prjKeyField.getValue();
             if (newPrjKey.length() > 3 || newPrjKey.length() == 0) {
-                NotificationUtil.showErrorNotification("Project key must be not null and less than 3 characters");
+                NotificationUtil.showErrorNotification(AppContext.getMessage(ProjectI18nEnum.ERROR_PROJECT_KEY_INVALID));
                 return;
             }
             ProjectTemplateService projectTemplateService = AppContextUtil.getSpringBean

@@ -25,6 +25,7 @@ import com.mycollab.module.crm.domain.CallWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCall;
 import com.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.service.CallService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.security.RolePermissionCollections;
@@ -32,8 +33,8 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -139,7 +140,8 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 
             view.previewItem(call);
             AppContext.addFragment(CrmLinkGenerator.generateCallPreviewLink(call.getId()), AppContext.
-                    getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Call", call.getSubject()));
+                    getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, AppContext.getMessage(CallI18nEnum.SINGLE),
+                            call.getSubject()));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

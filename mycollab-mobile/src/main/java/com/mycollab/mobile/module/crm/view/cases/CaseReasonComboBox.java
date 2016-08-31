@@ -16,19 +16,21 @@
  */
 package com.mycollab.mobile.module.crm.view.cases;
 
-import com.mycollab.mobile.ui.ValueComboBox;
+import com.mycollab.mobile.ui.I18nValueComboBox;
 import com.mycollab.module.crm.CrmDataTypeFactory;
+
+import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class CaseReasonComboBox extends ValueComboBox {
+public class CaseReasonComboBox extends I18nValueComboBox {
     private static final long serialVersionUID = 1L;
 
     public CaseReasonComboBox() {
         super();
         setCaption(null);
-        this.loadData(CrmDataTypeFactory.getCasesReason());
+        this.loadData(Arrays.asList(CrmDataTypeFactory.getCasesReason()));
     }
 }

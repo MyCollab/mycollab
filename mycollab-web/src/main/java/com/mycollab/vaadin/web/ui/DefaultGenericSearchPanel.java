@@ -16,7 +16,9 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -83,7 +85,7 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
 
     public void setTotalCountNumber(int countNumber) {
         if (headerText instanceof HeaderWithFontAwesome) {
-            ((HeaderWithFontAwesome) headerText).appendToTitle(String.format("(%d Total)", countNumber));
+            ((HeaderWithFontAwesome) headerText).appendToTitle(AppContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, countNumber));
         }
     }
 

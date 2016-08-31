@@ -16,9 +16,10 @@
  */
 package com.mycollab.module.crm.view.account;
 
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
@@ -36,8 +37,6 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.google.common.base.MoreObjects;
-import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -46,6 +45,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 
 /**
  * @author MyCollab Ltd.
@@ -60,9 +61,9 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
     static {
         Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
-            String roleKeyName = CrmDataTypeFactory.getOpportunitySalesStageList()[i];
-            if (!tmpMap.containsKey(roleKeyName)) {
-                tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
+            OpportunitySalesStage roleKeyName = CrmDataTypeFactory.getOpportunitySalesStageList()[i];
+            if (!tmpMap.containsKey(roleKeyName.name())) {
+                tmpMap.put(roleKeyName.name(), AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
         }
         colormap = Collections.unmodifiableMap(tmpMap);
@@ -84,14 +85,14 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         CssLayout noteBlock = new CssLayout();
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
-        for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
-            ELabel note = new ELabel(CrmDataTypeFactory.getOpportunitySalesStageList()[i])
-                    .withStyleName("note-label", colormap.get(CrmDataTypeFactory.getOpportunitySalesStageList()[i]))
+        for (OpportunitySalesStage stage : CrmDataTypeFactory.getOpportunitySalesStageList()) {
+            ELabel note = new ELabel(AppContext.getMessage(stage))
+                    .withStyleName("note-label", colormap.get(stage.name()))
                     .withWidthUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
-        controlsBtnWrap.addComponent(notesWrap);
+        controlsBtnWrap.with(notesWrap).expand(notesWrap);
 
         if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
             MButton createBtn = new MButton(AppContext.getMessage(OpportunityI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
@@ -162,20 +163,22 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
                     .appendText(opportunity.getOpportunityname());
             opportunityInfo.addComponent(ELabel.h3(opportunityLink.write()));
 
-            Label opportunityAmount = new Label("Amount: " + (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
+            Label opportunityAmount = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT) + ": " +
+                    (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
             if (opportunity.getCurrencyid() != null && opportunity.getAmount() != null) {
                 opportunityAmount.setValue(opportunityAmount.getValue() + opportunity.getCurrencyid());
             }
             opportunityInfo.addComponent(opportunityAmount);
 
-            Label opportunitySaleStage = new Label("Sale Stage: " + MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
+            Label opportunitySaleStage = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
+                    MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
             if (opportunity.getSalesstage() != null) {
                 beanBlock.addStyleName(colormap.get(opportunity.getSalesstage()));
             }
 
-            ELabel opportunityExpectedCloseDate = new ELabel("Expected Close Date: " +
+            ELabel opportunityExpectedCloseDate = new ELabel(AppContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE) + ": " +
                     AppContext.formatPrettyTime(opportunity.getExpectedcloseddate()))
                     .withDescription(AppContext.formatDate(opportunity.getExpectedcloseddate()));
             opportunityInfo.addComponent(opportunityExpectedCloseDate);

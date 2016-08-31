@@ -17,9 +17,9 @@
 package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.QueryI18nEnum.NumberI18nEnum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
-import com.mycollab.db.query.NumberParam;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -118,8 +118,8 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, NumberParam
-                        .GREATER_THAN, task.getTaskkey()));
+                criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, NumberI18nEnum.GREATER_THAN.name(),
+                        task.getTaskkey()));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
@@ -134,7 +134,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(task.getProjectid()));
-                criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, NumberParam.LESS_THAN,
+                criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, NumberI18nEnum.LESS_THAN.name(),
                         task.getTaskkey()));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {

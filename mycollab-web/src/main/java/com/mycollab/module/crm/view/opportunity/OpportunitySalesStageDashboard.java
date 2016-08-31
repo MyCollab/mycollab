@@ -17,15 +17,16 @@
 package com.mycollab.module.crm.view.opportunity;
 
 import com.mycollab.common.domain.GroupItem;
-import com.mycollab.ui.chart.PieChartWrapper;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.ui.chart.PieChartWrapper;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;
@@ -55,19 +56,19 @@ public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunityS
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        final String[] salesStages = CrmDataTypeFactory.getOpportunitySalesStageList();
-        for (final String status : salesStages) {
+        final OpportunitySalesStage[] salesStages = CrmDataTypeFactory.getOpportunitySalesStageList();
+        for (final OpportunitySalesStage status : salesStages) {
             boolean isFound = false;
             for (final GroupItem item : groupItems) {
-                if (status.equals(item.getGroupid())) {
-                    dataset.setValue(status, item.getValue());
+                if (status.name().equals(item.getGroupid())) {
+                    dataset.setValue(AppContext.getMessage(status), item.getValue());
                     isFound = true;
                     break;
                 }
             }
 
             if (!isFound) {
-                dataset.setValue(status, 0);
+                dataset.setValue(AppContext.getMessage(status), 0);
             }
         }
 

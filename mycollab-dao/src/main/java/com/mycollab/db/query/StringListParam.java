@@ -16,6 +16,7 @@
  */
 package com.mycollab.db.query;
 
+import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
 import com.mycollab.db.arguments.CollectionValueSearchField;
 
 import java.util.Collection;
@@ -26,10 +27,8 @@ import java.util.List;
  * @since 4.0
  */
 public class StringListParam extends ColumnParam {
-    public static final String IN = "in";
-    public static final String NOT_IN = "not in";
 
-    public static String[] OPTIONS = {IN, NOT_IN};
+    public static CollectionI18nEnum[] OPTIONS = {CollectionI18nEnum.IN, CollectionI18nEnum.NOT_IN};
 
     private List<String> values;
 

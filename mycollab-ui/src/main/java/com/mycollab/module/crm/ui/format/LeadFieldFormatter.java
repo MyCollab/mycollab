@@ -18,8 +18,12 @@ package com.mycollab.module.crm.ui.format;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.user.ui.format.UserHistoryFieldFormat;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
+import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
+
+import static com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 
 /**
  * @author MyCollab Ltd
@@ -35,8 +39,8 @@ public class LeadFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("title", LeadI18nEnum.FORM_TITLE);
         generateFieldDisplayHandler("department", LeadI18nEnum.FORM_DEPARTMENT);
         generateFieldDisplayHandler("accountname", LeadI18nEnum.FORM_ACCOUNT_NAME);
-        generateFieldDisplayHandler("source", LeadI18nEnum.FORM_LEAD_SOURCE);
-        generateFieldDisplayHandler("industry", LeadI18nEnum.FORM_INDUSTRY);
+        generateFieldDisplayHandler("source", LeadI18nEnum.FORM_LEAD_SOURCE, new I18nHistoryFieldFormat(OpportunityLeadSource.class));
+        generateFieldDisplayHandler("industry", LeadI18nEnum.FORM_INDUSTRY, new I18nHistoryFieldFormat(AccountIndustry.class));
         generateFieldDisplayHandler("noemployees", LeadI18nEnum.FORM_NO_EMPLOYEES);
         generateFieldDisplayHandler("email", GenericI18Enum.FORM_EMAIL);
         generateFieldDisplayHandler("officephone", LeadI18nEnum.FORM_OFFICE_PHONE);
@@ -44,7 +48,7 @@ public class LeadFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("otherphone", LeadI18nEnum.FORM_OTHER_PHONE);
         generateFieldDisplayHandler("fax", LeadI18nEnum.FORM_FAX);
         generateFieldDisplayHandler("website", LeadI18nEnum.FORM_WEBSITE);
-        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS);
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS, new I18nHistoryFieldFormat(LeadStatus.class));
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
         generateFieldDisplayHandler("primaddress", LeadI18nEnum.FORM_PRIMARY_ADDRESS);
         generateFieldDisplayHandler("primcity", LeadI18nEnum.FORM_PRIMARY_CITY);

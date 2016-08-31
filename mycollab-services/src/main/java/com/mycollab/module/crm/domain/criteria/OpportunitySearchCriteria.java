@@ -21,10 +21,10 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.mycollab.db.query.*;
 
 import java.util.Arrays;
 
@@ -48,15 +48,15 @@ public class OpportunitySearchCriteria extends SearchCriteria {
             OpportunityI18nEnum.FORM_NEXT_STEP, new StringParam("nextstep", "m_crm_opportunity", "nextStep"));
 
     public static final Param p_saleStage = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
-            OpportunityI18nEnum.FORM_SALE_STAGE, new StringListParam("saleStage", "m_crm_opportunity", "salesStage",
+            OpportunityI18nEnum.FORM_SALE_STAGE, new I18nStringListParam("saleStage", "m_crm_opportunity", "salesStage",
                     Arrays.asList(CrmDataTypeFactory.getOpportunitySalesStageList())));
 
-    public static final Param p_leadSource = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
-            OpportunityI18nEnum.FORM_LEAD_SOURCE, new StringListParam("leadSource", "m_crm_opportunity", "source",
+    public static final I18nStringListParam p_leadSource = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
+            OpportunityI18nEnum.FORM_LEAD_SOURCE, new I18nStringListParam("leadSource", "m_crm_opportunity", "source",
                     Arrays.asList(CrmDataTypeFactory.getLeadSourceList())));
 
     public static final Param p_type = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY, GenericI18Enum.FORM_TYPE,
-            new StringListParam("type", "m_crm_opportunity", "type", Arrays.asList(CrmDataTypeFactory.getOpportunityTypeList())));
+            new I18nStringListParam("type", "m_crm_opportunity", "type", Arrays.asList(CrmDataTypeFactory.getOpportunityTypeList())));
 
     public static final Param p_assignee = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY, GenericI18Enum.FORM_ASSIGNEE,
             new PropertyListParam("assignee", "m_crm_opportunity", "assignUser"));

@@ -16,13 +16,15 @@
  */
 package com.mycollab.module.crm.view.lead;
 
+import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.domain.SimpleLead;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.field.DefaultViewField;
-import com.mycollab.vaadin.ui.field.EmailViewField;
-import com.mycollab.vaadin.ui.field.RichTextViewField;
-import com.mycollab.vaadin.ui.field.UrlLinkViewField;
+import com.mycollab.vaadin.ui.field.*;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
@@ -63,6 +65,12 @@ class LeadReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
             return new UserLinkViewField(lead.getAssignuser(), lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(lead.getDescription());
+        } else if (Lead.Field.status.equalTo(propertyId)) {
+            return new I18nFormViewField(lead.getStatus(), LeadStatus.class);
+        } else if (Lead.Field.industry.equalTo(propertyId)) {
+            return new I18nFormViewField(lead.getIndustry(), AccountIndustry.class);
+        } else if (Lead.Field.source.equalTo(propertyId)) {
+            return new I18nFormViewField(lead.getSource(), OpportunityLeadSource.class);
         }
 
         return null;

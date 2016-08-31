@@ -29,7 +29,6 @@ public enum MessageI18nEnum {
 
     FORM_TITLE,
     FORM_IS_STICK,
-    FORM_TITLE_REQUIRED_ERROR,
 
     USER_COMMENT_ADD,
 

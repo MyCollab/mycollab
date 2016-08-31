@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
@@ -124,52 +125,37 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         mainContent.addComponent(this.dateHdr);
         mainContent.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
 
-        toggleViewBtn = new PopupButton("Monthly");
+        toggleViewBtn = new PopupButton(AppContext.getMessage(DayI18nEnum.OPT_MONTHLY));
         toggleViewBtn.setWidth("200px");
         toggleViewBtn.addStyleName("calendar-view-switcher");
         MVerticalLayout popupLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true)).withWidth("190px");
 
-        monthViewBtn = new Button("Monthly", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                toggleViewBtn.setPopupVisible(false);
-                toggleViewBtn.setCaption(monthViewBtn.getCaption());
-                calendarComponent.switchToMonthView(new Date(), true);
-                datePicker.selectDate(new Date());
-                monthViewBtn.addStyleName("selected-style");
-                initLabelCaption();
-            }
+        monthViewBtn = new Button(AppContext.getMessage(DayI18nEnum.OPT_MONTHLY), clickEvent -> {
+            toggleViewBtn.setPopupVisible(false);
+            toggleViewBtn.setCaption(monthViewBtn.getCaption());
+            calendarComponent.switchToMonthView(new Date(), true);
+            datePicker.selectDate(new Date());
+            monthViewBtn.addStyleName("selected-style");
+            initLabelCaption();
         });
         monthViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(monthViewBtn);
 
-        weekViewBtn = new Button("Weekly", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                toggleViewBtn.setPopupVisible(false);
-                toggleViewBtn.setCaption(weekViewBtn.getCaption());
-                calendarComponent.switchToWeekView(new Date());
-                datePicker.selectWeek(new Date());
-            }
+        weekViewBtn = new Button(AppContext.getMessage(DayI18nEnum.OPT_WEEKLY), clickEvent -> {
+            toggleViewBtn.setPopupVisible(false);
+            toggleViewBtn.setCaption(weekViewBtn.getCaption());
+            calendarComponent.switchToWeekView(new Date());
+            datePicker.selectWeek(new Date());
         });
         weekViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(weekViewBtn);
 
-        dailyViewBtn = new Button("Daily", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                toggleViewBtn.setPopupVisible(false);
-                toggleViewBtn.setCaption(dailyViewBtn.getCaption());
-                Date currentDate = new Date();
-                datePicker.selectDate(currentDate);
-                calendarComponent.switchToDateView(currentDate);
-            }
+        dailyViewBtn = new Button(AppContext.getMessage(DayI18nEnum.OPT_DAILY), clickEvent -> {
+            toggleViewBtn.setPopupVisible(false);
+            toggleViewBtn.setCaption(dailyViewBtn.getCaption());
+            Date currentDate = new Date();
+            datePicker.selectDate(currentDate);
+            calendarComponent.switchToDateView(currentDate);
         });
         dailyViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(dailyViewBtn);

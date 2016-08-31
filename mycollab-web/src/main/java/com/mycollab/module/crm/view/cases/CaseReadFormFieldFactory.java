@@ -20,12 +20,15 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCase;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.EmailViewField;
-import com.mycollab.vaadin.web.ui.field.LinkViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
+import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
@@ -55,6 +58,16 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
             return new RichTextViewField(cases.getDescription());
         } else if (CaseWithBLOBs.Field.resolution.equalTo(propertyId)) {
             return new RichTextViewField(cases.getResolution());
+        } else if (CaseWithBLOBs.Field.origin.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getOrigin(), CaseOrigin.class);
+        } else if (CaseWithBLOBs.Field.priority.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getPriority(), CasePriority.class);
+        } else if (CaseWithBLOBs.Field.status.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getStatus(), CaseStatus.class);
+        } else if (CaseWithBLOBs.Field.reason.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getReason(), CaseReason.class);
+        } else if (CaseWithBLOBs.Field.type.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getType(), CaseType.class);
         }
         return null;
     }

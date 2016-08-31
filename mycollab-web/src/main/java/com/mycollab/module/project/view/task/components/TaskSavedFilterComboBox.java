@@ -18,14 +18,15 @@ package com.mycollab.module.project.view.task.components;
 
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.db.arguments.SearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.query.CurrentProjectIdInjector;
-import com.mycollab.db.query.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
@@ -91,7 +92,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                     protected Object doEval() {
                         return new LocalDate().toDate();
                     }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), StringParam.IS_NOT,
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), QueryI18nEnum.StringI18nEnum.IS_NOT.name(),
                 ConstantValueInjector.valueOf(OptionI18nEnum.StatusI18nEnum.Closed.name())));
 
         SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, AppContext.getMessage(TaskI18nEnum.VAL_MY_TASKS),

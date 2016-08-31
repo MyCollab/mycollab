@@ -22,10 +22,10 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.db.query.*;
 
 import java.util.Arrays;
 
@@ -64,8 +64,8 @@ public class AccountSearchCriteria extends SearchCriteria {
                     new StringParam("", "m_crm_account", "alternatePhone"),
                     new StringParam("", "m_crm_account", "phoneOffice")));
 
-    public static final StringListParam p_industries = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
-            AccountI18nEnum.FORM_INDUSTRY, new StringListParam("industry", "m_crm_account", "industry",
+    public static final I18nStringListParam p_industries = CacheParamMapper.register(CrmTypeConstants.ACCOUNT,
+            AccountI18nEnum.FORM_INDUSTRY, new I18nStringListParam("industry", "m_crm_account", "industry",
                     Arrays.asList(CrmDataTypeFactory.getAccountIndustryList())));
 
     public static final I18nStringListParam p_types = CacheParamMapper.register(CrmTypeConstants.ACCOUNT, GenericI18Enum.FORM_TYPE,

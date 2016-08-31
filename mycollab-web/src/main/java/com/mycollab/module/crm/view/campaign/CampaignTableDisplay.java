@@ -21,19 +21,23 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignStatus;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignType;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import static com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignStatus.Completed;
 
 /**
  * @author MyCollab Ltd.
@@ -70,7 +74,7 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
                     campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
             b.setStyleName(WebUIConstants.BUTTON_LINK);
 
-            if ("Complete".equals(campaign.getStatus())) {
+            if (Completed.name().equals(campaign.getStatus())) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else {
                 if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
@@ -121,6 +125,16 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
         this.addGeneratedColumn("enddate", (source, itemId, columnId) -> {
             final SimpleCampaign campaign = getBeanByIndex(itemId);
             return new ELabel().prettyDate(campaign.getEnddate());
+        });
+
+        this.addGeneratedColumn("type", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            return ELabel.i18n(campaign.getType(), CampaignType.class);
+        });
+
+        this.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            final SimpleCampaign campaign = getBeanByIndex(itemId);
+            return ELabel.i18n(campaign.getStatus(), CampaignStatus.class);
         });
 
         this.setWidth("100%");

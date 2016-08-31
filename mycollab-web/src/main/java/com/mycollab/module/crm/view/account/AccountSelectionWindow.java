@@ -16,10 +16,12 @@
  */
 package com.mycollab.module.crm.view.account;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -40,7 +42,7 @@ public class AccountSelectionWindow extends MWindow {
     private FieldSelection<Account> fieldSelection;
 
     public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
-        super("Account Selection");
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(AccountI18nEnum.SINGLE)));
         this.fieldSelection = fieldSelection;
         this.withModal(true).withResizable(false).withWidth("900px");
     }

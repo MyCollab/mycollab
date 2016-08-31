@@ -16,17 +16,19 @@
  */
 package com.mycollab.mobile.module.crm.view.lead;
 
-import com.mycollab.mobile.ui.ValueComboBox;
+import com.mycollab.mobile.ui.I18nValueComboBox;
 import com.mycollab.module.crm.CrmDataTypeFactory;
+
+import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class LeadSourceComboBox extends ValueComboBox {
+public class LeadSourceComboBox extends I18nValueComboBox {
     private static final long serialVersionUID = 1L;
 
     public LeadSourceComboBox() {
-        this.loadData(CrmDataTypeFactory.getLeadSourceList());
+        this.loadData(Arrays.asList(CrmDataTypeFactory.getLeadSourceList()));
     }
 }

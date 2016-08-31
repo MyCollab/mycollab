@@ -41,13 +41,15 @@ public class I18nValueComboBox extends ValueComboBox {
     public final void loadData(List<? extends Enum<?>> values) {
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
 
-        for (Enum<?> entry : values) {
-            this.addItem(entry.name());
-            this.setItemCaption(entry.name(), AppContext.getMessage(entry));
-        }
+        if (values.size() > 0) {
+            for (Enum<?> entry : values) {
+                this.addItem(entry.name());
+                this.setItemCaption(entry.name(), AppContext.getMessage(entry));
+            }
 
-        if (!this.isNullSelectionAllowed()) {
-            this.select(this.getItemIds().iterator().next());
+            if (!this.isNullSelectionAllowed()) {
+                this.select(this.getItemIds().iterator().next());
+            }
         }
     }
 }

@@ -78,7 +78,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(UserI18nEnum.LIST_VALUE, 0));
+        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(UserI18nEnum.LIST) + " " +
+                AppContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
 
         final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
@@ -141,7 +142,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
         List<SimpleUser> userAccountList = userService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
-        headerText.updateTitle(AppContext.getMessage(UserI18nEnum.LIST_VALUE, userAccountList.size()));
+        headerText.updateTitle(AppContext.getMessage(UserI18nEnum.LIST) + " " +
+                AppContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, userAccountList.size()));
 
         for (SimpleUser userAccount : userAccountList) {
             contentLayout.addComponent(generateMemberBlock(userAccount));

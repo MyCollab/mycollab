@@ -19,7 +19,6 @@ package com.mycollab.module.crm.view.opportunity;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
@@ -40,8 +39,8 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AddViewLayout2;
+import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -50,6 +49,7 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -134,7 +134,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
         private final CssLayout bodyWrapper;
 
-        public ContactOpportunityList() {
+        ContactOpportunityList() {
             super();
             this.setStyleName("contactopp-list");
 
@@ -185,7 +185,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             this.addComponent(bodyWrapper);
         }
 
-        public void addRow(Component child) {
+        void addRow(Component child) {
             if (bodyWrapper.getComponentCount() % 2 == 0)
                 child.addStyleName("odd");
 
@@ -193,7 +193,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             bodyWrapper.removeStyleName("no-child");
         }
 
-        public Iterator<Component> getBodySubComponents() {
+        Iterator<Component> getBodySubComponents() {
             return bodyWrapper.iterator();
         }
 
@@ -205,7 +205,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         private ContactSelectionField contactField;
         private RoleDecisionComboBox roleBox;
 
-        public ContactRoleRowComp(final SimpleContactOpportunityRel contactOpp) {
+        ContactRoleRowComp(final SimpleContactOpportunityRel contactOpp) {
             this.withMargin(true).withFullWidth().withStyleName("contactrole-row");
 
             contactField = new ContactSelectionField();
@@ -255,7 +255,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             this.setExpandRatio(deleteBtn, 1.0f);
         }
 
-        public ContactOpportunity getContactVal() {
+        ContactOpportunity getContactVal() {
             ContactOpportunity contactOppRel = new ContactOpportunity();
             Contact contact = contactField.getContact();
             if (contact != null && contact.getId() != null) {
@@ -269,13 +269,13 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         }
     }
 
-    private static class RoleDecisionComboBox extends ValueComboBox {
+    private static class RoleDecisionComboBox extends I18nValueComboBox {
         private static final long serialVersionUID = 1L;
 
-        public RoleDecisionComboBox() {
+        RoleDecisionComboBox() {
             super();
             this.setNullSelectionAllowed(false);
-            this.loadData(CrmDataTypeFactory.getOpportunityContactRoleList());
+            this.loadData(Arrays.asList(CrmDataTypeFactory.getOpportunityContactRoleList()));
         }
     }
 }

@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.account;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.lead.LeadSearchPanel;
 import com.mycollab.module.crm.view.lead.LeadTableDisplay;
@@ -36,7 +37,7 @@ import java.util.Arrays;
 public class AccountLeadSelectionWindow extends RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 
     public AccountLeadSelectionWindow(AccountLeadListComp associateLeadList) {
-        super("Select Leads", associateLeadList);
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(LeadI18nEnum.LIST)), associateLeadList);
         this.setWidth("1000px");
     }
 

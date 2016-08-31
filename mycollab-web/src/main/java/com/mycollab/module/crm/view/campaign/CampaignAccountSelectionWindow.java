@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.campaign;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.account.AccountSearchPanel;
 import com.mycollab.module.crm.view.account.AccountTableDisplay;
@@ -37,7 +38,7 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
     private static final long serialVersionUID = 1L;
 
     public CampaignAccountSelectionWindow(CampaignAccountListComp associateAccountList) {
-        super("Select Accounts", associateAccountList);
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(AccountI18nEnum.LIST)), associateAccountList);
         this.setWidth("1000px");
     }
 

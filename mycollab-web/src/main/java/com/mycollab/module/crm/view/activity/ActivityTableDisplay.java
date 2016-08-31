@@ -119,60 +119,31 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
             Tr trRow1 = new Tr();
             trRow1.appendChild(
-                    new Td().setStyle(
-                            "width: 100px; vertical-align: top; text-align: right;")
+                    new Td().setStyle("width: 100px; vertical-align: top; text-align: right;")
                             .appendText("Start Date & Time:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(
-                                            AppContext.formatDateTime(meeting
-                                                    .getStartDate())));
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
+                                    .appendText(AppContext.formatDateTime(meeting.getStartDate())));
             trRow1.appendChild(
-                    new Td().setStyle(
-                            "width: 90px; vertical-align: top; text-align: right;")
-                            .appendText("Status:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "width:110px; vertical-align: top; text-align: left;")
-                                    .appendText(
-                                            (meeting.getStatus() != null) ? meeting
-                                                    .getStatus() : ""));
+                    new Td().setStyle("width: 90px; vertical-align: top; text-align: right;").appendText("Status:"))
+                    .appendChild(new Td().setStyle("width:110px; vertical-align: top; text-align: left;")
+                                    .appendText((meeting.getStatus() != null) ? meeting.getStatus() : ""));
 
             Tr trRow2 = new Tr();
             trRow2.appendChild(
-                    new Td().setStyle(
-                            "width: 100px; vertical-align: top; text-align: right;")
-                            .appendText("End Date & Time:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(
-                                            AppContext.formatDateTime(meeting
-                                                    .getEndDate())));
-            trRow2.appendChild(
-                    new Td().setStyle(
-                            "width: 90px; vertical-align: top; text-align: right;")
+                    new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("End Date & Time:"))
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
+                                    .appendText(AppContext.formatDateTime(meeting.getEndDate())));
+            trRow2.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
                             .appendText("Location:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(
-                                            (meeting.getMeetingLocation() != null) ? meeting
-                                                    .getMeetingLocation() : ""));
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
+                                    .appendText((meeting.getMeetingLocation() != null) ? meeting.getMeetingLocation() : ""));
             Tr trRow3 = new Tr();
-            Td trRow3_value = new Td()
-                    .setStyle(
-                            "word-wrap: break-word; white-space: normal;vertical-align: top;")
-                    .appendText(
-                            StringUtils.trimHtmlTags(meeting.getDescription()));
+            Td trRow3_value = new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
+                    .appendText(StringUtils.trimHtmlTags(meeting.getDescription()));
             trRow3_value.setAttribute("colspan", "3");
 
-            trRow3.appendChild(
-                    new Td().setStyle(
-                            "width: 70px; vertical-align: top; text-align: right;")
-                            .appendText("Description:")).appendChild(
-                    trRow3_value);
+            trRow3.appendChild(new Td().setStyle("width: 70px; vertical-align: top; text-align: right;").appendText("Description:"))
+                    .appendChild(trRow3_value);
 
             table.appendChild(trRow1);
             table.appendChild(trRow2);
@@ -205,8 +176,8 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                                             AppContext.formatDateTime(call
                                                     .getStartDate())));
             trRow1.appendChild(new Td().setStyle(
-                            "width: 110px; vertical-align: top; text-align: right;")
-                            .appendText("Status:"))
+                    "width: 110px; vertical-align: top; text-align: right;")
+                    .appendText("Status:"))
                     .appendChild(
                             new Td().setStyle(
                                     "word-wrap: break-word; white-space: normal;vertical-align: top;")
@@ -283,12 +254,12 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             Tr trRow1 = new Tr();
             trRow1.appendChild(new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("Start Date:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(AppContext.formatDateTime(event.getStartDate())));
+                            .appendText(AppContext.formatDateTime(event.getStartDate())));
             trRow1.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;").appendText("Status:"))
                     .appendChild(new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .setStyle("width:110px; vertical-align: top; text-align: left;")
-                                    .appendText(StringUtils.trimHtmlTags(event.getStatus())));
+                            "word-wrap: break-word; white-space: normal;vertical-align: top;")
+                            .setStyle("width:110px; vertical-align: top; text-align: left;")
+                            .appendText(StringUtils.trimHtmlTags(event.getStatus())));
 
             Tr trRow2 = new Tr();
             trRow2.appendChild(new Td().setStyle("width: 100px; vertical-align: top; text-align: right;")

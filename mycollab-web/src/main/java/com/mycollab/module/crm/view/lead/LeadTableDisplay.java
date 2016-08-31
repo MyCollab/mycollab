@@ -22,9 +22,14 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.ExternalResource;
@@ -88,6 +93,21 @@ public class LeadTableDisplay extends DefaultPagedBeanTable<LeadService, LeadSea
             l.setResource(new ExternalResource("mailto:" + lead.getEmail()));
             l.setCaption(lead.getEmail());
             return l;
+        });
+
+        this.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
+            return ELabel.i18n(lead.getStatus(), LeadStatus.class);
+        });
+
+        this.addGeneratedColumn("industry", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
+            return ELabel.i18n(lead.getIndustry(), AccountIndustry.class);
+        });
+
+        this.addGeneratedColumn("source", (source, itemId, columnId) -> {
+            final SimpleLead lead = getBeanByIndex(itemId);
+            return ELabel.i18n(lead.getSource(), OpportunityLeadSource.class);
         });
 
         this.addGeneratedColumn("website", (source, itemId, columnId) -> {

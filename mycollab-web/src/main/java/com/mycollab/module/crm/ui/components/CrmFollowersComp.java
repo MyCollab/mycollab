@@ -19,6 +19,7 @@ package com.mycollab.module.crm.ui.components;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.mycollab.common.i18n.FollowerI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.MonitorItemService;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.StringUtils;
@@ -97,13 +98,14 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
-            final PopupView addPopupView = new PopupView("Modify", new MVerticalLayout());
+            final PopupView addPopupView = new PopupView(AppContext.getMessage(GenericI18Enum.ACTION_MODIFY), new MVerticalLayout());
             addPopupView.addPopupVisibilityListener(popupVisibilityEvent -> {
                 PopupView.Content content = addPopupView.getContent();
                 if (popupVisibilityEvent.isPopupVisible()) {
                     MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
                     popupComponent.removeAllComponents();
-                    popupComponent.with(new ELabel("Modify watchers").withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
+                    popupComponent.with(new ELabel(AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))
+                            .withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
                 } else {
                     MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
                     ModifyWatcherPopup popup = (ModifyWatcherPopup) popupComponent.getComponent(1);

@@ -16,27 +16,23 @@
  */
 package com.mycollab.db.query;
 
+import com.mycollab.common.i18n.QueryI18nEnum.NumberI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NoValueSearchField;
 import com.mycollab.db.arguments.OneValueSearchField;
 import com.mycollab.db.arguments.SearchField;
+
+import static com.mycollab.common.i18n.QueryI18nEnum.NumberI18nEnum.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
 public class NumberParam extends ColumnParam {
-    public static final String EQUAL = "=";
-    public static final String NOT_EQUAL = "<>";
-    public static final String LESS_THAN = "<";
-    public static final String LESS_THAN_EQUAL = "<=";
-    public static final String GREATER_THAN = ">";
-    public static final String GREATER_THAN_EQUAL = "=>";
-    static final String IS_EMPTY = "is empty";
-    static final String IS_NOT_EMPTY = "is not empty";
 
-    public static final String[] OPTIONS = {EQUAL, NOT_EQUAL, LESS_THAN,
-            LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL, IS_EMPTY, IS_NOT_EMPTY};
+    public static final NumberI18nEnum[] OPTIONS = {EQUAL, NOT_EQUAL, LESS_THAN,
+            LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL,
+            IS_EMPTY, IS_NOT_EMPTY};
 
     private static final String EQUAL_EXPR = "%s.%s = ";
     private static final String NOT_EQUAL_EXPR = "%s.%s <> ";
@@ -52,22 +48,23 @@ public class NumberParam extends ColumnParam {
     }
 
     public SearchField buildSearchField(String prefixOper, String compareOper, Number value) {
-        switch (compareOper) {
-            case NumberParam.EQUAL:
+        NumberI18nEnum compareValue = valueOf(compareOper);
+        switch (compareValue) {
+            case EQUAL:
                 return this.buildParamIsEqual(prefixOper, value);
-            case NumberParam.NOT_EQUAL:
+            case NOT_EQUAL:
                 return this.buildParamIsNotEqual(prefixOper, value);
-            case NumberParam.IS_EMPTY:
+            case IS_EMPTY:
                 return this.buildParamIsNull(prefixOper);
-            case NumberParam.IS_NOT_EMPTY:
+            case IS_NOT_EMPTY:
                 return this.buildParamIsNotNull(prefixOper);
-            case NumberParam.GREATER_THAN:
+            case GREATER_THAN:
                 return this.buildParamIsGreaterThan(prefixOper, value);
-            case NumberParam.GREATER_THAN_EQUAL:
+            case GREATER_THAN_EQUAL:
                 return this.buildParamIsGreaterThanEqual(prefixOper, value);
-            case NumberParam.LESS_THAN:
+            case LESS_THAN:
                 return this.buildParamIsLessThan(prefixOper, value);
-            case NumberParam.LESS_THAN_EQUAL:
+            case LESS_THAN_EQUAL:
                 return this.buildParamIsLessThanEqual(prefixOper, value);
             default:
                 throw new MyCollabException("Not support yet");

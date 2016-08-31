@@ -310,14 +310,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     return new TimeZoneSelectionField(false);
                 } else if (propertyId.equals("country")) {
                     final CountryComboBox cboCountry = new CountryComboBox();
-                    cboCountry.addValueChangeListener(new Property.ValueChangeListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void valueChange(final Property.ValueChangeEvent event) {
-                            user.setCountry((String) cboCountry.getValue());
-                        }
-                    });
+                    cboCountry.addValueChangeListener(valueChangeEvent -> user.setCountry((String) cboCountry.getValue()));
                     return cboCountry;
                 } else if (User.Field.password.equalTo(propertyId)) {
                     return new MPasswordField();
@@ -334,14 +327,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
         AdminRoleSelectionField() {
             roleBox = new RoleComboBox();
-            roleBox.addValueChangeListener(new Property.ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(final Property.ValueChangeEvent event) {
-                    Integer roleId = (Integer) roleBox.getValue();
-                    displayRolePermission(roleId);
-                }
+            roleBox.addValueChangeListener(valueChangeEvent -> {
+                Integer roleId = (Integer) roleBox.getValue();
+                displayRolePermission(roleId);
             });
             Integer val = (Integer) roleBox.getValue();
             displayRolePermission(val);

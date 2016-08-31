@@ -16,10 +16,12 @@
  */
 package com.mycollab.module.crm.view.contact;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -40,7 +42,7 @@ public class ContactSelectionWindow extends Window {
     private FieldSelection<Contact> fieldSelection;
 
     public ContactSelectionWindow(FieldSelection<Contact> fieldSelection) {
-        super("Contact Selection");
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(ContactI18nEnum.SINGLE)));
         this.setWidth("900px");
         this.fieldSelection = fieldSelection;
         this.setModal(true);

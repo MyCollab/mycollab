@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.crm;
 
-import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,14 +26,14 @@ import java.util.List;
  * @since 1.0
  */
 public class CrmDataTypeFactory {
-    private static String[] ACCOUNT_INDUSTRY_LIST = new String[]{"Apparel",
-            "Banking", "Biotechnology", "Chemicals", "Communications",
-            "Construction", "Consulting", "Education", "Electronics", "Energy",
-            "Engineering", "Entertainment", "Environmental", "Finance",
-            "Goverment", "Healthcare", "Hospitality", "Insurance", "Machinery",
-            "Manufactory", "Media", "Not For Profit", "Recreation", "Retail",
-            "Shipping", "Technology", "Telecommunications", "Utilities",
-            "Other"};
+    private static AccountIndustry[] ACCOUNT_INDUSTRY_LIST = new AccountIndustry[]{AccountIndustry.Apparel,
+            AccountIndustry.Banking, AccountIndustry.Biotechnology, AccountIndustry.Chemicals, AccountIndustry.Communications,
+            AccountIndustry.Construction, AccountIndustry.Consulting, AccountIndustry.Education, AccountIndustry.Electronics,
+            AccountIndustry.Energy, AccountIndustry.Engineering, AccountIndustry.Entertainment, AccountIndustry.Environmental,
+            AccountIndustry.Finance, AccountIndustry.Government, AccountIndustry.Healthcare, AccountIndustry.Hospitality,
+            AccountIndustry.Insurance, AccountIndustry.Machinery, AccountIndustry.Manufactory, AccountIndustry.Media,
+            AccountIndustry.Not_For_Profit, AccountIndustry.Retail, AccountIndustry.Shipping, AccountIndustry.Technology,
+            AccountIndustry.Telecommunications, AccountIndustry.Other};
 
     private static final List<AccountType> ACCOUNT_TYPE_LIST = Arrays.asList(
             AccountType.Analyst, AccountType.Competitor, AccountType.Customer,
@@ -41,57 +41,60 @@ public class CrmDataTypeFactory {
             AccountType.Press, AccountType.Prospect, AccountType.Reseller,
             AccountType.Other);
 
-    private static String[] LEAD_SOURCE_LIST = new String[]{"Cold Call",
-            "Existing Customer", "Self Generated", "Employee", "Partner",
-            "Public Relations", "Direct Email", "Conference", "Trade Show",
-            "Website", "Word of mouth", "Email", "Campaign", "Other"};
+    private static OpportunityLeadSource[] LEAD_SOURCE_LIST = new OpportunityLeadSource[]{OpportunityLeadSource.Cold_Call,
+            OpportunityLeadSource.Existing_Customer, OpportunityLeadSource.Self_Generated, OpportunityLeadSource.Employee,
+            OpportunityLeadSource.Partner, OpportunityLeadSource.Public_Relations, OpportunityLeadSource.Direct_Email,
+            OpportunityLeadSource.Conference, OpportunityLeadSource.Trade_Show, OpportunityLeadSource.Website,
+            OpportunityLeadSource.Word_of_mouth, OpportunityLeadSource.Email, OpportunityLeadSource.Campaign,
+            OpportunityLeadSource.Other};
 
-    private static String[] LEAD_STATUS_LIST = new String[]{"New",
-            "Assigned", "In Process", "Converted", "Recycled", "Dead"};
+    private static LeadStatus[] LEAD_STATUS_LIST = new LeadStatus[]{LeadStatus.New,
+            LeadStatus.Assigned, LeadStatus.In_Process, LeadStatus.Converted, LeadStatus.Recycled, LeadStatus.Dead};
 
-    private static String[] CAMPAIGN_STATUS_LIST = new String[]{"Planning",
-            "Active", "Inactive", "Completed", "In Queue", "Sending"};
+    private static CampaignStatus[] CAMPAIGN_STATUS_LIST = new CampaignStatus[]{CampaignStatus.Planning,
+            CampaignStatus.Active, CampaignStatus.Inactive, CampaignStatus.Completed, CampaignStatus.In_Queue};
 
-    private static String[] CAMPAIGN_TYPE_LIST = new String[]{"Conference",
-            "Webinar", "Trade Show", "Public Relations", "Partners",
-            "Referral Program", "Advertisement", "Banner Ads", "Direct Email",
-            "Mail", "Telemarketing", "Others"};
+    private static CampaignType[] CAMPAIGN_TYPE_LIST = new CampaignType[]{CampaignType.Conference,
+            CampaignType.Webinar, CampaignType.Trade_Show, CampaignType.Public_Relations, CampaignType.Partners,
+            CampaignType.Referral_Program, CampaignType.Advertisement, CampaignType.Banner_Ads, CampaignType.Direct_Email,
+            CampaignType.Mail, CampaignType.Telemarketing, CampaignType.Other};
 
-    private static String[] OPPORTUNITY_SALES_STAGE_LIST = new String[]{
-            "Prospecting", "Qualification", "Need Analysis",
-            "Value Proposition", "Id. Decision Markers", "Perception Analysis",
-            "Proposal/Price Quote", "Negotiation/Review", "Closed Won",
-            "Closed Lost"};
+    private static OpportunitySalesStage[] OPPORTUNITY_SALES_STAGE_LIST = new OpportunitySalesStage[]{
+            OpportunitySalesStage.Prospecting, OpportunitySalesStage.Qualification, OpportunitySalesStage.Need_Analysis,
+            OpportunitySalesStage.Value_Proposition, OpportunitySalesStage.Perception_Analysis,
+            OpportunitySalesStage.Proposal_Price_Quote, OpportunitySalesStage.Negotiation_Review,
+            OpportunitySalesStage.Closed_Won, OpportunitySalesStage.Closed_Lost};
 
-    private static String[] OPPORTUNITY_CONTACT_ROLE_LIST = new String[]{
-            "Primary Decision Marker", "Evaluator", "Influencer", "Other"};
+    private static OpportunityContactRole[] OPPORTUNITY_CONTACT_ROLE_LIST = new OpportunityContactRole[]{
+            OpportunityContactRole.Primary_Decision_Marker, OpportunityContactRole.Evaluator,
+            OpportunityContactRole.Influencer, OpportunityContactRole.Other};
 
-    private static String[] OPPORTUNITY_TYPE_LIST = new String[]{
-            "Existing Business", "New Business"};
+    private static OpportunityType[] OPPORTUNITY_TYPE_LIST = new OpportunityType[]{
+            OpportunityType.Existing_Business, OpportunityType.New_Business};
 
-    private static String[] CASES_STATUS_LIST = new String[]{"New",
-            "Assigned", "Closed", "Pending Input", "Rejected", "Duplicate"};
+    private static CaseStatus[] CASES_STATUS_LIST = new CaseStatus[]{CaseStatus.New,
+            CaseStatus.Assigned, CaseStatus.Closed, CaseStatus.Pending_Input, CaseStatus.Rejected, CaseStatus.Duplicate};
 
-    private static String[] CASES_PRIORITY_LIST = new String[]{"High",
-            "Medium", "Low"};
+    private static CasePriority[] CASES_PRIORITY_LIST = new CasePriority[]{CasePriority.High,
+            CasePriority.Medium, CasePriority.Low};
 
-    private static String[] CASES_REASON_LIST = new String[]{
-            "User did not attend any training", "Complex functionality",
-            "New problem", "Ambigous instruction"};
+    private static CaseReason[] CASES_REASON_LIST = new CaseReason[]{
+            CaseReason.User_did_not_attend_any_training, CaseReason.Complex_functionality,
+            CaseReason.New_problem, CaseReason.Ambiguous_instruction};
 
-    private static String[] CASES_ORIGIN_LIST = new String[]{"Email",
-            "Phone", "Web", "Error Log"};
+    private static CaseOrigin[] CASES_ORIGIN_LIST = new CaseOrigin[]{CaseOrigin.Email,
+            CaseOrigin.Phone, CaseOrigin.Web, CaseOrigin.Error_Log};
 
-    private static String[] CASES_TYPE_LIST = new String[]{"Problem",
-            "Feature Request", "Question"};
+    private static CaseType[] CASES_TYPE_LIST = new CaseType[]{CaseType.Problem,
+            CaseType.Feature_Request, CaseType.Question};
 
-    private static String[] TASK_PRIORITY_LIST = new String[]{"High",
-            "Medium", "Low"};
+    private static TaskPriority[] TASK_PRIORITY_LIST = new TaskPriority[]{TaskPriority.High,
+            TaskPriority.Medium, TaskPriority.Low};
 
-    private static String[] TASK_STATUS_LIST = new String[]{"Not Started",
-            "In Progress", "Completed", "Pending Input", "Deferred"};
+    private static TaskStatus[] TASK_STATUS_LIST = new TaskStatus[]{TaskStatus.Not_Started,
+            TaskStatus.In_Progress, TaskStatus.Completed, TaskStatus.Pending_Input, TaskStatus.Deferred};
 
-    public static String[] getAccountIndustryList() {
+    public static AccountIndustry[] getAccountIndustryList() {
         return ACCOUNT_INDUSTRY_LIST;
     }
 
@@ -99,59 +102,59 @@ public class CrmDataTypeFactory {
         return ACCOUNT_TYPE_LIST;
     }
 
-    public static String[] getLeadSourceList() {
+    public static OpportunityLeadSource[] getLeadSourceList() {
         return LEAD_SOURCE_LIST;
     }
 
-    public static String[] getLeadStatusList() {
+    public static LeadStatus[] getLeadStatusList() {
         return LEAD_STATUS_LIST;
     }
 
-    public static String[] getCampaignStatusList() {
+    public static CampaignStatus[] getCampaignStatusList() {
         return CAMPAIGN_STATUS_LIST;
     }
 
-    public static String[] getCampaignTypeList() {
+    public static CampaignType[] getCampaignTypeList() {
         return CAMPAIGN_TYPE_LIST;
     }
 
-    public static String[] getOpportunitySalesStageList() {
+    public static OpportunitySalesStage[] getOpportunitySalesStageList() {
         return OPPORTUNITY_SALES_STAGE_LIST;
     }
 
-    public static String[] getOpportunityContactRoleList() {
+    public static OpportunityContactRole[] getOpportunityContactRoleList() {
         return OPPORTUNITY_CONTACT_ROLE_LIST;
     }
 
-    public static String[] getOpportunityTypeList() {
+    public static OpportunityType[] getOpportunityTypeList() {
         return OPPORTUNITY_TYPE_LIST;
     }
 
-    public static String[] getCasesStatusList() {
+    public static CaseStatus[] getCasesStatusList() {
         return CASES_STATUS_LIST;
     }
 
-    public static String[] getCasesPriorityList() {
+    public static CasePriority[] getCasesPriorityList() {
         return CASES_PRIORITY_LIST;
     }
 
-    public static String[] getCasesReason() {
+    public static CaseReason[] getCasesReason() {
         return CASES_REASON_LIST;
     }
 
-    public static String[] getCasesOrigin() {
+    public static CaseOrigin[] getCasesOrigin() {
         return CASES_ORIGIN_LIST;
     }
 
-    public static String[] getCasesType() {
+    public static CaseType[] getCasesType() {
         return CASES_TYPE_LIST;
     }
 
-    public static String[] getTaskPriorities() {
+    public static TaskPriority[] getTaskPriorities() {
         return TASK_PRIORITY_LIST;
     }
 
-    public static String[] getTaskStatuses() {
+    public static TaskStatus[] getTaskStatuses() {
         return TASK_STATUS_LIST;
     }
 }

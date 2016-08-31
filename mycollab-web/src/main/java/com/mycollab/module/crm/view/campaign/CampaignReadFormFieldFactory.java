@@ -16,13 +16,17 @@
  */
 package com.mycollab.module.crm.view.campaign;
 
+import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignStatus;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignType;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.CurrencyViewField;
 import com.mycollab.vaadin.ui.field.DateViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
-import com.mycollab.vaadin.web.ui.field.*;
+import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -51,6 +55,10 @@ class CampaignReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactor
             return new CurrencyViewField(campaign.getCurrencyid());
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(campaign.getDescription());
+        } else if (CampaignWithBLOBs.Field.type.equalTo(propertyId)) {
+            return new I18nFormViewField(campaign.getType(), CampaignType.class);
+        } else if (CampaignWithBLOBs.Field.status.equalTo(propertyId)) {
+            return new I18nFormViewField(campaign.getStatus(), CampaignStatus.class);
         }
 
         return null;

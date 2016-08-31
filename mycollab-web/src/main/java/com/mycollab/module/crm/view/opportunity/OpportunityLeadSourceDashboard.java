@@ -23,6 +23,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.PieChartWrapper;
@@ -54,22 +55,22 @@ public class OpportunityLeadSourceDashboard extends PieChartWrapper<OpportunityS
     protected DefaultPieDataset createDataset() {
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        final String[] leadSources = CrmDataTypeFactory.getLeadSourceList();
-        for (final String source : leadSources) {
+        final OpportunityLeadSource[] leadSources = CrmDataTypeFactory.getLeadSourceList();
+        for (final OpportunityLeadSource source : leadSources) {
             boolean isFound = false;
             for (final GroupItem item : groupItems) {
-                if (source.equals(item.getGroupid())) {
+                if (source.name().equals(item.getGroupid())) {
                     if (item.getValue() != 0)
-                        dataset.setValue(source, item.getValue());
+                        dataset.setValue(AppContext.getMessage(source), item.getValue());
                     else
-                        dataset.setValue(source, item.getCountNum());
+                        dataset.setValue(AppContext.getMessage(source), item.getCountNum());
                     isFound = true;
                     break;
                 }
             }
 
             if (!isFound) {
-                dataset.setValue(source, 0);
+                dataset.setValue(AppContext.getMessage(source), 0);
             }
         }
 

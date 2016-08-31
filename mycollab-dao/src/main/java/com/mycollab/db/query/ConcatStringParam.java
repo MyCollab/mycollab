@@ -16,9 +16,12 @@
  */
 package com.mycollab.db.query;
 
+import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.OneValueSearchField;
 import com.mycollab.db.arguments.SearchField;
+
+import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum.*;
 
 /**
  * @author MyCollab Ltd.
@@ -26,10 +29,7 @@ import com.mycollab.db.arguments.SearchField;
  */
 public class ConcatStringParam extends Param {
 
-    public static final String CONTAINS = "contains";
-    public static final String NOT_CONTAINS = "doesn't contains";
-
-    public static String[] OPTIONS = {CONTAINS, NOT_CONTAINS};
+    public static StringI18nEnum[] OPTIONS = {CONTAINS, NOT_CONTAINS};
 
     private String table;
     private String[] columns;
@@ -41,10 +41,11 @@ public class ConcatStringParam extends Param {
     }
 
     public SearchField buildSearchField(String prefixOper, String compareOper, String value) {
-        switch (compareOper) {
-            case StringParam.CONTAINS:
+        StringI18nEnum compareValue = valueOf(compareOper);
+        switch (compareValue) {
+            case CONTAINS:
                 return this.buildStringParamIsLike(prefixOper, value);
-            case StringParam.NOT_CONTAINS:
+            case NOT_CONTAINS:
                 return this.buildStringParamIsNotLike(prefixOper, value);
             default:
                 throw new MyCollabException("Not support yet");

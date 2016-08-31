@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.campaign;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.contact.ContactSearchPanel;
 import com.mycollab.module.crm.view.contact.ContactTableDisplay;
@@ -36,7 +37,7 @@ import java.util.Arrays;
 public class CampaignContactSelectionWindow extends RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
     public CampaignContactSelectionWindow(CampaignContactListComp associateContactList) {
-        super("Select Contacts", associateContactList);
+        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(ContactI18nEnum.LIST)), associateContactList);
         this.setWidth("1000px");
     }
 

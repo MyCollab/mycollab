@@ -18,8 +18,10 @@ package com.mycollab.module.crm.ui.format;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 import com.mycollab.module.user.ui.format.UserHistoryFieldFormat;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
+import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
 
 /**
  * @author MyCollab LTd
@@ -29,13 +31,13 @@ public class CaseFieldFormatter extends FieldGroupFormatter {
     private static final CaseFieldFormatter _instance = new CaseFieldFormatter();
 
     private CaseFieldFormatter() {
-        generateFieldDisplayHandler("priority", CaseI18nEnum.FORM_PRIORITY);
-        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS);
+        generateFieldDisplayHandler("priority", CaseI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(CasePriority.class));
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS, new I18nHistoryFieldFormat(CaseStatus.class));
         generateFieldDisplayHandler("accountid", CaseI18nEnum.FORM_ACCOUNT, new AccountHistoryFieldFormat());
         generateFieldDisplayHandler("phonenumber", GenericI18Enum.FORM_PHONE);
-        generateFieldDisplayHandler("origin", CaseI18nEnum.FORM_ORIGIN);
-        generateFieldDisplayHandler("type", GenericI18Enum.FORM_TYPE);
-        generateFieldDisplayHandler("reason", CaseI18nEnum.FORM_REASON);
+        generateFieldDisplayHandler("origin", CaseI18nEnum.FORM_ORIGIN, new I18nHistoryFieldFormat(CaseOrigin.class));
+        generateFieldDisplayHandler("type", GenericI18Enum.FORM_TYPE, new I18nHistoryFieldFormat(CaseType.class));
+        generateFieldDisplayHandler("reason", CaseI18nEnum.FORM_REASON, new I18nHistoryFieldFormat(CaseReason.class));
         generateFieldDisplayHandler("subject", CaseI18nEnum.FORM_SUBJECT);
         generateFieldDisplayHandler("email", GenericI18Enum.FORM_EMAIL);
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());

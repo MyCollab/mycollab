@@ -113,4 +113,23 @@ public class OptionI18nEnum {
             }
         }
     }
+
+    @BaseName("project-risk-probability")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
+    public enum RiskProbability {
+        Certain,
+        Likely,
+        Possible,
+        Unlikely,
+        Rare
+    }
+
+    @BaseName("project-risk-consequence")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
+    public enum RiskConsequence {
+        Catastrophic,
+        Critical,
+        Marginal,
+        Negligible
+    }
 }

@@ -26,7 +26,6 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
-import com.mycollab.db.query.StringParam;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.module.project.events.BugEvent;
@@ -56,6 +55,8 @@ import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.5.2
@@ -81,7 +82,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_textDesc.buildSearchField(SearchField.AND,
-                        StringParam.CONTAINS, value));
+                        StringI18nEnum.CONTAINS.name(), value));
                 return searchCriteria;
             }
         };

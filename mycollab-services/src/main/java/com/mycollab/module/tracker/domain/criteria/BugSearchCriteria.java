@@ -17,13 +17,13 @@
 package com.mycollab.module.tracker.domain.criteria;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.db.arguments.*;
+import com.mycollab.db.query.*;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
-import com.mycollab.db.arguments.*;
-import com.mycollab.db.query.*;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Arrays;
@@ -63,20 +63,18 @@ public class BugSearchCriteria extends SearchCriteria {
     public static final PropertyListParam<Integer> p_milestones = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_PHASE,
             new PropertyListParam<Integer>("milestones", "m_tracker_bug", "milestoneId"));
 
-    public static final StringListParam p_priority = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_PRIORITY,
-            new StringListParam("priority", "m_tracker_bug", "priority",
-                    Arrays.asList(BugPriority.Blocker.name(),
-                            BugPriority.Critical.name(), BugPriority.Major.name(),
-                            BugPriority.Minor.name(), BugPriority.Trivial.name())));
+    public static final I18nStringListParam p_priority = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_PRIORITY,
+            new I18nStringListParam("priority", "m_tracker_bug", "priority",
+                    Arrays.asList(BugPriority.Blocker, BugPriority.Critical, BugPriority.Major,
+                            BugPriority.Minor, BugPriority.Trivial)));
 
-    public static final StringListParam p_severity = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_SEVERITY,
-            new StringListParam("severity", "m_tracker_bug", "severity",
-                    Arrays.asList(BugSeverity.Critical.name(), BugSeverity.Major.name(),
-                            BugSeverity.Minor.name(), BugSeverity.Trivial.name())));
+    public static final I18nStringListParam p_severity = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_SEVERITY,
+            new I18nStringListParam("severity", "m_tracker_bug", "severity",
+                    Arrays.asList(BugSeverity.Critical, BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial)));
 
-    public static final StringListParam p_status = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_STATUS,
-            new StringListParam("status", "m_tracker_bug", "status",
-                    Arrays.asList(BugStatus.Verified.name(), BugStatus.Open.name(), BugStatus.ReOpen.name(), BugStatus.Resolved.name())));
+    public static final I18nStringListParam p_status = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_STATUS,
+            new I18nStringListParam("status", "m_tracker_bug", "status",
+                    Arrays.asList(BugStatus.Verified, BugStatus.Open, BugStatus.ReOpen, BugStatus.Resolved)));
 
     public static final BugTypeCustomSqlParam p_affectedVersions = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_AFFECTED_VERSIONS,
             new BugTypeCustomSqlParam("affected_versions", "AffVersion"));
@@ -146,7 +144,7 @@ public class BugSearchCriteria extends SearchCriteria {
             StringBuffer sqlResult = new StringBuffer();
             Object[] array = values.toArray();
             for (int i = 0; i < array.length; i++) {
-                final Object affectedversion =  Integer.parseInt(array[i].toString());
+                final Object affectedversion = Integer.parseInt(array[i].toString());
                 String result = new SQL() {
                     {
                         SELECT("COUNT(*)");

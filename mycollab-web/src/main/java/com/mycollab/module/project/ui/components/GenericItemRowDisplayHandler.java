@@ -61,7 +61,8 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
 
         Div div = new Div().setStyle("width:100%");
         Text createdByTxt = new Text(AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY) + ": ");
-        Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(item.getLastUpdatedTime())))
+        Div lastUpdatedOn = new Div().appendChild(new Text(AppContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
+                AppContext.formatPrettyTime(item.getLastUpdatedTime()))))
                 .setTitle(AppContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;margin-right:5px");
 
         if (StringUtils.isBlank(item.getCreatedUser())) {

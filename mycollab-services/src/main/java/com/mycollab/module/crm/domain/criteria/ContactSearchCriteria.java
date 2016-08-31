@@ -22,10 +22,10 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.db.query.*;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.mycollab.db.query.*;
 
 import java.util.Arrays;
 
@@ -39,8 +39,8 @@ public class ContactSearchCriteria extends SearchCriteria {
     public static final Param p_name = CacheParamMapper.register(CrmTypeConstants.CONTACT, GenericI18Enum.FORM_NAME,
             new ConcatStringParam("firstname", "m_crm_contact", new String[]{"firstname", "lastname"}));
 
-    public static final Param p_leadsource = CacheParamMapper.register(CrmTypeConstants.CONTACT, ContactI18nEnum.FORM_LEAD_SOURCE,
-            new StringListParam("leadsource", "m_crm_contact", "leadSource",
+    public static final I18nStringListParam p_leadsource = CacheParamMapper.register(CrmTypeConstants.CONTACT, ContactI18nEnum.FORM_LEAD_SOURCE,
+            new I18nStringListParam("leadsource", "m_crm_contact", "leadSource",
                     Arrays.asList(CrmDataTypeFactory.getLeadSourceList())));
 
     public static final Param p_billingCountry = CacheParamMapper.register(CrmTypeConstants.CONTACT, ContactI18nEnum.FORM_PRIMARY_COUNTRY,

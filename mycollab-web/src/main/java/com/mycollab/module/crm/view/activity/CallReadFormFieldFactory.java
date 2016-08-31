@@ -33,7 +33,7 @@ import com.vaadin.ui.Field;
 class CallReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCall> {
     private static final long serialVersionUID = 1L;
 
-    public CallReadFormFieldFactory(GenericBeanForm<SimpleCall> form) {
+    CallReadFormFieldFactory(GenericBeanForm<SimpleCall> form) {
         super(form);
     }
 
@@ -42,8 +42,7 @@ class CallReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         SimpleCall call = attachForm.getBean();
 
         if (propertyId.equals("assignuser")) {
-            return new UserLinkViewField(call.getAssignuser(),
-                    call.getAssignUserAvatarId(), call.getAssignUserFullName());
+            return new UserLinkViewField(call.getAssignuser(), call.getAssignUserAvatarId(), call.getAssignUserFullName());
         } else if (propertyId.equals("type")) {
             return new RelatedReadItemField(call);
         } else if (propertyId.equals("status")) {

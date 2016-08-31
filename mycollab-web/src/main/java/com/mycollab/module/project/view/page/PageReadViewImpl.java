@@ -136,7 +136,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                 ProjectRolePermissionCollections.PAGES);
 
         MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(WebUIConstants
-                .BUTTON_OPTION).withDescription("Export to PDF");
+                .BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
         OnDemandFileDownloader fileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
             @Override

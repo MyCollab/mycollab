@@ -22,7 +22,7 @@
         <mysqlVersion>5.1.39</mysqlVersion>
         <junitVersion>4.12</junitVersion>
         <jackrabbitVersion>2.13.2</jackrabbitVersion>
-        <jacksonVersion>2.8.1</jacksonVersion>
+        <jacksonVersion>2.8.2</jacksonVersion>
         <jodaVersion>2.9.4</jodaVersion>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.8</scala.version>
