@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.task.components;
 
 import com.mycollab.module.project.domain.SimpleTask;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
@@ -42,8 +43,9 @@ public class ToggleTaskSummaryWithChildRelationshipField extends CustomField<Sim
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             taskService.updateWithSession(childTask, AppContext.getUsername());
             UIUtils.removeChildAssociate(ToggleTaskSummaryWithChildRelationshipField.this, RemoveInlineComponentMarker.class);
-        }).withIcon(FontAwesome.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
-        unlinkBtn.setDescription("Remove parent-child relationship");
+        }).withIcon(FontAwesome.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP)
+                .withDescription(AppContext.getMessage(TaskI18nEnum.OPT_REMOVE_PARENT_CHILD_RELATIONSHIP));
+
         toggleTaskSummaryField.addControl(unlinkBtn);
     }
 

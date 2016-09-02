@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.bug.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.tracker.dao.RelatedBugMapper;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.RelatedBugExample;
@@ -55,11 +56,8 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
                         bugMapper.deleteByExample(ex);
                         UIUtils.removeChildAssociate(toggleBugSummaryField, RemoveInlineComponentMarker.class);
                     });
-        });
-        unlinkBtn.setIcon(FontAwesome.UNLINK);
-        unlinkBtn.setDescription("Remove relationship");
-        unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
-        unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        }).withIcon(FontAwesome.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP, ValoTheme.BUTTON_ICON_ONLY)
+                .withDescription(AppContext.getMessage(BugI18nEnum.OPT_REMOVE_RELATIONSHIP));
         toggleBugSummaryField.addControl(unlinkBtn);
     }
 

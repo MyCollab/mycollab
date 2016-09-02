@@ -81,7 +81,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        Label noteLbl = new Label("Note: ");
+        Label noteLbl = new Label(AppContext.getMessage(GenericI18Enum.OPT_NOTE));
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
         notesWrap.addComponent(noteLbl);

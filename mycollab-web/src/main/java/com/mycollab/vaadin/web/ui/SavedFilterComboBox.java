@@ -134,7 +134,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         }
 
         if (CollectionUtils.isNotEmpty(sharedQueries)) {
-            popupContent.addSection("Shared to me");
+            popupContent.addSection(AppContext.getMessage(GenericI18Enum.OPT_SHARED_TO_ME));
             for (final SearchQueryInfo queryInfo : sharedQueries) {
                 Button queryOption = new QueryInfoOption(queryInfo);
                 popupContent.addOption(queryOption);
@@ -150,14 +150,11 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
     private class QueryInfoOption extends Button {
         QueryInfoOption(final SearchQueryInfo queryInfo) {
-            super("      " + queryInfo.getQueryName(), new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    selectedQueryName = queryInfo.getQueryName();
-                    updateQueryNameField(selectedQueryName);
-                    SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo.getSearchFieldInfos()));
-                    componentPopupSelection.setPopupVisible(false);
-                }
+            super("      " + queryInfo.getQueryName(), clickEvent -> {
+                selectedQueryName = queryInfo.getQueryName();
+                updateQueryNameField(selectedQueryName);
+                SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo.getSearchFieldInfos()));
+                componentPopupSelection.setPopupVisible(false);
             });
         }
     }

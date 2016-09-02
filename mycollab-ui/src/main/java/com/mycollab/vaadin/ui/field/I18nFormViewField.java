@@ -34,7 +34,6 @@ public class I18nFormViewField extends CustomField<String> {
     private Label label;
 
     public I18nFormViewField(final String key, Class<? extends Enum> enumCls) {
-        String key1 = key;
         Class<? extends Enum> enumClass = enumCls;
         label = new Label();
         label.setContentMode(ContentMode.TEXT);

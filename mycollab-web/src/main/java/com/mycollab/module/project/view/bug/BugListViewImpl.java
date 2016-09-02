@@ -37,8 +37,8 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.view.bug.components.*;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -156,12 +156,12 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         searchPanel.addHeaderRight(groupWrapLayout);
 
         MButton printBtn = new MButton("", clickEvent ->
-            UI.getCurrent().addWindow(new BugCustomizeReportOutputWindow(new LazyValueInjector() {
-                @Override
-                protected Object doEval() {
-                    return baseCriteria;
-                }
-            }))
+                UI.getCurrent().addWindow(new BugCustomizeReportOutputWindow(new LazyValueInjector() {
+                    @Override
+                    protected Object doEval() {
+                        return baseCriteria;
+                    }
+                }))
         ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION);
         printBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
@@ -176,11 +176,11 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
         groupWrapLayout.addComponent(newBugBtn);
 
-        MButton advanceDisplayBtn = new MButton("List").withWidth("100px").withIcon(FontAwesome.SITEMAP);
-        advanceDisplayBtn.setDescription("Detail");
+        MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withWidth("100px")
+                .withIcon(FontAwesome.NAVICON);
 
-        MButton kanbanBtn = new MButton("Kanban", clickEvent -> displayKanbanView()).withIcon(FontAwesome.TH).withWidth("100px");
-        kanbanBtn.setDescription("Kanban View");
+        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
+                displayKanbanView()).withIcon(FontAwesome.TH).withWidth("100px");
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);

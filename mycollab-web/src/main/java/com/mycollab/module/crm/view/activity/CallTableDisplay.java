@@ -21,9 +21,12 @@ import com.mycollab.common.TableViewField;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleCall;
 import com.mycollab.module.crm.domain.criteria.CallSearchCriteria;
+import com.mycollab.module.crm.i18n.CallI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
 import com.mycollab.module.crm.service.CallService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -47,7 +50,7 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
             final SimpleCall call = getBeanByIndex(itemId);
 
             LabelLink b = new LabelLink(call.getSubject(), CrmLinkBuilder.generateCallPreviewLinkFul(call.getId()));
-            if ("Held".equals(call.getStatus())) {
+            if (CallStatus.Held.name().equals(call.getStatus())) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
             }
             return b;
@@ -57,13 +60,18 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
             final SimpleCall call = getBeanByIndex(itemId);
             MButton b = new MButton("", clickEvent -> fireTableEvent(new TableClickEvent(CallTableDisplay.this, call, "isClosed")))
                     .withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK);
-            b.setDescription("Close this call");
+            b.setDescription(AppContext.getMessage(CallI18nEnum.OPT_CLOSE_THIS_CALL));
             return b;
         });
 
         this.addGeneratedColumn("startdate", (source, itemId, columnId) -> {
             final SimpleCall call = getBeanByIndex(itemId);
             return new Label(AppContext.formatDateTime(call.getStartdate()));
+        });
+
+        this.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            final SimpleCall call = getBeanByIndex(itemId);
+            return ELabel.i18n(call.getStatus(), CallStatus.class);
         });
     }
 }

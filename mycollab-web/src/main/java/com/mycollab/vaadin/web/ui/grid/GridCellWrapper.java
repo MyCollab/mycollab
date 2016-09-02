@@ -17,19 +17,21 @@
 package com.mycollab.vaadin.web.ui.grid;
 
 import com.mycollab.vaadin.web.ui.MultiSelectComp;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractTextField;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.RichTextArea;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.0.8
  */
-class GridCellWrapper extends HorizontalLayout {
+class GridCellWrapper extends MHorizontalLayout {
     private static final long serialVersionUID = 1L;
 
     GridCellWrapper() {
-        this.setStyleName("gridform-field");
-        this.setMargin(true);
-        this.setWidth("100%");
+        this.withMargin(true).withFullWidth().withStyleName("gridform-field");
     }
 
     public void addComponent(Component component) {

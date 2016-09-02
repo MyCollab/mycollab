@@ -26,5 +26,4 @@ import com.mycollab.vaadin.mvp.IPreviewView;
  */
 public interface CallReadView extends IPreviewView<SimpleCall> {
     HasPreviewFormHandlers<SimpleCall> getPreviewFormHandlers();
-
 }

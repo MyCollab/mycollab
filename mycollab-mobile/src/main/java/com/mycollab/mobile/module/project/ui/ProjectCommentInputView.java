@@ -191,6 +191,16 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
             public FileFactory getFileFactory() {
                 return new TempFileFactory();
             }
+
+            @Override
+            public void setLastMimeType(String mimeType) {
+
+            }
+
+            @Override
+            public void setLastFileName(String fileName) {
+
+            }
         };
         receiver.setDeleteFiles(false);
         return receiver;

@@ -21,7 +21,6 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
@@ -120,7 +119,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE, bean
                 .getId() + "", bean.getProjectid(), true);
         int numComments = commentDisplay.getNumComments();
-        commentTitleLbl.setValue(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
+        commentTitleLbl.setValue(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
 
         mainLayout.addComponent(section);
         mainLayout.addComponent(commentDisplay);

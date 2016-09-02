@@ -17,6 +17,9 @@
 package com.mycollab.security;
 
 import com.google.common.collect.ImmutableList;
+import com.mycollab.module.crm.i18n.*;
+import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
+import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 
 import java.util.List;
 
@@ -49,26 +52,26 @@ public class RolePermissionCollections {
     public static final String PUBLIC_DOCUMENT_ACCESS = "PublicDocumentAccess";
 
     public static final List<PermissionDefItem> CRM_PERMISSIONS_ARR = ImmutableList.of(
-            new PermissionDefItem(CRM_ACCOUNT, "Account", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_CONTACT, "Contact", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_CAMPAIGN, "Campaign", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_LEAD, "Lead", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_OPPORTUNITY, "Opportunity", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_CASE, "Case", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_TASK, "Task", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_MEETING, "Meeting", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_CALL, "Call", AccessPermissionFlag.class));
+            new PermissionDefItem(CRM_ACCOUNT, AccountI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CONTACT, ContactI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CAMPAIGN, CampaignI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_LEAD, LeadI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_OPPORTUNITY, OpportunityI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CASE, CaseI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_TASK, TaskI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_MEETING, MeetingI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CALL, CallI18nEnum.SINGLE, AccessPermissionFlag.class));
 
     public static final List<PermissionDefItem> ACCOUNT_PERMISSION_ARR = ImmutableList.of(
-            new PermissionDefItem(ACCOUNT_USER, "User", AccessPermissionFlag.class),
-            new PermissionDefItem(ACCOUNT_ROLE, "Role", AccessPermissionFlag.class),
-            new PermissionDefItem(ACCOUNT_BILLING, "Billing Management", BooleanPermissionFlag.class),
-            new PermissionDefItem(ACCOUNT_THEME, "Theme", BooleanPermissionFlag.class));
+            new PermissionDefItem(ACCOUNT_USER, UserI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(ACCOUNT_ROLE, RoleI18nEnum.SINGLE, AccessPermissionFlag.class),
+            new PermissionDefItem(ACCOUNT_BILLING, RoleI18nEnum.OPT_BILLING_MANAGEMENT, BooleanPermissionFlag.class),
+            new PermissionDefItem(ACCOUNT_THEME, RoleI18nEnum.OPT_THEME, BooleanPermissionFlag.class));
 
     public static final List<PermissionDefItem> PROJECT_PERMISSION_ARR = ImmutableList.of(new PermissionDefItem(
-            CREATE_NEW_PROJECT, "Create New Project", BooleanPermissionFlag.class), new PermissionDefItem(
-            GLOBAL_PROJECT_SETTINGS, "Global Project Settings", BooleanPermissionFlag.class));
+            CREATE_NEW_PROJECT, RoleI18nEnum.OPT_CREATE_NEW_PROJECT, BooleanPermissionFlag.class), new PermissionDefItem(
+            GLOBAL_PROJECT_SETTINGS, RoleI18nEnum.OPT_GLOBAL_PROJECT_SETTINGS, BooleanPermissionFlag.class));
 
     public static final List<PermissionDefItem> DOCUMENT_PERMISSION_ARR = ImmutableList.of(new PermissionDefItem(
-            PUBLIC_DOCUMENT_ACCESS, "Public Documents", AccessPermissionFlag.class));
+            PUBLIC_DOCUMENT_ACCESS, RoleI18nEnum.OPT_PUBLIC_DOCUMENTS, AccessPermissionFlag.class));
 }

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.project.domain.FollowingTicket;
@@ -76,13 +77,13 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
         exportButtonControl.setContent(popupButtonsControl);
 
-        Button exportPdfBtn = new Button("Pdf");
+        Button exportPdfBtn = new Button(AppContext.getMessage(FileI18nEnum.PDF));
         FileDownloader pdfDownloader = new FileDownloader(constructStreamResource(ReportExportType.PDF));
         pdfDownloader.extend(exportPdfBtn);
         exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
         popupButtonsControl.addOption(exportPdfBtn);
 
-        Button exportExcelBtn = new Button("Excel");
+        Button exportExcelBtn = new Button(AppContext.getMessage(FileI18nEnum.EXCEL));
         FileDownloader excelDownloader = new FileDownloader(constructStreamResource(ReportExportType.EXCEL));
         excelDownloader.extend(exportExcelBtn);
         exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);

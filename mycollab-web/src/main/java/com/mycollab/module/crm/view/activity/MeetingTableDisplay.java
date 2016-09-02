@@ -21,9 +21,11 @@ import com.mycollab.common.TableViewField;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleMeeting;
 import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
 import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -48,7 +50,7 @@ public class MeetingTableDisplay extends DefaultPagedBeanTable<MeetingService, M
             LabelLink b = new LabelLink(meeting.getSubject(), CrmLinkBuilder.generateMeetingPreviewLinkFull(meeting.getId()));
             b.addStyleName(WebUIConstants.LINK_COMPLETED);
 
-            if ("Held".equals(meeting.getStatus())) {
+            if (CallStatus.Held.name().equals(meeting.getStatus())) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
             } else {
                 if (meeting.getEnddate() != null && (meeting.getEnddate().before(new GregorianCalendar().getTime()))) {
@@ -61,6 +63,11 @@ public class MeetingTableDisplay extends DefaultPagedBeanTable<MeetingService, M
         this.addGeneratedColumn("startdate", (source, itemId, columnId) -> {
             final SimpleMeeting meeting = getBeanByIndex(itemId);
             return new Label(AppContext.formatDateTime(meeting.getStartdate()));
+        });
+
+        this.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            final SimpleMeeting meeting = getBeanByIndex(itemId);
+            return ELabel.i18n(meeting.getStatus(), CallStatus.class);
         });
     }
 }

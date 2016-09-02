@@ -20,7 +20,9 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.file.PathUtils;
+import com.mycollab.module.project.i18n.ClientI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -60,8 +62,7 @@ public class ProjectAssetsUtil {
         wrapper.setWidth(size, Sizeable.Unit.PIXELS);
         wrapper.setHeight(size, Sizeable.Unit.PIXELS);
         wrapper.addStyleName(UIConstants.CIRCLE_BOX);
-        wrapper.setDescription("To change the project logo, go to project menu, select 'Edit Project' and upload the " +
-                "new project logo");
+        wrapper.setDescription(AppContext.getMessage(ProjectI18nEnum.OPT_CHANGE_LOGO_HELP, AppContext.getMessage(ProjectI18nEnum.EDIT)));
         return wrapper;
     }
 
@@ -81,7 +82,7 @@ public class ProjectAssetsUtil {
         wrapper.setWidth(size, Sizeable.Unit.PIXELS);
         wrapper.setHeight(size, Sizeable.Unit.PIXELS);
         wrapper.addStyleName(UIConstants.CIRCLE_BOX);
-        wrapper.setDescription("To change the client logo, select 'Edit client' and upload the new client logo");
+        wrapper.setDescription(AppContext.getMessage(ClientI18nEnum.OPT_CHANGE_LOGO_HELP, AppContext.getMessage(ClientI18nEnum.EDIT)));
         return wrapper;
     }
 }

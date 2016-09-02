@@ -27,6 +27,7 @@ import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.LinkUtils
 import com.mycollab.module.crm.CrmLinkGenerator
 import com.mycollab.module.crm.domain.{Account, SimpleAccount}
+import com.mycollab.module.crm.i18n.OptionI18nEnum.{AccountIndustry, AccountType}
 import com.mycollab.module.crm.i18n.{AccountI18nEnum, OptionI18nEnum}
 import com.mycollab.module.crm.service.AccountService
 import com.mycollab.module.mail.MailUtils
@@ -90,10 +91,9 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     put(Account.Field.numemployees, AccountI18nEnum.FORM_EMPLOYEES)
     put(Account.Field.fax, AccountI18nEnum.FORM_FAX)
     put(Account.Field.alternatephone, AccountI18nEnum.FORM_OTHER_PHONE)
-    put(Account.Field.industry, AccountI18nEnum.FORM_INDUSTRY)
+    put(Account.Field.industry, new I18nFieldFormat(Account.Field.industry.name, AccountI18nEnum.FORM_INDUSTRY, classOf[AccountIndustry]))
     put(Account.Field.email, GenericI18Enum.FORM_EMAIL)
-    put(Account.Field.`type`, new I18nFieldFormat(Account.Field.`type`.name, GenericI18Enum.FORM_TYPE,
-      classOf[OptionI18nEnum.AccountType]))
+    put(Account.Field.`type`, new I18nFieldFormat(Account.Field.`type`.name, GenericI18Enum.FORM_TYPE, classOf[AccountType]))
     put(Account.Field.ownership, AccountI18nEnum.FORM_OWNERSHIP)
     put(Account.Field.assignuser, new AssigneeFieldFormat(Account.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(Account.Field.annualrevenue, AccountI18nEnum.FORM_ANNUAL_REVENUE)
@@ -145,5 +145,4 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
       }
     }
   }
-
 }

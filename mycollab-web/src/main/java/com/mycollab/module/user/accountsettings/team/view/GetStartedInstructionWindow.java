@@ -24,6 +24,7 @@ import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.events.UserEvent;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -52,7 +53,7 @@ class GetStartedInstructionWindow extends MWindow {
         Label infoLbl = new Label(infoDiv.write(), ContentMode.HTML);
 
         Div userInfoDiv = new Div().appendText("Your username is ").appendChild(new B().appendText(user.getEmail()));
-        Label userInfoLbl = new Label(userInfoDiv.write(), ContentMode.HTML);
+        Label userInfoLbl = ELabel.html(userInfoDiv.write());
 
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
             user.setRoleName(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));

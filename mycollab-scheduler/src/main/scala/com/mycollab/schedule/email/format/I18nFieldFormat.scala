@@ -27,8 +27,7 @@ import org.slf4j.LoggerFactory
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
-class I18nFieldFormat(fieldName: String, displayName: Enum[_], enumKey: Class[_ <: Enum[_]])
-    extends FieldFormat(fieldName, displayName) {
+class I18nFieldFormat(fieldName: String, displayName: Enum[_], enumKey: Class[_ <: Enum[_]]) extends FieldFormat(fieldName, displayName) {
 
     private val LOG = LoggerFactory.getLogger(classOf[I18nFieldFormat])
 

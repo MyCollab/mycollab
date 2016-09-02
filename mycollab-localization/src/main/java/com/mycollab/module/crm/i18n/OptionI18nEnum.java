@@ -222,4 +222,29 @@ public class OptionI18nEnum {
         Pending_Input,
         Deferred
     }
+
+    @BaseName("crm-callstatus")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
+    public enum CallStatus {
+        Planned,
+        Held,
+        Not_Held
+    }
+
+    @BaseName("crm-calltype")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
+    public enum CallType {
+        Inbound,
+        Outbound
+    }
+
+    @BaseName("crm-callpurpose")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
+    public enum CallPurpose {
+        Prospecting,
+        Administrative,
+        Negotiation,
+        Project,
+        Support
+    }
 }

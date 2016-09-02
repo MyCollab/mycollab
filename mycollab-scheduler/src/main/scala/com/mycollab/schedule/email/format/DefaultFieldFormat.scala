@@ -26,8 +26,7 @@ import org.slf4j.{Logger, LoggerFactory}
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
-class DefaultFieldFormat(fieldName: String, displayName: Enum[_], isColSpan: Boolean) extends FieldFormat(fieldName,
-    displayName, isColSpan) {
+class DefaultFieldFormat(fieldName: String, displayName: Enum[_], isColSpan: Boolean) extends FieldFormat(fieldName, displayName, isColSpan) {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[DefaultFieldFormat])
 
     def this(fieldName: String, displayName: Enum[_]) = this(fieldName, displayName, false)

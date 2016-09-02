@@ -16,6 +16,8 @@
  */
 package com.mycollab.shell.view.components;
 
+import com.mycollab.common.i18n.ShellI18nEnum;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -25,7 +27,7 @@ import org.vaadin.viritin.layouts.MWindow;
  */
 public abstract class AbstractAboutWindow extends MWindow implements CacheableComponent {
     public AbstractAboutWindow() {
-        super("About");
+        super(AppContext.getMessage(ShellI18nEnum.OPT_ABOUT_MYCOLLAB));
         this.withModal(true).withResizable(false).withWidth("600px").withCenter();
     }
 }

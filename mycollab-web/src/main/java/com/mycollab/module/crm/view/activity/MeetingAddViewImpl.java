@@ -16,9 +16,12 @@
  */
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
@@ -27,13 +30,16 @@ import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
+
+import java.util.Arrays;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -85,13 +91,12 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
         @Override
         protected Field<?> onCreateField(Object propertyId) {
             if (propertyId.equals("subject")) {
-                TextField tf = new TextField();
+                MTextField tf = new MTextField();
                 if (isValidateForm) {
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError("Subject must not be null");
+                    tf.withNullRepresentation("").withRequired(true)
+                            .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                    AppContext.getMessage(MeetingI18nEnum.FORM_SUBJECT)));
                 }
-
                 return tf;
             } else if (propertyId.equals("status")) {
                 return new MeetingStatusComboBox();
@@ -117,12 +122,12 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
         return editForm;
     }
 
-    private static class MeetingStatusComboBox extends ValueComboBox {
+    private static class MeetingStatusComboBox extends I18nValueComboBox {
 
         MeetingStatusComboBox() {
             super();
             setCaption(null);
-            this.loadData("Planned", "Held", "Not Held");
+            this.loadData(Arrays.asList(CallStatus.Planned, CallStatus.Held, CallStatus.Not_Held));
         }
     }
 }

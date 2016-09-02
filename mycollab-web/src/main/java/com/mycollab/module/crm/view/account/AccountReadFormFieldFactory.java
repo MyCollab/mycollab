@@ -18,16 +18,12 @@ package com.mycollab.module.crm.view.account;
 
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.field.EmailViewField;
-import com.mycollab.vaadin.ui.field.I18nFormViewField;
-import com.mycollab.vaadin.ui.field.RichTextViewField;
-import com.mycollab.vaadin.ui.field.UrlLinkViewField;
-import com.mycollab.vaadin.web.ui.field.*;
+import com.mycollab.vaadin.ui.field.*;
+import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -57,6 +53,10 @@ public class AccountReadFormFieldFactory extends AbstractBeanFieldGroupViewField
             return new I18nFormViewField(account.getIndustry(), AccountIndustry.class);
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(account.getDescription());
+        } else if (Account.Field.billingcountry.equalTo(propertyId)) {
+            return new CountryViewField(account.getBillingcountry());
+        } else if (Account.Field.shippingcountry.equalTo(propertyId)) {
+            return new CountryViewField(account.getShippingcountry());
         }
 
         return null;

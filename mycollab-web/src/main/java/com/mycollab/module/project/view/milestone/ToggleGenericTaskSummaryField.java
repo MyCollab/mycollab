@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.milestone;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -80,7 +81,7 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
                     isRead = !isRead;
                 }
             }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
-            instantEditBtn.setDescription("Edit task name");
+            instantEditBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_CLICK_TO_EDIT));
             buttonControls.with(instantEditBtn);
 
             this.addComponent(buttonControls);

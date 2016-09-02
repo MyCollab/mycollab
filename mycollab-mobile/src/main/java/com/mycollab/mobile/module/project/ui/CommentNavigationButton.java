@@ -34,7 +34,7 @@ public class CommentNavigationButton extends NavigationButton {
     private String typeId;
 
     public CommentNavigationButton(String typeVal, String typeIdVal) {
-        super(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0));
+        super(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, 0));
         this.type = typeVal;
         this.typeId = typeIdVal;
         this.addClickListener(navigationButtonClickEvent -> {
@@ -50,6 +50,6 @@ public class CommentNavigationButton extends NavigationButton {
         CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));
-        this.setCaption(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, commentService.getTotalCount(searchCriteria)));
+        this.setCaption(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, commentService.getTotalCount(searchCriteria)));
     }
 }

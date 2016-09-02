@@ -25,6 +25,7 @@ import com.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleMeeting;
 import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.security.RolePermissionCollections;
@@ -137,13 +138,11 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
             }
 
             super.onGo(container, data);
-
             view.previewItem(meeting);
 
-            AppContext.addFragment(CrmLinkGenerator
-                    .generateMeetingPreviewLink(meeting.getId()), AppContext
-                    .getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                            "Meeting", meeting.getSubject()));
+            AppContext.addFragment(CrmLinkGenerator.generateMeetingPreviewLink(meeting.getId()),
+                    AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                            AppContext.getMessage(MeetingI18nEnum.SINGLE), meeting.getSubject()));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

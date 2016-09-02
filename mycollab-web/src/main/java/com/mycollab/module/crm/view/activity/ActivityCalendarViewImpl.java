@@ -240,7 +240,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         HorizontalLayout noteWapper = new HorizontalLayout();
         noteWapper.setHeight("30px");
-        Label noteLbl = new Label("Note:");
+        Label noteLbl = new Label(AppContext.getMessage(GenericI18Enum.OPT_NOTE));
         noteWapper.addComponent(noteLbl);
         noteWapper.setComponentAlignment(noteLbl, Alignment.MIDDLE_CENTER);
         noteInfoLayout.addComponent(noteWapper);

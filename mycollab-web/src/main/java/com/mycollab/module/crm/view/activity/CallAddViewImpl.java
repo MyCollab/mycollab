@@ -16,9 +16,13 @@
  */
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CallWithBLOBs;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallPurpose;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallType;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
@@ -27,12 +31,16 @@ import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+import java.util.Arrays;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -81,18 +89,17 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
         CallEditFormFieldFactory(GenericBeanForm<CallWithBLOBs> form) {
             super(form);
-
             callStatusField = new CallStatusTypeField();
         }
 
         @Override
         protected Field<?> onCreateField(Object propertyId) {
             if (propertyId.equals("subject")) {
-                TextField tf = new TextField();
+                MTextField tf = new MTextField();
                 if (isValidateForm) {
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError("Subject must not be null");
+                    tf.withNullRepresentation("").withRequired(true)
+                            .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                    AppContext.getMessage(CallI18nEnum.FORM_SUBJECT)));
                 }
                 return tf;
             } else if (propertyId.equals("assignuser")) {
@@ -127,32 +134,28 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
             @Override
             protected Component initContent() {
-                HorizontalLayout layout = new HorizontalLayout();
-                layout.setSpacing(true);
-
                 CallTypeComboBox typeField = new CallTypeComboBox();
-                layout.addComponent(typeField);
                 typeField.select(beanItem.getCalltype());
 
                 CallStatusComboBox statusField = new CallStatusComboBox();
-                layout.addComponent(statusField);
                 statusField.select(beanItem.getStatus());
 
                 // binding field group
                 fieldGroup.bind(typeField, "calltype");
                 fieldGroup.bind(statusField, "status");
-                return layout;
+                return new MHorizontalLayout(typeField, statusField);
             }
         }
     }
 
-    private static class CallPurposeComboBox extends ValueComboBox {
+    private static class CallPurposeComboBox extends I18nValueComboBox {
         private static final long serialVersionUID = 1L;
 
         CallPurposeComboBox() {
             super();
             setCaption(null);
-            this.loadData("Prospecting", "Administrative", "Negotiation", "Project", "Support");
+            this.loadData(Arrays.asList(CallPurpose.Administrative, CallPurpose.Negotiation, CallPurpose.Project,
+                    CallPurpose.Prospecting, CallPurpose.Support));
         }
     }
 
@@ -226,24 +229,24 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
         }
     }
 
-    private class CallTypeComboBox extends ValueComboBox {
+    private class CallTypeComboBox extends I18nValueComboBox {
 
         CallTypeComboBox() {
             super();
             setCaption(null);
             this.setWidth("80px");
-            this.loadData("Inbound", "Outbound");
+            this.loadData(Arrays.asList(CallType.Inbound, CallType.Outbound));
             this.addValueChangeListener(valueChangeEvent -> beanItem.setCalltype((String) CallTypeComboBox.this.getValue()));
         }
     }
 
-    private class CallStatusComboBox extends ValueComboBox {
+    private class CallStatusComboBox extends I18nValueComboBox {
 
         CallStatusComboBox() {
             super();
             setCaption(null);
             this.setWidth("100px");
-            this.loadData("Planned", "Held", "Not Held");
+            this.loadData(Arrays.asList(CallStatus.Planned, CallStatus.Held, CallStatus.Not_Held));
             this.addValueChangeListener(valueChangeEvent -> beanItem.setStatus((String) CallStatusComboBox.this.getValue()));
         }
     }

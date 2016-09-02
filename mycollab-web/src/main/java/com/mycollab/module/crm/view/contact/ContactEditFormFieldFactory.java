@@ -16,10 +16,13 @@
  */
 package com.mycollab.module.crm.view.contact;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
 import com.mycollab.module.crm.view.lead.LeadSourceComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
 import com.mycollab.vaadin.ui.DateSelectionField;
@@ -31,6 +34,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -62,11 +66,11 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         } else if (propertyId.equals("accountid")) {
             return new AccountSelectionField();
         } else if (propertyId.equals("lastname")) {
-            TextField tf = new TextField();
+            MTextField tf = new MTextField();
             if (isValidateForm) {
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError("Last name must not be null");
+                tf.withNullRepresentation("").withRequired(true)
+                        .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                AppContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
             }
 
             return tf;
@@ -95,14 +99,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
             prefixSelect.setValue(attachForm.getBean().getPrefix());
             layout.addComponent(prefixSelect);
 
-            prefixSelect.addValueChangeListener(new Property.ValueChangeListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void valueChange(Property.ValueChangeEvent event) {
-                    attachForm.getBean().setPrefix((String) prefixSelect.getValue());
-                }
-            });
+            prefixSelect.addValueChangeListener(valueChangeEvent -> attachForm.getBean().setPrefix((String) prefixSelect.getValue()));
 
             TextField firstNameField = new TextField();
             firstNameField.setWidth("100%");

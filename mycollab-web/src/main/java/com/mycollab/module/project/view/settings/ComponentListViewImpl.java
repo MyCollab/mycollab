@@ -116,6 +116,11 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
             return new ProgressBarIndicator(bugComponent.getNumBugs(), bugComponent.getNumOpenBugs(), false);
         });
 
+        tableItem.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
+            return ELabel.i18n(bugComponent.getStatus(), StatusI18nEnum.class);
+        });
+
         tableItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
             SimpleComponent version = tableItem.getBeanByIndex(itemId);
             return ELabel.richText(version.getDescription());

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.crm.view.lead;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.domain.Opportunity;
@@ -35,6 +36,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -108,9 +110,7 @@ public class LeadConvertInfoWindow extends Window {
         final CssLayout layout = new CssLayout();
         layout.setSizeFull();
 
-        Label shortDescription = new Label(
-                "<p>&nbsp;&nbsp;&nbsp;By clicking the \"Convert\" button, the following tasks will be done:</p>",
-                ContentMode.HTML);
+        Label shortDescription = ELabel.html("<p>&nbsp;&nbsp;&nbsp;By clicking the \"Convert\" button, the following tasks will be done:</p>");
         layout.addComponent(shortDescription);
 
         MVerticalLayout infoLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true));
@@ -149,7 +149,7 @@ public class LeadConvertInfoWindow extends Window {
     private class LeadOpportunityForm extends AdvancedEditBeanForm<Opportunity> {
         private static final long serialVersionUID = 1L;
 
-        public LeadOpportunityForm() {
+        LeadOpportunityForm() {
             super();
             this.setFormLayoutFactory(new AbstractFormLayoutFactory() {
                 private static final long serialVersionUID = 1L;
@@ -189,16 +189,15 @@ public class LeadConvertInfoWindow extends Window {
                     if (propertyId.equals("campaignid")) {
                         return new CampaignSelectionField();
                     } else if (propertyId.equals("opportunityname")) {
-                        TextField tf = new TextField();
+                        MTextField tf = new MTextField();
                         if (isValidateForm) {
-                            tf.setNullRepresentation("");
-                            tf.setRequired(true);
-                            tf.setRequiredError("Name must not be null");
+                            tf.withNullRepresentation("").withRequired(true)
+                                    .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                            AppContext.getMessage(GenericI18Enum.FORM_NAME)));
                         }
                         return tf;
                     } else if (propertyId.equals("currencyid")) {
-                        CurrencyComboBoxField currencyBox = new CurrencyComboBoxField();
-                        return currencyBox;
+                        return new CurrencyComboBoxField();
                     } else if (propertyId.equals("salesstage")) {
                         return new OpportunitySalesStageComboBox();
                     } else if (propertyId.equals("accountId")) {

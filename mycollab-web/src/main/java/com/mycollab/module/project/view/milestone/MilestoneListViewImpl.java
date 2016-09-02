@@ -31,6 +31,7 @@ import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.events.MilestoneEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.components.ComponentUtils;
@@ -163,14 +164,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         layout.addComponent(printBtn);
 
-        Button kanbanBtn = new Button("Board");
-        kanbanBtn.setDescription("Board View");
-        kanbanBtn.setIcon(FontAwesome.TH);
+        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.TH);
 
-        Button roadmapBtn = new Button("List",
-                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)));
-        roadmapBtn.setDescription("Roadmap");
-        roadmapBtn.setIcon(VaadinIcons.CUBE);
+        MButton roadmapBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
+                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)))
+                .withIcon(FontAwesome.NAVICON);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);

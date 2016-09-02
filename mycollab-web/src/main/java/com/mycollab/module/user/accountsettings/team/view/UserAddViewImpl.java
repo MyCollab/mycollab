@@ -24,7 +24,6 @@ import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
-import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -51,7 +50,6 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MPasswordField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -403,17 +401,17 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             }
 
             if (permissionMap != null) {
-                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(ProjectI18nEnum.SINGLE),
+                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
                         permissionMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
 
-                permissionLayout.addComponent(constructPermissionSectionView("Customer Management", permissionMap,
-                        RolePermissionCollections.CRM_PERMISSIONS_ARR));
+                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
+                        permissionMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
 
-                permissionLayout.addComponent(constructPermissionSectionView("Document", permissionMap,
-                        RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
+                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
+                        permissionMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
 
-                permissionLayout.addComponent(constructPermissionSectionView("Account Management", permissionMap,
-                        RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
+                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                        permissionMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
             }
         }
 
@@ -426,7 +424,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 PermissionDefItem permissionDefItem = defItems.get(i);
                 Integer flag = permissionMap.getPermissionFlag(permissionDefItem.getKey());
                 SecurityI18nEnum permissionVal = PermissionFlag.toVal(flag);
-                formHelper.addComponent(new Label(AppContext.getMessage(permissionVal)), permissionDefItem.getCaption(),
+                formHelper.addComponent(new Label(AppContext.getMessage(permissionVal)), AppContext.getMessage(permissionDefItem.getCaption()),
                         AppContext.getMessage(permissionVal.desc()), i % 2, i / 2);
             }
             permissionsPanel.addSection(depotTitle, formHelper.getLayout());

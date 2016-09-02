@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.*;
 import com.mycollab.mobile.shell.events.ShellEvent;
@@ -45,7 +46,7 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
         addMenuItem(prjButton);
 
         // Buttons with styling (slightly smaller with left-aligned text)
-        MButton activityBtn = new MButton("Activities", clickEvent -> {
+        MButton activityBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.MyProjectActivities(this, CurrentProjectVariables.getProjectId()));
         }).withIcon(FontAwesome.INBOX);
@@ -76,15 +77,15 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
         addMenuItem(bugBtn);
 
-        MButton userBtn = new MButton("Users", clickEvent -> {
+        MButton userBtn = new MButton(AppContext.getMessage(ProjectMemberI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
         addMenuItem(userBtn);
 
-        addSection("Settings:");
+        addSection(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-        MButton logoutBtn = new MButton("Logout", clickEvent -> {
+        MButton logoutBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
         }).withIcon(FontAwesome.SIGN_OUT);

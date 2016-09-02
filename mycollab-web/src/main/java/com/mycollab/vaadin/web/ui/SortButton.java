@@ -31,9 +31,7 @@ public class SortButton extends Button {
     public SortButton() {
         super();
         this.setIcon(FontAwesome.CARET_DOWN);
-        this.addClickListener(clickEvent -> {
-            toggleSortOrder();
-        });
+        this.addClickListener(clickEvent -> toggleSortOrder());
     }
 
     public SortButton(String caption, ClickListener listener) {

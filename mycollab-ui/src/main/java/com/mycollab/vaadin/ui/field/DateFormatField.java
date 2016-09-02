@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.ui.field;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.data.Validator;
 import com.vaadin.event.FieldEvents;
@@ -46,19 +48,16 @@ public class DateFormatField extends CustomField<String> {
         dateFormatInstance = DateTimeFormat.forPattern(dateFormat);
         dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
         dateExample.setWidthUndefined();
-        dateInput.addTextChangeListener(new FieldEvents.TextChangeListener() {
-            @Override
-            public void textChange(FieldEvents.TextChangeEvent event) {
-                try {
-                    String newFormat = event.getText();
-                    dateFormatInstance = DateTimeFormat.forPattern(newFormat);
-                    dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
-                } catch (Exception e) {
-                    NotificationUtil.showErrorNotification("Invalid format");
-                    dateInput.setValue(initialFormat);
-                    dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
-                    dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
-                }
+        dateInput.addTextChangeListener(textChangeEvent -> {
+            try {
+                String newFormat = textChangeEvent.getText();
+                dateFormatInstance = DateTimeFormat.forPattern(newFormat);
+                dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
+            } catch (Exception e) {
+                NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.INVALID_FORMAT));
+                dateInput.setValue(initialFormat);
+                dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
+                dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
             }
         });
     }

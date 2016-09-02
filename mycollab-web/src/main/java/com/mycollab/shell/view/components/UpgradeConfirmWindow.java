@@ -64,16 +64,16 @@ public class UpgradeConfirmWindow extends MWindow {
         Div titleDiv = new Div().appendText(AppContext.getMessage(ShellI18nEnum.OPT_REQUEST_UPGRADE, version)).setStyle("font-weight:bold");
         content.with(ELabel.html(titleDiv.write()));
 
-        Div manualInstallLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Manual install: ")
+        Div manualInstallLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + AppContext.getMessage(ShellI18nEnum.OPT_MANUAL_INSTALL) + ": ")
                 .appendChild(new A(manualDownloadLink, "_blank")
-                        .appendText("Download link"));
-        content.with(new Label(manualInstallLink.write(), ContentMode.HTML));
+                        .appendText(AppContext.getMessage(ShellI18nEnum.OPT_DOWNLOAD_LINK)));
+        content.with(ELabel.html(manualInstallLink.write()));
 
-        Div manualUpgradeHowtoLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Manual upgrade: ")
+        Div manualUpgradeHowtoLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + AppContext.getMessage(ShellI18nEnum.OPT_MANUAL_UPGRADE) + ": ")
                 .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/upgrade-mycollab-automatically/", "_blank").appendText("Link"));
         content.with(new Label(manualUpgradeHowtoLink.write(), ContentMode.HTML));
 
-        Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Release Notes: ")
+        Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + AppContext.getMessage(ShellI18nEnum.OPT_RELEASE_NOTES) + ": ")
                 .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/releases/", "_blank").appendText("Link"));
         content.with(new Label(releaseNoteLink.write(), ContentMode.HTML));
 

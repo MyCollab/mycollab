@@ -18,7 +18,6 @@ package com.mycollab.module.crm.view.lead;
 
 import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.domain.SimpleLead;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
@@ -71,6 +70,10 @@ class LeadReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
             return new I18nFormViewField(lead.getIndustry(), AccountIndustry.class);
         } else if (Lead.Field.source.equalTo(propertyId)) {
             return new I18nFormViewField(lead.getSource(), OpportunityLeadSource.class);
+        } else if (Lead.Field.primcountry.equalTo(propertyId)) {
+            return new CountryViewField(lead.getPrimcountry());
+        } else if (Lead.Field.othercountry.equalTo(propertyId)) {
+            return new CountryViewField(lead.getOthercountry());
         }
 
         return null;

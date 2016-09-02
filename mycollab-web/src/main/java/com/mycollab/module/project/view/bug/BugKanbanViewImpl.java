@@ -116,10 +116,9 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         searchPanel.addHeaderRight(groupWrapLayout);
 
         MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST), clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)))
-                .withWidth("100px").withIcon(FontAwesome.SITEMAP);
+                .withWidth("100px").withIcon(FontAwesome.NAVICON);
 
-        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withWidth("100px").withIcon
-                (FontAwesome.TH);
+        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withWidth("100px").withIcon(FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);

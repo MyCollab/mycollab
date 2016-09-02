@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.crm.view.account;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.mobile.ui.CountryComboBox;
 import com.mycollab.mobile.ui.IndustryComboBox;
@@ -26,7 +27,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * MyCollab Ltd
@@ -58,11 +59,11 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
         } else if ("billingcountry".equals(propertyId) || "shippingcountry".equals(propertyId)) {
             return new CountryComboBox();
         } else if (propertyId.equals("accountname")) {
-            TextField tf = new TextField();
+            MTextField tf = new MTextField();
             if (isValidateForm) {
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(AccountI18nEnum.ERROR_ACCOUNT_NAME_IS_NULL));
+                tf.withNullRepresentation("").withRequired(true)
+                .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return tf;

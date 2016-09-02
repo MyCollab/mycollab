@@ -77,7 +77,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         addSection("Views:");
 
         // Buttons with styling (slightly smaller with left-aligned text)
-        MButton activityBtn = new MButton("Activities", clickEvent -> {
+        MButton activityBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this));
         }).withIcon(FontAwesome.INBOX);
@@ -89,7 +89,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         }).withIcon(FontAwesome.BUILDING);
         addMenuItem(prjBtn);
 
-        addSection("Settings:");
+        addSection(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
         MButton logoutBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
             closeMenu();

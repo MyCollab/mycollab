@@ -135,7 +135,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
 
         VerticalComponentGroup btnGroup = new VerticalComponentGroup();
 
-        NavigationButton activityBtn = new NavigationButton("Activities");
+        NavigationButton activityBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
         activityBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(
                 new ProjectEvent.MyProjectActivities(this, CurrentProjectVariables.getProjectId())));
         btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.INBOX, activityBtn));

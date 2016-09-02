@@ -25,6 +25,7 @@ import com.mycollab.module.crm.domain.SimpleTask;
 import com.mycollab.module.crm.domain.Task;
 import com.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.service.TaskService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.security.RolePermissionCollections;
@@ -140,7 +141,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
             view.previewItem(task);
             AppContext.addFragment(CrmLinkGenerator.generateTaskPreviewLink(task.getId()),
                     AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                            "Task", task.getSubject()));
+                            AppContext.getMessage(TaskI18nEnum.SINGLE), task.getSubject()));
 
         } else {
             NotificationUtil.showMessagePermissionAlert();

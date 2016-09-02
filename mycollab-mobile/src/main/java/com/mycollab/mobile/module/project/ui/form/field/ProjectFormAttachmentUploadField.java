@@ -210,6 +210,15 @@ public class ProjectFormAttachmentUploadField extends CustomField {
             public FileFactory getFileFactory() {
                 return new TempFileFactory();
             }
+
+            @Override
+            public void setLastMimeType(String s) {
+            }
+
+            @Override
+            public void setLastFileName(String s) {
+
+            }
         };
         receiver.setDeleteFiles(false);
         return receiver;

@@ -30,10 +30,13 @@ import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.events.AccountEvent;
 import com.mycollab.module.crm.events.ContactEvent;
 import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactOpportunityService;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.view.contact.ContactSelectionField;
+import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
@@ -71,7 +74,8 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         this.setMargin(new MarginInfo(false, true, true, true));
         this.addStyleName("oppcontact-role-edit");
 
-        AddViewLayout2 previewLayout = new AddViewLayout2("Add or Edit Contact Roles", CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+        AddViewLayout2 previewLayout = new AddViewLayout2(AppContext.getMessage(ContactI18nEnum.OPT_ADD_EDIT_CONTACT_ROLES),
+                CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
         this.addComponent(previewLayout);
 
         ComponentContainer actionControls = createButtonControls();
@@ -82,7 +86,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         contactRoleList = new ContactOpportunityList();
         previewLayout.addBody(contactRoleList);
 
-        MButton addMoreContactRolesBtn = new MButton("Add more contact roles", clickEvent -> {
+        MButton addMoreContactRolesBtn = new MButton(AppContext.getMessage(ContactI18nEnum.ACTION_ADD_CONTACT_ROLES), clickEvent -> {
             SimpleContactOpportunityRel contactRole = new SimpleContactOpportunityRel();
             ContactRoleRowComp row = new ContactRoleRowComp(contactRole);
             contactRoleList.addRow(row);
@@ -141,15 +145,15 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                     .withFullWidth().withStyleName("contactopp-list-header");
 
-            Label contactLbl = new Label("Contact");
+            Label contactLbl = new Label(AppContext.getMessage(ContactI18nEnum.SINGLE));
             contactLbl.setWidth("250px");
             header.addComponent(contactLbl);
 
-            Label accountLbl = new Label("Account");
+            Label accountLbl = new Label(AppContext.getMessage(AccountI18nEnum.SINGLE));
             accountLbl.setWidth("250px");
             header.addComponent(accountLbl);
 
-            Label roleLbl = new Label("Role");
+            Label roleLbl = new Label(AppContext.getMessage(RoleI18nEnum.SINGLE));
             roleLbl.setWidth("250px");
             header.addComponent(roleLbl);
             header.setExpandRatio(roleLbl, 1.0f);

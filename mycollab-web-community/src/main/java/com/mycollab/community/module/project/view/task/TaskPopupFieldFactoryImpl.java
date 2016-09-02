@@ -26,6 +26,7 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -62,7 +63,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     @Override
     public AbstractComponent createCommentsPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
-                .withDescription("Comments").build();
+                .withDescription(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
     }
 
     @Override
@@ -75,12 +76,14 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     public AbstractComponent createPercentagePopupField(SimpleTask task) {
         if (task.getPercentagecomplete() != null && task.getPercentagecomplete() > 0) {
             return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.CALENDAR_CLOCK,
-                    String.format(" %s%%", task.getPercentagecomplete())).withDescription("Percentage complete").build();
+                    String.format(" %s%%", task.getPercentagecomplete()))
+                    .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
         } else {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.CALENDAR_CLOCK.getHtml());
-            divHint.appendChild(new Span().appendText(" Percentage complete is not set").setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Percentage complete").build();
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write())
+                    .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
         }
     }
 
@@ -89,11 +92,12 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getMilestoneid() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
-            divHint.appendChild(new Span().appendText(" Milestone is not set").setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Milestone").build();
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write())
+                    .withDescription(AppContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
         } else {
             return new MetaFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), task
-                    .getMilestoneName()).withDescription("Milestone").build();
+                    .getMilestoneName()).withDescription(AppContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
         }
     }
 
@@ -102,11 +106,13 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getDeadlineRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
-            divHint.appendChild(new Span().appendText(" Deadline is not set").setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Deadline").build();
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write())
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
-                    AppContext.formatPrettyTime(task.getDeadlineRoundPlusOne()))).withDescription("Deadline").build();
+                    AppContext.formatPrettyTime(task.getDeadlineRoundPlusOne())))
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
         }
     }
 
@@ -115,11 +121,13 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getStartdate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" Start date is not set").setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Start date").build();
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write())
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
-                    AppContext.formatDate(task.getStartdate()))).withDescription("Start date").build();
+                    AppContext.formatDate(task.getStartdate())))
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         }
     }
 
@@ -128,11 +136,12 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getEnddate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" End date is not set").setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("End date").build();
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
-                    AppContext.formatDate(task.getEnddate()))).withDescription("End date").build();
+                    AppContext.formatDate(task.getEnddate()))).withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)
+            ).build();
         }
     }
 

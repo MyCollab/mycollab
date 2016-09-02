@@ -82,6 +82,7 @@ public enum ProjectCommonI18nEnum {
     OPT_DUE_IN,
     OPT_LIST,
     OPT_KANBAN,
+    OPT_BOARD,
     OPT_ASSIGN_TO_ME_VALUE,
     OPT_ASSIGN_TO_OTHERS,
     OPT_UNASSIGNED,

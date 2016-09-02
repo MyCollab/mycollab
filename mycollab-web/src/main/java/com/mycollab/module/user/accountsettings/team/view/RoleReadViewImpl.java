@@ -107,8 +107,8 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
             PermissionDefItem permissionDefItem = defItems.get(i);
             final Integer perVal = permissionMap.get(permissionDefItem.getKey());
             SecurityI18nEnum enumVal = AccessPermissionFlag.toVal(perVal);
-            formHelper.addComponent(new Label(AppContext.getMessage(enumVal)), permissionDefItem.getCaption(), AppContext.getMessage(enumVal.desc()),
-                    i % 2, i / 2);
+            formHelper.addComponent(new Label(AppContext.getMessage(enumVal)), AppContext.getMessage(permissionDefItem.getCaption()),
+                    AppContext.getMessage(enumVal.desc()), i % 2, i / 2);
         }
         permissionsPanel.addSection(depotTitle, formHelper.getLayout());
         return permissionsPanel;
@@ -132,17 +132,17 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
             PermissionMap permissionMap = role.getPermissionMap();
 
-            permissionsPanel.addComponent(constructPermissionSectionView("Project", permissionMap,
-                    RolePermissionCollections.PROJECT_PERMISSION_ARR));
+            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+                    permissionMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView("Customer Management", permissionMap,
-                    RolePermissionCollections.CRM_PERMISSIONS_ARR));
+            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
+                    permissionMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView("Document", permissionMap,
-                    RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
+            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
+                    permissionMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView("Account Management", permissionMap,
-                    RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
+            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                    permissionMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
             return permissionsPanel;
         }

@@ -71,9 +71,9 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
         double billableHours = getTotalBillableHours(bean);
         double nonBillableHours = getTotalNonBillableHours(bean);
         double remainHours = getRemainedHours(bean);
-        layout.addComponent(new Label(billableHours + ""), AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_BILLABLE_HOURS), 0, 0);
-        layout.addComponent(new Label(nonBillableHours + ""), AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_NON_BILLABLE_HOURS), 0, 1);
-        layout.addComponent(new Label(remainHours + ""), AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_REMAIN_HOURS), 0, 2);
+        layout.addComponent(new Label(billableHours + ""), AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS), 0, 0);
+        layout.addComponent(new Label(nonBillableHours + ""), AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS), 0, 1);
+        layout.addComponent(new Label(remainHours + ""), AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS), 0, 2);
         this.addComponent(layout.getLayout());
     }
 

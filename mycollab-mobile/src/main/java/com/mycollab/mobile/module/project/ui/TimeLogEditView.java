@@ -296,7 +296,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
 
             this.forDate = new DatePicker();
             this.forDate.setValue(new GregorianCalendar().getTime());
-            this.forDate.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_FOR_DAY));
+            this.forDate.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.LOG_FOR_DATE));
             inputWrapper.addComponent(this.forDate);
 
             this.isBillableField = new Switch(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_IS_BILLABLE), true);
@@ -363,7 +363,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             buttonLayout.setStyleName("button-layout");
             buttonLayout.setWidth("100%");
 
-            this.createBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+            createBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
                 try {
                     double d = 0;
                     try {

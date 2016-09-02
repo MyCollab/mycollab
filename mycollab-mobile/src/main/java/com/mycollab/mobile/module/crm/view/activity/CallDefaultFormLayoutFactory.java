@@ -54,7 +54,7 @@ public class CallDefaultFormLayoutFactory {
                 .displayName(CallI18nEnum.FORM_RELATED).fieldIndex(3).build());
 
         callSection.fields(new TextDynaFieldBuilder()
-                .fieldName("durationinseconds").displayName(CallI18nEnum.FORM_DURATION)
+                .fieldName("durationinseconds").displayName(GenericI18Enum.FORM_DURATION)
                 .fieldIndex(4).build());
 
         callSection.fields(new TextDynaFieldBuilder().fieldName("purpose")

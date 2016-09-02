@@ -14,7 +14,7 @@
         <#if lastComments?has_content>
             <tr>
                 <td style="padding: 0px 30px;">
-                    <h3 style="font-size:14px">Latest comments (${lastComments?size})</h3>
+                    <h3 style="font-size:14px">${lastCommentsValue}</h3>
                 </td>
                 </tr>
             <#list lastComments as commentItem>

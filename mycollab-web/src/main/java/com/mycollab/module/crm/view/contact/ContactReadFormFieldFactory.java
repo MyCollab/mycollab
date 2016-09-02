@@ -20,8 +20,12 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
+import com.mycollab.module.crm.view.lead.LeadSourceComboBox;
 import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
@@ -95,6 +99,12 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
             return containerField;
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(contact.getDescription());
+        } else if (Contact.Field.leadsource.equalTo(propertyId)) {
+            return new I18nFormViewField(contact.getLeadsource(), OpportunityLeadSource.class);
+        } else if (Contact.Field.primcountry.equalTo(propertyId)) {
+            return new CountryViewField(contact.getPrimcountry());
+        } else if (Contact.Field.othercountry.equalTo(propertyId)) {
+            return new CountryViewField(contact.getOthercountry());
         }
 
         return null;
@@ -104,7 +114,7 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
         private static final long serialVersionUID = 1L;
         private File vcardTemp;
 
-        public VCardStreamSource() {
+        VCardStreamSource() {
             try {
                 vcardTemp = File.createTempFile("mycollab", ".vcf");
             } catch (IOException e) {
@@ -120,6 +130,5 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
         public String getFilename() {
             return vcardTemp.getName();
         }
-
     }
 }

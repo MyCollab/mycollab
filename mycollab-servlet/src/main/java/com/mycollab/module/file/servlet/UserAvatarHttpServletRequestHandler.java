@@ -64,7 +64,7 @@ public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
                     avatarInputStream = UserAvatarHttpServletRequestHandler.class.getClassLoader().getResourceAsStream(userAvatarPath);
                     if (avatarInputStream == null) {
                         LOG.error("Error to get avatar", new MyCollabException("Invalid request for avatar " + path));
-                        return;
+                        throw new ResourceNotFoundException("Invalid path " + path);
                     }
                 }
 

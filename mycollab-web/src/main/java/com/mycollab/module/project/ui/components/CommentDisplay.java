@@ -66,7 +66,7 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
 
         Object parentComp = this.getParent();
         if (parentComp instanceof TabSheetLazyLoadComponent) {
-            ((TabSheetLazyLoadComponent) parentComp).getTab(this).setCaption(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
+            ((TabSheetLazyLoadComponent) parentComp).getTab(this).setCaption(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
         }
     }
 

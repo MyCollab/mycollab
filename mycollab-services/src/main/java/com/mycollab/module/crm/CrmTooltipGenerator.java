@@ -564,18 +564,15 @@ public class CrmTooltipGenerator {
             tooltipManager.appendRow(trRow1);
 
             Tr trRow2 = new Tr();
-            Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
-                    CallI18nEnum.FORM_DURATION));
+            Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DURATION));
             Td cell22 = buildCellValue(call.getDurationinseconds());
-            Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
-                    CallI18nEnum.FORM_PURPOSE));
+            Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, CallI18nEnum.FORM_PURPOSE));
             Td cell24 = buildCellValue(call.getPurpose());
             trRow2.appendChild(cell21, cell22, cell23, cell24);
             tooltipManager.appendRow(trRow2);
 
             Tr trRow3 = new Tr();
-            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_DESCRIPTION));
+            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DESCRIPTION));
             Td cell32 = buildCellValue(trimHtmlTags(call.getDescription()));
             cell32.setAttribute("colspan", "3");
             trRow3.appendChild(cell31, cell32);

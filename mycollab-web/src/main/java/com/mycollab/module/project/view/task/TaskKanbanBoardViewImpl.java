@@ -142,14 +142,14 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             groupWrapLayout.addComponent(addNewColumnBtn);
         }
 
-        MButton deleteColumnBtn = new MButton("Delete columns",
+        MButton deleteColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMNS),
                 clickEvent -> UI.getCurrent().addWindow(new DeleteColumnWindow(this, ProjectTypeConstants.TASK)))
                 .withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER);
         deleteColumnBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
 
         MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null)))
-                .withIcon(FontAwesome.SITEMAP).withWidth("100px");
+                .withIcon(FontAwesome.NAVICON).withWidth("100px");
 
         MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(FontAwesome.TH)
                 .withWidth("100px");

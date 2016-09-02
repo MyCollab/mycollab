@@ -59,11 +59,13 @@ public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactor
         if (milestone.getStartdate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" Start date is not set").setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("Start date").build();
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write())
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
-                    AppContext.formatDate(milestone.getStartdate()))).withDescription("Start date").build();
+                    AppContext.formatDate(milestone.getStartdate())))
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         }
     }
 
@@ -72,11 +74,13 @@ public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactor
         if (milestone.getEnddate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" End date is not set").setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription("End date").build();
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write())
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
-                    AppContext.formatDate(milestone.getEnddate()))).withDescription("End date").build();
+                    AppContext.formatDate(milestone.getEnddate())))
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
         }
     }
 

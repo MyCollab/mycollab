@@ -105,10 +105,6 @@ public class GridFormLayoutHelper implements Serializable {
         return field;
     }
 
-    public GridCellWrapper buildCell(String caption, int columns, int rows) {
-        return buildCell(caption, null, columns, rows, 1, fieldControlWidth, captionAlignment);
-    }
-
     public GridCellWrapper buildCell(String caption, String contextHelp, int columns, int rows) {
         return buildCell(caption, contextHelp, columns, rows, 1, fieldControlWidth, captionAlignment);
     }

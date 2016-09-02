@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.events.SelectionOptionHandler;
@@ -51,36 +53,30 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
         final OptionPopupContent selectContent = new OptionPopupContent();
 
-        selectAllBtn = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                isSelectAll = true;
-                setIcon(FontAwesome.CHECK_SQUARE_O);
-                fireSelectAll();
-                setPopupVisible(false);
-            }
+        selectAllBtn = new Button("", clickEvent -> {
+            isSelectAll = true;
+            setIcon(FontAwesome.CHECK_SQUARE_O);
+            fireSelectAll();
+            setPopupVisible(false);
         });
         selectContent.addOption(selectAllBtn);
 
-        selectThisPageBtn = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                isSelectAll = false;
-                setIcon(FontAwesome.CHECK_SQUARE_O);
-                fireSelectCurrentPage();
-                setPopupVisible(false);
-            }
+        selectThisPageBtn = new Button("", clickEvent -> {
+            isSelectAll = false;
+            setIcon(FontAwesome.CHECK_SQUARE_O);
+            fireSelectCurrentPage();
+            setPopupVisible(false);
         });
         selectContent.addOption(selectThisPageBtn);
 
         addPopupVisibilityListener(event -> {
             if (event.isPopupVisible()) {
-                selectAllBtn.setCaption("Select All (" + selectableItemHandlers.totalItemsCount() + ")");
-                selectThisPageBtn.setCaption("Select This Page (" + selectableItemHandlers.currentViewCount() + ")");
+                selectAllBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_ALL_VALUE, selectableItemHandlers.totalItemsCount()));
+                selectThisPageBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_PAGE_VALUE, selectableItemHandlers.currentViewCount()));
             }
         });
 
-        Button deSelectBtn = new Button("Deselect All", clickEvent -> {
+        Button deSelectBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DESELECT_ALL), clickEvent -> {
             isSelectAll = false;
             setIcon(FontAwesome.SQUARE_O);
             fireDeselect();

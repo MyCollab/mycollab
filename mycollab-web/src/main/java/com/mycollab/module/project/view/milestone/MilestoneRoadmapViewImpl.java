@@ -43,6 +43,7 @@ import com.mycollab.module.project.events.MilestoneEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
@@ -178,7 +179,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             roadMapView.addComponent(new MilestoneBlock(milestone));
         }
 
-        headerText.setValue(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " Roadmap (" + milestones.size() + ")");
+        headerText.setValue(String.format("%s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml(),
+                AppContext.getMessage(MilestoneI18nEnum.OPT_ROADMAP_VALUE, milestones.size())));
     }
 
     private void initUI() {
@@ -219,13 +221,10 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
         layout.addComponent(printBtn);
 
-        Button kanbanBtn = new Button("Board", clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null)));
-        kanbanBtn.setDescription("Board View");
+        Button kanbanBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null)));
         kanbanBtn.setIcon(FontAwesome.TH);
 
-        Button roadmapBtn = new Button("List");
-        roadmapBtn.setDescription("Roadmap");
-        roadmapBtn.setIcon(VaadinIcons.CUBE);
+        MButton roadmapBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon(FontAwesome.NAVICON);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);

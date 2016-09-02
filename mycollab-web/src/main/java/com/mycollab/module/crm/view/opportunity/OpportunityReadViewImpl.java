@@ -28,6 +28,8 @@ import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.*;
@@ -102,7 +104,8 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
         String saleState = this.beanItem.getSalesstage();
         Date closeDate = this.beanItem.getExpectedcloseddate();
-        if ((!"Closed Won".equals(saleState) && !"Closed Lost".equals(saleState))
+        if ((!OpportunitySalesStage.Closed_Won.name().equals(saleState) &&
+                !OpportunitySalesStage.Closed_Lost.name().equals(saleState))
                 && closeDate != null && (closeDate.before(new GregorianCalendar().getTime()))) {
             previewLayout.addTitleStyleName(WebUIConstants.LABEL_OVERDUE);
         }

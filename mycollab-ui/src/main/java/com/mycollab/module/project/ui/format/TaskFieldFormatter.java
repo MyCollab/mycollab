@@ -54,7 +54,7 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("percentagecomplete", TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
         generateFieldDisplayHandler("parenttaskid", TaskI18nEnum.FORM_PARENT_TASK, new TaskHistoryFieldFormat());
         generateFieldDisplayHandler("notes", TaskI18nEnum.FORM_NOTES, TRIM_HTMLS);
-        generateFieldDisplayHandler(Task.Field.duration.name(), TaskI18nEnum.FORM_DURATION, new DurationFieldFormat());
+        generateFieldDisplayHandler(Task.Field.duration.name(), GenericI18Enum.FORM_DURATION, new DurationFieldFormat());
     }
 
     private static class DurationFieldFormat implements HistoryFieldFormat {

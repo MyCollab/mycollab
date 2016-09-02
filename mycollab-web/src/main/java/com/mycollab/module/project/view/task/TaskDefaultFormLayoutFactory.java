@@ -61,7 +61,7 @@ public class TaskDefaultFormLayoutFactory {
                 .fieldIndex(4).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.duration)
-                .displayName(TaskI18nEnum.FORM_DURATION)
+                .displayName(GenericI18Enum.FORM_DURATION)
                 .fieldIndex(5).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.isestimated)

@@ -79,7 +79,8 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        ELabel noteLbl = new ELabel("Note: ").withWidthUndefined().withStyleName("list-note-lbl");
+        ELabel noteLbl = new ELabel(AppContext.getMessage(GenericI18Enum.OPT_NOTE))
+                .withWidthUndefined().withStyleName("list-note-lbl");
         notesWrap.addComponent(noteLbl);
 
         CssLayout noteBlock = new CssLayout();
@@ -87,8 +88,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         noteBlock.setStyleName("list-note-block");
         for (OpportunitySalesStage stage : CrmDataTypeFactory.getOpportunitySalesStageList()) {
             ELabel note = new ELabel(AppContext.getMessage(stage))
-                    .withStyleName("note-label", colormap.get(stage.name()))
-                    .withWidthUndefined();
+                    .withStyleName("note-label", colormap.get(stage.name())).withWidthUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);

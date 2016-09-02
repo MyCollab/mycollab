@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.crm.view.account;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.components.IndustryComboBox;
@@ -26,7 +27,7 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @param <B>
@@ -59,11 +60,11 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
         } else if (Account.Field.billingcountry.equalTo(propertyId) || Account.Field.shippingcountry.equalTo(propertyId)) {
             return new CountryComboBox();
         } else if (Account.Field.accountname.equalTo(propertyId)) {
-            TextField tf = new TextField();
+            MTextField tf = new MTextField();
             if (isValidateForm) {
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(AccountI18nEnum.ERROR_ACCOUNT_NAME_IS_NULL));
+                tf.withNullRepresentation("").withRequired(true)
+                        .withRequiredError(AppContext.getMessage(ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED,
+                                AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return tf;

@@ -21,6 +21,7 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.mycollab.module.user.ui.format.UserHistoryFieldFormat;
+import com.mycollab.vaadin.ui.formatter.CountryHistoryFieldFormat;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
 
@@ -54,8 +55,8 @@ public class AccountFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("shippingstate", AccountI18nEnum.FORM_SHIPPING_STATE);
         generateFieldDisplayHandler("postalcode", AccountI18nEnum.FORM_BILLING_POSTAL_CODE);
         generateFieldDisplayHandler("shippingpostalcode", AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE);
-        generateFieldDisplayHandler(Account.Field.billingcountry.name(), AccountI18nEnum.FORM_BILLING_COUNTRY);
-        generateFieldDisplayHandler(Account.Field.shippingcountry.name(), AccountI18nEnum.FORM_SHIPPING_COUNTRY);
+        generateFieldDisplayHandler(Account.Field.billingcountry.name(), AccountI18nEnum.FORM_BILLING_COUNTRY, new CountryHistoryFieldFormat());
+        generateFieldDisplayHandler(Account.Field.shippingcountry.name(), AccountI18nEnum.FORM_SHIPPING_COUNTRY, new CountryHistoryFieldFormat());
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);
     }
 

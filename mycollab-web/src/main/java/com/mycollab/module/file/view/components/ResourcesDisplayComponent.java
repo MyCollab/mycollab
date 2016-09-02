@@ -123,7 +123,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 baseFolder = resultFolder;
             }
         });
-        ELabel headerLbl = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files");
+        ELabel headerLbl = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " " +
+                AppContext.getMessage(FileI18nEnum.LIST));
 
         MButton createBtn = new MButton(AppContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER), clickEvent -> UI.getCurrent().addWindow
                 (new AddNewFolderWindow()))
@@ -169,7 +170,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                         resourcesContainer.constructBody(baseFolder);
                         NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                                "Deleted content successfully.");
+                                AppContext.getMessage(FileI18nEnum.OPT_DELETE_RESOURCES_SUCCESSFULLY));
                     }
                 });
     }
@@ -277,7 +278,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 downloadBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 downloadBtn.setIcon(FontAwesome.DOWNLOAD);
 
-                MButton moveBtn = new MButton("Move to", clickEvent -> UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource)))
+                MButton moveBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_MOVE) + "...", clickEvent ->
+                        UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource)))
                         .withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_LINK);
 
                 Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
@@ -427,7 +429,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private Resource renameResource;
 
         RenameResourceWindow(Resource resource) {
-            super("Edit folder/file name");
+            super(AppContext.getMessage(FileI18nEnum.OPT_EDIT_FOLDER_FILE_NAME));
             this.withCenter().withModal(true).withResizable(false).withWidth("400px");
             this.renameResource = resource;
             this.constructBody();
@@ -436,7 +438,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private void constructBody() {
             VerticalLayout contentLayout = new VerticalLayout();
             GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
-            final TextField folderName = layoutHelper.addComponent(new TextField("", renameResource.getName()), "Folder/File Name", 0, 0);
+            final TextField folderName = layoutHelper.addComponent(new TextField("", renameResource.getName()),
+                    AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
             contentLayout.addComponent(layoutHelper.getLayout());
 
             MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
@@ -554,11 +557,11 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         }
                     }
                     resourcesContainer.constructBody(baseFolder);
-                    MultiUploadContentWindow.this.close();
+                    close();
                     NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                            "Upload successfully.");
+                            AppContext.getMessage(FileI18nEnum.OPT_UPLOAD_FILE_SUCCESSFULLY));
                 } else {
-                    NotificationUtil.showWarningNotification("It seems you do not attach any file yet!");
+                    NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
                 }
             }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.UPLOAD);
 
@@ -583,10 +586,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             resourcesContainer.constructBody(folder);
             if (!checking) {
                 NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                        "Moved asset(s) successfully.");
+                        AppContext.getMessage(FileI18nEnum.OPT_MOVE_ASSETS_SUCCESSFULLY));
             } else {
-                NotificationUtil.showWarningNotification("Moving assets is finished, some items can't move to destination. Please " +
-                        "check duplicated file-name and try again.");
+                NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_SOME_FILES_MOVING_ERROR));
             }
         }
     }

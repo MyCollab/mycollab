@@ -113,7 +113,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        public AccountBasicSearchLayout() {
+        AccountBasicSearchLayout() {
             super(AccountSearchPanel.this);
         }
 

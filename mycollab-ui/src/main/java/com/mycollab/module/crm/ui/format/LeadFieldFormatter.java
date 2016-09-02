@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.user.ui.format.UserHistoryFieldFormat;
+import com.mycollab.vaadin.ui.formatter.CountryHistoryFieldFormat;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
 
@@ -54,12 +55,12 @@ public class LeadFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("primcity", LeadI18nEnum.FORM_PRIMARY_CITY);
         generateFieldDisplayHandler("primstate", LeadI18nEnum.FORM_PRIMARY_STATE);
         generateFieldDisplayHandler("primpostalcode", LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE);
-        generateFieldDisplayHandler("primcountry", LeadI18nEnum.FORM_PRIMARY_COUNTRY);
+        generateFieldDisplayHandler("primcountry", LeadI18nEnum.FORM_PRIMARY_COUNTRY, new CountryHistoryFieldFormat());
         generateFieldDisplayHandler("otheraddress", LeadI18nEnum.FORM_OTHER_ADDRESS);
         generateFieldDisplayHandler("othercity", LeadI18nEnum.FORM_OTHER_CITY);
         generateFieldDisplayHandler("otherstate", LeadI18nEnum.FORM_OTHER_STATE);
         generateFieldDisplayHandler("otherpostalcode", LeadI18nEnum.FORM_OTHER_POSTAL_CODE);
-        generateFieldDisplayHandler("othercountry", LeadI18nEnum.FORM_OTHER_COUNTRY);
+        generateFieldDisplayHandler("othercountry", LeadI18nEnum.FORM_OTHER_COUNTRY, new CountryHistoryFieldFormat());
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION);
     }
 

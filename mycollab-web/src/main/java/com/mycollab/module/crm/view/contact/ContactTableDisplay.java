@@ -21,9 +21,11 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.EmailLink;
 import com.mycollab.vaadin.web.ui.LabelLink;
@@ -80,6 +82,11 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
         addGeneratedColumn("email", (source, itemId, columnId) -> {
             final SimpleContact contact = getBeanByIndex(itemId);
             return new EmailLink(contact.getEmail());
+        });
+
+        addGeneratedColumn("leadsource", (source, itemId, columnId) -> {
+            final SimpleContact contact = getBeanByIndex(itemId);
+            return ELabel.i18n(contact.getLeadsource(), OpportunityLeadSource.class);
         });
 
         addGeneratedColumn("accountName", (source, itemId, columnId) -> {

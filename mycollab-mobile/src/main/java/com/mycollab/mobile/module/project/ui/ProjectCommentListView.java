@@ -67,7 +67,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));
         Integer numComments = commentList.setSearchCriteria(searchCriteria);
-        this.setCaption(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
+        this.setCaption(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
     }
 
     @Override

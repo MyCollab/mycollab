@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.vaadin.AppContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import org.vaadin.viritin.button.MButton;
@@ -36,15 +38,15 @@ public abstract class DepotWithChart extends Depot {
             isPlainMode = !isPlainMode;
             if (isPlainMode) {
                 toggleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
-                toggleViewBtn.setDescription("Chart mode");
+                toggleViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_CHART_MODE));
                 displayPlainMode();
             } else {
                 toggleViewBtn.setIcon(FontAwesome.LIST);
-                toggleViewBtn.setDescription("Simple mode");
+                toggleViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_SIMPLE_MODE));
                 displayChartMode();
             }
         }).withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
-        toggleViewBtn.setDescription("Simple mode");
+        toggleViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_SIMPLE_MODE));
         addHeaderElement(toggleViewBtn);
         setContentBorder(true);
         this.setMargin(new MarginInfo(false, false, true, false));

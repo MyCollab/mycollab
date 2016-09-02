@@ -17,15 +17,25 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.CountryValueFactory;
+import com.mycollab.vaadin.AppContext;
+import com.vaadin.ui.ComboBox;
+
+import java.util.Locale;
 
 /**
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class CountryComboBox extends ValueComboBox {
-	private static final long serialVersionUID = 1L;
+public class CountryComboBox extends ComboBox {
+    private static final long serialVersionUID = 1L;
 
-	public CountryComboBox() {
-		loadData(CountryValueFactory.getCountryList());
-	}
+    public CountryComboBox() {
+        String[] countryList = CountryValueFactory.getCountryList();
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+        for (String country : countryList) {
+            Locale obj = new Locale("", country);
+            this.addItem(country);
+            this.setItemCaption(country, obj.getDisplayCountry(AppContext.getUserLocale()));
+        }
+    }
 }

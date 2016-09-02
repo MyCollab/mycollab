@@ -185,7 +185,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         groupWrapLayout.addComponent(newTaskBtn);
 
         MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST))
-                .withIcon(FontAwesome.SITEMAP).withWidth("100px");
+                .withIcon(FontAwesome.NAVICON).withWidth("100px");
 
         MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
                 displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);

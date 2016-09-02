@@ -20,12 +20,14 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.events.ProjectMemberEvent;
 import com.mycollab.module.project.events.ProjectMemberEvent.InviteProjectMembers;
+import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.shell.view.SystemUIChecker;
@@ -40,8 +42,10 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
@@ -50,8 +54,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
@@ -81,7 +83,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
                     ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
                     if (mailService.isMailSetupValid()) {
-                        NotificationUtil.showNotification("Invitation is sent successfully",
+                        NotificationUtil.showNotification(AppContext.getMessage(ProjectMemberI18nEnum.OPT_INVITATION_SENT_SUCCESSFULLY),
                                 AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
                                 Notification.Type.HUMANIZED_MESSAGE);
                         EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
@@ -113,8 +115,8 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
     private static class CanSendEmailInstructionWindow extends MWindow {
         private MVerticalLayout contentLayout;
 
-        public CanSendEmailInstructionWindow(InviteProjectMembers invitation) {
-            super("Getting started instructions");
+        CanSendEmailInstructionWindow(InviteProjectMembers invitation) {
+            super(AppContext.getMessage(ShellI18nEnum.OPT_SMTP_INSTRUCTIONS));
             this.withResizable(false).withModal(true).withWidth("600px").withCenter();
             contentLayout = new MVerticalLayout();
             this.setContent(contentLayout);
@@ -122,7 +124,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
         }
 
         private void displayInfo(InviteProjectMembers invitation) {
-            Div infoDiv = new Div().appendText("You have not setup SMTP account properly. So we can not send the invitation by email automatically. Please copy/paste below paragraph and inform to the user by yourself")
+            Div infoDiv = new Div().appendText(AppContext.getMessage(ProjectMemberI18nEnum.OPT_NO_SMTP_SEND_MEMBERS))
                     .setStyle("font-weight:bold;color:red");
             contentLayout.with(ELabel.html(infoDiv.write()));
 
@@ -136,15 +138,14 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             contentLayout.with(linksContainer);
 
             Collection<String> inviteEmails = invitation.getEmails();
-            Date nowTime = new GregorianCalendar().getTime();
             for (String inviteEmail : inviteEmails) {
-                Div userEmailDiv = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + FontAwesome.MAIL_FORWARD.getHtml() +
-                        " Email: ").appendChild(new A().setHref("mailto:" + inviteEmail).appendText(inviteEmail));
-                linksContainer.with(new Label(userEmailDiv.write(), ContentMode.HTML));
-                linksContainer.add(ELabel.hr());
+                Div userEmailDiv = new Div().appendText(String.format("&nbsp;&nbsp;&nbsp;&nbsp;%s %s: ", FontAwesome.MAIL_FORWARD.getHtml(),
+                        AppContext.getMessage(GenericI18Enum.FORM_EMAIL))).appendChild(new A().setHref("mailto:" + inviteEmail)
+                        .appendText(inviteEmail));
+                linksContainer.with(ELabel.html(userEmailDiv.write()), ELabel.hr());
             }
 
-            MButton addNewBtn = new MButton("Invite more member(s)", clickEvent -> {
+            MButton addNewBtn = new MButton(AppContext.getMessage(ProjectMemberI18nEnum.ACTION_INVITE_MORE_MEMBERS), clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(CanSendEmailInstructionWindow.this, null));
                 close();
             }).withStyleName(WebUIConstants.BUTTON_ACTION);

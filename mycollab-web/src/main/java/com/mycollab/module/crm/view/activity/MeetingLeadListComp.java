@@ -21,13 +21,13 @@ import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- *
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
 public class MeetingLeadListComp extends Depot {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MeetingLeadListComp() {
+    public MeetingLeadListComp() {
         super("Leads", new VerticalLayout());
     }
 }

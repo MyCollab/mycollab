@@ -16,14 +16,17 @@
  */
 package com.mycollab.module.crm.view.cases;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
+import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
+import com.mycollab.vaadin.AppContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @param <B>
@@ -62,11 +65,11 @@ class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends AbstractBeanFiel
             accountField.setRequired(true);
             return accountField;
         } else if (propertyId.equals("subject")) {
-            TextField tf = new TextField();
+            MTextField tf = new MTextField();
             if (isValidateForm) {
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError("Subject must not be null");
+                tf.withNullRepresentation("").withRequired(true)
+                        .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                AppContext.getMessage(CaseI18nEnum.FORM_SUBJECT)));
             }
 
             return tf;

@@ -88,7 +88,7 @@ class CallRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
     put(CallWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
     put(CallWithBLOBs.Field.startdate, new DateTimeFieldFormat(CallWithBLOBs.Field.startdate.name, CallI18nEnum.FORM_START_DATE_TIME))
     put(CallWithBLOBs.Field.typeid, CallI18nEnum.FORM_RELATED)
-    put(CallWithBLOBs.Field.durationinseconds, CallI18nEnum.FORM_DURATION)
+    put(CallWithBLOBs.Field.durationinseconds, GenericI18Enum.FORM_DURATION)
     put(CallWithBLOBs.Field.purpose, CallI18nEnum.FORM_PURPOSE)
     put(CallWithBLOBs.Field.assignuser, new AssigneeFieldFormat(CallWithBLOBs.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(CallWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)

@@ -47,7 +47,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     @Override
     public AbstractComponent createPriorityPopupField(SimpleBug bug) {
         return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(bug.getPriority()))
-                .withDescription("Priority").build();
+                .withDescription(AppContext.getMessage(BugI18nEnum.FORM_PRIORITY)).build();
     }
 
     @Override
@@ -63,10 +63,10 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     public AbstractComponent createCommentsPopupField(SimpleBug bug) {
         if (bug.getNumComments() != null) {
             return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, "" + bug.getNumComments())
-                    .withDescription("Comments").build();
+                    .withDescription(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
         } else {
-            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, " 0").withDescription
-                    ("Comments").build();
+            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, " 0")
+                    .withDescription(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
         }
     }
 
@@ -75,7 +75,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
         if (bug.getMilestoneid() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
-            divHint.appendChild(new Span().appendText(" Milestone is not set").setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (BugI18nEnum.FORM_PHASE)).build();
         } else {
@@ -95,7 +95,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
         if (bug.getDueDateRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
-            divHint.appendChild(new Span().appendText(" Deadline is not set").setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_DUE_DATE)).build();
         } else {
@@ -110,7 +110,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
         if (bug.getStartdate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" Start date is not set").setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_START_DATE)).build();
         } else {
@@ -125,7 +125,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
         if (bug.getEnddate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
-            divHint.appendChild(new Span().appendText(" End date is not set").setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
                     (GenericI18Enum.FORM_END_DATE)).build();
         } else {

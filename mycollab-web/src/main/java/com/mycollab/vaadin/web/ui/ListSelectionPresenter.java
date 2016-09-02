@@ -49,12 +49,7 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
     @Override
     protected void viewAttached() {
         if (view.getSearchHandlers() != null) {
-            view.getSearchHandlers().addSearchHandler(new SearchHandler<S>() {
-                @Override
-                public void onSearch(S criteria) {
-                    doSearch(criteria);
-                }
-            });
+            view.getSearchHandlers().addSearchHandler(criteria -> doSearch(criteria));
         }
 
         if (view.getPagedBeanTable() != null) {

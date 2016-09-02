@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.Role;
@@ -39,6 +41,7 @@ import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.fields.MTextField;
 
 import java.util.HashMap;
 import java.util.List;
@@ -148,7 +151,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                     permissionBox.setValue(flag);
                     EditForm.this.permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                    crmFormHelper.addComponent(permissionBox, permissionDefItem.getCaption(), i % 2, i / 2);
+                    crmFormHelper.addComponent(permissionBox, AppContext.getMessage(permissionDefItem.getCaption()), i % 2, i / 2);
                 }
 
                 permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
@@ -181,7 +184,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     captionHelp = SecurityI18nEnum.ACCESS_PERMISSION_HELP;
                 }
                 permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                formHelper.addComponent(permissionBox, permissionDefItem.getCaption(), AppContext.getMessage(captionHelp), i % 2, i / 2);
+                formHelper.addComponent(permissionBox, AppContext.getMessage(permissionDefItem.getCaption()),
+                        AppContext.getMessage(captionHelp), i % 2, i / 2);
             }
 
             return permissionsPanel;
@@ -210,11 +214,9 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 if (propertyId.equals("description")) {
                     return new RichTextArea();
                 } else if (propertyId.equals("rolename")) {
-                    TextField tf = new TextField();
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError("Please enter a role name");
-                    return tf;
+                    return new MTextField().withNullRepresentation("").withRequired(true)
+                            .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                    AppContext.getMessage(GenericI18Enum.FORM_NAME)));
 
                 }
                 return null;

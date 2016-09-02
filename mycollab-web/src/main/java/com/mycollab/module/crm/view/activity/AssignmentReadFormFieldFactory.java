@@ -48,16 +48,13 @@ class AssignmentReadFormFieldFactory extends
 		SimpleTask task = attachForm.getBean();
 
 		if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(task.getAssignuser(),
-					task.getAssignUserAvatarId(), task.getAssignUserFullName());
+			return new UserLinkViewField(task.getAssignuser(), task.getAssignUserAvatarId(), task.getAssignUserFullName());
 		} else if (propertyId.equals("startdate")) {
 			return new DateTimeViewField(task.getStartdate());
 		} else if (propertyId.equals("duedate")) {
 			return new DateTimeViewField(task.getDuedate());
 		} else if (propertyId.equals("contactid")) {
-			return new LinkViewField(task.getContactName(),
-					CrmLinkBuilder.generateContactPreviewLinkFull(task
-							.getContactid()),
+			return new LinkViewField(task.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(task.getContactid()),
                     CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 		} else if (propertyId.equals("type")) {
 			return new RelatedReadItemField(task);

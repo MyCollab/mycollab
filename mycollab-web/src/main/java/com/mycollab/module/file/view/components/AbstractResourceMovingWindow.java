@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.file.view.components;
 
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.ecm.domain.ExternalDrive;
 import com.mycollab.module.ecm.domain.ExternalFolder;
@@ -39,6 +40,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -68,7 +70,7 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
     }
 
     AbstractResourceMovingWindow(Folder baseFolder, Collection<Resource> lstRes) {
-        super("Moving asset(s)");
+        super(AppContext.getMessage(FileI18nEnum.ACTION_MOVE_ASSETS));
         withModal(true).withResizable(false).withWidth("600px").withCenter();
         this.baseFolder = baseFolder;
         this.movedResources = lstRes;
@@ -90,56 +92,51 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
         folderTree.setImmediate(true);
         folderTree.setSizeFull();
 
-        folderTree.addExpandListener(new Tree.ExpandListener() {
-            private static final long serialVersionUID = 1L;
+        folderTree.addExpandListener(expandEvent -> {
+            final Folder expandFolder = (Folder) expandEvent.getItemId();
+            // load externalResource if currentExpandFolder is rootFolder
+            if (baseFolder.getPath().equals(expandFolder.getPath())) {
+                List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(AppContext.getUsername());
+                for (ExternalDrive externalDrive : externalDrives) {
+                    ExternalFolder externalMapFolder = new ExternalFolder("/");
+                    externalMapFolder.setStorageName(externalDrive.getStoragename());
+                    externalMapFolder.setExternalDrive(externalDrive);
+                    externalMapFolder.setName(externalDrive.getFoldername());
 
-            @Override
-            public void nodeExpand(final ExpandEvent event) {
-                final Folder expandFolder = (Folder) event.getItemId();
-                // load externalResource if currentExpandFolder is rootFolder
-                if (baseFolder.getPath().equals(expandFolder.getPath())) {
-                    List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(AppContext.getUsername());
-                    for (ExternalDrive externalDrive : externalDrives) {
-                        ExternalFolder externalMapFolder = new ExternalFolder("/");
-                        externalMapFolder.setStorageName(externalDrive.getStoragename());
-                        externalMapFolder.setExternalDrive(externalDrive);
-                        externalMapFolder.setName(externalDrive.getFoldername());
+                    Calendar cal = GregorianCalendar.getInstance();
+                    cal.setTime(externalDrive.getCreatedtime());
 
-                        Calendar cal = GregorianCalendar.getInstance();
-                        cal.setTime(externalDrive.getCreatedtime());
-
-                        externalMapFolder.setCreated(cal);
-                        expandFolder.addChild(externalMapFolder);
-                        folderTree.addItem(externalMapFolder);
-                        folderTree.setItemIcon(externalMapFolder, FontAwesome.DROPBOX);
-                        folderTree.setItemCaption(externalMapFolder, externalMapFolder.getName());
-                        folderTree.setParent(externalMapFolder, expandFolder);
-                    }
+                    externalMapFolder.setCreated(cal);
+                    expandFolder.addChild(externalMapFolder);
+                    folderTree.addItem(externalMapFolder);
+                    folderTree.setItemIcon(externalMapFolder, FontAwesome.DROPBOX);
+                    folderTree.setItemCaption(externalMapFolder, externalMapFolder.getName());
+                    folderTree.setParent(externalMapFolder, expandFolder);
                 }
-                if (expandFolder instanceof ExternalFolder) {
-                    List<ExternalFolder> subFolders = externalResourceService.getSubFolders(
-                            ((ExternalFolder) expandFolder).getExternalDrive(), expandFolder.getPath());
-                    for (final Folder subFolder : subFolders) {
-                        expandFolder.addChild(subFolder);
-                        folderTree.addItem(subFolder);
-                        folderTree.setItemIcon(subFolder, FontAwesome.DROPBOX);
-                        folderTree.setItemCaption(subFolder, subFolder.getName());
-                        folderTree.setParent(subFolder, expandFolder);
-                    }
-                } else {
-                    final List<Folder> subFolders = resourceService.getSubFolders(expandFolder.getPath());
-                    folderTree.setItemIcon(expandFolder, FontAwesome.FOLDER_OPEN);
+            }
+            if (expandFolder instanceof ExternalFolder) {
+                List<ExternalFolder> subFolders = externalResourceService.getSubFolders(
+                        ((ExternalFolder) expandFolder).getExternalDrive(), expandFolder.getPath());
+                for (final Folder subFolder : subFolders) {
+                    expandFolder.addChild(subFolder);
+                    folderTree.addItem(subFolder);
+                    folderTree.setItemIcon(subFolder, FontAwesome.DROPBOX);
+                    folderTree.setItemCaption(subFolder, subFolder.getName());
+                    folderTree.setParent(subFolder, expandFolder);
+                }
+            } else {
+                final List<Folder> subFolders = resourceService.getSubFolders(expandFolder.getPath());
+                folderTree.setItemIcon(expandFolder, FontAwesome.FOLDER_OPEN);
 
-                    if (subFolders != null) {
-                        for (final Folder subFolder : subFolders) {
-                            String subFolderName = subFolder.getName();
-                            if (!subFolderName.startsWith(".")) {
-                                expandFolder.addChild(subFolder);
-                                folderTree.addItem(subFolder);
-                                folderTree.setItemIcon(subFolder, FontAwesome.FOLDER);
-                                folderTree.setItemCaption(subFolder, subFolderName);
-                                folderTree.setParent(subFolder, expandFolder);
-                            }
+                if (subFolders != null) {
+                    for (final Folder subFolder : subFolders) {
+                        String subFolderName = subFolder.getName();
+                        if (!subFolderName.startsWith(".")) {
+                            expandFolder.addChild(subFolder);
+                            folderTree.addItem(subFolder);
+                            folderTree.setItemIcon(subFolder, FontAwesome.FOLDER);
+                            folderTree.setItemCaption(subFolder, subFolderName);
+                            folderTree.setParent(subFolder, expandFolder);
                         }
                     }
                 }
@@ -157,17 +154,13 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
                 } else {
                     folderTree.setItemIcon(collapseFolder, FontAwesome.FOLDER);
                 }
-                for (Folder folder : collapseFolder.getChilds()) {
-                    recursiveRemoveSubItem(folder);
-                }
+                collapseFolder.getChilds().forEach(this::recursiveRemoveSubItem);
             }
 
             private void recursiveRemoveSubItem(Folder collapseFolder) {
                 List<Folder> childFolders = collapseFolder.getChilds();
                 if (childFolders.size() > 0) {
-                    for (Folder subFolder : childFolders) {
-                        recursiveRemoveSubItem(subFolder);
-                    }
+                    childFolders.forEach(this::recursiveRemoveSubItem);
                     folderTree.removeItem(collapseFolder);
                 } else {
                     folderTree.removeItem(collapseFolder);
@@ -175,57 +168,33 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
             }
         });
 
-        folderTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final ItemClickEvent event) {
-                baseFolder = (Folder) event.getItemId();
-            }
-        });
+        folderTree.addItemClickListener(itemClickEvent -> baseFolder = (Folder) itemClickEvent.getItemId());
 
         CssLayout treeWrapper = new CssLayout(folderTree);
         treeWrapper.setSizeFull();
         contentLayout.addComponent(treeWrapper);
         displayFiles();
 
-        MHorizontalLayout controlGroupBtnLayout = new MHorizontalLayout();
-
-        Button moveBtn = new Button("Move", new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (!CollectionUtils.isEmpty(movedResources)) {
-                    boolean checkingFail = false;
-                    for (Resource res : movedResources) {
-                        try {
-                            resourceMover.moveResource(res, baseFolder, AppContext.getUsername(), AppContext.getAccountId());
-                        } catch (Exception e) {
-                            checkingFail = true;
-                            LOG.error("Error", e);
-                        }
+        MButton moveBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_MOVE), clickEvent -> {
+            if (!CollectionUtils.isEmpty(movedResources)) {
+                boolean checkingFail = false;
+                for (Resource res : movedResources) {
+                    try {
+                        resourceMover.moveResource(res, baseFolder, AppContext.getUsername(), AppContext.getAccountId());
+                    } catch (Exception e) {
+                        checkingFail = true;
+                        LOG.error("Error", e);
                     }
-                    close();
-                    displayAfterMoveSuccess(baseFolder, checkingFail);
                 }
-            }
-
-        });
-        moveBtn.setIcon(FontAwesome.ARROWS);
-        moveBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
                 close();
+                displayAfterMoveSuccess(baseFolder, checkingFail);
             }
-        });
-        cancelBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
-        controlGroupBtnLayout.with(cancelBtn, moveBtn);
+        }).withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_ACTION);
 
+        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                .withStyleName(WebUIConstants.BUTTON_OPTION);
+
+        MHorizontalLayout controlGroupBtnLayout = new MHorizontalLayout(cancelBtn, moveBtn);
         contentLayout.with(controlGroupBtnLayout).withAlign(controlGroupBtnLayout, Alignment.MIDDLE_RIGHT);
     }
 
@@ -233,7 +202,7 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
 
     private void displayFiles() {
         folderTree.addItem(baseFolder);
-        folderTree.setItemCaption(baseFolder, "Documents");
+        folderTree.setItemCaption(baseFolder, AppContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS));
         folderTree.expandItem(baseFolder);
     }
 }
