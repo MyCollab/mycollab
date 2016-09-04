@@ -60,7 +60,6 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -109,7 +108,6 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     @Override
     protected void displayView() {
         initUI();
-        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
         baseCriteria = new MilestoneSearchCriteria();
         baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
@@ -198,16 +196,13 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     }
 
     private HorizontalLayout createHeaderRight() {
-        MHorizontalLayout layout = new MHorizontalLayout();
-
         createBtn = new MButton(AppContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
             SimpleMilestone milestone = new SimpleMilestone();
             milestone.setSaccountid(AppContext.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
-        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
-        layout.with(createBtn);
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
         MButton printBtn = new MButton("", clickEvent ->
                 UI.getCurrent().addWindow(new MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
@@ -219,20 +214,24 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
                 .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
-        layout.addComponent(printBtn);
-
-        Button kanbanBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null)));
-        kanbanBtn.setIcon(FontAwesome.TH);
+        MButton boardBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent ->
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null))).withIcon(FontAwesome.SERVER);
 
         MButton roadmapBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon(FontAwesome.NAVICON);
 
+        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
+                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneRoadmapViewImpl.this)))
+                .withIcon(FontAwesome.TH);
+
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);
-        viewButtons.addButton(kanbanBtn);
-        viewButtons.withDefaultButton(roadmapBtn);
-        layout.with(viewButtons);
+        viewButtons.addButton(boardBtn);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            viewButtons.addButton(kanbanBtn);
+        }
 
-        return layout;
+        viewButtons.withDefaultButton(roadmapBtn);
+        return new MHorizontalLayout(createBtn, printBtn, viewButtons);
     }
 
     private static class MilestoneBlock extends MVerticalLayout {

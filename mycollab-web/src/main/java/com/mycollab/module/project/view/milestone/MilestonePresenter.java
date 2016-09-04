@@ -21,6 +21,7 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.parameters.MilestoneScreenData;
+import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -42,7 +43,7 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
         ProjectView projectViewContainer = (ProjectView) container;
         projectViewContainer.gotoSubView(ProjectTypeConstants.MILESTONE);
 
-        AbstractPresenter presenter;
+        IPresenter presenter;
         if (data instanceof MilestoneScreenData.Search) {
             presenter = PresenterResolver.getPresenter(MilestoneListPresenter.class);
         } else if (data instanceof MilestoneScreenData.Add || data instanceof MilestoneScreenData.Edit) {
@@ -51,6 +52,8 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
             presenter = PresenterResolver.getPresenter(MilestoneReadPresenter.class);
         } else if (data instanceof MilestoneScreenData.Roadmap) {
             presenter = PresenterResolver.getPresenter(MilestoneRoadmapPresenter.class);
+        } else if (data instanceof MilestoneScreenData.Kanban) {
+            presenter = PresenterResolver.getPresenter(IMilestoneKanbanPresenter.class);
         } else {
             throw new MyCollabException("Do not support screen data " + data);
         }

@@ -52,8 +52,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
@@ -164,16 +164,23 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         layout.addComponent(printBtn);
 
-        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.TH);
+        MButton boardBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.SERVER);
 
         MButton roadmapBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)))
                 .withIcon(FontAwesome.NAVICON);
 
+        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
+                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneListViewImpl.this)))
+                .withIcon(FontAwesome.TH);
+
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);
-        viewButtons.addButton(kanbanBtn);
-        viewButtons.withDefaultButton(kanbanBtn);
+        viewButtons.addButton(boardBtn);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            viewButtons.addButton(kanbanBtn);
+        }
+        viewButtons.withDefaultButton(boardBtn);
         layout.with(viewButtons);
 
         return layout;
@@ -186,38 +193,29 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
         MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
 
-        closedHeader = new Label("", ContentMode.HTML);
-        closedHeader.setSizeUndefined();
+        closedHeader = ELabel.html("").withWidthUndefined();
         closedHeaderLayout.with(closedHeader).withAlign(closedHeader, Alignment.MIDDLE_CENTER);
 
         bodyContent.addComponent(closedHeaderLayout, "closed-header");
-        closeContainer = new CssLayout();
-        closeContainer.setStyleName("milestone-col");
-        closeContainer.setWidth("100%");
+        closeContainer = new MCssLayout().withStyleName("milestone-col").withFullWidth();
         bodyContent.addComponent(closeContainer, "closed-milestones");
 
         MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
-        inProgressHeader = new Label("", ContentMode.HTML);
-        inProgressHeader.setSizeUndefined();
+        inProgressHeader = ELabel.html("").withWidthUndefined();
         inProgressHeaderLayout.addComponent(inProgressHeader);
         inProgressHeaderLayout.setComponentAlignment(inProgressHeader, Alignment.MIDDLE_CENTER);
 
         bodyContent.addComponent(inProgressHeaderLayout, "in-progress-header");
-        inProgressContainer = new CssLayout();
-        inProgressContainer.setStyleName("milestone-col");
-        inProgressContainer.setWidth("100%");
+        inProgressContainer = new MCssLayout().withStyleName("milestone-col").withFullWidth();
         bodyContent.addComponent(this.inProgressContainer, "in-progress-milestones");
 
         MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
-        futureHeader = new Label("", ContentMode.HTML);
-        futureHeader.setSizeUndefined();
+        futureHeader = ELabel.html("").withWidthUndefined();
         futureHeaderLayout.addComponent(futureHeader);
         futureHeaderLayout.setComponentAlignment(futureHeader, Alignment.MIDDLE_CENTER);
 
         bodyContent.addComponent(futureHeaderLayout, "future-header");
-        futureContainer = new CssLayout();
-        futureContainer.setStyleName("milestone-col");
-        futureContainer.setWidth("100%");
+        futureContainer = new MCssLayout().withStyleName("milestone-col").withFullWidth();
         bodyContent.addComponent(this.futureContainer, "future-milestones");
 
         this.addComponent(bodyContent);

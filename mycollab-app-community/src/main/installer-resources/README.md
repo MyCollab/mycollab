@@ -53,7 +53,6 @@ Version 5.4.2
 **Improvements & New Features**
 
 * [Premium] Show the card board of assignments in the milestone view
-* [Premium] Add time log into the project activity
 * Allow users to drag file to upload
 * Ask users if they want to close the child tasks when he close the parent task or phase
 * Add the Russia language, and update the language files

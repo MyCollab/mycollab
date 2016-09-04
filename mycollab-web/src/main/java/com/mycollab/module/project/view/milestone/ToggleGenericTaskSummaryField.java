@@ -55,7 +55,7 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
     private ProjectGenericTask genericTask;
     private boolean isRead = true;
 
-    ToggleGenericTaskSummaryField(final ProjectGenericTask genericTask) {
+    public ToggleGenericTaskSummaryField(final ProjectGenericTask genericTask) {
         this.genericTask = genericTask;
         this.setWidth("100%");
         titleLinkLbl = ELabel.html(buildGenericTaskLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,

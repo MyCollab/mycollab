@@ -70,6 +70,8 @@ public class ProjectGenericTask implements Serializable {
 
     private Date endDate;
 
+    private Integer milestoneId;
+
     public String getName() {
         return name;
     }
@@ -91,6 +93,14 @@ public class ProjectGenericTask implements Serializable {
             return StringUtils.extractNameFromEmail(getAssignUser());
         }
         return assignUserFullName;
+    }
+
+    public Integer getMilestoneId() {
+        return milestoneId;
+    }
+
+    public void setMilestoneId(Integer milestoneId) {
+        this.milestoneId = milestoneId;
     }
 
     public boolean isBug() {

@@ -150,7 +150,8 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
     private class QueryInfoOption extends Button {
         QueryInfoOption(final SearchQueryInfo queryInfo) {
-            super("      " + queryInfo.getQueryName(), clickEvent -> {
+            super("      " + queryInfo.getQueryName());
+            addClickListener(clickEvent -> {
                 selectedQueryName = queryInfo.getQueryName();
                 updateQueryNameField(selectedQueryName);
                 SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo.getSearchFieldInfos()));

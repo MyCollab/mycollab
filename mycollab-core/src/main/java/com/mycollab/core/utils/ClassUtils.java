@@ -55,6 +55,9 @@ public class ClassUtils {
             }
         }
 
+        if (cls.getSuperclass() != null) {
+            return getInterfaceInstanceOf(cls.getSuperclass(), superCls);
+        }
         return null;
     }
 

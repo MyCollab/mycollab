@@ -74,8 +74,6 @@ import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
@@ -92,7 +90,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @ViewComponent
 public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKanbanBoardView {
-    private static Logger LOG = LoggerFactory.getLogger(TaskKanbanBoardViewImpl.class);
 
     private ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
     private OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
@@ -208,7 +205,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                 return new Not(VerticalLocationIs.MIDDLE);
             }
         });
-        this.setWidth("100%");
+
         this.with(searchPanel, kanbanLayout).expand(kanbanLayout);
     }
 
@@ -351,7 +348,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         private Button hideColumnBtn;
         private Label header;
 
-        public KanbanBlock(final OptionVal stage) {
+        KanbanBlock(final OptionVal stage) {
             this.withFullHeight().withWidth("300px").withStyleName("kanban-block").withMargin(false);
             this.optionVal = stage;
             final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();

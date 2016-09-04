@@ -100,7 +100,7 @@ public abstract class GenericSearchPanel<S extends SearchCriteria> extends Custo
             this.initLayout();
         }
 
-        protected void initLayout() {
+        private void initLayout() {
             this.header = this.constructHeader();
             this.body = this.constructBody();
             if (header != null) {

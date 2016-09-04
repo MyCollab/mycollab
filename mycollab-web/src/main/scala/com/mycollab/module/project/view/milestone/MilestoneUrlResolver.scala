@@ -38,6 +38,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("add", new AddUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
   this.addSubResolver("preview", new PreviewUrlResolver)
+  this.addSubResolver("kanban", new KanbanUrlResolver)
   
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
@@ -46,6 +47,14 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       milestoneSearchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new MilestoneScreenData.Search(milestoneSearchCriteria))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
+    }
+  }
+  
+  private class KanbanUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val projectId = UrlTokenizer(params(0)).getInt
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Kanban())
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }

@@ -39,6 +39,7 @@ object ProjectPresenterDataMapper {
     classOf[MilestoneScreenData.Search] -> classOf[MilestonePresenter],
     classOf[MilestoneScreenData.Add] -> classOf[MilestonePresenter],
     classOf[MilestoneScreenData.Edit] -> classOf[MilestonePresenter],
+    classOf[MilestoneScreenData.Kanban] -> classOf[MilestonePresenter],
     classOf[MilestoneScreenData.Roadmap] -> classOf[MilestonePresenter])
 
   val messageMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
@@ -114,6 +115,6 @@ object ProjectPresenterDataMapper {
 
   def presenter(screenData: ScreenData[_]): Class[_ <: IPresenter[_]] = {
     val _value = allMapper get screenData.getClass
-    return if (_value.isInstanceOf[Some[_]]) _value.get else null
+    if (_value.isInstanceOf[Some[_]]) _value.get else null
   }
 }

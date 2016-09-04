@@ -23,17 +23,14 @@ import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCrite
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.user.domain.BillingAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@Service
-public class ProjectGenericTaskServiceImpl extends DefaultSearchService<ProjectGenericTaskSearchCriteria>
+public abstract class AbstractProjectGenericTaskServiceImpl extends DefaultSearchService<ProjectGenericTaskSearchCriteria>
         implements ProjectGenericTaskService {
 
     @Autowired

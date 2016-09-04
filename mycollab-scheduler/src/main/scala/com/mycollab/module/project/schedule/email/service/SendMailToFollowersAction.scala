@@ -18,9 +18,11 @@ package com.mycollab.module.project.schedule.email.service
 
 import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.domain.{MailRecipientField, SimpleRelayEmailNotification}
+import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.common.service.{AuditLogService, CommentService}
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.db.arguments.{BasicSearchRequest, StringSearchField}
+import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.mycollab.module.project.ProjectLinkGenerator
@@ -94,6 +96,14 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           context.setWrappedBean(bean)
           buildExtraTemplateVariables(context)
           contentGenerator.putVariable("context", context)
+          val userLocale = LocalizationHelper.getLocaleInstance(user.getLanguage)
+          if (comments.size() > 0) {
+            contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Last_Comments_Value, "" + comments.size()))
+          }
+          contentGenerator.putVariable("Changes", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Changes))
+          contentGenerator.putVariable("Field", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Field))
+          contentGenerator.putVariable("Old_Value", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Old_Value))
+          contentGenerator.putVariable("New_Value", LocalizationHelper.getMessage(userLocale, MailI18nEnum.New_Value))
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
           extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
@@ -122,6 +132,8 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           val context = new MailContext[B](notification, user, siteUrl)
           context.wrappedBean = bean
           buildExtraTemplateVariables(context)
+          val userLocale = LocalizationHelper.getLocaleInstance(user.getLanguage)
+          contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Last_Comments_Value, "" + comments.size()))
           contentGenerator.putVariable("comment", context.getEmailNotification)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val toRecipients = List[MailRecipientField](userMail)

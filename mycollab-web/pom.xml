@@ -173,7 +173,7 @@
         <dependency>
             <groupId>com.vaadin.addon</groupId>
             <artifactId>vaadin-context-menu</artifactId>
-            <version>0.7.3</version>
+            <version>0.7.4</version>
         </dependency>
 
         <dependency>

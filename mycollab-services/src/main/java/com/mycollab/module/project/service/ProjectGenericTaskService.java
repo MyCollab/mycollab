@@ -18,6 +18,7 @@
 package com.mycollab.module.project.service;
 
 import com.mycollab.db.persistence.service.ISearchableService;
+import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.module.user.domain.BillingAccount;
 
@@ -31,4 +32,6 @@ public interface ProjectGenericTaskService extends ISearchableService<ProjectGen
     List<BillingAccount> getAccountsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria);
 
     List<Integer> getProjectsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria);
+
+    void updateAssignmentValue(ProjectGenericTask assignment);
 }

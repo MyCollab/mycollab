@@ -31,7 +31,7 @@ import com.mycollab.module.project.view.file.FilePresenter
 import com.mycollab.module.project.view.message.MessagePresenter
 import com.mycollab.module.project.view.milestone.MilestonePresenter
 import com.mycollab.module.project.view.page.PagePresenter
-import com.mycollab.module.project.view.parameters.MilestoneScreenData.Roadmap
+import com.mycollab.module.project.view.parameters.MilestoneScreenData.{Kanban, Roadmap}
 import com.mycollab.module.project.view.parameters.ProjectScreenData.GotoFavorite
 import com.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.mycollab.module.project.view.parameters._
@@ -344,6 +344,13 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
       @Subscribe def handle(event: MilestoneEvent.GotoRoadmap) {
         val presenter = PresenterResolver.getPresenter(classOf[MilestonePresenter])
         presenter.go(projectView, new Roadmap())
+      }
+    })
+  
+    this.register(new ApplicationEventListener[MilestoneEvent.GotoKanban] {
+      @Subscribe def handle(event: MilestoneEvent.GotoKanban) {
+        val presenter = PresenterResolver.getPresenter(classOf[MilestonePresenter])
+        presenter.go(projectView, new Kanban())
       }
     })
 
