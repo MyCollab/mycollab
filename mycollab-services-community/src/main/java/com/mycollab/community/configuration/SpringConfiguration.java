@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
         "com.mycollab.community.module.common.service",
         "com.mycollab.community.module.ecm.service",
         "com.mycollab.community.module.file.service",
+        "com.mycollab.community.module.project.service",
         "com.mycollab.community.module.user.service",
         "com.mycollab.community.schedule.jobs",
         "com.mycollab.community.schedule.spring",
