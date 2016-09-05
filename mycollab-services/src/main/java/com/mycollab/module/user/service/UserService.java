@@ -54,6 +54,8 @@ public interface UserService extends IDefaultService<String, User, UserSearchCri
     @Cacheable
     SimpleUser findUserByUserNameInAccount(String username, @CacheKey Integer accountId);
 
+    SimpleUser findUserInAccount(String username, Integer accountId);
+
     @Cacheable
     int getTotalActiveUsersInAccount(@CacheKey Integer accountId);
 

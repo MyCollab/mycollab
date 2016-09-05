@@ -51,7 +51,9 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
   private val mapper = new MilestoneFieldNameMapper
 
   override protected def getItemName: String = StringUtils.trim(bean.getName, 100)
-
+  
+  override protected def getProjectName: String = bean.getProjectName
+  
   override protected def getCreateSubject(context: MailContext[SimpleMilestone]): String = context.getMessage(
     MilestoneI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 

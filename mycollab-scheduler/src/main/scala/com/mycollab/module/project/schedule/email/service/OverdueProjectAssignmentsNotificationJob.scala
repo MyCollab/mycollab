@@ -21,15 +21,18 @@ import java.util.{Date, Locale}
 
 import com.hp.gagawa.java.elements.{A, Div, Img}
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.common.{FontAwesomeUtils, NotificationType}
 import com.mycollab.configuration.{SiteConfiguration, StorageFactory}
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.{BeanUtility, DateTimeUtils}
 import com.mycollab.db.arguments.{NumberSearchField, RangeDateSearchField, SearchField, SetSearchField}
 import com.mycollab.html.DivLessFormatter
+import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria
 import com.mycollab.module.project.domain.{ProjectGenericTask, ProjectNotificationSetting}
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum
 import com.mycollab.module.project.schedule.email.service.OverdueProjectAssignmentsNotificationJob.OverdueAssignmentFormatter
 import com.mycollab.module.project.service.{ProjectGenericTaskService, ProjectMemberService, ProjectNotificationSettingService}
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectTypeConstants}
@@ -52,7 +55,7 @@ object OverdueProjectAssignmentsNotificationJob {
   private val LOG = LoggerFactory.getLogger(classOf[OverdueProjectAssignmentsNotificationJob])
 
   class OverdueAssignmentFormatter {
-    def formatDate(date: Date): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd")
+    def formatDate(date: Date): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd", Locale.US)
 
     def formatLink(subDomain: String, assignment: ProjectGenericTask): String = {
       try {
@@ -131,15 +134,27 @@ class OverdueProjectAssignmentsNotificationJob extends GenericQuartzJobBean {
             for (notifier <- notifiers) {
               val userMail = new MailRecipientField(notifier.getEmail, notifier.getDisplayName)
               val recipients = util.Arrays.asList(userMail)
+              val userLocale = LocalizationHelper.getLocaleInstance(notifier.getLanguage)
+              contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Copyright,
+                DateTimeUtils.getCurrentYear))
+              val projectSettingUrl = new A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId)).
+                appendText(LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Notification_Setting)).write()
+              val projectFooter = LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Footer, projectName, projectSettingUrl)
+              contentGenerator.putVariable("Project_Footer", projectFooter)
               val content = contentGenerator.parseFile("mailProjectOverdueAssignmentsNotifier.ftl", Locale.US)
+              val overdueAssignments = LocalizationHelper.getMessage(userLocale, ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE,
+                String.valueOf(assignments.length))
+              contentGenerator.putVariable("overdueAssignments", overdueAssignments)
               extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-                "[%s] Overdue assignments".format(projectName), content)
+                "[%s] %s".format(projectName, overdueAssignments), content)
             }
           }
         }
       }
     }
   }
+  
+  
 
   private def getNotifiersOfProject(projectId: Integer, accountId: Integer): Set[SimpleUser] = {
     import scala.collection.JavaConverters._

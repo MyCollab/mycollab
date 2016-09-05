@@ -20,6 +20,7 @@ import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.db.arguments.*;
 
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author MyCollab Ltd.
@@ -78,8 +79,8 @@ public class UserSearchCriteria extends SearchCriteria {
     // @NOTE: Only works with method find... not getTotalCount(...)
     public void setLastAccessTimeRange(Date from, Date to) {
         String expr = String.format("s_user_account.lastAccessedTime >= '%s' AND s_user_account.lastAccessedTime <='%s'",
-                        DateTimeUtils.formatDate(from, "yyyy-MM-dd"),
-                        DateTimeUtils.formatDate(to, "yyyy-MM-dd"));
+                        DateTimeUtils.formatDate(from, "yyyy-MM-dd", Locale.US),
+                        DateTimeUtils.formatDate(to, "yyyy-MM-dd", Locale.US));
         NoValueSearchField searchField = new NoValueSearchField(SearchField.AND, expr);
         this.addExtraField(searchField);
     }

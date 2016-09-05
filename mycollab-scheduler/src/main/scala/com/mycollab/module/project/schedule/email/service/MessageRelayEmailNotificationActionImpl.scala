@@ -40,7 +40,9 @@ class MessageRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
   @Autowired var messageService: MessageService = _
 
   protected def getItemName: String = StringUtils.trim(bean.getTitle, 100)
-
+  
+  override protected def getProjectName: String = bean.getProjectName
+  
   protected def getCreateSubject(context: MailContext[SimpleMessage]): String = context.getMessage(
     MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 

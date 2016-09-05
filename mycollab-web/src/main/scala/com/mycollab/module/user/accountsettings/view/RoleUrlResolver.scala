@@ -60,5 +60,4 @@ class RoleUrlResolver extends AccountSettingUrlResolver {
       EventBusFactory.getInstance().post(new RoleEvent.GotoRead(PreviewUrlResolver.this, roleId))
     }
   }
-
 }

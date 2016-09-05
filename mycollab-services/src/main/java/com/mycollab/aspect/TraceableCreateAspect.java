@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * @author MyCollab Ltd.
@@ -94,7 +95,7 @@ public class TraceableCreateAspect {
         Object nameObj = PropertyUtils.getProperty(bean, traceableAnnotation.nameField());
         String nameField;
         if (nameObj instanceof Date) {
-            nameField = DateTimeUtils.formatDate((Date) nameObj, "MM/dd/yyyy");
+            nameField = DateTimeUtils.formatDate((Date) nameObj, "MM/dd/yyyy", Locale.US);
         } else {
             nameField = nameObj.toString();
         }

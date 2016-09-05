@@ -49,7 +49,7 @@ public class ProjectOverdueAssignmentsWidget extends Depot {
     private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
     public ProjectOverdueAssignmentsWidget() {
-        super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_ASSIGNMENTS_TITLE, 0), new CssLayout());
+        super(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
         this.setWidth("100%");
 
         final CheckBox myItemsSelection = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
@@ -87,6 +87,6 @@ public class ProjectOverdueAssignmentsWidget extends Depot {
 
     private void updateSearchResult() {
         taskList.setSearchCriteria(searchCriteria);
-        this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
+        this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskList.getTotalCount()));
     }
 }

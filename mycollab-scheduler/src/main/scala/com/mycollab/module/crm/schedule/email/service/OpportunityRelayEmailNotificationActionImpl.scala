@@ -24,13 +24,14 @@ import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.crm.domain.{Opportunity, SimpleOpportunity}
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum
+import com.mycollab.module.crm.i18n.OptionI18nEnum.{OpportunityLeadSource, OpportunitySalesStage, OpportunityType}
 import com.mycollab.module.crm.service.{AccountService, CampaignService, OpportunityService}
 import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.service.UserService
 import com.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction
-import com.mycollab.schedule.email.format.{CurrencyFieldFormat, DateFieldFormat, FieldFormat}
+import com.mycollab.schedule.email.format.{CurrencyFieldFormat, DateFieldFormat, FieldFormat, I18nFieldFormat}
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
 import org.slf4j.{Logger, LoggerFactory}
@@ -92,9 +93,12 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
     put(Opportunity.Field.expectedcloseddate, new DateFieldFormat(Opportunity.Field.expectedcloseddate.name,
       OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE))
     put(Opportunity.Field.amount, OpportunityI18nEnum.FORM_AMOUNT)
-    put(Opportunity.Field.opportunitytype, GenericI18Enum.FORM_TYPE)
-    put(Opportunity.Field.salesstage, OpportunityI18nEnum.FORM_SALE_STAGE)
-    put(Opportunity.Field.source, OpportunityI18nEnum.FORM_LEAD_SOURCE)
+    put(Opportunity.Field.opportunitytype, new I18nFieldFormat(Opportunity.Field.opportunitytype.name, GenericI18Enum.FORM_TYPE,
+      classOf[OpportunityType]))
+    put(Opportunity.Field.salesstage, new I18nFieldFormat(Opportunity.Field.salesstage.name, OpportunityI18nEnum.FORM_SALE_STAGE,
+      classOf[OpportunitySalesStage]))
+    put(Opportunity.Field.source, new I18nFieldFormat(Opportunity.Field.source.name, OpportunityI18nEnum.FORM_LEAD_SOURCE,
+      classOf[OpportunityLeadSource]))
     put(Opportunity.Field.probability, OpportunityI18nEnum.FORM_PROBABILITY)
     put(Opportunity.Field.campaignid, new CampaignFieldFormat(Opportunity.Field.campaignid.name, OpportunityI18nEnum.FORM_CAMPAIGN_NAME))
     put(Opportunity.Field.nextstep, OpportunityI18nEnum.FORM_NEXT_STEP)

@@ -25,12 +25,13 @@ import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.crm.CrmLinkGenerator
 import com.mycollab.module.crm.domain.{Lead, SimpleLead}
 import com.mycollab.module.crm.i18n.LeadI18nEnum
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource
 import com.mycollab.module.crm.service.LeadService
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.service.UserService
 import com.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction
-import com.mycollab.schedule.email.format.{EmailLinkFieldFormat, FieldFormat}
+import com.mycollab.schedule.email.format.{CountryFieldFormat, EmailLinkFieldFormat, FieldFormat, I18nFieldFormat}
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
 import org.springframework.beans.factory.annotation.Autowired
@@ -93,7 +94,7 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
     put(Lead.Field.otherphone, LeadI18nEnum.FORM_OTHER_PHONE)
     put(Lead.Field.accountname, LeadI18nEnum.FORM_ACCOUNT_NAME)
     put(Lead.Field.fax, LeadI18nEnum.FORM_FAX)
-    put(Lead.Field.leadsourcedesc, LeadI18nEnum.FORM_LEAD_SOURCE)
+    put(Lead.Field.leadsourcedesc, new I18nFieldFormat(Lead.Field.leadsourcedesc.name, LeadI18nEnum.FORM_LEAD_SOURCE, classOf[OpportunityLeadSource]))
     put(Lead.Field.website, LeadI18nEnum.FORM_WEBSITE)
     put(Lead.Field.industry, LeadI18nEnum.FORM_INDUSTRY)
     put(Lead.Field.status, GenericI18Enum.FORM_STATUS)
@@ -107,8 +108,8 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
     put(Lead.Field.otherstate, LeadI18nEnum.FORM_OTHER_STATE)
     put(Lead.Field.primpostalcode, LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE)
     put(Lead.Field.otherpostalcode, LeadI18nEnum.FORM_OTHER_POSTAL_CODE)
-    put(Lead.Field.primcountry, LeadI18nEnum.FORM_PRIMARY_COUNTRY)
-    put(Lead.Field.othercountry, LeadI18nEnum.FORM_OTHER_COUNTRY)
+    put(Lead.Field.primcountry, new CountryFieldFormat(Lead.Field.primcountry.name, LeadI18nEnum.FORM_PRIMARY_COUNTRY))
+    put(Lead.Field.othercountry, new CountryFieldFormat(Lead.Field.othercountry.name, LeadI18nEnum.FORM_OTHER_COUNTRY))
     put(Lead.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
   

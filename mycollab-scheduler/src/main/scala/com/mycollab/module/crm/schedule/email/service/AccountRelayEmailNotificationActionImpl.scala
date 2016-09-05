@@ -104,8 +104,8 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     put(Account.Field.shippingstate, AccountI18nEnum.FORM_SHIPPING_STATE)
     put(Account.Field.postalcode, AccountI18nEnum.FORM_BILLING_POSTAL_CODE)
     put(Account.Field.shippingpostalcode, AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE)
-    put(Account.Field.billingcountry, new CountryFieldFormat(Account.Field.billingcountry.name(), AccountI18nEnum.FORM_BILLING_COUNTRY))
-    put(Account.Field.shippingcountry, new CountryFieldFormat(Account.Field.shippingcountry.name(), AccountI18nEnum.FORM_SHIPPING_COUNTRY))
+    put(Account.Field.billingcountry, new CountryFieldFormat(Account.Field.billingcountry.name, AccountI18nEnum.FORM_BILLING_COUNTRY))
+    put(Account.Field.shippingcountry, new CountryFieldFormat(Account.Field.shippingcountry.name, AccountI18nEnum.FORM_SHIPPING_COUNTRY))
     put(Account.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
   

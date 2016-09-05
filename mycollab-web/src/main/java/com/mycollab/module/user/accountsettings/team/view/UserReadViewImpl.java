@@ -111,7 +111,8 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         }
 
         infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
-                new Label(TimezoneVal.getDisplayName(user.getTimezone()))).withMargin(new MarginInfo(false, false, true, false)));
+                new Label(TimezoneVal.getDisplayName(AppContext.getUserLocale(), user.getTimezone())))
+                .withMargin(new MarginInfo(false, false, true, false)));
         infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
                 new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale()))).withMargin(new MarginInfo(false, false, true, false)));
 
@@ -167,7 +168,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                     } else if (propertyId.equals("dateofbirth")) {
                         return new DateViewField(user.getDateofbirth());
                     } else if (propertyId.equals("timezone")) {
-                        return new DefaultViewField(TimezoneVal.getDisplayName(user.getTimezone()));
+                        return new DefaultViewField(TimezoneVal.getDisplayName(AppContext.getUserLocale(), user.getTimezone()));
                     } else if (propertyId.equals("facebookaccount")) {
                         return new UrlLinkViewField(String.format("https://www.facebook.com/%s", user.getFacebookaccount()),
                                 user.getFacebookaccount());

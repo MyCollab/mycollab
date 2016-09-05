@@ -23,6 +23,7 @@ import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -55,7 +56,7 @@ public class MilestoneDefaultFormLayoutFactory {
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(5).colSpan(true).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(MilestoneI18nEnum.FORM_ASSIGNMENTS)
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(ProjectCommonI18nEnum.OPT_ASSIGNMENT_LIST)
                 .fieldIndex(6).colSpan(true).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.saccountid).displayName(GenericI18Enum.FORM_ATTACHMENTS)

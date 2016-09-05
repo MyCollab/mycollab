@@ -21,7 +21,9 @@ import java.util.Locale
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import com.mycollab.common.UrlEncodeDecoder
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.SiteConfiguration
+import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -51,6 +53,8 @@ import org.springframework.stereotype.Component
       val locale: Locale = LocalizationHelper.getLocaleInstance(user.getLanguage)
       contentGenerator.putVariable("username", user.getUsername)
       contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)
+      contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(locale, MailI18nEnum.Copyright,
+        DateTimeUtils.getCurrentYear))
       val recipient = new MailRecipientField(user.getEmail, user.getUsername)
       val lst = List[MailRecipientField](recipient)
       import scala.collection.JavaConversions._

@@ -21,8 +21,11 @@ import java.util.Locale
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import com.hp.gagawa.java.elements.A
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.SiteConfiguration
+import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.arguments._
+import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.billing.RegisterStatusConstants
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -73,7 +76,7 @@ object NewUserJoinCommand {
     searchCriteria.addExtraField(new OneValueSearchField(SearchField.AND, "s_user_account.isAccountOwner = ", 1))
     import scala.collection.JavaConverters._
     val accountOwners = userService.findPageableListByCriteria(new BasicSearchRequest[UserSearchCriteria](searchCriteria)).asScala.toList
-    val newUser = userService.findUserByUserNameInAccount(username, sAccountId)
+    val newUser = userService.findUserInAccount(username, sAccountId)
     val recipients = ListBuffer[MailRecipientField]()
     accountOwners.foreach(user => {
       val inst = user.asInstanceOf[SimpleUser]
@@ -83,6 +86,8 @@ object NewUserJoinCommand {
     contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(account.getSubdomain))
     contentGenerator.putVariable("newUser", newUser)
     contentGenerator.putVariable("formatter", new Formatter)
+    contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
+      DateTimeUtils.getCurrentYear))
     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
       String.format("%s has just joined on MyCollab workspace", newUser.getDisplayName),
       contentGenerator.parseFile("mailNewUserJoinAccountNotifier.ftl", Locale.US))

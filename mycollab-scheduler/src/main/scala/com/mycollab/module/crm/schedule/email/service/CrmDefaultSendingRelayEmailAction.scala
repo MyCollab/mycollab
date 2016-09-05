@@ -14,38 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
-  * This file is part of mycollab-scheduler.
-  *
-  * mycollab-scheduler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * mycollab-scheduler is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
-  */
-/**
-  * This file is part of mycollab-scheduler.
-  *
-  * mycollab-scheduler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * mycollab-scheduler is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
-  */
 package com.mycollab.module.crm.schedule.email.service
 
 import com.mycollab.common.MonitorTypeConstants
@@ -54,7 +22,7 @@ import com.mycollab.common.domain.{MailRecipientField, SimpleRelayEmailNotificat
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.common.service.{AuditLogService, CommentService}
 import com.mycollab.configuration.SiteConfiguration
-import com.mycollab.core.utils.{BeanUtility, StringUtils}
+import com.mycollab.core.utils.{BeanUtility, DateTimeUtils, StringUtils}
 import com.mycollab.db.arguments.{BasicSearchRequest, StringSearchField}
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.crm.service.CrmNotificationSettingService
@@ -101,12 +69,14 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
             return
           }
           val context = new MailContext[B](notification, user, siteUrl)
-          
           val subject = context.getMessage(getCreateSubjectKey, context.getChangeByUserFullName, getItemName)
           context.wrappedBean = bean
           contentGenerator.putVariable("context", context)
           contentGenerator.putVariable("mapper", getItemFieldMapper)
           contentGenerator.putVariable("userName", notifierFullName)
+          contentGenerator.putVariable("userName", notifierFullName)
+          contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
+            DateTimeUtils.getCurrentYear))
           buildExtraTemplateVariables(context)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List(userMail)
@@ -138,16 +108,18 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
               BeanUtility.printBeanObj(notification)))
             return
           }
-          val userLocale = LocalizationHelper.getLocaleInstance(user.getLanguage)
-          if (comments.size() > 0) {
-            contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Last_Comments_Value, "" + comments.size()))
-          }
-          contentGenerator.putVariable("Changes", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Changes))
-          contentGenerator.putVariable("Field", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Field))
-          contentGenerator.putVariable("Old_Value", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Old_Value))
-          contentGenerator.putVariable("New_Value", LocalizationHelper.getMessage(userLocale, MailI18nEnum.New_Value))
-          contentGenerator.putVariable("userName", notifierFullName)
           val context = new MailContext[B](notification, user, siteUrl)
+          if (comments.size() > 0) {
+            contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale,
+              MailI18nEnum.Last_Comments_Value, "" + comments.size()))
+          }
+          contentGenerator.putVariable("Changes", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Changes))
+          contentGenerator.putVariable("Field", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Field))
+          contentGenerator.putVariable("Old_Value", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Old_Value))
+          contentGenerator.putVariable("New_Value", LocalizationHelper.getMessage(context.locale, MailI18nEnum.New_Value))
+          contentGenerator.putVariable("userName", notifierFullName)
+          contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
+            DateTimeUtils.getCurrentYear))
           val subject = context.getMessage(getUpdateSubjectKey, context.getChangeByUserFullName, getItemName)
           val auditLog = auditLogService.findLastestLog(context.getTypeid.toInt, context.getSaccountid)
           contentGenerator.putVariable("historyLog", auditLog)
@@ -179,8 +151,11 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
       import scala.collection.JavaConversions._
       for (user <- notifiers) {
         val notifierFullName = user.getDisplayName
-        val userLocale = LocalizationHelper.getLocaleInstance(user.getLanguage)
-        contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Last_Comments_Value, "" + comments.size()))
+        val context = new MailContext[B](notification, user, siteUrl)
+        contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale,
+          MailI18nEnum.Last_Comments_Value, "" + comments.size()))
+        contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
+          DateTimeUtils.getCurrentYear))
         
         breakable {
           if (notifierFullName == null) {
@@ -190,8 +165,6 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
           }
         }
         
-        contentGenerator.putVariable("userName", notifierFullName)
-        val context = new MailContext[B](notification, user, siteUrl)
         bean = getBeanInContext(notification)
         context.setWrappedBean(bean)
         buildExtraTemplateVariables(context)

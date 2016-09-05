@@ -19,13 +19,13 @@ package com.mycollab.module.user.accountsettings.view.parameters
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**
- * @author MyCollab Ltd
- * @since 5.1.0
- */
+  * @author MyCollab Ltd
+  * @since 5.1.0
+  */
 object SettingExtScreenData {
-
-    class GeneralSetting() extends ScreenData[Object](null) {}
-
-    class ThemeCustomize() extends ScreenData[Object](null) {}
-
+  
+  class GeneralSetting() extends ScreenData[Object](null) {}
+  
+  class ThemeCustomize() extends ScreenData[Object](null) {}
+  
 }

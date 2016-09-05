@@ -23,7 +23,7 @@ import com.mycollab.events.ApplicationEvent
   * @since 5.0.5
   */
 object ProfileEvent {
-
+  
   class GotoProfileView(source: AnyRef) extends ApplicationEvent(source, null) {}
-
+  
 }

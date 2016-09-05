@@ -24,13 +24,14 @@ import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.crm.domain.{Contact, SimpleContact}
 import com.mycollab.module.crm.i18n.ContactI18nEnum
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource
 import com.mycollab.module.crm.service.{AccountService, ContactService}
 import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.service.UserService
 import com.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction
-import com.mycollab.schedule.email.format.{DateFieldFormat, EmailLinkFieldFormat, FieldFormat}
+import com.mycollab.schedule.email.format._
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
 import org.slf4j.LoggerFactory
@@ -103,7 +104,8 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     put(Contact.Field.iscallable, ContactI18nEnum.FORM_IS_CALLABLE)
     put(Contact.Field.assistantphone, ContactI18nEnum.FORM_ASSISTANT_PHONE)
     put(Contact.Field.assignuser, new AssigneeFieldFormat(Contact.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
-    put(Contact.Field.leadsource, ContactI18nEnum.FORM_LEAD_SOURCE, isColSpan = true)
+    put(Contact.Field.leadsource, new I18nFieldFormat(Contact.Field.leadsource.name, ContactI18nEnum.FORM_LEAD_SOURCE,
+      classOf[OpportunityLeadSource], true))
     put(Contact.Field.primaddress, ContactI18nEnum.FORM_PRIMARY_ADDRESS)
     put(Contact.Field.otheraddress, ContactI18nEnum.FORM_OTHER_ADDRESS)
     put(Contact.Field.primcity, ContactI18nEnum.FORM_PRIMARY_CITY)
@@ -112,8 +114,8 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     put(Contact.Field.otherstate, ContactI18nEnum.FORM_OTHER_STATE)
     put(Contact.Field.primpostalcode, ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE)
     put(Contact.Field.otherpostalcode, ContactI18nEnum.FORM_OTHER_POSTAL_CODE)
-    put(Contact.Field.primcountry, ContactI18nEnum.FORM_PRIMARY_COUNTRY)
-    put(Contact.Field.othercountry, ContactI18nEnum.FORM_OTHER_COUNTRY)
+    put(Contact.Field.primcountry, new CountryFieldFormat(Contact.Field.primcountry.name(), ContactI18nEnum.FORM_PRIMARY_COUNTRY))
+    put(Contact.Field.othercountry, new CountryFieldFormat(Contact.Field.othercountry.name(), ContactI18nEnum.FORM_OTHER_COUNTRY))
     put(Contact.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
   

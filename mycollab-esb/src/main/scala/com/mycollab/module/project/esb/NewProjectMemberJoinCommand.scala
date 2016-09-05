@@ -22,8 +22,11 @@ import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import com.hp.gagawa.java.elements.A
 import com.mycollab.common.FontAwesomeUtils
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.SiteConfiguration
+import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.html.DivLessFormatter
+import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.mycollab.module.project.domain.SimpleProjectMember
@@ -80,6 +83,8 @@ object NewProjectMemberJoinCommand {
     val account = billingAccountService.getAccountById(sAccountId)
     contentGenerator.putVariable("newMember", newMember)
     contentGenerator.putVariable("formatter", new Formatter)
+    contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
+      DateTimeUtils.getCurrentYear))
     contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(account.getSubdomain))
     val recipients = ListBuffer[MailRecipientField]()
     membersInProjects.foreach(user => {

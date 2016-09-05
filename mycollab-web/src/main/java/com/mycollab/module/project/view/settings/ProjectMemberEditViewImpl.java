@@ -160,8 +160,9 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
                 projectFormHelper.addComponent(new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS)),
-                        permissionPath, i % 2, i / 2);
+                        AppContext.getMessage(permissionKey), i % 2, i / 2);
             }
         }
     }

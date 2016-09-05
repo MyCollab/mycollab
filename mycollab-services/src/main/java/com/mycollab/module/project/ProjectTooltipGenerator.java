@@ -107,17 +107,17 @@ public class ProjectTooltipGenerator {
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
-            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(task.getStartdate(), dateFormat, timeZone);
+            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(task.getStartdate(), dateFormat, locale, timeZone);
             Td cell12 = buildCellValue(startDate);
             Td cell13 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE));
-            String actualStartDate = DateTimeUtils.convertToStringWithUserTimeZone(task.getEnddate(), dateFormat, timeZone);
+            String actualStartDate = DateTimeUtils.convertToStringWithUserTimeZone(task.getEnddate(), dateFormat, locale, timeZone);
             Td cell14 = buildCellValue(actualStartDate);
             trRow1.appendChild(cell11, cell12, cell13, cell14);
             tooltipManager.appendRow(trRow1);
 
             Tr trRow3 = new Tr();
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE));
-            String deadline = DateTimeUtils.convertToStringWithUserTimeZone(task.getDeadline(), dateFormat, timeZone);
+            String deadline = DateTimeUtils.convertToStringWithUserTimeZone(task.getDeadline(), dateFormat, locale, timeZone);
             Td cell32 = buildCellValue(deadline);
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_PRIORITY));
             Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale, TaskPriority.class, task.getPriority()));
@@ -203,10 +203,10 @@ public class ProjectTooltipGenerator {
 
             Tr trRow5 = new Tr();
             Td cell51 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE));
-            String dueDate = DateTimeUtils.convertToStringWithUserTimeZone(bug.getDuedate(), dateFormat, timeZone);
+            String dueDate = DateTimeUtils.convertToStringWithUserTimeZone(bug.getDuedate(), dateFormat, locale, timeZone);
             Td cell52 = buildCellValue(dueDate);
             Td cell53 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CREATED_TIME));
-            String createdTime = DateTimeUtils.convertToStringWithUserTimeZone(bug.getCreatedtime(), dateFormat, timeZone);
+            String createdTime = DateTimeUtils.convertToStringWithUserTimeZone(bug.getCreatedtime(), dateFormat, locale, timeZone);
             Td cell54 = buildCellValue(createdTime);
             trRow5.appendChild(cell51, cell52, cell53, cell54);
             tooltipManager.appendRow(trRow5);
@@ -283,7 +283,7 @@ public class ProjectTooltipGenerator {
 
             Tr trRow3 = new Tr();
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE));
-            String dueDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.getDatedue(), dateFormat, timeZone);
+            String dueDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.getDatedue(), dateFormat, locale, timeZone);
             Td cell32 = buildCellValue(dueDate);
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS));
             Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale, StatusI18nEnum.class, risk.getStatus()));
@@ -292,10 +292,10 @@ public class ProjectTooltipGenerator {
 
             Tr trRow4 = new Tr();
             Td cell41 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
-            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.getStartdate(), dateFormat, timeZone);
+            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.getStartdate(), dateFormat, locale, timeZone);
             Td cell42 = buildCellValue(startDate);
             Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE));
-            String endDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.getEnddate(), dateFormat, timeZone);
+            String endDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.getEnddate(), dateFormat, locale, timeZone);
             Td cell44 = buildCellValue(endDate);
             trRow4.appendChild(cell41, cell42, cell43, cell44);
             tooltipManager.appendRow(trRow4);
@@ -331,7 +331,7 @@ public class ProjectTooltipGenerator {
 
             Tr trRow3 = new Tr();
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE));
-            String duedate = DateTimeUtils.convertToStringWithUserTimeZone(version.getDuedate(), dateFormat, timeZone);
+            String duedate = DateTimeUtils.convertToStringWithUserTimeZone(version.getDuedate(), dateFormat, locale, timeZone);
             Td cell32 = buildCellValue(duedate);
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS));
             Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale, StatusI18nEnum.class, version.getStatus()));
@@ -394,7 +394,7 @@ public class ProjectTooltipGenerator {
 
             Tr trRow2 = new Tr();
             Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
-            String planStartDate = DateTimeUtils.convertToStringWithUserTimeZone(project.getPlanstartdate(), dateFormat, timeZone);
+            String planStartDate = DateTimeUtils.convertToStringWithUserTimeZone(project.getPlanstartdate(), dateFormat, locale, timeZone);
             Td cell22 = buildCellValue(planStartDate);
             Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CURRENCY));
             String currency = (project.getCurrencyid() != null) ? project.getCurrencyid() : "";
@@ -404,7 +404,7 @@ public class ProjectTooltipGenerator {
 
             Tr trRow3 = new Tr();
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE));
-            String planEndDate = DateTimeUtils.convertToStringWithUserTimeZone(project.getPlanenddate(), dateFormat, timeZone);
+            String planEndDate = DateTimeUtils.convertToStringWithUserTimeZone(project.getPlanenddate(), dateFormat, locale, timeZone);
             Td cell32 = buildCellValue(planEndDate);
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_BILLING_RATE));
             Td cell34 = buildCellValue(project.getDefaultbillingrate());
@@ -448,7 +448,7 @@ public class ProjectTooltipGenerator {
 
             Tr trRow2 = new Tr();
             Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE));
-            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(milestone.getStartdate(), dateFormat, timeZone);
+            String startDate = DateTimeUtils.convertToStringWithUserTimeZone(milestone.getStartdate(), dateFormat, locale, timeZone);
             Td cell22 = buildCellValue(startDate);
             Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
             String assignUserLink = (milestone.getOwner() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, milestone.getOwner()) : "";
@@ -460,7 +460,7 @@ public class ProjectTooltipGenerator {
 
             Tr trRow3 = new Tr();
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE));
-            String endDate = DateTimeUtils.convertToStringWithUserTimeZone(milestone.getEnddate(), dateFormat, timeZone);
+            String endDate = DateTimeUtils.convertToStringWithUserTimeZone(milestone.getEnddate(), dateFormat, locale, timeZone);
             Td cell32 = buildCellValue(endDate);
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS));
             Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale, MilestoneStatus.class, milestone.getStatus()));
@@ -489,7 +489,7 @@ public class ProjectTooltipGenerator {
             Div div = new Div().setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
             H3 name = new H3();
             name.appendText(Jsoup.parse(DateTimeUtils.convertToStringWithUserTimeZone(
-                    standup.getCreatedtime(), dateFormat, timeZone)).html());
+                    standup.getCreatedtime(), dateFormat, locale, timeZone)).html());
             div.appendChild(name);
 
             Table table = new Table();

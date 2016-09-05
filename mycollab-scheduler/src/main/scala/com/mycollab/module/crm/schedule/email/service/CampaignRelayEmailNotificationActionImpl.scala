@@ -27,10 +27,11 @@ import com.mycollab.html.LinkUtils
 import com.mycollab.module.crm.CrmLinkGenerator
 import com.mycollab.module.crm.domain.{CampaignWithBLOBs, SimpleCampaign}
 import com.mycollab.module.crm.i18n.CampaignI18nEnum
+import com.mycollab.module.crm.i18n.OptionI18nEnum.{CampaignStatus, CampaignType}
 import com.mycollab.module.crm.service.CampaignService
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
-import com.mycollab.schedule.email.format.{CurrencyFieldFormat, DateFieldFormat, FieldFormat}
+import com.mycollab.schedule.email.format.{CurrencyFieldFormat, DateFieldFormat, FieldFormat, I18nFieldFormat}
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
 import org.springframework.beans.factory.annotation.Autowired
@@ -84,8 +85,9 @@ class CampaignRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEma
 
   class CampaignFieldNameMapper extends ItemFieldMapper {
     put(CampaignWithBLOBs.Field.campaignname, GenericI18Enum.FORM_NAME, isColSpan = true)
-    put(CampaignWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
-    put(CampaignWithBLOBs.Field.`type`, GenericI18Enum.FORM_TYPE)
+    put(CampaignWithBLOBs.Field.status, new I18nFieldFormat(CampaignWithBLOBs.Field.status.name, GenericI18Enum.FORM_STATUS,
+      classOf[CampaignStatus]))
+    put(CampaignWithBLOBs.Field.`type`, new I18nFieldFormat(CampaignWithBLOBs.Field.`type`.name, GenericI18Enum.FORM_TYPE, classOf[CampaignType]))
     put(CampaignWithBLOBs.Field.currencyid, new CurrencyFieldFormat(CampaignWithBLOBs.Field.currencyid.name, GenericI18Enum.FORM_CURRENCY))
     put(CampaignWithBLOBs.Field.budget, CampaignI18nEnum.FORM_BUDGET)
     put(CampaignWithBLOBs.Field.expectedcost, CampaignI18nEnum.FORM_EXPECTED_COST)

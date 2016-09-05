@@ -55,10 +55,10 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
     }
 
     @Autowired
-    protected MilestoneMapper milestoneMapper;
+    private MilestoneMapper milestoneMapper;
 
     @Autowired
-    protected MilestoneMapperExt milestoneMapperExt;
+    private MilestoneMapperExt milestoneMapperExt;
 
     @Autowired
     private DataSource dataSource;

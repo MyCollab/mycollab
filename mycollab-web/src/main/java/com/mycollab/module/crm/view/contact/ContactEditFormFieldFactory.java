@@ -88,7 +88,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         return null;
     }
 
-    class ContactFirstNamePrefixField extends CompoundCustomField<Contact> {
+    private class ContactFirstNamePrefixField extends CompoundCustomField<Contact> {
         private static final long serialVersionUID = 1L;
 
         @Override

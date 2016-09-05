@@ -61,5 +61,4 @@ class UserUrlResolver extends AccountSettingUrlResolver {
       EventBusFactory.getInstance().post(new UserEvent.GotoRead(PreviewUrlResolver.this, username))
     }
   }
-
 }

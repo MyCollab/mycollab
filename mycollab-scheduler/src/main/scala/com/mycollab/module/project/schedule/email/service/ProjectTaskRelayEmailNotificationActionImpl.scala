@@ -81,7 +81,9 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
     projectTaskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
 
   protected def getItemName: String = StringUtils.trim(bean.getTaskname, 100)
-
+  
+  override protected def getProjectName: String = bean.getProjectName
+  
   protected def getCreateSubject(context: MailContext[SimpleTask]): String = context.getMessage(TaskI18nEnum
     .MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 

@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.mycollab.vaadin.AppContext;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.Alignment;
@@ -77,7 +78,7 @@ public class DateSelectionField extends CustomField<Date> {
 
     private String formatMonth(String month) {
         SimpleDateFormat monthParse = new SimpleDateFormat("MM");
-        SimpleDateFormat monthDisplay = new SimpleDateFormat("MMMM");
+        SimpleDateFormat monthDisplay = new SimpleDateFormat("MMMM", AppContext.getUserLocale());
         try {
             return monthDisplay.format(monthParse.parse(month));
         } catch (ParseException e) {

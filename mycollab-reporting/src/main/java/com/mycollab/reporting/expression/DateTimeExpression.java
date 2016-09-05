@@ -20,6 +20,7 @@ import com.mycollab.core.utils.DateTimeUtils;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author MyCollab Ltd.
@@ -35,7 +36,7 @@ public class DateTimeExpression extends SimpleFieldExpression {
     @Override
     public String evaluate(ReportParameters reportParameters) {
         Date date = reportParameters.getFieldValue(field);
-        return DateTimeUtils.formatDate(date, "DD/mm/yyyy");
+        return DateTimeUtils.formatDate(date, "DD/mm/yyyy", Locale.US);
     }
 
 }

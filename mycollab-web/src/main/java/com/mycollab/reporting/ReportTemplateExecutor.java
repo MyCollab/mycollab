@@ -78,7 +78,8 @@ public abstract class ReportTemplateExecutor {
                 cmp.verticalList(
                         cmp.text("https://www.mycollab.com").setStyle(reportStyles.getItalicStyle()).setHyperLink(link)
                                 .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT), cmp.text(String.format("Generated at: %s",
-                                DateTimeUtils.formatDate(new GregorianCalendar().getTime(), "yyyy-MM-dd'T'HH:mm:ss", timeZone)))
+                                DateTimeUtils.formatDate(new GregorianCalendar().getTime(), "yyyy-MM-dd'T'HH:mm:ss",
+                                        Locale.US, timeZone)))
                                 .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT))
         );
 

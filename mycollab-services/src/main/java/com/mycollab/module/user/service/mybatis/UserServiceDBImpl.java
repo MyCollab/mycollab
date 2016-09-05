@@ -207,7 +207,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public void updateUserAccount(SimpleUser record, Integer sAccountId) {
-        LOG.debug("Check whether there is exist email in system before");
         SimpleUser oldUser = findUserByUserNameInAccount(record.getUsername(), sAccountId);
         if (oldUser != null) {
             if (Boolean.TRUE.equals(oldUser.getIsAccountOwner()) && Boolean.FALSE.equals(record.getIsAccountOwner())) {
@@ -329,6 +328,11 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public SimpleUser findUserByUserNameInAccount(String username, Integer accountId) {
+        return findUserInAccount(username, accountId);
+    }
+
+    @Override
+    public SimpleUser findUserInAccount(String username, Integer accountId) {
         UserSearchCriteria criteria = new UserSearchCriteria();
         criteria.setUsername(StringSearchField.and(username));
         criteria.setSaccountid(new NumberSearchField(accountId));

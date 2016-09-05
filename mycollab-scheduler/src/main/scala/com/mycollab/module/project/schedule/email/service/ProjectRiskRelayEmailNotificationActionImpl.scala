@@ -23,6 +23,7 @@ import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.domain.{ProjectRelayEmailNotification, Risk, SimpleRisk}
+import com.mycollab.module.project.i18n.OptionI18nEnum.{RiskConsequence, RiskProbability}
 import com.mycollab.module.project.i18n.RiskI18nEnum
 import com.mycollab.module.project.service.{MilestoneService, RiskService}
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
@@ -48,6 +49,8 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
   private val mapper = new ProjectFieldNameMapper
   
   override protected def getItemName: String = StringUtils.trim(bean.getRiskname, 100)
+  
+  override protected def getProjectName: String = bean.getProjectName
   
   override protected def getCreateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(
     RiskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
@@ -88,8 +91,9 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
   class ProjectFieldNameMapper extends ItemFieldMapper {
     put(Risk.Field.riskname, GenericI18Enum.FORM_NAME, isColSpan = true)
     put(Risk.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
-    put(Risk.Field.probalitity, RiskI18nEnum.FORM_PROBABILITY)
-    put(Risk.Field.consequence, RiskI18nEnum.FORM_CONSEQUENCE)
+    put(Risk.Field.probalitity, new I18nFieldFormat(Risk.Field.probalitity.name, RiskI18nEnum.FORM_PROBABILITY,
+      classOf[RiskProbability]))
+    put(Risk.Field.consequence, new I18nFieldFormat(Risk.Field.consequence.name, RiskI18nEnum.FORM_CONSEQUENCE, classOf[RiskConsequence]))
     put(Risk.Field.startdate, new DateFieldFormat(Risk.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
     put(Risk.Field.enddate, new DateFieldFormat(Risk.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
     put(Risk.Field.datedue, new DateFieldFormat(Risk.Field.datedue.name, GenericI18Enum.FORM_DUE_DATE))

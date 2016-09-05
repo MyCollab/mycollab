@@ -47,7 +47,7 @@ public class TaskStatusComponent extends Depot {
     private ProjectGenericTaskSearchCriteria searchCriteria;
 
     public TaskStatusComponent() {
-        super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_ASSIGNMENTS_TITLE, 0), new CssLayout());
+        super(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
 
         final CheckBox myItemsOnly = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
         myItemsOnly.addValueChangeListener(valueChangeEvent -> {
@@ -78,7 +78,7 @@ public class TaskStatusComponent extends Depot {
 
     private void updateSearchResult() {
         taskComponents.setSearchCriteria(searchCriteria);
-        setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_ASSIGNMENTS_TITLE, taskComponents.getTotalCount()));
+        setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskComponents.getTotalCount()));
     }
 
     private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectGenericTaskService,

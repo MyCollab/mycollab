@@ -28,6 +28,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -71,9 +72,9 @@ public class DateTimeUtils {
         return new Date();
     }
 
-    public static String convertToStringWithUserTimeZone(String dateVal, String dateFormat, TimeZone userTimeZone) {
+    public static String convertToStringWithUserTimeZone(String dateVal, String dateFormat, Locale locale, TimeZone userTimeZone) {
         Date date = parseDateByW3C(dateVal);
-        return convertToStringWithUserTimeZone(date, dateFormat, userTimeZone);
+        return convertToStringWithUserTimeZone(date, dateFormat, locale, userTimeZone);
     }
 
     /**
@@ -102,10 +103,10 @@ public class DateTimeUtils {
         return "";
     }
 
-    public static String convertToStringWithUserTimeZone(Date date, String dateFormat, TimeZone userTimeZone) {
+    public static String convertToStringWithUserTimeZone(Date date, String dateFormat, Locale locale, TimeZone userTimeZone) {
         if (date == null)
             return "";
-        return formatDate(date, dateFormat, userTimeZone);
+        return formatDate(date, dateFormat, locale, userTimeZone);
     }
 
     public static String getPrettyDateValue(Date dateTime, Locale locale) {
@@ -136,16 +137,16 @@ public class DateTimeUtils {
         return localDate.plusDays(duration).toDate();
     }
 
-    public static String formatDate(Date date, String dateFormat) {
-        return formatDate(date, dateFormat, null);
+    public static String formatDate(Date date, String dateFormat, Locale locale) {
+        return formatDate(date, dateFormat, locale, null);
     }
 
-    public static String formatDate(Date date, String dateFormat, TimeZone timezone) {
+    public static String formatDate(Date date, String dateFormat, Locale locale, TimeZone timezone) {
         if (date == null) {
             return "";
         }
 
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat).withLocale(locale);
         if (timezone != null) {
             formatter = formatter.withZone(DateTimeZone.forTimeZone(timezone));
         }
@@ -214,5 +215,9 @@ public class DateTimeUtils {
             }
         }
         return max;
+    }
+
+    public static String getCurrentYear() {
+        return String.valueOf(new LocalDate().getYear());
     }
 }

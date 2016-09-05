@@ -7,7 +7,7 @@
         <#include "mailLogo.ftl">
         <tr>
             <td style="padding: 10px 30px">
-                <p><b>Overdue assignments</b></p>
+                <p><b>${overdueAssignments!}</b></p>
                 <#if assignments?has_content>
                     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 20px 0px; border-collapse: collapse;">
                         <tr style="border-bottom: 1px solid $styles.border_color">

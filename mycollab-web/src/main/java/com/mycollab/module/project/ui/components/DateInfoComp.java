@@ -44,8 +44,8 @@ public class DateInfoComp extends MVerticalLayout {
     public void displayEntryDateTime(ValuedBean bean) {
         this.removeAllComponents();
         this.withMargin(false);
-        Label dateInfoHeader = new Label(FontAwesome.CALENDAR.getHtml() + " " +
-                AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES), ContentMode.HTML);
+        Label dateInfoHeader = ELabel.html(FontAwesome.CALENDAR.getHtml() + " " +
+                AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES));
         dateInfoHeader.setStyleName("info-hdr");
         this.addComponent(dateInfoHeader);
 

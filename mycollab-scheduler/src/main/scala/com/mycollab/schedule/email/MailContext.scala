@@ -64,10 +64,6 @@ class MailContext[B](@BeanProperty val emailNotification: SimpleRelayEmailNotifi
 
   def getFieldName(fieldMapper: ItemFieldMapper, fieldName: String): String = {
     val fieldFormat = fieldMapper.getField(fieldName)
-    if (fieldFormat != null) {
-      getMessage(fieldFormat.displayName)
-    } else {
-      ""
-    }
+    if (fieldFormat != null) getMessage(fieldFormat.displayName) else ""
   }
 }

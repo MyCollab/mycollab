@@ -111,12 +111,9 @@ public class TimezoneVal implements Comparable<TimezoneVal> {
         return TimeZone.getTimeZone(timeZoneId);
     }
 
-    public static String getDisplayName(String timeZoneId) {
+    public static String getDisplayName(Locale locale, String timeZoneId) {
         TimeZone timeZone = valueOf(timeZoneId);
-        String str = timeZone.getID();
-        int index = str.indexOf('/');
-        String location = (index > -1) ? str.substring(index + 1, str.length()) : str;
-        return getOffsetString(timeZone) + " " + location;
+        return getOffsetString(timeZone) + " " + timeZone.getDisplayName(locale);
     }
 
     public static String[] getAreas() {

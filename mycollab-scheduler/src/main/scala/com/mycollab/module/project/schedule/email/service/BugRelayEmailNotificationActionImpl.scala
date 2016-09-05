@@ -84,6 +84,8 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
   
   protected def getItemName: String = StringUtils.trim(bean.getSummary, 100)
   
+  override protected def getProjectName: String = bean.getProjectname
+  
   protected def getCreateSubject(context: MailContext[SimpleBug]): String = context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
     bean.getProjectname, context.getChangeByUserFullName, getItemName)
   

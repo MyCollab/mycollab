@@ -79,7 +79,9 @@ class ComponentRelayEmailNotificationActionImpl extends SendMailToAllMembersActi
     componentService.findById(notification.getTypeid.toInt, notification.getSaccountid)
 
   protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
-
+  
+  override protected def getProjectName: String = bean.getProjectName
+  
   protected def getCreateSubject(context: MailContext[SimpleComponent]): String = context.getMessage(
     ComponentI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 

@@ -67,7 +67,9 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
   }
 
   protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
-
+  
+  override protected def getProjectName: String = bean.getProjectName
+  
   protected def getCreateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(
     VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 

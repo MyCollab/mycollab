@@ -24,13 +24,14 @@ import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.crm.domain.{CaseWithBLOBs, SimpleCase}
 import com.mycollab.module.crm.i18n.CaseI18nEnum
+import com.mycollab.module.crm.i18n.OptionI18nEnum._
 import com.mycollab.module.crm.service.{AccountService, CaseService}
 import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.service.UserService
 import com.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction
-import com.mycollab.schedule.email.format.FieldFormat
+import com.mycollab.schedule.email.format.{FieldFormat, I18nFieldFormat}
 import com.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.mycollab.spring.AppContextUtil
 import org.slf4j.LoggerFactory
@@ -88,15 +89,14 @@ class CaseRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
   class CaseFieldNameMapper extends ItemFieldMapper {
     put(CaseWithBLOBs.Field.subject, CaseI18nEnum.FORM_SUBJECT, isColSpan = true)
     put(CaseWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION)
-    put(CaseWithBLOBs.Field.accountid, new AccountFieldFormat(CaseWithBLOBs.Field.accountid.name, CaseI18nEnum
-      .FORM_ACCOUNT))
-    put(CaseWithBLOBs.Field.priority, CaseI18nEnum.FORM_PRIORITY)
-    put(CaseWithBLOBs.Field.`type`, GenericI18Enum.FORM_TYPE)
-    put(CaseWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
-    put(CaseWithBLOBs.Field.reason, CaseI18nEnum.FORM_REASON)
+    put(CaseWithBLOBs.Field.accountid, new AccountFieldFormat(CaseWithBLOBs.Field.accountid.name, CaseI18nEnum.FORM_ACCOUNT))
+    put(CaseWithBLOBs.Field.priority, new I18nFieldFormat(CaseWithBLOBs.Field.priority.name, CaseI18nEnum.FORM_PRIORITY, classOf[CasePriority]))
+    put(CaseWithBLOBs.Field.`type`, new I18nFieldFormat(CaseWithBLOBs.Field.`type`.name, GenericI18Enum.FORM_TYPE, classOf[CaseType]))
+    put(CaseWithBLOBs.Field.status, new I18nFieldFormat(CaseWithBLOBs.Field.status.name, GenericI18Enum.FORM_STATUS, classOf[CaseStatus]))
+    put(CaseWithBLOBs.Field.reason, new I18nFieldFormat(CaseWithBLOBs.Field.reason.name, CaseI18nEnum.FORM_REASON, classOf[CaseReason]))
     put(CaseWithBLOBs.Field.phonenumber, GenericI18Enum.FORM_PHONE)
     put(CaseWithBLOBs.Field.email, GenericI18Enum.FORM_EMAIL)
-    put(CaseWithBLOBs.Field.origin, CaseI18nEnum.FORM_ORIGIN)
+    put(CaseWithBLOBs.Field.origin, new I18nFieldFormat(CaseWithBLOBs.Field.origin.name, CaseI18nEnum.FORM_ORIGIN, classOf[CaseOrigin]))
     put(CaseWithBLOBs.Field.assignuser, new AssigneeFieldFormat(CaseWithBLOBs.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(CaseWithBLOBs.Field.resolution, CaseI18nEnum.FORM_RESOLUTION, isColSpan = true)
   }

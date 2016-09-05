@@ -52,18 +52,16 @@ Version 5.4.2
 
 **Improvements & New Features**
 
-* [Premium] Show the card board of assignments in the milestone view
 * Allow users to drag file to upload
-* Ask users if they want to close the child tasks when he close the parent task or phase
 * Add the Russia language, and update the language files
 * Minor improvements
 
 **Bug Fixes**
 
 * [Premium] Can not receive the update notification from some clients
+* Display date format associates with user language
 * Can not recognize some languages files due to the incompatibility issue of getlocalization service
 * Can not create the new case, campaign
-* Can not navigate to the task preview in mobile devices
 * Can not export the CSV, Excel with Asia languages like Japanese, Korean and Chinese
 * Not display the user language in the tooltip
 * Project component, version can not display rich text description
@@ -80,7 +78,7 @@ Version 5.4.1
 
 **Improvements & New Features**
 
-* Update the language files. Add the Danish (Contributor: KrestenB), Spanish (Contributor: jfigueroa) to the supported list 
+* Update the language files. Add the Danish (Contributor: KrestenB), Spanish (Contributor: jfigueroa) to the supported list
 * Minor improvements
 
 **Bug Fixes**
@@ -120,10 +118,10 @@ Version 5.4.0
 **Bug Fixes**
 
 * Fix the pdfEncoding mistyping in the reporting module (Thanks to mchubby)
-* The NumberFormatException throws when the user types a valid day duration in task form. 
+* The NumberFormatException throws when the user types a valid day duration in task form.
 * [Premium] Not adding the second cache layer to the service classes
-* [Premium] Can not remove favorite flag in Favorite view 
-* [Premium] Fix the form layout text 
+* [Premium] Can not remove favorite flag in Favorite view
+* [Premium] Fix the form layout text
 * [Premium] Not include the total risks in the milestone information
 
 Version 5.3.4
@@ -131,7 +129,7 @@ Version 5.3.4
 
 **Library Upgrades**
 
-* Spring 4.3.0.RELEASE 
+* Spring 4.3.0.RELEASE
 * Flyway 4.0.2
 
 **Improvements & New Features**
@@ -188,7 +186,7 @@ Version 5.3.2
 * Jetty 9.2.17.v20160517
 * Jsoup 1.9.2
 * Other libraries
- 
+
 **Improvements & New Features**
 
 * Support DLS in timezone setting
@@ -302,7 +300,7 @@ Version 5.2.11
 
 **Bug Fixes**
 
-* Report still throws error in some machines due to the order of loading jar files. This version remove this issue 
+* Report still throws error in some machines due to the order of loading jar files. This version remove this issue
 completely.
 
 

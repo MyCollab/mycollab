@@ -42,7 +42,9 @@ class ProjectPageRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
   protected def buildExtraTemplateVariables(context: MailContext[Page]) {}
 
   protected def getItemName: String = StringUtils.trim(bean.getSubject, 100)
-
+  
+  override protected def getProjectName: String = ""
+  
   protected def getCreateSubject(context: MailContext[Page]): String = null
 
   protected def getUpdateSubject(context: MailContext[Page]): String = null

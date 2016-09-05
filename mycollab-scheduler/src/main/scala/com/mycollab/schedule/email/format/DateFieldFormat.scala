@@ -40,7 +40,7 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
         new Span().write
       } else {
         new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], context.user.getDateFormat,
-          TimezoneVal.valueOf(context.getUser.getTimezone))).write
+          context.locale, TimezoneVal.valueOf(context.getUser.getTimezone))).write
       }
     } catch {
       case e: Any =>
@@ -54,6 +54,6 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
       new Span().write
     }
 
-    DateTimeUtils.convertToStringWithUserTimeZone(value, context.user.getDateFormat, context.getTimeZone)
+    DateTimeUtils.convertToStringWithUserTimeZone(value, context.user.getDateFormat, context.locale, context.getTimeZone)
   }
 }

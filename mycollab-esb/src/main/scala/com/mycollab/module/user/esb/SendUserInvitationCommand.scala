@@ -20,7 +20,9 @@ import java.util.{Arrays, Collections, Locale}
 
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.SiteConfiguration
+import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -43,11 +45,13 @@ import org.springframework.stereotype.Component
   @AllowConcurrentEvents
   @Subscribe
   def execute(event: SendUserInvitationEvent): Unit = {
-    val inviteeUser = userService.findUserByUserNameInAccount(event.invitee, event.sAccountId)
+    val inviteeUser = userService.findUserInAccount(event.invitee, event.sAccountId)
     if (inviteeUser != null) {
       contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(inviteeUser.getSubdomain))
       contentGenerator.putVariable("invitee", inviteeUser)
       contentGenerator.putVariable("password", event.password)
+      contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
+        DateTimeUtils.getCurrentYear))
       extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName,
         Collections.singletonList(new MailRecipientField(event.invitee, event.invitee)),
         LocalizationHelper.getMessage(Locale.US, UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getDefaultSiteName),

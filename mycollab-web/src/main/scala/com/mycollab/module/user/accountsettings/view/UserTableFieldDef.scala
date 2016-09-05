@@ -16,11 +16,10 @@
  */
 package com.mycollab.module.user.accountsettings.view
 
-import com.mycollab.module.user.accountsettings.localization.UserI18nEnum
-import com.mycollab.module.user.domain.{SimpleUser, User}
 import com.mycollab.common.TableViewField
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum
+import com.mycollab.module.user.domain.{SimpleUser, User}
 import com.mycollab.vaadin.web.ui.WebUIConstants
 
 /**

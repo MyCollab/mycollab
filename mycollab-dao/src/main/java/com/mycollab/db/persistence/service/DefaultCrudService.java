@@ -70,6 +70,10 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
         }
     }
 
+    protected void postSave(Integer sAccountId) {
+
+    }
+
     @Override
     public Integer updateWithSession(T record, String username) {
         try {
@@ -88,7 +92,10 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
         }
     }
 
-    @SuppressWarnings("rawtypes")
+    protected void postUpdate(Integer sAccountId) {
+
+    }
+
     private void findCacheUpdateMethod() {
         ICrudGenericDAO<K, T> crudMapper = getCrudMapper();
         Class<? extends ICrudGenericDAO> crudMapperCls = crudMapper.getClass();
@@ -109,6 +116,8 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
         }
         return getCrudMapper().updateByPrimaryKeySelective(record);
     }
+
+
 
     @Override
     public void removeWithSession(T item, String username, Integer accountId) {
