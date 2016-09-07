@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
  * @since 5.4.2
  */
 @Service
-public class ProjectGenericTaskServiceImpl extends AbstractProjectGenericTaskServiceImpl{
+public class ProjectGenericTaskServiceImpl extends AbstractProjectGenericTaskServiceImpl {
     @Override
     public void updateAssignmentValue(ProjectGenericTask assignment) {
         throw new MyCollabException("Not support this operation in the community edition");

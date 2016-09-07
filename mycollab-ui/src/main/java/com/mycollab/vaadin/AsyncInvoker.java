@@ -29,6 +29,9 @@ public class AsyncInvoker {
     private static Logger LOG = LoggerFactory.getLogger(AsyncInvoker.class);
 
     public static void access(final UI ui, final PageCommand pageCommand) {
+        if (ui == null) {
+            return;
+        }
         pageCommand.setUI(ui);
         if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
             new Thread() {

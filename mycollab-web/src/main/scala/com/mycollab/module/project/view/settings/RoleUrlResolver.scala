@@ -79,5 +79,4 @@ class RoleUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-  
 }

@@ -16,12 +16,17 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
+import com.hp.gagawa.java.Node;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.TimezoneVal;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.AccountLinkBuilder;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
+import com.mycollab.module.user.accountsettings.profile.view.PasswordChangeWindow;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
@@ -37,15 +42,12 @@ import com.mycollab.vaadin.ui.field.EmailViewField;
 import com.mycollab.vaadin.ui.field.UrlLinkViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.mycollab.vaadin.web.ui.field.*;
+import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.hp.gagawa.java.Node;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -89,8 +91,15 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
-        MVerticalLayout infoLayout = new MVerticalLayout().withMargin(false);
-        basicLayout.addComponent(infoLayout);
+
+        GridFormLayoutHelper userFormLayout;
+        if (AppContext.isAdmin()) {
+            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6).withCaptionWidth("140px");
+        } else {
+            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
+        }
+        userFormLayout.getLayout().addStyleName(WebUIConstants.GRIDFORM_BORDERLESS);
+        basicLayout.addComponent(userFormLayout.getLayout());
 
         Node roleDiv;
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
@@ -99,22 +108,29 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             roleDiv = new A(AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid())).appendText(user.getRoleName());
         }
 
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_ROLE)).withWidth
-                ("80px").withStyleName(WebUIConstants.META_COLOR), new Label(roleDiv.write(), ContentMode.HTML)).withMargin(new MarginInfo(true, false, true, false)));
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY)).withWidth
-                ("80px").withStyleName(WebUIConstants.META_COLOR),
-                new Label(AppContext.formatDate(user.getDateofbirth()))).withMargin(new MarginInfo(false, false, true, false)));
+        userFormLayout.addComponent(ELabel.html(roleDiv.write()), AppContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
+        userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
+                AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
 
         if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
-            infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(GenericI18Enum.FORM_EMAIL)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
-                    new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(), ContentMode.HTML)).withMargin(new MarginInfo(false, false, true, false)));
+            userFormLayout.addComponent(ELabel.html(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write()),
+                    AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
+        } else {
+            userFormLayout.addComponent(ELabel.html("******"), AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
         }
 
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
-                new Label(TimezoneVal.getDisplayName(AppContext.getUserLocale(), user.getTimezone())))
-                .withMargin(new MarginInfo(false, false, true, false)));
-        infoLayout.with(new MHorizontalLayout(new ELabel(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)).withWidth("80px").withStyleName(WebUIConstants.META_COLOR),
-                new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale()))).withMargin(new MarginInfo(false, false, true, false)));
+        userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(AppContext.getUserLocale(), user.getTimezone())),
+                AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
+        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),
+                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 4);
+
+        if (AppContext.isAdmin()) {
+            MButton btnChangePassword = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE),
+                    clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(user)))
+                    .withStyleName(WebUIConstants.BUTTON_LINK);
+            userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
+                    AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 5);
+        }
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);
 

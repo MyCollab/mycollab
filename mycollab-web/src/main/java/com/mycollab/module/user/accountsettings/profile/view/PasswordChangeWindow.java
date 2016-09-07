@@ -21,9 +21,7 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.core.InvalidPasswordException;
 import com.mycollab.core.utils.PasswordCheckerUtil;
-import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
@@ -45,13 +43,13 @@ import org.vaadin.viritin.layouts.MWindow;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class PasswordChangeWindow extends MWindow {
+public class PasswordChangeWindow extends MWindow {
     private PasswordField txtNewPassword;
     private PasswordField txtConfirmPassword;
 
     private final User user;
 
-    PasswordChangeWindow(final User user) {
+    public PasswordChangeWindow(final User user) {
         super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
         this.withWidth("600px").withCenter().withResizable(false).withModal(true);
         this.initUI();
@@ -113,8 +111,6 @@ class PasswordChangeWindow extends MWindow {
 
         final UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());
-
-        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(PasswordChangeWindow.this));
         close();
     }
 }

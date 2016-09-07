@@ -5,7 +5,7 @@ MyCollab is an open source Collaboration Platform of Project Management, CRM and
 
 MyCollab is licensed under the Affero GPLv3 terms.
 
-You can checkout our latest development source codes at [https://github.com/esofthead/mycollab](https://github.com/esofthead/mycollab)
+You can checkout our latest development source codes at [https://github.com/MyCollab/mycollab](https://github.com/MyCollab/mycollab)
 
 For further information, please visit:
 
@@ -39,6 +39,18 @@ understanding in a matter of minutes.
 
 Last changelog
 ==============
+
+Version 5.4.3
+-------------
+
+**Library Upgrades**
+
+
+**Improvements & New Features**
+
+
+**Bug Fixes**
+
 
 Version 5.4.2
 -------------
@@ -78,7 +90,7 @@ Version 5.4.1
 
 **Improvements & New Features**
 
-* Update the language files. Add the Danish (Contributor: KrestenB), Spanish (Contributor: jfigueroa) to the supported list
+* Update the language files. Add the Danish (Contributor: KrestenB), Spanish (Contributor: jfigueroa) to the supported list 
 * Minor improvements
 
 **Bug Fixes**
@@ -118,10 +130,10 @@ Version 5.4.0
 **Bug Fixes**
 
 * Fix the pdfEncoding mistyping in the reporting module (Thanks to mchubby)
-* The NumberFormatException throws when the user types a valid day duration in task form.
+* The NumberFormatException throws when the user types a valid day duration in task form. 
 * [Premium] Not adding the second cache layer to the service classes
-* [Premium] Can not remove favorite flag in Favorite view
-* [Premium] Fix the form layout text
+* [Premium] Can not remove favorite flag in Favorite view 
+* [Premium] Fix the form layout text 
 * [Premium] Not include the total risks in the milestone information
 
 Version 5.3.4
@@ -129,7 +141,7 @@ Version 5.3.4
 
 **Library Upgrades**
 
-* Spring 4.3.0.RELEASE
+* Spring 4.3.0.RELEASE 
 * Flyway 4.0.2
 
 **Improvements & New Features**
@@ -186,7 +198,7 @@ Version 5.3.2
 * Jetty 9.2.17.v20160517
 * Jsoup 1.9.2
 * Other libraries
-
+ 
 **Improvements & New Features**
 
 * Support DLS in timezone setting
@@ -300,7 +312,7 @@ Version 5.2.11
 
 **Bug Fixes**
 
-* Report still throws error in some machines due to the order of loading jar files. This version remove this issue
+* Report still throws error in some machines due to the order of loading jar files. This version remove this issue 
 completely.
 
 
