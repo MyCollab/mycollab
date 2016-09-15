@@ -23,7 +23,8 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
 
@@ -36,7 +37,7 @@ public class AccountRelatedCaseView extends AbstractRelatedListView<SimpleCase, 
     }
 
     private void initUI() {
-        this.setCaption(AppContext.getMessage(CaseI18nEnum.M_TITLE_RELATED_CASES));
+        this.setCaption(UserUIContext.getMessage(CaseI18nEnum.M_TITLE_RELATED_CASES));
         itemList = new CaseListDisplay();
         this.setContent(itemList);
     }
@@ -48,7 +49,7 @@ public class AccountRelatedCaseView extends AbstractRelatedListView<SimpleCase, 
 
     private void loadCases() {
         final CaseSearchCriteria criteria = new CaseSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }

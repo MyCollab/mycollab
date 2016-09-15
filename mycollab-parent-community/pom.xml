@@ -21,7 +21,7 @@
         <jettyVersion>9.3.11.v20160721</jettyVersion>
         <mysqlVersion>5.1.39</mysqlVersion>
         <junitVersion>4.12</junitVersion>
-        <jackrabbitVersion>2.13.2</jackrabbitVersion>
+        <jackrabbitVersion>2.13.3</jackrabbitVersion>
         <jacksonVersion>2.8.2</jacksonVersion>
         <jodaVersion>2.9.4</jodaVersion>
         <scala.binary.version>2.11</scala.binary.version>
@@ -272,7 +272,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>2.4.7</version>
+            <version>2.5.0</version>
         </dependency>
 
         <dependency>

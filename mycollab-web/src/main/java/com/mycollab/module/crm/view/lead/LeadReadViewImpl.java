@@ -30,7 +30,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.*;
 import com.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -75,8 +76,8 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<>(
                 previewForm);
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
-            MButton convertButton = new MButton(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD),
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
+            MButton convertButton = new MButton(UserUIContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD),
                     clickEvent -> previewForm.fireExtraAction("convert", beanItem))
                     .withIcon(FontAwesome.FLASK).withStyleName(WebUIConstants.BUTTON_ACTION);
             controlsButton.insertToControlBlock(convertButton);
@@ -130,11 +131,11 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
         previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
         previewItemContainer.addTab(associateCampaignList, CrmTypeConstants.CAMPAIGN,
-                AppContext.getMessage(CampaignI18nEnum.LIST));
+                UserUIContext.getMessage(CampaignI18nEnum.LIST));
         previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
     }
 
     @Override
@@ -153,7 +154,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
 
     private void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.LEAD));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);

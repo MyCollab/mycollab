@@ -34,7 +34,8 @@ import com.mycollab.module.project.view.milestone.MilestoneComboBox;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.module.project.view.task.components.TaskPriorityComboBox;
 import com.mycollab.module.project.view.task.components.TaskStatusComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.DoubleField;
@@ -64,7 +65,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
 
     TaskEditFormFieldFactory(GenericBeanForm<SimpleTask> form, Integer projectId) {
         super(form);
-        subscribersComp = new ProjectSubscribersComp(false, projectId, AppContext.getUsername());
+        subscribersComp = new ProjectSubscribersComp(false, projectId, UserUIContext.getUsername());
     }
 
     @Override
@@ -86,8 +87,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             richTextArea.setNullRepresentation("");
             return richTextArea;
         } else if (Task.Field.taskname.equalTo(propertyId)) {
-            return new MTextField().withNullRepresentation("").withRequired(true).withRequiredError(AppContext
-                    .getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(GenericI18Enum.FORM_NAME)));
+            return new MTextField().withNullRepresentation("").withRequired(true).withRequiredError(UserUIContext
+                    .getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
         } else if (Task.Field.status.equalTo(propertyId)) {
             return new TaskStatusComboBox();
         } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
@@ -100,7 +101,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             final SimpleTask beanItem = attachForm.getBean();
             if (beanItem.getNumSubTasks() != null && beanItem.getNumSubTasks() > 0) {
                 field.setEnabled(false);
-                field.setDescription(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_EDIT_PARENT_TASK_FIELD));
+                field.setDescription(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_EDIT_PARENT_TASK_FIELD));
             }
 
             //calculate the end date if the start date is set
@@ -135,7 +136,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
         } else if (Task.Field.id.equalTo(propertyId)) {
             Task beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {
-                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
                         beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId());
                 attachmentUploadField = new AttachmentUploadField(attachmentPath);
             } else {

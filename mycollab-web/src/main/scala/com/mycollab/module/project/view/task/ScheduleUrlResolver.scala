@@ -27,7 +27,8 @@ import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.mycollab.module.project.view.parameters.{ProjectScreenData, TaskScreenData}
 import com.mycollab.spring.AppContextUtil
-import com.mycollab.vaadin.AppContext
+import com.mycollab.vaadin.MyCollabUI.getAccountId
+import com.mycollab.vaadin.{MyCollabUI, UserUIContext}
 import com.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -67,7 +68,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
         val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
         val itemKey = ProjectLinkParams.getItemKey(params(0))
         val taskService = AppContextUtil.getSpringBean(classOf[ProjectTaskService])
-        val task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId)
+        val task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, MyCollabUI.getAccountId)
         if (task != null) {
           val projectId = task.getProjectid
           val taskId = task.getId
@@ -90,7 +91,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
       if (ProjectLinkParams.isValidParam(params(0))) {
         val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
         val itemKey = ProjectLinkParams.getItemKey(params(0))
-        task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId)
+        task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, MyCollabUI.getAccountId)
       }
       else {
         throw new MyCollabException("Can not find task link " + params(0))

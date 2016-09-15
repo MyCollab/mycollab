@@ -33,7 +33,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -63,18 +64,18 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-            controlsBtn.setCaption(AppContext.getMessage(OpportunityI18nEnum.NEW));
+            controlsBtn.setCaption(UserUIContext.getMessage(OpportunityI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
             controlsBtn.setSizeUndefined();
-            MButton selectBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+            MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 ContactOpportunitySelectionWindow opportunitiesWindow = new ContactOpportunitySelectionWindow(
                         ContactOpportunityListComp.this);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 UI.getCurrent().addWindow(opportunitiesWindow);
                 opportunitiesWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
@@ -96,7 +97,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     private void loadOpportunities() {
         OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setContactId(new NumberSearchField(contact.getId()));
         setSearchCriteria(criteria);
     }
@@ -127,41 +128,41 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
 
             MButton btnDelete = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                                 ContactOpportunity associateOpportunity = new ContactOpportunity();
                                 associateOpportunity.setContactid(contact.getId());
                                 associateOpportunity.setOpportunityid(opportunity.getId());
-                                contactService.removeContactOpportunityRelationship(associateOpportunity, AppContext.getAccountId());
+                                contactService.removeContactOpportunityRelationship(associateOpportunity, MyCollabUI.getAccountId());
                                 ContactOpportunityListComp.this.refresh();
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
-                    .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
+                    .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT));
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label opportunityName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+            Label opportunityName = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.OPPORTUNITY, opportunity.getId())).appendText(opportunity.getOpportunityname()).write());
 
             opportunityInfo.addComponent(opportunityName);
 
-            Label opportunityAmount = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT) + " : " +
+            Label opportunityAmount = new Label(UserUIContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT) + " : " +
                     MoreObjects.firstNonNull(opportunity.getAmount(), ""));
             opportunityInfo.addComponent(opportunityAmount);
 
-            Label opportunitySaleStage = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
+            Label opportunitySaleStage = new Label(UserUIContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
                     MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
-            ELabel opportunityExpectedCloseDate = new ELabel(AppContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE) + ": " +
-                    AppContext.formatPrettyTime(opportunity.getExpectedcloseddate())).withDescription(AppContext.formatDate(opportunity.getExpectedcloseddate()));
+            ELabel opportunityExpectedCloseDate = new ELabel(UserUIContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE) + ": " +
+                    UserUIContext.formatPrettyTime(opportunity.getExpectedcloseddate())).withDescription(UserUIContext.formatDate(opportunity.getExpectedcloseddate()));
             opportunityInfo.addComponent(opportunityExpectedCloseDate);
 
             blockTop.with(opportunityInfo).expand(opportunityInfo);

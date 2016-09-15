@@ -17,8 +17,7 @@
 package com.mycollab.vaadin.ui.formatter;
 
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
-import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Locale;
 
@@ -31,7 +30,7 @@ public class CountryHistoryFieldFormat implements HistoryFieldFormat {
     public String toString(String countryCode) {
         if (StringUtils.isNotBlank(countryCode)) {
             Locale obj = new Locale("", countryCode);
-            return obj.getDisplayCountry(AppContext.getUserLocale());
+            return obj.getDisplayCountry(UserUIContext.getUserLocale());
         } else {
             return "";
         }

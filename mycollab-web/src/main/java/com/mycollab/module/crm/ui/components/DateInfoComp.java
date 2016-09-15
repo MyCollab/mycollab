@@ -19,7 +19,7 @@ package com.mycollab.module.crm.ui.components;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -44,21 +44,21 @@ public class DateInfoComp extends MVerticalLayout {
         this.removeAllComponents();
         this.withMargin(false);
         Label dateInfoHeader = new Label(FontAwesome.CALENDAR.getHtml() + " " +
-                AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_DATES), ContentMode.HTML);
+                UserUIContext.getMessage(CrmCommonI18nEnum.SUB_INFO_DATES), ContentMode.HTML);
         dateInfoHeader.setStyleName("info-hdr");
         this.addComponent(dateInfoHeader);
 
         MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withFullWidth();
         try {
             Date createdDate = (Date) PropertyUtils.getProperty(bean, "createdtime");
-            Label createdDateLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_DATE,
-                    AppContext.formatPrettyTime(createdDate)));
-            createdDateLbl.setDescription(AppContext.formatDateTime(createdDate));
+            Label createdDateLbl = new Label(UserUIContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_DATE,
+                    UserUIContext.formatPrettyTime(createdDate)));
+            createdDateLbl.setDescription(UserUIContext.formatDateTime(createdDate));
 
             Date updatedDate = (Date) PropertyUtils.getProperty(bean, "lastupdatedtime");
-            Label updatedDateLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_UPDATED_DATE,
-                    AppContext.formatPrettyTime(updatedDate)));
-            updatedDateLbl.setDescription(AppContext.formatDateTime(updatedDate));
+            Label updatedDateLbl = new Label(UserUIContext.getMessage(CrmCommonI18nEnum.ITEM_UPDATED_DATE,
+                    UserUIContext.formatPrettyTime(updatedDate)));
+            updatedDateLbl.setDescription(UserUIContext.formatDateTime(updatedDate));
 
             layout.with(createdDateLbl, updatedDateLbl);
             this.addComponent(layout);

@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -40,7 +40,7 @@ public abstract class SearchTextField extends MHorizontalLayout {
         ELabel icon = ELabel.fontIcon(FontAwesome.SEARCH);
         innerField = new TextField();
         innerField.setImmediate(true);
-        innerField.setInputPrompt(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        innerField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         innerField.setWidth("180px");
         this.with(icon, innerField).withStyleName("searchfield");
         ShortcutListener shortcutListener = new ShortcutListener("searchfield", ShortcutAction.KeyCode.ENTER, null) {

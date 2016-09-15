@@ -31,7 +31,7 @@ import com.mycollab.module.project.service.ProjectActivityStreamService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
@@ -76,7 +76,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
         Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
         for (final ProjectActivityStream item : currentListData) {
             if (!DateUtils.isSameDay(item.getCreatedtime(), currentDate)) {
-                listContainer.addComponent(FormSectionBuilder.build(AppContext.formatDate(item.getCreatedtime())));
+                listContainer.addComponent(FormSectionBuilder.build(UserUIContext.formatDate(item.getCreatedtime())));
                 currentDate = item.getCreatedtime();
             }
             final Component row = getRowDisplayHandler().generateRow(item, i);
@@ -99,22 +99,22 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
             String itemParam = buildItemValue(activityStream);
             StringBuilder content = new StringBuilder();
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                         assigneeParam, itemType, itemParam));
             } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                         assigneeParam, itemType, itemParam));
                 if (activityStream.getAssoAuditLog() != null) {
                     content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                 }
             } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+                content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                         assigneeParam, itemType, itemParam));
                 if (activityStream.getAssoAuditLog() != null) {
                     content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog().getChangeset()).append("\"</li></ul></p>");
                 }
             } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
+                content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                         assigneeParam, itemType, itemParam));
             }
             Label actionLbl = new Label(content.toString(), ContentMode.HTML);

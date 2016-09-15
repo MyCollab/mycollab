@@ -24,7 +24,7 @@ import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.events.RoleEvent;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.GenericSearchPanel;
@@ -56,15 +56,15 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(RoleI18nEnum.LIST));
+        return HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(RoleI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        return new MButton(AppContext.getMessage(RoleI18nEnum.NEW),
+        return new MButton(UserUIContext.getMessage(RoleI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
     }
 
     private class RoleBasicSearchLayout extends GenericSearchPanel.BasicSearchLayout<RoleSearchCriteria> {
@@ -84,18 +84,18 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         @Override
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true)
-                    .with(new Label(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ":"));
+                    .with(new Label(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ":"));
 
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                     .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.addComponent(searchBtn);
 
-            MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+            MButton clearBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             basicSearchBody.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);

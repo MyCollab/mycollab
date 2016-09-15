@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.web.ui.field;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
@@ -88,10 +88,10 @@ public class DateTimeOptionField extends CustomField<Date> {
         container.addStyleName(WebUIConstants.FLEX_DISPLAY);
 
         if (hideTimeOption) {
-            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SET_TIME));
+            toggleTimeBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_SET_TIME));
             container.with(popupDateField, toggleTimeBtn);
         } else {
-            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_HIDE_TIME));
+            toggleTimeBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_HIDE_TIME));
             container.with(popupDateField, new MHorizontalLayout(hourPickerComboBox, minutePickerComboBox,
                     timeFormatComboBox), toggleTimeBtn);
         }
@@ -122,10 +122,10 @@ public class DateTimeOptionField extends CustomField<Date> {
         trickModified = true;
         container.removeAllComponents();
         if (hideTimeOption) {
-            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SET_TIME));
+            toggleTimeBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_SET_TIME));
             container.with(popupDateField, toggleTimeBtn);
         } else {
-            toggleTimeBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_HIDE_TIME));
+            toggleTimeBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_HIDE_TIME));
             container.with(popupDateField, new MHorizontalLayout(hourPickerComboBox, minutePickerComboBox,
                     timeFormatComboBox), toggleTimeBtn);
         }
@@ -136,7 +136,7 @@ public class DateTimeOptionField extends CustomField<Date> {
         Date value = (Date) newDataSource.getValue();
         if (value != null) {
             DateTime jodaTime = new DateTime(value);
-            jodaTime = jodaTime.toDateTime(DateTimeZone.forTimeZone(AppContext.getUserTimeZone()));
+            jodaTime = jodaTime.toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone()));
             int hrs = jodaTime.getHourOfDay();
             int min = jodaTime.getMinuteOfHour();
             String timeFormat = "AM";
@@ -187,17 +187,17 @@ public class DateTimeOptionField extends CustomField<Date> {
             return null;
         }
 
-        DateTime jodaSelectDate = new DateTime(selectDate).toDateTime(DateTimeZone.forTimeZone(AppContext.getUserTimeZone()));
+        DateTime jodaSelectDate = new DateTime(selectDate).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone()));
         Date baseDate = new LocalDate(jodaSelectDate).toDate();
         if (hideTimeOption) {
-            return new LocalDateTime(baseDate).toDateTime(DateTimeZone.forTimeZone(AppContext.getUserTimeZone())).toDate();
+            return new LocalDateTime(baseDate).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone())).toDate();
         } else {
             Integer hour = (hourPickerComboBox.getValue() != null) ? Integer.parseInt((String) hourPickerComboBox.getValue()) : 0;
             Integer minus = (minutePickerComboBox.getValue() != null) ? Integer.parseInt((String) minutePickerComboBox.getValue()) : 0;
             String timeFormat = (timeFormatComboBox.getValue() != null) ? (String) timeFormatComboBox.getValue() : "AM";
             long milliseconds = calculateMilliSeconds(hour, minus, timeFormat);
             DateTime jodaTime = new DateTime(baseDate).plus(new Duration(milliseconds));
-            return new LocalDateTime(jodaTime.getMillis()).toDateTime(DateTimeZone.forTimeZone(AppContext.getUserTimeZone())).toDate();
+            return new LocalDateTime(jodaTime.getMillis()).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone())).toDate();
         }
     }
 

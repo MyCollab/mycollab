@@ -24,7 +24,8 @@ import com.mycollab.module.project.view.settings.VersionDefaultFormLayoutFactory
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
@@ -41,7 +42,7 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  */
 public class VersionAddWindow extends MWindow implements IEditFormHandler<Version> {
     public VersionAddWindow() {
-        super(AppContext.getMessage(VersionI18nEnum.NEW));
+        super(UserUIContext.getMessage(VersionI18nEnum.NEW));
         AdvancedEditBeanForm<Version> editForm = new AdvancedEditBeanForm<>();
         editForm.addFormHandler(this);
         editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_VERSION,
@@ -49,7 +50,7 @@ public class VersionAddWindow extends MWindow implements IEditFormHandler<Versio
         editForm.setBeanFormFieldFactory(new VersionEditFormFieldFactory(editForm));
         Version version = new Version();
         version.setProjectid(CurrentProjectVariables.getProjectId());
-        version.setSaccountid(AppContext.getAccountId());
+        version.setSaccountid(MyCollabUI.getAccountId());
         version.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
         editForm.setBean(version);
         ComponentContainer buttonControls = generateEditFormControls(editForm, true, false, true);
@@ -60,7 +61,7 @@ public class VersionAddWindow extends MWindow implements IEditFormHandler<Versio
     @Override
     public void onSave(Version bean) {
         VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
-        versionService.saveWithSession(bean, AppContext.getUsername());
+        versionService.saveWithSession(bean, UserUIContext.getUsername());
         close();
     }
 

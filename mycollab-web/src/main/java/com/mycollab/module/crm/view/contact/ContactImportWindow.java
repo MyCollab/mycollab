@@ -29,7 +29,7 @@ import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +57,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
                 new FieldMapperDef("assistant", "Assistant"),
                 new FieldMapperDef("assistantphone", "Assistant Phone"),
                 new FieldMapperDef("leadsource", "Leader Source"),
-                new FieldMapperDef("officephone", AppContext
+                new FieldMapperDef("officephone", UserUIContext
                         .getMessage(ContactI18nEnum.FORM_OFFICE_PHONE)),
                 new FieldMapperDef("mobile", "Mobile"),
                 new FieldMapperDef("homephone", "Home Phone"),
@@ -65,7 +65,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
                 new FieldMapperDef("fax", "Fax"),
                 new FieldMapperDef("birthday", "Birthday", new CSVDateFormatter()),
                 new FieldMapperDef("iscallable", "Callable", new CSVBooleanFormatter()),
-                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+                new FieldMapperDef("assignuser", UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
                 new FieldMapperDef("primaddress", "Address"),
                 new FieldMapperDef("primcity", "City"),
                 new FieldMapperDef("primstate", "State"),

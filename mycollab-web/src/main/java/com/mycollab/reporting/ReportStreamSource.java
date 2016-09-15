@@ -19,7 +19,8 @@ package com.mycollab.reporting;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.StreamResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,8 +118,8 @@ public abstract class ReportStreamSource implements StreamResource.StreamSource 
 
     private Map<String, Object> initReportParameters() {
         Map<String, Object> parameters = new ConcurrentHashMap<>();
-        parameters.put("siteUrl", AppContext.getSiteUrl());
-        parameters.put("user", AppContext.getUser());
+        parameters.put("siteUrl", MyCollabUI.getSiteUrl());
+        parameters.put("user", UserUIContext.getUser());
         initReportParameters(parameters);
         return parameters;
     }

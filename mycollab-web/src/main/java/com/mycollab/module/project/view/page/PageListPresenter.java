@@ -25,7 +25,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -63,7 +63,7 @@ public class PageListPresenter extends ProjectGenericPresenter<PageListView> {
             } else {
                 CurrentProjectVariables.setCurrentPagePath(path);
             }
-            List<PageResource> resources = pageService.getResources(path, AppContext.getUsername());
+            List<PageResource> resources = pageService.getResources(path, UserUIContext.getUsername());
             if (!CollectionUtils.isEmpty(resources)) {
                 pageContainer.addComponent(view);
                 view.displayDefaultPages(resources);

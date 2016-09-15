@@ -19,7 +19,7 @@ package com.mycollab.module.user.accountsettings.team.view;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.accountsettings.view.parameters.RoleScreenData;
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -39,7 +39,7 @@ public class RolePresenter extends AbstractPresenter<RoleContainer> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         UserPermissionManagementView groupContainer = (UserPermissionManagementView) container;
-        groupContainer.gotoSubView(AppContext.getMessage(RoleI18nEnum.LIST));
+        groupContainer.gotoSubView(UserUIContext.getMessage(RoleI18nEnum.LIST));
 
         if (data == null) {
             RoleListPresenter listPresenter = PresenterResolver.getPresenter(RoleListPresenter.class);

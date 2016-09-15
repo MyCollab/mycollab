@@ -21,7 +21,7 @@ import com.mycollab.module.user.accountsettings.view.RoleTableFieldDef;
 import com.mycollab.module.user.domain.SimpleRole;
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -85,7 +85,7 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
         layout.addComponent(selectOptionButton);
 
         tableActionControls = new DefaultMassItemActionHandlerContainer();
-        if (AppContext.canAccess(RolePermissionCollections.ACCOUNT_ROLE)) {
+        if (UserUIContext.canAccess(RolePermissionCollections.ACCOUNT_ROLE)) {
             tableActionControls.addDeleteActionItem();
         }
         tableActionControls.addDownloadPdfActionItem();
@@ -99,7 +99,7 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
     @Override
     public void enableActionControls(final int numOfSelectedItems) {
         tableActionControls.setVisible(true);
-        this.selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+        this.selectedItemsNumberLabel.setValue(UserUIContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     @Override

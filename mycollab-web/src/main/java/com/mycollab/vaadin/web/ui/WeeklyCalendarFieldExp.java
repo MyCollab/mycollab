@@ -18,7 +18,7 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.DateTimeUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import org.vaadin.risto.stylecalendar.StyleCalendarField;
 
 import java.util.Date;
@@ -41,12 +41,12 @@ public class WeeklyCalendarFieldExp extends StyleCalendarField {
             if (getNullRepresentation() != null) {
                 return getNullRepresentation();
             } else {
-                return AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED);
+                return UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED);
             }
         } else {
             Date selectedDate = (Date) value;
             Date[] bounceDateofWeek = DateTimeUtils.getBounceDatesOfWeek(selectedDate);
-            return AppContext.formatDate(bounceDateofWeek[0]) + " - " + AppContext.formatDate(bounceDateofWeek[1]);
+            return UserUIContext.formatDate(bounceDateofWeek[0]) + " - " + UserUIContext.formatDate(bounceDateofWeek[1]);
         }
     }
 }

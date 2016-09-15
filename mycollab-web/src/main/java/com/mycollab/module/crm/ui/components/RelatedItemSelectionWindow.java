@@ -19,11 +19,9 @@ package com.mycollab.module.crm.ui.components;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
-import com.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
-import com.vaadin.ui.Window;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +30,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> extends Window {
+public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> extends MWindow {
     private static final long serialVersionUID = 1L;
     private static final String selectedFieldName = "selected";
 
@@ -43,32 +41,24 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> ex
 
     public RelatedItemSelectionWindow(String title, RelatedListComp2 relatedList) {
         super(title);
-        center();
         bodyContent = new MVerticalLayout();
-        this.setContent(bodyContent);
+        this.withContent(bodyContent).withCenter().withModal(true).withResizable(false);
         this.relatedListComp = relatedList;
-        this.setModal(true);
-        this.setResizable(false);
         initUI();
 
-        tableItem.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(TableClickEvent event) {
-                try {
-                    Object rowItem = event.getData();
-                    Boolean selectedVal = (Boolean) PropertyUtils.getProperty(rowItem, selectedFieldName);
-                    if (selectedVal) {
-                        selectedItems.remove(rowItem);
-                        PropertyUtils.setProperty(rowItem, selectedFieldName, false);
-                    } else {
-                        selectedItems.add(rowItem);
-                        PropertyUtils.setProperty(rowItem, selectedFieldName, true);
-                    }
-                } catch (Exception ex) {
-                    throw new MyCollabException(ex);
+        tableItem.addTableListener(event -> {
+            try {
+                Object rowItem = event.getData();
+                Boolean selectedVal = (Boolean) PropertyUtils.getProperty(rowItem, selectedFieldName);
+                if (selectedVal) {
+                    selectedItems.remove(rowItem);
+                    PropertyUtils.setProperty(rowItem, selectedFieldName, false);
+                } else {
+                    selectedItems.add(rowItem);
+                    PropertyUtils.setProperty(rowItem, selectedFieldName, true);
                 }
+            } catch (Exception ex) {
+                throw new MyCollabException(ex);
             }
         });
     }

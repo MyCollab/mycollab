@@ -23,7 +23,8 @@ import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.ui.components.UserBlock;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -53,7 +54,7 @@ class CrmCommentInput extends MHorizontalLayout {
         super();
         this.withMargin(new MarginInfo(true, true, false, true)).withFullWidth();
 
-        SimpleUser currentUser = AppContext.getUser();
+        SimpleUser currentUser = UserUIContext.getUser();
         UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());
 
         MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
@@ -67,23 +68,23 @@ class CrmCommentInput extends MHorizontalLayout {
 
         final AttachmentPanel attachments = new AttachmentPanel();
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton newCommentBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
+        MButton newCommentBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
             CommentWithBLOBs comment = new CommentWithBLOBs();
             comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
             comment.setCreatedtime(new GregorianCalendar().getTime());
-            comment.setCreateduser(AppContext.getUsername());
-            comment.setSaccountid(AppContext.getAccountId());
+            comment.setCreateduser(UserUIContext.getUsername());
+            comment.setSaccountid(MyCollabUI.getAccountId());
             comment.setType(type);
             comment.setTypeid(typeId);
 
             CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-            int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
+            int commentId = commentService.saveWithSession(comment, UserUIContext.getUsername());
 
             String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal,
-                    AppContext.getAccountId(), null, typeId, commentId);
+                    MyCollabUI.getAccountId(), null, typeId, commentId);
 
             if (!"".equals(attachmentPath)) {
                 attachments.saveContentsToRepo(attachmentPath);

@@ -22,7 +22,8 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -42,7 +43,7 @@ public class LeadListDashlet extends Depot {
     private LeadTableDisplay tableItem;
 
     public LeadListDashlet() {
-        super(AppContext.getMessage(LeadI18nEnum.MY_ITEMS), new VerticalLayout());
+        super(UserUIContext.getMessage(LeadI18nEnum.MY_ITEMS), new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
 
         tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),
@@ -51,14 +52,14 @@ public class LeadListDashlet extends Depot {
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem)))
                 .withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
-        customizeViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
+        customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         this.addHeaderElement(customizeViewBtn);
     }
 
     public void display() {
         final LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+        criteria.setAssignUsers(new SetSearchField<>(UserUIContext.getUsername()));
         tableItem.setSearchCriteria(criteria);
     }
 }

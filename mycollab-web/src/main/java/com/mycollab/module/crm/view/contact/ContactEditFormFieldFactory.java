@@ -22,14 +22,13 @@ import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
 import com.mycollab.module.crm.view.lead.LeadSourceComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
 import com.mycollab.vaadin.ui.DateSelectionField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
 import com.mycollab.vaadin.web.ui.PrefixNameComboBox;
-import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
@@ -69,8 +68,8 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
             MTextField tf = new MTextField();
             if (isValidateForm) {
                 tf.withNullRepresentation("").withRequired(true)
-                        .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                AppContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
+                        .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                UserUIContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
             }
 
             return tf;

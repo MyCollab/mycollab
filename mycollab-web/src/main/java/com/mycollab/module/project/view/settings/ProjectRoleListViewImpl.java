@@ -26,7 +26,7 @@ import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -132,7 +132,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
     @Override
     public void enableActionControls(int numOfSelectedItems) {
         tableActionControls.setVisible(true);
-        selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+        selectedItemsNumberLabel.setValue(UserUIContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     @Override

@@ -28,7 +28,8 @@ import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.LoadPolicy;
@@ -72,7 +73,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(VersionI18nEnum.LIST);
+                return UserUIContext.getMessage(VersionI18nEnum.LIST);
             }
 
             @Override
@@ -117,10 +118,10 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
             }
 
             if (keyList.size() > 0) {
-                versionService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                versionService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
             }
         } else {
-            versionService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            versionService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
         }
 
         int totalCount = versionService.getTotalCount(searchCriteria);

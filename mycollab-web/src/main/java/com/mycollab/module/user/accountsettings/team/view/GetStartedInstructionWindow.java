@@ -23,7 +23,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.events.UserEvent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -56,7 +56,7 @@ class GetStartedInstructionWindow extends MWindow {
         Label userInfoLbl = ELabel.html(userInfoDiv.write());
 
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
-            user.setRoleName(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
+            user.setRoleName(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         }
         Div roleInfoDiv = new Div().appendText("Your role is ").appendChild(new B().appendText(user.getRoleName()));
         Label roleInfoLbl = new Label(roleInfoDiv.write(), ContentMode.HTML);
@@ -68,7 +68,7 @@ class GetStartedInstructionWindow extends MWindow {
         });
         addNewBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
-        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> close());
+        Button doneBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> close());
         doneBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         final MHorizontalLayout controlsBtn = new MHorizontalLayout(addNewBtn, doneBtn).withMargin(true);

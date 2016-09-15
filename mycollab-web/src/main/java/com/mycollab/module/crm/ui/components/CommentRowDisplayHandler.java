@@ -22,7 +22,8 @@ import com.mycollab.common.service.CommentService;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.user.ui.components.UserBlock;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.BeanList;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
@@ -64,8 +65,8 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                 true, false, true)).withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel timePostLbl = new ELabel(AppContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).withDescription(AppContext.
+        ELabel timePostLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+                UserUIContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).withDescription(UserUIContext.
                 formatDateTime(comment.getCreatedtime()));
 
         timePostLbl.setSizeUndefined();
@@ -78,14 +79,14 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         if (hasDeletePermission(comment)) {
             MButton msgDeleteBtn = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                commentService.removeWithSession(comment, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 owner.removeRow(layout);
                             }
                         });
@@ -111,6 +112,6 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
     }
 
     private boolean hasDeletePermission(SimpleComment comment) {
-        return (AppContext.getUsername().equals(comment.getCreateduser()) || AppContext.isAdmin());
+        return (UserUIContext.getUsername().equals(comment.getCreateduser()) || UserUIContext.isAdmin());
     }
 }

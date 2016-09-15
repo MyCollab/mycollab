@@ -23,7 +23,7 @@ import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCrite
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 
 /**
@@ -34,7 +34,7 @@ public class IssueNavigatorButton extends NavigationButton {
     private Integer milestoneId;
 
     public IssueNavigatorButton() {
-        super(AppContext.getMessage(TicketI18nEnum.M_TICKET_NUM, 0));
+        super(UserUIContext.getMessage(TicketI18nEnum.M_TICKET_NUM, 0));
         this.addClickListener(navigationButtonClickEvent -> {
             if (milestoneId != null) {
                 getNavigationManager().navigateTo(new IssueListView(milestoneId));
@@ -49,6 +49,6 @@ public class IssueNavigatorButton extends NavigationButton {
         criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
         ProjectGenericTaskService ticketService = AppContextUtil.getSpringBean(ProjectGenericTaskService.class);
-        this.setCaption(AppContext.getMessage(TicketI18nEnum.M_TICKET_NUM, ticketService.getTotalCount(criteria)));
+        this.setCaption(UserUIContext.getMessage(TicketI18nEnum.M_TICKET_NUM, ticketService.getTotalCount(criteria)));
     }
 }

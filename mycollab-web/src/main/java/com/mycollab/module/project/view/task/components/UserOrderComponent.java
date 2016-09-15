@@ -24,7 +24,7 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIConstants;
 
@@ -65,7 +65,7 @@ public class UserOrderComponent extends TaskGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedTasks == null) {
-                    unspecifiedTasks = new DefaultTaskGroupComponent(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+                    unspecifiedTasks = new DefaultTaskGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedTasks, 0);
                 }
                 unspecifiedTasks.insertTask(task);

@@ -29,7 +29,8 @@ import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -69,18 +70,18 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
             public void onDelete(final SimpleProjectRole role) {
                 if (Boolean.FALSE.equals(role.getIssystemrole())) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
-                                    projectRoleService.removeWithSession(role, AppContext.getUsername(), AppContext.getAccountId());
+                                    projectRoleService.removeWithSession(role, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                     EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoList(this, null));
                                 }
                             });
                 } else {
-                    NotificationUtil.showErrorNotification(AppContext
+                    NotificationUtil.showErrorNotification(UserUIContext
                             .getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE, role.getRolename()));
                 }
             }
@@ -130,7 +131,7 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
         ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
 
         if (data.getParams() instanceof Integer) {
-            SimpleProjectRole role = projectRoleService.findById((Integer) data.getParams(), AppContext.getAccountId());
+            SimpleProjectRole role = projectRoleService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
             if (role == null) {
                 NotificationUtil.showRecordNotExistNotification();
             } else {

@@ -21,7 +21,7 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
@@ -63,8 +63,8 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
             MTextField tf = new MTextField();
             if (isValidateForm) {
                 tf.withNullRepresentation("").withRequired(true)
-                        .withRequiredError(AppContext.getMessage(ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED,
-                                AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
+                        .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED,
+                                UserUIContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return tf;

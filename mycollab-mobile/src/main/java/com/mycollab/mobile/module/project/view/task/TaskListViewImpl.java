@@ -32,7 +32,6 @@ import com.mycollab.mobile.module.project.events.TaskEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
@@ -45,7 +44,8 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -65,7 +65,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
     private static final long serialVersionUID = -3705209608075399509L;
 
     public TaskListViewImpl() {
-        this.setCaption(AppContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
+        this.setCaption(UserUIContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(TaskI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;
@@ -113,14 +113,14 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
             CssLayout metaInfoLayout = new CssLayout();
             rowLayout.with(metaInfoLayout);
 
-            ELabel lastUpdatedTimeLbl = new ELabel(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, AppContext
+            ELabel lastUpdatedTimeLbl = new ELabel(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, UserUIContext
                     .formatPrettyTime((task.getLastupdatedtime())))).withStyleName(UIConstants.META_INFO);
             metaInfoLayout.addComponent(lastUpdatedTimeLbl);
 
-            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
                     CurrentProjectVariables.getProjectId(), task.getAssignuser()));
             assigneeLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
-            Div assigneeDiv = new Div().appendText(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+            Div assigneeDiv = new Div().appendText(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
                     .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory
                                     .getAvatarPath(task.getAssignUserAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(),
                             assigneeLink);
@@ -129,7 +129,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
                     .withWidthUndefined();
             metaInfoLayout.addComponent(assigneeLbl);
 
-            ELabel statusLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + AppContext.getMessage
+            ELabel statusLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + UserUIContext.getMessage
                     (OptionI18nEnum.BugStatus.class, task.getStatus()), ContentMode.HTML).withStyleName(UIConstants.META_INFO);
             metaInfoLayout.addComponent(statusLbl);
 

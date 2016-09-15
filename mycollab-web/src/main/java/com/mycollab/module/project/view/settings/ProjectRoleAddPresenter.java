@@ -27,7 +27,8 @@ import com.mycollab.module.project.events.ProjectRoleEvent;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -71,18 +72,18 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
 
     public void save(ProjectRole item) {
         ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
 
         SimpleProject project = CurrentProjectVariables.getProject();
         item.setProjectid(project.getId());
 
         if (item.getId() == null) {
-            roleService.saveWithSession(item, AppContext.getUsername());
+            roleService.saveWithSession(item, UserUIContext.getUsername());
         } else {
-            roleService.updateWithSession(item, AppContext.getUsername());
+            roleService.updateWithSession(item, UserUIContext.getUsername());
         }
 
-        roleService.savePermission(project.getId(), item.getId(), view.getPermissionMap(), AppContext.getAccountId());
+        roleService.savePermission(project.getId(), item.getId(), view.getPermissionMap(), MyCollabUI.getAccountId());
 
     }
 

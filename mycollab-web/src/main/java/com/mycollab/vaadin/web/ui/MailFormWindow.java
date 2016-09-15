@@ -21,7 +21,7 @@ import com.mycollab.module.mail.AttachmentSource;
 import com.mycollab.module.mail.FileAttachmentSource;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -158,15 +158,15 @@ public class MailFormWindow extends MWindow {
         final AttachmentPanel attachments = new AttachmentPanel();
         attachments.setWidth("500px");
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton sendBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), clickEvent -> {
+        MButton sendBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), clickEvent -> {
             if (tokenFieldMailTo.getListRecipient().size() <= 0 || subject.getValue().equals("")) {
                 NotificationUtil.showErrorNotification("To Email field and Subject field must be not empty! Please fulfil them before sending email.");
                 return;
             }
-            if (AppContext.getUser().getEmail() != null && AppContext.getUser().getEmail().length() > 0) {
+            if (UserUIContext.getUser().getEmail() != null && UserUIContext.getUser().getEmail().length() > 0) {
                 ExtMailService systemMailService = AppContextUtil.getSpringBean(ExtMailService.class);
 
                 List<File> listFile = attachments.files();
@@ -178,7 +178,7 @@ public class MailFormWindow extends MWindow {
                     }
                 }
 
-                systemMailService.sendHTMLMail(AppContext.getUser().getEmail(), AppContext.getUser().getDisplayName(),
+                systemMailService.sendHTMLMail(UserUIContext.getUser().getEmail(), UserUIContext.getUser().getDisplayName(),
                         tokenFieldMailTo.getListRecipient(), tokenFieldMailCc.getListRecipient(),
                         tokenFieldMailBcc.getListRecipient(), subject.getValue(),
                         noteArea.getValue(), attachmentSource, true);

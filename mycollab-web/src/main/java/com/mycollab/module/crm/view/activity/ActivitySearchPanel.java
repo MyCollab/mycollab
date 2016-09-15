@@ -27,7 +27,8 @@ import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -36,7 +37,6 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTextField;
@@ -63,26 +63,26 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
     protected Component buildExtraControls() {
         final SplitButton splitBtn = new SplitButton();
         splitBtn.setSizeUndefined();
-        splitBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL) || AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
+        splitBtn.setEnabled(UserUIContext.canWrite(RolePermissionCollections.CRM_CALL) || UserUIContext.canWrite(RolePermissionCollections.CRM_MEETING));
         splitBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         splitBtn.setIcon(FontAwesome.PLUS);
-        splitBtn.setCaption(AppContext.getMessage(TaskI18nEnum.NEW));
+        splitBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.NEW));
         splitBtn.addClickListener(event -> EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null)));
 
         OptionPopupContent btnControlsLayout = new OptionPopupContent();
         splitBtn.setContent(btnControlsLayout);
 
-        Button createMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> {
+        Button createMeetingBtn = new Button(UserUIContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> {
             splitBtn.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
         });
         btnControlsLayout.addOption(createMeetingBtn);
-        createMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-        final Button createCallBtn = new Button(AppContext.getMessage(CallI18nEnum.NEW), clickEvent -> {
+        createMeetingBtn.setEnabled(UserUIContext.canWrite(RolePermissionCollections.CRM_MEETING));
+        final Button createCallBtn = new Button(UserUIContext.getMessage(CallI18nEnum.NEW), clickEvent -> {
             splitBtn.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
         });
-        createCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
+        createCallBtn.setEnabled(UserUIContext.canWrite(RolePermissionCollections.CRM_CALL));
         btnControlsLayout.addOption(createCallBtn);
 
         ButtonGroup viewSwitcher = new ButtonGroup();
@@ -122,19 +122,19 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_LEFT);
 
-            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+            this.myItemCheckbox = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                     .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+            MButton clearBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             basicSearchBody.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_LEFT);
             return basicSearchBody;
@@ -143,7 +143,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         @Override
         protected ActivitySearchCriteria fillUpSearchCriteria() {
             ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             return searchCriteria;
         }
     }

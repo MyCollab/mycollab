@@ -24,7 +24,7 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIConstants;
 
@@ -65,7 +65,7 @@ public class UserOrderComponent extends BugGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedBugs == null) {
-                    unspecifiedBugs = new DefaultBugGroupComponent(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+                    unspecifiedBugs = new DefaultBugGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedBugs, 0);
                 }
                 unspecifiedBugs.insertBug(bug);

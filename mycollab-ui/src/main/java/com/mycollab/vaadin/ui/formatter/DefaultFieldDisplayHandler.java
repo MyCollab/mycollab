@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui.formatter;
 
 import com.mycollab.common.domain.AuditChangeItem;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.hp.gagawa.java.elements.Li;
 
 /**
@@ -46,7 +46,7 @@ public class DefaultFieldDisplayHandler {
     }
 
     public String generateLogItem(AuditChangeItem item) {
-        Li li = new Li().appendText(AppContext.getMessage(displayName) + ": ")
+        Li li = new Li().appendText(UserUIContext.getMessage(displayName) + ": ")
                 .appendText(format.toString(item.getOldvalue()))
                 .appendText("&nbsp; &rarr; &nbsp; ")
                 .appendText(format.toString(item.getNewvalue()));

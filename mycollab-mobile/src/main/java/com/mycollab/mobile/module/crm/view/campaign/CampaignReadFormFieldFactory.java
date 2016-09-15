@@ -17,7 +17,7 @@
 package com.mycollab.mobile.module.crm.view.campaign;
 
 import com.mycollab.module.crm.domain.SimpleCampaign;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
@@ -41,9 +41,9 @@ class CampaignReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactor
         if (propertyId.equals("assignuser")) {
             return new DefaultViewField(campaign.getAssignUserFullName());
         } else if (propertyId.equals("startdate")) {
-            return new DefaultViewField(AppContext.formatDate(campaign.getStartdate()));
+            return new DefaultViewField(UserUIContext.formatDate(campaign.getStartdate()));
         } else if (propertyId.equals("enddate")) {
-            return new DefaultViewField(AppContext.formatDate(campaign.getEnddate()));
+            return new DefaultViewField(UserUIContext.formatDate(campaign.getEnddate()));
         } else if (propertyId.equals("currencyid")) {
             if (campaign.getCurrencyid() != null) {
                 return new DefaultViewField(campaign.getCurrencyid());

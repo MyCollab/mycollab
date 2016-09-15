@@ -27,7 +27,8 @@ import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -65,14 +66,14 @@ public class OpportunityAddPresenter extends AbstractCrmPresenter<OpportunityAdd
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
 
             SimpleOpportunity opportunity = null;
             if (data.getParams() instanceof SimpleOpportunity) {
                 opportunity = (SimpleOpportunity) data.getParams();
             } else if (data.getParams() instanceof Integer) {
                 OpportunityService accountService = AppContextUtil.getSpringBean(OpportunityService.class);
-                opportunity = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                opportunity = accountService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
             }
             if (opportunity == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -82,10 +83,10 @@ public class OpportunityAddPresenter extends AbstractCrmPresenter<OpportunityAdd
             view.editItem(opportunity);
 
             if (opportunity.getId() == null) {
-                AppContext.addFragment("crm/opportunity/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Opportunity"));
+                MyCollabUI.addFragment("crm/opportunity/add", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Opportunity"));
             } else {
-                AppContext.addFragment("crm/opportunity/edit/" + UrlEncodeDecoder.encode(opportunity.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Opportunity", opportunity.getOpportunityname()));
+                MyCollabUI.addFragment("crm/opportunity/edit/" + UrlEncodeDecoder.encode(opportunity.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Opportunity", opportunity.getOpportunityname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -95,11 +96,11 @@ public class OpportunityAddPresenter extends AbstractCrmPresenter<OpportunityAdd
     private void saveOpportunity(Opportunity opportunity) {
         OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
 
-        opportunity.setSaccountid(AppContext.getAccountId());
+        opportunity.setSaccountid(MyCollabUI.getAccountId());
         if (opportunity.getId() == null) {
-            opportunityService.saveWithSession(opportunity, AppContext.getUsername());
+            opportunityService.saveWithSession(opportunity, UserUIContext.getUsername());
         } else {
-            opportunityService.updateWithSession(opportunity, AppContext.getUsername());
+            opportunityService.updateWithSession(opportunity, UserUIContext.getUsername());
         }
     }
 }

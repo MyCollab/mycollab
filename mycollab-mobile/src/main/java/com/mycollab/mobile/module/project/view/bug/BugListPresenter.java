@@ -23,7 +23,8 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -43,8 +44,8 @@ public class BugListPresenter extends ProjectListPresenter<BugListView, BugSearc
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             super.onGo(container, data);
-            AppContext.addFragment("project/bug/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
-                    AppContext.getMessage(BugI18nEnum.LIST));
+            MyCollabUI.addFragment("project/bug/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
+                    UserUIContext.getMessage(BugI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

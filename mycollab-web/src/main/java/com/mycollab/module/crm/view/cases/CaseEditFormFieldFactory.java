@@ -21,7 +21,7 @@ import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
@@ -68,8 +68,8 @@ class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends AbstractBeanFiel
             MTextField tf = new MTextField();
             if (isValidateForm) {
                 tf.withNullRepresentation("").withRequired(true)
-                        .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                AppContext.getMessage(CaseI18nEnum.FORM_SUBJECT)));
+                        .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                UserUIContext.getMessage(CaseI18nEnum.FORM_SUBJECT)));
             }
 
             return tf;

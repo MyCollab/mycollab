@@ -30,7 +30,8 @@ import com.mycollab.module.project.view.settings.component.ProjectMemberSelectio
 import com.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.DoubleField;
@@ -56,7 +57,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
 
     BugEditFormFieldFactory(GenericBeanForm<SimpleBug> form, Integer prjId) {
         super(form);
-        subscribersComp = new ProjectSubscribersComp(false, prjId, AppContext.getUsername());
+        subscribersComp = new ProjectSubscribersComp(false, prjId, UserUIContext.getUsername());
     }
 
     @Override
@@ -80,7 +81,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             return field;
         } else if (propertyId.equals("id")) {
             if (beanItem.getId() != null) {
-                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
                         beanItem.getProjectid(), ProjectTypeConstants.BUG, "" + beanItem.getId());
                 attachmentUploadField = new AttachmentUploadField(attachmentPath);
             } else {
@@ -103,8 +104,8 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             if (isValidateForm) {
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        AppContext.getMessage(BugI18nEnum.FORM_SUMMARY)));
+                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        UserUIContext.getMessage(BugI18nEnum.FORM_SUMMARY)));
             }
 
             return tf;

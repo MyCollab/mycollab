@@ -26,7 +26,7 @@ import com.mycollab.module.crm.events.CampaignEvent;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +56,7 @@ public class CampaignImportWindow extends EntityImportWindow<SimpleCampaign> {
                 new FieldMapperDef("impression", "Impression"),
                 new FieldMapperDef("status", "Status"),
                 new FieldMapperDef("type", "Type"),
-                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))};
+                new FieldMapperDef("assignuser", UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))};
         return Arrays.asList(fields);
     }
 

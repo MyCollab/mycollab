@@ -28,7 +28,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -129,7 +129,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             } else if (propertyId.equals("description")) {
                 return new RichTextViewField(beanItem.getDescription());
             } else if (propertyId.equals("status")) {
-                return new DefaultViewField(AppContext.getMessage(MilestoneStatus.class, beanItem.getStatus()));
+                return new DefaultViewField(UserUIContext.getMessage(MilestoneStatus.class, beanItem.getStatus()));
             }
             return null;
         }

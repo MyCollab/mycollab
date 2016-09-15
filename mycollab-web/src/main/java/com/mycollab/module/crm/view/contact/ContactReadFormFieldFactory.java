@@ -22,11 +22,9 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
-import com.mycollab.module.crm.view.lead.LeadSourceComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -68,9 +66,9 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
             return new UserLinkViewField(contact.getAssignuser(), contact.getAssignUserAvatarId(), contact.getAssignUserFullName());
         } else if (propertyId.equals("iscallable")) {
             if (Boolean.FALSE.equals(contact.getIscallable())) {
-                return new DefaultViewField(AppContext.getMessage(GenericI18Enum.BUTTON_NO));
+                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_NO));
             } else {
-                return new DefaultViewField(AppContext.getMessage(GenericI18Enum.BUTTON_YES));
+                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_YES));
             }
         } else if (propertyId.equals("birthday")) {
             return new DateViewField(contact.getBirthday());

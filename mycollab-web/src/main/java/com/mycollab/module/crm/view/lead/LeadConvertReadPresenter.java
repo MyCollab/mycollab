@@ -31,7 +31,8 @@ import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -60,7 +61,7 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
             public void gotoNext(SimpleLead data) {
                 LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = contactService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -74,7 +75,7 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
             public void gotoPrevious(SimpleLead data) {
                 LeadService contactService = AppContextUtil.getSpringBean(LeadService.class);
                 LeadSearchCriteria criteria = new LeadSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
@@ -89,14 +90,14 @@ public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertRea
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.LEAD);
-        if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_LEAD)) {
             if (data.getParams() instanceof SimpleLead) {
                 SimpleLead lead = (SimpleLead) data.getParams();
                 super.onGo(container, data);
                 view.previewItem(lead);
 
-                AppContext.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, AppContext.getMessage(LeadI18nEnum.SINGLE),
+                MyCollabUI.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, UserUIContext.getMessage(LeadI18nEnum.SINGLE),
                                 lead.getLeadName()));
             }
         } else {

@@ -18,7 +18,7 @@ package com.mycollab.mobile.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
@@ -39,7 +39,7 @@ public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T> 
         try {
             final AbstractSelectionView<B> selectionView = targetSelectionViewCls.newInstance();
             selectionView.setSelectionField(this);
-            navButton = new NavigationButton(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), selectionView);
+            navButton = new NavigationButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), selectionView);
             navButton.setTargetView(selectionView);
             navButton.setWidth("100%");
             navButton.addClickListener(navigationButtonClickEvent -> selectionView.load());

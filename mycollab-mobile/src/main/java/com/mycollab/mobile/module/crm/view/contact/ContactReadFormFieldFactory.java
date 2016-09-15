@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.crm.view.contact;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleContact;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
@@ -46,12 +46,12 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
             return new DefaultViewField(attachForm.getBean().getAssignUserFullName());
         } else if (propertyId.equals("iscallable")) {
             if (Boolean.FALSE.equals(attachForm.getBean().getIscallable())) {
-                return new DefaultViewField(AppContext.getMessage(GenericI18Enum.BUTTON_NO));
+                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_NO));
             } else {
-                return new DefaultViewField(AppContext.getMessage(GenericI18Enum.BUTTON_YES));
+                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_YES));
             }
         } else if (propertyId.equals("birthday")) {
-            return new DefaultViewField(AppContext.formatDate(attachForm.getBean().getBirthday()));
+            return new DefaultViewField(UserUIContext.formatDate(attachForm.getBean().getBirthday()));
         } else if (propertyId.equals("firstname")) {
             return new DefaultViewField(attachForm.getBean().getFirstname());
         }

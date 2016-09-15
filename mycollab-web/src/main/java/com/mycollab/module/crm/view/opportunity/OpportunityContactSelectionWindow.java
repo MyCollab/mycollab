@@ -24,7 +24,7 @@ import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.contact.ContactSearchPanel;
 import com.mycollab.module.crm.view.contact.ContactTableDisplay;
 import com.mycollab.module.crm.view.contact.ContactTableFieldDef;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
@@ -37,7 +37,7 @@ import java.util.Arrays;
 public class OpportunityContactSelectionWindow extends RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
     public OpportunityContactSelectionWindow(OpportunityContactListComp associateContactList) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(ContactI18nEnum.LIST)), associateContactList);
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(ContactI18nEnum.LIST)), associateContactList);
         this.setWidth("1000px");
     }
 
@@ -47,7 +47,7 @@ public class OpportunityContactSelectionWindow extends RelatedItemSelectionWindo
                 Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.email(),
                         ContactTableFieldDef.phoneOffice(), ContactTableFieldDef.account()));
 
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
+        Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         ContactSearchPanel searchPanel = new ContactSearchPanel();

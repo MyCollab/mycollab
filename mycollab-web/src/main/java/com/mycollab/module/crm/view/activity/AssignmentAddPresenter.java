@@ -27,7 +27,8 @@ import com.mycollab.module.crm.service.TaskService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -70,13 +71,13 @@ public class AssignmentAddPresenter extends CrmGenericPresenter<AssignmentAddVie
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canWrite(RolePermissionCollections.CRM_TASK)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_TASK)) {
             Task task;
             if (data.getParams() instanceof Task) {
                 task = (Task) data.getParams();
             } else if (data.getParams() instanceof Integer) {
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-                task = taskService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
+                task = taskService.findByPrimaryKey((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (task == null) {
                     NotificationUtil.showRecordNotExistNotification();
                     return;
@@ -89,12 +90,12 @@ public class AssignmentAddPresenter extends CrmGenericPresenter<AssignmentAddVie
             view.editItem(task);
 
             if (task.getId() == null) {
-                AppContext.addFragment("crm/activity/task/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                        AppContext.getMessage(TaskI18nEnum.SINGLE)));
+                MyCollabUI.addFragment("crm/activity/task/add/", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        UserUIContext.getMessage(TaskI18nEnum.SINGLE)));
             } else {
-                AppContext.addFragment("crm/activity/task/edit/" + UrlEncodeDecoder.encode(task.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                AppContext.getMessage(TaskI18nEnum.SINGLE), task.getSubject()));
+                MyCollabUI.addFragment("crm/activity/task/edit/" + UrlEncodeDecoder.encode(task.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -103,11 +104,11 @@ public class AssignmentAddPresenter extends CrmGenericPresenter<AssignmentAddVie
 
     public void save(Task item) {
         TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
         if (item.getId() == null) {
-            taskService.saveWithSession(item, AppContext.getUsername());
+            taskService.saveWithSession(item, UserUIContext.getUsername());
         } else {
-            taskService.updateWithSession(item, AppContext.getUsername());
+            taskService.updateWithSession(item, UserUIContext.getUsername());
         }
     }
 }

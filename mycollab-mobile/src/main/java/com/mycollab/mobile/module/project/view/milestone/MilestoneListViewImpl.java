@@ -43,7 +43,8 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -91,7 +92,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(MilestoneI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null))));
         menu.setContent(content);
         return menu;
@@ -115,17 +116,17 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
 
     private void updateTabStatus() {
         if (status == MilestoneStatus.Closed) {
-            this.setCaption(AppContext.getMessage(MilestoneStatus.Closed));
+            this.setCaption(UserUIContext.getMessage(MilestoneStatus.Closed));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
         } else if (status == MilestoneStatus.Future) {
-            this.setCaption(AppContext.getMessage(MilestoneStatus.Future));
+            this.setCaption(UserUIContext.getMessage(MilestoneStatus.Future));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
         } else {
-            this.setCaption(AppContext.getMessage(MilestoneStatus.InProgress));
+            this.setCaption(UserUIContext.getMessage(MilestoneStatus.InProgress));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
@@ -135,16 +136,16 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
     @Override
     protected Component buildToolbar() {
         Toolbar toolbar = new Toolbar();
-        closedMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE),
+        closedMilestoneBtn = new Button(UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE),
                 clickEvent -> displayStatus(MilestoneStatus.Closed));
         closedMilestoneBtn.setIcon(FontAwesome.MINUS);
         toolbar.addComponent(closedMilestoneBtn);
 
-        inProgressMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE),
+        inProgressMilestoneBtn = new Button(UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE),
                 clickEvent -> displayStatus(MilestoneStatus.InProgress));
         inProgressMilestoneBtn.setIcon(FontAwesome.SPINNER);
 
-        futureMilestoneBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE),
+        futureMilestoneBtn = new Button(UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE),
                 clickEvent -> displayStatus(MilestoneStatus.Future));
         futureMilestoneBtn.setIcon(FontAwesome.CLOCK_O);
 
@@ -169,13 +170,13 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
             milestoneInfoLayout.addComponent(metaLayout);
 
             ELabel milestoneDatesInfo = new ELabel().withWidthUndefined();
-            milestoneDatesInfo.setValue(AppContext.getMessage(MilestoneI18nEnum.M_LIST_DATE_INFO,
-                    AppContext.formatDate(milestone.getStartdate(), " N/A "),
-                    AppContext.formatDate(milestone.getEnddate(), " N/A ")));
+            milestoneDatesInfo.setValue(UserUIContext.getMessage(MilestoneI18nEnum.M_LIST_DATE_INFO,
+                    UserUIContext.formatDate(milestone.getStartdate(), " N/A "),
+                    UserUIContext.formatDate(milestone.getEnddate(), " N/A ")));
             milestoneDatesInfo.addStyleName(UIConstants.META_INFO);
             metaLayout.addComponent(milestoneDatesInfo);
 
-            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
                     CurrentProjectVariables.getProjectId(), milestone.getOwner()))
                     .appendText(StringUtils.trim(milestone.getOwnerFullName(), 30, true));
             Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(milestone

@@ -27,7 +27,8 @@ import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.PieChartWrapper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -61,16 +62,16 @@ public class OpportunityLeadSourceDashboard extends PieChartWrapper<OpportunityS
             for (final GroupItem item : groupItems) {
                 if (source.name().equals(item.getGroupid())) {
                     if (item.getValue() != 0)
-                        dataset.setValue(AppContext.getMessage(source), item.getValue());
+                        dataset.setValue(UserUIContext.getMessage(source), item.getValue());
                     else
-                        dataset.setValue(AppContext.getMessage(source), item.getCountNum());
+                        dataset.setValue(UserUIContext.getMessage(source), item.getCountNum());
                     isFound = true;
                     break;
                 }
             }
 
             if (!isFound) {
-                dataset.setValue(AppContext.getMessage(source), 0);
+                dataset.setValue(UserUIContext.getMessage(source), 0);
             }
         }
 
@@ -80,7 +81,7 @@ public class OpportunityLeadSourceDashboard extends PieChartWrapper<OpportunityS
     @Override
     public void clickLegendItem(String key) {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         searchCriteria.setLeadSources(new SetSearchField<>(key));
         EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, searchCriteria));
     }

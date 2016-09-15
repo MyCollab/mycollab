@@ -22,7 +22,7 @@ import com.mycollab.mobile.MobileApplication;
 import com.mycollab.mobile.mvp.AbstractPresenter;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.module.user.domain.SimpleUser;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
@@ -50,7 +50,7 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
             }
             MobileApplication.rootUrlResolver.navigateByFragement(url);
         } else {
-            SimpleUser pref = AppContext.getUser();
+            SimpleUser pref = UserUIContext.getUser();
             if (ModuleNameConstants.CRM.equals(pref.getLastModuleVisit())) {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
             } else if (ModuleNameConstants.ACCOUNT.equals(pref.getLastModuleVisit())) {

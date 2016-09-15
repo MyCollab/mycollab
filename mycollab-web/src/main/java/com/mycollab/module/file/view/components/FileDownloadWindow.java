@@ -24,7 +24,8 @@ import com.mycollab.module.ecm.domain.Resource;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
@@ -80,28 +81,28 @@ public class FileDownloadWindow extends MWindow {
                 descLbl.setValue("&nbsp;");
                 descLbl.setContentMode(ContentMode.HTML);
             }
-            inforLayout.addComponent(descLbl, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0);
+            inforLayout.addComponent(descLbl, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0);
         }
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), AppContext.getAccountId());
+        SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), MyCollabUI.getAccountId());
         if (user == null) {
-            inforLayout.addComponent(new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
-                    AppContext.getUserDisplayName()), AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
+            inforLayout.addComponent(new UserLink(UserUIContext.getUsername(), UserUIContext.getUserAvatarId(),
+                    UserUIContext.getUserDisplayName()), UserUIContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
         } else {
             inforLayout.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()),
-                    AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
+                    UserUIContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
         }
 
         final Label size = new Label(FileUtils.getVolumeDisplay(content.getSize()));
-        inforLayout.addComponent(size, AppContext.getMessage(FileI18nEnum.OPT_SIZE), 0, 2);
+        inforLayout.addComponent(size, UserUIContext.getMessage(FileI18nEnum.OPT_SIZE), 0, 2);
 
         ELabel dateCreate = new ELabel().prettyDateTime(content.getCreated().getTime());
-        inforLayout.addComponent(dateCreate, AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME), 0, 3);
+        inforLayout.addComponent(dateCreate, UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME), 0, 3);
 
         layout.addComponent(inforLayout.getLayout());
 
-        MButton downloadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
+        MButton downloadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
                 .withIcon(FontAwesome.DOWNLOAD).withStyleName(WebUIConstants.BUTTON_ACTION);
         List<Resource> resources = new ArrayList<>();
         resources.add(content);
@@ -111,7 +112,7 @@ public class FileDownloadWindow extends MWindow {
         FileDownloader fileDownloader = new FileDownloader(downloadResource);
         fileDownloader.extend(downloadBtn);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
         final MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, downloadBtn).withMargin(true);
         layout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);

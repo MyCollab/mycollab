@@ -29,7 +29,8 @@ import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.*;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -81,7 +82,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 
     private void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.ACCOUNT));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);
@@ -108,9 +109,9 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
     @Override
     protected String initFormTitle() {
         LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
-        SimpleLead lead = leadService.findConvertedLeadOfAccount(beanItem.getId(), AppContext.getAccountId());
+        SimpleLead lead = leadService.findConvertedLeadOfAccount(beanItem.getId(), MyCollabUI.getAccountId());
         if (lead != null) {
-            return beanItem.getAccountname() + AppContext.getMessage(
+            return beanItem.getAccountname() + UserUIContext.getMessage(
                     LeadI18nEnum.CONVERT_FROM_LEAD_TITLE, CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
                     CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()), lead.getLeadName());
         } else {
@@ -137,13 +138,13 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         basicInfo.with(dateInfoComp, peopleInfoComp, compFollowers);
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.LIST));
-        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.LIST));
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, UserUIContext.getMessage(ContactI18nEnum.LIST));
+        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD, UserUIContext.getMessage(LeadI18nEnum.LIST));
         previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
-                AppContext.getMessage(OpportunityI18nEnum.LIST.LIST));
-        previewItemContainer.addTab(associateCaseList, CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.LIST));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+                UserUIContext.getMessage(OpportunityI18nEnum.LIST.LIST));
+        previewItemContainer.addTab(associateCaseList, CrmTypeConstants.CASE, UserUIContext.getMessage(CaseI18nEnum.LIST));
+        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
         previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
     }
 

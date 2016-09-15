@@ -16,10 +16,13 @@
  */
 package com.mycollab.mobile.module.user.view;
 
+import com.mycollab.common.i18n.ShellI18nEnum;
+import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.mobile.MobileApplication;
 import com.mycollab.mobile.module.user.events.UserEvent;
 import com.mycollab.mobile.mvp.AbstractPresenter;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewEvent;
@@ -54,6 +57,6 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
     @Override
     protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
         ((NavigationManager) navigationManager).navigateTo(view);
-        AppContext.addFragment("", "Login Page");
+        MyCollabUI.addFragment("", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
     }
 }

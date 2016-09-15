@@ -21,7 +21,7 @@ import com.mycollab.mobile.ui.AbstractEditItemComp;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -37,7 +37,7 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
     @Override
     protected String initFormTitle() {
         return beanItem.getLeadName() != null ? beanItem.getLeadName()
-                : AppContext.getMessage(LeadI18nEnum.NEW);
+                : UserUIContext.getMessage(LeadI18nEnum.NEW);
     }
 
     @Override

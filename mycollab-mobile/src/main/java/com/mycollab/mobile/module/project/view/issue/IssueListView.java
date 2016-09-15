@@ -34,7 +34,8 @@ import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.BeanList;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -66,7 +67,7 @@ public class IssueListView extends AbstractMobilePageView {
         criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
         int numTickets = ticketList.setSearchCriteria(criteria);
-        this.setCaption(AppContext.getMessage(TicketI18nEnum.M_TICKET_NUM, numTickets));
+        this.setCaption(UserUIContext.getMessage(TicketI18nEnum.M_TICKET_NUM, numTickets));
     }
 
     public static class TicketRowDisplayHandler extends BeanList.RowDisplayHandler<ProjectGenericTask> {
@@ -95,21 +96,21 @@ public class IssueListView extends AbstractMobilePageView {
             CssLayout metaInfoLayout = new CssLayout();
             ticketLayout.with(metaInfoLayout);
 
-            ELabel lastUpdatedTimeLbl = new ELabel(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, AppContext
+            ELabel lastUpdatedTimeLbl = new ELabel(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, UserUIContext
                     .formatPrettyTime((issue.getLastUpdatedTime())))).withStyleName(UIConstants.META_INFO);
             metaInfoLayout.addComponent(lastUpdatedTimeLbl);
 
             A assigneeLink = new A();
-            assigneeLink.setHref(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+            assigneeLink.setHref(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
                     CurrentProjectVariables.getProjectId(), issue.getAssignUser()));
             assigneeLink.appendText(issue.getAssignUserFullName());
 
-            ELabel assigneeLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + (issue.getAssignUserFullName() == null ?
+            ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + (issue.getAssignUserFullName() == null ?
                     ":&nbsp;N/A&nbsp;" : ":&nbsp;" + assigneeLink.write()), ContentMode.HTML).withStyleName(UIConstants.META_INFO);
             assigneeLbl.addStyleName(UIConstants.TEXT_ELLIPSIS);
             metaInfoLayout.addComponent(assigneeLbl);
 
-            ELabel statusLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + AppContext.getMessage
+            ELabel statusLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + UserUIContext.getMessage
                     (OptionI18nEnum.BugStatus.class, issue.getStatus()), ContentMode.HTML).withStyleName(UIConstants.META_INFO);
             metaInfoLayout.addComponent(statusLbl);
 

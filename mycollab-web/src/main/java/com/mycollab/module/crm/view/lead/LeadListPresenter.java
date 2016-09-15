@@ -29,7 +29,8 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
@@ -68,7 +69,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
             protected void onSelectExtra(String id) {
                 if (ViewItemAction.MAIL_ACTION().equals(id)) {
                     if (isSelectAll) {
-                        NotificationUtil.showWarningNotification(AppContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+                        NotificationUtil.showWarningNotification(UserUIContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
                     } else {
                         List<String> lstMail = new ArrayList<>();
                         Collection<SimpleLead> tableData = view.getPagedBeanTable().getCurrentDataList();
@@ -82,8 +83,8 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
                     }
 
                 } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
-                    MassUpdateLeadWindow massUpdateWindow = new MassUpdateLeadWindow(AppContext.getMessage(
-                            GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, AppContext.getMessage(LeadI18nEnum.LIST)),
+                    MassUpdateLeadWindow massUpdateWindow = new MassUpdateLeadWindow(UserUIContext.getMessage(
+                            GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, UserUIContext.getMessage(LeadI18nEnum.LIST)),
                             LeadListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
@@ -91,7 +92,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(LeadI18nEnum.LIST);
+                return UserUIContext.getMessage(LeadI18nEnum.LIST);
             }
 
             @Override
@@ -104,7 +105,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.LEAD);
-        if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_LEAD)) {
             searchCriteria = (LeadSearchCriteria) data.getParams();
             int totalCount = leadService.getTotalCount(searchCriteria);
             if (totalCount > 0) {
@@ -114,7 +115,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.LIST));
+            MyCollabUI.addFragment("crm/lead/list", UserUIContext.getMessage(LeadI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
@@ -132,12 +133,12 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
             }
 
             if (keyList.size() > 0) {
-                leadService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                leadService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            leadService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            leadService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
     }
@@ -154,7 +155,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
             }
 
             if (keyList.size() > 0) {
-                leadService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                leadService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

@@ -18,7 +18,7 @@ package com.mycollab.module.project.view.settings.component;
 
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.tracker.domain.Component;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
@@ -43,7 +43,7 @@ public class ComponentEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
             if (isValidateForm) {
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(ComponentI18nEnum.FORM_COMPONENT_ERROR));
+                tf.setRequiredError(UserUIContext.getMessage(ComponentI18nEnum.FORM_COMPONENT_ERROR));
             }
             return tf;
         } else if (Component.Field.description.equalTo(propertyId)) {

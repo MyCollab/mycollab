@@ -20,7 +20,7 @@ import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
@@ -36,7 +36,7 @@ public class ProjectAttachmentDisplayComponentFactory {
     public static Component getAttachmentDisplayComponent(int projectId, String type, int typeId) {
         ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = resourceService.getContents(AttachmentUtils
-                .getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId));
+                .getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), projectId, type, "" + typeId));
         if (CollectionUtils.isNotEmpty(attachments)) {
             return new AttachmentDisplayComponent(attachments);
         } else {

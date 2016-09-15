@@ -19,7 +19,7 @@ package com.mycollab.module.crm.view;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.shell.view.MainView;
 import com.mycollab.shell.view.ShellUrlResolver;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
@@ -47,6 +47,6 @@ public class CrmModulePresenter extends AbstractPresenter<CrmModule> {
             ShellUrlResolver.ROOT().getSubResolver("crm").handle(params);
         }
 
-        AppContext.updateLastModuleVisit(ModuleNameConstants.CRM);
+        UserUIContext.updateLastModuleVisit(ModuleNameConstants.CRM);
     }
 }

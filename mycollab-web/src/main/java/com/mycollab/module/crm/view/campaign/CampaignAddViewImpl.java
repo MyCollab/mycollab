@@ -21,7 +21,7 @@ import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -42,7 +42,7 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign> im
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(CampaignI18nEnum.NEW) : beanItem.getCampaignname();
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(CampaignI18nEnum.NEW) : beanItem.getCampaignname();
     }
 
     @Override

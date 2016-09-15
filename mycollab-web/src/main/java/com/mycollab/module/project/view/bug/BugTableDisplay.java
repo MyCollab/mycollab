@@ -28,7 +28,8 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -76,8 +77,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                 b.addStyleName("bug-" + bug.getPriority().toLowerCase());
             }
 
-            b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                    bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
+            b.setDescription(ProjectTooltipGenerator.generateToolTipBug(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+                    bug, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone(), false));
 
             if (bug.isCompleted()) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
@@ -89,7 +90,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
 
         this.addGeneratedColumn("severity", (source, itemId, columnId) -> {
             SimpleBug bug = getBeanByIndex(itemId);
-            Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, bug.getSeverity()));
+            Label lbPriority = new Label(UserUIContext.getMessage(BugSeverity.class, bug.getSeverity()));
             lbPriority.setIcon(FontAwesome.STAR);
             if (bug.getSeverity() != null) {
                 lbPriority.addStyleName("bug-severity-" + bug.getSeverity().toLowerCase());
@@ -109,7 +110,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
 
         this.addGeneratedColumn("resolution", (source, itemId, columnId) -> {
             SimpleBug bug = getBeanByIndex(itemId);
-            return new Label(AppContext.getMessage(BugResolution.class, bug.getResolution()));
+            return new Label(UserUIContext.getMessage(BugResolution.class, bug.getResolution()));
         });
         this.setWidth("100%");
     }

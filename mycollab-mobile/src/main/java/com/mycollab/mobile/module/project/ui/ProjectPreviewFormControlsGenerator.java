@@ -18,9 +18,8 @@ package com.mycollab.mobile.module.project.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.mobile.ui.PreviewBeanForm;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -56,12 +55,12 @@ public class ProjectPreviewFormControlsGenerator<T> {
         boolean canWrite = true;
         boolean canAccess = true;
         if (permissionItem != null) {
-            canWrite = AppContext.canWrite(permissionItem);
-            canAccess = AppContext.canAccess(permissionItem);
+            canWrite = UserUIContext.canWrite(permissionItem);
+            canAccess = UserUIContext.canAccess(permissionItem);
         }
 
         if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
+            Button editBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireEditForm(item);
             });
@@ -70,7 +69,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+            Button deleteBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireDeleteForm(item);
             });
@@ -79,7 +78,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
+            Button cloneBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireCloneForm(item);
             });
@@ -88,7 +87,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-            Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
+            Button assignBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireAssignForm(item);
             });

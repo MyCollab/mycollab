@@ -22,12 +22,11 @@ import com.mycollab.common.service.TimelineTrackingService;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.GenericChartWrapper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
@@ -64,7 +63,7 @@ public class BugStatusTrendChartWidget extends Depot {
     private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC);
 
     public BugStatusTrendChartWidget() {
-        super(AppContext.getMessage(ProjectCommonI18nEnum.OPT_RESOLVING_TREND_IN_DURATION, 30), new MVerticalLayout());
+        super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_RESOLVING_TREND_IN_DURATION, 30), new MVerticalLayout());
         setContentBorder(true);
     }
 
@@ -164,7 +163,7 @@ public class BugStatusTrendChartWidget extends Depot {
                         + CHART_COLOR_STR.get(colorIndex) + "\" />";
                 final Label lblCircle = new Label(color);
                 lblCircle.setContentMode(ContentMode.HTML);
-                String captionBtn = AppContext.getMessage(BugStatus.class, (String) key.getKey());
+                String captionBtn = UserUIContext.getMessage(BugStatus.class, (String) key.getKey());
                 final Button btnLink = new Button(StringUtils.trim(captionBtn, 25, true));
                 btnLink.setDescription(captionBtn);
                 btnLink.addStyleName(WebUIConstants.BUTTON_LINK);

@@ -17,7 +17,9 @@
 package com.mycollab.mobile;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.EnDecryptHelper;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.core.MyCollabVersion;
 import com.mycollab.core.SessionExpireException;
@@ -25,6 +27,7 @@ import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.mobile.module.user.view.LoginPresenter;
 import com.mycollab.mobile.shell.ShellUrlResolver;
 import com.mycollab.mobile.shell.events.ShellEvent;
@@ -39,7 +42,7 @@ import com.mycollab.module.user.domain.UserAccountExample;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.PresenterResolver;
@@ -112,17 +115,17 @@ public class MobileApplication extends MyCollabUI {
 
                 UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(e, UserInvalidInputException.class);
                 if (invalidException != null) {
-                    NotificationUtil.showWarningNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
+                    NotificationUtil.showWarningNotification(UserUIContext.getMessage(GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
                             invalidException.getMessage()));
                 } else {
                     UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
                             e, UsageExceedBillingPlanException.class);
                     if (usageBillingException != null) {
-                        if (AppContext.isAdmin()) {
+                        if (UserUIContext.isAdmin()) {
                             ConfirmDialog.show(UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                    UserUIContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
+                                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                                     dialog -> {
                                         if (dialog.isConfirmed()) {
                                             Collection<Window> windowsList = UI.getCurrent().getWindows();
@@ -134,11 +137,11 @@ public class MobileApplication extends MyCollabUI {
                                     });
 
                         } else {
-                            NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
+                            NotificationUtil.showErrorNotification(UserUIContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
                         }
                     } else {
                         LOG.error("Error", e);
-                        NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
+                        NotificationUtil.showErrorNotification(UserUIContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
                     }
                 }
 
@@ -146,14 +149,8 @@ public class MobileApplication extends MyCollabUI {
         });
 
         setCurrentFragmentUrl(this.getPage().getUriFragment());
-        currentContext = new AppContext();
+        currentContext = new UserUIContext();
         postSetupApp(request);
-        try {
-            currentContext.initDomain(initialSubDomain);
-        } catch (Exception e) {
-            // TODO: show content notice user there is no existing domain
-            return;
-        }
 
         this.getLoadingIndicatorConfiguration().setFirstDelay(0);
         this.getLoadingIndicatorConfiguration().setSecondDelay(300);
@@ -163,7 +160,7 @@ public class MobileApplication extends MyCollabUI {
         setContent(manager);
 
         registerControllers(manager);
-        ThemeManager.loadMobileTheme(AppContext.getAccountId());
+        ThemeManager.loadMobileTheme(MyCollabUI.getAccountId());
 
         getPage().addUriFragmentChangedListener(new UriFragmentChangedListener() {
             private static final long serialVersionUID = -6410955178515535406L;
@@ -211,7 +208,7 @@ public class MobileApplication extends MyCollabUI {
     public void doLogin(String username, String password, boolean isRememberPassword) {
         try {
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
-            SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
+            SimpleUser user = userService.authentication(username, password, MyCollabUI.getSubDomain(), false);
 
             if (isRememberPassword) {
                 rememberPassword(username, password);
@@ -219,9 +216,9 @@ public class MobileApplication extends MyCollabUI {
 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
-            SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
+            SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(MyCollabUI.getAccountId());
             LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
-            AppContext.getInstance().setSessionVariables(user, billingAccount);
+            UserUIContext.getInstance().setSessionVariables(user, billingAccount);
 
             UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
             UserAccount userAccount = new UserAccount();
@@ -252,7 +249,7 @@ public class MobileApplication extends MyCollabUI {
 
     public void redirectToLoginView() {
         clearSession();
-        AppContext.addFragment("", "Login Page");
+        MyCollabUI.addFragment("", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
         // clear cookie remember username/password if any
         this.unsetRememberPassword();
 

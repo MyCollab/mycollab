@@ -24,7 +24,8 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
@@ -109,7 +110,7 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
         MHorizontalLayout footer = new MHorizontalLayout().withFullWidth()
                 .withMargin(new MarginInfo(false, true, false, true)).withStyleName("footer").withHeight("40px");
 
-        Div copyrightInfoDiv = new Div().appendText(AppContext.getMessage(ShellI18nEnum.OPT_MYCOLLAB_COPY_RIGHT, new A("https://www.mycollab.com",
+        Div copyrightInfoDiv = new Div().appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_MYCOLLAB_COPY_RIGHT, new A("https://www.mycollab.com",
                 "_blank").appendText("MyCollab").write(), new LocalDate().getYear() + ""));
         ELabel companyInfoLbl = ELabel.html(copyrightInfoDiv.write()).withWidthUndefined();
         footer.with(companyInfoLbl).withAlign(companyInfoLbl, Alignment.MIDDLE_LEFT);
@@ -140,29 +141,29 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
         final PopupButton modulePopup = new PopupButton("");
         modulePopup.setHeightUndefined();
         modulePopup.setDirection(Alignment.BOTTOM_LEFT);
-        modulePopup.setIcon(AccountAssetsResolver.createLogoResource(AppContext.getBillingAccount().getLogopath(), 150));
+        modulePopup.setIcon(AccountAssetsResolver.createLogoResource(MyCollabUI.getBillingAccount().getLogopath(), 150));
         OptionPopupContent modulePopupContent = new OptionPopupContent();
         modulePopup.setContent(modulePopupContent);
 
-        MButton projectModuleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT), clickEvent -> {
+        MButton projectModuleBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), clickEvent -> {
             modulePopup.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
         }).withIcon(VaadinIcons.TASKS);
         modulePopupContent.addOption(projectModuleBtn);
 
-        MButton crmModuleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_CRM), clickEvent -> {
+        MButton crmModuleBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.MODULE_CRM), clickEvent -> {
             modulePopup.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
         }).withIcon(VaadinIcons.MONEY);
         modulePopupContent.addOption(crmModuleBtn);
 
-        MButton fileModuleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), clickEvent -> {
+        MButton fileModuleBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), clickEvent -> {
             modulePopup.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
         }).withIcon(VaadinIcons.SUITCASE);
         modulePopupContent.addOption(fileModuleBtn);
 
-        MButton peopleBtn = new MButton(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE), clickEvent -> {
+        MButton peopleBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.MODULE_PEOPLE), clickEvent -> {
             modulePopup.setPopupVisible(false);
             EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
         }).withIcon(VaadinIcons.USERS);

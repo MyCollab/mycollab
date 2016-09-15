@@ -21,7 +21,7 @@ import com.mycollab.mobile.ui.AbstractEditItemComp;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -36,7 +36,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getSubject() != null ? beanItem.getSubject() : AppContext.getMessage(MeetingI18nEnum.NEW);
+        return beanItem.getSubject() != null ? beanItem.getSubject() : UserUIContext.getMessage(MeetingI18nEnum.NEW);
     }
 
     @Override

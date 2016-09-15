@@ -21,7 +21,7 @@ import com.mycollab.mobile.ui.AbstractEditItemComp;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -37,7 +37,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> impl
     @Override
     protected String initFormTitle() {
         return beanItem.getAccountname() != null ? beanItem.getAccountname()
-                : AppContext.getMessage(AccountI18nEnum.NEW);
+                : UserUIContext.getMessage(AccountI18nEnum.NEW);
     }
 
     @Override

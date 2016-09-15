@@ -16,7 +16,7 @@
  */
 package com.mycollab.vaadin.ui.field;
 
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -51,8 +51,8 @@ public class DateViewField extends CustomField<Date> {
             dateLbl.setValue("&nbsp;");
             dateLbl.setContentMode(ContentMode.HTML);
         } else {
-            dateLbl.setValue(AppContext.formatDate(date));
-            dateLbl.setDescription(AppContext.formatPrettyTime(date));
+            dateLbl.setValue(UserUIContext.formatDate(date));
+            dateLbl.setDescription(UserUIContext.formatPrettyTime(date));
         }
         return dateLbl;
     }

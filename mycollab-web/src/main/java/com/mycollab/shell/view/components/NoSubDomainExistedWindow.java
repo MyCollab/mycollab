@@ -17,7 +17,7 @@
 package com.mycollab.shell.view.components;
 
 import com.mycollab.common.i18n.ShellI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -39,9 +39,9 @@ public class NoSubDomainExistedWindow extends MVerticalLayout {
         final Label titleIcon = ELabel.fontIcon(FontAwesome.EXCLAMATION_CIRCLE).withStyleName("warning-icon",
                 ValoTheme.LABEL_NO_MARGIN).withWidthUndefined();
 
-        Label warningMsg = new ELabel(AppContext.getMessage(ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain)).withWidthUndefined();
+        Label warningMsg = new ELabel(UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain)).withWidthUndefined();
 
-        Button backToHome = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE),
+        Button backToHome = new Button(UserUIContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE),
                 clickEvent -> getUI().getPage().setLocation("https://www.mycollab.com"));
         backToHome.addStyleName(WebUIConstants.BUTTON_ACTION);
         this.with(titleIcon, warningMsg, backToHome);

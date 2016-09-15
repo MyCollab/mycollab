@@ -24,7 +24,8 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -45,8 +46,8 @@ public class MilestoneListPresenter extends ProjectListPresenter<MilestoneListVi
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
             super.onGo(container, data);
             view.displayStatus(MilestoneStatus.InProgress);
-            AppContext.addFragment("project/milestone/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
-                    AppContext.getMessage(MilestoneI18nEnum.LIST));
+            MyCollabUI.addFragment("project/milestone/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
+                    UserUIContext.getMessage(MilestoneI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

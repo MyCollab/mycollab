@@ -29,7 +29,8 @@ import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
@@ -61,15 +62,15 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return ComponentUtils.header(CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.LIST));
+        return ComponentUtils.header(CrmTypeConstants.LEAD, UserUIContext.getMessage(LeadI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        MButton newBtn = new MButton(AppContext.getMessage(LeadI18nEnum.NEW),
+        MButton newBtn = new MButton(UserUIContext.getMessage(LeadI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD));
         return newBtn;
     }
 
@@ -100,24 +101,24 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         public ComponentContainer constructBody() {
             MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
 
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             layout.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+            myItemCheckbox = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                     .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
 
             layout.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            MButton advancedSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     clickEvent -> moveToAdvancedSearchLayout()).withStyleName(WebUIConstants.BUTTON_LINK);
 
             layout.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
@@ -127,14 +128,14 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         @Override
         protected LeadSearchCriteria fillUpSearchCriteria() {
             LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
 
             if (StringUtils.isNotBlank(nameField.getValue().trim())) {
                 searchCriteria.setLeadName(StringSearchField.and(nameField.getValue()));
             }
 
             if (myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
+                searchCriteria.setAssignUsers(new SetSearchField<>(UserUIContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
             }

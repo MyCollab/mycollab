@@ -26,7 +26,8 @@ import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -41,14 +42,14 @@ public class CampaignRelatedLeadView extends AbstractRelatedListView<SimpleLead,
 
     public CampaignRelatedLeadView() {
         super();
-        setCaption(AppContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
+        setCaption(UserUIContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
         this.itemList = new LeadListDisplay();
         this.setContent(itemList);
     }
 
     private void loadLeads() {
         final LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         searchCriteria.setCampaignId(new NumberSearchField(campaign.getId()));
         this.itemList.search(searchCriteria);
     }
@@ -70,13 +71,13 @@ public class CampaignRelatedLeadView extends AbstractRelatedListView<SimpleLead,
 
         MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
-        Button newLead = new Button(AppContext.getMessage(LeadI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
+        Button newLead = new Button(UserUIContext.getMessage(LeadI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addBtns.addComponent(newLead);
 
-        Button selectLead = new Button(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), clickEvent -> {
+        Button selectLead = new Button(UserUIContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), clickEvent -> {
             CampaignLeadSelectionView leadSelectionView = new CampaignLeadSelectionView(CampaignRelatedLeadView.this);
             LeadSearchCriteria criteria = new LeadSearchCriteria();
-            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             leadSelectionView.setSearchCriteria(criteria);
             EventBusFactory.getInstance().post(new ShellEvent.PushView(CampaignRelatedLeadView.this, leadSelectionView));
         });

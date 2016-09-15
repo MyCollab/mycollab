@@ -28,7 +28,8 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMessage;
 import com.mycollab.module.project.i18n.MessageI18nEnum;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -54,7 +55,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
     public MessageReadViewImpl() {
         super();
         this.addStyleName("message-read-view");
-        this.setCaption(AppContext.getMessage(MessageI18nEnum.SINGLE));
+        this.setCaption(UserUIContext.getMessage(MessageI18nEnum.SINGLE));
         mainLayout = new VerticalLayout();
         mainLayout.setWidth("100%");
         this.setContent(mainLayout);
@@ -99,7 +100,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
 
         ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-                AppContext.getAccountId(), bean.getProjectid(), ProjectTypeConstants.MESSAGE, "" + bean.getId()));
+                MyCollabUI.getAccountId(), bean.getProjectid(), ProjectTypeConstants.MESSAGE, "" + bean.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             CssLayout attachmentPanel = new CssLayout();
             attachmentPanel.setStyleName("attachment-panel");
@@ -119,7 +120,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE, bean
                 .getId() + "", bean.getProjectid(), true);
         int numComments = commentDisplay.getNumComments();
-        commentTitleLbl.setValue(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
+        commentTitleLbl.setValue(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
 
         mainLayout.addComponent(section);
         mainLayout.addComponent(commentDisplay);

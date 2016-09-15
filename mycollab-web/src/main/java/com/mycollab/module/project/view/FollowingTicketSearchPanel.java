@@ -28,7 +28,8 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -107,7 +108,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
             summaryField = new TextField();
             summaryField.setWidth("100%");
-            summaryField.setInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT));
+            summaryField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT));
             selectionLayout.addComponent(summaryField, 1, 0);
 
             Label typeLb = new Label("Type:");
@@ -118,13 +119,13 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             MHorizontalLayout typeSelectWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
             selectionLayout.addComponent(typeSelectWrapper, 1, 1);
 
-            this.taskSelect = new CheckBox(AppContext.getMessage(TaskI18nEnum.SINGLE), true);
+            this.taskSelect = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.SINGLE), true);
             this.taskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 
-            this.bugSelect = new CheckBox(AppContext.getMessage(BugI18nEnum.SINGLE), true);
+            this.bugSelect = new CheckBox(UserUIContext.getMessage(BugI18nEnum.SINGLE), true);
             this.bugSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
-            this.riskSelect = new CheckBox(AppContext.getMessage(RiskI18nEnum.SINGLE), true);
+            this.riskSelect = new CheckBox(UserUIContext.getMessage(RiskI18nEnum.SINGLE), true);
             this.riskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 
             typeSelectWrapper.with(this.taskSelect, this.bugSelect, this.riskSelect);
@@ -141,7 +142,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             projectField.setRows(4);
             selectionLayout.addComponent(projectField, 3, 0, 3, 1);
 
-            MButton queryBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), clickEvent -> doSearch())
+            MButton queryBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), clickEvent -> doSearch())
                     .withStyleName(WebUIConstants.BUTTON_ACTION);
             selectionLayout.addComponent(queryBtn, 4, 0);
 
@@ -151,7 +152,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         @Override
         protected FollowingTicketSearchCriteria fillUpSearchCriteria() {
             FollowingTicketSearchCriteria searchCriteria = new FollowingTicketSearchCriteria();
-            searchCriteria.setUser(StringSearchField.and(AppContext.getUsername()));
+            searchCriteria.setUser(StringSearchField.and(UserUIContext.getUsername()));
 
             List<String> types = new ArrayList<>();
             if (this.taskSelect.getValue()) {
@@ -195,7 +196,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
         UserInvolvedProjectsListSelect() {
             FollowingTicketSearchPanel.this.projects = AppContextUtil.getSpringBean(ProjectService.class)
-                    .getProjectsUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
+                    .getProjectsUserInvolved(UserUIContext.getUsername(), MyCollabUI.getAccountId());
 
             for (SimpleProject project : projects) {
                 this.addItem(project.getId());

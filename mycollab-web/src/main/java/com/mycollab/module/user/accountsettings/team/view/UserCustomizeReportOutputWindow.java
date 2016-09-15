@@ -26,7 +26,7 @@ import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;
@@ -38,7 +38,7 @@ import java.util.Collection;
  */
 public class UserCustomizeReportOutputWindow extends CustomizeReportOutputWindow<UserSearchCriteria, SimpleUser> {
     public UserCustomizeReportOutputWindow(VariableInjector<UserSearchCriteria> variableInjector) {
-        super(AdminTypeConstants.USER, AppContext.getMessage(UserI18nEnum.LIST), SimpleUser.class,
+        super(AdminTypeConstants.USER, UserUIContext.getMessage(UserI18nEnum.LIST), SimpleUser.class,
                 AppContextUtil.getSpringBean(UserService.class), variableInjector);
     }
 
@@ -58,7 +58,7 @@ public class UserCustomizeReportOutputWindow extends CustomizeReportOutputWindow
 
     @Override
     protected Object[] buildSampleData() {
-        return new Object[]{"John Adams", "Administrator", "john.adam@mycollab.com", AppContext.formatDate(new
+        return new Object[]{"John Adams", "Administrator", "john.adam@mycollab.com", UserUIContext.formatDate(new
                 LocalDate(1979, 3, 13).toDate()), "11111111", "11111111", "MyCollab"};
     }
 }

@@ -41,7 +41,8 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -79,10 +80,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     @Override
     protected void afterPreviewItem() {
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
-            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             this.removeStyleName(MobileUIConstants.STATUS_DISABLED);
         } else {
-            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             this.addStyleName(MobileUIConstants.STATUS_DISABLED);
         }
         relatedComments.displayTotalComments(beanItem.getId() + "");
@@ -91,7 +92,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         previewForm.addComponent(taskTimeLogComp);
 
         ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
-        List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+        List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
                 beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             attachmentComp = new ProjectAttachmentDisplayComp(attachments);
@@ -136,16 +137,16 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 beanItem.setStatus(StatusI18nEnum.Open.name());
                 beanItem.setPercentagecomplete(0d);
                 TaskReadViewImpl.this.removeStyleName(MobileUIConstants.STATUS_DISABLED);
-                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
                 beanItem.setPercentagecomplete(100d);
                 TaskReadViewImpl.this.addStyleName(MobileUIConstants.STATUS_DISABLED);
-                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             }
 
             ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
-            service.updateWithSession(beanItem, AppContext.getUsername());
+            service.updateWithSession(beanItem, UserUIContext.getUsername());
         });
         quickActionStatusBtn.setWidth("100%");
 
@@ -186,15 +187,15 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                         .getProjectId(), beanItem.getAssignuser(), beanItem.getAssignUserFullName(), beanItem
                         .getAssignUserAvatarId(), false), ContentMode.HTML);
             } else if (propertyId.equals("startdate")) {
-                return new DefaultViewField(AppContext.formatDate(beanItem.getStartdate()));
+                return new DefaultViewField(UserUIContext.formatDate(beanItem.getStartdate()));
             } else if (propertyId.equals("enddate")) {
-                return new DefaultViewField(AppContext.formatDate(beanItem.getEnddate()));
+                return new DefaultViewField(UserUIContext.formatDate(beanItem.getEnddate()));
             } else if (propertyId.equals("deadline")) {
-                return new DefaultViewField(AppContext.formatDate(beanItem.getDeadline()));
+                return new DefaultViewField(UserUIContext.formatDate(beanItem.getDeadline()));
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     FontAwesome fontPriority = ProjectAssetsManager.getTaskPriority(beanItem.getPriority());
-                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
+                    String priorityLbl = fontPriority.getHtml() + " " + UserUIContext.getMessage(TaskPriority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
                     field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
                     return field;

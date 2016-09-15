@@ -28,7 +28,8 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
@@ -45,7 +46,6 @@ import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -61,7 +61,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
     public CustomizeReportOutputWindow(final String viewId, final String reportTitle, final Class<B> beanCls,
                                        final ISearchableService<S> searchableService, final VariableInjector<S> variableInjector) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         MVerticalLayout contentLayout = new MVerticalLayout();
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter().withContent(contentLayout);
         this.viewId = viewId;
@@ -69,33 +69,33 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
         final OptionGroup optionGroup = new OptionGroup();
         optionGroup.addStyleName("sortDirection");
-        optionGroup.addItems(AppContext.getMessage(FileI18nEnum.CSV), AppContext.getMessage(FileI18nEnum.PDF),
-                AppContext.getMessage(FileI18nEnum.EXCEL));
-        optionGroup.setValue(AppContext.getMessage(FileI18nEnum.CSV));
-        contentLayout.with(new MHorizontalLayout(ELabel.h3(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT)), optionGroup)
+        optionGroup.addItems(UserUIContext.getMessage(FileI18nEnum.CSV), UserUIContext.getMessage(FileI18nEnum.PDF),
+                UserUIContext.getMessage(FileI18nEnum.EXCEL));
+        optionGroup.setValue(UserUIContext.getMessage(FileI18nEnum.CSV));
+        contentLayout.with(new MHorizontalLayout(ELabel.h3(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT)), optionGroup)
                 .alignAll(Alignment.MIDDLE_LEFT));
 
-        contentLayout.with(ELabel.h3(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_COLUMNS)));
+        contentLayout.with(ELabel.h3(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_COLUMNS)));
         listBuilder = new ListBuilder();
         listBuilder.setImmediate(true);
         listBuilder.setColumns(0);
-        listBuilder.setLeftColumnCaption(AppContext.getMessage(GenericI18Enum.OPT_AVAILABLE_COLUMNS));
-        listBuilder.setRightColumnCaption(AppContext.getMessage(GenericI18Enum.OPT_VIEW_COLUMNS));
+        listBuilder.setLeftColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_AVAILABLE_COLUMNS));
+        listBuilder.setRightColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_VIEW_COLUMNS));
         listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
         listBuilder.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
         final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(TableViewField.class, this.getAvailableColumns());
         listBuilder.setContainerDataSource(container);
         for (TableViewField field : getAvailableColumns()) {
-            listBuilder.setItemCaption(field, AppContext.getMessage(field.getDescKey()));
+            listBuilder.setItemCaption(field, UserUIContext.getMessage(field.getDescKey()));
         }
         final Collection<TableViewField> viewColumnIds = this.getViewColumns();
         listBuilder.setValue(viewColumnIds);
         contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
-        contentLayout.with(ELabel.h3(AppContext.getMessage(GenericI18Enum.ACTION_PREVIEW)));
+        contentLayout.with(ELabel.h3(UserUIContext.getMessage(GenericI18Enum.ACTION_PREVIEW)));
         sampleTableDisplay = new Table();
         for (TableViewField field : getAvailableColumns()) {
-            sampleTableDisplay.addContainerProperty(field.getField(), String.class, "", AppContext.getMessage(field.getDescKey()), null, Table.Align.LEFT);
+            sampleTableDisplay.addContainerProperty(field.getField(), String.class, "", UserUIContext.getMessage(field.getDescKey()), null, Table.Align.LEFT);
             sampleTableDisplay.setColumnWidth(field.getField(), field.getDefaultWidth());
         }
         sampleTableDisplay.setWidth("100%");
@@ -106,16 +106,16 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
         listBuilder.addValueChangeListener(valueChangeEvent -> filterColumns());
 
-        MButton resetBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
+        MButton resetBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             listBuilder.setValue(getDefaultColumns());
             filterColumns();
         }).withStyleName(WebUIConstants.BUTTON_LINK);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
 
-        final Button exportBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        final Button exportBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         exportBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
         OnDemandFileDownloader pdfFileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
             @Override
@@ -125,8 +125,8 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                     // Save custom table view def
                     CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
                     CustomViewStore viewDef = new CustomViewStore();
-                    viewDef.setSaccountid(AppContext.getAccountId());
-                    viewDef.setCreateduser(AppContext.getUsername());
+                    viewDef.setSaccountid(MyCollabUI.getAccountId());
+                    viewDef.setCreateduser(UserUIContext.getUsername());
                     viewDef.setViewid(viewId);
                     viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(columns)));
                     customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
@@ -146,9 +146,9 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
             @Override
             public String getFilename() {
                 String exportTypeVal = (String) optionGroup.getValue();
-                if (AppContext.getMessage(FileI18nEnum.CSV).equals(exportTypeVal)) {
+                if (UserUIContext.getMessage(FileI18nEnum.CSV).equals(exportTypeVal)) {
                     exportType = ReportExportType.CSV;
-                } else if (AppContext.getMessage(FileI18nEnum.EXCEL).equals(exportTypeVal)) {
+                } else if (UserUIContext.getMessage(FileI18nEnum.EXCEL).equals(exportTypeVal)) {
                     exportType = ReportExportType.EXCEL;
                 } else {
                     exportType = ReportExportType.PDF;
@@ -173,8 +173,8 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
     private Collection<TableViewField> getViewColumns() {
         CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
-        CustomViewStore viewLayoutDef = customViewStoreService.getViewLayoutDef(AppContext.getAccountId(),
-                AppContext.getUsername(), viewId);
+        CustomViewStore viewLayoutDef = customViewStoreService.getViewLayoutDef(MyCollabUI.getAccountId(),
+                UserUIContext.getUsername(), viewId);
         if (!(viewLayoutDef instanceof NullCustomViewStore)) {
             try {
                 return FieldDefAnalyzer.toTableFields(viewLayoutDef.getViewinfo());

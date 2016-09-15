@@ -34,7 +34,8 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.task.ITaskStatusChartWidget;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ButtonI18nComp;
@@ -96,12 +97,12 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
     protected void displayPlainMode() {
         this.bodyContent.removeAllComponents();
         TaskStatusClickListener listener = new TaskStatusClickListener();
-        this.setTitle(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_STATUS_TITLE) + " (" + totalCount + ")");
+        this.setTitle(UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_STATUS_TITLE) + " (" + totalCount + ")");
 
         if (!groupItems.isEmpty()) {
             OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
             List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
-                    CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                    CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
 
             for (OptionVal optionVal : optionVals) {
                 if (OptionI18nEnum.StatusI18nEnum.Closed.name().equals(optionVal.getTypeval())) {
@@ -113,7 +114,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                         isFound = true;
                         MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                         statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                        String statusCaption = AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
+                        String statusCaption = UserUIContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
                         MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
                                 .withCaption(StringUtils.trim(statusCaption, 25, true))
                                 .withDescription(statusCaption)
@@ -132,7 +133,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                 if (!isFound) {
                     MHorizontalLayout statusLayout = new MHorizontalLayout().withFullWidth();
                     statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                    String statusCaption = AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
+                    String statusCaption = UserUIContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
                     MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
                             .withCaption(StringUtils.trim(statusCaption, 25, true)).withDescription(statusCaption)
                             .withListener(listener).withStyleName(WebUIConstants.BUTTON_LINK).withIcon(FontAwesome.FLAG);

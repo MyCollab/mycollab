@@ -24,7 +24,7 @@ import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.CrmListNoItemView;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -45,17 +45,17 @@ public class CaseCrmListNoItemView extends CrmListNoItemView {
 
     @Override
     protected String titleMessage() {
-        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
+        return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
     }
 
     @Override
     protected String hintMessage() {
-        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
+        return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
     }
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(CaseI18nEnum.NEW);
+        return UserUIContext.getMessage(CaseI18nEnum.NEW);
     }
 
     @Override
@@ -70,6 +70,6 @@ public class CaseCrmListNoItemView extends CrmListNoItemView {
 
     @Override
     protected boolean hasPermission() {
-        return AppContext.canWrite(RolePermissionCollections.CRM_CASE);
+        return UserUIContext.canWrite(RolePermissionCollections.CRM_CASE);
     }
 }

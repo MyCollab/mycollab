@@ -25,7 +25,7 @@ import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.DateSelectionField;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
@@ -56,7 +56,7 @@ class BasicInfoChangeWindow extends MWindow {
     private final User user;
 
     BasicInfoChangeWindow(final User user) {
-        super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
+        super(UserUIContext.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
         this.user = user;
         this.withModal(true).withResizable(false).withWidth("600px").withCenter();
         this.initUI();
@@ -67,19 +67,19 @@ class BasicInfoChangeWindow extends MWindow {
 
         final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
 
-        passInfo.addComponent(txtFirstName, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
-        passInfo.addComponent(txtLastName, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
+        passInfo.addComponent(txtFirstName, UserUIContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
+        passInfo.addComponent(txtLastName, UserUIContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
         txtLastName.setRequired(true);
-        passInfo.addComponent(txtEmail, AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
+        passInfo.addComponent(txtEmail, UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
         txtEmail.setRequired(true);
-        passInfo.addComponent(birthdayField, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
+        passInfo.addComponent(birthdayField, UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
         birthdayField.setDate(user.getDateofbirth());
 
-        passInfo.addComponent(timeZoneField, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
+        passInfo.addComponent(timeZoneField, UserUIContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
         timeZoneField.setValue(user.getTimezone());
 
-        passInfo.addComponent(languageBox, AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE),
-                AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), 0, 5);
+        passInfo.addComponent(languageBox, UserUIContext.getMessage(UserI18nEnum.FORM_LANGUAGE),
+                UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), 0, 5);
         languageBox.setValue(user.getLanguage());
 
         txtFirstName.setValue(MoreObjects.firstNonNull(user.getFirstname(), ""));
@@ -89,10 +89,10 @@ class BasicInfoChangeWindow extends MWindow {
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
                 .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
@@ -106,15 +106,15 @@ class BasicInfoChangeWindow extends MWindow {
         txtEmail.removeStyleName("errorField");
 
         if (txtLastName.getValue().equals("")) {
-            NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                    AppContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
+            NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                    UserUIContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
             txtLastName.addStyleName("errorField");
             return;
         }
 
         if (txtEmail.getValue().equals("")) {
-            NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                    AppContext.getMessage(GenericI18Enum.FORM_EMAIL)));
+            NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                    UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL)));
             txtLastName.addStyleName("errorField");
             return;
         }
@@ -127,7 +127,7 @@ class BasicInfoChangeWindow extends MWindow {
         user.setTimezone(timeZoneField.getValue());
 
         final UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        userService.updateWithSession(user, AppContext.getUsername());
+        userService.updateWithSession(user, UserUIContext.getUsername());
         close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
     }

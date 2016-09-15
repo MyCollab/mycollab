@@ -26,7 +26,7 @@ import com.mycollab.module.crm.events.LeadEvent;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +60,7 @@ public class LeadImportWindow extends EntityImportWindow<SimpleLead> {
                 new FieldMapperDef("otherphone", "Other Phone"),
                 new FieldMapperDef("mobile", "Mobile"),
                 new FieldMapperDef("fax", "Fax"),
-                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+                new FieldMapperDef("assignuser", UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
                 new FieldMapperDef("status", "Status"),
                 new FieldMapperDef("source", "Source"),
                 new FieldMapperDef("website", "Website"),

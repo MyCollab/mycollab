@@ -28,7 +28,8 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -82,14 +83,14 @@ public class ActivityListPresenter extends
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
-        if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)
-                || AppContext.canRead(RolePermissionCollections.CRM_TASK)
-                || AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_MEETING)
+                || UserUIContext.canRead(RolePermissionCollections.CRM_TASK)
+                || UserUIContext.canRead(RolePermissionCollections.CRM_CALL)) {
             searchCriteria = (ActivitySearchCriteria) data.getParams();
             this.displayListView(container, data);
             doSearch(searchCriteria);
 
-            AppContext.addFragment("crm/activity/todo", "Assignments");
+            MyCollabUI.addFragment("crm/activity/todo", "Assignments");
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

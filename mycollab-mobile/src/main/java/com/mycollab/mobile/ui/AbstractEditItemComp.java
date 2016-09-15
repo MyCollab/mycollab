@@ -17,7 +17,7 @@
 package com.mycollab.mobile.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.IFormAddView;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -44,7 +44,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
         editForm = new AdvancedEditBeanForm<>();
         this.setContent(editForm);
 
-        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        Button saveBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (editForm.validateForm())
                 editForm.fireSaveForm();
         });

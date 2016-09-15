@@ -21,7 +21,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.AbstractEditItemComp;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -41,7 +41,7 @@ public class PageAddViewImpl extends AbstractEditItemComp<Page> implements PageA
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.isNew()) ? AppContext.getMessage(PageI18nEnum.NEW) : AppContext.getMessage(PageI18nEnum.DETAIL);
+        return (beanItem.isNew()) ? UserUIContext.getMessage(PageI18nEnum.NEW) : UserUIContext.getMessage(PageI18nEnum.DETAIL);
     }
 
     @Override

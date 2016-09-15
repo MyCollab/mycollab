@@ -23,7 +23,8 @@ import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -55,7 +56,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
     ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal) {
         this.withMargin(new MarginInfo(true, true, false, false)).withFullWidth().withHeightUndefined();
 
-        SimpleUser currentUser = AppContext.getUser();
+        SimpleUser currentUser = UserUIContext.getUser();
         ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(),
                 currentUser.getDisplayName());
 
@@ -74,23 +75,23 @@ public class ProjectCommentInput extends MHorizontalLayout {
         final MHorizontalLayout controlsLayout = new MHorizontalLayout().withFullWidth();
         controlsLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 
-        final MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
+        final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        final MButton newCommentBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
+        final MButton newCommentBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
             CommentWithBLOBs comment = new CommentWithBLOBs();
             comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
             comment.setCreatedtime(new GregorianCalendar().getTime());
-            comment.setCreateduser(AppContext.getUsername());
-            comment.setSaccountid(AppContext.getAccountId());
+            comment.setCreateduser(UserUIContext.getUsername());
+            comment.setSaccountid(MyCollabUI.getAccountId());
             comment.setType(type);
             comment.setTypeid("" + typeId);
             comment.setExtratypeid(extraTypeId);
 
             final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-            int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
+            int commentId = commentService.saveWithSession(comment, UserUIContext.getUsername());
 
-            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, AppContext.getAccountId(),
+            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, MyCollabUI.getAccountId(),
                     CurrentProjectVariables.getProjectId(), typeId, commentId);
 
             if (!"".equals(attachmentPath)) {

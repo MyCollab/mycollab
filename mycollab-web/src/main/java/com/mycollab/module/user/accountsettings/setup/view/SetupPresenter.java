@@ -19,7 +19,7 @@ package com.mycollab.module.user.accountsettings.setup.view;
 import com.mycollab.module.user.accountsettings.view.AccountModule;
 import com.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.mycollab.module.user.ui.SettingUIConstants;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -37,7 +37,7 @@ public class SetupPresenter extends AbstractPresenter<SetupView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.isAdmin()) {
+        if (UserUIContext.isAdmin()) {
             AccountModule accountContainer = (AccountModule) container;
             accountContainer.gotoSubView(SettingUIConstants.SETUP);
             view.displaySetup();

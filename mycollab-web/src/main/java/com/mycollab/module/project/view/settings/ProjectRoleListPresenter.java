@@ -28,7 +28,8 @@ import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -71,7 +72,7 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(ProjectRoleI18nEnum.LIST);
+                return UserUIContext.getMessage(ProjectRoleI18nEnum.LIST);
             }
 
             @SuppressWarnings({"unchecked", "rawtypes"})
@@ -90,7 +91,7 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
             for (ProjectRole item : currentDataList) {
                 if (item.isSelected()) {
                     if (Boolean.TRUE.equals(item.getIssystemrole())) {
-                        NotificationUtil.showErrorNotification(AppContext.
+                        NotificationUtil.showErrorNotification(UserUIContext.
                                 getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE, item.getRolename()));
                     } else {
                         keyList.add(item);
@@ -99,12 +100,12 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
             }
 
             if (keyList.size() > 0) {
-                projectRoleService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                projectRoleService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            projectRoleService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            projectRoleService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
 

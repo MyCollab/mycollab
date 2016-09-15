@@ -25,7 +25,8 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.ProjectEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -66,7 +67,7 @@ public class TagViewComponent extends CssLayout {
         this.type = type;
         this.typeId = typeId;
 
-        List<Tag> tags = tagService.findTags(type, typeId + "", AppContext.getAccountId());
+        List<Tag> tags = tagService.findTags(type, typeId + "", MyCollabUI.getAccountId());
         for (Tag tag : tags) {
             this.addComponent(new TagBlock(tag));
         }
@@ -77,7 +78,7 @@ public class TagViewComponent extends CssLayout {
     }
 
     private Button createAddTagBtn() {
-        final MButton addTagBtn = new MButton(AppContext.getMessage(TagI18nEnum.ACTION_ADD))
+        final MButton addTagBtn = new MButton(UserUIContext.getMessage(TagI18nEnum.ACTION_ADD))
                 .withIcon(FontAwesome.PLUS_CIRCLE).withStyleName(WebUIConstants.BUTTON_LINK);
         addTagBtn.addClickListener(clickEvent -> {
             removeComponent(addTagBtn);
@@ -89,7 +90,7 @@ public class TagViewComponent extends CssLayout {
     private HorizontalLayout createSaveTagComp() {
         final MHorizontalLayout layout = new MHorizontalLayout();
         final SuggestField field = new SuggestField();
-        field.setInputPrompt(AppContext.getMessage(TagI18nEnum.OPT_ENTER_TAG_NAME));
+        field.setInputPrompt(UserUIContext.getMessage(TagI18nEnum.OPT_ENTER_TAG_NAME));
         field.setMinimumQueryCharacters(2);
         field.setSuggestionConverter(new TagSuggestionConverter());
         field.setSuggestionHandler(query -> {
@@ -97,16 +98,16 @@ public class TagViewComponent extends CssLayout {
             return handleSearchQuery(query);
         });
 
-        MButton addBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
+        MButton addBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
             String tagName = (field.getValue() == null) ? tagQuery : field.getValue().toString().trim();
             if (!tagName.equals("")) {
                 Tag tag = new Tag();
                 tag.setName(tagName);
                 tag.setType(type);
                 tag.setTypeid(typeId + "");
-                tag.setSaccountid(AppContext.getAccountId());
+                tag.setSaccountid(MyCollabUI.getAccountId());
                 tag.setExtratypeid(CurrentProjectVariables.getProjectId());
-                int result = tagService.saveWithSession(tag, AppContext.getUsername());
+                int result = tagService.saveWithSession(tag, UserUIContext.getUsername());
                 if (result > 0) {
                     this.removeComponent(layout);
                     addComponent(new TagBlock(tag));
@@ -116,7 +117,7 @@ public class TagViewComponent extends CssLayout {
                     addComponent(createAddTagBtn());
                 }
             } else {
-                NotificationUtil.showWarningNotification(AppContext.getMessage(TagI18nEnum.ERROR_TAG_NAME_HAS_MORE_2_CHARACTERS));
+                NotificationUtil.showWarningNotification(UserUIContext.getMessage(TagI18nEnum.ERROR_TAG_NAME_HAS_MORE_2_CHARACTERS));
             }
             tagQuery = "";
         }).withStyleName(WebUIConstants.BUTTON_ACTION);
@@ -130,7 +131,7 @@ public class TagViewComponent extends CssLayout {
         }
         List<Tag> suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG,
                         ProjectTypeConstants.TASK, ProjectTypeConstants.MILESTONE, ProjectTypeConstants.RISK},
-                AppContext.getAccountId());
+                MyCollabUI.getAccountId());
         return new ArrayList<>(suggestedTags);
     }
 
@@ -164,17 +165,17 @@ public class TagViewComponent extends CssLayout {
             if (canAddNewTag) {
                 MButton deleteBtn = new MButton(FontAwesome.TIMES, clickEvent -> {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
-                                    tagService.removeWithSession(tag, AppContext.getUsername(), AppContext.getAccountId());
+                                    tagService.removeWithSession(tag, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                     TagViewComponent.this.removeComponent(TagBlock.this);
                                 }
                             });
-                }).withDescription(AppContext.getMessage(TagI18nEnum.ACTION_DELETE)).withStyleName("remove-btn-sup");
+                }).withDescription(UserUIContext.getMessage(TagI18nEnum.ACTION_DELETE)).withStyleName("remove-btn-sup");
                 this.addComponent(deleteBtn);
             }
         }

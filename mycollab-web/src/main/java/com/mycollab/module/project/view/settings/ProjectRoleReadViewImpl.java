@@ -23,7 +23,7 @@ import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -58,7 +58,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
     public ProjectRoleReadViewImpl() {
         withMargin(new MarginInfo(true, false, true, false));
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(ProjectRoleI18nEnum.DETAIL));
+        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
         headerText.setSizeUndefined();
         this.addComponent(constructHeader());
 
@@ -90,7 +90,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
         projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections
                 .PROJECT_PERMISSIONS.length + 1) / 2, "180px");
-        permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
+        permissionsPanel.addSection(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
 
         return permissionsPanel;
     }
@@ -104,8 +104,8 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
             Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
             Integer perVal = permissionMap.get(permissionKey.name());
             SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
-            projectFormHelper.addComponent(new Label(AppContext.getMessage(permissionVal)),
-                    AppContext.getMessage(permissionKey), AppContext.getMessage(permissionVal.desc()), i % 2, i / 2);
+            projectFormHelper.addComponent(new Label(UserUIContext.getMessage(permissionVal)),
+                    UserUIContext.getMessage(permissionKey), UserUIContext.getMessage(permissionVal.desc()), i % 2, i / 2);
         }
 
     }

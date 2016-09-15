@@ -22,7 +22,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.persistence.service.ICrudService;
 import com.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -110,7 +110,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     try {
                         contentStream = uploadField.getContentAsStream();
                     } catch (Exception e) {
-                        NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
+                        NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
                     }
                     if (contentStream != null) {
                         String filename = uploadField.getFileName();
@@ -119,8 +119,8 @@ public abstract class EntityImportWindow<E> extends Window {
                             ConfirmDialogExt.show(UI.getCurrent(),
                                     "Message information",
                                     "You choose a vcf file. This step will import to database. Do you want to do it?",
-                                    AppContext.getMessage(FileI18nEnum.IMPORT_FILE),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                                    UserUIContext.getMessage(FileI18nEnum.IMPORT_FILE),
+                                    UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                                     confirmDialog -> {
                                         if (confirmDialog.isConfirmed()) {
                                             throw new MyCollabException("did not support this feature");
@@ -166,7 +166,7 @@ public abstract class EntityImportWindow<E> extends Window {
                             });
 
                             uploadFieldVerticalLayout.addComponent(uploadField, uploadFieldIndex);
-                            NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.CHOOSE_SUPPORT_FILE_TYPES_WARNING));
+                            NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.CHOOSE_SUPPORT_FILE_TYPES_WARNING));
                         }
                     }
                 }
@@ -174,7 +174,7 @@ public abstract class EntityImportWindow<E> extends Window {
             nextBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
             controlGroupBtn.with(nextBtn).withAlign(nextBtn, Alignment.MIDDLE_CENTER);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
+            Button cancelBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -361,7 +361,7 @@ public abstract class EntityImportWindow<E> extends Window {
             MHorizontalLayout controlGroupBtn = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, false));
             columnMappingCrmLayout.with(controlGroupBtn).withAlign(controlGroupBtn, Alignment.MIDDLE_CENTER);
 
-            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+            Button saveBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                     new ClickListener() {
                         private static final long serialVersionUID = 1L;
 

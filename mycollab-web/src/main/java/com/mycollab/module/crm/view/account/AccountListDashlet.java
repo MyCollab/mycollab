@@ -21,7 +21,8 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -41,7 +42,7 @@ public class AccountListDashlet extends Depot {
     private AccountTableDisplay tableItem;
 
     public AccountListDashlet() {
-        super(AppContext.getMessage(AccountI18nEnum.MY_ITEMS), new VerticalLayout());
+        super(UserUIContext.getMessage(AccountI18nEnum.MY_ITEMS), new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
         tableItem = new AccountTableDisplay(Arrays.asList(AccountTableFieldDef.accountname(),
                 AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email()));
@@ -49,14 +50,14 @@ public class AccountListDashlet extends Depot {
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new AccountListCustomizeWindow(tableItem)))
                 .withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
-        customizeViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
+        customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         this.addHeaderElement(customizeViewBtn);
     }
 
     public void display() {
         final AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+        criteria.setAssignUser(StringSearchField.and(UserUIContext.getUsername()));
         tableItem.setSearchCriteria(criteria);
     }
 }

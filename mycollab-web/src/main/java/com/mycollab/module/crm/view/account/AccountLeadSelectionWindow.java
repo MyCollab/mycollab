@@ -24,7 +24,7 @@ import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.lead.LeadSearchPanel;
 import com.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.mycollab.module.crm.view.lead.LeadTableFieldDef;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
@@ -37,7 +37,7 @@ import java.util.Arrays;
 public class AccountLeadSelectionWindow extends RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 
     public AccountLeadSelectionWindow(AccountLeadListComp associateLeadList) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(LeadI18nEnum.LIST)), associateLeadList);
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(LeadI18nEnum.LIST)), associateLeadList);
         this.setWidth("1000px");
     }
 
@@ -47,7 +47,7 @@ public class AccountLeadSelectionWindow extends RelatedItemSelectionWindow<Simpl
                 Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.title(),
                         LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
+        Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         LeadSearchPanel leadSimpleSearchPanel = new LeadSearchPanel();

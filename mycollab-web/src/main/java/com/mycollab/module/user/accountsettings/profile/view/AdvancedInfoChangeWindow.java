@@ -22,7 +22,7 @@ import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -48,7 +48,7 @@ class AdvancedInfoChangeWindow extends MWindow {
     private final User user;
 
     AdvancedInfoChangeWindow(final User user) {
-        super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_ADVANCED_INFO_TITLE));
+        super(UserUIContext.getMessage(UserI18nEnum.WINDOW_CHANGE_ADVANCED_INFO_TITLE));
         this.user = user;
         this.withWidth("450px").withResizable(false).withModal(true).withCenter();
         this.initUI();
@@ -59,9 +59,9 @@ class AdvancedInfoChangeWindow extends MWindow {
 
         GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
 
-        passInfo.addComponent(txtWebsite, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
-        passInfo.addComponent(txtCompany, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
-        passInfo.addComponent(cboCountry, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
+        passInfo.addComponent(txtWebsite, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
+        passInfo.addComponent(txtCompany, UserUIContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
+        passInfo.addComponent(cboCountry, UserUIContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
 
         txtWebsite.setValue(MoreObjects.firstNonNull(user.getWebsite(), ""));
         txtCompany.setValue(MoreObjects.firstNonNull(user.getCompany(), ""));
@@ -69,10 +69,10 @@ class AdvancedInfoChangeWindow extends MWindow {
 
         mainLayout.with(passInfo.getLayout()).withAlign(passInfo.getLayout(), Alignment.TOP_LEFT);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeInfo())
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeInfo())
                 .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
@@ -87,7 +87,7 @@ class AdvancedInfoChangeWindow extends MWindow {
         user.setCountry((String) cboCountry.getValue());
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        userService.updateWithSession(user, AppContext.getUsername());
+        userService.updateWithSession(user, UserUIContext.getUsername());
         close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
     }

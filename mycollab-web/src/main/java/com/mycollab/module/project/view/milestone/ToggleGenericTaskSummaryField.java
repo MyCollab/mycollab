@@ -34,7 +34,8 @@ import com.mycollab.module.project.service.RiskService;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -81,7 +82,7 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
                     isRead = !isRead;
                 }
             }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
-            instantEditBtn.setDescription(AppContext.getMessage(GenericI18Enum.ACTION_CLICK_TO_EDIT));
+            instantEditBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_CLICK_TO_EDIT));
             buttonControls.with(instantEditBtn);
 
             this.addComponent(buttonControls);
@@ -101,23 +102,23 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
                 BugWithBLOBs bug = new BugWithBLOBs();
                 bug.setId(genericTask.getTypeId());
                 bug.setSummary(genericTask.getName());
-                bug.setSaccountid(AppContext.getAccountId());
+                bug.setSaccountid(MyCollabUI.getAccountId());
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
+                bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
             } else if (genericTask.isTask()) {
                 Task task = new Task();
                 task.setId(genericTask.getTypeId());
                 task.setTaskname(genericTask.getName());
-                task.setSaccountid(AppContext.getAccountId());
+                task.setSaccountid(MyCollabUI.getAccountId());
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                taskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
             } else if (genericTask.isRisk()) {
                 Risk risk = new Risk();
                 risk.setId(genericTask.getTypeId());
                 risk.setRiskname(genericTask.getName());
-                risk.setSaccountid(AppContext.getAccountId());
+                risk.setSaccountid(MyCollabUI.getAccountId());
                 RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
-                riskService.updateSelectiveWithSession(risk, AppContext.getUsername());
+                riskService.updateSelectiveWithSession(risk, UserUIContext.getUsername());
             }
         }
 
@@ -148,8 +149,8 @@ public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
             taskLink.setCSSClass("completed");
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + AppContext
-                    .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(genericTask.getDueDate()))));
+            issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
+                    .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(genericTask.getDueDate()))));
         }
         return issueDiv.write();
     }

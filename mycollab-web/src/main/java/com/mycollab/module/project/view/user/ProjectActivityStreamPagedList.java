@@ -38,7 +38,7 @@ import com.mycollab.module.project.service.ProjectPageService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
@@ -114,7 +114,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
             for (ProjectActivityStream activityStream : currentListData) {
                 if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
                     ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
-                    Page page = pageService.getPage(activityStream.getTypeid(), AppContext.getUsername());
+                    Page page = pageService.getPage(activityStream.getTypeid(), UserUIContext.getUsername());
                     if (page != null) {
                         activityStream.setNamefield(page.getSubject());
                     }
@@ -134,23 +134,23 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
                 String itemParam = buildItemValue(activityStream);
 
                 if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
-                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                    content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                 } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
-                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                    content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
                         content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                     }
                 } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
-                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+                    content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
                         content.append("<p><ul><li>\"").append(
                                 StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(), 200)).append("\"</li></ul></p>");
                     }
                 } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
-                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
+                    content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                 }
                 Label actionLbl = new Label(content.toString(), ContentMode.HTML);
@@ -227,7 +227,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         } else {
             blockWrapper.setMargin(new MarginInfo(true, false, false, false));
         }
-        Label dateLbl = new Label(AppContext.formatShortDate(nextDate));
+        Label dateLbl = new Label(UserUIContext.formatShortDate(nextDate));
         dateLbl.setStyleName("date-lbl");
         dateLbl.setWidthUndefined();
         blockWrapper.with(dateLbl, currentBlock).expand(currentBlock);
@@ -240,13 +240,13 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
         ButtonGroup controlBtns = new ButtonGroup();
         controlBtns.setStyleName(WebUIConstants.BUTTON_ACTION);
-        MButton prevBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
+        MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
                 .withWidth("64px").withStyleName(WebUIConstants.BUTTON_ACTION);
         if (currentPage == 1) {
             prevBtn.setEnabled(false);
         }
 
-        MButton nextBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
+        MButton nextBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
                 .withWidth("64px").withStyleName(WebUIConstants.BUTTON_ACTION);
         if (currentPage == totalPage) {
             nextBtn.setEnabled(false);

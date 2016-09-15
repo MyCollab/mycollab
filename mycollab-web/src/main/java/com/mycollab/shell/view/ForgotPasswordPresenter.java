@@ -19,7 +19,8 @@ package com.mycollab.shell.view;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -44,9 +45,9 @@ public class ForgotPasswordPresenter extends AbstractPresenter<ForgotPasswordVie
 
         ExtMailService extMailService = AppContextUtil.getSpringBean(ExtMailService.class);
         if (!extMailService.isMailSetupValid()) {
-            NotificationUtil.showErrorNotification(AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
+            NotificationUtil.showErrorNotification(UserUIContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
         }
 
-        AppContext.addFragment("user/forgotpassword", AppContext.getMessage(ShellI18nEnum.OPT_FORGOT_PASSWORD_VIEW_TITLE));
+        MyCollabUI.addFragment("user/forgotpassword", UserUIContext.getMessage(ShellI18nEnum.OPT_FORGOT_PASSWORD_VIEW_TITLE));
     }
 }

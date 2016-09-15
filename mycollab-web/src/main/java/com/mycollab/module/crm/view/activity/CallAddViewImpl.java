@@ -27,7 +27,7 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
@@ -54,7 +54,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(CallI18nEnum.NEW) : beanItem.getSubject();
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(CallI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override
@@ -98,8 +98,8 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 MTextField tf = new MTextField();
                 if (isValidateForm) {
                     tf.withNullRepresentation("").withRequired(true)
-                            .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                    AppContext.getMessage(CallI18nEnum.FORM_SUBJECT)));
+                            .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                    UserUIContext.getMessage(CallI18nEnum.FORM_SUBJECT)));
                 }
                 return tf;
             } else if (propertyId.equals("assignuser")) {

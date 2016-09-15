@@ -38,7 +38,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AddViewLayout2;
@@ -74,7 +75,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         this.setMargin(new MarginInfo(false, true, true, true));
         this.addStyleName("oppcontact-role-edit");
 
-        AddViewLayout2 previewLayout = new AddViewLayout2(AppContext.getMessage(ContactI18nEnum.OPT_ADD_EDIT_CONTACT_ROLES),
+        AddViewLayout2 previewLayout = new AddViewLayout2(UserUIContext.getMessage(ContactI18nEnum.OPT_ADD_EDIT_CONTACT_ROLES),
                 CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
         this.addComponent(previewLayout);
 
@@ -86,7 +87,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         contactRoleList = new ContactOpportunityList();
         previewLayout.addBody(contactRoleList);
 
-        MButton addMoreContactRolesBtn = new MButton(AppContext.getMessage(ContactI18nEnum.ACTION_ADD_CONTACT_ROLES), clickEvent -> {
+        MButton addMoreContactRolesBtn = new MButton(UserUIContext.getMessage(ContactI18nEnum.ACTION_ADD_CONTACT_ROLES), clickEvent -> {
             SimpleContactOpportunityRel contactRole = new SimpleContactOpportunityRel();
             ContactRoleRowComp row = new ContactRoleRowComp(contactRole);
             contactRoleList.addRow(row);
@@ -100,10 +101,10 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
     }
 
     private ComponentContainer createButtonControls() {
-        MButton updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent ->
+        MButton updateBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent ->
                 updateContactRoles()).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null)))
                 .withIcon(FontAwesome.TIMES).withStyleName(WebUIConstants.BUTTON_OPTION);
 
@@ -126,7 +127,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
         if (contactOpps.size() > 0) {
             ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-            contactService.saveContactOpportunityRelationship(contactOpps, AppContext.getAccountId());
+            contactService.saveContactOpportunityRelationship(contactOpps, MyCollabUI.getAccountId());
         }
 
         // lead user to opportunity view
@@ -145,15 +146,15 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                     .withFullWidth().withStyleName("contactopp-list-header");
 
-            Label contactLbl = new Label(AppContext.getMessage(ContactI18nEnum.SINGLE));
+            Label contactLbl = new Label(UserUIContext.getMessage(ContactI18nEnum.SINGLE));
             contactLbl.setWidth("250px");
             header.addComponent(contactLbl);
 
-            Label accountLbl = new Label(AppContext.getMessage(AccountI18nEnum.SINGLE));
+            Label accountLbl = new Label(UserUIContext.getMessage(AccountI18nEnum.SINGLE));
             accountLbl.setWidth("250px");
             header.addComponent(accountLbl);
 
-            Label roleLbl = new Label(AppContext.getMessage(RoleI18nEnum.SINGLE));
+            Label roleLbl = new Label(UserUIContext.getMessage(RoleI18nEnum.SINGLE));
             roleLbl.setWidth("250px");
             header.addComponent(roleLbl);
             header.setExpandRatio(roleLbl, 1.0f);
@@ -166,7 +167,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
             ContactOpportunityService contactOppoService = AppContextUtil.getSpringBean(ContactOpportunityService.class);
             ContactSearchCriteria criteria = new ContactSearchCriteria();
-            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             criteria.setOpportunityId(new NumberSearchField(opportunity.getId()));
             List<SimpleContactOpportunityRel> contactOppoRels = contactOppoService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
             boolean oddRow = true;
@@ -252,7 +253,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
                     ContactOpportunity associateOpportunity = new ContactOpportunity();
                     associateOpportunity.setContactid(contactOpp.getId());
                     associateOpportunity.setOpportunityid(opportunity.getId());
-                    contactService.removeContactOpportunityRelationship(associateOpportunity, AppContext.getAccountId());
+                    contactService.removeContactOpportunityRelationship(associateOpportunity, MyCollabUI.getAccountId());
                 }
             }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
             this.addComponent(deleteBtn);

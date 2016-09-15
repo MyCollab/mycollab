@@ -25,7 +25,7 @@ import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -50,7 +50,7 @@ public class PasswordChangeWindow extends MWindow {
     private final User user;
 
     public PasswordChangeWindow(final User user) {
-        super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
+        super(UserUIContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
         this.withWidth("600px").withCenter().withResizable(false).withModal(true);
         this.initUI();
         this.user = user;
@@ -59,29 +59,29 @@ public class PasswordChangeWindow extends MWindow {
     private void initUI() {
         final MVerticalLayout mainLayout = new MVerticalLayout().withFullWidth();
 
-        final Label lbInstruct1 = new Label(AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
+        final Label lbInstruct1 = new Label(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
         mainLayout.addComponent(lbInstruct1);
         mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
-        final Label lbInstruct2 = new Label(AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
+        final Label lbInstruct2 = new Label(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
         mainLayout.addComponent(lbInstruct2);
         mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
         GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
         txtNewPassword = new PasswordField();
-        passInfo.addComponent(txtNewPassword, AppContext.getMessage(ShellI18nEnum.OPT_NEW_PASSWORD), 0, 0);
+        passInfo.addComponent(txtNewPassword, UserUIContext.getMessage(ShellI18nEnum.OPT_NEW_PASSWORD), 0, 0);
 
         txtConfirmPassword = new PasswordField();
-        passInfo.addComponent(txtConfirmPassword, AppContext.getMessage(ShellI18nEnum.OPT_CONFIRMED_PASSWORD), 0, 1);
+        passInfo.addComponent(txtConfirmPassword, UserUIContext.getMessage(ShellI18nEnum.OPT_CONFIRMED_PASSWORD), 0, 1);
 
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.MIDDLE_CENTER);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changePassword())
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changePassword())
                 .withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
@@ -95,7 +95,7 @@ public class PasswordChangeWindow extends MWindow {
         txtConfirmPassword.removeStyleName("errorField");
 
         if (!txtNewPassword.getValue().equals(txtConfirmPassword.getValue())) {
-            NotificationUtil.showErrorNotification(AppContext.getMessage(UserI18nEnum.ERROR_PASSWORDS_ARE_NOT_MATCH));
+            NotificationUtil.showErrorNotification(UserUIContext.getMessage(UserI18nEnum.ERROR_PASSWORDS_ARE_NOT_MATCH));
             txtNewPassword.addStyleName("errorField");
             txtConfirmPassword.addStyleName("errorField");
             return;
@@ -110,7 +110,7 @@ public class PasswordChangeWindow extends MWindow {
         user.setPassword(EnDecryptHelper.encryptSaltPassword(txtNewPassword.getValue()));
 
         final UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        userService.updateWithSession(user, AppContext.getUsername());
+        userService.updateWithSession(user, UserUIContext.getUsername());
         close();
     }
 }

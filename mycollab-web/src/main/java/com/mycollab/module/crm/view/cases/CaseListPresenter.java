@@ -30,7 +30,8 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -69,7 +70,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
             protected void onSelectExtra(String id) {
                 if (ViewItemAction.MAIL_ACTION().equals(id)) {
                     if (isSelectAll) {
-                        NotificationUtil.showWarningNotification(AppContext
+                        NotificationUtil.showWarningNotification(UserUIContext
                                 .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
                     } else {
                         List<String> lstMail = new ArrayList<>();
@@ -84,7 +85,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
                 } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
                     MassUpdateCaseWindow massUpdateWindow = new MassUpdateCaseWindow(
-                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, AppContext.getMessage(CaseI18nEnum.LIST)),
+                            UserUIContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, UserUIContext.getMessage(CaseI18nEnum.LIST)),
                             CaseListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
@@ -92,7 +93,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(CaseI18nEnum.LIST);
+                return UserUIContext.getMessage(CaseI18nEnum.LIST);
             }
 
             @Override
@@ -105,7 +106,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CASE);
-        if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_CASE)) {
             searchCriteria = (CaseSearchCriteria) data.getParams();
             int totalCount = caseService.getTotalCount(searchCriteria);
             if (totalCount > 0) {
@@ -115,7 +116,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.LIST));
+            MyCollabUI.addFragment("crm/cases/list", UserUIContext.getMessage(CaseI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }
@@ -133,12 +134,12 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
             }
 
             if (keyList.size() > 0) {
-                caseService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                caseService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            caseService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            caseService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
 
@@ -155,7 +156,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
                 }
             }
             if (keyList.size() > 0) {
-                caseService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                caseService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

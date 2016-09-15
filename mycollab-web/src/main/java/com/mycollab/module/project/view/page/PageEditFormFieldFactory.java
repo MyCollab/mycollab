@@ -17,11 +17,11 @@
 package com.mycollab.module.project.view.page;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.WikiI18nEnum;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.project.i18n.PageI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
@@ -54,9 +54,9 @@ class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Pa
             config.setToolbarCanCollapse(true);
             config.setWidth("100%");
 
-            String appUrl = AppContext.getSiteUrl();
+            String appUrl = MyCollabUI.getSiteUrl();
             String params = String.format("path=%s&createdUser=%s&sAccountId=%d", page.getPath(),
-                    AppContext.getUsername(), AppContext.getAccountId());
+                    UserUIContext.getUsername(), MyCollabUI.getAccountId());
             if (appUrl.endsWith("/")) {
                 config.setFilebrowserUploadUrl(String.format("%spage/upload?%s", appUrl, params));
             } else {
@@ -75,8 +75,8 @@ class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Pa
         } else if (propertyId.equals("subject")) {
             TextField subjectField = new TextField();
             subjectField.setRequired(true);
-            subjectField.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                    AppContext.getMessage(PageI18nEnum.FORM_SUBJECT)));
+            subjectField.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                    UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT)));
             return subjectField;
         }
 

@@ -28,7 +28,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProjectGenericTaskServiceImpl extends AbstractProjectGenericTaskServiceImpl {
     @Override
-    public void updateAssignmentValue(ProjectGenericTask assignment) {
+    public void updateAssignmentValue(ProjectGenericTask assignment, String username) {
+        throw new MyCollabException("Not support this operation in the community edition");
+    }
+
+    @Override
+    public void closeSubAssignmentOfMilestone(Integer milestoneId) {
         throw new MyCollabException("Not support this operation in the community edition");
     }
 }

@@ -25,7 +25,6 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.events.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -35,7 +34,8 @@ import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugRelationService;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -64,7 +64,7 @@ public class ReOpenWindow extends MWindow {
     private VersionMultiSelectField affectedVersionsSelect;
 
     public ReOpenWindow(final SimpleBug bugValue) {
-        super(AppContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bugValue.getSummary()));
+        super(UserUIContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bugValue.getSummary()));
         this.bug = BeanUtility.deepClone(bugValue);
 
         MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
@@ -96,14 +96,14 @@ public class ReOpenWindow extends MWindow {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
                 layout.addComponent(informationLayout.getLayout());
 
-                MButton reOpenBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
+                MButton reOpenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         bug.setStatus(BugStatus.ReOpen.name());
                         bug.setResolution(BugResolution.None.name());
 
                         // Save bug status and assignee
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                        bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
+                        bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
 
                         BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
                         bugRelatedItemService.updateAffectedVersionsOfBug(bug.getId(), affectedVersionsSelect.getSelectedItems());
@@ -118,14 +118,14 @@ public class ReOpenWindow extends MWindow {
                             CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(Jsoup.clean(commentValue, Whitelist.relaxed()));
                             comment.setCreatedtime(new GregorianCalendar().getTime());
-                            comment.setCreateduser(AppContext.getUsername());
-                            comment.setSaccountid(AppContext.getAccountId());
+                            comment.setCreateduser(UserUIContext.getUsername());
+                            comment.setSaccountid(MyCollabUI.getAccountId());
                             comment.setType(ProjectTypeConstants.BUG);
                             comment.setTypeid("" + bug.getId());
                             comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
                             CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                            commentService.saveWithSession(comment, AppContext.getUsername());
+                            commentService.saveWithSession(comment, UserUIContext.getUsername());
                         }
 
                         close();
@@ -134,7 +134,7 @@ public class ReOpenWindow extends MWindow {
                 }).withStyleName(WebUIConstants.BUTTON_ACTION);
                 reOpenBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, reOpenBtn).withMargin(new MarginInfo(true, true, true, false));
@@ -147,12 +147,12 @@ public class ReOpenWindow extends MWindow {
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("assignuser")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
-                            AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
+                            UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2,
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2,
                             "100%");
                 }
                 return null;

@@ -20,8 +20,8 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.user.AccountLinkGenerator;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.TooltipHelper;
-import com.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -45,7 +45,7 @@ public class UserLink extends Label {
 
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageFactory.getAvatarPath(userAvatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX);
-        A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
+        A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkGenerator.generatePreviewFullUserLink(MyCollabUI.getSiteUrl(),
                 username)).appendText(StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());

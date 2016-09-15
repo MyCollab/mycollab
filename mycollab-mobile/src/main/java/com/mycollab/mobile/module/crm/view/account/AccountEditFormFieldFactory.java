@@ -22,7 +22,7 @@ import com.mycollab.mobile.ui.CountryComboBox;
 import com.mycollab.mobile.ui.IndustryComboBox;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
@@ -62,8 +62,8 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
             MTextField tf = new MTextField();
             if (isValidateForm) {
                 tf.withNullRepresentation("").withRequired(true)
-                .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
+                .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        UserUIContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return tf;

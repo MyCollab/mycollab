@@ -26,7 +26,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.view.milestone.MilestonePopupFieldFactory;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
@@ -46,10 +46,10 @@ public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactor
                 .setTitle(milestone.getOwnerFullName());
         if (isDisplayName) {
             return new MetaFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(img.write())
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
         }
 
     }
@@ -59,13 +59,13 @@ public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactor
         if (milestone.getStartdate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
-            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
-                    AppContext.formatDate(milestone.getStartdate())))
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    UserUIContext.formatDate(milestone.getStartdate())))
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         }
     }
 
@@ -74,25 +74,25 @@ public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactor
         if (milestone.getEnddate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
-            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
-                    AppContext.formatDate(milestone.getEnddate())))
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
+                    UserUIContext.formatDate(milestone.getEnddate())))
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
         }
     }
 
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleMilestone milestone) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + (milestone.getTotalBugBillableHours() + milestone.getTotalTaskBillableHours()))
-                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
+                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createNonBillableHoursPopupField(SimpleMilestone milestone) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + (milestone.getTotalBugNonBillableHours() + milestone.getTotalTaskNonBillableHours()))
-                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
+                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 }

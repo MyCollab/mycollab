@@ -27,7 +27,7 @@ import com.mycollab.module.user.view.component.YesNoPermissionComboBox;
 import com.mycollab.security.PermissionDefItem;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -119,7 +119,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             }
 
             protected String initFormHeader() {
-                return role.getId() == null ? AppContext.getMessage(RoleI18nEnum.NEW) : AppContext.getMessage(RoleI18nEnum.DETAIL);
+                return role.getId() == null ? UserUIContext.getMessage(RoleI18nEnum.NEW) : UserUIContext.getMessage(RoleI18nEnum.DETAIL);
             }
 
             protected String initFormTitle() {
@@ -151,16 +151,16 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                     permissionBox.setValue(flag);
                     EditForm.this.permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                    crmFormHelper.addComponent(permissionBox, AppContext.getMessage(permissionDefItem.getCaption()), i % 2, i / 2);
+                    crmFormHelper.addComponent(permissionBox, UserUIContext.getMessage(permissionDefItem.getCaption()), i % 2, i / 2);
                 }
 
-                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
-                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
                         perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
-                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
                         perMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
-                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
                 return permissionsPanel;
@@ -184,8 +184,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     captionHelp = SecurityI18nEnum.ACCESS_PERMISSION_HELP;
                 }
                 permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                formHelper.addComponent(permissionBox, AppContext.getMessage(permissionDefItem.getCaption()),
-                        AppContext.getMessage(captionHelp), i % 2, i / 2);
+                formHelper.addComponent(permissionBox, UserUIContext.getMessage(permissionDefItem.getCaption()),
+                        UserUIContext.getMessage(captionHelp), i % 2, i / 2);
             }
 
             return permissionsPanel;
@@ -215,8 +215,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     return new RichTextArea();
                 } else if (propertyId.equals("rolename")) {
                     return new MTextField().withNullRepresentation("").withRequired(true)
-                            .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                    AppContext.getMessage(GenericI18Enum.FORM_NAME)));
+                            .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                    UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
 
                 }
                 return null;

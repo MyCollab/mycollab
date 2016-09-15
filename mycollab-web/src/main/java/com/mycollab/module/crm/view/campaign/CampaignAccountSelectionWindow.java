@@ -24,7 +24,7 @@ import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.account.AccountSearchPanel;
 import com.mycollab.module.crm.view.account.AccountTableDisplay;
 import com.mycollab.module.crm.view.account.AccountTableFieldDef;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
@@ -38,7 +38,7 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
     private static final long serialVersionUID = 1L;
 
     public CampaignAccountSelectionWindow(CampaignAccountListComp associateAccountList) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(AccountI18nEnum.LIST)), associateAccountList);
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(AccountI18nEnum.LIST)), associateAccountList);
         this.setWidth("1000px");
     }
 
@@ -49,7 +49,7 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
                         AccountTableFieldDef.phoneoffice(),
                         AccountTableFieldDef.email(), AccountTableFieldDef.city()));
 
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
+        Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         AccountSearchPanel accountSimpleSearchPanel = new AccountSearchPanel();

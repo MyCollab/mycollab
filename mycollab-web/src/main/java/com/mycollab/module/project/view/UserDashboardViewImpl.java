@@ -31,7 +31,8 @@ import com.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -71,14 +72,14 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         this.withMargin(false).withFullWidth();
 
         prjService = AppContextUtil.getSpringBean(ProjectService.class);
-        prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
+        prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername(), MyCollabUI.getAccountId());
 
         tabSheet = new TabSheet();
-        tabSheet.addTab(buildDashboardComp(), AppContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), FontAwesome.DASHBOARD);
-        tabSheet.addTab(buildProjectListComp(), AppContext.getMessage(ProjectI18nEnum.LIST), FontAwesome.BUILDING_O);
-        tabSheet.addTab(buildFollowingTicketComp(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), FontAwesome.EYE);
+        tabSheet.addTab(buildDashboardComp(), UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), FontAwesome.DASHBOARD);
+        tabSheet.addTab(buildProjectListComp(), UserUIContext.getMessage(ProjectI18nEnum.LIST), FontAwesome.BUILDING_O);
+        tabSheet.addTab(buildFollowingTicketComp(), UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), FontAwesome.EYE);
         if (!SiteConfiguration.isCommunityEdition()) {
-            tabSheet.addTab(buildCalendarComp(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), FontAwesome.CALENDAR);
+            tabSheet.addTab(buildCalendarComp(), UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), FontAwesome.CALENDAR);
         }
 
 //        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);
@@ -122,8 +123,8 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
             tabSheet.setSelectedTab(0);
         }
 
-        if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-            int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(AppContext.getUsername(), AppContext.getAccountId());
+        if (UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
+            int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(UserUIContext.getUsername(), MyCollabUI.getAccountId());
             if (countActiveProjects == 0) {
                 UI.getCurrent().addWindow(new AskCreateNewProjectWindow());
             }
@@ -163,13 +164,13 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
     private ComponentContainer setupHeader() {
         MHorizontalLayout headerWrapper = new MHorizontalLayout().withFullWidth().withStyleName("projectfeed-hdr-wrapper");
 
-        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 64);
+        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(UserUIContext.getUserAvatarId(), 64);
         avatar.setStyleName(UIConstants.CIRCLE_BOX);
         headerWrapper.addComponent(avatar);
 
         MVerticalLayout headerContent = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
 
-        ELabel headerLabel = ELabel.h2(AppContext.getUser().getDisplayName()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        ELabel headerLabel = ELabel.h2(UserUIContext.getUser().getDisplayName()).withStyleName(UIConstants.TEXT_ELLIPSIS);
         MHorizontalLayout headerContentTop = new MHorizontalLayout();
         headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT).expand(headerLabel);
 
@@ -186,13 +187,13 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         };
         headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.TOP_RIGHT);
         headerContent.with(headerContentTop);
-        MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel(AppContext.getMessage
+        MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel(UserUIContext.getMessage
                         (GenericI18Enum.FORM_EMAIL) + ": ").withStyleName(UIConstants.META_INFO),
-                ELabel.html(new A(String.format("mailto:%s", AppContext.getUsername())).appendText(AppContext.getUsername()).write()));
-        metaInfoLayout.with(ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE,
-                AppContext.formatPrettyTime(AppContext.getUser().getRegisteredtime()))));
-        metaInfoLayout.with(ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN,
-                AppContext.formatPrettyTime(AppContext.getUser().getLastaccessedtime()))));
+                ELabel.html(new A(String.format("mailto:%s", UserUIContext.getUsername())).appendText(UserUIContext.getUsername()).write()));
+        metaInfoLayout.with(ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE,
+                UserUIContext.formatPrettyTime(UserUIContext.getUser().getRegisteredtime()))));
+        metaInfoLayout.with(ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN,
+                UserUIContext.formatPrettyTime(UserUIContext.getUser().getLastaccessedtime()))));
         metaInfoLayout.alignAll(Alignment.TOP_LEFT);
         headerContent.addComponent(metaInfoLayout);
         headerWrapper.with(headerContent).expand(headerContent);
@@ -216,7 +217,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         layout.with(headerComp);
 
         ProjectService prjService = AppContextUtil.getSpringBean(ProjectService.class);
-        prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
+        prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername(), MyCollabUI.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ProjectGenericItemSearchCriteria searchCriteria = new ProjectGenericItemSearchCriteria();
             searchCriteria.setPrjKeys(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
@@ -234,16 +235,16 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
     private static class AskCreateNewProjectWindow extends MWindow {
         AskCreateNewProjectWindow() {
-            super(AppContext.getMessage(GenericI18Enum.OPT_QUESTION));
+            super(UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION));
             MVerticalLayout content = new MVerticalLayout();
             this.withWidth("600px").withResizable(false).withModal(true).withCenter().withContent(content);
 
-            content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_TO_ADD_PROJECT)));
+            content.with(new Label(UserUIContext.getMessage(ProjectI18nEnum.OPT_TO_ADD_PROJECT)));
 
-            MButton skipBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
+            MButton skipBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-            MButton createNewBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW), clickEvent -> {
+            MButton createNewBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.NEW), clickEvent -> {
                 UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
                 close();
             }).withStyleName(WebUIConstants.BUTTON_ACTION);

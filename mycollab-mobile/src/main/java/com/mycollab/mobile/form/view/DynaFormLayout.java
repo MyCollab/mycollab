@@ -22,7 +22,8 @@ import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.*;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
     public DynaFormLayout(String moduleName, DynaForm defaultForm) {
         MasterFormService formService = AppContextUtil.getSpringBean(MasterFormService.class);
-        DynaForm form = formService.findCustomForm(AppContext.getAccountId(), moduleName);
+        DynaForm form = formService.findCustomForm(MyCollabUI.getAccountId(), moduleName);
 
         if (form != null) {
             this.dynaForm = form;
@@ -90,7 +91,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
             if (section.isDeletedSection()) {
                 continue;
             }
-            Label header = new Label(AppContext.getMessage(section.getHeader()));
+            Label header = new Label(UserUIContext.getMessage(section.getHeader()));
             header.setStyleName("h2");
             layout.addComponent(header);
 
@@ -114,7 +115,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
             GridFormLayoutHelper gridLayout = sectionMappings.get(section);
-            return gridLayout.addComponent(field, AppContext.getMessage(dynaField.getDisplayName()), 0, dynaField.getFieldIndex());
+            return gridLayout.addComponent(field, UserUIContext.getMessage(dynaField.getDisplayName()), 0, dynaField.getFieldIndex());
         }
         return null;
     }

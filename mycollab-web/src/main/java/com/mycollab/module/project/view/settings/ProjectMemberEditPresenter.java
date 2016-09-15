@@ -26,7 +26,7 @@ import com.mycollab.module.project.events.ProjectMemberEvent;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -96,7 +96,7 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
         if (projectMember.getId() == null) {
             throw new MyCollabException("User not exist in projectMember table, something goes wrong in DB");
         } else {
-            projectMemberService.updateWithSession(projectMember, AppContext.getUsername());
+            projectMemberService.updateWithSession(projectMember, UserUIContext.getUsername());
         }
     }
 

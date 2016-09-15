@@ -25,7 +25,7 @@ import com.mycollab.module.tracker.domain.RelatedBug;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelationService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -83,7 +83,7 @@ public class LinkIssueWindow extends MWindow {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
                 layout.addComponent(informationLayout.getLayout());
 
-                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (editForm.validateForm()) {
                         BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
 
@@ -97,13 +97,13 @@ public class LinkIssueWindow extends MWindow {
                         }
 
                         relatedBug.setRelatedid(selectedBug.getId());
-                        relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
+                        relatedBugService.saveWithSession(relatedBug, UserUIContext.getUsername());
                         close();
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedBug.getId()));
                     }
                 }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));

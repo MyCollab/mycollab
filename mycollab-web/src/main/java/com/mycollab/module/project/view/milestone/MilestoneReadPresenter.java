@@ -37,7 +37,8 @@ import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.reporting.FormReportLayout;
 import com.mycollab.reporting.PrintButton;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -76,14 +77,14 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
             @Override
             public void onDelete(final SimpleMilestone data) {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-                                milestoneService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                milestoneService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
                             }
                         });
@@ -147,7 +148,7 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
             if (data.getParams() instanceof Integer) {
                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-                SimpleMilestone milestone = milestoneService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                SimpleMilestone milestone = milestoneService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (milestone != null) {
                     milestoneContainer.removeAllComponents();
                     milestoneContainer.addComponent(view);

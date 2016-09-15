@@ -32,7 +32,8 @@ import com.mycollab.module.user.CommonTooltipGenerator;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -87,7 +88,7 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
         totalCountItems = projectTaskService.getTotalCount(searchCriteria);
         groupItems = projectTaskService.getAssignedTasksSummary(searchCriteria);
 
-        this.setTitle(String.format("%s (%d)", AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), totalCountItems));
+        this.setTitle(String.format("%s (%d)", UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), totalCountItems));
         displayPlainMode();
     }
 
@@ -138,9 +139,9 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
             }).withWidth("100%").withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))
                     .withStyleName(WebUIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
             UserService service = AppContextUtil.getSpringBean(UserService.class);
-            SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
-            this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
-                    AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            SimpleUser user = service.findUserByUserNameInAccount(assignee, MyCollabUI.getAccountId());
+            this.setDescription(CommonTooltipGenerator.generateTooltipUser(UserUIContext.getUserLocale(), user,
+                    MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         }
     }
 }

@@ -34,7 +34,8 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -59,9 +60,9 @@ import java.util.List;
 public class BugAddWindow extends MWindow {
     public BugAddWindow(SimpleBug bug) {
         if (bug.getId() == null) {
-            setCaption(AppContext.getMessage(BugI18nEnum.NEW));
+            setCaption(UserUIContext.getMessage(BugI18nEnum.NEW));
         } else {
-            setCaption(AppContext.getMessage(BugI18nEnum.SINGLE) + ": " + bug.getSummary());
+            setCaption(UserUIContext.getMessage(BugI18nEnum.SINGLE) + ": " + bug.getSummary());
         }
 
         EditForm editForm = new EditForm();
@@ -88,18 +89,18 @@ public class BugAddWindow extends MWindow {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 9);
                 layout.addComponent(informationLayout.getLayout());
 
-                MButton updateAllBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
+                MButton updateAllBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
                     EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugAddWindow.this, bean));
                     close();
                 }).withStyleName(WebUIConstants.BUTTON_LINK);
-                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         Integer bugId;
                         if (bean.getId() == null) {
-                            bugId = bugService.saveWithSession(bean, AppContext.getUsername());
+                            bugId = bugService.saveWithSession(bean, UserUIContext.getUsername());
                         } else {
-                            bugService.updateWithSession(bean, AppContext.getUsername());
+                            bugService.updateWithSession(bean, UserUIContext.getUsername());
                             bugId = bean.getId();
                         }
 
@@ -109,10 +110,10 @@ public class BugAddWindow extends MWindow {
                         BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
                         bugRelatedItemService.saveAffectedVersionsOfBug(bugId, bugEditFormFieldFactory.getAffectedVersionSelect().getSelectedItems());
                         bugRelatedItemService.saveComponentsOfBug(bugId, bugEditFormFieldFactory.getComponentSelect().getSelectedItems());
-                        asyncEventBus.post(new CleanCacheEvent(AppContext.getAccountId(), new Class[]{BugService.class}));
+                        asyncEventBus.post(new CleanCacheEvent(MyCollabUI.getAccountId(), new Class[]{BugService.class}));
 
                         AttachmentUploadField uploadField = bugEditFormFieldFactory.getAttachmentUploadField();
-                        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bean.getProjectid(),
+                        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), bean.getProjectid(),
                                 ProjectTypeConstants.BUG, "" + bugId);
                         uploadField.saveContentsToRepo(attachPath);
                         EventBusFactory.getInstance().post(new BugEvent.NewBugAdded(BugAddWindow.this, bugId));
@@ -125,7 +126,7 @@ public class BugAddWindow extends MWindow {
                             for (String follower : followers) {
                                 MonitorItem monitorItem = new MonitorItem();
                                 monitorItem.setMonitorDate(new GregorianCalendar().getTime());
-                                monitorItem.setSaccountid(AppContext.getAccountId());
+                                monitorItem.setSaccountid(MyCollabUI.getAccountId());
                                 monitorItem.setType(ProjectTypeConstants.BUG);
                                 monitorItem.setTypeid(bugId);
                                 monitorItem.setUser(follower);
@@ -139,7 +140,7 @@ public class BugAddWindow extends MWindow {
                     }
                 }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 MHorizontalLayout buttonControls = new MHorizontalLayout(updateAllBtn, cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
@@ -154,35 +155,35 @@ public class BugAddWindow extends MWindow {
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (BugWithBLOBs.Field.summary.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0, 2, "100%");
                 } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PRIORITY),
-                            AppContext.getMessage(BugI18nEnum.FORM_PRIORITY_HELP), 0, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_PRIORITY),
+                            UserUIContext.getMessage(BugI18nEnum.FORM_PRIORITY_HELP), 0, 1);
                 } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
                 } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
                 } else if (SimpleBug.Field.components.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS),
-                            AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 1, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_COMPONENTS),
+                            UserUIContext.getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 1, 2);
                 } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
                 } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
-                            AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 3);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
+                            UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 3);
                 } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 4);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 4);
                 } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
                 } else if (BugWithBLOBs.Field.summary.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 5, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 5, 2, "100%");
                 } else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
                 } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 7, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 7, 2, "100%");
                 } else if (SimpleBug.Field.selected.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS),
-                            AppContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP), 0, 8, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS),
+                            UserUIContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP), 0, 8, 2, "100%");
                 }
                 return null;
             }

@@ -26,7 +26,7 @@ import com.mycollab.module.project.service.MilestoneService
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.{MilestoneScreenData, ProjectScreenData}
 import com.mycollab.spring.AppContextUtil
-import com.mycollab.vaadin.AppContext
+import com.mycollab.vaadin.MyCollabUI
 import com.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -74,7 +74,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       val projectId = token.getInt
       val milestoneId = token.getInt
       val milestoneService = AppContextUtil.getSpringBean(classOf[MilestoneService])
-      val milestone = milestoneService.findById(milestoneId, AppContext.getAccountId)
+      val milestone = milestoneService.findById(milestoneId, MyCollabUI.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Edit(milestone))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }

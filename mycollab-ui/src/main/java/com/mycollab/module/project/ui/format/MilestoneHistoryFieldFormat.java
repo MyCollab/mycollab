@@ -23,8 +23,9 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public final class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override
@@ -50,7 +51,7 @@ public final class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
         try {
             Integer milestoneId = Integer.parseInt(value);
             MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-            SimpleMilestone milestone = milestoneService.findById(milestoneId, AppContext.getAccountId());
+            SimpleMilestone milestone = milestoneService.findById(milestoneId, MyCollabUI.getAccountId());
 
             if (milestone != null) {
                 if (displayAsHtml) {

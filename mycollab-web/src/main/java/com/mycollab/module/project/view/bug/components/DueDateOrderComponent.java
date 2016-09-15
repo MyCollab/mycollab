@@ -19,7 +19,8 @@ package com.mycollab.module.project.view.bug.components;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -48,7 +49,7 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
                     groupComponent.insertBug(bug);
                 } else {
                     DateTime maxValue = monDay.dayOfWeek().withMaximumValue();
-                    DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat());
+                    DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat());
                     String monDayStr = formatter.print(monDay);
                     String sundayStr = formatter.print(maxValue);
                     String titleValue = String.format("%s - %s", monDayStr, sundayStr);
@@ -64,7 +65,7 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedTasks == null) {
-                    unspecifiedTasks = new DefaultBugGroupComponent(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+                    unspecifiedTasks = new DefaultBugGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedTasks);
                 }
                 unspecifiedTasks.insertBug(bug);

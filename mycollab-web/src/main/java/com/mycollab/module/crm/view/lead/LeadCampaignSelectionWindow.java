@@ -24,7 +24,7 @@ import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.campaign.CampaignSearchPanel;
 import com.mycollab.module.crm.view.campaign.CampaignTableDisplay;
 import com.mycollab.module.crm.view.campaign.CampaignTableFieldDef;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
@@ -37,7 +37,7 @@ import java.util.Arrays;
 class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
 
     LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, CampaignI18nEnum.LIST), associateLeadList);
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, CampaignI18nEnum.LIST), associateLeadList);
         this.setWidth("1000px");
     }
 
@@ -47,7 +47,7 @@ class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampa
                 Arrays.asList(CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.status(),
                         CampaignTableFieldDef.type(), CampaignTableFieldDef.endDate()));
 
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
+        Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         CampaignSearchPanel searchPanel = new CampaignSearchPanel();

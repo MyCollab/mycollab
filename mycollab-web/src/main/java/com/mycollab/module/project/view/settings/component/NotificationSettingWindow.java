@@ -24,12 +24,10 @@ import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectSettingI18nEnum;
 import com.mycollab.module.project.service.ProjectNotificationSettingService;
-import com.mycollab.module.project.view.settings.ProjectNotificationSettingViewComponent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.OptionGroup;
@@ -44,7 +42,7 @@ import org.vaadin.viritin.layouts.MWindow;
  */
 public class NotificationSettingWindow extends MWindow {
     public NotificationSettingWindow(SimpleProjectMember projectMember) {
-        super(AppContext.getMessage(ProjectCommonI18nEnum.ACTION_EDIT_NOTIFICATION));
+        super(UserUIContext.getMessage(ProjectCommonI18nEnum.ACTION_EDIT_NOTIFICATION));
         withModal(true).withResizable(false).withWidth("600px").withCenter();
         ProjectNotificationSettingService prjNotificationSettingService = AppContextUtil.getSpringBean(ProjectNotificationSettingService.class);
         ProjectNotificationSetting notification = prjNotificationSettingService.findNotification(projectMember.getUsername(), projectMember.getProjectid(),
@@ -56,19 +54,19 @@ public class NotificationSettingWindow extends MWindow {
         optionGroup.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
 
         optionGroup.addItem(NotificationType.Default.name());
-        optionGroup.setItemCaption(NotificationType.Default.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.Default.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
 
         optionGroup.addItem(NotificationType.None.name());
         optionGroup.setItemCaption(NotificationType.None.name(),
-                AppContext.getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
+                UserUIContext.getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
 
         optionGroup.addItem(NotificationType.Minimal.name());
-        optionGroup.setItemCaption(NotificationType.Minimal.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.Minimal.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
 
         optionGroup.addItem(NotificationType.Full.name());
-        optionGroup.setItemCaption(NotificationType.Full.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.Full.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_MAXIMUM_SETTING));
 
         optionGroup.setWidth("100%");
@@ -82,20 +80,20 @@ public class NotificationSettingWindow extends MWindow {
             optionGroup.select(levelVal);
         }
 
-        MButton closeBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), clickEvent -> close())
+        MButton closeBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
-        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             try {
                 notification.setLevel((String) optionGroup.getValue());
                 ProjectNotificationSettingService projectNotificationSettingService = AppContextUtil.getSpringBean(ProjectNotificationSettingService.class);
 
                 if (notification.getId() == null) {
-                    projectNotificationSettingService.saveWithSession(notification, AppContext.getUsername());
+                    projectNotificationSettingService.saveWithSession(notification, UserUIContext.getUsername());
                 } else {
-                    projectNotificationSettingService.updateWithSession(notification, AppContext.getUsername());
+                    projectNotificationSettingService.updateWithSession(notification, UserUIContext.getUsername());
                 }
-                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                        AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+                NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                        UserUIContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
                 close();
             } catch (Exception e) {
                 throw new MyCollabException(e);

@@ -21,12 +21,12 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -72,7 +72,7 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
         addGeneratedColumn("accountname", (source, itemId, columnId) -> {
             SimpleAccount account = getBeanByIndex(itemId);
             LabelLink b = new LabelLink(account.getAccountname(), CrmLinkBuilder.generateAccountPreviewLinkFull(account.getId()));
-            b.setDescription(CrmTooltipGenerator.generateToolTipAccount(AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
+            b.setDescription(CrmTooltipGenerator.generateToolTipAccount(UserUIContext.getUserLocale(), account, MyCollabUI.getSiteUrl()));
             return b;
         });
 

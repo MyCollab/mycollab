@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -39,7 +39,7 @@ public class CountryViewField extends CustomField<String> {
     protected Component initContent() {
         if (StringUtils.isNotBlank(countryCode)) {
             Locale obj = new Locale("", countryCode);
-            return new ELabel(obj.getDisplayCountry(AppContext.getUserLocale()));
+            return new ELabel(obj.getDisplayCountry(UserUIContext.getUserLocale()));
         }
         return new ELabel();
     }

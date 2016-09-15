@@ -36,7 +36,8 @@ import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.mycollab.module.project.i18n.MessageI18nEnum;
 import com.mycollab.module.project.service.MessageService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -58,7 +59,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
     public MessageListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(MessageI18nEnum.LIST));
+        setCaption(UserUIContext.getMessage(MessageI18nEnum.LIST));
         setStyleName("message-list-view");
     }
 
@@ -85,7 +86,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(MessageI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(MessageI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;
@@ -108,7 +109,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
             ELabel userNameLbl = new ELabel(message.getFullPostedUserName()).withStyleName(UIConstants.META_INFO,
                     UIConstants.TEXT_ELLIPSIS);
 
-            ELabel messageTimePost = new ELabel(AppContext.formatPrettyTime(message.getPosteddate())).withStyleName
+            ELabel messageTimePost = new ELabel(UserUIContext.formatPrettyTime(message.getPosteddate())).withStyleName
                     (UIConstants.META_INFO).withWidthUndefined();
             metadataRow.with(userNameLbl, messageTimePost).withAlign(messageTimePost, Alignment.TOP_RIGHT).expand(userNameLbl);
             rightCol.addComponent(metadataRow);
@@ -137,7 +138,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-                    AppContext.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
+                    MyCollabUI.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 CssLayout attachmentPanel = new CssLayout();
                 attachmentPanel.setStyleName("attachment-panel");

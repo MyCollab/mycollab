@@ -16,7 +16,7 @@
  */
 package com.mycollab.vaadin.ui.field;
 
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -50,7 +50,7 @@ public class DateTimeViewField extends CustomField<String> {
             l.setValue("&nbsp;");
             l.setContentMode(ContentMode.HTML);
         } else {
-            l.setValue(AppContext.formatDateTime(date));
+            l.setValue(UserUIContext.formatDateTime(date));
         }
         return l;
     }

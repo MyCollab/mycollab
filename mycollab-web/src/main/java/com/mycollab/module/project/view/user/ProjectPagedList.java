@@ -36,14 +36,14 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -65,7 +65,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
     protected MHorizontalLayout createPageControls() {
         MHorizontalLayout pageControls = super.createPageControls();
         if (pageControls != null) {
-            Button browseProjectsBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_BROWSE),
+            Button browseProjectsBtn = new Button(UserUIContext.getMessage(ProjectI18nEnum.ACTION_BROWSE),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoList(this, null)));
             browseProjectsBtn.addStyleName(WebUIConstants.BUTTON_LINK);
             pageControls.addComponent(browseProjectsBtn, 0);
@@ -88,8 +88,8 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
             A projectDiv = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(project.getName());
             ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
-            projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(),
-                    AppContext.getDateFormat(), project, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(),
+                    MyCollabUI.getDateFormat(), project, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
 
             linkIconFix.addComponent(projectLbl);
 
@@ -97,13 +97,13 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             metaInfo.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             Div activeMembersDiv = new Div().appendText(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers())
-                    .setTitle(AppContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
-            Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + AppContext
-                    .formatPrettyTime(project.getCreatedtime())).setTitle(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
+                    .setTitle(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
+            Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext
+                    .formatPrettyTime(project.getCreatedtime())).setTitle(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
             Div billableHoursDiv = new Div().appendText(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours())).
-                    setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS));
+                    setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS));
             Div nonBillableHoursDiv = new Div().appendText(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
-                    project.getTotalNonBillableHours())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
+                    project.getTotalNonBillableHours())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
             Div metaDiv = new Div().appendChild(activeMembersDiv, DivLessFormatter.EMPTY_SPACE(), createdTimeDiv,
                     DivLessFormatter.EMPTY_SPACE(), billableHoursDiv, DivLessFormatter.EMPTY_SPACE(),
                     nonBillableHoursDiv, DivLessFormatter.EMPTY_SPACE());
@@ -112,7 +112,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                                 .getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE(),
                         new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
                                 .appendText(StringUtils.trim(project.getLeadFullName(), 30, true))).setTitle
-                        (AppContext.getMessage(ProjectI18nEnum.FORM_LEADER));
+                        (UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
@@ -122,7 +122,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 if (project.getClientAvatarId() == null) {
                     accountDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
                 } else {
-                    Img clientImg = new Img("", StorageFactory.getEntityLogoPath(AppContext
+                    Img clientImg = new Img("", StorageFactory.getEntityLogoPath(MyCollabUI
                             .getAccountId(), project.getClientAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX);
                     accountDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE());
                 }
@@ -142,11 +142,11 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             int totalAssignments = project.getNumBugs() + project.getNumTasks() + project.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                                 * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
                         .withStyleName(UIConstants.META_INFO);
             }
             linkIconFix.addComponent(progressInfoLbl);

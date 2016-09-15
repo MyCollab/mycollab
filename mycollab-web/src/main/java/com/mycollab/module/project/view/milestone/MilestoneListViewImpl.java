@@ -36,7 +36,8 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
@@ -49,7 +50,6 @@ import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
@@ -135,7 +135,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void initUI() {
-        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, AppContext.getMessage
+        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, UserUIContext.getMessage
                 (MilestoneI18nEnum.LIST));
 
         MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
@@ -146,9 +146,9 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     private HorizontalLayout createHeaderRight() {
         MHorizontalLayout layout = new MHorizontalLayout();
 
-        MButton createBtn = new MButton(AppContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
+        MButton createBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
             SimpleMilestone milestone = new SimpleMilestone();
-            milestone.setSaccountid(AppContext.getAccountId());
+            milestone.setSaccountid(MyCollabUI.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
         }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
@@ -161,16 +161,16 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             protected Object doEval() {
                 return baseCriteria;
             }
-        }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         layout.addComponent(printBtn);
 
-        MButton boardBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.SERVER);
+        MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.SERVER);
 
-        MButton roadmapBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
+        MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)))
                 .withIcon(FontAwesome.NAVICON);
 
-        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
+        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneListViewImpl.this)))
                 .withIcon(FontAwesome.TH);
 
@@ -223,17 +223,17 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private void updateClosedMilestoneNumber(int closeMilestones) {
         closedHeader.setValue(FontAwesome.MINUS_CIRCLE.getHtml() + " " +
-                AppContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
     }
 
     private void updateFutureMilestoneNumber(int futureMilestones) {
         futureHeader.setValue(FontAwesome.CLOCK_O.getHtml() + " " +
-                AppContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
     }
 
     private void updateInProgressMilestoneNumber(int inProgressMilestones) {
         inProgressHeader.setValue(FontAwesome.SPINNER.getHtml() + " " +
-                AppContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
                 ")");
     }
 
@@ -256,23 +256,23 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
             if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-                MButton editButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                MButton editButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(MilestoneBox.this, milestone)))
                         .withIcon(FontAwesome.EDIT);
                 filterBtnLayout.addOption(editButton);
             }
 
             if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES)) {
-                MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent ->
+                MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent ->
                         ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                                 confirmDialog -> {
                                     if (confirmDialog.isConfirmed()) {
                                         MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
-                                        projectTaskService.removeWithSession(milestone, AppContext.getUsername(), AppContext.getAccountId());
+                                        projectTaskService.removeWithSession(milestone, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                         displayMilestones();
                                     }
                                 })
@@ -291,11 +291,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks() + milestone.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                                 * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
                         .withStyleName(UIConstants.META_INFO);
             }
             this.addComponent(progressInfoLbl);

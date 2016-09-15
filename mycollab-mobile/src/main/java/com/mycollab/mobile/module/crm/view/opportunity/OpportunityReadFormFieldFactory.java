@@ -22,7 +22,7 @@ package com.mycollab.mobile.module.crm.view.opportunity;
  */
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.vaadin.ui.Field;
@@ -46,7 +46,7 @@ public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewF
         } else if (propertyId.equals("assignuser")) {
             field = new DefaultViewField(opportunity.getAssignUserFullName());
         } else if (propertyId.equals("expectedcloseddate")) {
-            field = new DefaultViewField(AppContext.formatDate(opportunity.getExpectedcloseddate()));
+            field = new DefaultViewField(UserUIContext.formatDate(opportunity.getExpectedcloseddate()));
         } else if (propertyId.equals("currencyid")) {
             if (opportunity.getCurrencyid() != null) {
                 return new DefaultViewField(opportunity.getCurrencyid());

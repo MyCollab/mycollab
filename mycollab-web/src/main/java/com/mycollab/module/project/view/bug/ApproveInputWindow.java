@@ -30,7 +30,8 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -59,7 +60,7 @@ public class ApproveInputWindow extends MWindow {
     private final SimpleBug bug;
 
     public ApproveInputWindow(SimpleBug bug) {
-        super(AppContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
+        super(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
         this.bug = bug;
 
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
@@ -91,13 +92,13 @@ public class ApproveInputWindow extends MWindow {
 
                 layout.addComponent(this.informationLayout.getLayout());
 
-                final MButton approveBtn = new MButton(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), clickEvent -> {
+                final MButton approveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         // Save bug status and assignee
                         bug.setStatus(BugStatus.Verified.name());
 
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                        bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
+                        bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
 
                         // Save comment
                         String commentValue = commentArea.getValue();
@@ -105,14 +106,14 @@ public class ApproveInputWindow extends MWindow {
                             CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
                             comment.setCreatedtime(new GregorianCalendar().getTime());
-                            comment.setCreateduser(AppContext.getUsername());
-                            comment.setSaccountid(AppContext.getAccountId());
+                            comment.setCreateduser(UserUIContext.getUsername());
+                            comment.setSaccountid(MyCollabUI.getAccountId());
                             comment.setType(ProjectTypeConstants.BUG);
                             comment.setTypeid("" + bug.getId());
                             comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
                             CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                            commentService.saveWithSession(comment, AppContext.getUsername());
+                            commentService.saveWithSession(comment, UserUIContext.getUsername());
                         }
 
                         close();
@@ -121,7 +122,7 @@ public class ApproveInputWindow extends MWindow {
                 }).withStyleName(WebUIConstants.BUTTON_ACTION);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
@@ -133,9 +134,9 @@ public class ApproveInputWindow extends MWindow {
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("assignuser")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
                 }
                 return null;
             }

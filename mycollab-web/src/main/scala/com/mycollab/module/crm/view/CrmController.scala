@@ -31,7 +31,6 @@ import com.mycollab.module.crm.view.lead.{LeadAddPresenter, LeadConvertReadPrese
 import com.mycollab.module.crm.view.opportunity.{ContactRoleEditPresenter, OpportunityAddPresenter, OpportunityListPresenter, OpportunityReadPresenter}
 import com.mycollab.module.crm.view.parameters.{ActivityScreenData, AssignmentScreenData, CallScreenData, MeetingScreenData}
 import com.mycollab.module.crm.view.setting.CrmSettingPresenter
-import com.mycollab.vaadin.AppContext
 import com.mycollab.vaadin.mvp.{AbstractController, PresenterResolver, ScreenData}
 import com.google.common.eventbus.Subscribe
 import com.mycollab.core.MyCollabException
@@ -40,6 +39,8 @@ import com.mycollab.module.crm.domain._
 import com.mycollab.module.crm.domain.criteria._
 import com.mycollab.module.crm.service.LeadService
 import com.mycollab.spring.AppContextUtil
+import com.mycollab.vaadin.MyCollabUI.getAccountId
+import com.mycollab.vaadin.{MyCollabUI, UserUIContext}
 
 /**
   * @author MyCollab Ltd.
@@ -71,7 +72,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
       @Subscribe def handle(event: AccountEvent.GotoList) {
         val presenter = PresenterResolver.getPresenter(classOf[AccountListPresenter])
         val criteria = new AccountSearchCriteria
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         presenter.go(container, new ScreenData.Search[AccountSearchCriteria](criteria))
       }
     })
@@ -111,7 +112,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
       @Subscribe def handle(event: ActivityEvent.GotoTodoList) {
         val presenter = PresenterResolver.getPresenter(classOf[ActivityListPresenter])
         val searchCriteria = new ActivitySearchCriteria
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         presenter.go(container, new ActivityScreenData.GotoActivityList(searchCriteria))
       }
     })
@@ -185,7 +186,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
       @Subscribe def handle(event: CampaignEvent.GotoList) {
         val presenter = PresenterResolver.getPresenter(classOf[CampaignListPresenter])
         val searchCriteria = new CampaignSearchCriteria
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         presenter.go(container, new ScreenData.Search[CampaignSearchCriteria](searchCriteria))
       }
     })
@@ -218,7 +219,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
       @Subscribe def handle(event: ContactEvent.GotoList) {
         val presenter = PresenterResolver.getPresenter(classOf[ContactListPresenter])
         val searchCriteria = new ContactSearchCriteria
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         presenter.go(container, new ScreenData.Search[ContactSearchCriteria](searchCriteria))
       }
     })
@@ -276,7 +277,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
       @Subscribe def handle(event: LeadEvent.GotoList) {
         val presenter = PresenterResolver.getPresenter(classOf[LeadListPresenter])
         val searchCriteria = new LeadSearchCriteria
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         presenter.go(container, new ScreenData.Search[LeadSearchCriteria](searchCriteria))
       }
     })
@@ -302,7 +303,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         var lead: SimpleLead = null
         if (value.isInstanceOf[Integer]) {
           val leadService = AppContextUtil.getSpringBean(classOf[LeadService])
-          lead = leadService.findById(value.asInstanceOf[Integer], AppContext.getAccountId)
+          lead = leadService.findById(value.asInstanceOf[Integer], MyCollabUI.getAccountId)
         }
         else if (value.isInstanceOf[SimpleLead]) {
           lead = value.asInstanceOf[SimpleLead]
@@ -332,7 +333,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         }
         else {
           searchCriteria = new OpportunitySearchCriteria
-          searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+          searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         }
         presenter.go(container, new ScreenData.Search[OpportunitySearchCriteria](searchCriteria))
       }
@@ -374,7 +375,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
       @Subscribe def handle(event: CaseEvent.GotoList) {
         val presenter = PresenterResolver.getPresenter(classOf[CaseListPresenter])
         val searchCriteria = new CaseSearchCriteria
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         presenter.go(container, new ScreenData.Search[CaseSearchCriteria](searchCriteria))
       }
     })

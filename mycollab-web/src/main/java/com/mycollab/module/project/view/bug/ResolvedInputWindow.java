@@ -41,7 +41,8 @@ import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugRelationService;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -67,7 +68,7 @@ public class ResolvedInputWindow extends MWindow {
     private VersionMultiSelectField fixedVersionSelect;
 
     public ResolvedInputWindow(SimpleBug bugValue) {
-        super(AppContext.getMessage(BugI18nEnum.OPT_RESOLVE_BUG, bugValue.getSummary()));
+        super(UserUIContext.getMessage(BugI18nEnum.OPT_RESOLVE_BUG, bugValue.getSummary()));
         this.bug = BeanUtility.deepClone(bugValue);
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
@@ -98,7 +99,7 @@ public class ResolvedInputWindow extends MWindow {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
                 layout.addComponent(informationLayout.getLayout());
 
-                MButton resolveBtn = new MButton(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), clickEvent -> {
+                MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         String commentValue = commentArea.getValue();
                         if (BugResolution.Duplicate.name().equals(bug.getResolution())) {
@@ -112,16 +113,16 @@ public class ResolvedInputWindow extends MWindow {
                                 relatedBug.setBugid(bug.getId());
                                 relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
                                 relatedBug.setRelatedid(selectedBug.getId());
-                                relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
+                                relatedBugService.saveWithSession(relatedBug, UserUIContext.getUsername());
                             } else {
-                                NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_DUPLICATE_BUG_SELECT));
+                                NotificationUtil.showErrorNotification(UserUIContext.getMessage(BugI18nEnum.ERROR_DUPLICATE_BUG_SELECT));
                                 return;
                             }
                         } else if (BugResolution.InComplete.name().equals(bug.getResolution()) ||
                                 BugResolution.CannotReproduce.name().equals(bug.getResolution()) ||
                                 BugResolution.Invalid.name().equals(bug.getResolution())) {
                             if (StringUtils.isBlank(commentValue)) {
-                                NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_COMMENT_NOT_BLANK_FOR_RESOLUTION, bug.getResolution()));
+                                NotificationUtil.showErrorNotification(UserUIContext.getMessage(BugI18nEnum.ERROR_COMMENT_NOT_BLANK_FOR_RESOLUTION, bug.getResolution()));
                                 return;
                             }
                         }
@@ -132,21 +133,21 @@ public class ResolvedInputWindow extends MWindow {
 
                         // Save bug status and assignee
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                        bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
+                        bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
 
                         // Save comment
                         if (StringUtils.isNotBlank(commentValue)) {
                             CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(commentValue);
                             comment.setCreatedtime(new GregorianCalendar().getTime());
-                            comment.setCreateduser(AppContext.getUsername());
-                            comment.setSaccountid(AppContext.getAccountId());
+                            comment.setCreateduser(UserUIContext.getUsername());
+                            comment.setSaccountid(MyCollabUI.getAccountId());
                             comment.setType(ProjectTypeConstants.BUG);
                             comment.setTypeid("" + bug.getId());
                             comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
                             CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                            commentService.saveWithSession(comment, AppContext.getUsername());
+                            commentService.saveWithSession(comment, UserUIContext.getUsername());
                         }
 
                         close();
@@ -154,7 +155,7 @@ public class ResolvedInputWindow extends MWindow {
                     }
                 }).withStyleName(WebUIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, resolveBtn).withMargin(new MarginInfo(true, true, false, false));
@@ -167,15 +168,15 @@ public class ResolvedInputWindow extends MWindow {
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
-                            AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION_HELP), 0, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
+                            UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION_HELP), 0, 0);
                 } else if (propertyId.equals("assignuser")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("fixedVersions")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
-                            AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
+                            UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 2);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 3, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 3, 2, "100%");
                 }
                 return null;
             }
@@ -191,7 +192,7 @@ public class ResolvedInputWindow extends MWindow {
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("resolution")) {
-                    if (StringUtils.isBlank(bean.getResolution()) || AppContext.getMessage(BugResolution.None).equals(bug.getResolution())) {
+                    if (StringUtils.isBlank(bean.getResolution()) || UserUIContext.getMessage(BugResolution.None).equals(bug.getResolution())) {
                         bean.setResolution(BugResolution.Fixed.name());
                     }
                     return new ResolutionField();

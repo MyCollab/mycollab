@@ -22,6 +22,7 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.db.query.*;
 
@@ -49,6 +50,9 @@ public class RiskSearchCriteria extends SearchCriteria {
     public static final Param p_status = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_STATUS,
             new I18nStringListParam("status", "m_prj_risk", "status", Arrays.asList(
                     StatusI18nEnum.Open, StatusI18nEnum.Closed)));
+
+    public static final PropertyListParam<Integer> p_milestones = CacheParamMapper.register(ProjectTypeConstants.RISK,
+            RiskI18nEnum.FORM_PHASE, new PropertyListParam<Integer>("milestones", "m_prj_risk", "milestoneId"));
 
     public static final Param p_probalitity = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_PROBABILITY,
             new StringListParam("probalitity", "m_prj_risk", "probalitity",

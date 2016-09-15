@@ -20,7 +20,7 @@ import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -56,8 +56,8 @@ class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends Abstract
             MTextField tf = new MTextField();
             if (isValidateForm) {
                 tf.withNullRepresentation("").withRequired(true)
-                        .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                AppContext.getMessage(GenericI18Enum.FORM_NAME)));
+                        .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
             }
 
             return tf;

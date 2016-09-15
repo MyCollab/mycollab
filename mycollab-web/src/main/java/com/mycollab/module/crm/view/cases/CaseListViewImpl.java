@@ -22,13 +22,11 @@ import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -49,7 +47,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
         this.addExtraButton(customizeViewBtn);
 
         MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(clickEvent -> UI.getCurrent().addWindow(new CaseImportWindow()));
-        importBtn.setVisible(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
+        importBtn.setVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CASE));
         this.addExtraButton(importBtn);
     }
 
@@ -72,7 +70,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
     protected DefaultMassItemActionHandlerContainer createActionControls() {
         DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
-        if (AppContext.canAccess(RolePermissionCollections.CRM_CASE)) {
+        if (UserUIContext.canAccess(RolePermissionCollections.CRM_CASE)) {
             container.addDeleteActionItem();
         }
 
@@ -81,7 +79,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
         container.addDownloadExcelActionItem();
         container.addDownloadCsvActionItem();
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CASE)) {
             container.addMassUpdateActionItem();
         }
 

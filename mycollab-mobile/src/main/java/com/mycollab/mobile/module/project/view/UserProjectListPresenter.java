@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.project.view;
 
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
@@ -36,6 +36,6 @@ public class UserProjectListPresenter extends ProjectListPresenter<UserProjectLi
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         super.onGo(container, data);
-        AppContext.addFragment("project", "Projects");
+        MyCollabUI.addFragment("project", "Projects");
     }
 }

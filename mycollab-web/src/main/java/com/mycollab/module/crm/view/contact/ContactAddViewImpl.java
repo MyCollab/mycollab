@@ -21,7 +21,7 @@ import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -42,7 +42,7 @@ public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact> impl
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(ContactI18nEnum.NEW) : beanItem.getContactName();
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(ContactI18nEnum.NEW) : beanItem.getContactName();
     }
 
     @Override

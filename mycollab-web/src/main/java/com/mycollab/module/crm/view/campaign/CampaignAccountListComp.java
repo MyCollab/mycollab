@@ -33,7 +33,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -70,7 +71,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
 
     private void loadAccounts() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setCampaignId(new NumberSearchField(campaign.getId()));
         this.setSearchCriteria(criteria);
     }
@@ -80,16 +81,16 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-            controlsBtn.setCaption(AppContext.getMessage(AccountI18nEnum.NEW));
+            controlsBtn.setCaption(UserUIContext.getMessage(AccountI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
-            final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+            final Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(CampaignAccountListComp.this);
                 final AccountSearchCriteria criteria = new AccountSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 UI.getCurrent().addWindow(accountsWindow);
                 accountsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
@@ -127,17 +128,17 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
 
             MButton btnDelete = new MButton("", clickEvent ->
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                                     CampaignAccount associateAccount = new CampaignAccount();
                                     associateAccount.setAccountid(account.getId());
                                     associateAccount.setCampaignid(campaign.getId());
-                                    campaignService.removeCampaignAccountRelationship(associateAccount, AppContext.getAccountId());
+                                    campaignService.removeCampaignAccountRelationship(associateAccount, MyCollabUI.getAccountId());
                                     CampaignAccountListComp.this.refresh();
                                 }
                             })
@@ -146,18 +147,18 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label accountName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+            Label accountName = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.ACCOUNT, account.getId())).appendText(account.getAccountname()).write());
 
             accountInfo.addComponent(accountName);
 
-            Label accountOfficePhone = new Label(AppContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE) + ": " + MoreObjects.firstNonNull(account.getPhoneoffice(), ""));
+            Label accountOfficePhone = new Label(UserUIContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE) + ": " + MoreObjects.firstNonNull(account.getPhoneoffice(), ""));
             accountInfo.addComponent(accountOfficePhone);
             String email = MoreObjects.firstNonNull(account.getEmail(), "");
-            Label accountEmail = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + email).appendText(email).write());
+            Label accountEmail = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + email).appendText(email).write());
             accountInfo.addComponent(accountEmail);
 
-            Label accountCity = new Label(AppContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY) + ": " + MoreObjects.firstNonNull(account.getCity(), ""));
+            Label accountCity = new Label(UserUIContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY) + ": " + MoreObjects.firstNonNull(account.getCity(), ""));
             accountInfo.addComponent(accountCity);
 
             blockTop.with(accountInfo).expand(accountInfo);

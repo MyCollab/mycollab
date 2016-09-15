@@ -28,7 +28,8 @@ import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.components.IGroupComponent;
 import com.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -91,8 +92,8 @@ public class TaskRowRenderer extends MVerticalLayout {
         AbstractComponent percentageField = popupFieldFactory.createPercentagePopupField(task);
         footer.addComponent(percentageField);
 
-        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
-                AppContext.formatDate(task.getDeadline()));
+        String deadlineTooltip = String.format("%s: %s", UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
+                UserUIContext.formatDate(task.getDeadline()));
         AbstractComponent deadlineField = popupFieldFactory.createDeadlinePopupField(task);
         deadlineField.setDescription(deadlineTooltip);
         footer.addComponent(deadlineField);
@@ -145,7 +146,7 @@ public class TaskRowRenderer extends MVerticalLayout {
         OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-            MButton editButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
+            MButton editButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
                 taskSettingPopupBtn.setPopupVisible(false);
                 EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(TaskRowRenderer.this, task));
             }).withIcon(FontAwesome.EDIT);
@@ -155,11 +156,11 @@ public class TaskRowRenderer extends MVerticalLayout {
 
         if (!task.isCompleted()) {
             if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                MButton closeBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), clickEvent -> {
+                MButton closeBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE), clickEvent -> {
                     task.setStatus(OptionI18nEnum.StatusI18nEnum.Closed.name());
                     task.setPercentagecomplete(100d);
                     ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                    projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                    projectTaskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
                     taskSettingPopupBtn.setPopupVisible(false);
                     closeTask();
                     EventBusFactory.getInstance().post(new TaskEvent.HasTaskChange(TaskRowRenderer.this, null));
@@ -168,13 +169,13 @@ public class TaskRowRenderer extends MVerticalLayout {
             }
         } else {
             if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                MButton reOpenBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
+                MButton reOpenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
                     taskSettingPopupBtn.setPopupVisible(false);
                     task.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
                     task.setPercentagecomplete(0d);
 
                     ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                    projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                    projectTaskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
                     reOpenTask();
                     EventBusFactory.getInstance().post(new TaskEvent.HasTaskChange(TaskRowRenderer.this, null));
                 }).withIcon(FontAwesome.UNLOCK);
@@ -185,17 +186,17 @@ public class TaskRowRenderer extends MVerticalLayout {
         filterBtnLayout.addSeparator();
 
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
-            MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+            MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 taskSettingPopupBtn.setPopupVisible(false);
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                                projectTaskService.removeWithSession(task, AppContext.getUsername(), AppContext.getAccountId());
+                                projectTaskService.removeWithSession(task, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 deleteTask();
                             }
                         });

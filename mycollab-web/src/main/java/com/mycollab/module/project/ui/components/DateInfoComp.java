@@ -19,11 +19,10 @@ package com.mycollab.module.project.ui.components;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -45,7 +44,7 @@ public class DateInfoComp extends MVerticalLayout {
         this.removeAllComponents();
         this.withMargin(false);
         Label dateInfoHeader = ELabel.html(FontAwesome.CALENDAR.getHtml() + " " +
-                AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES));
+                UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES));
         dateInfoHeader.setStyleName("info-hdr");
         this.addComponent(dateInfoHeader);
 
@@ -53,15 +52,15 @@ public class DateInfoComp extends MVerticalLayout {
                 .withFullWidth();
         try {
             Date createdDate = (Date) PropertyUtils.getProperty(bean, "createdtime");
-            ELabel createdDateLbl = new ELabel(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_DATE,
-                    AppContext.formatPrettyTime(createdDate))).withDescription(
-                    AppContext.formatDateTime(createdDate));
+            ELabel createdDateLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_DATE,
+                    UserUIContext.formatPrettyTime(createdDate))).withDescription(
+                    UserUIContext.formatDateTime(createdDate));
 
             layout.addComponent(createdDateLbl);
 
             Date updatedDate = (Date) PropertyUtils.getProperty(bean, "lastupdatedtime");
-            ELabel updatedDateLbl = new ELabel(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_UPDATED_DATE,
-                    AppContext.formatPrettyTime(updatedDate))).withDescription(AppContext.formatDateTime(updatedDate));
+            ELabel updatedDateLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_UPDATED_DATE,
+                    UserUIContext.formatPrettyTime(updatedDate))).withDescription(UserUIContext.formatDateTime(updatedDate));
             layout.addComponent(updatedDateLbl);
 
             this.addComponent(layout);

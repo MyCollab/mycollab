@@ -27,7 +27,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -50,7 +50,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
 
     public ProjectDashboardViewImpl() {
         super();
-        this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
+        this.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
         this.setRightComponent(buildRightComponent());
         mainLayout = new CssLayout();
         mainLayout.setSizeFull();
@@ -63,19 +63,19 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         menu.setButtonCaption("...");
 
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(MessageI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(MessageI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null))));
 
-        content.with(new Button(AppContext.getMessage(MilestoneI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null))));
 
-        content.with(new Button(AppContext.getMessage(TaskI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null))));
 
-        content.with(new Button(AppContext.getMessage(BugI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(BugI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null))));
 
-        content.with(new Button(AppContext.getMessage(RiskI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(RiskI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null))));
 
         menu.setContent(content);
@@ -100,21 +100,21 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         MHorizontalLayout metaInfo = new MHorizontalLayout();
 
         Label projectMemberBtn = ELabel.html(FontAwesome.USERS.getHtml() + " " + currentProject.getNumActiveMembers())
-                .withDescription(AppContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS)).withStyleName(UIConstants.META_INFO);
+                .withDescription(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS)).withStyleName(UIConstants.META_INFO);
 
         metaInfo.addComponent(projectMemberBtn);
-        Label createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime
-                (currentProject.getCreatedtime())).withDescription(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
+        Label createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext.formatPrettyTime
+                (currentProject.getCreatedtime())).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
                 .withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(createdTimeLbl);
 
         Label billableHoursLbl = ELabel.html(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, currentProject.getTotalBillableHours()))
-                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).withStyleName(UIConstants.META_INFO);
+                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(billableHoursLbl);
 
         Label nonBillableHoursLbl = ELabel.html(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
                 currentProject.getTotalNonBillableHours()))
-                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).withStyleName(UIConstants.META_INFO);
+                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).withStyleName(UIConstants.META_INFO);
         metaInfo.addComponent(nonBillableHoursLbl);
         projectInfo.addComponent(metaInfo);
 
@@ -122,11 +122,11 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         int totalAssignments = currentProject.getNumBugs() + currentProject.getNumTasks() + currentProject.getNumRisks();
         ELabel progressInfoLbl;
         if (totalAssignments > 0) {
-            progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+            progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                     (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                             * 100 / totalAssignments)).withWidthUndefined().withStyleName(UIConstants.META_INFO);
         } else {
-            progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT)).withWidthUndefined().withStyleName
+            progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT)).withWidthUndefined().withStyleName
                     (UIConstants.META_INFO);
         }
         projectInfo.addComponent(progressInfoLbl);
@@ -135,32 +135,32 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
 
         VerticalComponentGroup btnGroup = new VerticalComponentGroup();
 
-        NavigationButton activityBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+        NavigationButton activityBtn = new NavigationButton(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
         activityBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(
                 new ProjectEvent.MyProjectActivities(this, CurrentProjectVariables.getProjectId())));
         btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.INBOX, activityBtn));
 
-        NavigationButton messageBtn = new NavigationButton(AppContext.getMessage(MessageI18nEnum.LIST));
+        NavigationButton messageBtn = new NavigationButton(UserUIContext.getMessage(MessageI18nEnum.LIST));
         messageBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE), messageBtn));
 
-        NavigationButton milestoneBtn = new NavigationButton(AppContext.getMessage(MilestoneI18nEnum.LIST));
+        NavigationButton milestoneBtn = new NavigationButton(UserUIContext.getMessage(MilestoneI18nEnum.LIST));
         milestoneBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), milestoneBtn));
 
-        NavigationButton taskBtn = new NavigationButton(AppContext.getMessage(TaskI18nEnum.LIST));
+        NavigationButton taskBtn = new NavigationButton(UserUIContext.getMessage(TaskI18nEnum.LIST));
         taskBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), taskBtn));
 
-        NavigationButton bugBtn = new NavigationButton(AppContext.getMessage(BugI18nEnum.LIST));
+        NavigationButton bugBtn = new NavigationButton(UserUIContext.getMessage(BugI18nEnum.LIST));
         bugBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), bugBtn));
 
-        NavigationButton riskBtn = new NavigationButton(AppContext.getMessage(RiskI18nEnum.LIST));
+        NavigationButton riskBtn = new NavigationButton(UserUIContext.getMessage(RiskI18nEnum.LIST));
         riskBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK), riskBtn));
 
-        NavigationButton userBtn = new NavigationButton(AppContext.getMessage(ProjectMemberI18nEnum.LIST));
+        NavigationButton userBtn = new NavigationButton(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST));
         userBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.USERS, userBtn));
 

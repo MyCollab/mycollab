@@ -18,7 +18,8 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.reporting.*;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.MassItemActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
@@ -42,10 +43,10 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @Override
     public void onSelect(String id) {
         if (ViewItemAction.DELETE_ACTION().equals(id)) {
-            ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+            ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             presenter.deleteSelectedItems();
@@ -61,7 +62,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     public StreamResource buildStreamResource(ReportExportType exportType) {
         IPagedBeanTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanTable();
         final Map<String, Object> parameters = new HashMap<>();
-        parameters.put("siteUrl", AppContext.getSiteUrl());
+        parameters.put("siteUrl", MyCollabUI.getSiteUrl());
         parameters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
         ReportTemplateExecutor reportTemplateExecutor;
         if (presenter.isSelectAll) {

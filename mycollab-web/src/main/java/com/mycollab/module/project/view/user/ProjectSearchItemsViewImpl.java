@@ -25,7 +25,7 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericItemService;
 import com.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -59,7 +59,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
         criteria.setPrjKeys(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         criteria.setTxtValue(StringSearchField.and(value));
         int foundNum = searchItemsTable.setSearchCriteria(criteria);
-        headerLbl.setValue(String.format(FontAwesome.SEARCH.getHtml() + " " + AppContext.getMessage(ProjectI18nEnum.OPT_SEARCH_TERM)
+        headerLbl.setValue(String.format(FontAwesome.SEARCH.getHtml() + " " + UserUIContext.getMessage(ProjectI18nEnum.OPT_SEARCH_TERM)
                 , value, foundNum));
     }
 }

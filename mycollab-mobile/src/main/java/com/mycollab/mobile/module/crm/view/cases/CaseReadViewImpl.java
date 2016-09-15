@@ -32,7 +32,7 @@ import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -104,7 +104,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_CONTACT
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(ContactI18nEnum.LIST)
+                + UserUIContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
         relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GoToRelatedItems(this,
@@ -115,7 +115,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_ACTIVITY
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+                + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
         relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GoToRelatedItems(this,

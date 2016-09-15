@@ -18,7 +18,7 @@ package com.mycollab.iexporter;
 
 import com.mycollab.iexporter.CSVObjectEntityConverter.CSVItemMapperDef;
 import com.mycollab.iexporter.csv.CSVFormatter;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public class CSVObjectEntityConverter<E> implements ObjectEntityConverter<CSVIte
             E bean = cls.newInstance();
             String[] csvLine = unit.getCsvLine();
 
-            PropertyUtils.setProperty(bean, "saccountid", AppContext.getAccountId());
+            PropertyUtils.setProperty(bean, "saccountid", MyCollabUI.getAccountId());
             for (ImportFieldDef importFieldDef : unit.getFieldsDef()) {
                 try {
                     String csvFieldItem = csvLine[importFieldDef.getColumnIndex()];

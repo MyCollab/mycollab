@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.ui;
 
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.ListSelect;
 
 import java.util.Currency;
@@ -38,7 +38,7 @@ public class CurrencyComboBoxField extends ListSelect {
         for (Currency currency : availableCurrencies) {
             this.addItem(currency.getCurrencyCode());
             this.setItemCaption(currency.getCurrencyCode(), String.format("%s (%s)", currency.getDisplayName
-                    (AppContext.getUserLocale()), currency.getCurrencyCode()));
+                    (UserUIContext.getUserLocale()), currency.getCurrencyCode()));
         }
     }
 }

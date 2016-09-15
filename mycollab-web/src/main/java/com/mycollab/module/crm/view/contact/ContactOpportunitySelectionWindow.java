@@ -24,7 +24,7 @@ import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.opportunity.OpportunitySearchPanel;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableDisplay;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableFieldDef;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Button;
 
@@ -37,7 +37,7 @@ import java.util.Arrays;
 public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindow<SimpleOpportunity, OpportunitySearchCriteria> {
 
     public ContactOpportunitySelectionWindow(ContactOpportunityListComp associateOpportunityList) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(OpportunityI18nEnum.LIST)),
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(OpportunityI18nEnum.LIST)),
                 associateOpportunityList);
         this.setWidth("1000px");
     }
@@ -48,7 +48,7 @@ public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindo
                 OpportunityTableFieldDef.opportunityName(), OpportunityTableFieldDef.saleStage(),
                 OpportunityTableFieldDef.expectedCloseDate()));
 
-        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
+        Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
 
         OpportunitySearchPanel searchPanel = new OpportunitySearchPanel();

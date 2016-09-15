@@ -27,7 +27,8 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -61,13 +62,13 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
             @Override
             public void onDelete(final SimpleBug data) {
                 ConfirmDialog.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                                bugService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                bugService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
                             }
                         });
@@ -87,12 +88,12 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             if (data.getParams() instanceof Integer) {
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                SimpleBug bug = bugService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                SimpleBug bug = bugService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (bug != null) {
                     view.previewItem(bug);
                     super.onGo(container, data);
 
-                    AppContext.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(),
+                    MyCollabUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(),
                             bug.getProjectShortName()), bug.getSummary());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

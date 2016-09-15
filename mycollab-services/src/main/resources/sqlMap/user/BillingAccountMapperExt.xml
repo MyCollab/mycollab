@@ -8,7 +8,7 @@
                      columnPrefix="plan_"/>
     </resultMap>
 
-    <select id="getBillingAccountById" resultMap="SimpleBillingAccountResult" parameterType="java.lang.Integer">
+    <sql id="selectBillingAccount">
         <![CDATA[
         SELECT s_account.id, s_account.createdTime, s_account.billingPlanId, s_account.subdomain,
             s_account.accountName, s_account.status,
@@ -25,7 +25,21 @@
             s_billing_plan.yearlyShoppingUrl AS plan_yearlyShoppingUrl
         FROM s_account
             LEFT OUTER JOIN s_billing_plan ON (s_billing_plan.id=s_account.billingPlanId)
-        WHERE s_account.id = #{accountId,jdbcType=NUMERIC}
         ]]>
+    </sql>
+
+    <select id="getBillingAccountById" resultMap="SimpleBillingAccountResult" parameterType="java.lang.Integer">
+        <include refid="selectBillingAccount" />
+        WHERE s_account.id = #{accountId,jdbcType=NUMERIC}
+    </select>
+
+    <select id="getAccountByDomain" resultMap="SimpleBillingAccountResult" parameterType="java.lang.String">
+        <include refid="selectBillingAccount" />
+        WHERE s_account.subdomain = #{domainName}
+    </select>
+
+    <select id="getDefaultAccountByDomain" resultMap="SimpleBillingAccountResult">
+        <include refid="selectBillingAccount" />
+        LIMIT 1
     </select>
 </mapper>

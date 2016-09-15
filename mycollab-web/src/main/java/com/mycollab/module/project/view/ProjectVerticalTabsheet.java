@@ -19,7 +19,7 @@ package com.mycollab.module.project.view;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
@@ -52,7 +52,7 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
             this.hideTabsCaption();
 
             toggleBtn.setIcon(FontAwesome.CARET_SQUARE_O_RIGHT);
-            toggleBtn.setDescription(AppContext.getMessage(ProjectI18nEnum.ACTION_EXPAND_MENU));
+            toggleBtn.setDescription(UserUIContext.getMessage(ProjectI18nEnum.ACTION_EXPAND_MENU));
             toggleBtn.setCaption("");
         } else {
             navigatorWrapper.setWidth("200px");
@@ -61,14 +61,14 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
 
             toggleBtn.setIcon(FontAwesome.CARET_SQUARE_O_LEFT);
             toggleBtn.setDescription("");
-            toggleBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU));
+            toggleBtn.setCaption(UserUIContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU));
         }
 
         CurrentProjectVariables.setProjectToggleMenu(visibility);
     }
 
     public void addToggleNavigatorControl() {
-        Button btn = this.addButtonOnNavigatorContainer("button", AppContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU),
+        Button btn = this.addButtonOnNavigatorContainer("button", UserUIContext.getMessage(ProjectI18nEnum.ACTION_COLLAPSE_MENU),
                 FontAwesome.CARET_SQUARE_O_LEFT);
         if (btn != null) {
             toggleBtn = btn;

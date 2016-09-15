@@ -28,7 +28,8 @@ import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -66,13 +67,13 @@ public class ContactAddPresenter extends AbstractCrmPresenter<ContactAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
             SimpleContact contact = null;
             if (data.getParams() instanceof SimpleContact) {
                 contact = (SimpleContact) data.getParams();
             } else if (data.getParams() instanceof Integer) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                contact = contactService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                contact = contactService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
             }
             if (contact == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -82,12 +83,12 @@ public class ContactAddPresenter extends AbstractCrmPresenter<ContactAddView> {
             view.editItem(contact);
 
             if (contact.getId() == null) {
-                AppContext.addFragment("crm/contact/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                        AppContext.getMessage(ContactI18nEnum.SINGLE)));
+                MyCollabUI.addFragment("crm/contact/add", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        UserUIContext.getMessage(ContactI18nEnum.SINGLE)));
             } else {
-                AppContext.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                AppContext.getMessage(ContactI18nEnum.SINGLE), contact.getLastname()));
+                MyCollabUI.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                UserUIContext.getMessage(ContactI18nEnum.SINGLE), contact.getLastname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -96,11 +97,11 @@ public class ContactAddPresenter extends AbstractCrmPresenter<ContactAddView> {
 
     private void saveContact(Contact contact) {
         ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-        contact.setSaccountid(AppContext.getAccountId());
+        contact.setSaccountid(MyCollabUI.getAccountId());
         if (contact.getId() == null) {
-            contactService.saveWithSession(contact, AppContext.getUsername());
+            contactService.saveWithSession(contact, UserUIContext.getUsername());
         } else {
-            contactService.updateWithSession(contact, AppContext.getUsername());
+            contactService.updateWithSession(contact, UserUIContext.getUsername());
         }
     }
 

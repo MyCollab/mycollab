@@ -29,7 +29,8 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -56,7 +57,7 @@ public class AssignTaskWindow extends MWindow {
     private final Task task;
 
     public AssignTaskWindow(Task task) {
-        super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getTaskname()));
+        super(UserUIContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getTaskname()));
         this.task = task;
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
         this.withWidth("750px").withModal(true).withResizable(false).withCenter().withContent(contentLayout);
@@ -86,14 +87,14 @@ public class AssignTaskWindow extends MWindow {
                 this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
                 layout.addComponent(informationLayout.getLayout());
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-                MButton approveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
+                MButton approveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         // Save task status and assignee
                         ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        taskService.updateWithSession(task, AppContext.getUsername());
+                        taskService.updateWithSession(task, UserUIContext.getUsername());
 
                         // Save comment
                         String commentValue = commentArea.getValue();
@@ -101,14 +102,14 @@ public class AssignTaskWindow extends MWindow {
                             CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(commentArea.getValue());
                             comment.setCreatedtime(new GregorianCalendar().getTime());
-                            comment.setCreateduser(AppContext.getUsername());
-                            comment.setSaccountid(AppContext.getAccountId());
+                            comment.setCreateduser(UserUIContext.getUsername());
+                            comment.setSaccountid(MyCollabUI.getAccountId());
                             comment.setType(ProjectTypeConstants.TASK);
                             comment.setTypeid("" + task.getId());
                             comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
                             CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                            commentService.saveWithSession(comment, AppContext.getUsername());
+                            commentService.saveWithSession(comment, UserUIContext.getUsername());
                         }
 
                         close();
@@ -126,9 +127,9 @@ public class AssignTaskWindow extends MWindow {
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (Task.Field.assignuser.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
                 }
                 return null;
             }

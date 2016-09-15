@@ -16,7 +16,7 @@
  */
 package com.mycollab.vaadin.web.ui;
 
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
 import org.vaadin.viritin.button.MButton;
 
@@ -35,8 +35,8 @@ public class ButtonI18nComp extends MButton {
 
     public ButtonI18nComp(String key, Enum<?> caption, Button.ClickListener listener) {
         this.key = key;
-        this.setCaption(AppContext.getMessage(caption));
-        this.setDescription(AppContext.getMessage(caption));
+        this.setCaption(UserUIContext.getMessage(caption));
+        this.setDescription(UserUIContext.getMessage(caption));
         this.addClickListener(listener);
     }
 

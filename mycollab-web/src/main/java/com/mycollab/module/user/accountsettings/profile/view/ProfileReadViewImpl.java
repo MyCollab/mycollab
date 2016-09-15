@@ -27,7 +27,7 @@ import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.ui.components.ImagePreviewCropWindow;
 import com.mycollab.module.user.ui.components.UploadImageField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -69,7 +69,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
     private void displayUserAvatar() {
         avatarAndPass.removeAllComponents();
-        Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 100);
+        Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(UserUIContext.getUserAvatarId(), 100);
         cropField.addStyleName(UIConstants.CIRCLE_BOX);
         CssLayout avatarWrapper = new CssLayout();
         avatarWrapper.addComponent(cropField);
@@ -77,7 +77,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         userAvatar.setSizeUndefined();
 
         final UploadImageField avatarUploadField = new UploadImageField(this);
-        avatarUploadField.setButtonCaption(AppContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
+        avatarUploadField.setButtonCaption(UserUIContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
         userAvatar.addComponent(avatarUploadField);
 
         avatarAndPass.with(userAvatar);
@@ -85,9 +85,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         User user = formItem.getBean();
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(false);
 
-        ELabel usernameLbl = ELabel.h2(AppContext.getUser().getDisplayName()).withWidthUndefined();
+        ELabel usernameLbl = ELabel.h2(UserUIContext.getUser().getDisplayName()).withWidthUndefined();
 
-        MButton btnChangeBasicInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+        MButton btnChangeBasicInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean())))
                 .withStyleName(WebUIConstants.BUTTON_LINK);
 
@@ -97,20 +97,20 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
         GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
         userFormLayout.getLayout().addStyleName(WebUIConstants.GRIDFORM_BORDERLESS);
-        userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
-                AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
+        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getDateofbirth())),
+                UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
         userFormLayout.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank")
-                .write(), ContentMode.HTML), AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
-        userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(AppContext.getUserLocale(), user.getTimezone())),
-                AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
-        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),
-                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), 0, 3);
+                .write(), ContentMode.HTML), UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
+        userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone())),
+                UserUIContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
+        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(UserUIContext.getUserLocale())),
+                UserUIContext.getMessage(UserI18nEnum.FORM_LANGUAGE), UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO), 0, 3);
 
-        MButton btnChangePassword = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE),
+        MButton btnChangePassword = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                 clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean())))
                 .withStyleName(WebUIConstants.BUTTON_LINK);
         userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
-                AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 4);
+                UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 4);
         basicLayout.addComponent(userFormLayout.getLayout());
 
         avatarAndPass.with(basicLayout).expand(basicLayout);
@@ -119,7 +119,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
     @Override
     public void process(BufferedImage image) {
         UserAvatarService userAvatarService = AppContextUtil.getSpringBean(UserAvatarService.class);
-        userAvatarService.uploadAvatar(image, AppContext.getUsername(), AppContext.getUserAvatarId());
+        userAvatarService.uploadAvatar(image, UserUIContext.getUsername(), UserUIContext.getUserAvatarId());
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
     }
 
@@ -148,9 +148,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
                 MHorizontalLayout contactInformationHeader = new MHorizontalLayout();
                 contactInformationHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                Label contactInformationHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
+                Label contactInformationHeaderLbl = new Label(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
 
-                MButton btnChangeContactInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                MButton btnChangeContactInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean())))
                         .withStyleName(WebUIConstants.BUTTON_LINK);
                 contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
@@ -158,9 +158,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                 layout.addSection(new CssLayout(contactInformationHeader), contactLayout.getLayout());
 
                 MHorizontalLayout advanceInfoHeader = new MHorizontalLayout();
-                Label advanceInfoHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
+                Label advanceInfoHeaderLbl = new Label(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
 
-                MButton btnChangeAdvanceInfo = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                MButton btnChangeAdvanceInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean())))
                         .withStyleName(WebUIConstants.BUTTON_LINK);
 
@@ -172,15 +172,15 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
-                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
+                    return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
-                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
+                    return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
                 } else if (propertyId.equals("country")) {
-                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
+                    return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
                 } else if (propertyId.equals("workphone")) {
-                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+                    return contactLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
                 } else if (propertyId.equals("homephone")) {
-                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+                    return contactLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
                 } else if (propertyId.equals("facebookaccount")) {
                     return contactLayout.addComponent(field, "Facebook", 0, 2);
                 } else if (propertyId.equals("twitteraccount")) {

@@ -23,7 +23,8 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.module.crm.service.ContactService;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -73,14 +74,14 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
             @Override
             public void onDelete(final SimpleCase data) {
                 ConfirmDialog.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                                 caseService.removeWithSession(data,
-                                        AppContext.getUsername(), AppContext.getAccountId());
+                                        UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
                             }
                         });
@@ -102,7 +103,7 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
             public void gotoNext(SimpleCase data) {
                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                 CaseSearchCriteria criteria = new CaseSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = caseService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -117,7 +118,7 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
             public void gotoPrevious(SimpleCase data) {
                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
                 CaseSearchCriteria criteria = new CaseSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = caseService.getPreviousItemKey(criteria);
                 if (nextId != null) {
@@ -143,7 +144,7 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
                         }
 
                         ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                        contactService.saveContactCaseRelationship(associateContacts, AppContext.getAccountId());
+                        contactService.saveContactCaseRelationship(associateContacts, MyCollabUI.getAccountId());
                         EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                     }
 
@@ -192,19 +193,19 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_CASE)) {
 
             if (data.getParams() instanceof Integer) {
                 CaseService caseService = AppContextUtil
                         .getSpringBean(CaseService.class);
                 SimpleCase cases = caseService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                        (Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (cases != null) {
                     view.previewItem(cases);
                     super.onGo(container, data);
 
-                    AppContext.addFragment(CrmLinkGenerator
-                            .generateCasePreviewLink(cases.getId()), AppContext
+                    MyCollabUI.addFragment(CrmLinkGenerator
+                            .generateCasePreviewLink(cases.getId()), UserUIContext
                             .getMessage(
                                     GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                                     "Case", cases.getSubject()));

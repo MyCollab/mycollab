@@ -24,7 +24,8 @@ import com.mycollab.module.project.view.settings.ComponentDefaultFormLayoutFacto
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
@@ -41,7 +42,7 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  */
 public class ComponentAddWindow extends MWindow implements IEditFormHandler<Component> {
     public ComponentAddWindow() {
-        super(AppContext.getMessage(ComponentI18nEnum.NEW));
+        super(UserUIContext.getMessage(ComponentI18nEnum.NEW));
         AdvancedEditBeanForm<Component> editForm = new AdvancedEditBeanForm<>();
         editForm.addFormHandler(this);
         editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_COMPONENT,
@@ -49,7 +50,7 @@ public class ComponentAddWindow extends MWindow implements IEditFormHandler<Comp
         editForm.setBeanFormFieldFactory(new ComponentEditFormFieldFactory(editForm));
         Component component = new Component();
         component.setProjectid(CurrentProjectVariables.getProjectId());
-        component.setSaccountid(AppContext.getAccountId());
+        component.setSaccountid(MyCollabUI.getAccountId());
         component.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
         editForm.setBean(component);
         ComponentContainer buttonControls = generateEditFormControls(editForm, true, false, true);
@@ -60,7 +61,7 @@ public class ComponentAddWindow extends MWindow implements IEditFormHandler<Comp
     @Override
     public void onSave(Component bean) {
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-        componentService.saveWithSession(bean, AppContext.getUsername());
+        componentService.saveWithSession(bean, UserUIContext.getUsername());
         close();
     }
 

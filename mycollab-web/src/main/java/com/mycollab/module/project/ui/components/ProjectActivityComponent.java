@@ -33,7 +33,8 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
@@ -95,12 +96,12 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
-        headerLbl = new ELabel(AppContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));
+        headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));
 
         final OptionGroup sortDirection = new OptionGroup();
         sortDirection.addStyleName("sortDirection");
-        String oldestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
-        final String newestFirstDirection = AppContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
+        String oldestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
+        final String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
         sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
         sortDirection.setValue(newestFirstDirection);
         sortDirection.addValueChangeListener(valueChangeEvent -> {
@@ -141,7 +142,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         final int commentCount = commentService.getTotalCount(commentCriteria);
 
         final AuditLogSearchCriteria logCriteria = new AuditLogSearchCriteria();
-        logCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        logCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         logCriteria.setModule(StringSearchField.and(ModuleNameConstants.PRJ));
         logCriteria.setType(StringSearchField.and(type));
         logCriteria.setTypeId(StringSearchField.and(typeId));
@@ -186,22 +187,22 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel timePostLbl = ELabel.html(AppContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())))
-                .withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
+        ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+                UserUIContext.formatPrettyTime(comment.getCreatedtime())))
+                .withDescription(UserUIContext.formatDateTime(comment.getCreatedtime()));
         timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
             MButton msgDeleteBtn = new MButton(FontAwesome.TRASH_O).withListener(clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
+                                commentService.removeWithSession(comment, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 activityBox.removeComponent(layout);
                             }
                         });
@@ -230,7 +231,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     }
 
     private boolean hasDeletePermission(SimpleComment comment) {
-        return (AppContext.getUsername().equals(comment.getCreateduser()) || AppContext.isAdmin());
+        return (UserUIContext.getUsername().equals(comment.getCreateduser()) || UserUIContext.isAdmin());
     }
 
     private Component buildAuditBlock(SimpleAuditLog auditLog) {
@@ -248,9 +249,9 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            ELabel timePostLbl = ELabel.html(AppContext.getMessage(GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
-                    AppContext.formatPrettyTime(auditLog.getPosteddate())))
-                    .withDescription(AppContext.formatDateTime(auditLog.getPosteddate()));
+            ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
+                    UserUIContext.formatPrettyTime(auditLog.getPosteddate())))
+                    .withDescription(UserUIContext.formatDateTime(auditLog.getPosteddate()));
             timePostLbl.setStyleName(UIConstants.META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
@@ -262,7 +263,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
 
                 DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
                 if (fieldDisplayHandler != null) {
-                    Span fieldBlock = new Span().appendText(AppContext.getMessage(fieldDisplayHandler.getDisplayName()))
+                    Span fieldBlock = new Span().appendText(UserUIContext.getMessage(fieldDisplayHandler.getDisplayName()))
                             .setCSSClass(WebUIConstants.BLOCK);
                     Div historyDiv = new Div().appendChild(fieldBlock).appendText(fieldDisplayHandler.getFormat()
                             .toString(item.getOldvalue())).appendText(" " + FontAwesome.LONG_ARROW_RIGHT.getHtml() +
@@ -279,7 +280,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     }
 
     private void setTotalNums(int nums) {
-        headerLbl.setValue(AppContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, nums));
+        headerLbl.setValue(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, nums));
     }
 
     @Override

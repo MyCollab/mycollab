@@ -29,7 +29,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.reporting.ReportExportType;
 import com.mycollab.reporting.ReportTemplateExecutor;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
@@ -72,7 +72,7 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
     private MultiPageListBuilder titleContent;
 
     PageReportTemplateExecutor(String reportTitle) {
-        super(AppContext.getUser(), AppContext.getUserTimeZone(), AppContext.getUserLocale(), reportTitle, ReportExportType.PDF);
+        super(UserUIContext.getUser(), UserUIContext.getUserTimeZone(), UserUIContext.getUserLocale(), reportTitle, ReportExportType.PDF);
     }
 
     @Override
@@ -126,8 +126,8 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
     }
 
     private ComponentBuilder buildCommentBlock(SimpleComment comment) {
-        TextFieldBuilder<String> authorField = cmp.text(StringUtils.trimHtmlTags(AppContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())), Integer.MAX_VALUE)).setStyle(reportStyles.getMetaInfoStyle());
+        TextFieldBuilder<String> authorField = cmp.text(StringUtils.trimHtmlTags(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+                UserUIContext.formatPrettyTime(comment.getCreatedtime())), Integer.MAX_VALUE)).setStyle(reportStyles.getMetaInfoStyle());
         HorizontalListBuilder infoHeader = cmp.horizontalFlowList().add(authorField);
         return cmp.verticalList(infoHeader, cmp.text(StringUtils.trimHtmlTags(comment.getComment(), Integer.MAX_VALUE)))
                 .setStyle(reportStyles.getBorderStyle());

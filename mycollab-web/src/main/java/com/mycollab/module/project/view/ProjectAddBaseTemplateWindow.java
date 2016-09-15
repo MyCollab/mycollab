@@ -30,7 +30,8 @@ import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.service.ProjectTemplateService;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -55,7 +56,7 @@ import static com.mycollab.module.project.i18n.ProjectI18nEnum.*;
  */
 public class ProjectAddBaseTemplateWindow extends Window {
     public ProjectAddBaseTemplateWindow() {
-        super(AppContext.getMessage(OPT_CREATE_PROJECT_FROM_TEMPLATE));
+        super(UserUIContext.getMessage(OPT_CREATE_PROJECT_FROM_TEMPLATE));
         this.setModal(true);
         this.setClosable(true);
         this.setResizable(false);
@@ -63,41 +64,41 @@ public class ProjectAddBaseTemplateWindow extends Window {
         MVerticalLayout content = new MVerticalLayout();
         GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
         final TemplateProjectComboBox templateProjectComboBox = new TemplateProjectComboBox();
-        gridFormLayoutHelper.addComponent(templateProjectComboBox, AppContext.getMessage(FORM_TEMPLATE),
-                AppContext.getMessage(OPT_MARK_TEMPLATE_HELP), 0, 0);
+        gridFormLayoutHelper.addComponent(templateProjectComboBox, UserUIContext.getMessage(FORM_TEMPLATE),
+                UserUIContext.getMessage(OPT_MARK_TEMPLATE_HELP), 0, 0);
         final TextField prjNameField = new TextField();
-        gridFormLayoutHelper.addComponent(prjNameField, AppContext.getMessage(FORM_NAME), 0, 1);
+        gridFormLayoutHelper.addComponent(prjNameField, UserUIContext.getMessage(FORM_NAME), 0, 1);
         final TextField prjKeyField = new TextField();
-        gridFormLayoutHelper.addComponent(prjKeyField, AppContext.getMessage(FORM_SHORT_NAME), 0, 2);
+        gridFormLayoutHelper.addComponent(prjKeyField, UserUIContext.getMessage(FORM_SHORT_NAME), 0, 2);
 
-        MButton okBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_OK), clickEvent -> {
+        MButton okBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_OK), clickEvent -> {
             SimpleProject templatePrj = (SimpleProject) templateProjectComboBox.getValue();
             if (templatePrj == null) {
-                NotificationUtil.showErrorNotification(AppContext.getMessage(ERROR_MUST_CHOOSE_TEMPLATE_PROJECT));
+                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ERROR_MUST_CHOOSE_TEMPLATE_PROJECT));
                 return;
             }
             String newPrjName = prjNameField.getValue();
             if (newPrjName.length() == 0) {
-                NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        AppContext.getMessage(GenericI18Enum.FORM_NAME)));
+                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                 return;
             }
             String newPrjKey = prjKeyField.getValue();
             if (newPrjKey.length() > 3 || newPrjKey.length() == 0) {
-                NotificationUtil.showErrorNotification(AppContext.getMessage(ProjectI18nEnum.ERROR_PROJECT_KEY_INVALID));
+                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ProjectI18nEnum.ERROR_PROJECT_KEY_INVALID));
                 return;
             }
             ProjectTemplateService projectTemplateService = AppContextUtil.getSpringBean
                     (ProjectTemplateService.class);
             if (projectTemplateService != null) {
                 Integer newProjectId = projectTemplateService.cloneProject(templatePrj.getId(), newPrjName, newPrjKey,
-                        AppContext.getAccountId(), AppContext.getUsername());
+                        MyCollabUI.getAccountId(), UserUIContext.getUsername());
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
                         new PageActionChain(new ProjectScreenData.Goto(newProjectId))));
                 close();
             }
         }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, okBtn);
         content.with(gridFormLayoutHelper.getLayout(), buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

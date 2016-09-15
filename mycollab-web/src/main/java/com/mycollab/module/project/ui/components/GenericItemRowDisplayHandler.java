@@ -25,7 +25,7 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.domain.ProjectGenericItem;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
@@ -55,18 +55,18 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
                     item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
         }
 
-        String desc = (StringUtils.isBlank(item.getDescription())) ? AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :
+        String desc = (StringUtils.isBlank(item.getDescription())) ? UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :
                 item.getDescription();
         SafeHtmlLabel descLbl = new SafeHtmlLabel(desc);
 
         Div div = new Div().setStyle("width:100%");
-        Text createdByTxt = new Text(AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY) + ": ");
-        Div lastUpdatedOn = new Div().appendChild(new Text(AppContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
-                AppContext.formatPrettyTime(item.getLastUpdatedTime()))))
-                .setTitle(AppContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;margin-right:5px");
+        Text createdByTxt = new Text(UserUIContext.getMessage(GenericI18Enum.OPT_CREATED_BY) + ": ");
+        Div lastUpdatedOn = new Div().appendChild(new Text(UserUIContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
+                UserUIContext.formatPrettyTime(item.getLastUpdatedTime()))))
+                .setTitle(UserUIContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;margin-right:5px");
 
         if (StringUtils.isBlank(item.getCreatedUser())) {
-            div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), new Text(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)),
+            div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), new Text(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)),
                     lastUpdatedOn);
         } else {
             Img userAvatar = new Img("", StorageFactory.getAvatarPath(item.getCreatedUserAvatarId(), 16))

@@ -30,7 +30,8 @@ import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -59,13 +60,13 @@ public class MeetingReadPresenter extends AbstractCrmPresenter<MeetingReadView> 
             @Override
             public void onDelete(final SimpleMeeting data) {
                 ConfirmDialog.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 MeetingService campaignService = AppContextUtil.getSpringBean(MeetingService.class);
-                                campaignService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                campaignService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
                             }
                         });
@@ -87,7 +88,7 @@ public class MeetingReadPresenter extends AbstractCrmPresenter<MeetingReadView> 
             public void gotoNext(SimpleMeeting data) {
                 MeetingService accountService = AppContextUtil.getSpringBean(MeetingService.class);
                 MeetingSearchCriteria criteria = new MeetingSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = accountService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -102,7 +103,7 @@ public class MeetingReadPresenter extends AbstractCrmPresenter<MeetingReadView> 
             public void gotoPrevious(SimpleMeeting data) {
                 MeetingService accountService = AppContextUtil.getSpringBean(MeetingService.class);
                 MeetingSearchCriteria criteria = new MeetingSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = accountService.getPreviousItemKey(criteria);
                 if (nextId != null) {
@@ -116,14 +117,14 @@ public class MeetingReadPresenter extends AbstractCrmPresenter<MeetingReadView> 
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_MEETING)) {
 
             SimpleMeeting meeting;
             if (data.getParams() instanceof Integer) {
                 MeetingService meetingService = AppContextUtil
                         .getSpringBean(MeetingService.class);
                 meeting = meetingService.findById((Integer) data.getParams(),
-                        AppContext.getAccountId());
+                        MyCollabUI.getAccountId());
                 if (meeting == null) {
                     NotificationUtil.showRecordNotExistNotification();
                     return;
@@ -134,8 +135,8 @@ public class MeetingReadPresenter extends AbstractCrmPresenter<MeetingReadView> 
             view.previewItem(meeting);
             super.onGo(container, data);
 
-            AppContext.addFragment(CrmLinkGenerator
-                    .generateMeetingPreviewLink(meeting.getId()), AppContext
+            MyCollabUI.addFragment(CrmLinkGenerator
+                    .generateMeetingPreviewLink(meeting.getId()), UserUIContext
                     .getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                             "Meeting", meeting.getSubject()));
         } else {

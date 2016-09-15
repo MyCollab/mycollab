@@ -22,7 +22,8 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.FieldDefAnalyzer;
 import com.mycollab.common.service.CustomViewStoreService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
@@ -51,7 +52,7 @@ public abstract class CustomizedTableWindow extends MWindow {
     protected String viewId;
 
     public CustomizedTableWindow(final String viewId, final AbstractPagedBeanTable<?, ?> table) {
-        super(AppContext.getMessage(GenericI18Enum.OPT_CUSTOMIZE_VIEW));
+        super(UserUIContext.getMessage(GenericI18Enum.OPT_CUSTOMIZE_VIEW));
         this.viewId = viewId;
         this.withWidth("400px").withModal(true).withResizable(false).withCenter();
 
@@ -64,8 +65,8 @@ public abstract class CustomizedTableWindow extends MWindow {
         listBuilder = new ListBuilder();
         listBuilder.setImmediate(true);
         listBuilder.setColumns(0);
-        listBuilder.setLeftColumnCaption(AppContext.getMessage(GenericI18Enum.OPT_AVAILABLE_COLUMNS));
-        listBuilder.setRightColumnCaption(AppContext.getMessage(GenericI18Enum.OPT_VIEW_COLUMNS));
+        listBuilder.setLeftColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_AVAILABLE_COLUMNS));
+        listBuilder.setRightColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_VIEW_COLUMNS));
         listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
         listBuilder.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
         final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(TableViewField.class, this.getAvailableColumns());
@@ -73,12 +74,12 @@ public abstract class CustomizedTableWindow extends MWindow {
         Iterator<TableViewField> iterator = getAvailableColumns().iterator();
         while (iterator.hasNext()) {
             TableViewField field = iterator.next();
-            listBuilder.setItemCaption(field, AppContext.getMessage(field.getDescKey()));
+            listBuilder.setItemCaption(field, UserUIContext.getMessage(field.getDescKey()));
         }
         this.setSelectedViewColumns();
         contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
-        MButton restoreLink = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
+        MButton restoreLink = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             List<TableViewField> defaultSelectedColumns = tableItem.getDefaultSelectedColumns();
             if (defaultSelectedColumns != null) {
                 final List<TableViewField> selectedColumns = new ArrayList<>();
@@ -97,20 +98,20 @@ public abstract class CustomizedTableWindow extends MWindow {
         }).withStyleName(WebUIConstants.BUTTON_LINK);
         contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 
-        final MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             List<TableViewField> selectedColumns = (List<TableViewField>) listBuilder.getValue();
             table.setDisplayColumns(selectedColumns);
             // Save custom table view def
             CustomViewStore viewDef = new CustomViewStore();
-            viewDef.setSaccountid(AppContext.getAccountId());
-            viewDef.setCreateduser(AppContext.getUsername());
+            viewDef.setSaccountid(MyCollabUI.getAccountId());
+            viewDef.setCreateduser(UserUIContext.getUsername());
             viewDef.setViewid(viewId);
             viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(selectedColumns)));
             customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
             close();
         }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-        final MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);

@@ -25,7 +25,8 @@ import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override
@@ -52,14 +53,14 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
         try {
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
-            SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
+            SimpleUser user = userService.findUserByUserNameInAccount(value, MyCollabUI.getAccountId());
             if (user != null) {
                 if (displayAsHtml) {
                     String userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid(), 16);
                     Img img = FormatUtils.newImg("avatar", userAvatarLink);
 
                     String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-                            MailUtils.getSiteUrl(AppContext.getAccountId()), user.getUsername());
+                            MailUtils.getSiteUrl(MyCollabUI.getAccountId()), user.getUsername());
 
                     A link = FormatUtils.newA(userLink, user.getDisplayName());
                     return FormatUtils.newLink(img, link).write();

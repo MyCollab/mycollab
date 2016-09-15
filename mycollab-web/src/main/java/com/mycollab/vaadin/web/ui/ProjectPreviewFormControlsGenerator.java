@@ -19,7 +19,7 @@ package com.mycollab.vaadin.web.ui;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.reporting.PrintButton;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -74,7 +74,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
             boolean canRead = CurrentProjectVariables.canRead(permissionItem);
 
             if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-                MButton assignBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
+                MButton assignBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.fireAssignForm(item);
                 }).withIcon(FontAwesome.SHARE).withStyleName(WebUIConstants.BUTTON_ACTION).withVisible(canWrite);
@@ -82,7 +82,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
-                MButton addBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
+                MButton addBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireAddForm(item);
@@ -91,7 +91,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-                MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
+                MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireEditForm(item);
@@ -100,7 +100,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-                MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.fireDeleteForm(item);
                 }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER).withVisible(canAccess);
@@ -112,13 +112,13 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 printBtn.withListener(clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.firePrintForm(printBtn, item);
-                }).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.ACTION_PRINT))
+                }).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_PRINT))
                         .withVisible(canRead);
                 editButtons.addComponent(printBtn);
             }
 
             if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-                MButton cloneBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
+                MButton cloneBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireCloneForm(item);
@@ -134,7 +134,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                     T item = previewForm.getBean();
                     previewForm.fireGotoPrevious(item);
                 }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebUIConstants.BUTTON_OPTION)
-                        .withDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM))
+                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM))
                         .withVisible(canRead);
                 navigationBtns.addButton(previousItem);
 
@@ -142,7 +142,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                     T item = previewForm.getBean();
                     previewForm.fireGotoNextItem(item);
                 }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebUIConstants.BUTTON_OPTION)
-                        .withDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM))
+                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM))
                         .withVisible(canRead);
                 navigationBtns.addButton(nextItemBtn);
                 layout.addComponent(navigationBtns);

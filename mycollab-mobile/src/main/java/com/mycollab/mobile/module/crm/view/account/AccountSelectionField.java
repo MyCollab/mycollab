@@ -21,7 +21,7 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
 
@@ -60,7 +60,7 @@ public class AccountSelectionField extends
 		AccountService accountService = AppContextUtil
 				.getSpringBean(AccountService.class);
 		SimpleAccount account = accountService.findById(accountId,
-				AppContext.getAccountId());
+				MyCollabUI.getAccountId());
 		if (account != null) {
 			setInternalAccount(account);
 		}

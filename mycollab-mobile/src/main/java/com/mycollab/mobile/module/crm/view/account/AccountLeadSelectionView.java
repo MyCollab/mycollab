@@ -22,7 +22,7 @@ import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Inc.
@@ -32,7 +32,7 @@ public class AccountLeadSelectionView extends AbstractRelatedItemSelectionView<S
     private static final long serialVersionUID = 362958193460007588L;
 
     public AccountLeadSelectionView(AbstractRelatedListView<SimpleLead, LeadSearchCriteria> relatedListView) {
-        super(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), relatedListView);
+        super(UserUIContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), relatedListView);
     }
 
     @Override

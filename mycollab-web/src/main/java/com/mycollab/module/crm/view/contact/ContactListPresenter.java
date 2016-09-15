@@ -30,7 +30,8 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -66,7 +67,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(ContactI18nEnum.LIST);
+                return UserUIContext.getMessage(ContactI18nEnum.LIST);
             }
 
             @Override
@@ -78,7 +79,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
             protected void onSelectExtra(String id) {
                 if ("mail".equals(id)) {
                     if (isSelectAll) {
-                        NotificationUtil.showWarningNotification(AppContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+                        NotificationUtil.showWarningNotification(UserUIContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 
                     } else {
                         List<String> lstMail = new ArrayList<>();
@@ -93,8 +94,8 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
 
                 } else if ("massUpdate".equals(id)) {
                     MassUpdateContactWindow massUpdateWindow = new MassUpdateContactWindow(
-                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                    AppContext.getMessage(ContactI18nEnum.LIST)), ContactListPresenter.this);
+                            UserUIContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
+                                    UserUIContext.getMessage(ContactI18nEnum.LIST)), ContactListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
 
@@ -105,7 +106,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CONTACT);
-        if (AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
             searchCriteria = (ContactSearchCriteria) data.getParams();
             int totalCount = contactService.getTotalCount(searchCriteria);
             if (totalCount > 0) {
@@ -115,7 +116,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.LIST));
+            MyCollabUI.addFragment("crm/contact/list", UserUIContext.getMessage(ContactI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }
@@ -133,12 +134,12 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
             }
 
             if (keyList.size() > 0) {
-                contactService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                contactService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            contactService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            contactService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
     }
@@ -154,7 +155,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
                 }
             }
             if (keyList.size() > 0) {
-                contactService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                contactService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

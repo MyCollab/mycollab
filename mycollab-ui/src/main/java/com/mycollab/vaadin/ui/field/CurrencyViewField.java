@@ -18,7 +18,7 @@ package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.core.utils.CurrencyUtils;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Component;
@@ -38,7 +38,7 @@ public class CurrencyViewField extends CustomField<String> {
             label = new ELabel();
         } else {
             Currency currency = CurrencyUtils.getInstance(value);
-            label = new ELabel(String.format("%s (%s)", currency.getDisplayName(AppContext.getUserLocale()), currency.getCurrencyCode()))
+            label = new ELabel(String.format("%s (%s)", currency.getDisplayName(UserUIContext.getUserLocale()), currency.getCurrencyCode()))
                     .withFullWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
         }
     }

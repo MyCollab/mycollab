@@ -37,7 +37,8 @@ import com.mycollab.module.project.service.ProjectPageService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
@@ -77,7 +78,7 @@ public class ActivityStreamComponent extends CssLayout {
             ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
             searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
             searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
-            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             this.activityStreamList.setSearchCriteria(searchCriteria);
         }
     }
@@ -123,7 +124,7 @@ public class ActivityStreamComponent extends CssLayout {
                 for (ProjectActivityStream activityStream : currentListData) {
                     if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
                         ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
-                        Page page = pageService.getPage(activityStream.getTypeid(), AppContext.getUsername());
+                        Page page = pageService.getPage(activityStream.getTypeid(), UserUIContext.getUsername());
                         if (page != null) {
                             activityStream.setNamefield(page.getSubject());
                         }
@@ -147,21 +148,21 @@ public class ActivityStreamComponent extends CssLayout {
 
                     if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
                         if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
-                            content.append(AppContext.getMessage(
+                            content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                                     assigneeValue, type, projectLink));
                         } else {
-                            content.append(AppContext.getMessage(
+                            content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
                                     assigneeValue, type, itemLink, projectLink));
                         }
                     } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
                         if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
-                            content.append(AppContext.getMessage(
+                            content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                                     assigneeValue, type, projectLink));
                         } else {
-                            content.append(AppContext.getMessage(
+                            content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                                     assigneeValue, type, itemLink, projectLink));
                         }
@@ -169,7 +170,7 @@ public class ActivityStreamComponent extends CssLayout {
                             content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                         }
                     } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
-                        content.append(AppContext.getMessage(
+                        content.append(UserUIContext.getMessage(
                                 ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                                 assigneeValue, type, itemLink, projectLink));
 
@@ -179,11 +180,11 @@ public class ActivityStreamComponent extends CssLayout {
                         }
                     } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
                         if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
-                            content.append(AppContext.getMessage(
+                            content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                                     assigneeValue, type, projectLink));
                         } else {
-                            content.append(AppContext.getMessage(
+                            content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_DELETE_ACTION_TITLE,
                                     assigneeValue, type, itemLink, projectLink));
                         }

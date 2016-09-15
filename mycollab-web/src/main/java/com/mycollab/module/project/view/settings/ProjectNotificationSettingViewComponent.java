@@ -23,7 +23,7 @@ import com.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.mycollab.module.project.i18n.ProjectSettingI18nEnum;
 import com.mycollab.module.project.service.ProjectNotificationSettingService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.BlockWidget;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -43,7 +43,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
     private static final long serialVersionUID = 1L;
 
     public ProjectNotificationSettingViewComponent(final ProjectNotificationSetting bean) {
-        super(AppContext.getMessage(ProjectSettingI18nEnum.VIEW_TITLE));
+        super(UserUIContext.getMessage(ProjectSettingI18nEnum.VIEW_TITLE));
 
         MVerticalLayout bodyWrapper = new MVerticalLayout().withFullWidth();
         bodyWrapper.setSizeFull();
@@ -54,19 +54,19 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
         optionGroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 
         optionGroup.addItem(NotificationType.Default.name());
-        optionGroup.setItemCaption(NotificationType.Default.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.Default.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
 
         optionGroup.addItem(NotificationType.None.name());
         optionGroup.setItemCaption(NotificationType.None.name(),
-                AppContext.getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
+                UserUIContext.getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
 
         optionGroup.addItem(NotificationType.Minimal.name());
-        optionGroup.setItemCaption(NotificationType.Minimal.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.Minimal.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
 
         optionGroup.addItem(NotificationType.Full.name());
-        optionGroup.setItemCaption(NotificationType.Full.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.Full.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_MAXIMUM_SETTING));
 
         optionGroup.setWidth("100%");
@@ -80,18 +80,18 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             optionGroup.select(levelVal);
         }
 
-        MButton updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+        MButton updateBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
             try {
                 bean.setLevel((String) optionGroup.getValue());
                 ProjectNotificationSettingService projectNotificationSettingService = AppContextUtil.getSpringBean(ProjectNotificationSettingService.class);
 
                 if (bean.getId() == null) {
-                    projectNotificationSettingService.saveWithSession(bean, AppContext.getUsername());
+                    projectNotificationSettingService.saveWithSession(bean, UserUIContext.getUsername());
                 } else {
-                    projectNotificationSettingService.updateWithSession(bean, AppContext.getUsername());
+                    projectNotificationSettingService.updateWithSession(bean, UserUIContext.getUsername());
                 }
-                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                        AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+                NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                        UserUIContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }

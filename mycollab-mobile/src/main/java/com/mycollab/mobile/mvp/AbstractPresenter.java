@@ -20,7 +20,7 @@ import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.security.PermissionChecker;
 import com.mycollab.security.PermissionMap;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
@@ -86,12 +86,12 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     private boolean checkPermissionAccessIfAny() {
         ViewPermission viewPermission = this.getClass().getAnnotation(ViewPermission.class);
         if (viewPermission != null) {
-            if (AppContext.isAdmin()) {
+            if (UserUIContext.isAdmin()) {
                 return true;
             } else {
                 String permissionId = viewPermission.permissionId();
                 int impliedPermissionVal = viewPermission.impliedPermissionVal();
-                PermissionMap permissionMap = AppContext.getPermissionMap();
+                PermissionMap permissionMap = UserUIContext.getPermissionMap();
                 if (permissionMap == null) {
                     return false;
                 } else {

@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
@@ -42,7 +42,7 @@ public class I18nFormViewField extends CustomField<String> {
 
         if (StringUtils.isNotBlank(key)) {
             try {
-                String value = AppContext.getMessage(enumClass, key);
+                String value = UserUIContext.getMessage(enumClass, key);
                 label.setValue(value);
             } catch (Exception e) {
                 label.setValue("");

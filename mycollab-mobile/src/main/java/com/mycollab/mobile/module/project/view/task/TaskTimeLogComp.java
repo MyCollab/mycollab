@@ -32,7 +32,8 @@ import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Date;
 
@@ -91,23 +92,23 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
         @Override
         protected void saveTimeInvest(double spentHours, boolean isBillable, Date forDate) {
             ItemTimeLogging item = new ItemTimeLogging();
-            item.setLoguser(AppContext.getUsername());
+            item.setLoguser(UserUIContext.getUsername());
             item.setLogvalue(spentHours);
             item.setTypeid(bean.getId());
             item.setType(ProjectTypeConstants.TASK);
-            item.setSaccountid(AppContext.getAccountId());
+            item.setSaccountid(MyCollabUI.getAccountId());
             item.setProjectid(CurrentProjectVariables.getProjectId());
             item.setLogforday(forDate);
             item.setIsbillable(isBillable);
 
-            itemTimeLoggingService.saveWithSession(item, AppContext.getUsername());
+            itemTimeLoggingService.saveWithSession(item, UserUIContext.getUsername());
         }
 
         @Override
         protected void updateTimeRemain(double newValue) {
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             bean.setRemainestimate(newValue);
-            taskService.updateWithSession(bean, AppContext.getUsername());
+            taskService.updateWithSession(bean, UserUIContext.getUsername());
         }
 
         @Override

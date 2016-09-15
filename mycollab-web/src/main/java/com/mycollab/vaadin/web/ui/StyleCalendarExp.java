@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.configuration.StorageFactory;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -73,7 +73,7 @@ public class StyleCalendarExp extends VerticalLayout {
         btnShowPreviousYear.setIcon(new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/cal_year_pre.png")));
         btnShowPreviousYear.setStyleName(WebUIConstants.BUTTON_LINK);
 
-        lbSelectedDate.setValue(AppContext.formatDate(new Date()));
+        lbSelectedDate.setValue(UserUIContext.formatDate(new Date()));
         lbSelectedDate.addStyleName("calendarDateLabel");
         lbSelectedDate.setWidth("80");
 

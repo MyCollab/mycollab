@@ -33,7 +33,8 @@ import com.mycollab.module.project.events.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -111,18 +112,18 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
     private void initHeader() {
         HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.PAGE,
-                AppContext.getMessage(PageI18nEnum.LIST));
+                UserUIContext.getMessage(PageI18nEnum.LIST));
 
         headerLayout.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
 
-        Label sortLbl = new Label(AppContext.getMessage(PageI18nEnum.OPT_SORT_LABEL));
+        Label sortLbl = new Label(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_LABEL));
         sortLbl.setSizeUndefined();
         headerLayout.with(sortLbl).withAlign(sortLbl, Alignment.MIDDLE_RIGHT);
 
         ToggleButtonGroup sortGroup = new ToggleButtonGroup();
         headerLayout.with(sortGroup).withAlign(sortGroup, Alignment.MIDDLE_RIGHT);
 
-        SortButton sortDateBtn = new SortButton(AppContext.getMessage(PageI18nEnum.OPT_SORT_BY_DATE), clickEvent -> {
+        SortButton sortDateBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_DATE), clickEvent -> {
             dateSourceAscend = !dateSourceAscend;
             if (dateSourceAscend) {
                 Collections.sort(resources, Ordering.from(dateSort));
@@ -133,7 +134,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         });
         sortGroup.addButton(sortDateBtn);
 
-        SortButton sortNameBtn = new SortButton(AppContext.getMessage(PageI18nEnum.OPT_SORT_BY_NAME), clickEvent -> {
+        SortButton sortNameBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_NAME), clickEvent -> {
             nameSortAscend = !nameSortAscend;
             if (nameSortAscend) {
                 Collections.sort(resources, Ordering.from(nameSort));
@@ -144,7 +145,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         });
         sortGroup.addButton(sortNameBtn);
 
-        SortButton sortKindBtn = new SortButton(AppContext.getMessage(PageI18nEnum.OPT_SORT_BY_KIND), clickEvent -> {
+        SortButton sortKindBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_KIND), clickEvent -> {
             kindSortAscend = !kindSortAscend;
             if (kindSortAscend) {
                 Collections.sort(resources, Ordering.from(kindSort));
@@ -156,13 +157,13 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         sortGroup.addButton(sortKindBtn);
         sortGroup.withDefaultButton(sortDateBtn);
 
-        MButton newGroupBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW_GROUP),
+        MButton newGroupBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow()))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
         newGroupBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         headerLayout.with(newGroupBtn).withAlign(newGroupBtn, Alignment.MIDDLE_RIGHT);
 
-        MButton newPageBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW),
+        MButton newPageBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
         newPageBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
@@ -205,24 +206,24 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
             container.addComponent(new Label(StringUtils.trimHtmlTags(resource.getDescription())));
         }
 
-        Label lastUpdateInfo = new ELabel(AppContext.getMessage(PageI18nEnum.LABEL_LAST_UPDATE,
+        Label lastUpdateInfo = new ELabel(UserUIContext.getMessage(PageI18nEnum.LABEL_LAST_UPDATE,
                 ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
-                AppContext.formatPrettyTime(resource.getCreatedTime()
-                        .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getCreatedTime().getTime()));
+                UserUIContext.formatPrettyTime(resource.getCreatedTime()
+                        .getTime())), ContentMode.HTML).withDescription(UserUIContext.formatDateTime(resource.getCreatedTime().getTime()));
         lastUpdateInfo.addStyleName(UIConstants.META_INFO);
         container.addComponent(lastUpdateInfo);
 
-        MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+        MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow(resource)))
                 .withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING).withIcon(FontAwesome.EDIT);
         editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
-        MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+        MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             PageService pageService = AppContextUtil.getSpringBean(PageService.class);
@@ -246,25 +247,25 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         container.with(pageLink, new SafeHtmlLabel(resource.getContent(), 400));
 
-        Label lastUpdateInfo = new ELabel(AppContext.getMessage(
+        Label lastUpdateInfo = new ELabel(UserUIContext.getMessage(
                 PageI18nEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
                         CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
-                AppContext.formatPrettyTime(resource.getLastUpdatedTime().getTime())), ContentMode.HTML)
-                .withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
+                UserUIContext.formatPrettyTime(resource.getLastUpdatedTime().getTime())), ContentMode.HTML)
+                .withDescription(UserUIContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
         lastUpdateInfo.addStyleName(UIConstants.META_INFO);
         container.addComponent(lastUpdateInfo);
 
-        MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+        MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoEdit(PageListViewImpl.this, resource)))
                 .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING);
         editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
-        MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+        MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             PageService pageService = AppContextUtil.getSpringBean(PageService.class);

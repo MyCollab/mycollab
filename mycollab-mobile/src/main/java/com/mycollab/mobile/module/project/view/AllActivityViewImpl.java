@@ -35,7 +35,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.hp.gagawa.java.elements.A;
@@ -57,7 +57,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
     private static final long serialVersionUID = -7722214412998470562L;
 
     public AllActivityViewImpl() {
-        this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+        this.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
     }
 
     @Override
@@ -121,22 +121,22 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
                 if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
-                    content.append(AppContext.getMessage(
+                    content.append(UserUIContext.getMessage(
                             ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                             assigneeValue, type, projectLink));
                 } else {
-                    content.append(AppContext.getMessage(
+                    content.append(UserUIContext.getMessage(
                             ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
                             assigneeValue, type, itemLink, projectLink));
                 }
 
             } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
                 if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
-                    content.append(AppContext.getMessage(
+                    content.append(UserUIContext.getMessage(
                             ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                             assigneeValue, type, projectLink));
                 } else {
-                    content.append(AppContext.getMessage(
+                    content.append(UserUIContext.getMessage(
                             ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                             assigneeValue, type, itemLink, projectLink));
                 }
@@ -144,7 +144,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
                     content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                 }
             } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(
+                content.append(UserUIContext.getMessage(
                         ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                         assigneeValue, type, itemLink, projectLink));
 
@@ -154,11 +154,11 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
                 }
             } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
                 if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
-                    content.append(AppContext.getMessage(
+                    content.append(UserUIContext.getMessage(
                             ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                             assigneeValue, type, projectLink));
                 } else {
-                    content.append(AppContext.getMessage(
+                    content.append(UserUIContext.getMessage(
                             ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_DELETE_ACTION_TITLE,
                             assigneeValue, type, itemLink, projectLink));
                 }

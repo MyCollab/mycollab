@@ -27,7 +27,7 @@ import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -94,7 +94,7 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
 
     @Override
     public String getCaption() {
-        return AppContext.getMessage(ProjectI18nEnum.OPT_GENERAL);
+        return UserUIContext.getMessage(ProjectI18nEnum.OPT_GENERAL);
     }
 
     @Override
@@ -126,8 +126,8 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
             } else if (Project.Field.projectstatus.equalTo(propertyId)) {
                 ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
                 projectCombo.setRequired(true);
-                projectCombo.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        AppContext.getMessage(GenericI18Enum.FORM_STATUS)));
+                projectCombo.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)));
                 if (project.getProjectstatus() == null) {
                     project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
@@ -136,15 +136,15 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
                 TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME)));
+                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        UserUIContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME)));
                 return tf;
             } else if (Project.Field.name.equalTo(propertyId)) {
                 TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        AppContext.getMessage(GenericI18Enum.FORM_NAME)));
+                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                 return tf;
             } else if (Project.Field.lead.equalTo(propertyId)) {
                 return new ActiveUserComboBox();

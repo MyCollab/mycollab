@@ -30,7 +30,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
@@ -77,7 +77,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withDescription(AppContext.getMessage(MilestoneI18nEnum.OPT_EDIT_PHASE_NAME))
+            }).withDescription(UserUIContext.getMessage(MilestoneI18nEnum.OPT_EDIT_PHASE_NAME))
                     .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(instantEditBtn);
             this.addComponent(buttonControls);
@@ -94,7 +94,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
             milestone.setName(newValue);
             titleLinkLbl.setValue(buildMilestoneLink());
             MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-            milestoneService.updateSelectiveWithSession(BeanUtility.deepClone(milestone), AppContext.getUsername());
+            milestoneService.updateSelectiveWithSession(BeanUtility.deepClone(milestone), UserUIContext.getUsername());
         }
 
         isRead = !isRead;
@@ -107,8 +107,8 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         Div milestoneDiv = new Div().appendChild(milestoneLink);
         if (milestone.isOverdue()) {
             milestoneLink.setCSSClass("overdue");
-            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + AppContext
-                    .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(milestone.getEnddate()))));
+            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
+                    .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(milestone.getEnddate()))));
         } else if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
             milestoneLink.setCSSClass("completed");
         }

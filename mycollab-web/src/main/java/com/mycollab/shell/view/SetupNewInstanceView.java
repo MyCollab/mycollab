@@ -27,7 +27,8 @@ import com.mycollab.module.user.domain.SimpleBillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
@@ -58,7 +59,7 @@ class SetupNewInstanceView extends MVerticalLayout {
         this.with(content);
         content.with(ELabel.h2("Last step, you are almost there!").withWidthUndefined());
         content.with(ELabel.h3("All fields are required *").withStyleName("overdue").withWidthUndefined());
-        content.with(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
+        content.with(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
                 .withStyleName(WebUIConstants.META_COLOR));
         GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8, "200px");
         formLayoutHelper.getLayout().setWidth("600px");
@@ -66,22 +67,22 @@ class SetupNewInstanceView extends MVerticalLayout {
         final PasswordField passwordField = formLayoutHelper.addComponent(new PasswordField(), "Admin password", 0, 1);
         final PasswordField retypePasswordField = formLayoutHelper.addComponent(new PasswordField(), "Retype Admin password", 0, 2);
         final DateFormatField dateFormatField = formLayoutHelper.addComponent(new DateFormatField(SimpleBillingAccount.DEFAULT_DATE_FORMAT),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
-                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 3);
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
+                UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 3);
 
         final DateFormatField shortDateFormatField = formLayoutHelper.addComponent(new DateFormatField(SimpleBillingAccount.DEFAULT_SHORT_DATE_FORMAT),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
-                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 4);
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
+                UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 4);
 
         final DateFormatField longDateFormatField = formLayoutHelper.addComponent(new DateFormatField(SimpleBillingAccount.DEFAULT_LONG_DATE_FORMAT),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
-                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 5);
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
+                UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 5);
 
         final TimeZoneSelectionField timeZoneSelectionField = formLayoutHelper.addComponent(new TimeZoneSelectionField(false)
-                , AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 6);
+                , UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 6);
         timeZoneSelectionField.setValue(TimeZone.getDefault().getID());
         final LanguageSelectionField languageBox = formLayoutHelper.addComponent(new LanguageSelectionField(),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
         languageBox.setValue(Locale.US.toLanguageTag());
         content.with(formLayoutHelper.getLayout());
 
@@ -112,7 +113,7 @@ class SetupNewInstanceView extends MVerticalLayout {
             String timezoneDbId = timeZoneSelectionField.getValue();
             BillingAccountMapper billingAccountMapper = AppContextUtil.getSpringBean(BillingAccountMapper.class);
             BillingAccountExample ex = new BillingAccountExample();
-            ex.createCriteria().andIdEqualTo(AppContext.getAccountId());
+            ex.createCriteria().andIdEqualTo(MyCollabUI.getAccountId());
             List<BillingAccount> billingAccounts = billingAccountMapper.selectByExample(ex);
             BillingAccount billingAccount = billingAccounts.get(0);
             billingAccount.setDefaultlanguagetag(language);
@@ -124,7 +125,7 @@ class SetupNewInstanceView extends MVerticalLayout {
 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true,
-                    createSampleDataSelection.getValue(), AppContext.getAccountId());
+                    createSampleDataSelection.getValue(), MyCollabUI.getAccountId());
 
             ((DesktopApplication) UI.getCurrent()).doLogin(adminName, password, false);
         }).withStyleName(WebUIConstants.BUTTON_ACTION);

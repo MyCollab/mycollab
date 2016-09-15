@@ -26,7 +26,7 @@ import com.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.mycollab.module.user.view.component.AccessPermissionComboBox;
 import com.mycollab.module.user.view.component.YesNoPermissionComboBox;
 import com.mycollab.security.PermissionMap;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -57,8 +57,8 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
 
     @Override
     protected String initFormHeader() {
-        return beanItem.getId() == null ? AppContext.getMessage(ProjectRoleI18nEnum.NEW) :
-                AppContext.getMessage(ProjectRoleI18nEnum.DETAIL);
+        return beanItem.getId() == null ? UserUIContext.getMessage(ProjectRoleI18nEnum.NEW) :
+                UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL);
     }
 
     @Override
@@ -140,10 +140,10 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
             final Integer flag = perMap.getPermissionFlag(permissionPath);
             permissionBox.setValue(flag);
             permissionControlsMap.put(permissionPath, permissionBox);
-            permissionFormHelper.addComponent(permissionBox, AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)),
-                    AppContext.getMessage(captionHelp), i % 2, i / 2);
+            permissionFormHelper.addComponent(permissionBox, UserUIContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)),
+                    UserUIContext.getMessage(captionHelp), i % 2, i / 2);
         }
-        permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), permissionFormHelper.getLayout());
+        permissionsPanel.addSection(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), permissionFormHelper.getLayout());
 
         return permissionsPanel;
     }

@@ -22,7 +22,8 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import org.vaadin.viritin.button.MButton;
@@ -42,7 +43,7 @@ public class AccountSelectionWindow extends MWindow {
     private FieldSelection<Account> fieldSelection;
 
     public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(AccountI18nEnum.SINGLE)));
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(AccountI18nEnum.SINGLE)));
         this.fieldSelection = fieldSelection;
         this.withModal(true).withResizable(false).withWidth("900px");
     }
@@ -74,7 +75,7 @@ public class AccountSelectionWindow extends MWindow {
                 fieldSelection.fireValueChange(account);
                 close();
             }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipAccount(
-                    AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
+                    UserUIContext.getUserLocale(), account, MyCollabUI.getSiteUrl()));
         });
     }
 }

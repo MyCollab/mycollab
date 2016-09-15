@@ -23,7 +23,8 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.RelatedBugExample;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.RemoveInlineComponentMarker;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -45,11 +46,11 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
     public ToggleBugSummaryWithDependentField(final BugWithBLOBs hostBug, final BugWithBLOBs relatedBug) {
         toggleBugSummaryField = new ToggleBugSummaryField(relatedBug);
         MButton unlinkBtn = new MButton("", clickEvent -> {
-            ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                    AppContext.getSiteName()),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NO), confirmDialog -> {
+            ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                    MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO), confirmDialog -> {
                         RelatedBugExample ex = new RelatedBugExample();
                         ex.createCriteria().andBugidEqualTo(hostBug.getId()).andRelatedidEqualTo(relatedBug.getId());
                         RelatedBugMapper bugMapper = AppContextUtil.getSpringBean(RelatedBugMapper.class);
@@ -57,7 +58,7 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
                         UIUtils.removeChildAssociate(toggleBugSummaryField, RemoveInlineComponentMarker.class);
                     });
         }).withIcon(FontAwesome.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP, ValoTheme.BUTTON_ICON_ONLY)
-                .withDescription(AppContext.getMessage(BugI18nEnum.OPT_REMOVE_RELATIONSHIP));
+                .withDescription(UserUIContext.getMessage(BugI18nEnum.OPT_REMOVE_RELATIONSHIP));
         toggleBugSummaryField.addControl(unlinkBtn);
     }
 

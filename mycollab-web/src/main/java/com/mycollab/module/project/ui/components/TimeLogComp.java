@@ -21,7 +21,7 @@ import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -53,15 +53,15 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         Label dateInfoHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
-                AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);
+                UserUIContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);
         header.addComponent(dateInfoHeader);
 
         if (hasEditPermission()) {
-            MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent ->
+            MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent ->
                     showEditTimeWindow(beanItem)).withStyleName(WebUIConstants.BUTTON_LINK);
             header.addComponent(editBtn);
         }
-        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withDescription(AppContext.getMessage
+        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withDescription(UserUIContext.getMessage
                 (TimeTrackingI18nEnum.TIME_EXPLAIN_HELP)).withStyleName(WebUIConstants.INLINE_HELP));
 
         this.addComponent(header);
@@ -82,9 +82,9 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
         Double billableHours = getTotalBillableHours(beanItem);
         Double nonBillableHours = getTotalNonBillableHours(beanItem);
         Double remainHours = getRemainedHours(beanItem);
-        billableHoursLbl.setValue(String.format("%s: %s", AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS), billableHours));
-        nonBillableHoursLbl.setValue(String.format("%s: %s", AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS), nonBillableHours));
-        remainHoursLbl.setValue(String.format("%s: %s", AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS), remainHours));
+        billableHoursLbl.setValue(String.format("%s: %s", UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS), billableHours));
+        nonBillableHoursLbl.setValue(String.format("%s: %s", UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS), nonBillableHours));
+        remainHoursLbl.setValue(String.format("%s: %s", UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS), remainHours));
     }
 
     protected abstract Double getTotalBillableHours(B bean);

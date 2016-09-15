@@ -22,10 +22,9 @@ import com.mycollab.common.service.CommentService;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.mobile.module.project.ui.ProjectCommentRequestComp;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -105,7 +104,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
             ELabel userNameLbl = new ELabel(comment.getOwnerFullName()).withStyleName(UIConstants.META_INFO);
             CssLayout userNameWrap = new CssLayout(userNameLbl);
 
-            ELabel commentTimePost = new ELabel(AppContext.formatPrettyTime(comment.getCreatedtime())).withStyleName
+            ELabel commentTimePost = new ELabel(UserUIContext.formatPrettyTime(comment.getCreatedtime())).withStyleName
                     (UIConstants.META_INFO).withWidthUndefined();
             metadataRow.with(userNameWrap, commentTimePost).withAlign(commentTimePost, Alignment.TOP_RIGHT).expand
                     (userNameWrap);

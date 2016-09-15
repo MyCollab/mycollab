@@ -25,7 +25,7 @@ import com.mycollab.module.crm.events.CaseEvent;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +48,7 @@ public class CaseImportWindow extends EntityImportWindow<SimpleCase> {
                 new FieldMapperDef("status", "Status"),
                 new FieldMapperDef("type", "Type"),
                 new FieldMapperDef("subject", "Subject"),
-                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+                new FieldMapperDef("assignuser", UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
                 new FieldMapperDef("reason", "Reason"),
                 new FieldMapperDef("origin", "Origin"),
                 new FieldMapperDef("email", "Email"),

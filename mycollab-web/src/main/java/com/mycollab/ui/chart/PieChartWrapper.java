@@ -19,7 +19,7 @@ package com.mycollab.ui.chart;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -126,7 +126,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
                     }
 
                 } else {
-                    return String.format("%s (%d)", AppContext.getMessage(enumKeyCls, key.toString()), value);
+                    return String.format("%s (%d)", UserUIContext.getMessage(enumKeyCls, key.toString()), value);
                 }
             }
             return result;
@@ -167,7 +167,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
                     btnCaption = String.format("%s (%d)", key, pieDataSet.getValue(key).intValue());
                 }
             } else {
-                btnCaption = String.format("%s(%d)", AppContext.getMessage(enumKeyCls, key.toString()),
+                btnCaption = String.format("%s(%d)", UserUIContext.getMessage(enumKeyCls, key.toString()),
                         pieDataSet.getValue(key).intValue());
             }
             MButton btnLink = new MButton(StringUtils.trim(btnCaption, 25, true), clickEvent -> {

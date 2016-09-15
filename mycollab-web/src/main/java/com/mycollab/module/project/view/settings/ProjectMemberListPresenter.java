@@ -24,7 +24,7 @@ import com.mycollab.module.project.ProjectMemberStatusConstants;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -53,7 +53,7 @@ public class ProjectMemberListPresenter extends AbstractPresenter<ProjectMemberL
                 criteria = new ProjectMemberSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setStatuses(new SetSearchField<String>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             } else {
                 criteria = (ProjectMemberSearchCriteria) data.getParams();
             }

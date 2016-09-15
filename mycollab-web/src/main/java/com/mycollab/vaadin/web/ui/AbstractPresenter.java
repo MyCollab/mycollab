@@ -25,7 +25,7 @@ import com.mycollab.security.PermissionChecker;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.mvp.service.ComponentScannerService;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -102,7 +102,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     @Override
     public boolean go(ComponentContainer container, ScreenData<?> data) {
-        if (!AppContext.getInstance().getIsValidAccount() && (!(this instanceof AccountModulePresenter)
+        if (!UserUIContext.getInstance().getIsValidAccount() && (!(this instanceof AccountModulePresenter)
                 && ModuleHelper.getCurrentModule() != null && !ModuleHelper.isCurrentAccountModule())) {
             EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
             return true;
@@ -136,10 +136,10 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
             String permissionId = viewPermission.permissionId();
             int impliedPermissionVal = viewPermission.impliedPermissionVal();
 
-            if (AppContext.isAdmin()) {
+            if (UserUIContext.isAdmin()) {
                 return true;
             } else {
-                PermissionMap permissionMap = AppContext.getPermissionMap();
+                PermissionMap permissionMap = UserUIContext.getPermissionMap();
                 if (permissionMap == null) {
                     return false;
                 } else {

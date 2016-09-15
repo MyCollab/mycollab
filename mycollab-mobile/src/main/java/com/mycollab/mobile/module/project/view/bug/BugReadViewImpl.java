@@ -36,6 +36,7 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -43,7 +44,8 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -83,25 +85,25 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private void displayWorkflowControl() {
         bugWorkFlowControl.removeAllComponents();
         if (BugStatus.Open.name().equals(beanItem.getStatus()) || BugStatus.ReOpen.name().equals(beanItem.getStatus())) {
-            final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+            final Button resolveBtn = new Button(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
                             new ResolvedInputView(BugReadViewImpl.this, beanItem))));
             resolveBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(resolveBtn);
         } else if (BugStatus.Verified.name().equals(beanItem.getStatus())) {
-            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+            final Button reopenBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
                             new ReOpenView(BugReadViewImpl.this, beanItem))));
             reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
         } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
-            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+            final Button reopenBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
                             new ReOpenView(BugReadViewImpl.this, beanItem))));
             reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
 
-            final Button approveNCloseBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
+            final Button approveNCloseBtn = new Button(UserUIContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
                             new ApproveInputView(BugReadViewImpl.this, beanItem))));
             approveNCloseBtn.setWidth("100%");
@@ -118,7 +120,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         bugTimeLogComp.displayTime(beanItem);
 
         ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
-        List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+        List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
                 beanItem.getProjectid(), ProjectTypeConstants.BUG, "" + beanItem.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             attachmentComp = new ProjectAttachmentDisplayComp(attachments);
@@ -176,7 +178,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private class BugPreviewBeanFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleBug> {
         private static final long serialVersionUID = -288972730658409446L;
 
-        public BugPreviewBeanFormFieldFactory(GenericBeanForm<SimpleBug> form) {
+        BugPreviewBeanFormFieldFactory(GenericBeanForm<SimpleBug> form) {
             super(form);
         }
 
@@ -217,14 +219,15 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new I18nFormViewField(beanItem.getStatus(), BugStatus.class);
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " " + beanItem.getPriority();
+                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " "
+                            + UserUIContext.getMessage(BugPriority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
                     field.addStyleName("bug-" + beanItem.getPriority().toLowerCase());
                     return field;
                 }
             } else if (propertyId.equals("severity")) {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
-                    String severityLink = FontAwesome.STAR.getHtml() + " " + AppContext.getMessage(BugSeverity.class, beanItem.getSeverity());
+                    String severityLink = FontAwesome.STAR.getHtml() + " " + UserUIContext.getMessage(BugSeverity.class, beanItem.getSeverity());
                     DefaultViewField lbPriority = new DefaultViewField(severityLink, ContentMode.HTML);
                     lbPriority.addStyleName("bug-severity-" + beanItem.getSeverity().toLowerCase());
                     return lbPriority;

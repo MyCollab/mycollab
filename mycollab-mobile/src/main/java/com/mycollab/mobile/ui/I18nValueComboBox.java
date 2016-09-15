@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.ui;
 
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +43,7 @@ public class I18nValueComboBox extends ValueComboBox {
 
         for (Enum<?> entry : values) {
             this.addItem(entry.name());
-            this.setItemCaption(entry.name(), AppContext.getMessage(entry));
+            this.setItemCaption(entry.name(), UserUIContext.getMessage(entry));
         }
 
         if (!this.isNullSelectionAllowed()) {

@@ -38,7 +38,8 @@ import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -46,7 +47,6 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -71,7 +71,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
                 .setCaption("<span aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_OPPORTUNITY
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext.getMessage(OpportunityI18nEnum.LIST)
+                        + UserUIContext.getMessage(OpportunityI18nEnum.LIST)
                         + "</div>");
         relatedOpportunities.setHtmlContentAllowed(true);
         relatedOpportunities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GoToRelatedItems(this,
@@ -83,7 +83,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_ACTIVITY
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+                + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
         relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GoToRelatedItems(this,
@@ -125,10 +125,10 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         // check if there is converted lead associates with this contact
         LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
         SimpleLead lead = leadService.findConvertedLeadOfContact(
-                beanItem.getId(), AppContext.getAccountId());
+                beanItem.getId(), MyCollabUI.getAccountId());
         if (lead != null) {
             return beanItem.getContactName() + "&nbsp;"
-                    + AppContext.getMessage(LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+                    + UserUIContext.getMessage(LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
                     CrmAssetsManager.getAsset(CrmTypeConstants.LEAD),
                     CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()),
                     lead.getLeadName());

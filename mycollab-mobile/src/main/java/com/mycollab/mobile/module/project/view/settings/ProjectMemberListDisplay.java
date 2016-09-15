@@ -18,7 +18,6 @@ package com.mycollab.mobile.module.project.view.settings;
 
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -32,7 +31,7 @@ import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -80,20 +79,20 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
                     .withStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(memberEmailLabel);
 
-            ELabel memberSinceLabel = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext.formatPrettyTime(member.getJoindate())))
-                    .withDescription(AppContext.formatDateTime(member.getJoindate()));
+            ELabel memberSinceLabel = new ELabel(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, UserUIContext.formatPrettyTime(member.getJoindate())))
+                    .withDescription(UserUIContext.formatDateTime(member.getJoindate()));
             memberSinceLabel.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(memberSinceLabel);
 
-            ELabel lastAccessTimeLbl = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext.formatPrettyTime(member.getLastAccessTime())))
-                    .withDescription(AppContext.formatDateTime(member.getLastAccessTime()));
+            ELabel lastAccessTimeLbl = new ELabel(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, UserUIContext.formatPrettyTime(member.getLastAccessTime())))
+                    .withDescription(UserUIContext.formatDateTime(member.getLastAccessTime()));
             lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(lastAccessTimeLbl);
 
-            String memberWorksInfo = String.format("%s %s  %s %s  %s %s  %s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(), new Span().appendText("" + member.getNumOpenTasks()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), new Span().appendText("" + member.getNumOpenBugs())
-                    .setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), FontAwesome.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
-                    member.getTotalBillableLogTime())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
-                    .setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
+            String memberWorksInfo = String.format("%s %s  %s %s  %s %s  %s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(), new Span().appendText("" + member.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), new Span().appendText("" + member.getNumOpenBugs())
+                    .setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), FontAwesome.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
+                    member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
+                    .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
 
             Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withFullWidth();
             memberWorkStatus.addStyleName(UIConstants.META_INFO);

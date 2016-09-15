@@ -23,7 +23,7 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.AbstractEditItemComp;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -50,8 +50,8 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> 
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(MilestoneI18nEnum.NEW) :
-                AppContext.getMessage(MilestoneI18nEnum.DETAIL);
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(MilestoneI18nEnum.NEW) :
+                UserUIContext.getMessage(MilestoneI18nEnum.DETAIL);
     }
 
     @Override

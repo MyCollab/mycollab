@@ -26,7 +26,7 @@ import com.mycollab.module.project.events.ProjectEvent
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.{PageScreenData, ProjectScreenData}
 import com.mycollab.spring.AppContextUtil
-import com.mycollab.vaadin.AppContext
+import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -62,7 +62,7 @@ class PageUrlResolver extends ProjectUrlResolver {
         val projectId = tokenizer.getInt
         val pagePath = tokenizer.getRemainValue
         val pageService = AppContextUtil.getSpringBean(classOf[PageService])
-        val page = pageService.getPage(pagePath, AppContext.getUsername)
+        val page = pageService.getPage(pagePath, UserUIContext.getUsername)
         if (page != null) {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new PageScreenData.Read(page))
           EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
@@ -85,7 +85,7 @@ class PageUrlResolver extends ProjectUrlResolver {
         val projectId = tokenizer.getInt
         val pagePath = tokenizer.getRemainValue
         val pageService = AppContextUtil.getSpringBean(classOf[PageService])
-        val page = pageService.getPage(pagePath, AppContext.getUsername)
+        val page = pageService.getPage(pagePath, UserUIContext.getUsername)
         if (page != null) {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new PageScreenData.Edit(page))
           EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

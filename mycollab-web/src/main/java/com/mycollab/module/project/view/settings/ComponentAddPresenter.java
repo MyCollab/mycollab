@@ -26,7 +26,8 @@ import com.mycollab.module.project.view.bug.BugComponentContainer;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -76,15 +77,15 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
 
         SimpleProject project = CurrentProjectVariables.getProject();
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
         item.setProjectid(project.getId());
         item.setStatus("Open");
 
         if (item.getId() == null) {
-            item.setCreateduser(AppContext.getUsername());
-            componentService.saveWithSession(item, AppContext.getUsername());
+            item.setCreateduser(UserUIContext.getUsername());
+            componentService.saveWithSession(item, UserUIContext.getUsername());
         } else {
-            componentService.updateWithSession(item, AppContext.getUsername());
+            componentService.updateWithSession(item, UserUIContext.getUsername());
         }
     }
 

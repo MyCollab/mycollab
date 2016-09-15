@@ -28,7 +28,8 @@ import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -66,14 +67,14 @@ public class AccountAddPresenter extends AbstractCrmPresenter<AccountAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
 
             SimpleAccount account = null;
             if (data.getParams() instanceof SimpleAccount) {
                 account = (SimpleAccount) data.getParams();
             } else if (data.getParams() instanceof Integer) {
                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                account = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                account = accountService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
             }
             if (account == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -82,13 +83,13 @@ public class AccountAddPresenter extends AbstractCrmPresenter<AccountAddView> {
             super.onGo(container, data);
             view.editItem(account);
             if (account.getId() == null) {
-                AppContext.addFragment("crm/account/add", AppContext.getMessage(GenericI18Enum
-                        .BROWSER_ADD_ITEM_TITLE, AppContext.getMessage(AccountI18nEnum.SINGLE)));
+                MyCollabUI.addFragment("crm/account/add", UserUIContext.getMessage(GenericI18Enum
+                        .BROWSER_ADD_ITEM_TITLE, UserUIContext.getMessage(AccountI18nEnum.SINGLE)));
 
             } else {
-                AppContext.addFragment("crm/account/edit/" + UrlEncodeDecoder.encode(account.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                AppContext.getMessage(AccountI18nEnum.SINGLE), account.getAccountname()));
+                MyCollabUI.addFragment("crm/account/edit/" + UrlEncodeDecoder.encode(account.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                UserUIContext.getMessage(AccountI18nEnum.SINGLE), account.getAccountname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -97,11 +98,11 @@ public class AccountAddPresenter extends AbstractCrmPresenter<AccountAddView> {
 
     private void saveAccount(Account account) {
         AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-        account.setSaccountid(AppContext.getAccountId());
+        account.setSaccountid(MyCollabUI.getAccountId());
         if (account.getId() == null) {
-            accountService.saveWithSession(account, AppContext.getUsername());
+            accountService.saveWithSession(account, UserUIContext.getUsername());
         } else {
-            accountService.updateWithSession(account, AppContext.getUsername());
+            accountService.updateWithSession(account, UserUIContext.getUsername());
         }
 
     }

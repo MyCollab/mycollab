@@ -23,7 +23,7 @@ import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -38,7 +38,7 @@ public class ContactListViewImpl extends AbstractListViewComp<ContactSearchCrite
 
     public ContactListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(ContactI18nEnum.LIST));
+        setCaption(UserUIContext.getMessage(ContactI18nEnum.LIST));
     }
 
     @Override

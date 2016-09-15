@@ -35,7 +35,7 @@ import com.mycollab.module.project.view.task.ScheduleUrlResolver
 import com.mycollab.module.project.view.time.{InvoiceUrlResolver, TimeUrlResolver}
 import com.mycollab.shell.events.ShellEvent
 import com.mycollab.spring.AppContextUtil
-import com.mycollab.vaadin.AppContext
+import com.mycollab.vaadin.MyCollabUI
 import com.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
 import com.mycollab.vaadin.web.ui.ModuleHelper
 
@@ -128,7 +128,7 @@ class ProjectUrlResolver extends UrlResolver {
       } else {
         val projectId = UrlTokenizer(params(0)).getInt
         val prjService = AppContextUtil.getSpringBean(classOf[ProjectService])
-        val project = prjService.findById(projectId, AppContext.getAccountId)
+        val project = prjService.findById(projectId, MyCollabUI.getAccountId)
         if (project != null) {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.Edit(project))
           EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

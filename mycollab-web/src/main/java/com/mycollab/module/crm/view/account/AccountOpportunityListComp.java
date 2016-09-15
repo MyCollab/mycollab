@@ -32,7 +32,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -79,7 +80,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        ELabel noteLbl = new ELabel(AppContext.getMessage(GenericI18Enum.OPT_NOTE))
+        ELabel noteLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE))
                 .withWidthUndefined().withStyleName("list-note-lbl");
         notesWrap.addComponent(noteLbl);
 
@@ -87,15 +88,15 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (OpportunitySalesStage stage : CrmDataTypeFactory.getOpportunitySalesStageList()) {
-            ELabel note = new ELabel(AppContext.getMessage(stage))
+            ELabel note = new ELabel(UserUIContext.getMessage(stage))
                     .withStyleName("note-label", colormap.get(stage.name())).withWidthUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
         controlsBtnWrap.with(notesWrap).expand(notesWrap);
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
-            MButton createBtn = new MButton(AppContext.getMessage(OpportunityI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
+            MButton createBtn = new MButton(UserUIContext.getMessage(OpportunityI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
                     .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
 
             controlsBtnWrap.with(createBtn).withAlign(createBtn, Alignment.TOP_RIGHT);
@@ -111,7 +112,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     private void loadOpportunities() {
         final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }
@@ -141,15 +142,15 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
             MButton btnDelete = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                                 opportunityService.removeWithSession(opportunity,
-                                        AppContext.getUsername(), AppContext.getAccountId());
+                                        UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 AccountOpportunityListComp.this.refresh();
                             }
                         });
@@ -163,14 +164,14 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
                     .appendText(opportunity.getOpportunityname());
             opportunityInfo.addComponent(ELabel.h3(opportunityLink.write()));
 
-            Label opportunityAmount = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT) + ": " +
+            Label opportunityAmount = new Label(UserUIContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT) + ": " +
                     (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
             if (opportunity.getCurrencyid() != null && opportunity.getAmount() != null) {
                 opportunityAmount.setValue(opportunityAmount.getValue() + opportunity.getCurrencyid());
             }
             opportunityInfo.addComponent(opportunityAmount);
 
-            Label opportunitySaleStage = new Label(AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
+            Label opportunitySaleStage = new Label(UserUIContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
                     MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
@@ -178,9 +179,9 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
                 beanBlock.addStyleName(colormap.get(opportunity.getSalesstage()));
             }
 
-            ELabel opportunityExpectedCloseDate = new ELabel(AppContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE) + ": " +
-                    AppContext.formatPrettyTime(opportunity.getExpectedcloseddate()))
-                    .withDescription(AppContext.formatDate(opportunity.getExpectedcloseddate()));
+            ELabel opportunityExpectedCloseDate = new ELabel(UserUIContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE) + ": " +
+                    UserUIContext.formatPrettyTime(opportunity.getExpectedcloseddate()))
+                    .withDescription(UserUIContext.formatDate(opportunity.getExpectedcloseddate()));
             opportunityInfo.addComponent(opportunityExpectedCloseDate);
 
             blockTop.with(opportunityInfo).expand(opportunityInfo);

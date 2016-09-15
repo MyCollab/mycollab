@@ -19,7 +19,7 @@ package com.mycollab.vaadin.ui.formatter;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.CurrencyUtils;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.hp.gagawa.java.elements.Span;
 
 import java.util.Currency;
@@ -32,7 +32,7 @@ public class CurrencyHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CurrencyHistoryFieldFormat implements HistoryFieldFormat {
         if (StringUtils.isNotBlank(value)) {
             Currency currency = CurrencyUtils.getInstance(value);
             if (displayAsHtml) {
-                return new Span().appendText(value).setTitle(currency.getDisplayName(AppContext.getUserLocale())).write();
+                return new Span().appendText(value).setTitle(currency.getDisplayName(UserUIContext.getUserLocale())).write();
             } else {
                 return value;
             }

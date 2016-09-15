@@ -18,7 +18,7 @@ package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -36,7 +36,7 @@ public class ComponentUtils {
     public static final MButton createCustomizeViewButton() {
         MButton customizeViewBtn = new MButton("").withIcon(FontAwesome.ADJUST)
                 .withStyleName(WebUIConstants.BUTTON_ACTION, WebUIConstants.BUTTON_SMALL_PADDING);
-        customizeViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
+        customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         return customizeViewBtn;
     }
 

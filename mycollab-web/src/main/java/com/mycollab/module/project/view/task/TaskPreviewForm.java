@@ -45,7 +45,8 @@ import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkFi
 import com.mycollab.module.project.view.task.components.TaskSearchPanel;
 import com.mycollab.module.project.view.task.components.ToggleTaskSummaryWithParentRelationshipField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DateTimeOptionViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
@@ -106,14 +107,14 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     FontAwesome fontPriority = ProjectAssetsManager.getTaskPriority(beanItem.getPriority());
-                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
+                    String priorityLbl = fontPriority.getHtml() + " " + UserUIContext.getMessage(TaskPriority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
                     field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
                     return field;
                 }
             } else if (Task.Field.isestimated.equalTo(propertyId)) {
                 return new DefaultViewField(Boolean.TRUE.equals(beanItem.getIsestimated()) ?
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES) : AppContext.getMessage(GenericI18Enum.BUTTON_NO));
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES) : UserUIContext.getMessage(GenericI18Enum.BUTTON_NO));
             } else if (Task.Field.duration.equalTo(propertyId)) {
                 if (beanItem.getDuration() != null) {
                     HumanTime humanTime = new HumanTime(beanItem.getDuration());
@@ -139,7 +140,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     @Subscribe
                     public void handle(TaskEvent.NewTaskAdded event) {
                         final ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        SimpleTask task = projectTaskService.findById((Integer) event.getData(), AppContext.getAccountId());
+                        SimpleTask task = projectTaskService.findById((Integer) event.getData(), MyCollabUI.getAccountId());
                         if (task != null && tasksLayout != null) {
                             tasksLayout.addComponent(generateSubTaskContent(task), 0);
                         }
@@ -172,7 +173,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             contentLayout.with(tasksLayout).expand(tasksLayout);
 
             if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                MButton addNewTaskBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
+                MButton addNewTaskBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
                     SimpleTask task = new SimpleTask();
                     task.setMilestoneid(beanItem.getMilestoneid());
                     task.setParenttaskid(beanItem.getId());
@@ -187,7 +188,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 splitButton.addStyleName(WebUIConstants.BUTTON_ACTION);
 
                 OptionPopupContent popupButtonsControl = new OptionPopupContent();
-                Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+                Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                     splitButton.setPopupVisible(false);
                     UI.getCurrent().addWindow(new SelectChildTaskWindow(beanItem));
                 });
@@ -197,7 +198,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             }
 
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-            List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), AppContext.getAccountId(), new
+            List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), MyCollabUI.getAccountId(), new
                     SearchCriteria.OrderField("createdTime", SearchCriteria.DESC));
             if (CollectionUtils.isNotEmpty(subTasks)) {
                 for (SimpleTask subTask : subTasks) {
@@ -224,7 +225,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     .setTitle(subTask.getPriority());
             layout.with(ELabel.html(priorityLink.write()).withWidthUndefined());
 
-            String taskStatus = AppContext.getMessage(StatusI18nEnum.class, subTask.getStatus());
+            String taskStatus = UserUIContext.getMessage(StatusI18nEnum.class, subTask.getStatus());
             final ELabel statusLbl = new ELabel(taskStatus).withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined();
             layout.with(statusLbl);
 
@@ -240,12 +241,12 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 Boolean selectedFlag = checkBox.getValue();
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 if (selectedFlag) {
-                    statusLbl.setValue(AppContext.getMessage(StatusI18nEnum.class, StatusI18nEnum.Closed.name()));
+                    statusLbl.setValue(UserUIContext.getMessage(StatusI18nEnum.class, StatusI18nEnum.Closed.name()));
                     subTask.setStatus(StatusI18nEnum.Closed.name());
                     subTask.setPercentagecomplete(100d);
                     toggleTaskSummaryField.closeTask();
                 } else {
-                    statusLbl.setValue(AppContext.getMessage(StatusI18nEnum.class, StatusI18nEnum.Open.name()));
+                    statusLbl.setValue(UserUIContext.getMessage(StatusI18nEnum.class, StatusI18nEnum.Open.name()));
                     subTask.setStatus(StatusI18nEnum.Open.name());
                     subTask.setPercentagecomplete(0d);
                     if (subTask.isOverdue()) {
@@ -254,7 +255,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                         toggleTaskSummaryField.reOpenTask();
                     }
                 }
-                taskService.updateSelectiveWithSession(subTask, AppContext.getUsername());
+                taskService.updateSelectiveWithSession(subTask, UserUIContext.getUsername());
                 toggleTaskSummaryField.updateLabel();
             });
             return layout;
@@ -266,7 +267,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         private SimpleTask parentTask;
 
         SelectChildTaskWindow(SimpleTask parentTask) {
-            super(AppContext.getMessage(TaskI18nEnum.ACTION_SELECT_TASK));
+            super(UserUIContext.getMessage(TaskI18nEnum.ACTION_SELECT_TASK));
             this.withModal(true).withResizable(false).withWidth("800px");
             this.parentTask = parentTask;
 
@@ -293,11 +294,11 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             public Component generateRow(AbstractBeanPagedList host, final SimpleTask item, int rowIndex) {
                 MButton taskLink = new MButton(item.getTaskname(), clickEvent -> {
                     if (item.getId().equals(parentTask.getId())) {
-                        NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));
+                        NotificationUtil.showErrorNotification(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));
                     } else {
                         item.setParenttaskid(parentTask.getId());
                         ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        projectTaskService.updateWithSession(item, AppContext.getUsername());
+                        projectTaskService.updateWithSession(item, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(this, item.getId()));
                     }
 

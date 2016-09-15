@@ -34,7 +34,8 @@ import com.mycollab.module.project.view.task.components.TaskTimeLogSheet;
 import com.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
 import com.mycollab.module.project.view.task.components.ToggleTaskSummaryWithChildRelationshipField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -74,7 +75,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private MButton quickActionStatusBtn;
 
     public TaskReadViewImpl() {
-        super(AppContext.getMessage(TaskI18nEnum.DETAIL),
+        super(UserUIContext.getMessage(TaskI18nEnum.DETAIL),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout());
     }
 
@@ -108,10 +109,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         ((TaskPreviewFormLayout) previewLayout).displayTaskHeader(beanItem);
 
         if (!beanItem.isCompleted()) {
-            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
-            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
         }
 
@@ -157,18 +158,18 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 beanItem.setStatus(StatusI18nEnum.Open.name());
                 beanItem.setPercentagecomplete(0d);
                 removeLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
                 quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
                 beanItem.setPercentagecomplete(100d);
                 addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                 quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
             }
 
             ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
-            service.updateWithSession(beanItem, AppContext.getUsername());
+            service.updateWithSession(beanItem, UserUIContext.getUsername());
         }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
@@ -236,11 +237,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     private static class ParentTaskComp extends MHorizontalLayout {
         ParentTaskComp(Integer parentTaskId, SimpleTask childTask) {
-            ELabel titleLbl = new ELabel(AppContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(WebUIConstants.ARROW_BTN)
+            ELabel titleLbl = new ELabel(UserUIContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(WebUIConstants.ARROW_BTN)
                     .withWidthUndefined();
             with(titleLbl);
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-            SimpleTask parentTask = taskService.findById(parentTaskId, AppContext.getAccountId());
+            SimpleTask parentTask = taskService.findById(parentTaskId, MyCollabUI.getAccountId());
             if (parentTask != null) {
                 with(new ToggleTaskSummaryWithChildRelationshipField(parentTask, childTask));
             }
@@ -255,7 +256,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             this.withMargin(false);
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -263,7 +264,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                Label createdLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                Label createdLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
@@ -276,7 +277,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                Label assigneeLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");

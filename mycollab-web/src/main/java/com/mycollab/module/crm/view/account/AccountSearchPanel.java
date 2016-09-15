@@ -18,7 +18,6 @@ package com.mycollab.module.crm.view.account;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.Param;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -29,7 +28,8 @@ import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
@@ -57,15 +57,15 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return ComponentUtils.header(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.LIST));
+        return ComponentUtils.header(CrmTypeConstants.ACCOUNT, UserUIContext.getMessage(AccountI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        MButton newBtn = new MButton(AppContext.getMessage(AccountI18nEnum.NEW),
+        MButton newBtn = new MButton(UserUIContext.getMessage(AccountI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         return newBtn;
     }
 
@@ -121,26 +121,26 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+            myItemCheckbox = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             myItemCheckbox.addStyleName(ValoTheme.CHECKBOX_SMALL);
 
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                     .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            MButton advancedSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     clickEvent -> moveToAdvancedSearchLayout()).withStyleName(WebUIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
@@ -154,10 +154,10 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
         @Override
         protected AccountSearchCriteria fillUpSearchCriteria() {
             AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             searchCriteria.setAccountname(StringSearchField.and(nameField.getValue().trim()));
             if (myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                searchCriteria.setAssignUser(StringSearchField.and(UserUIContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
             }

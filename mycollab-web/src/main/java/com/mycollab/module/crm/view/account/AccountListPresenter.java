@@ -30,7 +30,8 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -71,14 +72,14 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(AccountI18nEnum.LIST);
+                return UserUIContext.getMessage(AccountI18nEnum.LIST);
             }
 
             @Override
             protected void onSelectExtra(String id) {
                 if (ViewItemAction.MAIL_ACTION().equals(id)) {
                     if (isSelectAll) {
-                        NotificationUtil.showWarningNotification(AppContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+                        NotificationUtil.showWarningNotification(UserUIContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
                     } else {
                         List<String> lstMail = new ArrayList<>();
                         Collection<SimpleAccount> tableData = view.getPagedBeanTable().getCurrentDataList();
@@ -91,8 +92,8 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
                     }
                 } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
                     MassUpdateAccountWindow massUpdateWindow = new MassUpdateAccountWindow(
-                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                    AppContext.getMessage(AccountI18nEnum.LIST)), AccountListPresenter.this);
+                            UserUIContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
+                                    UserUIContext.getMessage(AccountI18nEnum.LIST)), AccountListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
             }
@@ -111,12 +112,12 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
             }
 
             if (keyList.size() > 0) {
-                accountService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                accountService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            accountService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            accountService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
     }
@@ -124,7 +125,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.ACCOUNT);
-        if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             searchCriteria = (AccountSearchCriteria) data.getParams();
             int totalCount = accountService.getTotalCount(searchCriteria);
             if (totalCount > 0) {
@@ -134,7 +135,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.LIST));
+            MyCollabUI.addFragment("crm/account/list", UserUIContext.getMessage(AccountI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }
@@ -152,7 +153,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
             }
 
             if (keyList.size() > 0) {
-                accountService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                accountService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

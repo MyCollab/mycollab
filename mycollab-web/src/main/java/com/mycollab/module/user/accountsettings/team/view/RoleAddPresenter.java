@@ -25,7 +25,8 @@ import com.mycollab.module.user.service.RoleService;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -72,12 +73,12 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 
     public void save(Role item) {
         RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
 
         if (item.getId() == null) {
-            roleService.saveWithSession(item, AppContext.getUsername());
+            roleService.saveWithSession(item, UserUIContext.getUsername());
         } else {
-            roleService.updateWithSession(item, AppContext.getUsername());
+            roleService.updateWithSession(item, UserUIContext.getUsername());
         }
 
         roleService.savePermission(item.getId(), view.getPermissionMap(), item.getSaccountid());
@@ -85,7 +86,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleContainer roleContainer = (RoleContainer) container;
             roleContainer.removeAllComponents();
             roleContainer.addComponent(view);

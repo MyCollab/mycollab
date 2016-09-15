@@ -36,7 +36,8 @@ import com.mycollab.module.user.events.UserEvent;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -73,13 +74,13 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         this.setMargin(new MarginInfo(false, true, false, true));
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withFullWidth();
-        MButton createBtn = new MButton(AppContext.getMessage(UserI18nEnum.NEW),
+        MButton createBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(UserI18nEnum.LIST) + " " +
-                AppContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
+        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
+                UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
 
         final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
@@ -116,7 +117,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                         return searchCriteria;
                     }
                 }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
-                .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+                .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
@@ -142,8 +143,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
         List<SimpleUser> userAccountList = userService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
-        headerText.updateTitle(AppContext.getMessage(UserI18nEnum.LIST) + " " +
-                AppContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, userAccountList.size()));
+        headerText.updateTitle(UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
+                UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, userAccountList.size()));
 
         for (SimpleUser userAccount : userAccountList) {
             contentLayout.addComponent(generateMemberBlock(userAccount));
@@ -166,15 +167,15 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         MHorizontalLayout buttonControls = new MHorizontalLayout();
         buttonControls.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
-        buttonControls.setVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
+        buttonControls.setVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
-            MButton resendBtn = new MButton(AppContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), clickEvent -> {
+            MButton resendBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), clickEvent -> {
                 SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), null,
-                        member.getInviteUser(), AppContext.getSubDomain(), AppContext.getAccountId());
+                        member.getInviteUser(), MyCollabUI.getSubDomain(), MyCollabUI.getAccountId());
                 AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
                 asyncEventBus.post(invitationEvent);
-                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS), AppContext
+                NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_SUCCESS), UserUIContext
                         .getMessage(UserI18nEnum.OPT_SEND_INVITATION_SUCCESSFULLY, member.getDisplayName()));
             }).withStyleName(WebUIConstants.BUTTON_LINK);
             buttonControls.with(resendBtn);
@@ -186,14 +187,14 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         MButton deleteBtn = new MButton("", clickEvent ->
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                                userService.pendingUserAccounts(Collections.singletonList(member.getUsername()), AppContext.getAccountId());
+                                userService.pendingUserAccounts(Collections.singletonList(member.getUsername()), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                             }
                         })
@@ -203,7 +204,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         memberInfo.addComponent(buttonControls);
         memberInfo.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
 
-        A memberLink = new A(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
+        A memberLink = new A(AccountLinkGenerator.generatePreviewFullUserLink(MyCollabUI.getSiteUrl(),
                 member.getUsername())).appendText(member.getDisplayName());
         ELabel memberLinkLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
         memberInfo.addComponent(memberLinkLbl);
@@ -214,14 +215,14 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
             if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,
-                        AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER)));
+                        UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER)));
             } else {
                 memberRole.setValue(String.format("%sstyle=\"color:gray;font-size:12px;\">%s</a>",
                         memberRoleLinkPrefix, member.getRoleName()));
             }
             memberInfo.addComponent(memberRole);
         } else if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
-            Label memberRole = new Label(String.format("<a style=\"color: #B00000;\">%s</a>", AppContext.getMessage
+            Label memberRole = new Label(String.format("<a style=\"color: #B00000;\">%s</a>", UserUIContext.getMessage
                     (RoleI18nEnum.OPT_ACCOUNT_OWNER)), ContentMode.HTML);
             memberInfo.addComponent(memberRole);
         } else {
@@ -230,18 +231,18 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             memberInfo.addComponent(lbl);
         }
 
-        if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
+        if (Boolean.TRUE.equals(MyCollabUI.showEmailPublicly())) {
             Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(), member.getUsername()))
                     .withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants.META_INFO).withFullWidth();
             memberInfo.addComponent(memberEmailLabel);
         }
 
-        ELabel memberSinceLabel = ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext.formatPrettyTime(member.getRegisteredtime())))
-                .withDescription(AppContext.formatDateTime(member.getRegisteredtime())).withFullWidth();
+        ELabel memberSinceLabel = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, UserUIContext.formatPrettyTime(member.getRegisteredtime())))
+                .withDescription(UserUIContext.formatDateTime(member.getRegisteredtime())).withFullWidth();
         memberInfo.addComponent(memberSinceLabel);
 
-        ELabel lastAccessTimeLbl = ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext
-                .formatPrettyTime(member.getLastaccessedtime()))).withDescription(AppContext.formatDateTime(member.getLastaccessedtime()));
+        ELabel lastAccessTimeLbl = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, UserUIContext
+                .formatPrettyTime(member.getLastaccessedtime()))).withDescription(UserUIContext.formatDateTime(member.getLastaccessedtime()));
         memberInfo.addComponent(lastAccessTimeLbl);
         blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);

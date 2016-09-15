@@ -20,7 +20,6 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.bug.components.BugRowRenderer;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -30,7 +29,7 @@ import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
@@ -38,7 +37,6 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
-import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
@@ -136,7 +134,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
 
         private class BugStatusCheckbox extends CheckBox {
             BugStatusCheckbox(final Enum name, boolean defaultValue) {
-                super(AppContext.getMessage(name), defaultValue);
+                super(UserUIContext.getMessage(name), defaultValue);
                 this.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(BugStatusCheckbox.this.getValue(), name.name()));
             }
         }

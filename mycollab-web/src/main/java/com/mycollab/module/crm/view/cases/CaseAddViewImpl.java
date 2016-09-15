@@ -21,7 +21,7 @@ import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -42,7 +42,7 @@ public class CaseAddViewImpl extends AbstractEditItemComp<SimpleCase> implements
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(CaseI18nEnum.NEW) : beanItem.getSubject();
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(CaseI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override

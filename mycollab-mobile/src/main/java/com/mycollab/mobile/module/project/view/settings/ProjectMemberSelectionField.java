@@ -21,7 +21,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
 
@@ -48,7 +48,7 @@ public class ProjectMemberSelectionField extends AbstractSelectionCustomField<St
 
     private void setMemberByVal(String value) {
         ProjectMemberService service = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        SimpleProjectMember member = service.findMemberByUsername(value, CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+        SimpleProjectMember member = service.findMemberByUsername(value, CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
         if (member != null) {
             setInternalMember(member);
         }

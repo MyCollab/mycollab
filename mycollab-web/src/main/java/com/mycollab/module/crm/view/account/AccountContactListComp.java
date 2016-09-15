@@ -19,7 +19,6 @@ package com.mycollab.module.crm.view.account;
 import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Account;
@@ -31,7 +30,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -62,16 +62,16 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-            controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.NEW));
+            controlsBtn.setCaption(UserUIContext.getMessage(ContactI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
-            final MButton selectBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+            final MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 final AccountContactSelectionWindow contactsWindow = new AccountContactSelectionWindow(AccountContactListComp.this);
                 final ContactSearchCriteria criteria = new ContactSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 UI.getCurrent().addWindow(contactsWindow);
                 contactsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
@@ -95,7 +95,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
 
     private void loadContacts() {
         final ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setAccountId(new NumberSearchField(account.getId()));
         setSearchCriteria(criteria);
     }
@@ -127,15 +127,15 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
             MButton btnDelete = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(
                         UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                                 contact.setAccountid(null);
-                                contactService.updateWithSession(contact, AppContext.getUsername());
+                                contactService.updateWithSession(contact, UserUIContext.getUsername());
                                 AccountContactListComp.this.refresh();
                             }
                         });
@@ -144,7 +144,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = new Label(String.format("Name: <a href='%s%s'>%s</a>", AppContext.getSiteUrl(), CrmLinkGenerator.generateCrmItemLink(
+            Label contactName = new Label(String.format("Name: <a href='%s%s'>%s</a>", MyCollabUI.getSiteUrl(), CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.CONTACT, contact.getId()), contact.getContactName()), ContentMode.HTML);
             contactInfo.addComponent(contactName);
 

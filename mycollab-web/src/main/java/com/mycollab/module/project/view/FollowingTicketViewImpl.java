@@ -26,7 +26,7 @@ import com.mycollab.reporting.ReportExportType;
 import com.mycollab.reporting.RpFieldsBuilder;
 import com.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -66,10 +66,10 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
         removeAllComponents();
         MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
-        ELabel layoutHeader = ELabel.h2(FontAwesome.EYE.getHtml() + " " + AppContext.getMessage(FollowerI18nEnum
+        ELabel layoutHeader = ELabel.h2(FontAwesome.EYE.getHtml() + " " + UserUIContext.getMessage(FollowerI18nEnum
                 .OPT_MY_FOLLOWING_TICKETS, 0)).withWidthUndefined();
 
-        Button exportBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT), clickEvent -> exportButtonControl.setPopupVisible(true));
+        Button exportBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT), clickEvent -> exportButtonControl.setPopupVisible(true));
         exportButtonControl = new SplitButton(exportBtn);
         exportButtonControl.addStyleName(WebUIConstants.BUTTON_OPTION);
         exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
@@ -77,13 +77,13 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
         exportButtonControl.setContent(popupButtonsControl);
 
-        Button exportPdfBtn = new Button(AppContext.getMessage(FileI18nEnum.PDF));
+        Button exportPdfBtn = new Button(UserUIContext.getMessage(FileI18nEnum.PDF));
         FileDownloader pdfDownloader = new FileDownloader(constructStreamResource(ReportExportType.PDF));
         pdfDownloader.extend(exportPdfBtn);
         exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
         popupButtonsControl.addOption(exportPdfBtn);
 
-        Button exportExcelBtn = new Button(AppContext.getMessage(FileI18nEnum.EXCEL));
+        Button exportExcelBtn = new Button(UserUIContext.getMessage(FileI18nEnum.EXCEL));
         FileDownloader excelDownloader = new FileDownloader(constructStreamResource(ReportExportType.EXCEL));
         excelDownloader.extend(exportExcelBtn);
         exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);

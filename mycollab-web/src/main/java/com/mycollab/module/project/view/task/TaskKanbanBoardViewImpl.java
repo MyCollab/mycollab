@@ -43,7 +43,8 @@ import com.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
 import com.mycollab.module.project.view.task.components.TaskSearchPanel;
 import com.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
@@ -133,22 +134,22 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         toggleShowButton();
 
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
-            MButton addNewColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_NEW_COLUMN),
+            MButton addNewColumnBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.ACTION_NEW_COLUMN),
                     clickEvent -> UI.getCurrent().addWindow(new AddNewColumnWindow(this, ProjectTypeConstants.TASK, "status")))
                     .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
             groupWrapLayout.addComponent(addNewColumnBtn);
         }
 
-        MButton deleteColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMNS),
+        MButton deleteColumnBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMNS),
                 clickEvent -> UI.getCurrent().addWindow(new DeleteColumnWindow(this, ProjectTypeConstants.TASK)))
                 .withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER);
         deleteColumnBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
 
-        MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
+        MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null)))
                 .withIcon(FontAwesome.NAVICON).withWidth("100px");
 
-        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(FontAwesome.TH)
+        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(FontAwesome.TH)
                 .withWidth("100px");
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
@@ -195,7 +196,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                         indexMap.add(map);
                     }
                     if (indexMap.size() > 0) {
-                        optionValService.massUpdateOptionIndexes(indexMap, AppContext.getAccountId());
+                        optionValService.massUpdateOptionIndexes(indexMap, MyCollabUI.getAccountId());
                     }
                 }
             }
@@ -211,9 +212,9 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
 
     private void toggleShowButton() {
         if (displayHiddenColumns) {
-            toggleShowColumsBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMNS));
+            toggleShowColumsBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMNS));
         } else {
-            toggleShowColumsBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMNS));
+            toggleShowColumsBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMNS));
         }
     }
 
@@ -266,7 +267,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             @Override
             public void run() {
                 List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
-                        CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                        CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
                 for (OptionVal optionVal : optionVals) {
                     if (!displayHiddenColumns && Boolean.FALSE.equals(optionVal.getIsshow())) {
                         continue;
@@ -381,7 +382,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                         SimpleTask task = kanbanItem.task;
                         task.setStatus(optionVal.getTypeval());
                         ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        taskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                        taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
                         updateComponentCount();
 
                         Component sourceComponent = transferable.getSourceComponent();
@@ -403,7 +404,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                             }
                         }
                         if (indexMap.size() > 0) {
-                            taskService.massUpdateTaskIndexes(indexMap, AppContext.getAccountId());
+                            taskService.massUpdateTaskIndexes(indexMap, MyCollabUI.getAccountId());
                         }
                     }
                 }
@@ -416,7 +417,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((UIUtils.getBrowserHeight() - 450) + "px");
 
             MHorizontalLayout headerLayout = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("header");
-            header = new Label(AppContext.getMessage(StatusI18nEnum.class, optionVal.getTypeval()));
+            header = new Label(UserUIContext.getMessage(StatusI18nEnum.class, optionVal.getTypeval()));
             headerLayout.with(header).expand(header);
 
             final PopupButton controlsBtn = new PopupButton();
@@ -430,7 +431,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             OptionPopupContent popupContent = new OptionPopupContent();
 
             if (canExecute && canRename) {
-                MButton renameColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN), clickEvent -> {
+                MButton renameColumnBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN), clickEvent -> {
                     controlsBtn.setPopupVisible(false);
                     UI.getCurrent().addWindow(new RenameColumnWindow());
                 }).withIcon(FontAwesome.EDIT);
@@ -445,7 +446,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                     } else {
                         optionVal.setIsshow(Boolean.FALSE);
                     }
-                    optionValService.updateWithSession(optionVal, AppContext.getUsername());
+                    optionValService.updateWithSession(optionVal, UserUIContext.getUsername());
                     toggleShowButton();
                     if (!displayHiddenColumns && Boolean.FALSE.equals(optionVal.getIsshow())) {
                         ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
@@ -455,7 +456,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             }
 
             if (canExecute) {
-                MButton changeColorBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_CHANGE_COLOR), clickEvent -> {
+                MButton changeColorBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.ACTION_CHANGE_COLOR), clickEvent -> {
                     ColumnColorPickerWindow popup = new ColumnColorPickerWindow(Color.CYAN);
                     UI.getCurrent().addWindow(popup);
                     popup.addColorChangeListener(colorChangeEvent -> {
@@ -463,7 +464,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                         String colorStr = color.getCSS().substring(1);
                         OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
                         optionVal.setColor(colorStr);
-                        optionValService.updateWithSession(optionVal, AppContext.getUsername());
+                        optionValService.updateWithSession(optionVal, UserUIContext.getUsername());
                         JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + colorStr + "'});");
                     });
                     controlsBtn.setPopupVisible(false);
@@ -472,18 +473,18 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             }
 
             if (canExecute && canRename) {
-                MButton deleteColumnBtn = new MButton(AppContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMN), clickEvent -> {
+                MButton deleteColumnBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.ACTION_DELETE_COLUMN), clickEvent -> {
                     if (getTaskComponentCount() > 0) {
-                        NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_DELETE_COLUMN_HAS_TASK));
+                        NotificationUtil.showErrorNotification(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_DELETE_COLUMN_HAS_TASK));
                     } else {
-                        ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                MyCollabUI.getSiteName()),
+                                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
+                                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                                 confirmDialog -> {
                                     if (confirmDialog.isConfirmed()) {
-                                        optionValService.removeWithSession(stage, AppContext.getUsername(), AppContext.getAccountId());
+                                        optionValService.removeWithSession(stage, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                         ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
                                     }
                                 });
@@ -496,7 +497,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             popupContent.addSeparator();
 
             if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                MButton addBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> {
+                MButton addBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.NEW), clickEvent -> {
                     controlsBtn.setPopupVisible(false);
                     addNewTaskComp();
                 }).withIcon(FontAwesome.PLUS);
@@ -505,7 +506,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             controlsBtn.setContent(popupContent);
 
             if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                MButton addNewBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> addNewTaskComp())
+                MButton addNewBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.NEW), clickEvent -> addNewTaskComp())
                         .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
                 buttonControls = new MHorizontalLayout(addNewBtn).withAlign(addNewBtn, Alignment.MIDDLE_RIGHT).withFullWidth();
                 this.with(headerLayout, dragLayoutContainer, buttonControls);
@@ -518,14 +519,14 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         void toggleShowButton() {
             if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
                 if (Boolean.FALSE.equals(optionVal.getIsshow())) {
-                    hideColumnBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMN));
+                    hideColumnBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMN));
                     hideColumnBtn.setIcon(FontAwesome.TOGGLE_ON);
                     ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(WebUIConstants.FIELD_NOTE)
-                            .withDescription(AppContext.getMessage(TaskI18nEnum.OPT_INVISIBLE_COLUMN_DESCRIPTION));
+                            .withDescription(UserUIContext.getMessage(TaskI18nEnum.OPT_INVISIBLE_COLUMN_DESCRIPTION));
                     buttonControls.addComponent(invisibleLbl, 0);
                     buttonControls.withAlign(invisibleLbl, Alignment.MIDDLE_LEFT);
                 } else {
-                    hideColumnBtn.setCaption(AppContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMN));
+                    hideColumnBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMN));
                     hideColumnBtn.setIcon(FontAwesome.TOGGLE_OFF);
                     if (buttonControls.getComponentCount() > 1) {
                         buttonControls.removeComponent(buttonControls.getComponent(0));
@@ -556,7 +557,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             Component testComp = (dragLayoutContainer.getComponentCount() > 0) ? dragLayoutContainer.getComponent(0) : null;
             if (testComp instanceof KanbanTaskBlockItem || testComp == null) {
                 final SimpleTask task = new SimpleTask();
-                task.setSaccountid(AppContext.getAccountId());
+                task.setSaccountid(MyCollabUI.getAccountId());
                 task.setProjectid(CurrentProjectVariables.getProjectId());
                 task.setPercentagecomplete(0d);
                 task.setStatus(optionVal.getTypeval());
@@ -568,12 +569,12 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                 taskNameField.setWidth("100%");
                 layout.with(taskNameField);
                 MHorizontalLayout controlsBtn = new MHorizontalLayout();
-                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
+                MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
                     String taskName = taskNameField.getValue();
                     if (StringUtils.isNotBlank(taskName)) {
                         task.setTaskname(taskName);
                         ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        taskService.saveWithSession(task, AppContext.getUsername());
+                        taskService.saveWithSession(task, UserUIContext.getUsername());
                         dragLayoutContainer.removeComponent(layout);
                         KanbanTaskBlockItem kanbanTaskBlockItem = new KanbanTaskBlockItem(task);
                         dragLayoutContainer.addComponent(kanbanTaskBlockItem, 0);
@@ -581,7 +582,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                     }
                 }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> {
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> {
                     dragLayoutContainer.removeComponent(layout);
                     newTaskComp = null;
                 }).withStyleName(WebUIConstants.BUTTON_OPTION);
@@ -598,7 +599,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
 
         private class RenameColumnWindow extends MWindow {
             RenameColumnWindow() {
-                super(AppContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN));
+                super(UserUIContext.getMessage(TaskI18nEnum.ACTION_RENAME_COLUMN));
                 withWidth("500px").withModal(true).withResizable(false);
                 this.center();
 
@@ -610,24 +611,24 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                 GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
                 gridFormLayoutHelper.addComponent(columnNameField, "Column name", 0, 0);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (StringUtils.isNotBlank(columnNameField.getValue())) {
                         OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
                         if (optionValService.isExistedOptionVal(ProjectTypeConstants.TASK, columnNameField
-                                .getValue(), "status", optionVal.getExtraid(), AppContext.getAccountId())) {
-                            NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_THERE_IS_ALREADY_COLUMN_NAME, columnNameField.getValue()));
+                                .getValue(), "status", optionVal.getExtraid(), MyCollabUI.getAccountId())) {
+                            NotificationUtil.showErrorNotification(UserUIContext.getMessage(TaskI18nEnum.ERROR_THERE_IS_ALREADY_COLUMN_NAME, columnNameField.getValue()));
                         } else {
                             taskService.massUpdateStatuses(optionVal.getTypeval(), columnNameField.getValue(), optionVal.getExtraid(),
-                                    AppContext.getAccountId());
+                                    MyCollabUI.getAccountId());
                             optionVal.setTypeval(columnNameField.getValue());
-                            optionValService.updateWithSession(optionVal, AppContext.getUsername());
+                            optionValService.updateWithSession(optionVal, UserUIContext.getUsername());
                             KanbanBlock.this.updateComponentCount();
                         }
                     } else {
-                        NotificationUtil.showErrorNotification(AppContext.getMessage(TaskI18nEnum.ERROR_COLUMN_NAME_NOT_NULL));
+                        NotificationUtil.showErrorNotification(UserUIContext.getMessage(TaskI18nEnum.ERROR_COLUMN_NAME_NOT_NULL));
                     }
 
                     close();

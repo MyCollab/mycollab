@@ -25,7 +25,7 @@ import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -67,7 +67,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));
         Integer numComments = commentList.setSearchCriteria(searchCriteria);
-        this.setCaption(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
+        this.setCaption(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
             MHorizontalLayout metadataRow = new MHorizontalLayout().withFullWidth();
             ELabel userNameLbl = new ELabel(comment.getOwnerFullName()).withStyleName(UIConstants.META_INFO,
                     UIConstants.TEXT_ELLIPSIS);
-            ELabel commentTimePost = new ELabel(AppContext.formatPrettyTime(comment.getCreatedtime())).withStyleName
+            ELabel commentTimePost = new ELabel(UserUIContext.formatPrettyTime(comment.getCreatedtime())).withStyleName
                     (UIConstants.META_INFO).withWidthUndefined();
             metadataRow.with(userNameLbl, commentTimePost).withAlign(commentTimePost, Alignment.TOP_RIGHT).expand(userNameLbl);
             rightCol.addComponent(metadataRow);

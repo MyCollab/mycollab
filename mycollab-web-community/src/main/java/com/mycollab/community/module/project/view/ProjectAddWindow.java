@@ -25,7 +25,8 @@ import com.mycollab.module.project.view.AbstractProjectAddWindow;
 import com.mycollab.module.project.view.ProjectGeneralInfoStep;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -52,12 +53,12 @@ public class ProjectAddWindow extends AbstractProjectAddWindow {
         projectInfo = new ProjectGeneralInfoStep(project);
         contentLayout.addComponent(projectInfo.getContent());
 
-        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             boolean isValid = projectInfo.commit();
             if(isValid) {
                 ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-                project.setSaccountid(AppContext.getAccountId());
-                projectService.saveWithSession(project, AppContext.getUsername());
+                project.setSaccountid(MyCollabUI.getAccountId());
+                projectService.saveWithSession(project, UserUIContext.getUsername());
 
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
                         new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
@@ -65,7 +66,7 @@ public class ProjectAddWindow extends AbstractProjectAddWindow {
             }
         }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true,
                 true, false, false));

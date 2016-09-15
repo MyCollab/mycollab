@@ -23,14 +23,13 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ImageUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class ImagePreviewCropWindow extends MWindow {
     private byte[] scaleImageData;
 
     public ImagePreviewCropWindow(final ImageSelectionCommand imageSelectionCommand, final byte[] imageData) {
-        super(AppContext.getMessage(ShellI18nEnum.OPT_PREVIEW_EDIT_IMAGE));
+        super(UserUIContext.getMessage(ShellI18nEnum.OPT_PREVIEW_EDIT_IMAGE));
         MVerticalLayout content = new MVerticalLayout();
         withModal(true).withResizable(false).withWidth("700px").withCenter().withContent(content);
 
@@ -78,12 +77,12 @@ public class ImagePreviewCropWindow extends MWindow {
 
         VerticalLayout previewBoxTitle = new VerticalLayout();
         previewBoxTitle.setMargin(new MarginInfo(false, true, false, true));
-        previewBoxTitle.addComponent(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
+        previewBoxTitle.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton acceptBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
+        MButton acceptBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
             if (scaleImageData != null && scaleImageData.length > 0) {
                 try {
                     BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));

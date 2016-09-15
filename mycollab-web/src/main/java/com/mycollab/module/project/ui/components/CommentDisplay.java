@@ -22,7 +22,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.BeanList;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.web.ui.TabSheetLazyLoadComponent;
@@ -66,7 +66,7 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
 
         Object parentComp = this.getParent();
         if (parentComp instanceof TabSheetLazyLoadComponent) {
-            ((TabSheetLazyLoadComponent) parentComp).getTab(this).setCaption(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
+            ((TabSheetLazyLoadComponent) parentComp).getTab(this).setCaption(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
         }
     }
 

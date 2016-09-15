@@ -26,11 +26,11 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.GenericChartWrapper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
@@ -70,7 +70,7 @@ public class TaskStatusTrendChartWidget extends Depot {
     private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC);
 
     public TaskStatusTrendChartWidget() {
-        super(AppContext.getMessage(ProjectCommonI18nEnum.OPT_RESOLVING_TREND_IN_DURATION, 30), new MVerticalLayout().withFullWidth());
+        super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_RESOLVING_TREND_IN_DURATION, 30), new MVerticalLayout().withFullWidth());
         setContentBorder(true);
     }
 
@@ -118,7 +118,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                     }
                 }
 
-                TimeSeries series = new TimeSeries(AppContext.getMessage(StatusI18nEnum.Unresolved));
+                TimeSeries series = new TimeSeries(UserUIContext.getMessage(StatusI18nEnum.Unresolved));
                 for (Map.Entry<Date, Double> entry : openMap.entrySet()) {
                     series.add(new Day(entry.getKey()), entry.getValue());
                 }
@@ -169,7 +169,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                 final String color = "<div style = \" width:13px;height:13px;background: #" + CHART_COLOR_STR.get(colorIndex) + "\" />";
                 final Label lblCircle = new Label(color);
                 lblCircle.setContentMode(ContentMode.HTML);
-                String captionBtn = AppContext.getMessage(StatusI18nEnum.class, (String) key.getKey());
+                String captionBtn = UserUIContext.getMessage(StatusI18nEnum.class, (String) key.getKey());
                 final Button btnLink = new Button(StringUtils.trim(captionBtn, 30, true));
                 btnLink.setDescription(captionBtn);
                 btnLink.addStyleName(WebUIConstants.BUTTON_LINK);
@@ -187,7 +187,7 @@ public class TaskStatusTrendChartWidget extends Depot {
             LocalDate startDate = endDate.minusDays(30);
             OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
             List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
-                    CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                    CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
             List<String> options = optionVals.stream().map(OptionVal::getTypeval).collect(Collectors.toList());
             groupItems = timelineTrackingService.findTimelineItems("status", options, startDate.toDate(), endDate.toDate(), searchCriteria);
             displayChart();

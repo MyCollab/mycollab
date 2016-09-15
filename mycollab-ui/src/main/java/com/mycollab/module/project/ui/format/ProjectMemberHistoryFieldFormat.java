@@ -24,9 +24,9 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.mycollab.vaadin.TooltipHelper;
-import com.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public final class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat
 
         try {
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
-            SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
+            SimpleUser user = userService.findUserByUserNameInAccount(value, MyCollabUI.getAccountId());
             if (user != null) {
                 if (displayAsHtml) {
                     Img userAvatar = new Img("", StorageFactory.getAvatarPath(user.getAvatarid(), 16));

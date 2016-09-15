@@ -29,7 +29,7 @@ import com.mycollab.module.project.service.MessageService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -70,7 +70,7 @@ public class MessageReadPresenter extends ProjectGenericPresenter<MessageReadVie
 
             if (data.getParams() instanceof Integer) {
                 MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                SimpleMessage message = messageService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                SimpleMessage message = messageService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 view.previewItem(message);
 
                 ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

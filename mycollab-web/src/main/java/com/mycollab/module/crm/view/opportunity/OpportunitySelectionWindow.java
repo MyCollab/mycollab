@@ -22,7 +22,8 @@ import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import org.vaadin.viritin.button.MButton;
@@ -42,7 +43,7 @@ public class OpportunitySelectionWindow extends MWindow {
     private FieldSelection fieldSelection;
 
     public OpportunitySelectionWindow(FieldSelection fieldSelection) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(OpportunityI18nEnum.SINGLE)));
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(OpportunityI18nEnum.SINGLE)));
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
     }
@@ -69,8 +70,8 @@ public class OpportunitySelectionWindow extends MWindow {
             return new MButton(opportunity.getOpportunityname(), clickEvent -> {
                 fieldSelection.fireValueChange(opportunity);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                    opportunity, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+                    opportunity, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }
 }

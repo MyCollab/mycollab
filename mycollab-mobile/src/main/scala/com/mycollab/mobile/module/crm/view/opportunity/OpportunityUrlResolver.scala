@@ -22,7 +22,7 @@ import com.mycollab.mobile.module.crm.events.{CrmEvent, OpportunityEvent}
 import com.mycollab.mobile.module.crm.{CrmModuleScreenData, CrmUrlResolver}
 import com.mycollab.module.crm.domain.Account
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum
-import com.mycollab.vaadin.AppContext
+import com.mycollab.vaadin.UserUIContext
 
 /**
   * @author MyCollab Ltd
@@ -37,7 +37,7 @@ class OpportunityUrlResolver extends CrmUrlResolver {
   class OpportunityListUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
       EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-        new CrmModuleScreenData.GotoModule(AppContext.getMessage(OpportunityI18nEnum.LIST))))
+        new CrmModuleScreenData.GotoModule(UserUIContext.getMessage(OpportunityI18nEnum.LIST))))
     }
   }
   

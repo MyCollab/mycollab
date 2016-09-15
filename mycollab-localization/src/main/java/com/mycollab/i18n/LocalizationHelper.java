@@ -37,7 +37,6 @@ public class LocalizationHelper {
     private static final Logger LOG = LoggerFactory.getLogger(LocalizationHelper.class);
     private static final Map<Locale, IMessageConveyor> languageMap;
     private static IMessageConveyor defaultMessage = new MessageConveyorExt(Locale.US);
-    public static final Locale defaultLocale = Locale.US;
 
     static {
         languageMap = new HashMap<>();

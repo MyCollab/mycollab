@@ -33,7 +33,7 @@ import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
@@ -66,23 +66,23 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             Div activeMembersDiv = new Div().appendText(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers())
-                    .setTitle(AppContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
+                    .setTitle(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
 
-            Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + AppContext
-                    .formatPrettyTime(project.getCreatedtime())).setTitle(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
+            Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext
+                    .formatPrettyTime(project.getCreatedtime())).setTitle(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
 
             Div billableHoursDiv = new Div().appendText(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble
-                    (2, project.getTotalBillableHours())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS));
+                    (2, project.getTotalBillableHours())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS));
 
             Div nonBillableHoursDiv = new Div().appendText(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalNonBillableHours()));
-            nonBillableHoursDiv.setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
+            nonBillableHoursDiv.setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
             Div metaDiv = new Div().appendChild(activeMembersDiv, DivLessFormatter.EMPTY_SPACE(), createdTimeDiv, DivLessFormatter.EMPTY_SPACE(),
                     billableHoursDiv, DivLessFormatter.EMPTY_SPACE(), nonBillableHoursDiv);
             if (project.getLead() != null) {
                 Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(project
                         .getLeadAvatarId(), 16)), new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
-                        .appendText(project.getLeadFullName())).setTitle(AppContext.getMessage(ProjectI18nEnum.FORM_LEADER));
+                        .appendText(project.getLeadFullName())).setTitle(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
@@ -94,11 +94,11 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
             int totalAssignments = project.getNumBugs() + project.getNumTasks() + project.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                                 * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
                         .withStyleName(UIConstants.META_INFO);
             }
             layout.addComponent(progressInfoLbl);

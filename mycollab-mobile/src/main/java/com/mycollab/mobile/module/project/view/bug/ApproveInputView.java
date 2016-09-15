@@ -33,7 +33,8 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -53,7 +54,7 @@ class ApproveInputView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ApproveInputView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption(AppContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
+        this.setCaption(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
         this.bug = bug;
         this.callbackForm = callbackForm;
 
@@ -63,12 +64,12 @@ class ApproveInputView extends AbstractMobilePageView {
     }
 
     private void constructUI() {
-        final Button approveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), clickEvent -> {
+        final Button approveBtn = new Button(UserUIContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), clickEvent -> {
             if (editForm.validateForm()) {
                 // Save bug status and assignee
                 ApproveInputView.this.bug.setStatus(BugStatus.Verified.name());
                 final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                bugService.updateSelectiveWithSession(ApproveInputView.this.bug, AppContext.getUsername());
+                bugService.updateSelectiveWithSession(ApproveInputView.this.bug, UserUIContext.getUsername());
 
                 // Save comment
                 final String commentValue = editForm.commentArea.getValue();
@@ -76,14 +77,14 @@ class ApproveInputView extends AbstractMobilePageView {
                     final CommentWithBLOBs comment = new CommentWithBLOBs();
                     comment.setComment(editForm.commentArea.getValue());
                     comment.setCreatedtime(new GregorianCalendar().getTime());
-                    comment.setCreateduser(AppContext.getUsername());
-                    comment.setSaccountid(AppContext.getAccountId());
+                    comment.setCreateduser(UserUIContext.getUsername());
+                    comment.setSaccountid(MyCollabUI.getAccountId());
                     comment.setType(ProjectTypeConstants.BUG);
                     comment.setTypeid("" + bug.getId());
                     comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
                     final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                    commentService.saveWithSession(comment, AppContext.getUsername());
+                    commentService.saveWithSession(comment, UserUIContext.getUsername());
                 }
                 ApproveInputView.this.callbackForm.previewItem(bug);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
@@ -117,7 +118,7 @@ class ApproveInputView extends AbstractMobilePageView {
             @Override
             public Component onAttachField(Object propertyId, final Field<?> field) {
                 if (propertyId.equals("assignuser")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
                     return informationLayout.addComponent(field, "Comments", 0, 1);
                 }

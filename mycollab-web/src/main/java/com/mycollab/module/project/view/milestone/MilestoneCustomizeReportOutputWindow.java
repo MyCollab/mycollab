@@ -22,12 +22,11 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;
@@ -39,7 +38,7 @@ import java.util.Collection;
  */
 public class MilestoneCustomizeReportOutputWindow extends CustomizeReportOutputWindow<MilestoneSearchCriteria, SimpleMilestone> {
     public MilestoneCustomizeReportOutputWindow(VariableInjector<MilestoneSearchCriteria> variableInjector) {
-        super(ProjectTypeConstants.MILESTONE, AppContext.getMessage(MilestoneI18nEnum.LIST), SimpleMilestone.class,
+        super(ProjectTypeConstants.MILESTONE, UserUIContext.getMessage(MilestoneI18nEnum.LIST), SimpleMilestone.class,
                 AppContextUtil.getSpringBean(MilestoneService.class), variableInjector);
     }
 
@@ -58,8 +57,8 @@ public class MilestoneCustomizeReportOutputWindow extends CustomizeReportOutputW
 
     @Override
     protected Object[] buildSampleData() {
-        return new Object[]{"Milestone 1", AppContext.formatDate(new LocalDate().minusDays(30).toDate()), AppContext
-                .formatDate(new LocalDate().plusDays(7).toDate()), AppContext.getMessage(MilestoneStatus.InProgress),
+        return new Object[]{"Milestone 1", UserUIContext.formatDate(new LocalDate().minusDays(30).toDate()), UserUIContext
+                .formatDate(new LocalDate().plusDays(7).toDate()), UserUIContext.getMessage(MilestoneStatus.InProgress),
                 "John Adam", "10", "2"};
     }
 }

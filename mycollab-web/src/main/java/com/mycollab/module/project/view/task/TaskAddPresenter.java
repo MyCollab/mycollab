@@ -32,7 +32,8 @@ import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -105,7 +106,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
     private int save(Task item) {
         ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
 
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
         item.setProjectid(CurrentProjectVariables.getProjectId());
         if (item.getPercentagecomplete() == null) {
             item.setPercentagecomplete(0d);
@@ -118,8 +119,8 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
         }
 
         if (item.getId() == null) {
-            item.setLogby(AppContext.getUsername());
-            int taskId = taskService.saveWithSession(item, AppContext.getUsername());
+            item.setLogby(UserUIContext.getUsername());
+            int taskId = taskService.saveWithSession(item, UserUIContext.getUsername());
 
             List<String> followers = view.getFollowers();
             if (followers.size() > 0) {
@@ -127,7 +128,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
                 for (String follower : followers) {
                     MonitorItem monitorItem = new MonitorItem();
                     monitorItem.setMonitorDate(new GregorianCalendar().getTime());
-                    monitorItem.setSaccountid(AppContext.getAccountId());
+                    monitorItem.setSaccountid(MyCollabUI.getAccountId());
                     monitorItem.setType(ProjectTypeConstants.TASK);
                     monitorItem.setTypeid(taskId);
                     monitorItem.setUser(follower);
@@ -138,10 +139,10 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
                 monitorItemService.saveMonitorItems(monitorItems);
             }
         } else {
-            taskService.updateWithSession(item, AppContext.getUsername());
+            taskService.updateWithSession(item, UserUIContext.getUsername());
         }
         AttachmentUploadField uploadField = view.getAttachUploadField();
-        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), item.getProjectid(),
+        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), item.getProjectid(),
                 ProjectTypeConstants.TASK, "" + item.getId());
         uploadField.saveContentsToRepo(attachPath);
         return item.getId();

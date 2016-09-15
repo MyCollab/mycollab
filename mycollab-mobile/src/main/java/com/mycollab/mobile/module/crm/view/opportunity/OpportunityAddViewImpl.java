@@ -21,7 +21,7 @@ import com.mycollab.mobile.ui.AbstractEditItemComp;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -36,7 +36,7 @@ public class OpportunityAddViewImpl extends AbstractEditItemComp<SimpleOpportuni
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getOpportunityname() != null ? beanItem.getOpportunityname() : AppContext.getMessage(OpportunityI18nEnum.NEW);
+        return beanItem.getOpportunityname() != null ? beanItem.getOpportunityname() : UserUIContext.getMessage(OpportunityI18nEnum.NEW);
     }
 
     @Override

@@ -28,7 +28,8 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
@@ -86,10 +87,10 @@ public class AttachmentDisplayComponent extends CssLayout {
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
-        Ul ul = new Ul().appendChild(new Li().appendText(AppContext.getMessage(FileI18nEnum.OPT_SIZE_VALUE,
+        Ul ul = new Ul().appendChild(new Li().appendText(UserUIContext.getMessage(FileI18nEnum.OPT_SIZE_VALUE,
                 FileUtils.getVolumeDisplay(attachment.getSize())))).setStyle("line-height:1.5em");
-        ul.appendChild(new Li().appendText(AppContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
-                AppContext.formatPrettyTime(attachment.getLastModified().getTime()))));
+        ul.appendChild(new Li().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
+                UserUIContext.formatPrettyTime(attachment.getLastModified().getTime()))));
         contentTooltip.appendChild(ul);
         thumbnail.setDescription(contentTooltip.write());
         thumbnail.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
@@ -105,15 +106,15 @@ public class AttachmentDisplayComponent extends CssLayout {
         attachmentLayout.addComponent(attachmentNameWrap, "bottom: 0px; left: 0px; right: 0px; z-index: 1;");
 
         MButton trashBtn = new MButton("", clickEvent -> {
-            ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                    AppContext.getSiteName()), AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+            ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                    MyCollabUI.getSiteName()), UserUIContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
                             attachmentService.removeResource(attachment.getPath(),
-                                    AppContext.getUsername(), AppContext.getAccountId());
+                                    UserUIContext.getUsername(), MyCollabUI.getAccountId());
                             ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });

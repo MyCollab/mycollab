@@ -20,7 +20,7 @@ import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.mobile.MobileApplication;
 import com.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.mycollab.mobile.shell.ModuleHelper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.module.crm.i18n.*;
 import com.vaadin.ui.ComponentContainer;
@@ -43,7 +43,7 @@ public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         ModuleHelper.setCurrentModule(view);
         super.onGo(navigator, data);
-        AppContext.updateLastModuleVisit(ModuleNameConstants.CRM);
+        UserUIContext.updateLastModuleVisit(ModuleNameConstants.CRM);
         if (data == null) {
             view.goToAccounts();
             String url = ((MobileApplication) UI.getCurrent()).getCurrentFragmentUrl();
@@ -59,19 +59,19 @@ public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView
         }
 
         String submodule = ((CrmModuleScreenData.GotoModule) data).getParams();
-        if (AppContext.getMessage(AccountI18nEnum.LIST).equals(submodule)) {
+        if (UserUIContext.getMessage(AccountI18nEnum.LIST).equals(submodule)) {
             view.goToAccounts();
-        } else if (AppContext.getMessage(ContactI18nEnum.LIST).equals(submodule)) {
+        } else if (UserUIContext.getMessage(ContactI18nEnum.LIST).equals(submodule)) {
             view.goToContacts();
-        } else if (AppContext.getMessage(CaseI18nEnum.LIST).equals(submodule)) {
+        } else if (UserUIContext.getMessage(CaseI18nEnum.LIST).equals(submodule)) {
             view.goToCases();
-        } else if (AppContext.getMessage(CampaignI18nEnum.LIST).equals(submodule)) {
+        } else if (UserUIContext.getMessage(CampaignI18nEnum.LIST).equals(submodule)) {
             view.goToCampaigns();
-        } else if (AppContext.getMessage(LeadI18nEnum.LIST).equals(submodule)) {
+        } else if (UserUIContext.getMessage(LeadI18nEnum.LIST).equals(submodule)) {
             view.goToLeads();
-        } else if (AppContext.getMessage(OpportunityI18nEnum.LIST).equals(submodule)) {
+        } else if (UserUIContext.getMessage(OpportunityI18nEnum.LIST).equals(submodule)) {
             view.goToOpportunities();
-        } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER).equals(submodule)) {
+        } else if (UserUIContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER).equals(submodule)) {
             view.goToActivities();
         }
     }

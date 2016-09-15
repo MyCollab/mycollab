@@ -18,7 +18,7 @@ package com.mycollab.vaadin.ui.formatter;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Ltd
@@ -27,7 +27,7 @@ import com.mycollab.vaadin.AppContext;
 public final class TrimHtmlHistoryFieldFormat implements HistoryFieldFormat {
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override

@@ -24,7 +24,8 @@ import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.EmailLink;
@@ -69,14 +70,14 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
             final SimpleContact contact = getBeanByIndex(itemId);
 
             LabelLink b = new LabelLink(contact.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId()));
-            b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                    contact, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            b.setDescription(CrmTooltipGenerator.generateToolTipContact(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+                    contact, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             return b;
         });
 
         addGeneratedColumn("createdtime", (source, itemId, columnId) -> {
             final SimpleContact contact = getBeanByIndex(itemId);
-            return new Label(AppContext.formatDateTime(contact.getCreatedtime()));
+            return new Label(UserUIContext.formatDateTime(contact.getCreatedtime()));
         });
 
         addGeneratedColumn("email", (source, itemId, columnId) -> {
@@ -100,7 +101,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
 
         addGeneratedColumn("birthday", (source, itemId, columnId) -> {
             final SimpleContact contact = getBeanByIndex(itemId);
-            return new Label(AppContext.formatDate(contact.getBirthday()));
+            return new Label(UserUIContext.formatDate(contact.getBirthday()));
         });
 
         addGeneratedColumn("assignUserFullName", (source, itemId, columnId) -> {

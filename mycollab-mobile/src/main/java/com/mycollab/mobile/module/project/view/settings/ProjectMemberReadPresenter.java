@@ -27,7 +27,8 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -56,13 +57,13 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
             @Override
             public void onDelete(final SimpleProjectMember data) {
                 ConfirmDialog.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-                                projectMemberService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                projectMemberService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                             }
                         });
@@ -76,7 +77,7 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
         boolean isCurrentUserAccess = false;
 
         if (data.getParams() instanceof String) {
-            if (AppContext.getUsername().equals(data.getParams())) {
+            if (UserUIContext.getUsername().equals(data.getParams())) {
                 isCurrentUserAccess = true;
             }
         }
@@ -84,17 +85,17 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
             ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
             SimpleProjectMember prjMember = null;
             if (data.getParams() instanceof Integer) {
-                prjMember = prjMemberService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                prjMember = prjMemberService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
 
             } else if (data.getParams() instanceof String) {
                 String username = (String) data.getParams();
-                prjMember = prjMemberService.findMemberByUsername(username, CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                prjMember = prjMemberService.findMemberByUsername(username, CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
             }
             if (prjMember != null) {
                 this.view.previewItem(prjMember);
                 super.onGo(container, data);
 
-                AppContext.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
+                MyCollabUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
                         .getProjectId() + "/" + prjMember.getUsername()), prjMember.getDisplayName());
             } else {
                 NotificationUtil.showRecordNotExistNotification();

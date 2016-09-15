@@ -29,7 +29,7 @@ import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;
@@ -41,7 +41,7 @@ import java.util.Collection;
  */
 public class BugCustomizeReportOutputWindow extends CustomizeReportOutputWindow<BugSearchCriteria, SimpleBug> {
     public BugCustomizeReportOutputWindow(VariableInjector<BugSearchCriteria> variableInjector) {
-        super(ProjectTypeConstants.BUG, AppContext.getMessage(BugI18nEnum.LIST), SimpleBug.class,
+        super(ProjectTypeConstants.BUG, UserUIContext.getMessage(BugI18nEnum.LIST), SimpleBug.class,
                 AppContextUtil.getSpringBean(BugService.class), variableInjector);
     }
 
@@ -66,8 +66,8 @@ public class BugCustomizeReportOutputWindow extends CustomizeReportOutputWindow<
     protected Object[] buildSampleData() {
         return new Object[]{"Bug A", "Virtual Environment", BugPriority.Critical.name(),
                 BugSeverity.Major.name(), BugStatus.Open.name(), BugResolution.None.name(),
-                "John Adam", AppContext.formatDate(new LocalDate().minusDays(2).toDate()), AppContext.formatDate(new
-                LocalDate().plusDays(1).toDate()), AppContext.formatDate(new LocalDate().plusDays(2).toDate()),
+                "John Adam", UserUIContext.formatDate(new LocalDate().minusDays(2).toDate()), UserUIContext.formatDate(new
+                LocalDate().plusDays(1).toDate()), UserUIContext.formatDate(new LocalDate().plusDays(2).toDate()),
                 "Will Smith", "Project Execution", "10", "2"};
     }
 }

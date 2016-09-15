@@ -32,7 +32,7 @@ import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -105,7 +105,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         relatedCampaigns.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_CAMPAIGN
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CampaignI18nEnum.LIST)
+                + UserUIContext.getMessage(CampaignI18nEnum.LIST)
                 + "</div>");
         relatedCampaigns.setHtmlContentAllowed(true);
         relatedCampaigns.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(
@@ -116,7 +116,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_ACTIVITY
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+                + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
         relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(this,

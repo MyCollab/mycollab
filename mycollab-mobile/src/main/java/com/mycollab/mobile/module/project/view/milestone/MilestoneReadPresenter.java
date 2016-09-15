@@ -28,7 +28,8 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -62,13 +63,13 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
             @Override
             public void onDelete(final SimpleMilestone data) {
                 ConfirmDialog.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-                                milestoneService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                milestoneService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
                             }
                         });
@@ -89,12 +90,12 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
             if (data.getParams() instanceof Integer) {
                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
                 SimpleMilestone milestone = milestoneService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                        (Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (milestone != null) {
                     view.previewItem(milestone);
                     super.onGo(container, data);
 
-                    AppContext.addFragment("project/milestone/preview/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(), milestone.getId()),
+                    MyCollabUI.addFragment("project/milestone/preview/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(), milestone.getId()),
                             milestone.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

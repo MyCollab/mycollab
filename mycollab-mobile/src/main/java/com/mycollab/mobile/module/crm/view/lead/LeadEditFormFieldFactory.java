@@ -23,7 +23,7 @@ import com.mycollab.mobile.ui.IndustryComboBox;
 import com.mycollab.mobile.ui.PrefixNameComboBox;
 import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -80,8 +80,8 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
         } else if (propertyId.equals("accountname")) {
             MTextField txtField = new MTextField();
             if (isValidateForm) {
-                txtField.withNullRepresentation("").withRequired(true).withRequiredError(AppContext.getMessage
-                        (ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
+                txtField.withNullRepresentation("").withRequired(true).withRequiredError(UserUIContext.getMessage
+                        (ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return txtField;

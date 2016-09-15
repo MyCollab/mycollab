@@ -26,7 +26,7 @@ import com.mycollab.module.project.service.MessageService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.*;
 import com.vaadin.ui.ComponentContainer;
@@ -54,7 +54,7 @@ public class MessageListPresenter extends ProjectGenericPresenter<MessageListVie
             @Override
             public void onSave(Message message) {
                 MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                messageService.saveWithSession(message, AppContext.getUsername());
+                messageService.saveWithSession(message, UserUIContext.getUsername());
                 doSearch(searchCriteria);
             }
         });

@@ -19,7 +19,7 @@ package com.mycollab.module.user.view.component;
 
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.security.AccessPermissionFlag;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 
 /**
@@ -32,10 +32,10 @@ public class AccessPermissionComboBox extends KeyCaptionComboBox {
     public AccessPermissionComboBox() {
         super(false);
 
-        this.addItem(AccessPermissionFlag.NO_ACCESS, AppContext.getMessage(SecurityI18nEnum.NO_ACCESS));
-        this.addItem(AccessPermissionFlag.READ_ONLY, AppContext.getMessage(SecurityI18nEnum.READONLY));
-        this.addItem(AccessPermissionFlag.READ_WRITE, AppContext.getMessage(SecurityI18nEnum.READ_WRITE));
-        this.addItem(AccessPermissionFlag.ACCESS, AppContext.getMessage(SecurityI18nEnum.ACCESS));
+        this.addItem(AccessPermissionFlag.NO_ACCESS, UserUIContext.getMessage(SecurityI18nEnum.NO_ACCESS));
+        this.addItem(AccessPermissionFlag.READ_ONLY, UserUIContext.getMessage(SecurityI18nEnum.READONLY));
+        this.addItem(AccessPermissionFlag.READ_WRITE, UserUIContext.getMessage(SecurityI18nEnum.READ_WRITE));
+        this.addItem(AccessPermissionFlag.ACCESS, UserUIContext.getMessage(SecurityI18nEnum.ACCESS));
         this.setValue(AccessPermissionFlag.READ_ONLY);
     }
 }

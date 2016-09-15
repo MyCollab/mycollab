@@ -23,7 +23,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.UI;
@@ -40,12 +40,12 @@ public class SystemUIChecker {
         if (!SiteConfiguration.isDemandEdition()) {
             ExtMailService extMailService = AppContextUtil.getSpringBean(ExtMailService.class);
             if (!extMailService.isMailSetupValid()) {
-                if (AppContext.isAdmin()) {
+                if (UserUIContext.isAdmin()) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(ShellI18nEnum.WINDOW_STMP_NOT_SETUP),
-                            AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_ADMIN),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(ShellI18nEnum.WINDOW_STMP_NOT_SETUP),
+                            UserUIContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_ADMIN),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(null, new String[]{"setup"}));
@@ -53,7 +53,7 @@ public class SystemUIChecker {
                             });
 
                 } else {
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
+                    NotificationUtil.showErrorNotification(UserUIContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
                 }
                 return false;
             } else {

@@ -32,7 +32,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -63,7 +64,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
 
     private void loadCampaigns() {
         CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-        criteria.setSaccountid(NumberSearchField.equal(AppContext.getAccountId()));
+        criteria.setSaccountid(NumberSearchField.equal(MyCollabUI.getAccountId()));
         criteria.setLeadId(NumberSearchField.equal(lead.getId()));
         this.setSearchCriteria(criteria);
     }
@@ -78,17 +79,17 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
         VerticalLayout controlBtnWrap = new VerticalLayout();
         controlBtnWrap.setWidth("100%");
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.setSizeUndefined();
             controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-            controlsBtn.setCaption(AppContext.getMessage(CampaignI18nEnum.NEW));
+            controlsBtn.setCaption(UserUIContext.getMessage(CampaignI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
-            Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+            Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 LeadCampaignSelectionWindow leadsWindow = new LeadCampaignSelectionWindow(LeadCampaignListComp.this);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 UI.getCurrent().addWindow(leadsWindow);
                 leadsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
@@ -126,17 +127,17 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
 
             MButton btnDelete = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                                 CampaignLead associateLead = new CampaignLead();
                                 associateLead.setLeadid(lead.getId());
                                 associateLead.setCampaignid(campaign.getId());
-                                campaignService.removeCampaignLeadRelationship(associateLead, AppContext.getAccountId());
+                                campaignService.removeCampaignLeadRelationship(associateLead, MyCollabUI.getAccountId());
                                 LeadCampaignListComp.this.refresh();
                             }
                         });
@@ -145,22 +146,22 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+            Label contactName = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.CAMPAIGN, campaign.getId())).appendText(campaign.getCampaignname()).write());
 
             campaignInfo.addComponent(contactName);
 
-            Label campaignStatus = new Label(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
+            Label campaignStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
                     MoreObjects.firstNonNull(campaign.getStatus(), ""));
             campaignInfo.addComponent(campaignStatus);
 
-            Label campaignType = new Label(AppContext.getMessage(GenericI18Enum.FORM_TYPE) + ": " + MoreObjects
+            Label campaignType = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_TYPE) + ": " + MoreObjects
                     .firstNonNull(campaign.getType(), ""));
             campaignInfo.addComponent(campaignType);
 
-            ELabel campaignEndDate = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_END_DATE) + ": " +
-                    AppContext.formatPrettyTime(campaign.getEnddate()))
-                    .withDescription(AppContext.formatDate(campaign.getEnddate()));
+            ELabel campaignEndDate = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE) + ": " +
+                    UserUIContext.formatPrettyTime(campaign.getEnddate()))
+                    .withDescription(UserUIContext.formatDate(campaign.getEnddate()));
             campaignInfo.addComponent(campaignEndDate);
 
             blockTop.with(campaignInfo).expand(campaignInfo);

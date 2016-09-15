@@ -23,7 +23,7 @@ import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
@@ -37,7 +37,7 @@ public class LeadListViewImpl extends AbstractListViewComp<LeadSearchCriteria, S
     private static final long serialVersionUID = -5311139413938817084L;
 
     public LeadListViewImpl() {
-        setCaption(AppContext.getMessage(LeadI18nEnum.LIST));
+        setCaption(UserUIContext.getMessage(LeadI18nEnum.LIST));
     }
 
     @Override

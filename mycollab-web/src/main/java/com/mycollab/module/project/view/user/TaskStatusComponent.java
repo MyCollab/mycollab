@@ -28,7 +28,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.ui.CheckBox;
@@ -47,14 +47,14 @@ public class TaskStatusComponent extends Depot {
     private ProjectGenericTaskSearchCriteria searchCriteria;
 
     public TaskStatusComponent() {
-        super(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
+        super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
 
-        final CheckBox myItemsOnly = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+        final CheckBox myItemsOnly = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
         myItemsOnly.addValueChangeListener(valueChangeEvent -> {
             if (searchCriteria != null) {
                 boolean selectMyItemsOnly = myItemsOnly.getValue();
                 if (selectMyItemsOnly) {
-                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                    searchCriteria.setAssignUser(StringSearchField.and(UserUIContext.getUsername()));
                 } else {
                     searchCriteria.setAssignUser(null);
                 }
@@ -78,7 +78,7 @@ public class TaskStatusComponent extends Depot {
 
     private void updateSearchResult() {
         taskComponents.setSearchCriteria(searchCriteria);
-        setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskComponents.getTotalCount()));
+        setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskComponents.getTotalCount()));
     }
 
     private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectGenericTaskService,
@@ -90,7 +90,7 @@ public class TaskStatusComponent extends Depot {
 
         @Override
         protected String stringWhenEmptyList() {
-            return AppContext.getMessage(ProjectI18nEnum.OPT_NO_OVERDUE_ASSIGNMENT);
+            return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_OVERDUE_ASSIGNMENT);
         }
     }
 }

@@ -22,7 +22,7 @@ import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -55,7 +55,7 @@ class ContactInfoChangeWindow extends MWindow {
     private User user;
 
     ContactInfoChangeWindow(User user) {
-        super(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
+        super(UserUIContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
         this.user = user;
         this.withWidth("450px").withResizable(false).withModal(true).withCenter();
         this.validation = AppContextUtil.getValidator();
@@ -67,8 +67,8 @@ class ContactInfoChangeWindow extends MWindow {
 
         GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
 
-        passInfo.addComponent(txtWorkPhone, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
-        passInfo.addComponent(txtHomePhone, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+        passInfo.addComponent(txtWorkPhone, UserUIContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+        passInfo.addComponent(txtHomePhone, UserUIContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
         passInfo.addComponent(txtFaceBook, "Facebook", 0, 2);
         passInfo.addComponent(txtTwitter, "Twitter", 0, 3);
         passInfo.addComponent(txtSkype, "Skype", 0, 4);
@@ -81,10 +81,10 @@ class ContactInfoChangeWindow extends MWindow {
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
                 .withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
@@ -130,7 +130,7 @@ class ContactInfoChangeWindow extends MWindow {
 
         if (validateForm(user)) {
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
-            userService.updateWithSession(user, AppContext.getUsername());
+            userService.updateWithSession(user, UserUIContext.getUsername());
             close();
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }

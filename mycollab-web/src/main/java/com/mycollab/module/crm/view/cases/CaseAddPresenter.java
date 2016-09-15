@@ -31,7 +31,8 @@ import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -74,13 +75,13 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CASE);
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CASE)) {
             SimpleCase cases = null;
             if (data.getParams() instanceof SimpleCase) {
                 cases = (SimpleCase) data.getParams();
             } else if (data.getParams() instanceof Integer) {
                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                cases = caseService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                cases = caseService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
             }
             if (cases == null) {
                 throw new ResourceNotFoundException();
@@ -89,12 +90,12 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
             view.editItem(cases);
 
             if (cases.getId() == null) {
-                AppContext.addFragment("crm/cases/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                        AppContext.getMessage(CaseI18nEnum.SINGLE)));
+                MyCollabUI.addFragment("crm/cases/add", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        UserUIContext.getMessage(CaseI18nEnum.SINGLE)));
             } else {
-                AppContext.addFragment("crm/cases/edit/" + UrlEncodeDecoder.encode(cases.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                AppContext.getMessage(CaseI18nEnum.SINGLE), cases.getSubject()));
+                MyCollabUI.addFragment("crm/cases/edit/" + UrlEncodeDecoder.encode(cases.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                UserUIContext.getMessage(CaseI18nEnum.SINGLE), cases.getSubject()));
             }
         } else {
             throw new SecureAccessException();
@@ -103,12 +104,12 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 
     private int saveCase(CaseWithBLOBs cases) {
         CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-        cases.setSaccountid(AppContext.getAccountId());
+        cases.setSaccountid(MyCollabUI.getAccountId());
 
         if (cases.getId() == null) {
-            caseService.saveWithSession(cases, AppContext.getUsername());
+            caseService.saveWithSession(cases, UserUIContext.getUsername());
         } else {
-            caseService.updateWithSession(cases, AppContext.getUsername());
+            caseService.updateWithSession(cases, UserUIContext.getUsername());
         }
         return cases.getId();
     }

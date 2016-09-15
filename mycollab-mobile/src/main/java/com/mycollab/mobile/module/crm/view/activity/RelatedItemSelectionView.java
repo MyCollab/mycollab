@@ -25,7 +25,7 @@ import com.mycollab.mobile.module.crm.view.opportunity.OpportunitySelectionView;
 import com.mycollab.mobile.ui.AbstractMobileTabPageView;
 import com.mycollab.mobile.ui.IconConstants;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.module.crm.i18n.*;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
@@ -102,7 +102,7 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
                 "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_ACCOUNT
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext
+                        + UserUIContext
                         .getMessage(AccountI18nEnum.LIST)
                         + "</div>");
         this.addTab(
@@ -110,7 +110,7 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
                 "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_CONTACT
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext
+                        + UserUIContext
                         .getMessage(ContactI18nEnum.LIST)
                         + "</div>");
 
@@ -119,7 +119,7 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
                 "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_CAMPAIGN
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext
+                        + UserUIContext
                         .getMessage(CampaignI18nEnum.LIST)
                         + "</div>");
         this.addTab(
@@ -127,7 +127,7 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
                 "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_LEAD
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext
+                        + UserUIContext
                         .getMessage(LeadI18nEnum.LIST)
                         + "</div>");
         this.addTab(
@@ -135,7 +135,7 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
                 "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_OPPORTUNITY
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext
+                        + UserUIContext
                         .getMessage(OpportunityI18nEnum.LIST)
                         + "</div>");
         this.addTab(
@@ -143,7 +143,7 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
                 "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_CASE
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext
+                        + UserUIContext
                         .getMessage(CaseI18nEnum.LIST)
                         + "</div>");
 

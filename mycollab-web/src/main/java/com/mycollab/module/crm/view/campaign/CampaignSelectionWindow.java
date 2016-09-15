@@ -22,7 +22,8 @@ import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import org.vaadin.viritin.button.MButton;
@@ -41,7 +42,7 @@ public class CampaignSelectionWindow extends MWindow {
     private FieldSelection<CampaignWithBLOBs> fieldSelection;
 
     public CampaignSelectionWindow(FieldSelection<CampaignWithBLOBs> fieldSelection) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(CampaignI18nEnum.SINGLE)));
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(CampaignI18nEnum.SINGLE)));
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
     }
@@ -66,8 +67,8 @@ public class CampaignSelectionWindow extends MWindow {
             return new MButton(campaign.getCampaignname(), clickEvent -> {
                 fieldSelection.fireValueChange(campaign);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(),
-                    AppContext.getDateFormat(), campaign, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(),
+                    MyCollabUI.getDateFormat(), campaign, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }
 }

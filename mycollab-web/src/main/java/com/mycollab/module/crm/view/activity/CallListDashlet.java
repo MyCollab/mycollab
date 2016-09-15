@@ -26,7 +26,8 @@ import com.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.service.CallService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -45,7 +46,7 @@ public class CallListDashlet extends Depot {
     private CallTableDisplay tableItem;
 
     public CallListDashlet() {
-        super(AppContext.getMessage(CallI18nEnum.MY_ITEMS), new VerticalLayout());
+        super(UserUIContext.getMessage(CallI18nEnum.MY_ITEMS), new VerticalLayout());
 
         this.setMargin(new MarginInfo(true, false, false, false));
 
@@ -60,7 +61,7 @@ public class CallListDashlet extends Depot {
             if ("isClosed".equals(event.getFieldName())) {
                 call.setIsclosed(true);
                 final CallService callService = AppContextUtil.getSpringBean(CallService.class);
-                callService.updateWithSession(call, AppContext.getUsername());
+                callService.updateWithSession(call, UserUIContext.getUsername());
                 display();
             }
         });
@@ -68,14 +69,14 @@ public class CallListDashlet extends Depot {
 
         MButton customizeViewBtn = new MButton("", clickEvent -> {
         }).withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
-                .withDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
+                .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         this.addHeaderElement(customizeViewBtn);
     }
 
     public void display() {
         final CallSearchCriteria criteria = new CallSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+        criteria.setAssignUsers(new SetSearchField<>(UserUIContext.getUsername()));
         criteria.setIsClosed(BitSearchField.FALSE);
         tableItem.setSearchCriteria(criteria);
     }

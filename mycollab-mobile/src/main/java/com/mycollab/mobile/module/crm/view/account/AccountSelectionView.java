@@ -23,7 +23,8 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -41,7 +42,7 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
     public AccountSelectionView() {
         super();
         createUI();
-        this.setCaption(AppContext.getMessage(AccountI18nEnum.M_VIEW_ACCOUNT_NAME_LOOKUP));
+        this.setCaption(UserUIContext.getMessage(AccountI18nEnum.M_VIEW_ACCOUNT_NAME_LOOKUP));
     }
 
     private void createUI() {
@@ -54,7 +55,7 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
     @Override
     public void load() {
         AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         itemList.search(searchCriteria);
 
         SimpleAccount clearAccount = new SimpleAccount();

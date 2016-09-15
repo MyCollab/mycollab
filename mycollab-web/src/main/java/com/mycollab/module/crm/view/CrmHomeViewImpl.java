@@ -21,7 +21,7 @@ import com.mycollab.module.crm.view.activity.CallListDashlet;
 import com.mycollab.module.crm.view.activity.MeetingListDashlet;
 import com.mycollab.module.crm.view.lead.LeadListDashlet;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.vaadin.shared.ui.MarginInfo;
@@ -54,22 +54,22 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView
 
         MVerticalLayout myAssignmentsLayout = new MVerticalLayout().withMargin(new MarginInfo(true, true, true, false));
 
-        if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             accountDashlet = new AccountListDashlet();
             myAssignmentsLayout.addComponent(accountDashlet);
         }
 
-        if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_MEETING)) {
             meetingDashlet = new MeetingListDashlet();
             myAssignmentsLayout.addComponent(meetingDashlet);
         }
 
-        if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_CALL)) {
             callDashlet = new CallListDashlet();
             myAssignmentsLayout.addComponent(callDashlet);
         }
 
-        if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_LEAD)) {
             leadDashlet = new LeadListDashlet();
             myAssignmentsLayout.addComponent(leadDashlet);
         }

@@ -39,7 +39,7 @@ import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -64,7 +64,7 @@ public class AdRequestWindow extends MWindow {
 
         MVerticalLayout content = new MVerticalLayout();
 
-        Label message = new Label("Hey <b>" + AppContext.getUser().getDisplayName() + "</b>, you've been " +
+        Label message = new Label("Hey <b>" + UserUIContext.getUser().getDisplayName() + "</b>, you've been " +
                 "using MyCollab for a while now, and we hope you are happy with it. We invested a lot of time and " +
                 "money developing MyCollab. If you like it, please write a few words on twitter, blog or " +
                 "our testimonial form. Your kindness helps this software be continued.",
@@ -116,6 +116,6 @@ public class AdRequestWindow extends MWindow {
     private void turnOffAdd(SimpleUser user) {
         user.setRequestad(true);
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        userService.updateSelectiveWithSession(user, AppContext.getUsername());
+        userService.updateSelectiveWithSession(user, UserUIContext.getUsername());
     }
 }

@@ -25,7 +25,7 @@ import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -41,7 +41,7 @@ public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMembe
     private static final long serialVersionUID = 3008732621100597514L;
 
     public ProjectMemberListViewImpl() {
-        this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.LIST));
+        this.setCaption(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMembe
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
+        content.with(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null))));
         menu.setContent(content);
         return menu;

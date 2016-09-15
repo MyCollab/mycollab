@@ -25,7 +25,8 @@ import com.mycollab.module.user.domain.SimpleBillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -54,11 +55,11 @@ class AccountInfoChangeWindow extends MWindow {
     private AdvancedEditBeanForm<SimpleBillingAccount> editForm;
 
     AccountInfoChangeWindow() {
-        super(AppContext.getMessage(AdminI18nEnum.OPT_CHANGE_ACCOUNT_INFO));
+        super(UserUIContext.getMessage(AdminI18nEnum.OPT_CHANGE_ACCOUNT_INFO));
         MVerticalLayout content = new MVerticalLayout();
         this.withModal(true).withResizable(false).withWidth("700px").withContent(content).withCenter();
 
-        billingAccount = BeanUtility.deepClone(AppContext.getBillingAccount());
+        billingAccount = BeanUtility.deepClone(MyCollabUI.getBillingAccount());
         editForm = new AdvancedEditBeanForm<>();
         editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
             private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9, "200px");
@@ -71,27 +72,27 @@ class AccountInfoChangeWindow extends MWindow {
             @Override
             public Component onAttachField(Object propertyId, Field<?> field) {
                 if (BillingAccount.Field.sitename.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
                 } else if (BillingAccount.Field.subdomain.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SITE_ADDRESS), 0, 1);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_SITE_ADDRESS), 0, 1);
                 } else if (BillingAccount.Field.defaulttimezone.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 2);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 2);
                 } else if (BillingAccount.Field.defaultcurrencyid.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
                 } else if (BillingAccount.Field.defaultyymmddformat.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
-                            AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 4);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
+                            UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 4);
                 } else if (BillingAccount.Field.defaultmmddformat.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
-                            AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 5);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
+                            UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 5);
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
-                            AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 6);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
+                            UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 6);
                 } else if (BillingAccount.Field.defaultlanguagetag.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
                 } else if (BillingAccount.Field.displayemailpublicly.equalTo(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY),
-                            AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY_HELP), 0, 8);
+                    return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY),
+                            UserUIContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY_HELP), 0, 8);
                 }
                 return null;
             }
@@ -123,10 +124,10 @@ class AccountInfoChangeWindow extends MWindow {
         editForm.setBean(billingAccount);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
-        MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (editForm.validateForm()) {
                 BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
-                billingAccountService.updateSelectiveWithSession(billingAccount, AppContext.getUsername());
+                billingAccountService.updateSelectiveWithSession(billingAccount, UserUIContext.getUsername());
                 close();
                 String siteUrl = SiteConfiguration.getSiteUrl(billingAccount.getSubdomain());
                 String assignExec = String.format("window.location.assign(\'%s\');", siteUrl);
@@ -134,7 +135,7 @@ class AccountInfoChangeWindow extends MWindow {
             }
         }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
         buttonControls.with(cancelBtn, saveBtn);
 

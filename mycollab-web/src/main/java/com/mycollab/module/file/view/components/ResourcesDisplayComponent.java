@@ -22,6 +22,7 @@ import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
+import com.mycollab.core.DebugException;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.core.utils.StringUtils;
@@ -38,7 +39,8 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
@@ -112,7 +114,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
 
             if (selectedFolder == null) {
-                LOG.error(String.format("Can not find folder with path %s--%s", criteria.getBaseFolder(),
+                throw new DebugException(String.format("Can not find folder with path %s--%s", criteria.getBaseFolder(),
                         criteria.getRootFolder()));
             } else if (!(selectedFolder instanceof Folder)) {
                 LOG.error(String.format("Expect folder but the result is file %s--%s", criteria.getBaseFolder(),
@@ -124,18 +126,18 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
         });
         ELabel headerLbl = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " " +
-                AppContext.getMessage(FileI18nEnum.LIST));
+                UserUIContext.getMessage(FileI18nEnum.LIST));
 
-        MButton createBtn = new MButton(AppContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER), clickEvent -> UI.getCurrent().addWindow
+        MButton createBtn = new MButton(UserUIContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER), clickEvent -> UI.getCurrent().addWindow
                 (new AddNewFolderWindow()))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
-        MButton uploadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
+        MButton uploadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
             MultiUploadContentWindow multiUploadWindow = new MultiUploadContentWindow();
             UI.getCurrent().addWindow(multiUploadWindow);
         }).withIcon(FontAwesome.UPLOAD).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
         MHorizontalLayout headerLayout = new MHorizontalLayout(headerLbl, new MHorizontalLayout(createBtn, uploadBtn)).expand(headerLbl);
         resourcesContainer = new ResourcesContainer();
@@ -148,10 +150,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     }
 
     private void deleteResourceAction(final Collection<Resource> deletedResources) {
-        ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+        ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                 confirmDialog -> {
                     if (confirmDialog.isConfirmed()) {
                         for (Resource res : deletedResources) {
@@ -163,14 +165,14 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                     EventBusFactory.getInstance().post(new FileEvent.ResourceRemovedEvent
                                             (ResourcesDisplayComponent.this, res));
                                 }
-                                resourceService.removeResource(res.getPath(), AppContext.getUsername(),
-                                        AppContext.getAccountId());
+                                resourceService.removeResource(res.getPath(), UserUIContext.getUsername(),
+                                        MyCollabUI.getAccountId());
                             }
                         }
 
                         resourcesContainer.constructBody(baseFolder);
-                        NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                                AppContext.getMessage(FileI18nEnum.OPT_DELETE_RESOURCES_SUCCESSFULLY));
+                        NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                                UserUIContext.getMessage(FileI18nEnum.OPT_DELETE_RESOURCES_SUCCESSFULLY));
                     }
                 });
     }
@@ -214,7 +216,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
 
             if (currentFolder.getPath().equals(rootPath)) {
-                List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(AppContext.getUsername());
+                List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(UserUIContext.getUsername());
                 if (CollectionUtils.isNotEmpty(externalDrives)) {
                     for (ExternalDrive drive : externalDrives) {
                         if (StorageNames.DROPBOX.equals(drive.getStoragename())) {
@@ -250,11 +252,11 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         (false, true, false, true)).withStyleName(WebUIConstants.PANEL_HEADER).withFullWidth().alignAll(Alignment.MIDDLE_LEFT);
                 selectedResourceControlLayout.with(headerLayout);
 
-                MButton renameBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_RENAME), clickEvent -> UI.getCurrent()
+                MButton renameBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_RENAME), clickEvent -> UI.getCurrent()
                         .addWindow(new RenameResourceWindow(selectedResource)))
                         .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK);
 
-                Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
+                Button downloadBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
 
                 LazyStreamSource streamSource = new LazyStreamSource() {
                     private static final long serialVersionUID = 1L;
@@ -278,11 +280,11 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 downloadBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 downloadBtn.setIcon(FontAwesome.DOWNLOAD);
 
-                MButton moveBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_MOVE) + "...", clickEvent ->
+                MButton moveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_MOVE) + "...", clickEvent ->
                         UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource)))
                         .withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_LINK);
 
-                Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+                Button deleteBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -374,9 +376,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             // If renameResource is dropbox renameResource then we can not
             // define the created date so we do not need to display\
             if (resource.getCreated() != null) {
-                ELabel createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime
+                ELabel createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext.formatPrettyTime
                         (resource.getCreated().getTime()))
-                        .withDescription(AppContext.formatDateTime(resource.getCreated().getTime()))
+                        .withDescription(UserUIContext.formatDateTime(resource.getCreated().getTime()))
                         .withStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(createdTimeLbl);
             }
@@ -393,13 +395,13 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             // created user so we do not need to display, then we assume the
             // current user is created user
             if (StringUtils.isBlank(resource.getCreatedUser())) {
-                UserLink usernameLbl = new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
-                        AppContext.getUser().getDisplayName());
+                UserLink usernameLbl = new UserLink(UserUIContext.getUsername(), UserUIContext.getUserAvatarId(),
+                        UserUIContext.getUser().getDisplayName());
                 usernameLbl.addStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(usernameLbl);
             } else {
                 UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                SimpleUser user = userService.findUserByUserNameInAccount(resource.getCreatedUser(), AppContext.getAccountId());
+                SimpleUser user = userService.findUserByUserNameInAccount(resource.getCreatedUser(), MyCollabUI.getAccountId());
                 if (user != null) {
                     UserLink userLink = new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName());
                     userLink.addStyleName(UIConstants.META_INFO);
@@ -429,7 +431,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private Resource renameResource;
 
         RenameResourceWindow(Resource resource) {
-            super(AppContext.getMessage(FileI18nEnum.OPT_EDIT_FOLDER_FILE_NAME));
+            super(UserUIContext.getMessage(FileI18nEnum.OPT_EDIT_FOLDER_FILE_NAME));
             this.withCenter().withModal(true).withResizable(false).withWidth("400px");
             this.renameResource = resource;
             this.constructBody();
@@ -439,10 +441,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             VerticalLayout contentLayout = new VerticalLayout();
             GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
             final TextField folderName = layoutHelper.addComponent(new TextField("", renameResource.getName()),
-                    AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+                    UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
             contentLayout.addComponent(layoutHelper.getLayout());
 
-            MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 String oldPath = renameResource.getPath();
                 String parentOldPath = oldPath.substring(0, oldPath.lastIndexOf("/") + 1);
 
@@ -452,13 +454,13 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 if (renameResource.isExternalResource()) {
                     externalResourceService.rename(((ExternalFolder) renameResource).getExternalDrive(), oldPath, newPath);
                 } else {
-                    resourceService.rename(oldPath, newPath, AppContext.getUsername());
+                    resourceService.rename(oldPath, newPath, UserUIContext.getUsername());
                 }
                 resourcesContainer.constructBody(baseFolder);
                 close();
             }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             final MHorizontalLayout controlButtons = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(true);
             contentLayout.addComponent(controlButtons);
@@ -473,17 +475,17 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
 
         AddNewFolderWindow() {
-            this.setCaption(AppContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER));
+            this.setCaption(UserUIContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER));
 
             MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, true, false));
             withModal(true).withResizable(false).withWidth("500px").withCenter().withContent(contentLayout);
 
             GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
-            final TextField folderName = layoutHelper.addComponent(new TextField(), AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
-            final TextArea descAreaField = layoutHelper.addComponent(new TextArea(), AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1);
+            final TextField folderName = layoutHelper.addComponent(new TextField(), UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+            final TextArea descAreaField = layoutHelper.addComponent(new TextArea(), UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1);
             contentLayout.addComponent(layoutHelper.getLayout());
 
-            MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 String folderVal = folderName.getValue();
 
                 if (StringUtils.isNotBlank(folderVal)) {
@@ -496,17 +498,17 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         String path = baseFolder.getPath() + "/" + folderVal;
                         externalResourceService.createNewFolder(((ExternalFolder) baseFolder).getExternalDrive(), path);
                     } else {
-                        resourceService.createNewFolder(baseFolderPath, folderVal, desc, AppContext.getUsername());
+                        resourceService.createNewFolder(baseFolderPath, folderVal, desc, UserUIContext.getUsername());
                     }
                     resourcesContainer.constructBody(baseFolder);
                     close();
                 } else {
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                            AppContext.getMessage(GenericI18Enum.FORM_NAME)));
+                    NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                 }
             }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(true);
             contentLayout.with(controlsLayout).withAlign(controlsLayout, Alignment.MIDDLE_RIGHT);
@@ -519,7 +521,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private final GridFormLayoutHelper layoutHelper;
 
         MultiUploadContentWindow() {
-            super(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD));
+            super(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPLOAD));
             this.withWidth("600px").withResizable(false).withModal(true).withCenter();
 
             VerticalLayout contentLayout = new VerticalLayout();
@@ -529,17 +531,17 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
 
             final AttachmentPanel attachmentPanel = new AttachmentPanel();
-            layoutHelper.addComponent(attachmentPanel, AppContext.getMessage(FileI18nEnum.SINGLE), 0, 0);
+            layoutHelper.addComponent(attachmentPanel, UserUIContext.getMessage(FileI18nEnum.SINGLE), 0, 0);
             contentLayout.addComponent(layoutHelper.getLayout());
 
-            MButton uploadBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
+            MButton uploadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
                 List<File> attachments = attachmentPanel.files();
                 if (CollectionUtils.isNotEmpty(attachments)) {
                     for (File attachment : attachments) {
                         try {
                             String attachmentName = FileUtils.escape(attachment.getName());
                             if (!FileUtils.isValidFileName(attachmentName)) {
-                                NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_INVALID_FILE_NAME));
+                                NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_FILE_NAME));
                                 return;
                             }
                             Content content = new Content(String.format("%s/%s", baseFolder.getPath(), attachmentName));
@@ -550,22 +552,22 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                 externalResourceService.saveContent(((ExternalFolder) baseFolder)
                                         .getExternalDrive(), content, fileInputStream);
                             } else
-                                resourceService.saveContent(content, AppContext.getUsername(),
-                                        fileInputStream, AppContext.getAccountId());
+                                resourceService.saveContent(content, UserUIContext.getUsername(),
+                                        fileInputStream, MyCollabUI.getAccountId());
                         } catch (IOException e) {
                             throw new MyCollabException(e);
                         }
                     }
                     resourcesContainer.constructBody(baseFolder);
                     close();
-                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                            AppContext.getMessage(FileI18nEnum.OPT_UPLOAD_FILE_SUCCESSFULLY));
+                    NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                            UserUIContext.getMessage(FileI18nEnum.OPT_UPLOAD_FILE_SUCCESSFULLY));
                 } else {
-                    NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
+                    NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
                 }
             }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.UPLOAD);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, uploadBtn).withMargin(true);
             contentLayout.addComponent(controlsLayout);
@@ -585,10 +587,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             fileBreadCrumb.gotoFolder(folder);
             resourcesContainer.constructBody(folder);
             if (!checking) {
-                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                        AppContext.getMessage(FileI18nEnum.OPT_MOVE_ASSETS_SUCCESSFULLY));
+                NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                        UserUIContext.getMessage(FileI18nEnum.OPT_MOVE_ASSETS_SUCCESSFULLY));
             } else {
-                NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_SOME_FILES_MOVING_ERROR));
+                NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.ERROR_SOME_FILES_MOVING_ERROR));
             }
         }
     }

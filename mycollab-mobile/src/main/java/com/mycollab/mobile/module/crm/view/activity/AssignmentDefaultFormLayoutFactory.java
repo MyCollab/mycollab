@@ -16,17 +16,11 @@
  */
 package com.mycollab.mobile.module.crm.view.activity;
 
-import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.form.view.builder.DateDynaFieldBuilder;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
-import com.mycollab.form.view.builder.TextAreaDynaFieldBuilder;
-import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
-import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
-import com.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.

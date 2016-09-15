@@ -20,18 +20,16 @@ import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
-import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -53,7 +51,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(MeetingI18nEnum.NEW) : beanItem.getSubject();
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(MeetingI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override
@@ -94,8 +92,8 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
                 MTextField tf = new MTextField();
                 if (isValidateForm) {
                     tf.withNullRepresentation("").withRequired(true)
-                            .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                    AppContext.getMessage(MeetingI18nEnum.FORM_SUBJECT)));
+                            .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                    UserUIContext.getMessage(MeetingI18nEnum.FORM_SUBJECT)));
                 }
                 return tf;
             } else if (propertyId.equals("status")) {

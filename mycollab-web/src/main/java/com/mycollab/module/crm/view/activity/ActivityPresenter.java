@@ -24,7 +24,7 @@ import com.mycollab.module.crm.view.parameters.ActivityScreenData;
 import com.mycollab.module.crm.view.parameters.AssignmentScreenData;
 import com.mycollab.module.crm.view.parameters.CallScreenData;
 import com.mycollab.module.crm.view.parameters.MeetingScreenData;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -47,7 +47,7 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
         CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
         ActivityRootView activityContainer = (ActivityRootView) container;
         ActivityContainer eventContainer = (ActivityContainer) activityContainer
-                .gotoView(AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
+                .gotoView(UserUIContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
 
         AbstractPresenter presenter;
 

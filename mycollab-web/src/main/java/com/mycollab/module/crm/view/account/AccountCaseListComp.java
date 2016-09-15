@@ -34,7 +34,8 @@ import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -81,7 +82,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        Label noteLbl = new Label(AppContext.getMessage(GenericI18Enum.OPT_NOTE));
+        Label noteLbl = new Label(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE));
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
         notesWrap.addComponent(noteLbl);
@@ -90,15 +91,15 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (CaseStatus status : CrmDataTypeFactory.getCasesStatusList()) {
-            ELabel note = new ELabel(AppContext.getMessage(status)).withStyleName("note-label", colorsMap.get(status
+            ELabel note = new ELabel(UserUIContext.getMessage(status)).withStyleName("note-label", colorsMap.get(status
                     .name())).withWidthUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
         controlsBtnWrap.addComponent(notesWrap);
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
-            MButton createBtn = new MButton(AppContext.getMessage(CaseI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CASE)) {
+            MButton createBtn = new MButton(UserUIContext.getMessage(CaseI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
                     .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
             controlsBtnWrap.with(createBtn).withAlign(createBtn, Alignment.TOP_RIGHT);
         }
@@ -143,14 +144,14 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
             MButton deleteBtn = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                                caseService.removeWithSession(oneCase, AppContext.getUsername(), AppContext.getAccountId());
+                                caseService.removeWithSession(oneCase, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 AccountCaseListComp.this.refresh();
                             }
                         });
@@ -163,10 +164,10 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             ELabel caseSubject = ELabel.h3(caseLink.write());
             caseInfo.addComponent(caseSubject);
 
-            Label casePriority = new Label(AppContext.getMessage(CaseI18nEnum.FORM_PRIORITY) + ": " + MoreObjects.firstNonNull(oneCase.getPriority(), ""));
+            Label casePriority = new Label(UserUIContext.getMessage(CaseI18nEnum.FORM_PRIORITY) + ": " + MoreObjects.firstNonNull(oneCase.getPriority(), ""));
             caseInfo.addComponent(casePriority);
 
-            Label caseStatus = new Label(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(oneCase.getStatus(), ""));
+            Label caseStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(oneCase.getStatus(), ""));
             caseInfo.addComponent(caseStatus);
 
             if (oneCase.getStatus() != null) {
@@ -174,14 +175,14 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             }
 
             String assigneeValue = (oneCase.getAssignuser() == null) ? new A().write() : new A(AccountLinkGenerator.generatePreviewFullUserLink(
-                    SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain()), oneCase.getAssignuser()))
+                    SiteConfiguration.getSiteUrl(UserUIContext.getUser().getSubdomain()), oneCase.getAssignuser()))
                     .appendText(oneCase.getAssignUserFullName()).write();
             Label caseAssignUser = ELabel.html(assigneeValue);
             caseInfo.addComponent(caseAssignUser);
 
-            ELabel caseCreatedTime = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME) + ": "
-                    + AppContext.formatPrettyTime(oneCase.getCreatedtime()))
-                    .withDescription(AppContext.formatDateTime(oneCase.getCreatedtime()));
+            ELabel caseCreatedTime = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME) + ": "
+                    + UserUIContext.formatPrettyTime(oneCase.getCreatedtime()))
+                    .withDescription(UserUIContext.formatDateTime(oneCase.getCreatedtime()));
             caseInfo.addComponent(caseCreatedTime);
 
             blockTop.addComponent(caseInfo);

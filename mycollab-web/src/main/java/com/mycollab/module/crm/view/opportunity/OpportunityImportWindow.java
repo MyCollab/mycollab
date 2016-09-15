@@ -29,7 +29,7 @@ import com.mycollab.module.crm.events.OpportunityEvent;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 public class OpportunityImportWindow extends EntityImportWindow<SimpleOpportunity> {
 	private static final long serialVersionUID = 1L;
@@ -48,7 +48,7 @@ public class OpportunityImportWindow extends EntityImportWindow<SimpleOpportunit
 				new FieldMapperDef("expectedcloseddate", "Expected Closed Date", new CSVDateFormatter()),
 				new FieldMapperDef("nextstep", "Next Step"),
 				new FieldMapperDef("probability", "Probability"),
-				new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+				new FieldMapperDef("assignuser", UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("opportunitytype", "Opportunity Type"),
 				new FieldMapperDef("salesstage", "Sales Stage"),
 				new FieldMapperDef("description", "Description") };

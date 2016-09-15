@@ -21,7 +21,7 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.core.utils.ClassUtils;
 import com.mycollab.reporting.generator.ComponentBuilderGenerator;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperCsvExporterBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperXlsxExporterBuilder;
@@ -56,7 +56,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
     protected RpFieldsBuilder fieldBuilder;
 
     public SimpleReportTemplateExecutor(String reportTitle, RpFieldsBuilder fieldBuilder, ReportExportType outputForm, Class<T> classType) {
-        super(AppContext.getUser(), AppContext.getUserTimeZone(), AppContext.getUserLocale(), reportTitle, outputForm);
+        super(UserUIContext.getUser(), UserUIContext.getUserTimeZone(), UserUIContext.getUserLocale(), reportTitle, outputForm);
         this.fieldBuilder = fieldBuilder;
         this.classType = classType;
     }
@@ -89,7 +89,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
                 }
 
                 LOG.debug("Construct component builder {} and width {}", field.getField(), field.getDefaultWidth());
-                ComponentColumnBuilder columnBuilder = col.componentColumn(AppContext.getMessage(field.getDescKey()),
+                ComponentColumnBuilder columnBuilder = col.componentColumn(UserUIContext.getMessage(field.getDescKey()),
                         field.getComponentBuilder()).setWidth(field.getDefaultWidth());
 
                 reportBuilder.addColumn(columnBuilder);

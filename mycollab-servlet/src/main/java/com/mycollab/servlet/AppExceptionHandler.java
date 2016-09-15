@@ -16,6 +16,7 @@
  */
 package com.mycollab.servlet;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.IDeploymentMode;
 import com.mycollab.configuration.SiteConfiguration;
@@ -102,14 +103,15 @@ public class AppExceptionHandler extends GenericHttpServlet {
             DataIntegrityViolationException integrityViolationException = getExceptionType(throwable,
                     DataIntegrityViolationException.class);
             if (integrityViolationException != null) {
-                response.getWriter().println(LocalizationHelper.getMessage(LocalizationHelper.defaultLocale,
+                response.getWriter().println(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(),
                         GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
                 LOG.error("Exception in MyCollab", throwable);
                 return;
             }
             DataAccessException exception = getExceptionType(throwable, DataAccessException.class);
             if (exception != null) {
-                response.getWriter().println("<h1>Error establishing a database connection</h1>");
+                response.getWriter().println(String.format("<h1>%s</h1>", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(),
+                        ErrorI18nEnum.ERROR_ESTABLISH_DATABASE_CONNECTION)));
                 return;
             }
             LOG.error("Exception in mycollab", throwable);

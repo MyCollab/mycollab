@@ -22,7 +22,7 @@ import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
@@ -48,7 +48,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
 
         MButton importBtn = ComponentUtils.createImportEntitiesButton()
                 .withListener(clickEvent -> UI.getCurrent().addWindow(new LeadImportWindow()));
-        importBtn.setVisible(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
+        importBtn.setVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD));
 
         this.addExtraButton(importBtn);
 
@@ -72,7 +72,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
     protected DefaultMassItemActionHandlerContainer createActionControls() {
         DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
-        if (AppContext.canAccess(RolePermissionCollections.CRM_LEAD)) {
+        if (UserUIContext.canAccess(RolePermissionCollections.CRM_LEAD)) {
             container.addDeleteActionItem();
         }
 
@@ -81,7 +81,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
         container.addDownloadExcelActionItem();
         container.addDownloadCsvActionItem();
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
             container.addMassUpdateActionItem();
         }
 

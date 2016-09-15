@@ -24,9 +24,10 @@ import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.mycollab.vaadin.TooltipHelper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
@@ -45,7 +46,7 @@ public class AccountHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override
@@ -57,12 +58,12 @@ public class AccountHistoryFieldFormat implements HistoryFieldFormat {
         try {
             Integer accountId = Integer.parseInt(value);
             AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-            SimpleAccount account = accountService.findById(accountId, AppContext.getAccountId());
+            SimpleAccount account = accountService.findById(accountId, MyCollabUI.getAccountId());
 
             if (account != null) {
                 if (displayAsHtml) {
                     A link = new A().setId("tag" + TOOLTIP_ID);
-                    link.setHref(CrmLinkGenerator.generateAccountPreviewFullLink(AppContext.getSiteUrl(), accountId))
+                    link.setHref(CrmLinkGenerator.generateAccountPreviewFullLink(MyCollabUI.getSiteUrl(), accountId))
                             .appendChild(new Text(account.getAccountname()));
                     link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(CrmTypeConstants.ACCOUNT,
                             accountId + ""));

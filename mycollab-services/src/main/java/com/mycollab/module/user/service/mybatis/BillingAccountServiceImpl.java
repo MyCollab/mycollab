@@ -16,12 +16,13 @@
  */
 package com.mycollab.module.user.service.mybatis;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.configuration.IDeploymentMode;
 import com.mycollab.core.UserInvalidInputException;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.service.DefaultCrudService;
-import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.billing.RegisterStatusConstants;
 import com.mycollab.module.billing.UserStatusConstants;
 import com.mycollab.module.billing.esb.AccountCreatedEvent;
@@ -34,7 +35,6 @@ import com.mycollab.module.user.esb.SendUserEmailVerifyRequestEvent;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.service.RoleService;
 import com.mycollab.security.PermissionMap;
-import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -92,18 +92,11 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     }
 
     @Override
-    public BillingAccount getAccountByDomain(String domain) {
-        BillingAccountExample ex = new BillingAccountExample();
-
+    public SimpleBillingAccount getAccountByDomain(String domain) {
         if (deploymentMode.isDemandEdition()) {
-            ex.createCriteria().andSubdomainEqualTo(domain);
-        }
-
-        List<BillingAccount> accounts = billingAccountMapper.selectByExample(ex);
-        if (accounts == null || accounts.size() == 0) {
-            return null;
+            return billingAccountMapperExt.getAccountByDomain(domain);
         } else {
-            return accounts.get(0);
+            return billingAccountMapperExt.getDefaultAccountByDomain();
         }
     }
 
@@ -125,7 +118,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
 
     @Override
     public void createDefaultAccountData(String username, String password, String timezoneId, String language, Boolean
-                                         isEmailVerified, Boolean isCreatedDefaultData, Integer sAccountId) {
+            isEmailVerified, Boolean isCreatedDefaultData, Integer sAccountId) {
         // Check whether user has registered to the system before
         String encryptedPassword = EnDecryptHelper.encryptSaltPassword(password);
         UserExample ex = new UserExample();

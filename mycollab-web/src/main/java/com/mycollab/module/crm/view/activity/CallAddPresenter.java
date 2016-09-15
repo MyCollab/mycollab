@@ -27,7 +27,8 @@ import com.mycollab.module.crm.service.CallService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -70,12 +71,12 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CALL)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CALL)) {
             CallWithBLOBs call;
 
             if (data.getParams() instanceof Integer) {
                 CallService callService = AppContextUtil.getSpringBean(CallService.class);
-                call = callService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
+                call = callService.findByPrimaryKey((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (call == null) {
                     NotificationUtil.showRecordNotExistNotification();
                     return;
@@ -90,12 +91,12 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
             view.editItem(call);
 
             if (call.getId() == null) {
-                AppContext.addFragment("crm/activity/call/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                        AppContext.getMessage(CallI18nEnum.SINGLE)));
+                MyCollabUI.addFragment("crm/activity/call/add/", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        UserUIContext.getMessage(CallI18nEnum.SINGLE)));
             } else {
-                AppContext.addFragment("crm/activity/call/edit/" + UrlEncodeDecoder.encode(call.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                AppContext.getMessage(CallI18nEnum.SINGLE), call.getSubject()));
+                MyCollabUI.addFragment("crm/activity/call/edit/" + UrlEncodeDecoder.encode(call.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                UserUIContext.getMessage(CallI18nEnum.SINGLE), call.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -105,11 +106,11 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
     public void save(CallWithBLOBs item) {
         CallService taskService = AppContextUtil.getSpringBean(CallService.class);
 
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
         if (item.getId() == null) {
-            taskService.saveWithSession(item, AppContext.getUsername());
+            taskService.saveWithSession(item, UserUIContext.getUsername());
         } else {
-            taskService.updateWithSession(item, AppContext.getUsername());
+            taskService.updateWithSession(item, UserUIContext.getUsername());
         }
     }
 }

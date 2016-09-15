@@ -21,7 +21,7 @@ import com.mycollab.db.persistence.service.ICrudService;
 import com.mycollab.iexporter.CSVObjectEntityConverter.CSVItemMapperDef;
 import com.mycollab.iexporter.CSVObjectEntityConverter.ImportFieldDef;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.ConstraintViolation;
@@ -65,7 +65,7 @@ public class CSVImportEntityProcess<S extends ICrudService, E> {
                                 .toArray(new ImportFieldDef[fieldDef.size()])));
                 try {
                     validate(bean);
-                    service.saveWithSession(bean, AppContext.getUsername());
+                    service.saveWithSession(bean, UserUIContext.getUsername());
                     numRowSuccess++;
                 } catch (IllegalArgumentException e1) {
                     errMsg.append("Row " + rowIndex).append("_");

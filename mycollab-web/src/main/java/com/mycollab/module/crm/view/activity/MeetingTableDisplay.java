@@ -24,7 +24,7 @@ import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
 import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -62,7 +62,7 @@ public class MeetingTableDisplay extends DefaultPagedBeanTable<MeetingService, M
 
         this.addGeneratedColumn("startdate", (source, itemId, columnId) -> {
             final SimpleMeeting meeting = getBeanByIndex(itemId);
-            return new Label(AppContext.formatDateTime(meeting.getStartdate()));
+            return new Label(UserUIContext.formatDateTime(meeting.getStartdate()));
         });
 
         this.addGeneratedColumn("status", (source, itemId, columnId) -> {

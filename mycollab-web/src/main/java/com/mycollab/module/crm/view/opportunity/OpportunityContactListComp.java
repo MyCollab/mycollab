@@ -37,7 +37,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
@@ -81,7 +82,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withSpacing(false).withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        Label noteLbl = new Label(AppContext.getMessage(GenericI18Enum.OPT_NOTE));
+        Label noteLbl = new Label(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE));
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
         notesWrap.addComponent(noteLbl);
@@ -90,7 +91,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (OptionI18nEnum.OpportunityContactRole role : CrmDataTypeFactory.getOpportunityContactRoleList()) {
-            Label note = new Label(AppContext.getMessage(role));
+            Label note = new Label(UserUIContext.getMessage(role));
             note.setStyleName("note-label");
             note.addStyleName(colormap.get(role.name()));
             note.setSizeUndefined();
@@ -99,17 +100,17 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         notesWrap.with(noteBlock).expand(noteBlock);
         controlsBtnWrap.addComponent(notesWrap);
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.setSizeUndefined();
             controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
-            controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.OPT_ADD_EDIT_CONTACT_ROLES));
+            controlsBtn.setCaption(UserUIContext.getMessage(ContactI18nEnum.OPT_ADD_EDIT_CONTACT_ROLES));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoContactRoleEdit(this, opportunity)));
-            final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+            final Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 OpportunityContactSelectionWindow contactsWindow = new OpportunityContactSelectionWindow(OpportunityContactListComp.this);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 UI.getCurrent().addWindow(contactsWindow);
                 contactsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
@@ -132,7 +133,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
 
     private void loadContacts() {
         final ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setOpportunityId(new NumberSearchField(opportunity.getId()));
         setSearchCriteria(criteria);
     }
@@ -163,17 +164,17 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
 
             MButton btnDelete = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                                 ContactOpportunity associateContact = new ContactOpportunity();
                                 associateContact.setOpportunityid(opportunity.getId());
                                 associateContact.setContactid(contact.getId());
-                                contactService.removeContactOpportunityRelationship(associateContact, AppContext.getAccountId());
+                                contactService.removeContactOpportunityRelationship(associateContact, MyCollabUI.getAccountId());
                                 OpportunityContactListComp.this.refresh();
                             }
                         });
@@ -182,23 +183,23 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
+            Label contactName = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ": " + new A(CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.CONTACT, contact.getId())).appendText(contact.getContactName()).write());
 
             contactInfo.addComponent(contactName);
 
-            Label contactTitle = new Label(AppContext.getMessage(ContactI18nEnum.FORM_TITLE) + ": " + MoreObjects.firstNonNull(contact.getTitle(), ""));
+            Label contactTitle = new Label(UserUIContext.getMessage(ContactI18nEnum.FORM_TITLE) + ": " + MoreObjects.firstNonNull(contact.getTitle(), ""));
             contactInfo.addComponent(contactTitle);
 
             String email = MoreObjects.firstNonNull(contact.getEmail(), "");
-            Label contactEmail = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + email).appendText(email).write());
+            Label contactEmail = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + email).appendText(email).write());
             contactInfo.addComponent(contactEmail);
 
-            Label contactOfficePhone = new Label(AppContext.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE) + ": " +
+            Label contactOfficePhone = new Label(UserUIContext.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE) + ": " +
                     MoreObjects.firstNonNull(contact.getOfficephone(), ""));
             contactInfo.addComponent(contactOfficePhone);
 
-            Label contactRole = new Label(AppContext.getMessage(ContactI18nEnum.FORM_DECISION_ROLE) + ": " +
+            Label contactRole = new Label(UserUIContext.getMessage(ContactI18nEnum.FORM_DECISION_ROLE) + ": " +
                     MoreObjects.firstNonNull(contact.getDecisionRole(), ""));
             contactInfo.addComponent(contactRole);
 

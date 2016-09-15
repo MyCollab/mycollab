@@ -40,7 +40,8 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
@@ -115,10 +116,10 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        MButton advanceDisplayBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST), clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)))
+        MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST), clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)))
                 .withWidth("100px").withIcon(FontAwesome.NAVICON);
 
-        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withWidth("100px").withIcon(FontAwesome.TH);
+        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withWidth("100px").withIcon(FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
@@ -298,7 +299,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                         SimpleBug bug = kanbanItem.bug;
                         bug.setStatus(optionVal.getTypeval());
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                        bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
+                        bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
                         updateComponentCount();
 
                         Component sourceComponent = transferable.getSourceComponent();
@@ -320,7 +321,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                             }
                         }
                         if (indexMap.size() > 0) {
-                            bugService.massUpdateBugIndexes(indexMap, AppContext.getAccountId());
+                            bugService.massUpdateBugIndexes(indexMap, MyCollabUI.getAccountId());
                         }
                     }
                 }
@@ -335,7 +336,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
             HorizontalLayout headerLayout = new HorizontalLayout();
             headerLayout.setWidth("100%");
-            header = new Label(AppContext.getMessage(BugStatus.class, optionVal.getTypeval()));
+            header = new Label(UserUIContext.getMessage(BugStatus.class, optionVal.getTypeval()));
             header.addStyleName("header");
             headerLayout.addComponent(header);
             headerLayout.setComponentAlignment(header, Alignment.MIDDLE_LEFT);
@@ -351,14 +352,14 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
                 if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-                    MButton addBtn = new MButton(AppContext.getMessage(BugI18nEnum.NEW), clickEvent -> addNewBugComp())
+                    MButton addBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.NEW), clickEvent -> addNewBugComp())
                             .withIcon(FontAwesome.PLUS);
                     popupContent.addOption(addBtn);
                 }
                 controlsBtn.setContent(popupContent);
 
                 if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-                    MButton addNewBtn = new MButton(AppContext.getMessage(BugI18nEnum.NEW), clickEvent -> addNewBugComp())
+                    MButton addNewBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.NEW), clickEvent -> addNewBugComp())
                             .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
                     addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
                     root.with(addNewBtn).withAlign(addNewBtn, Alignment.TOP_RIGHT);
@@ -372,7 +373,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         }
 
         private void updateComponentCount() {
-            header.setValue(String.format("%s (%d)", AppContext.getMessage(BugStatus.class, optionVal.getTypeval()),
+            header.setValue(String.format("%s (%d)", UserUIContext.getMessage(BugStatus.class, optionVal.getTypeval()),
                     dragLayoutContainer.getComponentCount()));
         }
 
@@ -380,11 +381,11 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             Component testComp = (dragLayoutContainer.getComponentCount() > 0) ? dragLayoutContainer.getComponent(0) : null;
             if (testComp instanceof KanbanBugBlockItem || testComp == null) {
                 final SimpleBug bug = new SimpleBug();
-                bug.setSaccountid(AppContext.getAccountId());
+                bug.setSaccountid(MyCollabUI.getAccountId());
                 bug.setProjectid(CurrentProjectVariables.getProjectId());
                 bug.setStatus(optionVal.getTypeval());
                 bug.setProjectShortName(CurrentProjectVariables.getShortName());
-                bug.setLogby(AppContext.getUsername());
+                bug.setLogby(UserUIContext.getUsername());
                 final MVerticalLayout layout = new MVerticalLayout();
                 layout.addStyleName("kanban-item");
                 final TextField bugNameField = new TextField();
@@ -392,12 +393,12 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 bugNameField.setWidth("100%");
                 layout.with(bugNameField);
 
-                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
+                MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
                     String summary = bugNameField.getValue();
                     if (StringUtils.isNotBlank(summary)) {
                         bug.setSummary(summary);
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                        bugService.saveWithSession(bug, AppContext.getUsername());
+                        bugService.saveWithSession(bug, UserUIContext.getUsername());
                         dragLayoutContainer.removeComponent(layout);
                         KanbanBugBlockItem kanbanBugBlockItem = new KanbanBugBlockItem(bug);
                         dragLayoutContainer.addComponent(kanbanBugBlockItem, 0);
@@ -405,7 +406,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                     }
                 }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-                MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> {
+                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> {
                     dragLayoutContainer.removeComponent(layout);
                     newBugComp = null;
                 }).withStyleName(WebUIConstants.BUTTON_OPTION);

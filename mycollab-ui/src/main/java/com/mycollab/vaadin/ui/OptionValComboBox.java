@@ -18,7 +18,7 @@ package com.mycollab.vaadin.ui;
 
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
@@ -63,7 +63,7 @@ public class OptionValComboBox extends ComboBox {
         try {
             Enum anEnum = Enum.valueOf(enumCls, value);
             this.addItem(option);
-            this.setItemCaption(option, StringUtils.trim(AppContext.getMessage(anEnum), 25, true));
+            this.setItemCaption(option, StringUtils.trim(UserUIContext.getMessage(anEnum), 25, true));
         } catch (Exception e) {
             this.addItem(option);
             this.setItemCaption(option, StringUtils.trim(value, 25, true));

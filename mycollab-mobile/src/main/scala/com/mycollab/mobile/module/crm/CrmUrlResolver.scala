@@ -28,7 +28,7 @@ import com.mycollab.mobile.module.crm.view.opportunity.OpportunityUrlResolver
 import com.mycollab.mobile.shell.ModuleHelper
 import com.mycollab.mobile.shell.events.ShellEvent
 import com.mycollab.module.crm.i18n.AccountI18nEnum
-import com.mycollab.vaadin.AppContext
+import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.mvp.UrlResolver
 
 /**
@@ -59,7 +59,7 @@ class CrmUrlResolver extends UrlResolver {
   protected override def handlePage(params: String*) {
     super.handlePage(params: _*)
     EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-      new CrmModuleScreenData.GotoModule(AppContext.getMessage(AccountI18nEnum.LIST))))
+      new CrmModuleScreenData.GotoModule(UserUIContext.getMessage(AccountI18nEnum.LIST))))
   }
 
   protected def defaultPageErrorHandler() {

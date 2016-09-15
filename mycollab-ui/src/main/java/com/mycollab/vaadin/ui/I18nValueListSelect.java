@@ -16,7 +16,7 @@
  */
 package com.mycollab.vaadin.ui;
 
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.ListSelect;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class I18nValueListSelect extends ListSelect {
 
         for (Enum<?> entry : values) {
             this.addItem(entry.name());
-            this.setItemCaption(entry.name(), AppContext.getMessage(entry));
+            this.setItemCaption(entry.name(), UserUIContext.getMessage(entry));
         }
 
         this.setRows(4);

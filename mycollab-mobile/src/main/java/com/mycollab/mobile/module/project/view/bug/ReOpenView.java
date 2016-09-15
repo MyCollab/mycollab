@@ -32,7 +32,8 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -51,7 +52,7 @@ class ReOpenView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ReOpenView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption(AppContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bug.getSummary()));
+        this.setCaption(UserUIContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bug.getSummary()));
         this.bug = bug;
         this.callbackForm = callbackForm;
 
@@ -66,13 +67,13 @@ class ReOpenView extends AbstractMobilePageView {
         contentLayout.setWidth("100%");
         contentLayout.addComponent(this.editForm);
 
-        final Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
+        final Button reOpenBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
             if (editForm.validateForm()) {
                 ReOpenView.this.bug.setStatus(BugStatus.ReOpen.name());
 
                 // Save bug status and assignee
                 final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                bugService.updateSelectiveWithSession(ReOpenView.this.bug, AppContext.getUsername());
+                bugService.updateSelectiveWithSession(ReOpenView.this.bug, UserUIContext.getUsername());
 
                 // Save comment
                 final String commentValue = editForm.commentArea.getValue();
@@ -80,14 +81,14 @@ class ReOpenView extends AbstractMobilePageView {
                     final CommentWithBLOBs comment = new CommentWithBLOBs();
                     comment.setComment(commentValue);
                     comment.setCreatedtime(new GregorianCalendar().getTime());
-                    comment.setCreateduser(AppContext.getUsername());
-                    comment.setSaccountid(AppContext.getAccountId());
+                    comment.setCreateduser(UserUIContext.getUsername());
+                    comment.setSaccountid(MyCollabUI.getAccountId());
                     comment.setType(ProjectTypeConstants.BUG);
                     comment.setTypeid("" + bug.getId());
                     comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
                     final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                    commentService.saveWithSession(comment, AppContext.getUsername());
+                    commentService.saveWithSession(comment, UserUIContext.getUsername());
                 }
                 callbackForm.previewItem(bug);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
@@ -121,11 +122,11 @@ class ReOpenView extends AbstractMobilePageView {
             @Override
             public Component onAttachField(Object propertyId, final Field<?> field) {
                 if (propertyId.equals("resolution")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
                 } else if (propertyId.equals("assignuser")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 2);
                 }
                 return null;
             }

@@ -23,7 +23,7 @@ import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
@@ -38,7 +38,7 @@ public class CampaignListViewImpl extends AbstractListViewComp<CampaignSearchCri
 
     public CampaignListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(CampaignI18nEnum.LIST));
+        setCaption(UserUIContext.getMessage(CampaignI18nEnum.LIST));
     }
 
     @Override

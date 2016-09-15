@@ -31,7 +31,8 @@ import com.mycollab.module.user.domain.SimpleBillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
@@ -58,7 +59,6 @@ import java.io.IOException;
 import java.util.Currency;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 
 /**
  * @author MyCollab Ltd
@@ -76,55 +76,55 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
     public void displayView() {
         removeAllComponents();
 
-        billingAccount = AppContext.getBillingAccount();
+        billingAccount = MyCollabUI.getBillingAccount();
         FormContainer formContainer = new FormContainer();
         this.addComponent(formContainer);
 
         MHorizontalLayout generalSettingHeader = new MHorizontalLayout();
-        Label headerLbl = new Label(AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
+        Label headerLbl = new Label(UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
 
-        MButton editBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> UI.getCurrent().addWindow(new AccountInfoChangeWindow()))
+        MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> UI.getCurrent().addWindow(new AccountInfoChangeWindow()))
                 .withStyleName(WebUIConstants.BUTTON_LINK);
 
         generalSettingHeader.with(headerLbl, editBtn).alignAll(Alignment.MIDDLE_LEFT);
 
         GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5, "200px");
         gridFormLayoutHelper.addComponent(new Label(billingAccount.getSitename()),
-                AppContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
+                UserUIContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
         gridFormLayoutHelper.addComponent(new Label(String.format("https://%s.mycollab.com", billingAccount
-                .getSubdomain())), AppContext.getMessage(AdminI18nEnum.FORM_SITE_ADDRESS), 0, 1);
-        gridFormLayoutHelper.addComponent(new Label(TimezoneVal.getDisplayName(AppContext.getUserLocale(),
-                billingAccount.getDefaulttimezone())), AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 2);
+                .getSubdomain())), UserUIContext.getMessage(AdminI18nEnum.FORM_SITE_ADDRESS), 0, 1);
+        gridFormLayoutHelper.addComponent(new Label(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(),
+                billingAccount.getDefaulttimezone())), UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 2);
         Currency defaultCurrency = billingAccount.getCurrencyInstance();
-        gridFormLayoutHelper.addComponent(new ELabel(defaultCurrency.getDisplayName(AppContext.getUserLocale())),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
+        gridFormLayoutHelper.addComponent(new ELabel(defaultCurrency.getDisplayName(UserUIContext.getUserLocale())),
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
 
         Date now = new GregorianCalendar().getTime();
         String defaultFullDateFormat = billingAccount.getDateFormatInstance();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
-                DateTimeUtils.formatDate(now, billingAccount.getDateFormatInstance(), AppContext.getUserLocale()), defaultFullDateFormat)),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
-                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 0);
+                DateTimeUtils.formatDate(now, billingAccount.getDateFormatInstance(), UserUIContext.getUserLocale()), defaultFullDateFormat)),
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
+                UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 0);
 
         String defaultShortDateFormat = billingAccount.getShortDateFormatInstance();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
-                DateTimeUtils.formatDate(now, billingAccount.getShortDateFormatInstance(), AppContext.getUserLocale()),
-                defaultShortDateFormat)), AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
-                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 1);
+                DateTimeUtils.formatDate(now, billingAccount.getShortDateFormatInstance(), UserUIContext.getUserLocale()),
+                defaultShortDateFormat)), UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
+                UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 1);
 
         String defaultLongDateFormat = billingAccount.getLongDateFormatInstance();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
-                DateTimeUtils.formatDate(now, billingAccount.getLongDateFormatInstance(), AppContext.getUserLocale()), defaultLongDateFormat)),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
-                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 2);
+                DateTimeUtils.formatDate(now, billingAccount.getLongDateFormatInstance(), UserUIContext.getUserLocale()), defaultLongDateFormat)),
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
+                UserUIContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 2);
 
         gridFormLayoutHelper.addComponent(new Label(LocalizationHelper.getLocaleInstance(billingAccount
-                        .getDefaultlanguagetag()).getDisplayLanguage(AppContext.getUserLocale())),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 1, 3);
+                        .getDefaultlanguagetag()).getDisplayLanguage(UserUIContext.getUserLocale())),
+                UserUIContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 1, 3);
 
-        gridFormLayoutHelper.addComponent(new Label(AppContext.getMessage(LocalizationHelper.localizeYesNo(billingAccount.getDisplayemailpublicly()))),
-                AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY),
-                AppContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY_HELP), 0, 4, 2, "100%");
+        gridFormLayoutHelper.addComponent(new Label(UserUIContext.getMessage(LocalizationHelper.localizeYesNo(billingAccount.getDisplayemailpublicly()))),
+                UserUIContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY),
+                UserUIContext.getMessage(AdminI18nEnum.FORM_SHOW_EMAIL_PUBLICLY_HELP), 0, 4, 2, "100%");
 
 
         formContainer.addSection(new CssLayout(generalSettingHeader), gridFormLayoutHelper.getLayout());
@@ -137,7 +137,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         FormContainer formContainer = new FormContainer();
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(true);
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        Label logoDesc = new Label(AppContext.getMessage(AdminI18nEnum.OPT_LOGO_FORMAT_DESCRIPTION));
+        Label logoDesc = new Label(UserUIContext.getMessage(AdminI18nEnum.OPT_LOGO_FORMAT_DESCRIPTION));
         leftPanel.with(logoDesc).withWidth("250px");
 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
@@ -165,9 +165,9 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
             }
         };
 
-        serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_CRM), VaadinIcons.MONEY, clickListener);
-        serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT), VaadinIcons.TASKS, clickListener);
-        serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), VaadinIcons.SUITCASE, clickListener);
+        serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_CRM), VaadinIcons.MONEY, clickListener);
+        serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), VaadinIcons.TASKS, clickListener);
+        serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), VaadinIcons.SUITCASE, clickListener);
         serviceMenu.selectService(0);
 
         previewLayout.addComponent(serviceMenu, "serviceMenu");
@@ -184,7 +184,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 if (mimeType.equals("image/jpeg")) {
                     imageData = ImageUtil.convertJpgToPngFormat(imageData);
                     if (imageData == null) {
-                        throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
+                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
                     } else {
                         mimeType = "image/png";
                     }
@@ -193,23 +193,23 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 if (mimeType.equals("image/png")) {
                     UI.getCurrent().addWindow(new LogoEditWindow(imageData));
                 } else {
-                    throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
+                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
                 }
             }
         };
-        logoUploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE));
+        logoUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
         logoUploadField.addStyleName("upload-field");
         logoUploadField.setSizeUndefined();
         logoUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-        logoUploadField.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        logoUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-        MButton resetButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
+        MButton resetButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccount.setLogopath(null);
-            billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
+            billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }).withStyleName(WebUIConstants.BUTTON_OPTION);
-        resetButton.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         buttonControls.with(logoUploadField, resetButton);
         rightPanel.with(previewLayout, buttonControls);
@@ -222,7 +222,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         FormContainer formContainer = new FormContainer();
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        Label logoDesc = new Label(AppContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION));
+        Label logoDesc = new Label(UserUIContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION));
         leftPanel.with(logoDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
         final Image favIconRes = new Image("", new ExternalResource(StorageFactory.getFavIconPath(billingAccount.getId(),
@@ -240,7 +240,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                 if (mimeType.equals("image/jpeg")) {
                     imageData = ImageUtil.convertJpgToPngFormat(imageData);
                     if (imageData == null) {
-                        throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
+                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
                     } else {
                         mimeType = "image/png";
                     }
@@ -250,7 +250,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                     try {
                         AccountFavIconService favIconService = AppContextUtil.getSpringBean(AccountFavIconService.class);
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
-                        String newFavIconPath = favIconService.upload(AppContext.getUsername(), image, AppContext
+                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, MyCollabUI
                                 .getAccountId());
                         favIconRes.setSource(new ExternalResource(StorageFactory.getFavIconPath(billingAccount.getId(),
                                 newFavIconPath)));
@@ -259,23 +259,23 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
                         throw new MyCollabException(e);
                     }
                 } else {
-                    throw new UserInvalidInputException(AppContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
+                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
                 }
             }
         };
-        favIconUploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE));
+        favIconUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
         favIconUploadField.addStyleName("upload-field");
         favIconUploadField.setSizeUndefined();
         favIconUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-        favIconUploadField.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        favIconUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-        MButton resetButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
+        MButton resetButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccount.setFaviconpath(null);
-            billingAccountService.updateWithSession(billingAccount, AppContext.getUsername());
+            billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }).withStyleName(WebUIConstants.BUTTON_OPTION);
-        resetButton.setVisible(AppContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         buttonControls.with(favIconUploadField, resetButton);
         rightPanel.with(favIconRes, buttonControls);

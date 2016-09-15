@@ -22,7 +22,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.mycollab.module.project.view.settings.component.VersionEditFormFieldFactory;
 import com.mycollab.module.tracker.domain.Version;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -54,7 +54,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(VersionI18nEnum.NEW) : AppContext.getMessage(VersionI18nEnum.DETAIL);
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(VersionI18nEnum.NEW) : UserUIContext.getMessage(VersionI18nEnum.DETAIL);
     }
 
     @Override

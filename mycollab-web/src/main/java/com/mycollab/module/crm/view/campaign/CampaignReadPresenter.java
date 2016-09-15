@@ -34,7 +34,8 @@ import com.mycollab.reporting.FormReportLayout;
 import com.mycollab.reporting.PrintButton;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.AbstractRelatedListHandler;
@@ -75,15 +76,15 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
             @Override
             public void onDelete(final SimpleCampaign data) {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
                                 campaignService.removeWithSession(data,
-                                        AppContext.getUsername(), AppContext.getAccountId());
+                                        UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
                             }
                         });
@@ -112,7 +113,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
             public void gotoNext(SimpleCampaign data) {
                 CampaignService contactService = AppContextUtil.getSpringBean(CampaignService.class);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = contactService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -127,7 +128,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
             public void gotoPrevious(SimpleCampaign data) {
                 CampaignService contactService = AppContextUtil.getSpringBean(CampaignService.class);
                 CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
@@ -184,7 +185,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                     }
 
                     CampaignService accountService = AppContextUtil.getSpringBean(CampaignService.class);
-                    accountService.saveCampaignAccountRelationship(associateAccounts, AppContext.getAccountId());
+                    accountService.saveCampaignAccountRelationship(associateAccounts, MyCollabUI.getAccountId());
 
                     view.getRelatedAccountHandlers().refresh();
                 }
@@ -214,7 +215,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                     }
 
                     CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                    campaignService.saveCampaignContactRelationship(associateContacts, AppContext.getAccountId());
+                    campaignService.saveCampaignContactRelationship(associateContacts, MyCollabUI.getAccountId());
 
                     view.getRelatedContactHandlers().refresh();
                 }
@@ -243,7 +244,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                     }
 
                     CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                    campaignService.saveCampaignLeadRelationship(associateLeads, AppContext.getAccountId());
+                    campaignService.saveCampaignLeadRelationship(associateLeads, MyCollabUI.getAccountId());
 
                     view.getRelatedLeadHandlers().refresh();
                 }
@@ -255,16 +256,16 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
-        if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
             if (data.getParams() instanceof Integer) {
                 CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                SimpleCampaign campaign = campaignService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                SimpleCampaign campaign = campaignService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (campaign != null) {
                     super.onGo(container, data);
                     view.previewItem(campaign);
-                    AppContext.addFragment(CrmLinkGenerator.generateCampaignPreviewLink(campaign.getId()),
-                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    AppContext.getMessage(CampaignI18nEnum.SINGLE), campaign.getCampaignname()));
+                    MyCollabUI.addFragment(CrmLinkGenerator.generateCampaignPreviewLink(campaign.getId()),
+                            UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    UserUIContext.getMessage(CampaignI18nEnum.SINGLE), campaign.getCampaignname()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

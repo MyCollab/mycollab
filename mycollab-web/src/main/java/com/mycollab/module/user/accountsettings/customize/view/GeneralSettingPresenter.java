@@ -20,7 +20,7 @@ import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.mycollab.security.BooleanPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewPermission;
@@ -40,9 +40,9 @@ public class GeneralSettingPresenter extends AbstractPresenter<GeneralSettingVie
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.isAdmin()) {
+        if (UserUIContext.isAdmin()) {
             AccountSettingContainer customizeContainer = (AccountSettingContainer) container;
-            customizeContainer.gotoSubView(AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
+            customizeContainer.gotoSubView(UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
             view.displayView();
             AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
             breadcrumb.gotoGeneralSetting();

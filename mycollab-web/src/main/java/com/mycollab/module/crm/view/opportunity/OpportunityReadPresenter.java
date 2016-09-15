@@ -38,7 +38,8 @@ import com.mycollab.reporting.FormReportLayout;
 import com.mycollab.reporting.PrintButton;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.AbstractRelatedListHandler;
@@ -79,14 +80,14 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
             @Override
             public void onDelete(final SimpleOpportunity data) {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 OpportunityService OpportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                                OpportunityService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                OpportunityService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
                             }
                         });
@@ -115,7 +116,7 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
             public void gotoNext(SimpleOpportunity data) {
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = opportunityService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -130,7 +131,7 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
             public void gotoPrevious(SimpleOpportunity data) {
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = opportunityService.getPreviousItemKey(criteria);
                 if (nextId != null) {
@@ -185,7 +186,7 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
                 }
 
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                contactService.saveContactOpportunityRelationship(associateContacts, AppContext.getAccountId());
+                contactService.saveContactOpportunityRelationship(associateContacts, MyCollabUI.getAccountId());
                 view.getRelatedContactHandlers().refresh();
             }
         });
@@ -212,7 +213,7 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
                         }
 
                         OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                        opportunityService.saveOpportunityLeadRelationship(associateLeads, AppContext.getAccountId());
+                        opportunityService.saveOpportunityLeadRelationship(associateLeads, MyCollabUI.getAccountId());
                         view.getRelatedLeadHandlers().refresh();
                     }
                 });
@@ -221,17 +222,17 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.OPPORTUNITY);
-        if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
             if (data.getParams() instanceof Integer) {
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                SimpleOpportunity opportunity = opportunityService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                SimpleOpportunity opportunity = opportunityService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (opportunity != null) {
                     super.onGo(container, data);
                     view.previewItem(opportunity);
 
-                    AppContext.addFragment(CrmLinkGenerator.generateOpportunityPreviewLink(opportunity.getId()),
-                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    AppContext.getMessage(OpportunityI18nEnum.SINGLE), opportunity.getOpportunityname()));
+                    MyCollabUI.addFragment(CrmLinkGenerator.generateOpportunityPreviewLink(opportunity.getId()),
+                            UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    UserUIContext.getMessage(OpportunityI18nEnum.SINGLE), opportunity.getOpportunityname()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

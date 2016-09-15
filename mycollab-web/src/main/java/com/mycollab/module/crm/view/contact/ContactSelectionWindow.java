@@ -22,7 +22,8 @@ import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Window;
@@ -42,7 +43,7 @@ public class ContactSelectionWindow extends Window {
     private FieldSelection<Contact> fieldSelection;
 
     public ContactSelectionWindow(FieldSelection<Contact> fieldSelection) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(ContactI18nEnum.SINGLE)));
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(ContactI18nEnum.SINGLE)));
         this.setWidth("900px");
         this.fieldSelection = fieldSelection;
         this.setModal(true);
@@ -71,8 +72,8 @@ public class ContactSelectionWindow extends Window {
             return new MButton(contact.getContactName(), clickEvent -> {
                 fieldSelection.fireValueChange(contact);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                    contact, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipContact(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+                    contact, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }
 }

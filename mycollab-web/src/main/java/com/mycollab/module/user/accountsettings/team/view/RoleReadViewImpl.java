@@ -25,7 +25,7 @@ import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.PermissionDefItem;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -60,7 +60,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
                 .withFullWidth();
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " " + AppContext.getMessage(RoleI18nEnum.DETAIL));
+        ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " " + UserUIContext.getMessage(RoleI18nEnum.DETAIL));
         header.with(headerText).expand(headerText);
         this.addComponent(header);
 
@@ -107,8 +107,8 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
             PermissionDefItem permissionDefItem = defItems.get(i);
             final Integer perVal = permissionMap.get(permissionDefItem.getKey());
             SecurityI18nEnum enumVal = AccessPermissionFlag.toVal(perVal);
-            formHelper.addComponent(new Label(AppContext.getMessage(enumVal)), AppContext.getMessage(permissionDefItem.getCaption()),
-                    AppContext.getMessage(enumVal.desc()), i % 2, i / 2);
+            formHelper.addComponent(new Label(UserUIContext.getMessage(enumVal)), UserUIContext.getMessage(permissionDefItem.getCaption()),
+                    UserUIContext.getMessage(enumVal.desc()), i % 2, i / 2);
         }
         permissionsPanel.addSection(depotTitle, formHelper.getLayout());
         return permissionsPanel;
@@ -132,16 +132,16 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
             PermissionMap permissionMap = role.getPermissionMap();
 
-            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+            permissionsPanel.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
                     permissionMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
+            permissionsPanel.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
                     permissionMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
+            permissionsPanel.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
                     permissionMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+            permissionsPanel.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
                     permissionMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
             return permissionsPanel;

@@ -29,7 +29,8 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
@@ -68,15 +69,15 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
                     UI.getCurrent().addWindow(new MailFormWindow());
                 } else if ("massUpdate".equals(id)) {
                     MassUpdateCampaignWindow massUpdateWindow = new MassUpdateCampaignWindow(
-                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                    AppContext.getMessage(CampaignI18nEnum.LIST)), CampaignListPresenter.this);
+                            UserUIContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
+                                    UserUIContext.getMessage(CampaignI18nEnum.LIST)), CampaignListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
             }
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(CampaignI18nEnum.LIST);
+                return UserUIContext.getMessage(CampaignI18nEnum.LIST);
             }
 
             @Override
@@ -90,7 +91,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
 
-        if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
             searchCriteria = (CampaignSearchCriteria) data.getParams();
             int totalCount = campaignService.getTotalCount(searchCriteria);
             if (totalCount > 0) {
@@ -100,7 +101,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.LIST));
+            MyCollabUI.addFragment("crm/campaign/list", UserUIContext.getMessage(CampaignI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }
@@ -118,12 +119,12 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
             }
 
             if (keyList.size() > 0) {
-                campaignService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                campaignService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            campaignService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            campaignService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
     }
@@ -139,7 +140,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
                 }
             }
             if (keyList.size() > 0) {
-                campaignService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                campaignService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

@@ -23,7 +23,7 @@ import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.crm.view.campaign.CampaignImportWindow;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
@@ -50,7 +50,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
 
         MButton importBtn = ComponentUtils.createImportEntitiesButton()
                 .withListener(clickEvent -> UI.getCurrent().addWindow(new CampaignImportWindow()))
-                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         this.addExtraButton(importBtn);
     }
 
@@ -72,7 +72,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
     protected DefaultMassItemActionHandlerContainer createActionControls() {
         DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
-        if (AppContext.canAccess(RolePermissionCollections.CRM_OPPORTUNITY)) {
+        if (UserUIContext.canAccess(RolePermissionCollections.CRM_OPPORTUNITY)) {
             container.addDeleteActionItem();
         }
 
@@ -81,7 +81,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
         container.addDownloadExcelActionItem();
         container.addDownloadCsvActionItem();
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
             container.addMassUpdateActionItem();
         }
 

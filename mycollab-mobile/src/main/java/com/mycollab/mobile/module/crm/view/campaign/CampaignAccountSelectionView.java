@@ -25,7 +25,7 @@ import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Inc.
@@ -36,7 +36,7 @@ public class CampaignAccountSelectionView extends AbstractRelatedItemSelectionVi
     private static final long serialVersionUID = -801602909364348692L;
 
     public CampaignAccountSelectionView(AbstractRelatedListView<SimpleAccount, AccountSearchCriteria> relatedListView) {
-        super(AppContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS), relatedListView);
+        super(UserUIContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS), relatedListView);
     }
 
     @Override

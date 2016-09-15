@@ -27,7 +27,7 @@ import com.mycollab.module.project.events.BugComponentEvent;
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -57,12 +57,12 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return ComponentUtils.headerH2(ProjectTypeConstants.BUG_COMPONENT, AppContext.getMessage(ComponentI18nEnum.LIST));
+        return ComponentUtils.headerH2(ProjectTypeConstants.BUG_COMPONENT, UserUIContext.getMessage(ComponentI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        MButton createBtn = new MButton(AppContext.getMessage(ComponentI18nEnum.NEW),
+        MButton createBtn = new MButton(UserUIContext.getMessage(ComponentI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
         createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
@@ -87,22 +87,22 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-            Label nameLbl = new Label(AppContext.getMessage(GenericI18Enum.FORM_NAME) + ":");
+            Label nameLbl = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ":");
             basicSearchBody.with(nameLbl);
 
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField);
 
-            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+            myItemCheckbox = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                     .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn);
 
@@ -116,7 +116,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             searchCriteria.setComponentName(StringSearchField.and(this.nameField.getValue().trim()));
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setUserlead(StringSearchField.and(AppContext.getUsername()));
+                searchCriteria.setUserlead(StringSearchField.and(UserUIContext.getUsername()));
             } else {
                 searchCriteria.setUserlead(null);
             }

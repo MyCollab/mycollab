@@ -27,7 +27,8 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -68,13 +69,13 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
     private void save(SimpleUser user) {
         boolean isRefreshable = false;
-        if (user.getUsername() != null && user.getUsername().equals(AppContext.getUsername())) {
+        if (user.getUsername() != null && user.getUsername().equals(UserUIContext.getUsername())) {
             isRefreshable = true;
         }
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        user.setAccountId(AppContext.getAccountId());
-        user.setSubdomain(AppContext.getSubDomain());
+        user.setAccountId(MyCollabUI.getAccountId());
+        user.setSubdomain(MyCollabUI.getSubDomain());
 
         if (user.getStatus() == null) {
             user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
@@ -89,10 +90,10 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                 user.setPassword(RandomPasswordGenerator.generateRandomPassword());
             }
             String userPassword = user.getPassword();
-            userService.saveUserAccount(user, user.getRoleid(), AppContext.getSubDomain(), AppContext.getAccountId(), AppContext.getUsername(), true);
+            userService.saveUserAccount(user, user.getRoleid(), MyCollabUI.getSubDomain(), MyCollabUI.getAccountId(), UserUIContext.getUsername(), true);
             UI.getCurrent().addWindow(new NewUserAddedWindow(user, userPassword));
         } else {
-            userService.updateUserAccount(user, AppContext.getAccountId());
+            userService.updateUserAccount(user, MyCollabUI.getAccountId());
             EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
         }
 

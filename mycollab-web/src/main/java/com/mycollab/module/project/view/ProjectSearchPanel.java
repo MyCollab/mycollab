@@ -24,7 +24,7 @@ import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
@@ -58,15 +58,15 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
 
     @Override
     protected ComponentContainer buildSearchTitle() {
-        return ComponentUtils.headerH2(ProjectTypeConstants.PROJECT, AppContext.getMessage(ProjectI18nEnum.LIST));
+        return ComponentUtils.headerH2(ProjectTypeConstants.PROJECT, UserUIContext.getMessage(ProjectI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        MButton createBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW),
+        MButton createBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.NEW),
                 clickEvent -> UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class)))
                 .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
-        createBtn.setVisible(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
+        createBtn.setVisible(UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
         return createBtn;
     }
 
@@ -83,20 +83,20 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent ->
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent ->
                     callSearchAction()).withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
                     clickEvent -> nameField.setValue("")).withStyleName(WebUIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            MButton advancedSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     clickEvent -> moveToAdvancedSearchLayout()).withStyleName(WebUIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
 

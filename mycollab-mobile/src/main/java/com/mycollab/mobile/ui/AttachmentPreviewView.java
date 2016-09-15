@@ -17,7 +17,7 @@
 package com.mycollab.mobile.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbsoluteLayout;
@@ -45,7 +45,7 @@ public class AttachmentPreviewView extends AbsoluteLayout implements IMobileView
         this.setSizeFull();
         this.addComponent(imgWrap, "top: 0px left: 0px; z-index: 0;");
 
-        backBtn = new NavigationButton(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+        backBtn = new NavigationButton(UserUIContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
         backBtn.setStyleName("back-btn");
 
         this.addComponent(backBtn, "top: 15px; left: 15px; z-index: 1;");

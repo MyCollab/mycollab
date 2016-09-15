@@ -30,7 +30,7 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.project.ui.components.GenericTaskRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.data.Property;
@@ -49,16 +49,16 @@ public class ProjectOverdueAssignmentsWidget extends Depot {
     private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
     public ProjectOverdueAssignmentsWidget() {
-        super(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
+        super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
         this.setWidth("100%");
 
-        final CheckBox myItemsSelection = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+        final CheckBox myItemsSelection = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
         myItemsSelection.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 boolean isMyItemsOption = myItemsSelection.getValue();
                 if (isMyItemsOption) {
-                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                    searchCriteria.setAssignUser(StringSearchField.and(UserUIContext.getUsername()));
                 } else {
                     searchCriteria.setAssignUser(null);
                 }
@@ -70,7 +70,7 @@ public class ProjectOverdueAssignmentsWidget extends Depot {
                 new GenericTaskRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
-                return AppContext.getMessage(ProjectI18nEnum.OPT_NO_OVERDUE_ASSIGNMENT);
+                return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_OVERDUE_ASSIGNMENT);
             }
         };
         this.addHeaderElement(myItemsSelection);
@@ -87,6 +87,6 @@ public class ProjectOverdueAssignmentsWidget extends Depot {
 
     private void updateSearchResult() {
         taskList.setSearchCriteria(searchCriteria);
-        this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskList.getTotalCount()));
+        this.setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskList.getTotalCount()));
     }
 }

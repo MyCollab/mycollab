@@ -22,7 +22,7 @@ import com.mycollab.db.query.Param;
 import com.mycollab.db.query.SearchFieldInfo;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -75,13 +75,13 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     }
 
     private HorizontalLayout createButtonControls() {
-        MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+        MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                 .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH);
 
-        MButton clearBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> clearFields())
+        MButton clearBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> clearFields())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton basicSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
+        MButton basicSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
                 clickEvent -> ((DefaultGenericSearchPanel<S>) searchPanel).moveToBasicSearchLayout())
                 .withStyleName(WebUIConstants.BUTTON_LINK);
 

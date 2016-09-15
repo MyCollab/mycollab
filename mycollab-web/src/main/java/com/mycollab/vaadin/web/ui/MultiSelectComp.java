@@ -18,7 +18,7 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Ul;
 import com.vaadin.ui.*;
@@ -85,7 +85,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         content.with(multiSelectComp);
 
         if (canAddNew) {
-            MButton newBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> requestAddNewComp())
+            MButton newBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> requestAddNewComp())
                     .withStyleName(WebUIConstants.BUTTON_LINK);
             content.with(newBtn);
         }

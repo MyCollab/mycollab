@@ -31,7 +31,8 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -93,7 +94,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
         GridFormLayoutHelper userFormLayout;
-        if (AppContext.isAdmin()) {
+        if (UserUIContext.isAdmin()) {
             userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6).withCaptionWidth("140px");
         } else {
             userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
@@ -103,33 +104,33 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
         Node roleDiv;
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
-            roleDiv = new Div().appendText(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
+            roleDiv = new Div().appendText(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         } else {
             roleDiv = new A(AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid())).appendText(user.getRoleName());
         }
 
-        userFormLayout.addComponent(ELabel.html(roleDiv.write()), AppContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
-        userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
-                AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
+        userFormLayout.addComponent(ELabel.html(roleDiv.write()), UserUIContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
+        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getDateofbirth())),
+                UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
 
-        if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
+        if (Boolean.TRUE.equals(MyCollabUI.showEmailPublicly())) {
             userFormLayout.addComponent(ELabel.html(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write()),
-                    AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
+                    UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
         } else {
-            userFormLayout.addComponent(ELabel.html("******"), AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
+            userFormLayout.addComponent(ELabel.html("******"), UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
         }
 
-        userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(AppContext.getUserLocale(), user.getTimezone())),
-                AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
-        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(AppContext.getUserLocale())),
-                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 4);
+        userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone())),
+                UserUIContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
+        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(UserUIContext.getUserLocale())),
+                UserUIContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 4);
 
-        if (AppContext.isAdmin()) {
-            MButton btnChangePassword = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_CHANGE),
+        if (UserUIContext.isAdmin()) {
+            MButton btnChangePassword = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                     clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(user)))
                     .withStyleName(WebUIConstants.BUTTON_LINK);
             userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
-                    AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 5);
+                    UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 5);
         }
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);
@@ -175,7 +176,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                         return new EmailViewField(user.getEmail());
                     } else if (propertyId.equals("roleid")) {
                         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
-                            return new DefaultViewField(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
+                            return new DefaultViewField(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
                         } else {
                             return new LinkViewField(user.getRoleName(), AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid()));
                         }
@@ -184,7 +185,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                     } else if (propertyId.equals("dateofbirth")) {
                         return new DateViewField(user.getDateofbirth());
                     } else if (propertyId.equals("timezone")) {
-                        return new DefaultViewField(TimezoneVal.getDisplayName(AppContext.getUserLocale(), user.getTimezone()));
+                        return new DefaultViewField(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone()));
                     } else if (propertyId.equals("facebookaccount")) {
                         return new UrlLinkViewField(String.format("https://www.facebook.com/%s", user.getFacebookaccount()),
                                 user.getFacebookaccount());
@@ -209,23 +210,23 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             @Override
             public ComponentContainer getLayout() {
                 FormContainer layout = new FormContainer();
-                layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION), contactLayout.getLayout());
-                layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION), advancedInfoLayout.getLayout());
+                layout.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION), contactLayout.getLayout());
+                layout.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION), advancedInfoLayout.getLayout());
                 return layout;
             }
 
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
-                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
+                    return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
-                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
+                    return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
                 } else if (propertyId.equals("country")) {
-                    return advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
+                    return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
                 } else if (propertyId.equals("workphone")) {
-                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+                    return contactLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
                 } else if (propertyId.equals("homephone")) {
-                    return contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+                    return contactLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
                 } else if (propertyId.equals("facebookaccount")) {
                     return contactLayout.addComponent(field, "Facebook", 0, 2);
                 } else if (propertyId.equals("twitteraccount")) {

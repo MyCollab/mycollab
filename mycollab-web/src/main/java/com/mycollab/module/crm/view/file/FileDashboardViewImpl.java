@@ -18,7 +18,7 @@ package com.mycollab.module.crm.view.file;
 
 import com.mycollab.module.ecm.domain.Folder;
 import com.mycollab.module.file.view.components.ResourcesDisplayComponent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
@@ -34,7 +34,7 @@ public class FileDashboardViewImpl extends AbstractPageView implements FileDashb
     @Override
     public void displayFiles() {
         this.withMargin(new MarginInfo(false, true, false, true)).withFullWidth();
-        String rootPath = String.format("%d/.crm", AppContext.getAccountId());
+        String rootPath = String.format("%d/.crm", MyCollabUI.getAccountId());
         addComponent(new ResourcesDisplayComponent(new Folder(rootPath)));
     }
 }

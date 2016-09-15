@@ -25,7 +25,7 @@ import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Inc.
@@ -35,7 +35,7 @@ public class LeadCampaignSelectionView extends AbstractRelatedItemSelectionView<
     private static final long serialVersionUID = -3201084210895713763L;
 
     public LeadCampaignSelectionView(AbstractRelatedListView<SimpleCampaign, CampaignSearchCriteria> relatedListView) {
-        super(AppContext.getMessage(CampaignI18nEnum.M_TITLE_SELECT_CAMPAIGNS), relatedListView);
+        super(UserUIContext.getMessage(CampaignI18nEnum.M_TITLE_SELECT_CAMPAIGNS), relatedListView);
     }
 
     @Override

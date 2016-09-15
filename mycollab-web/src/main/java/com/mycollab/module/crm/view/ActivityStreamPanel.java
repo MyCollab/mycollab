@@ -39,7 +39,8 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -85,7 +86,7 @@ public class ActivityStreamPanel extends CssLayout {
     public void display() {
         final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
         searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.CRM));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         searchCriteria.addOrderField(new SearchCriteria.OrderField("createdTime", SearchCriteria.DESC));
         this.activityStreamList.setSearchCriteria(searchCriteria);
     }
@@ -171,23 +172,23 @@ public class ActivityStreamPanel extends CssLayout {
         }
 
         private boolean checkReadPermission(String type) {
-            if (CrmTypeConstants.ACCOUNT.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+            if (CrmTypeConstants.ACCOUNT.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
                 return false;
-            } else if (CrmTypeConstants.CONTACT.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
+            } else if (CrmTypeConstants.CONTACT.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
                 return false;
-            } else if (CrmTypeConstants.CAMPAIGN.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+            } else if (CrmTypeConstants.CAMPAIGN.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
                 return false;
-            } else if (CrmTypeConstants.LEAD.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+            } else if (CrmTypeConstants.LEAD.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_LEAD)) {
                 return false;
-            } else if (CrmTypeConstants.OPPORTUNITY.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
+            } else if (CrmTypeConstants.OPPORTUNITY.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
                 return false;
-            } else if (CrmTypeConstants.CASE.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
+            } else if (CrmTypeConstants.CASE.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_CASE)) {
                 return false;
-            } else if (CrmTypeConstants.TASK.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
+            } else if (CrmTypeConstants.TASK.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_TASK)) {
                 return false;
-            } else if (CrmTypeConstants.MEETING.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
+            } else if (CrmTypeConstants.MEETING.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_MEETING)) {
                 return false;
-            } else if (CrmTypeConstants.CALL.equals(type) && !AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+            } else if (CrmTypeConstants.CALL.equals(type) && !UserUIContext.canRead(RolePermissionCollections.CRM_CALL)) {
                 return false;
             }
             return true;
@@ -211,21 +212,21 @@ public class ActivityStreamPanel extends CssLayout {
             StringBuilder content = new StringBuilder();
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_CREATE_ACTION,
+                content.append(UserUIContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_CREATE_ACTION,
                         assigneeValue, itemType, itemValue));
             } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION,
+                content.append(UserUIContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION,
                         assigneeValue, itemType, itemValue));
                 if (activityStream.getAssoAuditLog() != null) {
                     content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                 }
             } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_COMMENT_ACTION, assigneeValue, itemType, itemValue));
+                content.append(UserUIContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_COMMENT_ACTION, assigneeValue, itemType, itemValue));
                 if (activityStream.getAssoAuditLog() != null) {
                     content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog().getChangeset()).append("\"</li></ul></p>");
                 }
             } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_DELETE_ACTION,
+                content.append(UserUIContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_DELETE_ACTION,
                         assigneeValue, itemType, itemValue));
             }
 
@@ -245,11 +246,11 @@ public class ActivityStreamPanel extends CssLayout {
             ButtonGroup controlBtns = new ButtonGroup();
             controlBtns.setStyleName(WebUIConstants.BUTTON_ACTION);
 
-            MButton prevBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> navigateToPrevious())
+            MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> navigateToPrevious())
                     .withStyleName(WebUIConstants.BUTTON_ACTION).withWidth("64px");
             prevBtn.setEnabled(hasPrevious());
 
-            MButton nextBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> navigateToNext())
+            MButton nextBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> navigateToNext())
                     .withStyleName(WebUIConstants.BUTTON_ACTION).withWidth("64px");
             nextBtn.setEnabled(hasNext());
 
@@ -274,7 +275,7 @@ public class ActivityStreamPanel extends CssLayout {
             Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
                     .setCSSClass(UIConstants.CIRCLE_BOX);
             A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkGenerator.generatePreviewFullUserLink(
-                    AppContext.getSiteUrl(), activityStream.getCreateduser())).appendText(StringUtils.trim
+                    MyCollabUI.getSiteUrl(), activityStream.getCreateduser())).appendText(StringUtils.trim
                     (activityStream.getCreatedUserFullName(), 30, true));
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(activityStream.getCreateduser()));

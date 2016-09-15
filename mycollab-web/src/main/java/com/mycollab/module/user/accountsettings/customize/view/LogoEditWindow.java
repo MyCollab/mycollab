@@ -28,7 +28,8 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.file.service.AccountLogoService;
 import com.mycollab.module.user.accountsettings.view.events.SettingEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
@@ -65,7 +66,7 @@ public class LogoEditWindow extends MWindow {
     private byte[] scaleImageData;
 
     public LogoEditWindow(byte[] imageData) {
-        super(AppContext.getMessage(FileI18nEnum.ACTION_CHANGE_LOGO));
+        super(UserUIContext.getMessage(FileI18nEnum.ACTION_CHANGE_LOGO));
         this.withModal(true).withResizable(false).withWidth("800px").withHeight("800px");
         content = new MVerticalLayout();
         this.setContent(content);
@@ -83,7 +84,7 @@ public class LogoEditWindow extends MWindow {
         MHorizontalLayout previewBox = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, false))
                 .withFullWidth();
 
-        final String logoPath = AppContext.getBillingAccount().getLogopath();
+        final String logoPath = MyCollabUI.getBillingAccount().getLogopath();
         Resource defaultPhoto = AccountAssetsResolver.createLogoResource(logoPath, 150);
         previewImage = new Embedded(null, defaultPhoto);
         previewImage.setWidth("100px");
@@ -92,19 +93,19 @@ public class LogoEditWindow extends MWindow {
 
         MVerticalLayout previewBoxRight = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true));
 
-        previewBoxRight.addComponent(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
+        previewBoxRight.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new SettingEvent.GotoGeneralSetting(LogoEditWindow.this, null)))
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton acceptBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
+        MButton acceptBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
             if (scaleImageData != null && scaleImageData.length > 0) {
                 try {
                     BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
                     AccountLogoService accountLogoService = AppContextUtil.getSpringBean(AccountLogoService.class);
-                    accountLogoService.upload(AppContext.getUsername(),
-                            image, AppContext.getAccountId());
+                    accountLogoService.upload(UserUIContext.getUsername(),
+                            image, MyCollabUI.getAccountId());
                     Page.getCurrent().getJavaScript().execute("window.location.reload();");
                 } catch (IOException e) {
                     throw new MyCollabException("Error when saving account logo", e);

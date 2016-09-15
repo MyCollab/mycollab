@@ -29,7 +29,8 @@ import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
@@ -69,7 +70,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
     private CssLayout statusWrapper;
 
     public ProjectCommentInputView(String typeVal, String typeIdVal, Integer extraTypeIdVal) {
-        this.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_ADD_COMMENT));
+        this.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_ADD_COMMENT));
         resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         MVerticalLayout content = new MVerticalLayout().withFullWidth().withStyleName("comment-input");
         this.setContent(content);
@@ -82,22 +83,22 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
 
         commentInput = new TextArea();
         commentInput.setWidth("100%");
-        commentInput.setInputPrompt(AppContext.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
+        commentInput.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
 
-        MButton postBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        MButton postBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             final CommentWithBLOBs comment = new CommentWithBLOBs();
             comment.setComment(commentInput.getValue());
             comment.setCreatedtime(new GregorianCalendar().getTime());
-            comment.setCreateduser(AppContext.getUsername());
-            comment.setSaccountid(AppContext.getAccountId());
+            comment.setCreateduser(UserUIContext.getUsername());
+            comment.setSaccountid(MyCollabUI.getAccountId());
             comment.setType(type);
             comment.setTypeid("" + typeId);
             comment.setExtratypeid(extraTypeId);
 
             final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-            int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
+            int commentId = commentService.saveWithSession(comment, UserUIContext.getUsername());
 
-            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, AppContext.getAccountId(),
+            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, MyCollabUI.getAccountId(),
                     CurrentProjectVariables.getProjectId(), typeId, commentId);
             if (!"".equals(attachmentPath)) {
                 saveContentsToRepo(attachmentPath);
@@ -116,7 +117,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         receiver = createReceiver();
 
         uploadField = new MultiUpload();
-        uploadField.setButtonCaption(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD));
+        uploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPLOAD));
         uploadField.setImmediate(true);
         uploadField.setHandler(new MobileUploadHandler());
     }
@@ -165,15 +166,15 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
                             ImageIO.write(scaledImage, fileExt, outStream);
 
                             resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                    AppContext.getUsername(), new ByteArrayInputStream(outStream.toByteArray()), AppContext.getAccountId());
+                                    UserUIContext.getUsername(), new ByteArrayInputStream(outStream.toByteArray()), MyCollabUI.getAccountId());
                         } catch (IOException e) {
                             LOG.error("Error in upload file", e);
                             resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                    AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
+                                    UserUIContext.getUsername(), new FileInputStream(file), MyCollabUI.getAccountId());
                         }
                     } else {
                         resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
+                                UserUIContext.getUsername(), new FileInputStream(file), MyCollabUI.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {
@@ -211,7 +212,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
-            NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_FILE_IS_EXISTED, fileName));
+            NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.ERROR_FILE_IS_EXISTED, fileName));
         } else {
             fileStores.put(fileName, file);
         }

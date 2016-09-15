@@ -23,7 +23,8 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.server.ServerInstance;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -52,7 +53,7 @@ public class UpgradeConfirmWindow extends MWindow {
     private String installerFilePath;
 
     public UpgradeConfirmWindow(final String version, String manualDownloadLink, final String installerFilePath) {
-        super(AppContext.getMessage(ShellI18nEnum.OPT_NEW_UPGRADE_IS_READY));
+        super(UserUIContext.getMessage(ShellI18nEnum.OPT_NEW_UPGRADE_IS_READY));
         this.withModal(true).withResizable(false).withCenter().withWidth("600px");
         this.installerFilePath = installerFilePath;
 
@@ -61,26 +62,26 @@ public class UpgradeConfirmWindow extends MWindow {
         MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
 
-        Div titleDiv = new Div().appendText(AppContext.getMessage(ShellI18nEnum.OPT_REQUEST_UPGRADE, version)).setStyle("font-weight:bold");
+        Div titleDiv = new Div().appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_REQUEST_UPGRADE, version)).setStyle("font-weight:bold");
         content.with(ELabel.html(titleDiv.write()));
 
-        Div manualInstallLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + AppContext.getMessage(ShellI18nEnum.OPT_MANUAL_INSTALL) + ": ")
+        Div manualInstallLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + UserUIContext.getMessage(ShellI18nEnum.OPT_MANUAL_INSTALL) + ": ")
                 .appendChild(new A(manualDownloadLink, "_blank")
-                        .appendText(AppContext.getMessage(ShellI18nEnum.OPT_DOWNLOAD_LINK)));
+                        .appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_DOWNLOAD_LINK)));
         content.with(ELabel.html(manualInstallLink.write()));
 
-        Div manualUpgradeHowtoLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + AppContext.getMessage(ShellI18nEnum.OPT_MANUAL_UPGRADE) + ": ")
+        Div manualUpgradeHowtoLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + UserUIContext.getMessage(ShellI18nEnum.OPT_MANUAL_UPGRADE) + ": ")
                 .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/upgrade-mycollab-automatically/", "_blank").appendText("Link"));
         content.with(new Label(manualUpgradeHowtoLink.write(), ContentMode.HTML));
 
-        Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + AppContext.getMessage(ShellI18nEnum.OPT_RELEASE_NOTES) + ": ")
+        Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + UserUIContext.getMessage(ShellI18nEnum.OPT_RELEASE_NOTES) + ": ")
                 .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/releases/", "_blank").appendText("Link"));
         content.with(new Label(releaseNoteLink.write(), ContentMode.HTML));
 
-        MButton skipBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
+        MButton skipBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-        MButton autoUpgradeBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_AUTO_UPGRADE), clickEvent -> {
+        MButton autoUpgradeBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_AUTO_UPGRADE), clickEvent -> {
             close();
             navigateToWaitingUpgradePage();
         }).withStyleName(WebUIConstants.BUTTON_ACTION);
@@ -98,7 +99,7 @@ public class UpgradeConfirmWindow extends MWindow {
             if (installerFile.exists()) {
                 new Thread(() -> {
                     ServerInstance.getInstance().preUpgrade();
-                    final String locUrl = SiteConfiguration.getSiteUrl(AppContext.getSubDomain()) + "it/upgrade";
+                    final String locUrl = SiteConfiguration.getSiteUrl(MyCollabUI.getSubDomain()) + "it/upgrade";
                     Future<Void> access = currentUI.access(() -> {
                         LOG.info("Redirect to the upgrade page " + locUrl);
                         currentUI.getPage().setLocation(locUrl);

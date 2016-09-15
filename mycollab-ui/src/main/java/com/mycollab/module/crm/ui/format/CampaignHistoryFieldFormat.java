@@ -24,9 +24,10 @@ import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.mycollab.vaadin.TooltipHelper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
@@ -45,7 +46,7 @@ public class CampaignHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
-        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY));
     }
 
     @Override
@@ -57,12 +58,12 @@ public class CampaignHistoryFieldFormat implements HistoryFieldFormat {
         try {
             Integer campaignId = Integer.parseInt(value);
             CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-            SimpleCampaign campaign = campaignService.findById(campaignId, AppContext.getAccountId());
+            SimpleCampaign campaign = campaignService.findById(campaignId, MyCollabUI.getAccountId());
 
             if (campaign != null) {
                 if (displayAsHtml) {
                     A link = new A().setId("tag" + TOOLTIP_ID);
-                    link.setHref(CrmLinkGenerator.generateCampaignPreviewFullLink(AppContext.getSiteUrl(), campaignId))
+                    link.setHref(CrmLinkGenerator.generateCampaignPreviewFullLink(MyCollabUI.getSiteUrl(), campaignId))
                             .appendChild(new Text(campaign.getCampaignname()));
                     link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(CrmTypeConstants.CAMPAIGN,
                             campaignId + ""));

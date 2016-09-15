@@ -78,6 +78,7 @@ public class ApplicationProperties {
     public static final String BI_ENDECRYPT_PASSWORD = "endecryptPassword";
 
     public static final String COPYRIGHT_MSG = "copyright";
+    public static final String DEFAULT_LOCALE = "defaultLocale";
 
     public static final String PULL_METHOD = "pull_method";
 

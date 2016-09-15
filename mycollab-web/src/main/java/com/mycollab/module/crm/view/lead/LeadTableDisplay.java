@@ -22,13 +22,13 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -77,8 +77,8 @@ public class LeadTableDisplay extends DefaultPagedBeanTable<LeadService, LeadSea
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
             }
             b.setDescription(CrmTooltipGenerator.generateTooltipLead(
-                    AppContext.getUserLocale(), lead,
-                    AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+                    UserUIContext.getUserLocale(), lead,
+                    MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             return b;
         });
 

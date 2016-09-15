@@ -18,7 +18,7 @@ package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.IListView;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
@@ -99,7 +99,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
     @Override
     public void enableActionControls(int numOfSelectedItems) {
         tableActionControls.setVisible(true);
-        selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+        selectedItemsNumberLabel.setValue(UserUIContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     public void addExtraButton(Button component) {

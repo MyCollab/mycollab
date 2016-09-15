@@ -27,7 +27,8 @@ import com.mycollab.module.user.service.RoleService;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -66,17 +67,17 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
             @Override
             public void onDelete(final Role role) {
                 if (Boolean.TRUE.equals(role.getIssystemrole())) {
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(RoleI18nEnum.ERROR_CAN_NOT_DELETE_SYSTEM_ROLE, role.getRolename()));
+                    NotificationUtil.showErrorNotification(UserUIContext.getMessage(RoleI18nEnum.ERROR_CAN_NOT_DELETE_SYSTEM_ROLE, role.getRolename()));
                 } else {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-                                    roleService.removeWithSession(role, AppContext.getUsername(), AppContext.getAccountId());
+                                    roleService.removeWithSession(role, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                     EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
                                 }
                             });
@@ -100,9 +101,9 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
+        if (UserUIContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-            SimpleRole role = roleService.findById((Integer) data.getParams(), AppContext.getAccountId());
+            SimpleRole role = roleService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
             if (role != null) {
                 RoleContainer roleContainer = (RoleContainer) container;
                 roleContainer.removeAllComponents();

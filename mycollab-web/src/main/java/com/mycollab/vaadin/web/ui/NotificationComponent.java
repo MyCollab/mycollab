@@ -29,7 +29,7 @@ import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.shell.view.components.UpgradeConfirmWindow;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
@@ -91,7 +91,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 notificationContainer.addComponent(comp);
             }
         } else {
-            Label noItemLbl = new Label(AppContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION));
+            Label noItemLbl = new Label(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION));
             notificationContainer.addComponent(noItemLbl);
             notificationContainer.setComponentAlignment(noItemLbl, Alignment.MIDDLE_CENTER);
         }
@@ -134,14 +134,14 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         if (item instanceof NewUpdateAvailableNotification) {
             NewUpdateAvailableNotification updateNo = (NewUpdateAvailableNotification) item;
             Notification no;
-            if (AppContext.isAdmin()) {
-                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), AppContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION,
+            if (UserUIContext.isAdmin()) {
+                no = new Notification(UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION,
                         ((NewUpdateAvailableNotification) item).getVersion()) + " "
                         + new A("javascript:com.mycollab.scripts.upgrade('" + updateNo.getVersion() + "','" + updateNo.getAutoDownloadLink() + "','" + updateNo.getManualDownloadLink() + "')")
-                        .appendText(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)),
+                        .appendText(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)),
                         Notification.Type.TRAY_NOTIFICATION);
             } else {
-                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), AppContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION,
+                no = new Notification(UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION,
                         ((NewUpdateAvailableNotification) item).getVersion()), Notification.Type.TRAY_NOTIFICATION);
             }
 
@@ -166,33 +166,33 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         if (item instanceof NewUpdateAvailableNotification) {
             final NewUpdateAvailableNotification notification = (NewUpdateAvailableNotification) item;
             Span spanEl = new Span();
-            spanEl.appendText(AppContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, notification.getVersion()));
+            spanEl.appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, notification.getVersion()));
             ELabel lbl = ELabel.html(FontAwesome.INFO_CIRCLE.getHtml() + " " + spanEl.write()).withFullWidth();
             CssLayout lblWrapper = new CssLayout();
             lblWrapper.addComponent(lbl);
             wrapper.addComponent(lblWrapper);
             wrapper.expand(lblWrapper);
-            if (AppContext.isAdmin()) {
-                MButton upgradeBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), clickEvent -> {
+            if (UserUIContext.isAdmin()) {
+                MButton upgradeBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), clickEvent -> {
                     UI.getCurrent().addWindow(new UpgradeConfirmWindow(notification.getVersion(), notification.getManualDownloadLink(), notification.getInstallerFile()));
                     NotificationComponent.this.setPopupVisible(false);
                 }).withStyleName(WebUIConstants.BLOCK);
                 wrapper.addComponent(upgradeBtn);
             }
         } else if (item instanceof RequestUploadAvatarNotification) {
-            wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage
+            wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + UserUIContext.getMessage
                     (ShellI18nEnum.OPT_REQUEST_UPLOAD_AVATAR), ContentMode.HTML));
-            MButton uploadAvatarBtn = new MButton(AppContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), clickEvent -> {
+            MButton uploadAvatarBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
                 NotificationComponent.this.setPopupVisible(false);
             }).withStyleName(WebUIConstants.BLOCK);
             wrapper.add(uploadAvatarBtn);
         } else if (item instanceof SmtpSetupNotification) {
-            MButton smtpBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SETUP), clickEvent -> {
+            MButton smtpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SETUP), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
                 NotificationComponent.this.setPopupVisible(false);
             }).withStyleName(WebUIConstants.BLOCK);
-            Label lbl = ELabel.html(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + AppContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING));
+            Label lbl = ELabel.html(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING));
             MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);
         } else {

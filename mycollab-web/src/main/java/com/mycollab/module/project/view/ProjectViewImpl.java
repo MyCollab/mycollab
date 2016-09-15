@@ -20,7 +20,6 @@ import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.file.PathUtils;
@@ -48,7 +47,8 @@ import com.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.mycollab.module.project.view.user.ProjectInfoComponent;
 import com.mycollab.module.project.i18n.*;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
@@ -143,7 +143,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     filePresenter.go(ProjectViewImpl.this, new FileScreenData.GotoDashboard());
                 } else if (ProjectTypeConstants.PAGE.equals(caption)) {
                     pagePresenter.go(ProjectViewImpl.this,
-                            new PageScreenData.Search(PathUtils.getProjectDocumentPath(AppContext.getAccountId(), project.getId())));
+                            new PageScreenData.Search(PathUtils.getProjectDocumentPath(MyCollabUI.getAccountId(), project.getId())));
                 } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
                     dashboardPresenter.go(ProjectViewImpl.this, null);
                 } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
@@ -170,7 +170,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.setProject(project);
 
-            Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
+            Button helpBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP));
             helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
             helpBtn.addStyleName(WebUIConstants.BUTTON_LINK);
             ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/project-management/");
@@ -206,12 +206,12 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             Integer prjId = CurrentProjectVariables.getProjectId();
 
             myProjectTab.addTab(constructProjectDashboardComponent(), ProjectTypeConstants.DASHBOARD, 1,
-                    AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
                     GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
 
             if (CurrentProjectVariables.hasMessageFeature()) {
                 myProjectTab.addTab(constructProjectMessageComponent(), ProjectTypeConstants.MESSAGE, 2,
-                        AppContext.getMessage(MessageI18nEnum.LIST),
+                        UserUIContext.getMessage(MessageI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMessagesLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.MESSAGE);
@@ -219,7 +219,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasPhaseFeature()) {
                 myProjectTab.addTab(constructProjectMilestoneComponent(), ProjectTypeConstants.MILESTONE, 3,
-                        AppContext.getMessage(MilestoneI18nEnum.LIST),
+                        UserUIContext.getMessage(MilestoneI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMilestonesLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
@@ -227,7 +227,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasTaskFeature()) {
                 myProjectTab.addTab(constructTaskDashboardComponent(),
-                        ProjectTypeConstants.TASK, 4, AppContext.getMessage(TaskI18nEnum.LIST),
+                        ProjectTypeConstants.TASK, 4, UserUIContext.getMessage(TaskI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTaskDashboardLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.TASK);
@@ -235,7 +235,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasBugFeature()) {
                 myProjectTab.addTab(constructProjectBugComponent(), ProjectTypeConstants.BUG, 5,
-                        AppContext.getMessage(BugI18nEnum.LIST),
+                        UserUIContext.getMessage(BugI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.BUG);
@@ -243,7 +243,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasPageFeature()) {
                 myProjectTab.addTab(constructProjectPageComponent(), ProjectTypeConstants.PAGE, 6,
-                        AppContext.getMessage(PageI18nEnum.LIST),
+                        UserUIContext.getMessage(PageI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.PAGE);
@@ -251,7 +251,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasFileFeature()) {
                 myProjectTab.addTab(constructProjectFileComponent(), ProjectTypeConstants.FILE, 7,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
+                        UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateFileDashboardLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.FILE);
@@ -259,7 +259,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasRiskFeature() && !SiteConfiguration.isCommunityEdition()) {
                 myProjectTab.addTab(constructProjectRiskComponent(), ProjectTypeConstants.RISK, 8,
-                        AppContext.getMessage(RiskI18nEnum.LIST),
+                        UserUIContext.getMessage(RiskI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateRisksLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.RISK);
@@ -267,14 +267,14 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if ((CurrentProjectVariables.hasTimeFeature() || CurrentProjectVariables.hasInvoiceFeature()) && !SiteConfiguration.isCommunityEdition()) {
                 myProjectTab.addTab(constructTimeTrackingComponent(), ProjectTypeConstants.FINANCE, 10,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FINANCE),
+                        UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FINANCE),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTimeReportLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.FINANCE);
             }
 
             myProjectTab.addTab(constructProjectUsers(), ProjectTypeConstants.MEMBER, 13,
-                    AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
                     GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateUsersLink(prjId));
 
             myProjectTab.addToggleNavigatorControl();
@@ -333,7 +333,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
     private static class AskToAddMoreMembersWindow extends Window {
         AskToAddMoreMembersWindow() {
-            super(AppContext.getMessage(GenericI18Enum.OPT_QUESTION));
+            super(UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION));
             this.setWidth("600px");
             this.setResizable(false);
             this.setModal(true);
@@ -341,17 +341,17 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             MVerticalLayout content = new MVerticalLayout();
             this.setContent(content);
 
-            content.with(new Label(AppContext.getMessage(ProjectI18nEnum.OPT_ASK_TO_ADD_MEMBERS)));
+            content.with(new Label(UserUIContext.getMessage(ProjectI18nEnum.OPT_ASK_TO_ADD_MEMBERS)));
 
-            MButton skipBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> {
+            MButton skipBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> {
                 ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
                 SimpleProject project = CurrentProjectVariables.getProject();
                 project.setContextask(false);
-                projectService.updateSelectiveWithSession(project, AppContext.getUsername());
+                projectService.updateSelectiveWithSession(project, UserUIContext.getUsername());
                 close();
             }).withStyleName(WebUIConstants.BUTTON_OPTION);
 
-            MButton addNewMembersBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.ACTION_ADD_MEMBERS), clickEvent -> {
+            MButton addNewMembersBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_ADD_MEMBERS), clickEvent -> {
                 close();
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
             }).withStyleName(WebUIConstants.BUTTON_ACTION);

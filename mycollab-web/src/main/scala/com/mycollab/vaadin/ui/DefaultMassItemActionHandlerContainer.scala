@@ -18,10 +18,10 @@ package com.mycollab.vaadin.ui
 
 import java.io.InputStream
 
-import com.mycollab.vaadin.AppContext
 import com.mycollab.vaadin.events.{HasMassItemActionHandler, MassItemActionHandler, ViewItemAction}
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.reporting.ReportExportType
+import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.web.ui.WebUIConstants
 import com.vaadin.server.StreamResource.StreamSource
 import com.vaadin.server.{FileDownloader, FontAwesome, Resource, StreamResource}
@@ -65,31 +65,31 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
   }
 
   def addDeleteActionItem(): Unit = {
-    addActionItem(ViewItemAction.DELETE_ACTION, FontAwesome.TRASH_O, "delete", AppContext.getMessage(GenericI18Enum.BUTTON_DELETE))
+    addActionItem(ViewItemAction.DELETE_ACTION, FontAwesome.TRASH_O, "delete", UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE))
   }
 
   def addMailActionItem(): Unit = {
-    addActionItem(ViewItemAction.MAIL_ACTION, FontAwesome.ENVELOPE_O, "mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL))
+    addActionItem(ViewItemAction.MAIL_ACTION, FontAwesome.ENVELOPE_O, "mail", UserUIContext.getMessage(GenericI18Enum.BUTTON_MAIL))
   }
 
   def addMassUpdateActionItem(): Unit = {
     addActionItem(ViewItemAction.MASS_UPDATE_ACTION, FontAwesome.DATABASE, "update",
-      AppContext.getMessage(GenericI18Enum.TOOLTIP_MASS_UPDATE))
+      UserUIContext.getMessage(GenericI18Enum.TOOLTIP_MASS_UPDATE))
   }
 
   def addDownloadPdfActionItem(): Unit = {
     addDownloadActionItem(ReportExportType.PDF, FontAwesome.FILE_PDF_O,
-      "export", "export.pdf", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF))
+      "export", "export.pdf", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF))
   }
 
   def addDownloadExcelActionItem(): Unit = {
     addDownloadActionItem(ReportExportType.EXCEL, FontAwesome.FILE_EXCEL_O,
-      "export", "export.xlsx", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL))
+      "export", "export.xlsx", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL))
   }
 
   def addDownloadCsvActionItem(): Unit = {
     addDownloadActionItem(ReportExportType.CSV, FontAwesome.FILE_TEXT_O,
-      "export", "export.csv", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV))
+      "export", "export.csv", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV))
   }
 
   /**

@@ -22,13 +22,11 @@ import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -60,7 +58,7 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
     protected DefaultMassItemActionHandlerContainer createActionControls() {
         DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
-        if (AppContext.canAccess(RolePermissionCollections.CRM_ACCOUNT)) {
+        if (UserUIContext.canAccess(RolePermissionCollections.CRM_ACCOUNT)) {
             container.addDeleteActionItem();
         }
 
@@ -69,7 +67,7 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
         container.addDownloadExcelActionItem();
         container.addDownloadCsvActionItem();
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
             container.addMassUpdateActionItem();
         }
 
@@ -85,7 +83,7 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
         MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(clickEvent -> {
             AccountImportWindow accountImportWindow = new AccountImportWindow();
             UI.getCurrent().addWindow(accountImportWindow);
-        }).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
+        }).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         this.addExtraButton(importBtn);
     }
 

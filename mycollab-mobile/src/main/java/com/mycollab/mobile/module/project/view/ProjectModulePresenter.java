@@ -21,7 +21,8 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.MobileApplication;
 import com.mycollab.mobile.module.project.events.ProjectEvent;
 import com.mycollab.mobile.shell.ModuleHelper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
@@ -39,12 +40,12 @@ public class ProjectModulePresenter extends AbstractProjectPresenter<ProjectModu
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         ModuleHelper.setCurrentModule(view);
-        AppContext.updateLastModuleVisit(ModuleNameConstants.PRJ);
+        UserUIContext.updateLastModuleVisit(ModuleNameConstants.PRJ);
 
         String[] params = (String[]) data.getParams();
         if (params == null || params.length == 0) {
             EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
-            AppContext.addFragment("project", "Project");
+            MyCollabUI.addFragment("project", "Project");
         } else {
             MobileApplication.rootUrlResolver.getSubResolver("project").handle(params);
         }

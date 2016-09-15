@@ -23,7 +23,7 @@ import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
@@ -38,7 +38,7 @@ public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCrite
 
     public AccountListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(AccountI18nEnum.LIST));
+        setCaption(UserUIContext.getMessage(AccountI18nEnum.LIST));
     }
 
     @Override

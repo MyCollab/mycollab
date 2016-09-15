@@ -30,7 +30,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -56,14 +56,14 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
 
         String status = "";
         if (genericTask.isBug()) {
-            status = AppContext.getMessage(BugStatus.class, genericTask.getStatus());
+            status = UserUIContext.getMessage(BugStatus.class, genericTask.getStatus());
         } else if (genericTask.isMilestone()) {
-            status = AppContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
+            status = UserUIContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
         } else if (genericTask.isRisk()) {
-            status = AppContext.getMessage(StatusI18nEnum.class,
+            status = UserUIContext.getMessage(StatusI18nEnum.class,
                     genericTask.getStatus());
         } else if (genericTask.isTask()) {
-            status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
+            status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
         }
         issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebUIConstants.FIELD_NOTE));
 
@@ -91,8 +91,8 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
             taskLink.setCSSClass("completed");
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            issueDiv.appendChild(new Span().appendText(" - " + AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN,
-                    AppContext.formatDuration(genericTask.getDueDate()))).setCSSClass(UIConstants.META_INFO));
+            issueDiv.appendChild(new Span().appendText(" - " + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN,
+                    UserUIContext.formatDuration(genericTask.getDueDate()))).setCSSClass(UIConstants.META_INFO));
         }
 
         rowComp.with(ELabel.html(issueDiv.write()));

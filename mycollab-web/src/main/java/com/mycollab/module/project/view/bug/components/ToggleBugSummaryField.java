@@ -32,7 +32,7 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -80,7 +80,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withDescription(AppContext.getMessage(BugI18nEnum.OPT_EDIT_BUG_NAME))
+            }).withDescription(UserUIContext.getMessage(BugI18nEnum.OPT_EDIT_BUG_NAME))
                     .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(instantEditBtn);
             this.addComponent(buttonControls);
@@ -97,7 +97,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
             bug.setSummary(newValue);
             titleLinkLbl.setValue(buildBugLink());
             BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-            bugService.updateSelectiveWithSession(BeanUtility.deepClone(bug), AppContext.getUsername());
+            bugService.updateSelectiveWithSession(BeanUtility.deepClone(bug), UserUIContext.getUsername());
         }
 
         isRead = !isRead;
@@ -111,7 +111,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
         if (SimpleBug.isOverdue(bug)) {
             bugLink.setCSSClass("overdue");
             resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO)
-                    .appendText(" - " + AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(bug.getDuedate()))));
+                    .appendText(" - " + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(bug.getDuedate()))));
         } else if (SimpleBug.isCompleted(bug)) {
             bugLink.setCSSClass("completed");
         }

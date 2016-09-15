@@ -26,7 +26,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.mycollab.servlet.InstallUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -88,10 +88,10 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
 
         @Override
         public ComponentContainer getLayout() {
-            AddViewLayout formAddLayout = new AddViewLayout(AppContext.getMessage(ShellI18nEnum.OPT_SMTP_SETTING), FontAwesome.WRENCH);
+            AddViewLayout formAddLayout = new AddViewLayout(UserUIContext.getMessage(ShellI18nEnum.OPT_SMTP_SETTING), FontAwesome.WRENCH);
             FormContainer layout = new FormContainer();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION), informationLayout.getLayout());
+            layout.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION), informationLayout.getLayout());
 
             formAddLayout.addHeaderRight(createButtonControls());
             formAddLayout.addBody(layout);
@@ -99,11 +99,11 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
 
         private Layout createButtonControls() {
-            final MButton closeBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
+            final MButton closeBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
                     clickEvent -> EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this)))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-            final MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (editForm.validateForm()) {
                     try {
                         InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
@@ -111,10 +111,10 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                         saveEmailConfiguration();
                     } catch (UserInvalidInputException e) {
                         ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(ShellI18nEnum.OPT_INVALID_SMTP_ACCOUNT),
-                                AppContext.getMessage(ShellI18nEnum.OPT_CAN_NOT_ACCESS_SMTP_ACCOUNT, e.getMessage()),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                UserUIContext.getMessage(ShellI18nEnum.OPT_INVALID_SMTP_ACCOUNT),
+                                UserUIContext.getMessage(ShellI18nEnum.OPT_CAN_NOT_ACCESS_SMTP_ACCOUNT, e.getMessage()),
+                                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                                 confirmDialog -> {
                                     if (confirmDialog.isConfirmed()) {
                                         saveEmailConfiguration();
@@ -141,8 +141,8 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                     p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.getIsSsl());
                     p.setProperty(ApplicationProperties.MAIL_NOTIFY, emailConf.getUser());
                     p.save();
-                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                            AppContext.getMessage(ShellI18nEnum.OPT_SETUP_SMTP_SUCCESSFULLY));
+                    NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                            UserUIContext.getMessage(ShellI18nEnum.OPT_SETUP_SMTP_SUCCESSFULLY));
                 } catch (Exception e) {
                     LOG.error("Can not save email props", e);
                     throw new UserInvalidInputException("Can not save properties file successfully");
@@ -157,7 +157,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
             } else if (propertyId.equals("user")) {
                 return informationLayout.addComponent(field, "User Name", 0, 1);
             } else if (propertyId.equals("password")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 2);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 2);
             } else if (propertyId.equals("port")) {
                 return informationLayout.addComponent(field, "Port", 0, 3);
             } else if (propertyId.equals("isStartTls")) {

@@ -28,7 +28,7 @@ import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.events.TaskEvent;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -51,7 +51,7 @@ public class TaskAssigneeChartWidget extends PieChartWrapper<TaskSearchCriteria>
         if (!groupItems.isEmpty()) {
             for (GroupItem item : groupItems) {
                 String assignUser = (item.getGroupid() != null) ? item.getGroupid() : "";
-                String assignUserFullName = item.getGroupid() == null ? AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :
+                String assignUserFullName = item.getGroupid() == null ? UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :
                         item.getGroupname();
                 if (assignUserFullName == null || "".equals(assignUserFullName.trim())) {
                     assignUserFullName = StringUtils.extractNameFromEmail(assignUser);

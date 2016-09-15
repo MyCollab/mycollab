@@ -17,7 +17,7 @@
 package com.mycollab.module.user.ui.components;
 
 import com.mycollab.i18n.LocalizationHelper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
@@ -52,7 +52,7 @@ public class LanguageSelectionField extends CustomField<String> {
         for (Locale locale : supportedLanguage) {
             String language = locale.toLanguageTag();
             languageBox.addItem(language);
-            languageBox.setItemCaption(language, locale.getDisplayName(AppContext.getUserLocale()));
+            languageBox.setItemCaption(language, locale.getDisplayName(UserUIContext.getUserLocale()));
         }
         languageBox.addValueChangeListener(valueChangeEvent -> {
             String value = (String) valueChangeEvent.getProperty().getValue();

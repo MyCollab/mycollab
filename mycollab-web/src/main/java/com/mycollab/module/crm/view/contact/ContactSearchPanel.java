@@ -30,7 +30,8 @@ import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
 import com.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
@@ -61,15 +62,15 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return ComponentUtils.header(CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.LIST));
+        return ComponentUtils.header(CrmTypeConstants.CONTACT, UserUIContext.getMessage(ContactI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        return new MButton(AppContext.getMessage(ContactI18nEnum.NEW),
+        return new MButton(UserUIContext.getMessage(ContactI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT));
     }
 
     @Override
@@ -99,23 +100,23 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
         @Override
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+            this.myItemCheckbox = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                     .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            MButton advancedSearchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            MButton advancedSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     clickEvent -> moveToAdvancedSearchLayout()).withStyleName(WebUIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
@@ -124,13 +125,13 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
         @Override
         protected ContactSearchCriteria fillUpSearchCriteria() {
             ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             if (StringUtils.isNotBlank(nameField.getValue())) {
                 searchCriteria.setContactName(StringSearchField.and(nameField.getValue().trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
+                searchCriteria.setAssignUsers(new SetSearchField<>(UserUIContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
             }

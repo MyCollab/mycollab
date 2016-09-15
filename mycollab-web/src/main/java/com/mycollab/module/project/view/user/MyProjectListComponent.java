@@ -24,7 +24,7 @@ import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -61,7 +61,7 @@ public class MyProjectListComponent extends MVerticalLayout {
 
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                 .withStyleName(WebUIConstants.PANEL_HEADER);
-        titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
+        titleLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
         final MButton sortBtn = new MButton("").withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
@@ -103,21 +103,21 @@ public class MyProjectListComponent extends MVerticalLayout {
 
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
         int allProjectCount = projectService.getTotalCount(getAllProjectsSearchCriteria());
-        Button allProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount), clickEvent -> {
+        Button allProjectsBtn = new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount), clickEvent -> {
             displayAllProjects();
             projectsPopup.setPopupVisible(false);
         });
         filterBtnLayout.addOption(allProjectsBtn);
 
         int activeProjectsCount = projectService.getTotalCount(getActiveProjectsSearchCriteria());
-        Button activeProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS, activeProjectsCount), clickEvent -> {
+        Button activeProjectsBtn = new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS, activeProjectsCount), clickEvent -> {
             displayActiveProjects();
             projectsPopup.setPopupVisible(false);
         });
         filterBtnLayout.addOption(activeProjectsBtn);
 
         int archiveProjectsCount = projectService.getTotalCount(getArchivedProjectsSearchCriteria());
-        Button archiveProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS, archiveProjectsCount), clickEvent -> {
+        Button archiveProjectsBtn = new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS, archiveProjectsCount), clickEvent -> {
             displayArchiveProjects();
             projectsPopup.setPopupVisible(false);
         });
@@ -136,14 +136,14 @@ public class MyProjectListComponent extends MVerticalLayout {
 
     private ProjectSearchCriteria getAllProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
+        prjSearchCriteria.setInvolvedMember(StringSearchField.and(UserUIContext.getUsername()));
         prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
 
     private ProjectSearchCriteria getActiveProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
+        prjSearchCriteria.setInvolvedMember(StringSearchField.and(UserUIContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
@@ -151,7 +151,7 @@ public class MyProjectListComponent extends MVerticalLayout {
 
     private ProjectSearchCriteria getArchivedProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
+        prjSearchCriteria.setInvolvedMember(StringSearchField.and(UserUIContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Archived.name()));
         prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
@@ -160,7 +160,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     private void displayResults() {
         projectList.setSearchCriteria(searchCriteria);
         int totalCount = projectList.getTotalCount();
-        titleLbl.setValue(AppContext.getMessage(currentTitleMsg, totalCount));
+        titleLbl.setValue(UserUIContext.getMessage(currentTitleMsg, totalCount));
     }
 
     private void displayAllProjects() {

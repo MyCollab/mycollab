@@ -18,7 +18,7 @@ package com.mycollab.module.user.accountsettings.customize.view;
 
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -50,11 +50,11 @@ public class AccountSettingContainer extends AbstractPageView {
 
     private void buildComponents() {
         generalSettingPresenter = PresenterResolver.getPresenter(GeneralSettingPresenter.class);
-        settingTab.addTab(generalSettingPresenter.getView(), AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
+        settingTab.addTab(generalSettingPresenter.getView(), UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
 
         if (!SiteConfiguration.isCommunityEdition()) {
             themeCustomizePresenter = PresenterResolver.getPresenter(IThemeCustomizePresenter.class);
-            settingTab.addTab(this.themeCustomizePresenter.getView(), AppContext.getMessage(AdminI18nEnum.OPT_THEME));
+            settingTab.addTab(this.themeCustomizePresenter.getView(), UserUIContext.getMessage(AdminI18nEnum.OPT_THEME));
         }
 
         settingTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
@@ -64,11 +64,11 @@ public class AccountSettingContainer extends AbstractPageView {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 TabSheet.Tab tab = ((TabSheetDecorator) event.getTabSheet()).getSelectedTabInfo();
                 String caption = tab.getCaption();
-                if (AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS).equals(caption)
-                        && !AppContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS).equals(selectedTabId)) {
+                if (UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS).equals(caption)
+                        && !UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS).equals(selectedTabId)) {
                     generalSettingPresenter.go(AccountSettingContainer.this, null);
-                } else if (AppContext.getMessage(AdminI18nEnum.OPT_THEME).equals(caption)
-                        && !AppContext.getMessage(AdminI18nEnum.OPT_THEME).equals(selectedTabId)) {
+                } else if (UserUIContext.getMessage(AdminI18nEnum.OPT_THEME).equals(caption)
+                        && !UserUIContext.getMessage(AdminI18nEnum.OPT_THEME).equals(selectedTabId)) {
                     themeCustomizePresenter.go(AccountSettingContainer.this, null);
                 }
                 selectedTabId = "";

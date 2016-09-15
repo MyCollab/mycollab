@@ -20,7 +20,7 @@ import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.Property;
@@ -57,7 +57,7 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
 
     private void setCampaignByVal(Integer campaignId) {
         CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-        SimpleCampaign campaign = campaignService.findById(campaignId, AppContext.getAccountId());
+        SimpleCampaign campaign = campaignService.findById(campaignId, MyCollabUI.getAccountId());
         if (campaign != null) {
             setInternalCampaign(campaign);
         }

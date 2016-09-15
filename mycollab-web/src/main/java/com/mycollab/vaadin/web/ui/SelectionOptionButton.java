@@ -17,14 +17,13 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.events.SelectionOptionHandler;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -71,12 +70,12 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
         addPopupVisibilityListener(event -> {
             if (event.isPopupVisible()) {
-                selectAllBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_ALL_VALUE, selectableItemHandlers.totalItemsCount()));
-                selectThisPageBtn.setCaption(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_PAGE_VALUE, selectableItemHandlers.currentViewCount()));
+                selectAllBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_ALL_VALUE, selectableItemHandlers.totalItemsCount()));
+                selectThisPageBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_PAGE_VALUE, selectableItemHandlers.currentViewCount()));
             }
         });
 
-        Button deSelectBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_DESELECT_ALL), clickEvent -> {
+        Button deSelectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_DESELECT_ALL), clickEvent -> {
             isSelectAll = false;
             setIcon(FontAwesome.SQUARE_O);
             fireDeselect();

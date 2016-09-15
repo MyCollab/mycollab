@@ -18,7 +18,7 @@ package com.mycollab.mobile.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.mobile.MobileApplication;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
@@ -42,7 +42,7 @@ public abstract class AbstractMobileMenuPageView extends SlideMenuView implement
     public AbstractMobileMenuPageView() {
         super();
         if (this.getLeftComponent() != null && this.getLeftComponent() instanceof NavigationButton) {
-            this.getLeftComponent().setCaption(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+            this.getLeftComponent().setCaption(UserUIContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
         }
 
         buildNavigateMenu();

@@ -146,7 +146,7 @@
 
     <sql id="selectTask">
         <![CDATA[
-          SELECT m_prj_task.id, m_prj_task.taskname, m_prj_task.percentagecomplete, m_prj_task.startdate, m_prj_task.enddate, m_prj_task.priority, 
+            SELECT m_prj_task.id, m_prj_task.taskname, m_prj_task.percentagecomplete, m_prj_task.startdate, m_prj_task.enddate, m_prj_task.priority,
                  m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectId, m_prj_task.deadline, m_prj_task.notes, m_prj_task.taskindex,
                  m_prj_task.originalEstimate, m_prj_task.remainEstimate,
                  m_prj_task.milestoneId, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
@@ -169,7 +169,7 @@
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_task.projectId
                      AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
                  (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = m_prj_task.id AND m_monitor_item.type = 'Project-Task') AS numFollowers
-          FROM m_prj_task
+            FROM m_prj_task
               LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
               LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)
               LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)

@@ -18,7 +18,7 @@ package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
@@ -71,16 +71,16 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
             FormContainer layout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(6, 2);
-            layout.addSection(AppContext.getMessage(RoleI18nEnum.SECTION_INFORMATION), informationLayout.getLayout());
+            layout.addSection(UserUIContext.getMessage(RoleI18nEnum.SECTION_INFORMATION), informationLayout.getLayout());
             return layout;
         }
 
         @Override
         protected Component onAttachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("rolename")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
             } else if (propertyId.equals("description")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
             }
             return null;
         }

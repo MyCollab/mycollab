@@ -20,7 +20,7 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.LicenseI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -35,7 +35,7 @@ import org.vaadin.viritin.layouts.MWindow;
  */
 class AdWindow extends MWindow {
     AdWindow() {
-        super(AppContext.getMessage(LicenseI18nEnum.OPT_TRIAL_THE_PRO_EDITION));
+        super(UserUIContext.getMessage(LicenseI18nEnum.OPT_TRIAL_THE_PRO_EDITION));
         this.withModal(true).withResizable(false).withWidth("1000px");
         RestTemplate restTemplate = new RestTemplate();
         MVerticalLayout content = new MVerticalLayout();

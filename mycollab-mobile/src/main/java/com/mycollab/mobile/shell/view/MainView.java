@@ -21,7 +21,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.AbstractMobileMainView;
 import com.mycollab.mobile.ui.MobileUIConstants;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
@@ -55,14 +55,14 @@ public class MainView extends AbstractMobileMainView {
         welcomeTextWrapper.setHeight("15px");
         contentLayout.addComponent(welcomeTextWrapper);
 
-        Button crmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_CRM),
+        Button crmButton = new Button(UserUIContext.getMessage(GenericI18Enum.MODULE_CRM),
                 clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null)));
         crmButton.addStyleName(MobileUIConstants.BUTTON_ACTION);
         crmButton.setWidth("100%");
 
         contentLayout.addComponent(crmButton);
 
-        Button pmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
+        Button pmButton = new Button(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT),
                 clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null)));
         pmButton.setWidth("100%");
         pmButton.addStyleName(MobileUIConstants.BUTTON_ACTION);

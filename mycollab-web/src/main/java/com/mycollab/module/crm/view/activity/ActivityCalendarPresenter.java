@@ -19,7 +19,7 @@ package com.mycollab.module.crm.view.activity;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.module.crm.view.CrmModule;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
@@ -39,7 +39,7 @@ public class ActivityCalendarPresenter extends CrmGenericPresenter<ActivityCalen
         CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
         super.onGo(container, data);
 
-        AppContext.addFragment("crm/activity/calendar", "Calendar");
+        MyCollabUI.addFragment("crm/activity/calendar", "Calendar");
     }
 
 }

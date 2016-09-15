@@ -25,7 +25,7 @@ import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Inc.
@@ -35,7 +35,7 @@ public class OpportunityLeadSelectionView extends AbstractRelatedItemSelectionVi
     private static final long serialVersionUID = 10923261543446355L;
 
     public OpportunityLeadSelectionView(AbstractRelatedListView<SimpleLead, LeadSearchCriteria> relatedListView) {
-        super(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), relatedListView);
+        super(UserUIContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), relatedListView);
     }
 
     @Override

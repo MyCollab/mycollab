@@ -21,7 +21,7 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.persistence.service.ISearchableService;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -111,7 +111,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 
         try {
             if (CollectionUtils.isEmpty(currentListData) && isDisplayEmptyListText) {
-                Label noItemLbl = new Label(AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
+                Label noItemLbl = new Label(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
                 MVerticalLayout widgetFooter = new MVerticalLayout().withFullWidth();
                 widgetFooter.addStyleName("widget-footer");
                 widgetFooter.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER);

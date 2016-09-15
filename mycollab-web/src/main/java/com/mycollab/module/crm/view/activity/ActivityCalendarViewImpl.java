@@ -35,7 +35,8 @@ import com.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.mycollab.module.crm.view.activity.ActivityEventProvider.CrmEvent;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -91,7 +92,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         super();
 
         this.addStyleName("activityCalendar");
-        calendarActionBtn = new PopupButton(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE));
+        calendarActionBtn = new PopupButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CREATE));
         calendarActionBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
         initContent();
     }
@@ -125,12 +126,12 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         mainContent.addComponent(this.dateHdr);
         mainContent.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
 
-        toggleViewBtn = new PopupButton(AppContext.getMessage(DayI18nEnum.OPT_MONTHLY));
+        toggleViewBtn = new PopupButton(UserUIContext.getMessage(DayI18nEnum.OPT_MONTHLY));
         toggleViewBtn.setWidth("200px");
         toggleViewBtn.addStyleName("calendar-view-switcher");
         MVerticalLayout popupLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true)).withWidth("190px");
 
-        monthViewBtn = new Button(AppContext.getMessage(DayI18nEnum.OPT_MONTHLY), clickEvent -> {
+        monthViewBtn = new Button(UserUIContext.getMessage(DayI18nEnum.OPT_MONTHLY), clickEvent -> {
             toggleViewBtn.setPopupVisible(false);
             toggleViewBtn.setCaption(monthViewBtn.getCaption());
             calendarComponent.switchToMonthView(new Date(), true);
@@ -141,7 +142,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         monthViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(monthViewBtn);
 
-        weekViewBtn = new Button(AppContext.getMessage(DayI18nEnum.OPT_WEEKLY), clickEvent -> {
+        weekViewBtn = new Button(UserUIContext.getMessage(DayI18nEnum.OPT_WEEKLY), clickEvent -> {
             toggleViewBtn.setPopupVisible(false);
             toggleViewBtn.setCaption(weekViewBtn.getCaption());
             calendarComponent.switchToWeekView(new Date());
@@ -150,7 +151,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         weekViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
         popupLayout.addComponent(weekViewBtn);
 
-        dailyViewBtn = new Button(AppContext.getMessage(DayI18nEnum.OPT_DAILY), clickEvent -> {
+        dailyViewBtn = new Button(UserUIContext.getMessage(DayI18nEnum.OPT_DAILY), clickEvent -> {
             toggleViewBtn.setPopupVisible(false);
             toggleViewBtn.setCaption(dailyViewBtn.getCaption());
             Date currentDate = new Date();
@@ -194,16 +195,16 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             }
         };
 
-        MButton todoBtn = new MButton(AppContext.getMessage(TaskI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
-                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK)).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
+        MButton todoBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK)).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_TASK));
         actionBtnLayout.addOption(todoBtn);
 
-        MButton callBtn = new MButton(AppContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
-                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL)).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
+        MButton callBtn = new MButton(UserUIContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL)).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CALL));
         actionBtnLayout.addOption(callBtn);
 
-        MButton meetingBtn = new MButton(AppContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
-                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING)).withVisible(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
+        MButton meetingBtn = new MButton(UserUIContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING)).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_MEETING));
         actionBtnLayout.addOption(meetingBtn);
 
         calendarActionBtn.setContent(actionBtnLayout);
@@ -217,7 +218,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         Button activityListBtn = new Button("Activities", event -> {
             ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
         });
         activityListBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
@@ -240,7 +241,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         HorizontalLayout noteWapper = new HorizontalLayout();
         noteWapper.setHeight("30px");
-        Label noteLbl = new Label(AppContext.getMessage(GenericI18Enum.OPT_NOTE));
+        Label noteLbl = new Label(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE));
         noteWapper.addComponent(noteLbl);
         noteWapper.setComponentAlignment(noteLbl, Alignment.MIDDLE_CENTER);
         noteInfoLayout.addComponent(noteWapper);
@@ -295,13 +296,13 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         .get(GregorianCalendar.YEAR)));
 
                 cal.set(java.util.Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-                String firstDateOfWeek = AppContext.formatDate(cal.getTime());
+                String firstDateOfWeek = UserUIContext.formatDate(cal.getTime());
                 cal.add(java.util.Calendar.DATE, 6);
-                String endDateOfWeek = AppContext.formatDate(cal.getTime());
+                String endDateOfWeek = UserUIContext.formatDate(cal.getTime());
                 dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
                 break;
             case DAY:
-                dateHdr.setValue(AppContext.formatDate(date));
+                dateHdr.setValue(UserUIContext.formatDate(date));
                 break;
         }
     }
@@ -315,29 +316,29 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 datePicker.selectDate(selectedDate);
             }
             calendarComponent.switchCalendarByDatePicker(selectedDate);
-            datePicker.setLabelTime(AppContext.formatDate(selectedDate));
+            datePicker.setLabelTime(UserUIContext.formatDate(selectedDate));
             updateLabelCaption(selectedDate);
             // dateHdr.setPopupVisible(false);
         });
 
         this.datePicker.getBtnShowNextYear().addClickListener(event -> {
             datePicker.getStyleCalendar().showNextYear();
-            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+            datePicker.setLabelTime(UserUIContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
         });
 
         this.datePicker.getBtnShowNextMonth().addClickListener(event -> {
             datePicker.getStyleCalendar().showNextMonth();
-            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+            datePicker.setLabelTime(UserUIContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
         });
 
         this.datePicker.getBtnShowPreviousMonth().addClickListener(event -> {
             datePicker.getStyleCalendar().showPreviousMonth();
-            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+            datePicker.setLabelTime(UserUIContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
         });
 
         this.datePicker.getBtnShowPreviousYear().addClickListener(event -> {
             datePicker.getStyleCalendar().showPreviousYear();
-            datePicker.setLabelTime(AppContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
+            datePicker.setLabelTime(UserUIContext.formatDate(datePicker.getStyleCalendar().getShowingDate()));
         });
     }
 
@@ -418,14 +419,14 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         case WEEK:
                             calendar.add(java.util.Calendar.DATE, 7);
                             calendar.set(java.util.Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-                            String firstDateOfWeek = AppContext.formatDate(calendar.getTime());
+                            String firstDateOfWeek = UserUIContext.formatDate(calendar.getTime());
                             calendar.add(java.util.Calendar.DATE, 6);
-                            String endDateOfWeek = AppContext.formatDate(calendar.getTime());
+                            String endDateOfWeek = UserUIContext.formatDate(calendar.getTime());
                             dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
                             break;
                         case DAY:
                             calendar.add(java.util.Calendar.DATE, 1);
-                            dateHdr.setValue(AppContext.formatDate(calendar.getTime()));
+                            dateHdr.setValue(UserUIContext.formatDate(calendar.getTime()));
                             break;
                         case MONTH:
                             break;
@@ -444,14 +445,14 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         case WEEK:
                             calendar.add(java.util.Calendar.DATE, -7);
                             calendar.set(java.util.Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-                            String firstDateOfWeek = AppContext.formatDate(calendar.getTime());
+                            String firstDateOfWeek = UserUIContext.formatDate(calendar.getTime());
                             calendar.add(java.util.Calendar.DATE, 6);
-                            String endDateOfWeek = AppContext.formatDate(calendar.getTime());
+                            String endDateOfWeek = UserUIContext.formatDate(calendar.getTime());
                             dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
                             break;
                         case DAY:
                             calendar.add(java.util.Calendar.DATE, -1);
-                            dateHdr.setValue(AppContext.formatDate(calendar.getTime()));
+                            dateHdr.setValue(UserUIContext.formatDate(calendar.getTime()));
                             break;
                         case MONTH:
                             break;
@@ -464,7 +465,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
                 @Override
                 public void rangeSelect(RangeSelectEvent event) {
-                    if (AppContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
+                    if (UserUIContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
                         UI.getCurrent().addWindow(new QuickCreateEventWindow(event.getStart(), event.getEnd()));
                     }
                 }
@@ -480,8 +481,8 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     simpleMeeting.setStartdate(event.getNewStart());
                     simpleMeeting.setEnddate(event.getNewEnd());
                     MeetingService service = AppContextUtil.getSpringBean(MeetingService.class);
-                    service.updateWithSession(simpleMeeting, AppContext.getUsername());
-                    NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS), "Event: \""
+                    service.updateWithSession(simpleMeeting, UserUIContext.getUsername());
+                    NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_SUCCESS), "Event: \""
                             + simpleMeeting.getSubject()
                             + "\" has been updated!", Type.HUMANIZED_MESSAGE);
                     EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
@@ -512,8 +513,8 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         simpleMeeting.setEnddate(calendar.getTime());
 
                         MeetingService service = AppContextUtil.getSpringBean(MeetingService.class);
-                        service.updateWithSession(simpleMeeting, AppContext.getUsername());
-                        NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS),
+                        service.updateWithSession(simpleMeeting, UserUIContext.getUsername());
+                        NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_SUCCESS),
                                 "Event: \"" + simpleMeeting.getSubject()
                                         + "\" has been updated!", Type.HUMANIZED_MESSAGE);
                         EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
@@ -564,9 +565,9 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             handler.weekClick(new WeekClick(calendarComponent, week, cal.get(GregorianCalendar.YEAR)));
 
             cal.set(java.util.Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-            String firstDateOfWeek = AppContext.formatDate(cal.getTime());
+            String firstDateOfWeek = UserUIContext.formatDate(cal.getTime());
             cal.add(java.util.Calendar.DATE, 6);
-            String endDateOfWeek = AppContext.formatDate(cal.getTime());
+            String endDateOfWeek = UserUIContext.formatDate(cal.getTime());
             dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
         }
 
@@ -576,7 +577,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             DateClickHandler handler = (DateClickHandler) calendarComponent
                     .getHandler(DateClickEvent.EVENT_ID);
             handler.dateClick(new DateClickEvent(calendarComponent, date));
-            dateHdr.setValue(AppContext.formatDate(date));
+            dateHdr.setValue(UserUIContext.formatDate(date));
         }
 
         private void switchToMonthView(Date date, boolean isViewCurrentMonth) {
@@ -630,7 +631,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             this.setWidth("1220px");
 
             this.meeting = new MeetingWithBLOBs();
-            this.meeting.setSaccountid(AppContext.getAccountId());
+            this.meeting.setSaccountid(MyCollabUI.getAccountId());
             this.meeting.setStartdate(startDate);
             this.meeting.setEnddate(endDate);
 
@@ -657,20 +658,20 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                 private static final long serialVersionUID = 1L;
 
                 public FormLayoutFactory() {
-                    super(meeting.getId() == null ? AppContext.getMessage(MeetingI18nEnum.NEW) : meeting.getSubject());
+                    super(meeting.getId() == null ? UserUIContext.getMessage(MeetingI18nEnum.NEW) : meeting.getSubject());
                 }
 
                 private Layout createButtonControls() {
 
-                    MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), event -> {
+                    MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), event -> {
                         if (EditForm.this.validateForm()) {
                             MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
-                            meetingService.saveWithSession(meeting, AppContext.getUsername());
+                            meetingService.saveWithSession(meeting, UserUIContext.getUsername());
                             EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                             close();
                         }
                     }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
-                    MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), event -> close())
+                    MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), event -> close())
                             .withStyleName(WebUIConstants.BUTTON_OPTION);
                     return new MHorizontalLayout(saveBtn, cancelBtn).withStyleName("addNewControl");
                 }
@@ -701,7 +702,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                         if (isValidateForm) {
                             tf.setNullRepresentation("");
                             tf.setRequired(true);
-                            tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(MeetingI18nEnum.FORM_SUBJECT)));
+                            tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(MeetingI18nEnum.FORM_SUBJECT)));
                         }
 
                         return tf;

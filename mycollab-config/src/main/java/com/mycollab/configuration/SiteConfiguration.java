@@ -48,6 +48,7 @@ public class SiteConfiguration {
     private String siteName;
     private String serverAddress;
     private int serverPort;
+    private Locale defaultLocale;
     private EmailConfiguration emailConfiguration;
     private DatabaseConfiguration databaseConfiguration;
     private String cdnUrl;
@@ -77,6 +78,12 @@ public class SiteConfiguration {
         instance.siteName = ApplicationProperties.getString(SITE_NAME, "MyCollab");
         instance.serverAddress = ApplicationProperties.getString(SERVER_ADDRESS, "localhost");
         instance.serverPort = serverPort;
+        String propLocale = ApplicationProperties.getString(DEFAULT_LOCALE, "en_US");
+        try {
+            instance.defaultLocale = Locale.forLanguageTag(propLocale);
+        } catch (Exception e) {
+            instance.defaultLocale = Locale.US;
+        }
 
         String pullMethodValue = ApplicationProperties.getString(ApplicationProperties.PULL_METHOD, "push");
         instance.pullMethod = PullMethod.valueOf(pullMethodValue);
@@ -225,6 +232,10 @@ public class SiteConfiguration {
     public static boolean isCommunityEdition() {
         IDeploymentMode modeService = AppContextUtil.getSpringBean(IDeploymentMode.class);
         return modeService.isCommunityEdition();
+    }
+
+    public static Locale getDefaultLocale() {
+        return instance.defaultLocale;
     }
 
     public static String getApiUrl(String path) {

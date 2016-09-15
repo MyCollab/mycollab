@@ -22,7 +22,8 @@ import com.mycollab.core.utils.ColorUtils;
 import com.mycollab.module.user.domain.AccountTheme;
 import com.mycollab.module.user.service.AccountThemeService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.Page;
 
 /**
@@ -35,9 +36,9 @@ public class ThemeManager {
         AccountTheme accountTheme = themeService.findTheme(sAccountId);
 
         if (accountTheme == null) {
-            accountTheme = themeService.findDefaultTheme(AppContext.getAccountId());
+            accountTheme = themeService.findDefaultTheme(MyCollabUI.getAccountId());
             if (accountTheme == null) {
-                throw new UserInvalidInputException(AppContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
+                throw new UserInvalidInputException(UserUIContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
             }
         }
 
@@ -134,9 +135,9 @@ public class ThemeManager {
         AccountTheme accountTheme = themeService.findTheme(sAccountId);
 
         if (accountTheme == null) {
-            accountTheme = themeService.findDefaultTheme(AppContext.getAccountId());
+            accountTheme = themeService.findDefaultTheme(MyCollabUI.getAccountId());
             if (accountTheme == null) {
-                throw new UserInvalidInputException(AppContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
+                throw new UserInvalidInputException(UserUIContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
             }
         }
 

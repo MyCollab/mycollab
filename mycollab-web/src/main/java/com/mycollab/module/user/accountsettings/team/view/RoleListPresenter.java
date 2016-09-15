@@ -26,7 +26,8 @@ import com.mycollab.module.user.service.RoleService;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -71,7 +72,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(RoleI18nEnum.LIST);
+                return UserUIContext.getMessage(RoleI18nEnum.LIST);
             }
 
             @Override
@@ -89,7 +90,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
             for (SimpleRole item : currentDataList) {
                 if (item.isSelected()) {
                     if (Boolean.TRUE.equals(item.getIssystemrole())) {
-                        NotificationUtil.showErrorNotification(AppContext.getMessage(RoleI18nEnum.ERROR_CAN_NOT_DELETE_SYSTEM_ROLE,
+                        NotificationUtil.showErrorNotification(UserUIContext.getMessage(RoleI18nEnum.ERROR_CAN_NOT_DELETE_SYSTEM_ROLE,
                                 item.getRolename()));
                     } else {
                         keyList.add(item);
@@ -98,18 +99,18 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
             }
 
             if (keyList.size() > 0) {
-                roleService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                roleService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {
-            roleService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            roleService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
+        if (UserUIContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleContainer roleContainer = (RoleContainer) container;
             roleContainer.removeAllComponents();
             roleContainer.addComponent(view);

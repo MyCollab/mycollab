@@ -53,30 +53,30 @@ public class DefaultMailer implements IMailer {
             email.setSSLOnConnect(emailConf.getIsSsl());
             email.setFrom(fromEmail, fromName);
             email.setCharset(EmailConstants.UTF_8);
-            for (int i = 0; i < toEmail.size(); i++) {
-                if (isValidate(toEmail.get(i).getEmail()) && isValidate(toEmail.get(i).getName())) {
-                    email.addTo(toEmail.get(i).getEmail(), toEmail.get(i).getName());
+            for (MailRecipientField aToEmail : toEmail) {
+                if (isValidate(aToEmail.getEmail()) && isValidate(aToEmail.getName())) {
+                    email.addTo(aToEmail.getEmail(), aToEmail.getName());
                 } else {
-                    LOG.error(String.format("Invalid to email input: %s---%s", toEmail.get(i).getEmail(), toEmail.get(i).getName()));
+                    LOG.error(String.format("Invalid to email input: %s---%s", aToEmail.getEmail(), aToEmail.getName()));
                 }
             }
 
             if (CollectionUtils.isNotEmpty(ccEmail)) {
-                for (int i = 0; i < ccEmail.size(); i++) {
-                    if (isValidate(ccEmail.get(i).getEmail()) && isValidate(ccEmail.get(i).getName())) {
-                        email.addCc(ccEmail.get(i).getEmail(), ccEmail.get(i).getName());
+                for (MailRecipientField aCcEmail : ccEmail) {
+                    if (isValidate(aCcEmail.getEmail()) && isValidate(aCcEmail.getName())) {
+                        email.addCc(aCcEmail.getEmail(), aCcEmail.getName());
                     } else {
-                        LOG.error(String.format("Invalid cc email input: %s---%s", ccEmail.get(i).getEmail(), ccEmail.get(i).getName()));
+                        LOG.error(String.format("Invalid cc email input: %s---%s", aCcEmail.getEmail(), aCcEmail.getName()));
                     }
                 }
             }
 
             if (CollectionUtils.isNotEmpty(bccEmail)) {
-                for (int i = 0; i < bccEmail.size(); i++) {
-                    if (isValidate(bccEmail.get(i).getEmail()) && isValidate(bccEmail.get(i).getName())) {
-                        email.addBcc(bccEmail.get(i).getEmail(), bccEmail.get(i).getName());
+                for (MailRecipientField aBccEmail : bccEmail) {
+                    if (isValidate(aBccEmail.getEmail()) && isValidate(aBccEmail.getName())) {
+                        email.addBcc(aBccEmail.getEmail(), aBccEmail.getName());
                     } else {
-                        LOG.error(String.format("Invalid bcc email input: %s---%s", bccEmail.get(i).getEmail(), bccEmail.get(i).getName()));
+                        LOG.error(String.format("Invalid bcc email input: %s---%s", aBccEmail.getEmail(), aBccEmail.getName()));
                     }
                 }
             }

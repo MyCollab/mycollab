@@ -26,7 +26,7 @@ import com.mycollab.core.utils.ExceptionUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.user.events.UserEvent;
 import com.mycollab.shell.events.ShellEvent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
@@ -73,21 +73,21 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             passwordField.addValidator(passwordValidator);
             custom.addComponent(passwordField, "passwordField");
 
-            rememberMe = new CheckBox(AppContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
+            rememberMe = new CheckBox(UserUIContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
             custom.addComponent(rememberMe, "rememberMe");
 
             loginBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
             loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             custom.addComponent(loginBtn, "loginButton");
 
-            MButton forgotPasswordBtn = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
+            MButton forgotPasswordBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null)))
                     .withStyleName(WebUIConstants.BUTTON_LINK);
             custom.addComponent(forgotPasswordBtn, "forgotLink");
 
-            custom.addComponent(ELabel.html(AppContext.getMessage(ShellI18nEnum.OPT_SIGNIN_MYCOLLAB)), "newToUs");
+            custom.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SIGNIN_MYCOLLAB)), "newToUs");
             custom.addComponent(ELabel.html(new A("https://www.mycollab.com/pricing/", "_blank").appendText
-                    (AppContext.getMessage(ShellI18nEnum.ACTION_CREATE_ACCOUNT)).write())
+                    (UserUIContext.getMessage(ShellI18nEnum.ACTION_CREATE_ACCOUNT)).write())
                     .withWidthUndefined(), "createAccountLink");
 
             return custom;
@@ -95,12 +95,12 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
         @Override
         protected String getUserNameFieldCaption() {
-            return AppContext.getMessage(GenericI18Enum.FORM_EMAIL);
+            return UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL);
         }
 
         @Override
         protected String getPasswordFieldCaption() {
-            return AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD);
+            return UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD);
         }
 
         // You can also override this method to handle the login directly, instead of using the event mechanism

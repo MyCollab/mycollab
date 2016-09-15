@@ -21,7 +21,7 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.FormContainer;
@@ -61,7 +61,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
         public ComponentContainer getLayout() {
             FormContainer formLayout = new FormContainer();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            formLayout.addSection(AppContext.getMessage(CaseI18nEnum.SECTION_CASE_INFORMATION), informationLayout.getLayout());
+            formLayout.addSection(UserUIContext.getMessage(CaseI18nEnum.SECTION_CASE_INFORMATION), informationLayout.getLayout());
             formLayout.addComponent(buildButtonControls());
             return formLayout;
         }
@@ -82,7 +82,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
             } else if (propertyId.equals("reason")) {
                 return informationLayout.addComponent(field, "Reason", 1, 2);
             } else if (propertyId.equals("assignuser")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 3, 2, "297px");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 3, 2, "297px");
             }
             return null;
         }

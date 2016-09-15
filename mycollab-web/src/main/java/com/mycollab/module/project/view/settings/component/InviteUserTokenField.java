@@ -23,7 +23,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.event.FieldEvents;
@@ -71,7 +71,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
 
         addComponent(suggestField);
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+        candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
         suggestField.addBlurListener(new FieldEvents.BlurListener() {
                                          @Override
                                          public void blur(FieldEvents.BlurEvent blurEvent) {

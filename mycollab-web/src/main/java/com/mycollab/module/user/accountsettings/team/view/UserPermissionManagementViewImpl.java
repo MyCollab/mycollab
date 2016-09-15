@@ -19,7 +19,7 @@ package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -48,10 +48,10 @@ public class UserPermissionManagementViewImpl extends AbstractPageView implement
 
     private void buildComponents() {
         userPresenter = PresenterResolver.getPresenter(UserPresenter.class);
-        groupTab.addTab(userPresenter.getView(), AppContext.getMessage(UserI18nEnum.LIST));
+        groupTab.addTab(userPresenter.getView(), UserUIContext.getMessage(UserI18nEnum.LIST));
 
         rolePresenter = PresenterResolver.getPresenter(RolePresenter.class);
-        groupTab.addTab(rolePresenter.getView(), AppContext.getMessage(RoleI18nEnum.LIST));
+        groupTab.addTab(rolePresenter.getView(), UserUIContext.getMessage(RoleI18nEnum.LIST));
 
         groupTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;
@@ -60,9 +60,9 @@ public class UserPermissionManagementViewImpl extends AbstractPageView implement
             public void selectedTabChange(SelectedTabChangeEvent event) {
                 Tab tab = ((TabSheetDecorator) event.getTabSheet()).getSelectedTabInfo();
                 String caption = tab.getCaption();
-                if (AppContext.getMessage(UserI18nEnum.LIST).equals(caption)) {
+                if (UserUIContext.getMessage(UserI18nEnum.LIST).equals(caption)) {
                     userPresenter.go(UserPermissionManagementViewImpl.this, null);
-                } else if (AppContext.getMessage(RoleI18nEnum.LIST).equals(caption)) {
+                } else if (UserUIContext.getMessage(RoleI18nEnum.LIST).equals(caption)) {
                     rolePresenter.go(UserPermissionManagementViewImpl.this, null);
                 }
             }

@@ -31,7 +31,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.PieChartWrapper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -54,7 +54,7 @@ public class TaskStatusChartWidget extends PieChartWrapper<TaskSearchCriteria> i
 
         OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
         List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
-                CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
         for (OptionVal optionVal : optionVals) {
             if (StatusI18nEnum.Closed.name().equals(optionVal.getTypeval())) {
                 continue;

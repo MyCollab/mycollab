@@ -41,7 +41,8 @@ import com.mycollab.module.project.view.settings.component.NotificationSettingWi
 import com.mycollab.module.project.view.user.ProjectActivityStreamPagedList;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -76,7 +77,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     private MHorizontalLayout bottomLayout;
 
     public ProjectMemberReadViewImpl() {
-        super(AppContext.getMessage(ProjectMemberI18nEnum.DETAIL), FontAwesome.USER);
+        super(UserUIContext.getMessage(ProjectMemberI18nEnum.DETAIL), FontAwesome.USER);
 
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
@@ -136,7 +137,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
         searchCriteria.setCreatedUser(StringSearchField.and(previewForm.getBean().getUsername()));
         searchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         activityStreamList.setSearchCriteria(searchCriteria);
     }
 
@@ -166,45 +167,45 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             MVerticalLayout memberInfo = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
 
             ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withWidthUndefined();
-            MButton editNotificationBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum
+            MButton editNotificationBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum
                     .ACTION_EDIT_NOTIFICATION), clickEvent -> UI.getCurrent().addWindow(new NotificationSettingWindow(beanItem)))
                     .withStyleName(WebUIConstants.BUTTON_LINK);
             memberInfo.addComponent(new MHorizontalLayout(memberLink, editNotificationBtn).alignAll(Alignment.MIDDLE_LEFT));
 
-            String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
+            String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", MyCollabUI.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                     ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid()));
             ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.META_INFO).withWidthUndefined();
             if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,
-                        AppContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY)));
+                        UserUIContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY)));
             } else {
                 memberRole.setValue(memberRoleLinkPrefix + "style=\"color:gray;font-size:12px;\">" + beanItem.getRoleName() + "</a>");
             }
             memberInfo.addComponent(memberRole);
 
-            if (Boolean.TRUE.equals(AppContext.showEmailPublicly())) {
+            if (Boolean.TRUE.equals(MyCollabUI.showEmailPublicly())) {
                 Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
                         beanItem.getUsername())).withStyleName(UIConstants.META_INFO).withFullWidth();
                 memberInfo.addComponent(memberEmailLabel);
             }
 
-            ELabel memberSinceLabel = ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext.formatPrettyTime(beanItem.getJoindate())))
-                    .withDescription(AppContext.formatDateTime(beanItem.getJoindate())).withFullWidth();
+            ELabel memberSinceLabel = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, UserUIContext.formatPrettyTime(beanItem.getJoindate())))
+                    .withDescription(UserUIContext.formatDateTime(beanItem.getJoindate())).withFullWidth();
             memberInfo.addComponent(memberSinceLabel);
 
             if (ProjectMemberStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
-                Label lastAccessTimeLbl = ELabel.html(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext.formatPrettyTime(beanItem.getLastAccessTime())))
-                        .withDescription(AppContext.formatDateTime(beanItem.getLastAccessTime()));
+                Label lastAccessTimeLbl = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, UserUIContext.formatPrettyTime(beanItem.getLastAccessTime())))
+                        .withDescription(UserUIContext.formatDateTime(beanItem.getLastAccessTime()));
                 memberInfo.addComponent(lastAccessTimeLbl);
             }
 
             String memberWorksInfo = String.format("%s %s  %s %s  %s %s  %s %s",
                     ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(),
-                    new Span().appendText("" + beanItem.getNumOpenTasks()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)), ProjectAssetsManager
+                    new Span().appendText("" + beanItem.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)), ProjectAssetsManager
                             .getAsset(ProjectTypeConstants.BUG).getHtml(), new Span().appendText("" + beanItem
-                            .getNumOpenBugs()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), FontAwesome.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
-                            beanItem.getTotalBillableLogTime())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime()
-                    )).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
+                            .getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), FontAwesome.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
+                            beanItem.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime()
+                    )).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
 
             Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
             memberInfo.addComponent(memberWorkStatus);
@@ -238,7 +239,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                     return new LinkViewField(attachForm.getBean().getRoleName(), ProjectLinkBuilder.generateRolePreviewFullLink(
                             attachForm.getBean().getProjectid(), attachForm.getBean().getProjectroleid()), null);
                 } else {
-                    return new DefaultViewField(AppContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY));
+                    return new DefaultViewField(UserUIContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY));
                 }
             } else if (propertyId.equals("username")) {
                 return new UserLinkViewField(attachForm.getBean().getUsername(),
@@ -255,10 +256,10 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
         UserAssignmentWidget() {
-            super(AppContext.getMessage(ProjectCommonI18nEnum.OPT_ASSIGNMENT_VALUE, 0), new CssLayout());
+            super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_ASSIGNMENT_VALUE, 0), new CssLayout());
             this.setWidth("400px");
 
-            final CheckBox overdueSelection = new CheckBox(AppContext.getMessage(StatusI18nEnum.Overdue));
+            final CheckBox overdueSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Overdue));
             overdueSelection.addValueChangeListener(valueChangeEvent -> {
                 boolean isOverdueOption = overdueSelection.getValue();
                 if (isOverdueOption) {
@@ -269,7 +270,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 updateSearchResult();
             });
 
-            final CheckBox isOpenSelection = new CheckBox(AppContext.getMessage(StatusI18nEnum.Open), true);
+            final CheckBox isOpenSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             isOpenSelection.addValueChangeListener(valueChangeEvent -> {
                 boolean isOpenOption = isOpenSelection.getValue();
                 if (isOpenOption) {
@@ -298,7 +299,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         private void updateSearchResult() {
             taskList.setSearchCriteria(searchCriteria);
-            setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_ASSIGNMENT_VALUE, taskList.getTotalCount()));
+            setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_ASSIGNMENT_VALUE, taskList.getTotalCount()));
         }
     }
 

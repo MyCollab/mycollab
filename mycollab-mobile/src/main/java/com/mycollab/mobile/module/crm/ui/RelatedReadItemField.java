@@ -20,7 +20,7 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.service.*;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
@@ -60,21 +60,21 @@ public class RelatedReadItemField extends CustomField {
 
             if ("Account".equals(type)) {
                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                final SimpleAccount account = accountService.findById(typeid, AppContext.getAccountId());
+                final SimpleAccount account = accountService.findById(typeid, MyCollabUI.getAccountId());
                 if (account != null) {
                     relateItemName = account.getAccountname();
                     relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/account.png"));
                 }
             } else if ("Campaign".equals(type)) {
                 CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                final SimpleCampaign campaign = campaignService.findById(typeid, AppContext.getAccountId());
+                final SimpleCampaign campaign = campaignService.findById(typeid, MyCollabUI.getAccountId());
                 if (campaign != null) {
                     relateItemName = campaign.getCampaignname();
                     relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/campaign.png"));
                 }
             } else if ("Contact".equals(type)) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                final SimpleContact contact = contactService.findById(typeid, AppContext.getAccountId());
+                final SimpleContact contact = contactService.findById(typeid, MyCollabUI.getAccountId());
                 if (contact != null) {
                     relateItemName = contact.getContactName();
                     relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/contact.png"));
@@ -82,14 +82,14 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if ("Lead".equals(type)) {
                 LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
-                final SimpleLead lead = leadService.findById(typeid, AppContext.getAccountId());
+                final SimpleLead lead = leadService.findById(typeid, MyCollabUI.getAccountId());
                 if (lead != null) {
                     relateItemName = lead.getLeadName();
                     relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/lead.png"));
                 }
             } else if ("Opportunity".equals(type)) {
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                final SimpleOpportunity opportunity = opportunityService.findById(typeid, AppContext.getAccountId());
+                final SimpleOpportunity opportunity = opportunityService.findById(typeid, MyCollabUI.getAccountId());
                 if (opportunity != null) {
                     relateItemName = opportunity.getOpportunityname();
                     relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/opportunity.png"));
@@ -97,7 +97,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if ("Case".equals(type)) {
                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                final SimpleCase cases = caseService.findById(typeid, AppContext.getAccountId());
+                final SimpleCase cases = caseService.findById(typeid, MyCollabUI.getAccountId());
                 if (cases != null) {
                     relateItemName = cases.getSubject();
                     relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/case.png"));

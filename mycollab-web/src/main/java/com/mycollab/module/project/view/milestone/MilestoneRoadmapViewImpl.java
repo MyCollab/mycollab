@@ -49,7 +49,8 @@ import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
@@ -118,21 +119,21 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         final MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Closed.name()));
         int totalCloseCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox closeMilestoneSelection = new CheckBox(AppContext.getMessage(MilestoneI18nEnum
+        final CheckBox closeMilestoneSelection = new CheckBox(UserUIContext.getMessage(MilestoneI18nEnum
                 .WIDGET_CLOSED_PHASE_TITLE) + " (" + totalCloseCount + ")", true);
         closeMilestoneSelection.setIcon(FontAwesome.MINUS_CIRCLE);
         filterPanel.addComponent(closeMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.InProgress.name()));
         int totalInProgressCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox inProgressMilestoneSelection = new CheckBox(AppContext.getMessage(MilestoneI18nEnum
+        final CheckBox inProgressMilestoneSelection = new CheckBox(UserUIContext.getMessage(MilestoneI18nEnum
                 .WIDGET_INPROGRESS_PHASE_TITLE) + " (" + totalInProgressCount + ")", true);
         inProgressMilestoneSelection.setIcon(FontAwesome.SPINNER);
         filterPanel.addComponent(inProgressMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Future.name()));
         int totalFutureCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox futureMilestoneSelection = new CheckBox(AppContext.getMessage(MilestoneI18nEnum
+        final CheckBox futureMilestoneSelection = new CheckBox(UserUIContext.getMessage(MilestoneI18nEnum
                 .WIDGET_FUTURE_PHASE_TITLE) + " (" + totalFutureCount + ")", true);
 
         closeMilestoneSelection.addValueChangeListener(valueChangeEvent ->
@@ -178,7 +179,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         }
 
         headerText.setValue(String.format("%s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml(),
-                AppContext.getMessage(MilestoneI18nEnum.OPT_ROADMAP_VALUE, milestones.size())));
+                UserUIContext.getMessage(MilestoneI18nEnum.OPT_ROADMAP_VALUE, milestones.size())));
     }
 
     private void initUI() {
@@ -196,9 +197,9 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     }
 
     private HorizontalLayout createHeaderRight() {
-        createBtn = new MButton(AppContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
+        createBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
             SimpleMilestone milestone = new SimpleMilestone();
-            milestone.setSaccountid(AppContext.getAccountId());
+            milestone.setSaccountid(MyCollabUI.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
         }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
@@ -212,14 +213,14 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                     }
                 }))
         ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
-                .withDescription(AppContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+                .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
-        MButton boardBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent ->
+        MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent ->
                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null))).withIcon(FontAwesome.SERVER);
 
-        MButton roadmapBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon(FontAwesome.NAVICON);
+        MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon(FontAwesome.NAVICON);
 
-        MButton kanbanBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
+        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneRoadmapViewImpl.this)))
                 .withIcon(FontAwesome.TH);
 
@@ -240,7 +241,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         MilestoneBlock(final SimpleMilestone milestone) {
             this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("roadmap-block");
 
-            ELabel statusLbl = new ELabel(AppContext.getMessage(MilestoneStatus.class, milestone.getStatus()))
+            ELabel statusLbl = new ELabel(UserUIContext.getMessage(MilestoneStatus.class, milestone.getStatus()))
                     .withStyleName(WebUIConstants.BLOCK).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
@@ -269,11 +270,11 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks() + milestone.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                                 * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
-                progressInfoLbl = new ELabel(AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
                         .withStyleName(UIConstants.META_INFO);
             }
 
@@ -283,12 +284,12 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             progressLayout.with(progressInfoLbl);
 
             if (totalAssignments > 0) {
-                final Button viewIssuesBtn = new Button(AppContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
+                final Button viewIssuesBtn = new Button(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
                 viewIssuesBtn.addClickListener(clickEvent -> {
                     showIssues = !showIssues;
                     if (showIssues) {
                         issueLayout.setVisible(true);
-                        viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_HIDE_ASSIGNMENTS));
+                        viewIssuesBtn.setCaption(UserUIContext.getMessage(ProjectI18nEnum.ACTION_HIDE_ASSIGNMENTS));
                         ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
                         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                         searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
@@ -303,13 +304,13 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
                             String status = "";
                             if (genericTask.isBug()) {
-                                status = AppContext.getMessage(BugStatus.class, genericTask.getStatus());
+                                status = UserUIContext.getMessage(BugStatus.class, genericTask.getStatus());
                             } else if (genericTask.isMilestone()) {
-                                status = AppContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
+                                status = UserUIContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
                             } else if (genericTask.isRisk()) {
-                                status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
+                                status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
                             } else if (genericTask.isTask()) {
-                                status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
+                                status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
                             }
                             rowComp.with(new ELabel(status).withStyleName(WebUIConstants.BLOCK).withWidthUndefined());
                             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
@@ -322,7 +323,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
                         }
                     } else {
-                        viewIssuesBtn.setCaption(AppContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
+                        viewIssuesBtn.setCaption(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
                         issueLayout.removeAllComponents();
                         issueLayout.setVisible(false);
                     }

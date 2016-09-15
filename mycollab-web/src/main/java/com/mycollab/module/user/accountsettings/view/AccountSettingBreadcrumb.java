@@ -29,7 +29,8 @@ import com.mycollab.module.user.domain.SimpleRole;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.events.RoleEvent;
 import com.mycollab.module.user.events.UserEvent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
@@ -57,83 +58,83 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
 
     public void gotoProfile() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.OPT_PROFILE)));
-        AppContext.addFragment("account/preview", AppContext.getMessage(UserI18nEnum.OPT_PROFILE));
+        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.OPT_PROFILE)));
+        MyCollabUI.addFragment("account/preview", UserUIContext.getMessage(UserI18nEnum.OPT_PROFILE));
     }
 
     public void gotoSetup() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETUP)));
-        AppContext.addFragment("account/setup", AppContext.getMessage(AdminI18nEnum.VIEW_SETUP));
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP)));
+        MyCollabUI.addFragment("account/setup", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP));
     }
 
     public void gotoBillingPage() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING)));
-        AppContext.addFragment("account/billing", AppContext.getMessage(AdminI18nEnum.VIEW_BILLING));
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING)));
+        MyCollabUI.addFragment("account/billing", UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING));
     }
 
     public void gotoBillingHistory() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING),
                 clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))));
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY)));
-        AppContext.addFragment("account/billing/history", AppContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY));
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY)));
+        MyCollabUI.addFragment("account/billing/history", UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY));
     }
 
     public void gotoCancelAccountPage() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING),
                 clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))));
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT)));
-        AppContext.addFragment("account/billing/cancel", AppContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT));
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT)));
+        MyCollabUI.addFragment("account/billing/cancel", UserUIContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT));
     }
 
     public void gotoUserList() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST)));
-        AppContext.addFragment("account/user/list", AppContext.getMessage(UserI18nEnum.LIST));
+        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST)));
+        MyCollabUI.addFragment("account/user/list", UserUIContext.getMessage(UserI18nEnum.LIST));
     }
 
     public void gotoUserRead(SimpleUser user) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
+        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
         this.addLink(generateBreadcrumbLink(user.getDisplayName()));
 
-        AppContext.addFragment("account/user/preview/" + UrlEncodeDecoder.encode(user.getUsername()),
-                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, AppContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
+        MyCollabUI.addFragment("account/user/preview/" + UrlEncodeDecoder.encode(user.getUsername()),
+                UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, UserUIContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
     }
 
     public void gotoUserAdd() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
+        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
         this.setLinkEnabled(true, 1);
-        this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        AppContext.addFragment("account/user/add", AppContext.getMessage(AdminI18nEnum.ACTION_INVITE_NEW_USER));
+        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        MyCollabUI.addFragment("account/user/add", UserUIContext.getMessage(AdminI18nEnum.ACTION_INVITE_NEW_USER));
     }
 
     public void gotoUserEdit(final SimpleUser user) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
+        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(user.getDisplayName(),
                 clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoRead(this, user.getUsername()))));
         this.setLinkEnabled(true, 2);
-        this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        AppContext.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()),
-                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, AppContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
+        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        MyCollabUI.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()),
+                UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, UserUIContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
     }
 
     public void gotoGeneralSetting() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
-        AppContext.addFragment("account/setting/general", AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
+        MyCollabUI.addFragment("account/setting/general", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
     }
 
     public void gotoMakeTheme() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
-        AppContext.addFragment("account/setting/theme", AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
+        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
+        MyCollabUI.addFragment("account/setting/theme", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
     }
 
     private static class GotoUserListListener implements Button.ClickListener {
@@ -147,37 +148,37 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
 
     public void gotoRoleList() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST)));
-        AppContext.addFragment("account/role/list", AppContext.getMessage(RoleI18nEnum.LIST));
+        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST)));
+        MyCollabUI.addFragment("account/role/list", UserUIContext.getMessage(RoleI18nEnum.LIST));
     }
 
     public void gotoRoleAdd() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
+        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
         this.setLinkEnabled(true, 1);
-        this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        AppContext.addFragment("account/role/add", AppContext.getMessage(RoleI18nEnum.NEW));
+        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        MyCollabUI.addFragment("account/role/add", UserUIContext.getMessage(RoleI18nEnum.NEW));
     }
 
     public void gotoRoleRead(SimpleRole role) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
+        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(role.getRolename()));
-        AppContext.addFragment("account/role/preview/" + UrlEncodeDecoder.encode(role.getId()),
-                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, AppContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
+        MyCollabUI.addFragment("account/role/preview/" + UrlEncodeDecoder.encode(role.getId()),
+                UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, UserUIContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     public void gotoRoleEdit(final Role role) {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
+        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(role.getRolename(),
                 clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoRead(this, role.getId()))));
         this.setLinkEnabled(true, 2);
-        this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        AppContext.addFragment("account/role/edit/" + UrlEncodeDecoder.encode(role.getId()),
-                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, AppContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
+        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        MyCollabUI.addFragment("account/role/edit/" + UrlEncodeDecoder.encode(role.getId()),
+                UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, UserUIContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     private static class GotoRoleListListener implements Button.ClickListener {

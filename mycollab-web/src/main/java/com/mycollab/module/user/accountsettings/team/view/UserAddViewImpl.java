@@ -37,7 +37,8 @@ import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -134,7 +135,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
             @Override
             public ComponentContainer getLayout() {
-                String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
+                String title = (user.getUsername() == null) ? UserUIContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
                 wrappedLayoutFactory = buildFormLayout();
@@ -146,7 +147,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
             private Layout createBottomPanel() {
                 MVerticalLayout bottomPanel = new MVerticalLayout().withMargin(false);
-                Button moreInfoBtn = new MButton(AppContext.getMessage(UserI18nEnum.ACTION_MORE_INFORMATION), event -> {
+                Button moreInfoBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.ACTION_MORE_INFORMATION), event -> {
                     editUserForm.displayAdvancedForm(user);
                     setFormBuffered(true);
                 }).withStyleName(WebUIConstants.BUTTON_LINK);
@@ -217,20 +218,20 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
             @Override
             public ComponentContainer getLayout() {
-                String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
+                String title = (user.getUsername() == null) ? UserUIContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
                 formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));
                 FormContainer formContainer = new FormContainer();
                 basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
-                formContainer.addSection(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION),
+                formContainer.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION),
                         basicInformationLayout.getLayout());
 
                 contactInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
-                formContainer.addSection(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION),
+                formContainer.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION),
                         contactInformationLayout.getLayout());
 
                 advancedInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
-                formContainer.addSection(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION),
+                formContainer.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION),
                         advancedInformationLayout.getLayout());
                 formAddLayout.addBody(formContainer);
                 rolePermissionLayout = new RolePermissionContainer();
@@ -245,33 +246,33 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("firstname")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
                 } else if (propertyId.equals("lastname")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
                 } else if (propertyId.equals("nickname")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_NICK_NAME), 1, 0);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_NICK_NAME), 1, 0);
                 } else if (propertyId.equals("dateofbirth")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 1, 1);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 1, 1);
                 } else if (propertyId.equals("email")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
                 } else if (propertyId.equals("roleid")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 2);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 2);
                 } else if (propertyId.equals("timezone")) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
                 } else if (User.Field.password.equalTo(propertyId) && (user.getUsername() == null)) {
-                    return basicInformationLayout.addComponent(field, AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD),
-                            AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD_HELP), 1, 3);
+                    return basicInformationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD),
+                            UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD_HELP), 1, 3);
                 } else if (propertyId.equals("company")) {
-                    return advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 0);
+                    return advancedInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 0);
                 } else if (propertyId.equals("country")) {
-                    return advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY),
+                    return advancedInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COUNTRY),
                             0, 1, 2, "100%");
                 } else if (propertyId.equals("website")) {
-                    return advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 1, 0);
+                    return advancedInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 1, 0);
                 } else if (propertyId.equals("workphone")) {
-                    return contactInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+                    return contactInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
                 } else if (propertyId.equals("homephone")) {
-                    return contactInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+                    return contactInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
                 } else if (propertyId.equals("facebookaccount")) {
                     return contactInformationLayout.addComponent(field, "Facebook", 1, 0);
                 } else if (propertyId.equals("twitteraccount")) {
@@ -349,11 +350,11 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         public void commit() throws SourceException, InvalidValueException {
             Integer roleId = (Integer) roleBox.getValue();
             if (roleId == -1) {
-                if (!AppContext.isAdmin()) {
-                    throw new UserInvalidInputException(AppContext.getMessage(RoleI18nEnum.ERROR_ONLY_OWNER_CAN_ASSIGN_OWNER_ROLE));
+                if (!UserUIContext.isAdmin()) {
+                    throw new UserInvalidInputException(UserUIContext.getMessage(RoleI18nEnum.ERROR_ONLY_OWNER_CAN_ASSIGN_OWNER_ROLE));
                 } else {
                     user.setIsAccountOwner(Boolean.TRUE);
-                    user.setRoleName(AppContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
+                    user.setRoleName(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
                 }
             } else {
                 user.setIsAccountOwner(Boolean.FALSE);
@@ -382,7 +383,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
         RolePermissionContainer() {
             this.setMargin(new MarginInfo(true, false, false, false));
-            this.addComponent(ELabel.h2(AppContext.getMessage(RolePermissionI18nEnum.LIST)));
+            this.addComponent(ELabel.h2(UserUIContext.getMessage(RolePermissionI18nEnum.LIST)));
             permissionLayout = new VerticalLayout();
             this.addComponent(permissionLayout);
         }
@@ -392,7 +393,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             PermissionMap permissionMap = null;
             if (roleId != null && roleId > 0) {
                 RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-                SimpleRole role = roleService.findById(roleId, AppContext.getAccountId());
+                SimpleRole role = roleService.findById(roleId, MyCollabUI.getAccountId());
                 if (role != null) {
                     permissionMap = role.getPermissionMap();
                 }
@@ -401,16 +402,16 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             }
 
             if (permissionMap != null) {
-                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+                permissionLayout.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
                         permissionMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
 
-                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
+                permissionLayout.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
                         permissionMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
 
-                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
+                permissionLayout.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
                         permissionMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
 
-                permissionLayout.addComponent(constructPermissionSectionView(AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                permissionLayout.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
                         permissionMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
             }
         }
@@ -424,8 +425,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 PermissionDefItem permissionDefItem = defItems.get(i);
                 Integer flag = permissionMap.getPermissionFlag(permissionDefItem.getKey());
                 SecurityI18nEnum permissionVal = PermissionFlag.toVal(flag);
-                formHelper.addComponent(new Label(AppContext.getMessage(permissionVal)), AppContext.getMessage(permissionDefItem.getCaption()),
-                        AppContext.getMessage(permissionVal.desc()), i % 2, i / 2);
+                formHelper.addComponent(new Label(UserUIContext.getMessage(permissionVal)), UserUIContext.getMessage(permissionDefItem.getCaption()),
+                        UserUIContext.getMessage(permissionVal.desc()), i % 2, i / 2);
             }
             permissionsPanel.addSection(depotTitle, formHelper.getLayout());
             return permissionsPanel;

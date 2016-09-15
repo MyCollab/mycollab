@@ -38,7 +38,8 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.IEditFormHandler;
@@ -156,14 +157,14 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             timePostLbl.setStyleName(UIConstants.META_INFO);
 
             MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                            messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
+                            messageService.removeWithSession(message, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                             messageList.setSearchCriteria(searchCriteria);
                         }
                     })).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
@@ -191,7 +192,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             }
             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils
-                    .getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                    .getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
                             message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentNotification = new HorizontalLayout();
@@ -229,10 +230,10 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         }
 
         private void createBasicSearchLayout() {
-            nameField = new MTextField().withInputPrompt(AppContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
 
-            MButton searchBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch())
+            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch())
                     .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             final MHorizontalLayout basicSearchBody = new MHorizontalLayout(nameField, searchBtn).withWidthUndefined()
@@ -274,10 +275,10 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             ckEditorTextField.setHeight("200px");
 
             MHorizontalLayout titleLayout = new MHorizontalLayout().withFullWidth();
-            Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
+            Label titleLbl = new Label(UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE));
             final TextField titleField = new MTextField().withFullWidth().withNullRepresentation("").withRequired(true)
-                    .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                            AppContext.getMessage(MessageI18nEnum.FORM_TITLE)));
+                    .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                            UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
 
             titleLayout.with(titleLbl, titleField).expand(titleField);
 
@@ -285,32 +286,32 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);
 
             final AttachmentPanel attachments = new AttachmentPanel();
-            final CheckBox chkIsStick = new CheckBox(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
+            final CheckBox chkIsStick = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
 
-            MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                     clickEvent -> MessageListViewImpl.this.setCriteria(searchCriteria))
                     .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-            MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
+            MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
                 Message message = new Message();
                 message.setProjectid(CurrentProjectVariables.getProjectId());
                 message.setPosteddate(new GregorianCalendar().getTime());
                 if (!titleField.getValue().trim().equals("")) {
                     message.setTitle(titleField.getValue());
                     message.setMessage(ckEditorTextField.getValue());
-                    message.setPosteduser(AppContext.getUsername());
-                    message.setSaccountid(AppContext.getAccountId());
+                    message.setPosteduser(UserUIContext.getUsername());
+                    message.setSaccountid(MyCollabUI.getAccountId());
                     message.setIsstick(chkIsStick.getValue());
                     MessageListViewImpl.this.fireSaveItem(message);
 
                     String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                            AppContext.getAccountId(), message.getProjectid(),
+                            MyCollabUI.getAccountId(), message.getProjectid(),
                             ProjectTypeConstants.MESSAGE, "" + message.getId());
                     attachments.saveContentsToRepo(attachmentPath);
                 } else {
                     titleField.addStyleName("errorField");
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                            AppContext.getMessage(MessageI18nEnum.FORM_TITLE)));
+                    NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                            UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
                 }
             }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
 
@@ -326,7 +327,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             messagePanelBody.addComponent(messageSearchPanel);
 
             if (!isEmpty) {
-                MButton createMessageBtn = new MButton(AppContext.getMessage(MessageI18nEnum.NEW),
+                MButton createMessageBtn = new MButton(UserUIContext.getMessage(MessageI18nEnum.NEW),
                         clickEvent -> createAddMessageLayout())
                         .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                         .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
@@ -357,17 +358,17 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
         @Override
         protected String viewTitle() {
-            return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
+            return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
         }
 
         @Override
         protected String viewHint() {
-            return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
+            return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
         }
 
         @Override
         protected String actionMessage() {
-            return AppContext.getMessage(MessageI18nEnum.NEW);
+            return UserUIContext.getMessage(MessageI18nEnum.NEW);
         }
 
         @Override

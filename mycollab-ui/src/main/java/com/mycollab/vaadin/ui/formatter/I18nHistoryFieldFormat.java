@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui.formatter;
 
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Ltd
@@ -37,6 +37,6 @@ public class I18nHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
-        return (StringUtils.isNotBlank(value)) ? AppContext.getMessage(enumCls, value) : msgIfBlank;
+        return (StringUtils.isNotBlank(value)) ? UserUIContext.getMessage(enumCls, value) : msgIfBlank;
     }
 }

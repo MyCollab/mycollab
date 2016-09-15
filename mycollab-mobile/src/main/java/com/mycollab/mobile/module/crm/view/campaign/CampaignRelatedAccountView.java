@@ -26,7 +26,8 @@ import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -41,7 +42,7 @@ public class CampaignRelatedAccountView extends AbstractRelatedListView<SimpleAc
 
     public CampaignRelatedAccountView() {
         super();
-        setCaption(AppContext.getMessage(AccountI18nEnum.M_TITLE_RELATED_ACCOUNTS));
+        setCaption(UserUIContext.getMessage(AccountI18nEnum.M_TITLE_RELATED_ACCOUNTS));
         this.itemList = new AccountListDisplay();
         this.setContent(itemList);
     }
@@ -53,7 +54,7 @@ public class CampaignRelatedAccountView extends AbstractRelatedListView<SimpleAc
 
     private void loadAccounts() {
         AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-        searchCriteria.setSaccountid(NumberSearchField.equal(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(NumberSearchField.equal(MyCollabUI.getAccountId()));
         searchCriteria.setCampaignId(NumberSearchField.equal(campaign.getId()));
         this.itemList.search(searchCriteria);
     }
@@ -70,13 +71,13 @@ public class CampaignRelatedAccountView extends AbstractRelatedListView<SimpleAc
 
         MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
-        Button newAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
+        Button newAccountBtn = new Button(UserUIContext.getMessage(AccountI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addButtons.addComponent(newAccountBtn);
 
-        Button selectAccount = new Button(AppContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS), clickEvent -> {
+        Button selectAccount = new Button(UserUIContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS), clickEvent -> {
             CampaignAccountSelectionView accountSelectionView = new CampaignAccountSelectionView(CampaignRelatedAccountView.this);
             AccountSearchCriteria criteria = new AccountSearchCriteria();
-            criteria.setSaccountid(NumberSearchField.equal(AppContext.getAccountId()));
+            criteria.setSaccountid(NumberSearchField.equal(MyCollabUI.getAccountId()));
             accountSelectionView.setSearchCriteria(criteria);
             EventBusFactory.getInstance().post(new ShellEvent.PushView(CampaignRelatedAccountView.this, accountSelectionView));
         });

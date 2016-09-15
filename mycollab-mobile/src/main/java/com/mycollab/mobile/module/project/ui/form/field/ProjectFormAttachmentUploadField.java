@@ -24,7 +24,8 @@ import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.StreamVariable;
 import com.vaadin.ui.*;
@@ -157,7 +158,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
         rowWrap.setWidth("100%");
         rowWrap.setStyleName("attachment-row-wrap");
 
-        Label compHeader = new Label(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
+        Label compHeader = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
         compHeader.setStyleName("h2");
 
         content.addComponent(compHeader);
@@ -173,7 +174,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     }
 
     public void getAttachments(int projectId, String type, int typeId) {
-        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId);
+        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), projectId, type, "" + typeId);
         List<Content> attachments = resourceService.getContents(attachmentPath);
         rowWrap.removeAllComponents();
         if (CollectionUtils.isNotEmpty(attachments)) {
@@ -193,7 +194,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     }
 
     public void saveContentsToRepo(Integer projectId, String type, Integer typeId) {
-        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId);
+        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), projectId, type, "" + typeId);
         MobileAttachmentUtils.saveContentsToRepo(attachmentPath, fileStores);
     }
 
@@ -229,7 +230,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
-            NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.ERROR_FILE_IS_EXISTED, fileName));
+            NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.ERROR_FILE_IS_EXISTED, fileName));
         } else {
             fileStores.put(fileName, file);
         }

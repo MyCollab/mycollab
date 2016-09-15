@@ -29,7 +29,8 @@ import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -59,13 +60,13 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
             @Override
             public void onDelete(final SimpleTask data) {
                 ConfirmDialog.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                                taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                taskService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                             }
                         });
@@ -85,13 +86,13 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
             if (data.getParams() instanceof Integer) {
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                SimpleTask task = taskService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
 
                 if (task != null) {
                     this.view.previewItem(task);
                     super.onGo(container, data);
 
-                    AppContext.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(),
+                    MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(),
                             task.getProjectShortname()), task.getTaskname());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

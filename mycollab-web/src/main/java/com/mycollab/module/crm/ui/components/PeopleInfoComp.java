@@ -19,7 +19,7 @@ package com.mycollab.module.crm.ui.components;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -45,7 +45,7 @@ public class PeopleInfoComp extends MVerticalLayout {
         this.withMargin(false);
 
         Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+                UserUIContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
         peopleInfoHeader.setStyleName("info-hdr");
         this.addComponent(peopleInfoHeader);
 
@@ -54,7 +54,7 @@ public class PeopleInfoComp extends MVerticalLayout {
         layout.setWidth("100%");
         layout.setMargin(new MarginInfo(false, false, false, true));
         try {
-            Label createdLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_PEOPLE));
+            Label createdLbl = new Label(UserUIContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_PEOPLE));
             createdLbl.setSizeUndefined();
             layout.addComponent(createdLbl, 0, 0);
 
@@ -66,7 +66,7 @@ public class PeopleInfoComp extends MVerticalLayout {
             layout.addComponent(createdUserLink, 1, 0);
             layout.setColumnExpandRatio(1, 1.0f);
 
-            Label assigneeLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+            Label assigneeLbl = new Label(UserUIContext.getMessage(CrmCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
             assigneeLbl.setSizeUndefined();
             layout.addComponent(assigneeLbl, 0, 1);
             String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");

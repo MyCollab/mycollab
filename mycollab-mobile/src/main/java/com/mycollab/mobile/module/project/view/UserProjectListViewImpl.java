@@ -31,7 +31,7 @@ import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -48,7 +48,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
     private static final long serialVersionUID = 664947871255886622L;
 
     public UserProjectListViewImpl() {
-        this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
+        this.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
     protected void doSearch() {
         if (getPagedBeanTable().getSearchRequest() == null) {
             ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-            criteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
+            criteria.setInvolvedMember(StringSearchField.and(UserUIContext.getUsername()));
             criteria.setProjectStatuses(new SetSearchField(OptionI18nEnum.StatusI18nEnum.Open.name()));
             getPagedBeanTable().setSearchCriteria(criteria);
         }
@@ -77,21 +77,21 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         addSection("Views:");
 
         // Buttons with styling (slightly smaller with left-aligned text)
-        MButton activityBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES), clickEvent -> {
+        MButton activityBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this));
         }).withIcon(FontAwesome.INBOX);
         addMenuItem(activityBtn);
 
-        MButton prjBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
+        MButton prjBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
         }).withIcon(FontAwesome.BUILDING);
         addMenuItem(prjBtn);
 
-        addSection(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
+        addSection(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-        MButton logoutBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
+        MButton logoutBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
         }).withIcon(FontAwesome.SIGN_OUT);
@@ -103,7 +103,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(ProjectI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(ProjectI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;

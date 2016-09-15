@@ -31,7 +31,8 @@ import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -109,28 +110,28 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             header.removeAllComponents();
             MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withFullWidth();
 
-            MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+            MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                                messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
+                                messageService.removeWithSession(message, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 previewForm.fireCancelForm(message);
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
-            stickyCheck = new CheckBox(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), message.getIsstick());
+            stickyCheck = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK), message.getIsstick());
             stickyCheck.addValueChangeListener(valueChangeEvent -> {
                 message.setIsstick(stickyCheck.getValue());
-                message.setSaccountid(AppContext.getAccountId());
+                message.setSaccountid(MyCollabUI.getAccountId());
                 MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                messageService.updateWithSession(message, AppContext.getUsername());
+                messageService.updateWithSession(message, UserUIContext.getUsername());
             });
             stickyCheck.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
@@ -154,9 +155,9 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            ELabel timePostLbl = ELabel.html(AppContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
-                    AppContext.formatPrettyTime(message.getPosteddate())))
-                    .withDescription(AppContext.formatDateTime(message.getPosteddate()));
+            ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
+                    UserUIContext.formatPrettyTime(message.getPosteddate())))
+                    .withDescription(UserUIContext.formatDateTime(message.getPosteddate()));
             timePostLbl.setSizeUndefined();
             timePostLbl.setStyleName(UIConstants.META_INFO);
 
@@ -169,14 +170,14 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
 
             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-                    AppContext.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
+                    MyCollabUI.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentField = new HorizontalLayout();
                 Button attachmentIcon = new Button(null, FontAwesome.PAPERCLIP);
                 attachmentIcon.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
                 attachmentField.addComponent(attachmentIcon);
 
-                Label lbAttachment = new Label(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
+                Label lbAttachment = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
                 attachmentField.addComponent(lbAttachment);
 
                 Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory

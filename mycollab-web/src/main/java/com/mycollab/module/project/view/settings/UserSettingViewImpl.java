@@ -26,7 +26,7 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.parameters.ProjectRoleScreenData;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -64,21 +64,21 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
 
     private void buildComponents() {
         userPresenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
-        myProjectTab.addTab(userPresenter.getView(), AppContext.getMessage(ProjectMemberI18nEnum.LIST), FontAwesome.USERS);
+        myProjectTab.addTab(userPresenter.getView(), UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), FontAwesome.USERS);
 
         rolePresenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
-        myProjectTab.addTab(rolePresenter.getView(), AppContext.getMessage(ProjectRoleI18nEnum.LIST), FontAwesome.USER_MD);
+        myProjectTab.addTab(rolePresenter.getView(), UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), FontAwesome.USER_MD);
 
         componentPresenter = PresenterResolver.getPresenter(ComponentPresenter.class);
-        myProjectTab.addTab(componentPresenter.getView(), AppContext.getMessage(ComponentI18nEnum.LIST),
+        myProjectTab.addTab(componentPresenter.getView(), UserUIContext.getMessage(ComponentI18nEnum.LIST),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
 
         versionPresenter = PresenterResolver.getPresenter(VersionPresenter.class);
-        myProjectTab.addTab(versionPresenter.getView(), AppContext.getMessage(VersionI18nEnum.LIST),
+        myProjectTab.addTab(versionPresenter.getView(), UserUIContext.getMessage(VersionI18nEnum.LIST),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
 
         settingPresenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
-        myProjectTab.addTab(settingPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
+        myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
                 .VIEW_SETTINGS), FontAwesome.COG);
 
         myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -90,20 +90,20 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
                 String caption = tab.getCaption();
                 SimpleProject project = CurrentProjectVariables.getProject();
 
-                if (AppContext.getMessage(ProjectMemberI18nEnum.LIST).equals(caption)) {
+                if (UserUIContext.getMessage(ProjectMemberI18nEnum.LIST).equals(caption)) {
                     ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
                     criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
                     userPresenter.go(UserSettingViewImpl.this, new ScreenData.Search<>(criteria));
-                } else if (AppContext.getMessage(ProjectRoleI18nEnum.LIST).equals(caption)) {
+                } else if (UserUIContext.getMessage(ProjectRoleI18nEnum.LIST).equals(caption)) {
                     ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
                     rolePresenter.go(UserSettingViewImpl.this, new ProjectRoleScreenData.Search(criteria));
-                } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS).equals(caption)) {
+                } else if (UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS).equals(caption)) {
                     settingPresenter.go(UserSettingViewImpl.this, null);
-                } else if (AppContext.getMessage(ComponentI18nEnum.LIST).equals(caption)) {
+                } else if (UserUIContext.getMessage(ComponentI18nEnum.LIST).equals(caption)) {
                     componentPresenter.go(UserSettingViewImpl.this, null);
-                } else if (AppContext.getMessage(VersionI18nEnum.LIST).equals(caption)) {
+                } else if (UserUIContext.getMessage(VersionI18nEnum.LIST).equals(caption)) {
                     versionPresenter.go(UserSettingViewImpl.this, null);
                 }
             }

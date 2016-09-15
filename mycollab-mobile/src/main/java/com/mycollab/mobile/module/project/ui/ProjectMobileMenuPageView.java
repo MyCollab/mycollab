@@ -25,7 +25,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.viritin.button.MButton;
 
@@ -39,53 +39,53 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
         getMenu().setWidth("80%");
         addSection("Views:");
 
-        MButton prjButton = new MButton(AppContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
+        MButton prjButton = new MButton(UserUIContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
         }).withIcon(FontAwesome.BUILDING);
         addMenuItem(prjButton);
 
         // Buttons with styling (slightly smaller with left-aligned text)
-        MButton activityBtn = new MButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES), clickEvent -> {
+        MButton activityBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.MyProjectActivities(this, CurrentProjectVariables.getProjectId()));
         }).withIcon(FontAwesome.INBOX);
         addMenuItem(activityBtn);
 
         // add more buttons for a more realistic look.
-        MButton messageBtn = new MButton(AppContext.getMessage(MessageI18nEnum.LIST), clickEvent -> {
+        MButton messageBtn = new MButton(UserUIContext.getMessage(MessageI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE));
         addMenuItem(messageBtn);
 
-        MButton phaseBtn = new MButton(AppContext.getMessage(MilestoneI18nEnum.LIST), clickEvent -> {
+        MButton phaseBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
         addMenuItem(phaseBtn);
 
-        MButton taskBtn = new MButton(AppContext.getMessage(TaskI18nEnum.LIST), clickEvent -> {
+        MButton taskBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null));
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
         addMenuItem(taskBtn);
 
-        MButton bugBtn = new MButton(AppContext.getMessage(BugI18nEnum.LIST), clickEvent -> {
+        MButton bugBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
         addMenuItem(bugBtn);
 
-        MButton userBtn = new MButton(AppContext.getMessage(ProjectMemberI18nEnum.LIST), clickEvent -> {
+        MButton userBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
         addMenuItem(userBtn);
 
-        addSection(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
+        addSection(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-        MButton logoutBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
+        MButton logoutBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
         }).withIcon(FontAwesome.SIGN_OUT);

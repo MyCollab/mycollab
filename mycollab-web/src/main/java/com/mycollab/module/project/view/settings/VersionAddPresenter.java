@@ -26,7 +26,8 @@ import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -74,13 +75,13 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 
     private void save(Version item) {
         VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
         item.setProjectid(CurrentProjectVariables.getProjectId());
         item.setStatus(StatusI18nEnum.Open.name());
         if (item.getId() == null) {
-            versionService.saveWithSession(item, AppContext.getUsername());
+            versionService.saveWithSession(item, UserUIContext.getUsername());
         } else {
-            versionService.updateWithSession(item, AppContext.getUsername());
+            versionService.updateWithSession(item, UserUIContext.getUsername());
         }
     }
 

@@ -20,7 +20,7 @@ package com.mycollab.module.project.view;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.shell.view.MainView;
 import com.mycollab.shell.view.ShellUrlResolver;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -50,6 +50,6 @@ public class ProjectModulePresenter extends AbstractPresenter<ProjectModule> {
             ShellUrlResolver.ROOT().getSubResolver("project").handle(params);
         }
 
-        AppContext.updateLastModuleVisit(ModuleNameConstants.PRJ);
+        UserUIContext.updateLastModuleVisit(ModuleNameConstants.PRJ);
     }
 }

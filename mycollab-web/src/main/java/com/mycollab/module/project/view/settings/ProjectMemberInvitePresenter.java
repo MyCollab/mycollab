@@ -32,7 +32,8 @@ import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.shell.view.SystemUIChecker;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewEvent;
@@ -79,12 +80,12 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 if (CollectionUtils.isNotEmpty(inviteEmails)) {
                     projectMemberService.inviteProjectMembers(inviteEmails.toArray(new String[inviteEmails.size()]),
                             CurrentProjectVariables.getProjectId(), inviteMembers.getRoleId(),
-                            AppContext.getUsername(), inviteMembers.getInviteMessage(), AppContext.getAccountId());
+                            UserUIContext.getUsername(), inviteMembers.getInviteMessage(), MyCollabUI.getAccountId());
 
                     ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
                     if (mailService.isMailSetupValid()) {
-                        NotificationUtil.showNotification(AppContext.getMessage(ProjectMemberI18nEnum.OPT_INVITATION_SENT_SUCCESSFULLY),
-                                AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
+                        NotificationUtil.showNotification(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_INVITATION_SENT_SUCCESSFULLY),
+                                UserUIContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
                                 Notification.Type.HUMANIZED_MESSAGE);
                         EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                     } else {
@@ -116,7 +117,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
         private MVerticalLayout contentLayout;
 
         CanSendEmailInstructionWindow(InviteProjectMembers invitation) {
-            super(AppContext.getMessage(ShellI18nEnum.OPT_SMTP_INSTRUCTIONS));
+            super(UserUIContext.getMessage(ShellI18nEnum.OPT_SMTP_INSTRUCTIONS));
             this.withResizable(false).withModal(true).withWidth("600px").withCenter();
             contentLayout = new MVerticalLayout();
             this.setContent(contentLayout);
@@ -124,7 +125,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
         }
 
         private void displayInfo(InviteProjectMembers invitation) {
-            Div infoDiv = new Div().appendText(AppContext.getMessage(ProjectMemberI18nEnum.OPT_NO_SMTP_SEND_MEMBERS))
+            Div infoDiv = new Div().appendText(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_NO_SMTP_SEND_MEMBERS))
                     .setStyle("font-weight:bold;color:red");
             contentLayout.with(ELabel.html(infoDiv.write()));
 
@@ -140,17 +141,17 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             Collection<String> inviteEmails = invitation.getEmails();
             for (String inviteEmail : inviteEmails) {
                 Div userEmailDiv = new Div().appendText(String.format("&nbsp;&nbsp;&nbsp;&nbsp;%s %s: ", FontAwesome.MAIL_FORWARD.getHtml(),
-                        AppContext.getMessage(GenericI18Enum.FORM_EMAIL))).appendChild(new A().setHref("mailto:" + inviteEmail)
+                        UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL))).appendChild(new A().setHref("mailto:" + inviteEmail)
                         .appendText(inviteEmail));
                 linksContainer.with(ELabel.html(userEmailDiv.write()), ELabel.hr());
             }
 
-            MButton addNewBtn = new MButton(AppContext.getMessage(ProjectMemberI18nEnum.ACTION_INVITE_MORE_MEMBERS), clickEvent -> {
+            MButton addNewBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.ACTION_INVITE_MORE_MEMBERS), clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(CanSendEmailInstructionWindow.this, null));
                 close();
             }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-            MButton doneBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
+            MButton doneBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                 close();
             }).withStyleName(WebUIConstants.BUTTON_ACTION);

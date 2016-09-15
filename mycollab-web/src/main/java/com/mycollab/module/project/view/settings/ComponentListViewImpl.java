@@ -29,7 +29,8 @@ import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -100,8 +101,8 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
             if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
             }
-            b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(AppContext.getUserLocale(),
-                    bugComponent, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(UserUIContext.getUserLocale(),
+                    bugComponent, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             return b;
         });
 
@@ -171,7 +172,7 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
     @Override
     public void enableActionControls(final int numOfSelectedItems) {
         tableActionControls.setVisible(true);
-        this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
+        this.selectedItemsNumberLabel.setValue(UserUIContext.getMessage(
                 GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 

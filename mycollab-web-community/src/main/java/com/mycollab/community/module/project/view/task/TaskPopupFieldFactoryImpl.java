@@ -31,7 +31,7 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.task.TaskPopupFieldFactory;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
@@ -48,7 +48,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     @Override
     public AbstractComponent createPriorityPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(task.getPriority()))
-                .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP)).build();
+                .withDescription(UserUIContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP)).build();
     }
 
     @Override
@@ -56,20 +56,20 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         String avatarLink = StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 16);
         Img img = new Img(task.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                 .setTitle(task.getAssignUserFullName());
-        return new MetaFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
+        return new MetaFieldBuilder().withCaption(img.write()).withDescription(UserUIContext.getMessage(GenericI18Enum
                 .FORM_ASSIGNEE)).build();
     }
 
     @Override
     public AbstractComponent createCommentsPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
-                .withDescription(AppContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
+                .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
     }
 
     @Override
     public AbstractComponent createStatusPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, task.getStatus()).withDescription
-                (AppContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
+                (UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 
     @Override
@@ -77,13 +77,13 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getPercentagecomplete() != null && task.getPercentagecomplete() > 0) {
             return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.CALENDAR_CLOCK,
                     String.format(" %s%%", task.getPercentagecomplete()))
-                    .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
+                    .withDescription(UserUIContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
         } else {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.CALENDAR_CLOCK.getHtml());
-            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
+                    .withDescription(UserUIContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
         }
     }
 
@@ -92,12 +92,12 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getMilestoneid() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
-            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(AppContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
+                    .withDescription(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
         } else {
             return new MetaFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), task
-                    .getMilestoneName()).withDescription(AppContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
+                    .getMilestoneName()).withDescription(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
         }
     }
 
@@ -106,13 +106,13 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getDeadlineRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
-            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
-                    AppContext.formatPrettyTime(task.getDeadlineRoundPlusOne())))
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
+                    UserUIContext.formatPrettyTime(task.getDeadlineRoundPlusOne())))
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
         }
     }
 
@@ -121,13 +121,13 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getStartdate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
-            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
-                    AppContext.formatDate(task.getStartdate())))
-                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    UserUIContext.formatDate(task.getStartdate())))
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
         }
     }
 
@@ -136,11 +136,11 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
         if (task.getEnddate() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
-            divHint.appendChild(new Span().appendText(AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
+            divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
-                    AppContext.formatDate(task.getEnddate()))).withDescription(AppContext.getMessage(GenericI18Enum.FORM_END_DATE)
+                    UserUIContext.formatDate(task.getEnddate()))).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)
             ).build();
         }
     }
@@ -148,18 +148,18 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     @Override
     public AbstractComponent createFollowersPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + NumberUtils.zeroIfNull(task.getNumFollowers()))
-                .withDescription(AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)).build();
+                .withDescription(UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)).build();
     }
 
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + NumberUtils.zeroIfNull(task.getBillableHours()))
-                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
+                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createNonBillableHoursPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + NumberUtils.zeroIfNull(task.getNonBillableHours()))
-                .withDescription(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
+                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 }

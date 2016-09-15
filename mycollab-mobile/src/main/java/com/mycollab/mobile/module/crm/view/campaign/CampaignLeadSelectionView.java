@@ -21,15 +21,11 @@ package com.mycollab.mobile.module.crm.view.campaign;
 
 import com.mycollab.mobile.module.crm.ui.AbstractRelatedItemSelectionView;
 import com.mycollab.mobile.module.crm.view.lead.LeadListDisplay;
-import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Inc.
@@ -39,7 +35,7 @@ public class CampaignLeadSelectionView extends AbstractRelatedItemSelectionView<
     private static final long serialVersionUID = -7266079544811933378L;
 
     public CampaignLeadSelectionView(AbstractRelatedListView<SimpleLead, LeadSearchCriteria> relatedListView) {
-        super(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), relatedListView);
+        super(UserUIContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), relatedListView);
     }
 
     @Override

@@ -21,7 +21,7 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
 import org.vaadin.viritin.button.MButton;
 
@@ -46,7 +46,7 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
         this.relatedListView = relatedListView;
         initUI();
         this.setContent(itemList);
-        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        Button doneBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (!selections.isEmpty()) {
                 relatedListView.fireSelectedRelatedItems(selections);
             }

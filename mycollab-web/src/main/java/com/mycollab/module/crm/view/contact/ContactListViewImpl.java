@@ -22,13 +22,11 @@ import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -50,7 +48,7 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
 
         MButton importBtn = ComponentUtils.createImportEntitiesButton()
                 .withListener(clickEvent -> UI.getCurrent().addWindow(new ContactImportWindow()))
-                .withVisible(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         this.addExtraButton(importBtn);
     }
 
@@ -70,7 +68,7 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
     protected DefaultMassItemActionHandlerContainer createActionControls() {
         DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
-        if (AppContext.canAccess(RolePermissionCollections.CRM_CONTACT)) {
+        if (UserUIContext.canAccess(RolePermissionCollections.CRM_CONTACT)) {
             container.addDeleteActionItem();
         }
 
@@ -79,7 +77,7 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
         container.addDownloadExcelActionItem();
         container.addDownloadCsvActionItem();
 
-        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
             container.addMassUpdateActionItem();
         }
 

@@ -21,11 +21,11 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.data.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
@@ -68,8 +68,8 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
             if (cases.isCompleted()) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);
             }
-            b.setDescription(CrmTooltipGenerator.generateTooltipCases(AppContext.getUserLocale(), cases,
-                    AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            b.setDescription(CrmTooltipGenerator.generateTooltipCases(UserUIContext.getUserLocale(), cases,
+                    MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             return b;
         });
 
@@ -85,7 +85,7 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
 
         this.addGeneratedColumn("createdtime", (source, itemId, columnId) -> {
             SimpleCase cases = getBeanByIndex(itemId);
-            return new ELabel(AppContext.formatPrettyTime(cases.getCreatedtime())).withDescription(AppContext
+            return new ELabel(UserUIContext.formatPrettyTime(cases.getCreatedtime())).withDescription(UserUIContext
                     .formatDateTime(cases.getCreatedtime()));
         });
 

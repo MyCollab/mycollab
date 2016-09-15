@@ -30,7 +30,8 @@ import com.mycollab.module.crm.service.EventService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
@@ -70,13 +71,13 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
 
         this.addGeneratedColumn("startDate", (source, itemId, columnId) -> {
             SimpleActivity event = getBeanByIndex(itemId);
-            return new ELabel(AppContext.formatPrettyTime(event.getStartDate()))
-                    .withDescription(AppContext.formatDateTime(event.getStartDate()));
+            return new ELabel(UserUIContext.formatPrettyTime(event.getStartDate()))
+                    .withDescription(UserUIContext.formatDateTime(event.getStartDate()));
         });
 
         this.addGeneratedColumn("endDate", (source, itemId, columnId) -> {
             SimpleActivity event = getBeanByIndex(itemId);
-            return new ELabel(AppContext.formatPrettyTime(event.getEndDate())).withDescription(AppContext.formatDateTime(event.getEndDate()));
+            return new ELabel(UserUIContext.formatPrettyTime(event.getEndDate())).withDescription(UserUIContext.formatDateTime(event.getEndDate()));
         });
 
         this.addGeneratedColumn("subject", (source, itemId, columnId) -> {
@@ -122,7 +123,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                     new Td().setStyle("width: 100px; vertical-align: top; text-align: right;")
                             .appendText("Start Date & Time:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(AppContext.formatDateTime(meeting.getStartDate())));
+                                    .appendText(UserUIContext.formatDateTime(meeting.getStartDate())));
             trRow1.appendChild(
                     new Td().setStyle("width: 90px; vertical-align: top; text-align: right;").appendText("Status:"))
                     .appendChild(new Td().setStyle("width:110px; vertical-align: top; text-align: left;")
@@ -132,7 +133,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             trRow2.appendChild(
                     new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("End Date & Time:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(AppContext.formatDateTime(meeting.getEndDate())));
+                                    .appendText(UserUIContext.formatDateTime(meeting.getEndDate())));
             trRow2.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
                             .appendText("Location:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
@@ -173,7 +174,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                             new Td().setStyle(
                                     "word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendText(
-                                            AppContext.formatDateTime(call
+                                            UserUIContext.formatDateTime(call
                                                     .getStartDate())));
             trRow1.appendChild(new Td().setStyle(
                     "width: 110px; vertical-align: top; text-align: right;")
@@ -254,7 +255,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             Tr trRow1 = new Tr();
             trRow1.appendChild(new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("Start Date:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                            .appendText(AppContext.formatDateTime(event.getStartDate())));
+                            .appendText(UserUIContext.formatDateTime(event.getStartDate())));
             trRow1.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;").appendText("Status:"))
                     .appendChild(new Td().setStyle(
                             "word-wrap: break-word; white-space: normal;vertical-align: top;")
@@ -265,11 +266,11 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             trRow2.appendChild(new Td().setStyle("width: 100px; vertical-align: top; text-align: right;")
                     .appendText("Due Date:")).appendChild(
                     new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                            .appendText(AppContext.formatDateTime(event.getEndDate())));
+                            .appendText(UserUIContext.formatDateTime(event.getEndDate())));
             trRow2.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
                     .appendText("Contact:"))
                     .appendChild(new Td().setStyle("width:110px; vertical-align: top; text-align: left;")
-                            .appendChild(new A().setHref((event.getContactId() != null) ? AppContext.getSiteUrl() + "#"
+                            .appendChild(new A().setHref((event.getContactId() != null) ? MyCollabUI.getSiteUrl() + "#"
                                     + CrmLinkGenerator.generateContactPreviewLink(event.getContactId()) : "")
                                     .appendText(StringUtils.trimHtmlTags(event.getContactFullName()))));
 
@@ -283,7 +284,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                     .appendChild(
                             new Td().setStyle("width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top;")
                                     .appendChild(new A().setHref((event.getAssignUser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(
-                                            AppContext.getSiteUrl(), event.getAssignUser()) : "")
+                                            MyCollabUI.getSiteUrl(), event.getAssignUser()) : "")
                                             .appendChild(new Img("", StorageFactory.getAvatarPath(event.getAssignUserAvatarId(), 16)))
                                             .appendText(StringUtils.trimHtmlTags(event.getAssignUserFullName()))));
 

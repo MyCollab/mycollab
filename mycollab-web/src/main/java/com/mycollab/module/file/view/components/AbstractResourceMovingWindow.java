@@ -27,15 +27,12 @@ import com.mycollab.module.ecm.service.ExternalResourceService;
 import com.mycollab.module.ecm.service.ResourceMover;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Tree.CollapseEvent;
-import com.vaadin.ui.Tree.ExpandEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +67,7 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
     }
 
     AbstractResourceMovingWindow(Folder baseFolder, Collection<Resource> lstRes) {
-        super(AppContext.getMessage(FileI18nEnum.ACTION_MOVE_ASSETS));
+        super(UserUIContext.getMessage(FileI18nEnum.ACTION_MOVE_ASSETS));
         withModal(true).withResizable(false).withWidth("600px").withCenter();
         this.baseFolder = baseFolder;
         this.movedResources = lstRes;
@@ -96,7 +93,7 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
             final Folder expandFolder = (Folder) expandEvent.getItemId();
             // load externalResource if currentExpandFolder is rootFolder
             if (baseFolder.getPath().equals(expandFolder.getPath())) {
-                List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(AppContext.getUsername());
+                List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(UserUIContext.getUsername());
                 for (ExternalDrive externalDrive : externalDrives) {
                     ExternalFolder externalMapFolder = new ExternalFolder("/");
                     externalMapFolder.setStorageName(externalDrive.getStoragename());
@@ -175,12 +172,12 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
         contentLayout.addComponent(treeWrapper);
         displayFiles();
 
-        MButton moveBtn = new MButton(AppContext.getMessage(GenericI18Enum.ACTION_MOVE), clickEvent -> {
+        MButton moveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_MOVE), clickEvent -> {
             if (!CollectionUtils.isEmpty(movedResources)) {
                 boolean checkingFail = false;
                 for (Resource res : movedResources) {
                     try {
-                        resourceMover.moveResource(res, baseFolder, AppContext.getUsername(), AppContext.getAccountId());
+                        resourceMover.moveResource(res, baseFolder, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                     } catch (Exception e) {
                         checkingFail = true;
                         LOG.error("Error", e);
@@ -191,7 +188,7 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
             }
         }).withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-        MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         MHorizontalLayout controlGroupBtnLayout = new MHorizontalLayout(cancelBtn, moveBtn);
@@ -202,7 +199,7 @@ public abstract class AbstractResourceMovingWindow extends MWindow {
 
     private void displayFiles() {
         folderTree.addItem(baseFolder);
-        folderTree.setItemCaption(baseFolder, AppContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS));
+        folderTree.setItemCaption(baseFolder, UserUIContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS));
         folderTree.expandItem(baseFolder);
     }
 }

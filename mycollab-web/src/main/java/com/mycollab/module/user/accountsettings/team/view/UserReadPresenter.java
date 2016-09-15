@@ -27,7 +27,8 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -66,14 +67,14 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
             @Override
             public void onDelete(final User data) {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                                userService.pendingUserAccount(data.getUsername(), AppContext.getAccountId());
+                                userService.pendingUserAccount(data.getUsername(), MyCollabUI.getAccountId());
                                 EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                             }
                         });
@@ -95,11 +96,11 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canRead(RolePermissionCollections.ACCOUNT_USER)) {
+        if (UserUIContext.canRead(RolePermissionCollections.ACCOUNT_USER)) {
             String username = (String) data.getParams();
 
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
-            SimpleUser user = userService.findUserByUserNameInAccount(username, AppContext.getAccountId());
+            SimpleUser user = userService.findUserByUserNameInAccount(username, MyCollabUI.getAccountId());
             if (user != null) {
                 UserContainer userContainer = (UserContainer) container;
                 userContainer.removeAllComponents();
@@ -109,7 +110,7 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
                 AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
                 breadcrumb.gotoUserRead(user);
             } else {
-                NotificationUtil.showErrorNotification(AppContext.getMessage(UserI18nEnum.ERROR_NO_USER_IN_ACCOUNT, username));
+                NotificationUtil.showErrorNotification(UserUIContext.getMessage(UserI18nEnum.ERROR_NO_USER_IN_ACCOUNT, username));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

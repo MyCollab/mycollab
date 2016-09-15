@@ -35,7 +35,8 @@ import com.mycollab.module.crm.ui.components.*;
 import com.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -89,7 +90,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
 
     protected void displayActivities() {
         final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.CONTACT));
         criteria.setTypeid(new NumberSearchField(this.beanItem.getId()));
         this.associateActivityList.setSearchCriteria(criteria);
@@ -97,7 +98,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
 
     protected void displayAssociateOpportunityList() {
         OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setContactId(new NumberSearchField(beanItem.getId()));
         this.associateOpportunityList.displayOpportunities(beanItem);
     }
@@ -119,9 +120,9 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
     protected String initFormTitle() {
         // check if there is converted lead associates with this contact
         LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
-        SimpleLead lead = leadService.findConvertedLeadOfContact(beanItem.getId(), AppContext.getAccountId());
+        SimpleLead lead = leadService.findConvertedLeadOfContact(beanItem.getId(), MyCollabUI.getAccountId());
         if (lead != null) {
-            return beanItem.getContactName() + "&nbsp;" + AppContext.getMessage(
+            return beanItem.getContactName() + "&nbsp;" + UserUIContext.getMessage(
                     LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
                     CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
                     CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()),
@@ -152,11 +153,11 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
         previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
         previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
-                AppContext.getMessage(OpportunityI18nEnum.LIST));
+                UserUIContext.getMessage(OpportunityI18nEnum.LIST));
         previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
     }
 
     @Override

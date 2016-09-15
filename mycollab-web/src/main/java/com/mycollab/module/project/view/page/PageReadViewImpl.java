@@ -36,7 +36,8 @@ import com.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -86,7 +87,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        HeaderWithFontAwesome headerLbl = ComponentUtils.headerH2(ProjectTypeConstants.PAGE, AppContext.getMessage(PageI18nEnum.DETAIL));
+        HeaderWithFontAwesome headerLbl = ComponentUtils.headerH2(ProjectTypeConstants.PAGE, UserUIContext.getMessage(PageI18nEnum.DETAIL));
         headerLbl.setWidthUndefined();
 
         header.addComponent(headerLbl, 0);
@@ -136,7 +137,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                 ProjectRolePermissionCollections.PAGES);
 
         MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(WebUIConstants
-                .BUTTON_OPTION).withDescription(AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+                .BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
         OnDemandFileDownloader fileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
             @Override
@@ -171,13 +172,13 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             ELabel titleLbl = ELabel.h3(beanItem.getSubject());
             header.with(titleLbl);
             Div footer = new Div().setStyle("width:100%").setCSSClass(UIConstants.META_INFO);
-            Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
-                    AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
-                    .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
+            Span lastUpdatedTimeTxt = new Span().appendText(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
+                    UserUIContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
+                    .setTitle(UserUIContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
 
             ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
             SimpleProjectMember member = projectMemberService.findMemberByUsername(beanItem.getCreatedUser(),
-                    CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                    CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
             if (member != null) {
                 Img userAvatar = new Img("", StorageFactory.getAvatarPath(member.getMemberAvatarId(), 16))
                         .setCSSClass(UIConstants.CIRCLE_BOX);
@@ -185,7 +186,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                         .getProjectid(), member.getUsername())).appendText(StringUtils.trim(member.getMemberFullName(), 30, true));
                 userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-                footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;" + AppContext.getMessage
+                footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;" + UserUIContext.getMessage
                                 (GenericI18Enum.OPT_CREATED_BY) + ": "), userAvatar,
                         DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE());
             } else {
@@ -243,7 +244,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         String getVersionDisplay(PageVersion version, int index) {
             String vFormat = "%s (%s)";
             Calendar createdTime = version.getCreatedTime();
-            String date = AppContext.formatDateTime(createdTime.getTime());
+            String date = UserUIContext.formatDateTime(createdTime.getTime());
             return String.format(vFormat, "V" + (index + 1), date);
         }
     }

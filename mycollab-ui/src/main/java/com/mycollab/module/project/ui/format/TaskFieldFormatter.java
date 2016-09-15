@@ -22,7 +22,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
@@ -61,7 +61,7 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
-            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+            return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY));
         }
 
         @Override

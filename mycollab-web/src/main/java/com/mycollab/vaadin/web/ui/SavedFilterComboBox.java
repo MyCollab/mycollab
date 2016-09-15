@@ -29,7 +29,8 @@ import com.mycollab.db.query.SearchQueryInfo;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -65,8 +66,8 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
         SaveSearchResultCriteria searchCriteria = new SaveSearchResultCriteria();
         searchCriteria.setType(StringSearchField.and(type));
-        searchCriteria.setCreateUser(StringSearchField.and(AppContext.getUsername()));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setCreateUser(StringSearchField.and(UserUIContext.getUsername()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
 
         SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
         List<SaveSearchResult> savedSearchResults = saveSearchResultService.findPageableListByCriteria(new
@@ -127,14 +128,14 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
     private void initContentPopup() {
         popupContent.removeOptions();
-        popupContent.addSection(AppContext.getMessage(GenericI18Enum.OPT_CREATED_BY_USERS));
+        popupContent.addSection(UserUIContext.getMessage(GenericI18Enum.OPT_CREATED_BY_USERS));
         for (final SearchQueryInfo queryInfo : savedQueries) {
             Button queryOption = new QueryInfoOption(queryInfo);
             popupContent.addOption(queryOption);
         }
 
         if (CollectionUtils.isNotEmpty(sharedQueries)) {
-            popupContent.addSection(AppContext.getMessage(GenericI18Enum.OPT_SHARED_TO_ME));
+            popupContent.addSection(UserUIContext.getMessage(GenericI18Enum.OPT_SHARED_TO_ME));
             for (final SearchQueryInfo queryInfo : sharedQueries) {
                 Button queryOption = new QueryInfoOption(queryInfo);
                 popupContent.addOption(queryOption);

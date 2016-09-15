@@ -32,7 +32,8 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -94,17 +95,17 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         MHorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label followerHeader = new Label(FontAwesome.EYE.getHtml() + " " +
-                AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
+                UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
-            final PopupView addPopupView = new PopupView(AppContext.getMessage(GenericI18Enum.ACTION_MODIFY), new MVerticalLayout());
+            final PopupView addPopupView = new PopupView(UserUIContext.getMessage(GenericI18Enum.ACTION_MODIFY), new MVerticalLayout());
             addPopupView.addPopupVisibilityListener(popupVisibilityEvent -> {
                 PopupView.Content content = addPopupView.getContent();
                 if (popupVisibilityEvent.isPopupVisible()) {
                     MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
                     popupComponent.removeAllComponents();
-                    popupComponent.with(new ELabel(AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))
+                    popupComponent.with(new ELabel(UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))
                             .withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
                 } else {
                     MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
@@ -117,7 +118,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             header.addComponent(addPopupView);
         }
         header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(WebUIConstants.INLINE_HELP)
-                .withDescription(AppContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP)));
+                .withDescription(UserUIContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP)));
 
         this.addComponent(header);
         watcherLayout = new MCssLayout().withFullWidth().withStyleName(WebUIConstants.FLEX_DISPLAY);
@@ -142,8 +143,8 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         FollowerComp(final SimpleUser user) {
             final Image userAvatarBtn = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 32);
             userAvatarBtn.addStyleName(UIConstants.CIRCLE_BOX);
-            userAvatarBtn.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
-                    AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            userAvatarBtn.setDescription(CommonTooltipGenerator.generateTooltipUser(UserUIContext.getUserLocale(), user,
+                    MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             addComponent(userAvatarBtn);
             this.addStyleName("removeable-btn");
             this.setWidthUndefined();
@@ -160,7 +161,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     }
 
     private boolean hasEditPermission() {
-        return AppContext.canWrite(permissionItem);
+        return UserUIContext.canWrite(permissionItem);
     }
 
     private void unfollowItem(String username) {
@@ -169,7 +170,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             criteria.setTypeId(new NumberSearchField((Integer) PropertyUtils.getProperty(bean, "id")));
             criteria.setType(StringSearchField.and(type));
             criteria.setUser(StringSearchField.and(username));
-            monitorItemService.removeByCriteria(criteria, AppContext.getAccountId());
+            monitorItemService.removeByCriteria(criteria, MyCollabUI.getAccountId());
             for (SimpleUser user : followers) {
                 if (username.equals(user.getUsername())) {
                     followers.remove(user);
@@ -204,7 +205,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             for (SimpleUser member : unsavedUsers) {
                 MonitorItem item = new MonitorItem();
                 item.setMonitorDate(new GregorianCalendar().getTime());
-                item.setSaccountid(AppContext.getAccountId());
+                item.setSaccountid(MyCollabUI.getAccountId());
                 item.setType(type);
                 item.setTypeid(typeId);
                 item.setUser(member.getUsername());

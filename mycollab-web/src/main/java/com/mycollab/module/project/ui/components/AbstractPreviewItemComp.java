@@ -21,7 +21,8 @@ import com.mycollab.common.service.FavoriteItemService;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
@@ -152,8 +153,8 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             favoriteItem.setExtratypeid(CurrentProjectVariables.getProjectId());
             favoriteItem.setType(getType());
             favoriteItem.setTypeid(PropertyUtils.getProperty(beanItem, "id").toString());
-            favoriteItem.setSaccountid(AppContext.getAccountId());
-            favoriteItem.setCreateduser(AppContext.getUsername());
+            favoriteItem.setSaccountid(MyCollabUI.getAccountId());
+            favoriteItem.setCreateduser(UserUIContext.getUsername());
             FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
             favoriteItemService.saveOrDelete(favoriteItem);
         } catch (Exception e) {
@@ -164,7 +165,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     private boolean isFavorite() {
         try {
             FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
-            return favoriteItemService.isUserFavorite(AppContext.getUsername(), getType(),
+            return favoriteItemService.isUserFavorite(UserUIContext.getUsername(), getType(),
                     PropertyUtils.getProperty(beanItem, "id").toString());
         } catch (Exception e) {
             LOG.error("Error while check favorite", e);

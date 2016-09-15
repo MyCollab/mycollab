@@ -23,7 +23,7 @@ import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
@@ -69,9 +69,9 @@ public class ActivityListViewImpl extends AbstractListItemComp<ActivitySearchCri
     @Override
     protected DefaultMassItemActionHandlerContainer createActionControls() {
         DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
-        if (AppContext.canAccess(RolePermissionCollections.CRM_CALL)
-                || AppContext.canAccess(RolePermissionCollections.CRM_MEETING)
-                || AppContext.canAccess(RolePermissionCollections.CRM_TASK)) {
+        if (UserUIContext.canAccess(RolePermissionCollections.CRM_CALL)
+                || UserUIContext.canAccess(RolePermissionCollections.CRM_MEETING)
+                || UserUIContext.canAccess(RolePermissionCollections.CRM_TASK)) {
             container.addDeleteActionItem();
         }
 

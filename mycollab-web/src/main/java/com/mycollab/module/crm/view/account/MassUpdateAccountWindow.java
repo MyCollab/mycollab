@@ -21,7 +21,7 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
@@ -63,11 +63,11 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
             FormContainer formLayout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            formLayout.addSection(AppContext.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION),
+            formLayout.addSection(UserUIContext.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION),
                     informationLayout.getLayout());
 
             addressLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            formLayout.addSection(AppContext.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION), addressLayout.getLayout());
+            formLayout.addSection(UserUIContext.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION), addressLayout.getLayout());
             formLayout.addComponent(buildButtonControls());
 
             return formLayout;
@@ -76,29 +76,29 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
         @Override
         protected Component onAttachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("industry")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY), 0, 0);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_INDUSTRY), 0, 0);
             } else if (propertyId.equals("type")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_TYPE), 1, 0);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_TYPE), 1, 0);
             } else if (propertyId.equals("ownership")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP), 0, 1);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP), 0, 1);
             } else if (propertyId.equals("assignuser")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
             } else if (propertyId.equals("city")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY), 0, 0);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY), 0, 0);
             } else if (propertyId.equals("shippingcity")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_CITY), 1, 0);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_SHIPPING_CITY), 1, 0);
             } else if (propertyId.equals("state")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_BILLING_STATE), 0, 1);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_BILLING_STATE), 0, 1);
             } else if (propertyId.equals("postalcode")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE), 1, 1);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE), 1, 1);
             } else if (propertyId.equals("billingcountry")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY), 0, 2);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY), 0, 2);
             } else if (propertyId.equals("shippingcountry")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY), 1, 2);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY), 1, 2);
             } else if (propertyId.equals("shippingstate")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE), 0, 3);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE), 0, 3);
             } else if (propertyId.equals("shippingpostalcode")) {
-                return addressLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE), 1, 3);
+                return addressLayout.addComponent(field, UserUIContext.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE), 1, 3);
             }
             return null;
         }

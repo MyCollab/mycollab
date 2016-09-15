@@ -28,7 +28,7 @@ import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -58,14 +58,14 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
 
         String status = "";
         if (genericTask.isBug()) {
-            status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
+            status = UserUIContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
         } else if (genericTask.isMilestone()) {
-            status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
+            status = UserUIContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
         } else if (genericTask.isRisk()) {
-            status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
+            status = UserUIContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
                     genericTask.getStatus());
         } else if (genericTask.isTask()) {
-            status = AppContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
+            status = UserUIContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
         }
         issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebUIConstants.BLOCK));
 
@@ -92,8 +92,8 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
             taskLink.setCSSClass("completed");
         } else if (genericTask.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            issueDiv.appendChild(new Span().appendText(" - " + AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN,
-                    AppContext.formatDuration(genericTask.getDueDate()))).setCSSClass(UIConstants.META_INFO));
+            issueDiv.appendChild(new Span().appendText(" - " + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN,
+                    UserUIContext.formatDuration(genericTask.getDueDate()))).setCSSClass(UIConstants.META_INFO));
         }
 
         rowComp.with(ELabel.html(issueDiv.write()));

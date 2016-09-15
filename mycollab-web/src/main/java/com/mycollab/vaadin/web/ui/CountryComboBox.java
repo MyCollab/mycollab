@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.CountryValueFactory;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.ComboBox;
 
 import java.util.Locale;
@@ -35,7 +35,7 @@ public class CountryComboBox extends ComboBox {
         for (String country : countryList) {
             Locale obj = new Locale("", country);
             this.addItem(country);
-            this.setItemCaption(country, obj.getDisplayCountry(AppContext.getUserLocale()));
+            this.setItemCaption(country, obj.getDisplayCountry(UserUIContext.getUserLocale()));
         }
     }
 }

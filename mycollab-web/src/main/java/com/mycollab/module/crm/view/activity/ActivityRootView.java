@@ -21,7 +21,8 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.mycollab.module.crm.view.parameters.ActivityScreenData;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -73,22 +74,22 @@ public class ActivityRootView extends AbstractPageView {
 
     private void buildComponents() {
         activityTabs.addTab(constructCalendarView(), "calendar",
-                AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE),
+                UserUIContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE),
                 new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/22/crm/calendar.png")));
 
         activityTabs.addTab(constructActivityListView(), "activities",
-                AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE),
+                UserUIContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE),
                 new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/22/crm/activitylist.png")));
 
         activityTabs.addSelectedTabChangeListener(selectedTabChangeEvent -> {
             Tab tab = ((VerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
             String caption = tab.getCaption();
 
-            if (AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(caption)) {
+            if (UserUIContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(caption)) {
                 calendarPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoCalendar());
-            } else if (AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(caption)) {
+            } else if (UserUIContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(caption)) {
                 ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 eventPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoActivityList(criteria));
             }
         });

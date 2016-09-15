@@ -31,7 +31,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.view.user.ProjectPagedList;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -75,19 +75,19 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         if (serviceMenuContainer == null) {
             serviceMenuContainer = new MHorizontalLayout();
             final ServiceMenu serviceMenu = new ServiceMenu();
-            serviceMenu.addService(AppContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
+            serviceMenu.addService(UserUIContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoUserDashboard(this, null));
                 serviceMenu.selectService(0);
             });
             serviceMenu.selectService(0);
 
             if (!SiteConfiguration.isCommunityEdition()) {
-                serviceMenu.addService(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CLIENTS), clickEvent -> {
+                serviceMenu.addService(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CLIENTS), clickEvent -> {
                     EventBusFactory.getInstance().post(new ClientEvent.GotoList(this, null));
                     serviceMenu.selectService(1);
                 });
 
-                serviceMenu.addService(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), clickEvent -> {
+                serviceMenu.addService(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), clickEvent -> {
                     EventBusFactory.getInstance().post(new ReportEvent.GotoConsole(this));
                     serviceMenu.selectService(2);
                 });
@@ -95,10 +95,10 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
 
             serviceMenuContainer.with(serviceMenu);
 
-            MButton newPrjBtn = new MButton(AppContext.getMessage(ProjectI18nEnum.NEW),
+            MButton newPrjBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.NEW),
                     clickEvent -> UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class)))
                     .withStyleName("add-btn-popup").withIcon(FontAwesome.PLUS_CIRCLE);
-            newPrjBtn.setVisible(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
+            newPrjBtn.setVisible(UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
             serviceMenuContainer.with(newPrjBtn).withAlign(newPrjBtn, Alignment.MIDDLE_LEFT);
 
             Button switchPrjBtn = new SwitchProjectPopupButton();
@@ -116,17 +116,17 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         private ProjectPagedList projectList;
 
         SwitchProjectPopupButton() {
-            super(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_SWITCH_PROJECT));
+            super(UserUIContext.getMessage(ProjectCommonI18nEnum.BUTTON_SWITCH_PROJECT));
             setStyleName("myprojectlist");
             addStyleName("add-btn-popup");
             setIcon(VaadinIcons.ARROW_CIRCLE_RIGHT_O);
             projectList = new ProjectPagedList();
 
             searchCriteria = new ProjectSearchCriteria();
-            searchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
+            searchCriteria.setInvolvedMember(StringSearchField.and(UserUIContext.getUsername()));
             searchCriteria.setProjectStatuses(new SetSearchField<>(OptionI18nEnum.StatusI18nEnum.Open.name()));
 
-            titleLbl = ELabel.h2(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
+            titleLbl = ELabel.h2(UserUIContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
             OptionPopupContent contentLayout = new OptionPopupContent();
             contentLayout.setWidth("550px");
 
@@ -146,7 +146,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             }).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             final TextField searchField = new TextField();
-            searchField.setInputPrompt(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            searchField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchField.setWidth("200px");
             MButton searchBtn = new MButton("", clickEvent -> {
                 searchCriteria.setProjectName(StringSearchField.and(searchField.getValue()));
@@ -171,7 +171,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
 
         private void displayResults() {
             int count = projectList.setSearchCriteria(searchCriteria);
-            titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, count));
+            titleLbl.setValue(UserUIContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, count));
         }
     }
 }

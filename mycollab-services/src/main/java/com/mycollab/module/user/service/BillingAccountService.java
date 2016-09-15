@@ -29,10 +29,11 @@ import com.mycollab.module.user.domain.SimpleBillingAccount;
  */
 @IgnoreCacheClass
 public interface BillingAccountService extends ICrudService<Integer, BillingAccount> {
+
     @Cacheable
     SimpleBillingAccount getBillingAccountById(@CacheKey Integer accountId);
 
-    BillingAccount getAccountByDomain(String domain);
+    SimpleBillingAccount getAccountByDomain(String domain);
 
     @Cacheable
     BillingAccount getAccountById(@CacheKey Integer accountId);

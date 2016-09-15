@@ -32,7 +32,8 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -59,7 +60,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
     public ProjectMemberSelectionView() {
         super();
         createUI();
-        this.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT));
+        this.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT));
     }
 
     private void createUI() {
@@ -72,7 +73,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
     @Override
     public void load() {
         ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         memberListDisplay.search(searchCriteria);
         SimpleProjectMember blankMember = new SimpleProjectMember();
@@ -89,7 +90,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
                 getNavigationManager().navigateBack();
             });
             if (member.getId() == null) {
-                mainLayout.addComponent(new Label(AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM)));
+                mainLayout.addComponent(new Label(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM)));
                 return mainLayout;
             }
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
@@ -107,21 +108,21 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
             memberEmailLabel.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(memberEmailLabel);
 
-            ELabel memberSinceLabel = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, AppContext.formatPrettyTime(member.getJoindate())))
-                    .withDescription(AppContext.formatDateTime(member.getJoindate()));
+            ELabel memberSinceLabel = new ELabel(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, UserUIContext.formatPrettyTime(member.getJoindate())))
+                    .withDescription(UserUIContext.formatDateTime(member.getJoindate()));
             memberSinceLabel.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(memberSinceLabel);
 
-            ELabel lastAccessTimeLbl = new ELabel(AppContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, AppContext.formatPrettyTime(member.getLastAccessTime())))
-                    .withDescription(AppContext.formatDateTime(member.getLastAccessTime()));
+            ELabel lastAccessTimeLbl = new ELabel(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, UserUIContext.formatPrettyTime(member.getLastAccessTime())))
+                    .withDescription(UserUIContext.formatDateTime(member.getLastAccessTime()));
             lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(lastAccessTimeLbl);
 
             String memberWorksInfo = String.format("%s %s  %s %s  %s %s  %s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(), new Span
-                    ().appendText("" + member.getNumOpenTasks()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), new Span().appendText("" + member.getNumOpenBugs())
-                    .setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), FontAwesome.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
-                    member.getTotalBillableLogTime())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
-                    .setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
+                    ().appendText("" + member.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), new Span().appendText("" + member.getNumOpenBugs())
+                    .setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), FontAwesome.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
+                    member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
+                    .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
 
             Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withFullWidth();
             memberWorkStatus.addStyleName(UIConstants.META_INFO);

@@ -31,7 +31,7 @@ import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.task.ITaskPriorityChartWidget;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.ButtonI18nComp;
 import com.mycollab.vaadin.web.ui.DepotWithChart;
@@ -92,7 +92,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
     protected void displayPlainMode() {
         this.bodyContent.removeAllComponents();
         TaskPriorityClickListener listener = new TaskPriorityClickListener();
-        this.setTitle(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
+        this.setTitle(UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
 
         if (!groupItems.isEmpty()) {
             for (TaskPriority priority : OptionI18nEnum.task_priorities) {

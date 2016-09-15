@@ -27,7 +27,8 @@ import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.service.MeetingService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -65,14 +66,14 @@ public class MeetingAddPresenter extends AbstractCrmPresenter<MeetingAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
+        if (UserUIContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
 
             MeetingWithBLOBs meeting = null;
             if (data.getParams() instanceof MeetingWithBLOBs) {
                 meeting = (MeetingWithBLOBs) data.getParams();
             } else if (data.getParams() instanceof Integer) {
                 MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
-                meeting = meetingService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
+                meeting = meetingService.findByPrimaryKey((Integer) data.getParams(), MyCollabUI.getAccountId());
             }
             if (meeting == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -83,12 +84,12 @@ public class MeetingAddPresenter extends AbstractCrmPresenter<MeetingAddView> {
             view.editItem(meeting);
 
             if (meeting.getId() == null) {
-                AppContext.addFragment("crm/activity/meeting/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                        AppContext.getMessage(MeetingI18nEnum.SINGLE)));
+                MyCollabUI.addFragment("crm/activity/meeting/add/", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        UserUIContext.getMessage(MeetingI18nEnum.SINGLE)));
             } else {
-                AppContext.addFragment("crm/activity/meeting/edit/" + UrlEncodeDecoder.encode(meeting.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                AppContext.getMessage(MeetingI18nEnum.SINGLE), meeting.getSubject()));
+                MyCollabUI.addFragment("crm/activity/meeting/edit/" + UrlEncodeDecoder.encode(meeting.getId()),
+                        UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                UserUIContext.getMessage(MeetingI18nEnum.SINGLE), meeting.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -97,11 +98,11 @@ public class MeetingAddPresenter extends AbstractCrmPresenter<MeetingAddView> {
 
     public void save(MeetingWithBLOBs item) {
         MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
-        item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(MyCollabUI.getAccountId());
         if (item.getId() == null) {
-            meetingService.saveWithSession(item, AppContext.getUsername());
+            meetingService.saveWithSession(item, UserUIContext.getUsername());
         } else {
-            meetingService.updateWithSession(item, AppContext.getUsername());
+            meetingService.updateWithSession(item, UserUIContext.getUsername());
         }
     }
 }

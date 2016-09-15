@@ -20,7 +20,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -49,7 +49,7 @@ public class ProjectSubscribersComp extends CustomField {
     @Override
     protected Component initContent() {
         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleUser> members = projectMemberService.getActiveUsersInProject(projectId, AppContext.getAccountId());
+        List<SimpleUser> members = projectMemberService.getActiveUsersInProject(projectId, MyCollabUI.getAccountId());
         CssLayout container = new CssLayout();
         container.setStyleName("followers-container");
         final CheckBox selectAllCheckbox = new CheckBox("All", defaultSelectAll);

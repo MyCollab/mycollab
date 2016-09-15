@@ -31,7 +31,8 @@ import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -102,8 +103,8 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
         tableItem.addGeneratedColumn(Project.Field.name.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
             LabelLink b = new LabelLink(project.getName(), ProjectLinkBuilder.generateProjectFullLink(project.getId()));
-            b.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), AppContext.getDateFormat(),
-                    project, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+            b.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+                    project, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             return new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project
                     .getShortname(), project.getId(), project.getAvatarid(), 32), b)
                     .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false).withFullHeight();
@@ -129,12 +130,12 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
 
         tableItem.addGeneratedColumn(Project.Field.planstartdate.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
-            return new Label(AppContext.formatDate(project.getPlanstartdate()));
+            return new Label(UserUIContext.formatDate(project.getPlanstartdate()));
         });
 
         tableItem.addGeneratedColumn(Project.Field.planenddate.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
-            return new Label(AppContext.formatDate(project.getPlanenddate()));
+            return new Label(UserUIContext.formatDate(project.getPlanenddate()));
         });
 
         tableItem.addGeneratedColumn(Project.Field.projectstatus.name(), (source, itemId, columnId) -> {
@@ -144,7 +145,7 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
 
         tableItem.addGeneratedColumn(Project.Field.createdtime.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
-            return new Label(AppContext.formatDate(project.getCreatedtime()));
+            return new Label(UserUIContext.formatDate(project.getCreatedtime()));
         });
 
         tableItem.addGeneratedColumn(Project.Field.homepage.name(), (source, itemId, columnId) -> {
@@ -185,7 +186,7 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new ProjectListCustomizeWindow(tableItem)))
                 .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.ADJUST);
-        customizeViewBtn.setDescription(AppContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
+        customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         layout.with(customizeViewBtn).withAlign(customizeViewBtn, Alignment.MIDDLE_RIGHT);
 
         return layout;
@@ -199,7 +200,7 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
     @Override
     public void enableActionControls(int numOfSelectedItems) {
         tableActionControls.setVisible(true);
-        selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+        selectedItemsNumberLabel.setValue(UserUIContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     @Override

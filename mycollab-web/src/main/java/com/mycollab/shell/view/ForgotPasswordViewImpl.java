@@ -25,7 +25,7 @@ import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -57,30 +57,30 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
             CustomLayout customLayout = CustomLayoutExt.createLayout("forgotPassword");
             customLayout.setStyleName("forgotPwdForm");
 
-            nameOrEmailField = new TextField(AppContext.getMessage(GenericI18Enum.FORM_EMAIL));
+            nameOrEmailField = new TextField(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL));
             customLayout.addComponent(nameOrEmailField, "nameoremail");
 
-            MButton sendEmail = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD), clickEvent -> {
+            MButton sendEmail = new MButton(UserUIContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD), clickEvent -> {
                 String username = nameOrEmailField.getValue();
                 if (StringUtils.isValidEmail(username)) {
                     UserService userService = AppContextUtil.getSpringBean(UserService.class);
                     User user = userService.findUserByUserName(username);
 
                     if (user == null) {
-                        NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
+                        NotificationUtil.showErrorNotification(UserUIContext.getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
                     } else {
                         userService.requestToResetPassword(user.getUsername());
-                        NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_SUCCESS),
-                                AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
+                        NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_SUCCESS),
+                                UserUIContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
                         EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
                     }
                 } else {
-                    NotificationUtil.showErrorNotification(AppContext.getMessage(ErrorI18nEnum.NOT_VALID_EMAIL, username));
+                    NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.NOT_VALID_EMAIL, username));
                 }
             }).withStyleName(WebUIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
             customLayout.addComponent(sendEmail, "loginButton");
 
-            MButton memoBackBtn = new MButton(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD),
+            MButton memoBackBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD),
                     clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null)))
                     .withStyleName(WebUIConstants.BUTTON_LINK);
             customLayout.addComponent(memoBackBtn, "forgotLink");

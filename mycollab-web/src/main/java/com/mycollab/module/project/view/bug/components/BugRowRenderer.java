@@ -23,7 +23,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
@@ -48,7 +48,7 @@ public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<S
         String bugPriority = bug.getPriority();
         Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
 
-        Span statusSpan = new Span().appendText(AppContext.getMessage(OptionI18nEnum.BugStatus.class,
+        Span statusSpan = new Span().appendText(UserUIContext.getMessage(OptionI18nEnum.BugStatus.class,
                 bug.getStatus())).setCSSClass(WebUIConstants.BLOCK);
 
         String avatarLink = StorageFactory.getAvatarPath(bug.getAssignUserAvatarId(), 16);

@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
@@ -83,14 +83,14 @@ public class ELabel extends Label {
     }
 
     public ELabel prettyDate(Date date) {
-        this.setValue(AppContext.formatPrettyTime(date));
-        this.setDescription(AppContext.formatDate(date));
+        this.setValue(UserUIContext.formatPrettyTime(date));
+        this.setDescription(UserUIContext.formatDate(date));
         return this;
     }
 
     public ELabel prettyDateTime(Date date) {
-        this.setValue(AppContext.formatPrettyTime(date));
-        this.setDescription(AppContext.formatDateTime(date));
+        this.setValue(UserUIContext.formatPrettyTime(date));
+        this.setDescription(UserUIContext.formatDateTime(date));
         return this;
     }
 
@@ -128,7 +128,7 @@ public class ELabel extends Label {
         } else {
             try {
                 Enum anEnum = Enum.valueOf(enumType, value);
-                return new ELabel(AppContext.getMessage(anEnum));
+                return new ELabel(UserUIContext.getMessage(anEnum));
             } catch (Exception e) {
                 return new ELabel(value);
             }

@@ -32,7 +32,7 @@ import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -115,7 +115,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
         relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_CONTACT
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(ContactI18nEnum.LIST)
+                + UserUIContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
         relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(
@@ -127,7 +127,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
                 .setCaption("<span aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_OPPORTUNITY
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext.getMessage(OpportunityI18nEnum.LIST)
+                        + UserUIContext.getMessage(OpportunityI18nEnum.LIST)
                         + "</div>");
         relatedOpportunities.setHtmlContentAllowed(true);
         relatedOpportunities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(this,
@@ -138,7 +138,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
         relatedLeads.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_LEAD
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(LeadI18nEnum.LIST) + "</div>");
+                + UserUIContext.getMessage(LeadI18nEnum.LIST) + "</div>");
         relatedLeads.setHtmlContentAllowed(true);
         relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateLeads))));
@@ -148,7 +148,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_ACTIVITY
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+                + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
         relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(this,

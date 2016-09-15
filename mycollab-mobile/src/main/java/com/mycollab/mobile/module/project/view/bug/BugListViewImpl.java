@@ -44,7 +44,8 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -66,7 +67,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
     private static final long serialVersionUID = -7877935907665712184L;
 
     public BugListViewImpl() {
-        this.setCaption(AppContext.getMessage(BugI18nEnum.LIST));
+        this.setCaption(UserUIContext.getMessage(BugI18nEnum.LIST));
     }
 
     @Override
@@ -93,7 +94,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
         menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(AppContext.getMessage(BugI18nEnum.NEW),
+        content.with(new Button(UserUIContext.getMessage(BugI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null))));
         menu.setContent(content);
         return menu;
@@ -115,14 +116,14 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
             CssLayout metaInfoLayout = new CssLayout();
             bugRowLayout.with(metaInfoLayout);
 
-            ELabel lastUpdatedTimeLbl = new ELabel(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, AppContext
+            ELabel lastUpdatedTimeLbl = new ELabel(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, UserUIContext
                     .formatPrettyTime((bug.getLastupdatedtime())))).withStyleName(UIConstants.META_INFO);
             metaInfoLayout.addComponent(lastUpdatedTimeLbl);
 
-            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
                     CurrentProjectVariables.getProjectId(), bug.getAssignuser()));
             assigneeLink.appendText(StringUtils.trim(bug.getAssignuserFullName(), 30, true));
-            Div assigneeDiv = new Div().appendText(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+            Div assigneeDiv = new Div().appendText(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
                     .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory
                                     .getAvatarPath(bug.getAssignUserAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(),
                             assigneeLink);
@@ -131,7 +132,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
                     .withWidthUndefined();
             metaInfoLayout.addComponent(assigneeLbl);
 
-            ELabel statusLbl = ELabel.html(AppContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + AppContext.getMessage
+            ELabel statusLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + UserUIContext.getMessage
                     (OptionI18nEnum.BugStatus.class, bug.getStatus())).withStyleName(UIConstants.META_INFO);
             metaInfoLayout.addComponent(statusLbl);
 

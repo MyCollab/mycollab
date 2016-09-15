@@ -28,7 +28,6 @@ import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -36,7 +35,8 @@ import com.mycollab.module.crm.ui.components.*;
 import com.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -115,9 +115,9 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
     protected String initFormTitle() {
         // check if there is converted lead associates with this account
         LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
-        SimpleLead lead = leadService.findConvertedLeadOfOpportunity(beanItem.getId(), AppContext.getAccountId());
+        SimpleLead lead = leadService.findConvertedLeadOfOpportunity(beanItem.getId(), MyCollabUI.getAccountId());
         if (lead != null) {
-            return String.format("<h2>%s%s</h2>", beanItem.getOpportunityname(), AppContext
+            return String.format("<h2>%s%s</h2>", beanItem.getOpportunityname(), UserUIContext
                     .getMessage(LeadI18nEnum.CONVERT_FROM_LEAD_TITLE, CrmAssetsManager.getAsset(CrmTypeConstants.LEAD),
                             CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()), lead.getLeadName()));
         } else {
@@ -148,13 +148,13 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
         previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
         previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-                AppContext.getMessage(ContactI18nEnum.LIST));
+                UserUIContext.getMessage(ContactI18nEnum.LIST));
         previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
-                AppContext.getMessage(LeadI18nEnum.LIST));
+                UserUIContext.getMessage(LeadI18nEnum.LIST));
         previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
     }
 
     @Override
@@ -173,7 +173,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
     protected void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.OPPORTUNITY));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);

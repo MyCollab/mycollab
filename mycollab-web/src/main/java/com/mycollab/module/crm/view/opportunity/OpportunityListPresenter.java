@@ -29,7 +29,8 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
@@ -69,7 +70,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
                     UI.getCurrent().addWindow(new MailFormWindow());
                 } else if ("massUpdate".equals(id)) {
                     MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
-                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, AppContext.getMessage
+                            UserUIContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, UserUIContext.getMessage
                                     (OpportunityI18nEnum.LIST)),
                             OpportunityListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
@@ -78,7 +79,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(OpportunityI18nEnum.LIST);
+                return UserUIContext.getMessage(OpportunityI18nEnum.LIST);
             }
 
             @Override
@@ -91,7 +92,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.OPPORTUNITY);
-        if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
+        if (UserUIContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
             searchCriteria = (OpportunitySearchCriteria) data.getParams();
             int totalCount = opportunityService.getTotalCount(searchCriteria);
             if (totalCount > 0) {
@@ -101,7 +102,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.LIST));
+            MyCollabUI.addFragment("crm/opportunity/list", UserUIContext.getMessage(OpportunityI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }
@@ -119,12 +120,12 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
             }
 
             if (keyList.size() > 0) {
-                opportunityService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                opportunityService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            opportunityService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            opportunityService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
             doSearch(searchCriteria);
         }
     }
@@ -141,7 +142,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
             }
 
             if (keyList.size() > 0) {
-                opportunityService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                opportunityService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

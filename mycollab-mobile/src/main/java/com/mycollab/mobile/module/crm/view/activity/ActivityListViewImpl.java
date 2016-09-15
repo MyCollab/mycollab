@@ -27,7 +27,7 @@ import com.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -43,7 +43,7 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
 
     public ActivityListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
+        setCaption(UserUIContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
     }
 
     @Override
@@ -58,16 +58,16 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
 
         MVerticalLayout addButtons = new MVerticalLayout().withFullWidth();
 
-        Button addTask = new Button(AppContext.getMessage(TaskI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
+        Button addTask = new Button(UserUIContext.getMessage(TaskI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
                 new ActivityEvent.TaskAdd(this, null))
         );
         addButtons.addComponent(addTask);
 
-        Button addCall = new Button(AppContext.getMessage(CallI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
+        Button addCall = new Button(UserUIContext.getMessage(CallI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
                 new ActivityEvent.CallAdd(this, null)));
         addButtons.addComponent(addCall);
 
-        Button addMeeting = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
+        Button addMeeting = new Button(UserUIContext.getMessage(MeetingI18nEnum.NEW), clickEvent -> EventBusFactory.getInstance().post(
                 new ActivityEvent.MeetingAdd(this, null)));
         addButtons.addComponent(addMeeting);
 

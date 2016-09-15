@@ -25,7 +25,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.events.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -60,12 +60,12 @@ class GroupPageAddWindow extends MWindow {
 
         if (editFolder == null) {
             folder = new Folder();
-            this.setCaption(AppContext.getMessage(PageI18nEnum.NEW_GROUP));
+            this.setCaption(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP));
             String pagePath = CurrentProjectVariables.getCurrentPagePath();
             folder.setPath(pagePath + "/" + StringUtils.generateSoftUniqueId());
         } else {
             folder = editFolder;
-            this.setCaption(AppContext.getMessage(PageI18nEnum.DETAIL_GROUP));
+            this.setCaption(UserUIContext.getMessage(PageI18nEnum.DETAIL_GROUP));
         }
 
         editForm.setBean(folder);
@@ -100,15 +100,15 @@ class GroupPageAddWindow extends MWindow {
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
 
-                final MButton cancelBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+                final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebUIConstants.BUTTON_OPTION);
 
-                MButton saveBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         PageService pageService = AppContextUtil.getSpringBean(PageService.class);
-                        pageService.createFolder(folder, AppContext.getUsername());
+                        pageService.createFolder(folder, UserUIContext.getUsername());
                         folder.setCreatedTime(new GregorianCalendar());
-                        folder.setCreatedUser(AppContext.getUsername());
+                        folder.setCreatedUser(UserUIContext.getUsername());
                         GroupPageAddWindow.this.close();
                         EventBusFactory.getInstance().post(new PageEvent.GotoList(GroupPageAddWindow.this, folder.getPath()));
                     }
@@ -122,9 +122,9 @@ class GroupPageAddWindow extends MWindow {
             @Override
             protected Component onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("name")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_GROUP), 0, 0);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_GROUP), 0, 0);
                 } else if (propertyId.equals("description")) {
-                    return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
                 }
                 return null;
             }

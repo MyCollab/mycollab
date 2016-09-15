@@ -28,7 +28,8 @@ import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.query.CurrentProjectIdInjector;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import org.joda.time.LocalDate;
 
@@ -53,16 +54,16 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
     public TaskSavedFilterComboBox() {
         super(ProjectTypeConstants.TASK);
 
-        SearchQueryInfo allTasksQuery = new SearchQueryInfo(ALL_TASKS, AppContext.getMessage(TaskI18nEnum.VAL_ALL_TASKS),
+        SearchQueryInfo allTasksQuery = new SearchQueryInfo(ALL_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_ALL_TASKS),
                 SearchFieldInfo.inCollection(TaskSearchCriteria.p_projectIds, new CurrentProjectIdInjector()));
 
-        SearchQueryInfo allOpenTaskQuery = new SearchQueryInfo(OPEN_TASKS, AppContext.getMessage(TaskI18nEnum.VAL_ALL_OPEN_TASKS),
+        SearchQueryInfo allOpenTaskQuery = new SearchQueryInfo(OPEN_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_ALL_OPEN_TASKS),
                 SearchFieldInfo.inCollection(TaskSearchCriteria.p_status, new VariableInjector() {
                     @Override
                     public Object eval() {
                         OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
                         List<OptionVal> options = optionValService.findOptionValsExcludeClosed(ProjectTypeConstants.TASK,
-                                CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                                CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
                         List<String> statuses = new ArrayList<>();
                         for (OptionVal option : options) {
                             statuses.add(option.getTypeval());
@@ -86,7 +87,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                     }
                 }));
 
-        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_TASKS, AppContext.getMessage(TaskI18nEnum.VAL_OVERDUE_TASKS),
+        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_OVERDUE_TASKS),
                 new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_duedate, DateParam.BEFORE, new LazyValueInjector() {
                     @Override
                     protected Object doEval() {
@@ -95,19 +96,19 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                 }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), QueryI18nEnum.StringI18nEnum.IS_NOT.name(),
                 ConstantValueInjector.valueOf(OptionI18nEnum.StatusI18nEnum.Closed.name())));
 
-        SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, AppContext.getMessage(TaskI18nEnum.VAL_MY_TASKS),
-                SearchFieldInfo.inCollection(TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Collections.singletonList(AppContext.getUsername()))));
+        SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_MY_TASKS),
+                SearchFieldInfo.inCollection(TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
 
-        SearchQueryInfo newTasksThisWeekQuery = new SearchQueryInfo(NEW_TASKS_THIS_WEEK, AppContext.getMessage(TaskI18nEnum.VAL_NEW_THIS_WEEK),
+        SearchQueryInfo newTasksThisWeekQuery = new SearchQueryInfo(NEW_TASKS_THIS_WEEK, UserUIContext.getMessage(TaskI18nEnum.VAL_NEW_THIS_WEEK),
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_createtime, VariableInjector.THIS_WEEK));
 
-        SearchQueryInfo updateTasksThisWeekQuery = new SearchQueryInfo(UPDATE_TASKS_THIS_WEEK, AppContext.getMessage(TaskI18nEnum.VAL_UPDATE_THIS_WEEK),
+        SearchQueryInfo updateTasksThisWeekQuery = new SearchQueryInfo(UPDATE_TASKS_THIS_WEEK, UserUIContext.getMessage(TaskI18nEnum.VAL_UPDATE_THIS_WEEK),
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_lastupdatedtime, VariableInjector.THIS_WEEK));
 
-        SearchQueryInfo newTasksLastWeekQuery = new SearchQueryInfo(NEW_TASKS_LAST_WEEK, AppContext.getMessage(TaskI18nEnum.VAL_NEW_LAST_WEEK),
+        SearchQueryInfo newTasksLastWeekQuery = new SearchQueryInfo(NEW_TASKS_LAST_WEEK, UserUIContext.getMessage(TaskI18nEnum.VAL_NEW_LAST_WEEK),
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_createtime, VariableInjector.LAST_WEEK));
 
-        SearchQueryInfo updateTasksLastWeekQuery = new SearchQueryInfo(UPDATE_TASKS_LAST_WEEK, AppContext.getMessage(TaskI18nEnum.VAL_UPDATE_LAST_WEEK),
+        SearchQueryInfo updateTasksLastWeekQuery = new SearchQueryInfo(UPDATE_TASKS_LAST_WEEK, UserUIContext.getMessage(TaskI18nEnum.VAL_UPDATE_LAST_WEEK),
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_lastupdatedtime, VariableInjector.LAST_WEEK));
 
         this.addSharedSearchQueryInfo(allTasksQuery);

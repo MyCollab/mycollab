@@ -27,7 +27,8 @@ import com.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -83,8 +84,8 @@ public class BugRowComponent extends MVerticalLayout {
         Component milestoneField = popupFieldFactory.createMilestonePopupField(bug);
         footer.addComponent(milestoneField);
 
-        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
-                AppContext.formatDate(bug.getDuedate()));
+        String deadlineTooltip = String.format("%s: %s", UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
+                UserUIContext.formatDate(bug.getDuedate()));
         AbstractComponent deadlineField = popupFieldFactory.createDeadlinePopupField(bug);
         deadlineField.setDescription(deadlineTooltip);
         footer.addComponent(deadlineField);
@@ -124,23 +125,23 @@ public class BugRowComponent extends MVerticalLayout {
         OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
-            MButton editButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
+            MButton editButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
                 bugSettingPopupBtn.setPopupVisible(false);
                 EventBusFactory.getInstance().post(new BugEvent.GotoEdit(BugRowComponent.this, bug));
             }).withIcon(FontAwesome.EDIT);
             filterBtnLayout.addOption(editButton);
 
-            MButton deleteBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+            MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 bugSettingPopupBtn.setPopupVisible(false);
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                                bugService.removeWithSession(bug, AppContext.getUsername(), AppContext.getAccountId());
+                                bugService.removeWithSession(bug, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                                 deleteBug();
                             }
                         });

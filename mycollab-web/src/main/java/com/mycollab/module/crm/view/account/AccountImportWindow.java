@@ -26,7 +26,7 @@ import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +47,7 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
         FieldMapperDef[] fields = {
                 new FieldMapperDef("accountname", "Account Name"),
                 new FieldMapperDef("website", "Website"),
-                new FieldMapperDef("phoneoffice", AppContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE)),
+                new FieldMapperDef("phoneoffice", UserUIContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE)),
                 new FieldMapperDef("fax", "Fax"),
                 new FieldMapperDef("alternatephone", "Alternate Phone"),
                 new FieldMapperDef("annualrevenue", "Annual Revenue"),
@@ -62,7 +62,7 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
                 new FieldMapperDef("shippingpostalcode", "Shipping Postal Code"),
                 new FieldMapperDef("shippingstate", "Shipping State"),
                 new FieldMapperDef("numemployees", "Number Employees"),
-                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+                new FieldMapperDef("assignuser", UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
                 new FieldMapperDef("type", "Type"),
                 new FieldMapperDef("industry", "Industry"),
                 new FieldMapperDef("billingcountry", "Billing Country"),

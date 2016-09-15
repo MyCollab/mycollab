@@ -33,7 +33,8 @@ import com.mycollab.module.user.accountsettings.view.parameters.{BillingScreenDa
 import com.mycollab.module.user.domain.criteria.{RoleSearchCriteria, UserSearchCriteria}
 import com.mycollab.module.user.domain.{Role, SimpleUser}
 import com.mycollab.module.user.events.{RoleEvent, UserEvent}
-import com.mycollab.vaadin.AppContext
+import com.mycollab.vaadin.MyCollabUI.getAccountId
+import com.mycollab.vaadin.{MyCollabUI, UserUIContext}
 import com.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 
 /**
@@ -105,7 +106,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
       @Subscribe def handle(event: UserEvent.GotoList) {
         val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
         val criteria = new UserSearchCriteria
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         criteria.setRegisterStatuses(new SetSearchField[String](RegisterStatusConstants.ACTIVE, RegisterStatusConstants.NOT_LOG_IN_YET))
         presenter.go(container, new UserScreenData.Search(criteria))
       }
@@ -136,7 +137,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
       @Subscribe def handle(event: RoleEvent.GotoList) {
         val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
         val criteria = new RoleSearchCriteria
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId))
         presenter.go(container, new RoleScreenData.Search(criteria))
       }
     })

@@ -25,7 +25,7 @@ import com.mycollab.module.project.events.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ProjectListNoItemView;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
@@ -47,17 +47,17 @@ public class PageListNoItemView extends ProjectListNoItemView {
 
     @Override
     protected String viewTitle() {
-        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
+        return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
     }
 
     @Override
     protected String viewHint() {
-        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
+        return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
     }
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(PageI18nEnum.NEW);
+        return UserUIContext.getMessage(PageI18nEnum.NEW);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class PageListNoItemView extends ProjectListNoItemView {
         if (hasPermission()) {
             MButton createPageBtn = new MButton(actionMessage(), actionListener()).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-            MButton createPageGroupBtn = new MButton(AppContext.getMessage(PageI18nEnum.NEW_GROUP), clickEvent -> {
+            MButton createPageGroupBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP), clickEvent -> {
                 UI.getCurrent().addWindow(new GroupPageAddWindow());
             }).withStyleName(WebUIConstants.BUTTON_ACTION);
 

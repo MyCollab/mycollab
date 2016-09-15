@@ -38,7 +38,7 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -80,7 +80,7 @@ public class ProjectMembersWidget extends Depot {
                         SearchCriteria.DESC)));
             }
             memberList.setSearchCriteria(searchCriteria);
-            setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
+            setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
         });
         sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
         sortBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
@@ -102,7 +102,7 @@ public class ProjectMembersWidget extends Depot {
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
         addHeaderElement(searchTextField);
 
-        MButton inviteMemberBtn = new MButton(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent ->
+        MButton inviteMemberBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent ->
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
@@ -124,7 +124,7 @@ public class ProjectMembersWidget extends Depot {
 
     private void showMembers() {
         memberList.setSearchCriteria(searchCriteria);
-        this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
+        this.setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
     }
 
     public static class MemberRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<SimpleProjectMember> {
@@ -144,24 +144,24 @@ public class ProjectMembersWidget extends Depot {
 
             String roleVal;
             if (member.isProjectOwner()) {
-                roleVal = AppContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
+                roleVal = UserUIContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
             } else {
                 roleVal = member.getRoleName();
             }
-            ELabel memberRole = ELabel.html(roleVal).withDescription(AppContext.getMessage(ProjectRoleI18nEnum.SINGLE))
+            ELabel memberRole = ELabel.html(roleVal).withDescription(UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE))
                     .withStyleName(UIConstants.META_INFO);
             footer.addComponent(memberRole);
 
             String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + "&nbsp;" +
-                    new Span().appendText("" + member.getNumOpenTasks()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)) +
+                    new Span().appendText("" + member.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)) +
                     "&nbsp;&nbsp;" +
                     ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() + "&nbsp;" +
-                    new Span().appendText("" + member.getNumOpenBugs()).setTitle(AppContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)) + "&nbsp;&nbsp;"
+                    new Span().appendText("" + member.getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)) + "&nbsp;&nbsp;"
                     + FontAwesome.MONEY.getHtml() + "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2,
-                    member.getTotalBillableLogTime())).setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) + "&nbsp;&nbsp;" +
+                    member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) + "&nbsp;&nbsp;" +
                     FontAwesome.GIFT.getHtml() +
                     "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
-                    .setTitle(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
+                    .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
             ELabel memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
             footer.addComponent(memberWorkStatus);

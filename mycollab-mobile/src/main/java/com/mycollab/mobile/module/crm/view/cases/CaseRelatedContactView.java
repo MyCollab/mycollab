@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.cases;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
 import com.mycollab.mobile.shell.events.ShellEvent;
@@ -26,7 +25,8 @@ import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -41,7 +41,7 @@ public class CaseRelatedContactView extends AbstractRelatedListView<SimpleContac
     private CaseWithBLOBs myCase;
 
     public CaseRelatedContactView() {
-        this.setCaption(AppContext.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
+        this.setCaption(UserUIContext.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
         itemList = new ContactListDisplay();
         this.setContent(itemList);
     }
@@ -53,7 +53,7 @@ public class CaseRelatedContactView extends AbstractRelatedListView<SimpleContac
 
     private void loadContacts() {
         ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setCaseId(new NumberSearchField(myCase.getId()));
         this.setSearchCriteria(criteria);
     }
@@ -70,13 +70,13 @@ public class CaseRelatedContactView extends AbstractRelatedListView<SimpleContac
 
         MVerticalLayout addBtns = new MVerticalLayout().withFullWidth();
 
-        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
+        Button newContactBtn = new Button(UserUIContext.getMessage(ContactI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""));
         addBtns.addComponent(newContactBtn);
 
-        Button selectContact = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), clickEvent -> {
+        Button selectContact = new Button(UserUIContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), clickEvent -> {
             CaseContactSelectionView contactSelectionView = new CaseContactSelectionView(CaseRelatedContactView.this);
             ContactSearchCriteria criteria = new ContactSearchCriteria();
-            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             contactSelectionView.setSearchCriteria(criteria);
             EventBusFactory.getInstance().post(new ShellEvent.PushView(CaseRelatedContactView.this, contactSelectionView));
         });

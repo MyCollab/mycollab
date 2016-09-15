@@ -31,7 +31,7 @@ import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
@@ -69,7 +69,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
     private ComponentTimeLogComp componentTimeLogComp;
 
     public ComponentReadViewImpl() {
-        super(AppContext.getMessage(ComponentI18nEnum.DETAIL),
+        super(UserUIContext.getMessage(ComponentI18nEnum.DETAIL),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
     }
 
@@ -117,11 +117,11 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
             addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
         }
 
@@ -150,17 +150,17 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
                 beanItem.setStatus(StatusI18nEnum.Open.name());
                 ComponentReadViewImpl.this.removeLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
+                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
                 quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
                 ComponentReadViewImpl.this.addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-                quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
+                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                 quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
             }
 
             ComponentService service = AppContextUtil.getSpringBean(ComponentService.class);
-            service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
+            service.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
         }).withStyleName(WebUIConstants.BUTTON_ACTION);
         componentPreviewForm.insertToControlBlock(quickActionStatusBtn);
         quickActionStatusBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
@@ -185,7 +185,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             this.withMargin(false);
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -194,7 +194,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                Label createdLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                Label createdLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
@@ -207,7 +207,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                Label assigneeLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(bean, "userlead");

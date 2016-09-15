@@ -20,7 +20,7 @@ import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.module.project.ui.components.TimeLogComp;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 
 /**
  * @author MyCollab Ltd
@@ -31,17 +31,17 @@ public class VersionTimeLogComp extends TimeLogComp<Version> {
 
     @Override
     protected Double getTotalBillableHours(Version bean) {
-        return itemTimeLoggingService.getTotalBillableHoursByVersion(bean.getId(), AppContext.getAccountId());
+        return itemTimeLoggingService.getTotalBillableHoursByVersion(bean.getId(), MyCollabUI.getAccountId());
     }
 
     @Override
     protected Double getTotalNonBillableHours(Version bean) {
-        return itemTimeLoggingService.getTotalNonBillableHoursByVersion(bean.getId(), AppContext.getAccountId());
+        return itemTimeLoggingService.getTotalNonBillableHoursByVersion(bean.getId(), MyCollabUI.getAccountId());
     }
 
     @Override
     protected Double getRemainedHours(Version bean) {
-        return itemTimeLoggingService.getRemainHoursByVersion(bean.getId(), AppContext.getAccountId());
+        return itemTimeLoggingService.getRemainHoursByVersion(bean.getId(), MyCollabUI.getAccountId());
     }
 
     @Override

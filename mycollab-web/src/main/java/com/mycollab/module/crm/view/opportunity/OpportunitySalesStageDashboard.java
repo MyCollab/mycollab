@@ -27,7 +27,8 @@ import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.PieChartWrapper;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -61,14 +62,14 @@ public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunityS
             boolean isFound = false;
             for (final GroupItem item : groupItems) {
                 if (status.name().equals(item.getGroupid())) {
-                    dataset.setValue(AppContext.getMessage(status), item.getValue());
+                    dataset.setValue(UserUIContext.getMessage(status), item.getValue());
                     isFound = true;
                     break;
                 }
             }
 
             if (!isFound) {
-                dataset.setValue(AppContext.getMessage(status), 0);
+                dataset.setValue(UserUIContext.getMessage(status), 0);
             }
         }
 
@@ -78,7 +79,7 @@ public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunityS
     @Override
     public void clickLegendItem(String key) {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         searchCriteria.setSalesStages(new SetSearchField<>(key));
         EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, searchCriteria));
     }

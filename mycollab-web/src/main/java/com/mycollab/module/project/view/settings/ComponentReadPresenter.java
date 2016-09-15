@@ -31,7 +31,8 @@ import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.reporting.FormReportLayout;
 import com.mycollab.reporting.PrintButton;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -70,7 +71,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
             @Override
             public void onDelete(SimpleComponent data) {
                 ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-                componentService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                componentService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                 EventBusFactory.getInstance().post(new BugComponentEvent.GotoList(this, null));
             }
 
@@ -129,7 +130,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
             if (data.getParams() instanceof Integer) {
                 ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
-                SimpleComponent component = componentService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                SimpleComponent component = componentService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (component != null) {
                     ComponentContainer componentContainer = container;
                     componentContainer.removeAllComponents();

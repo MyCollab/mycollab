@@ -19,7 +19,7 @@ package com.mycollab.module.project.view.file;
 import com.mycollab.module.ecm.domain.Folder;
 import com.mycollab.module.file.view.components.ResourcesDisplayComponent;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
@@ -36,7 +36,7 @@ public class FileDashboardViewImpl extends AbstractPageView implements FileDashb
     public void displayProjectFiles() {
         this.withMargin(new MarginInfo(false, true, false, true)).withFullWidth();
         int projectId = CurrentProjectVariables.getProjectId();
-        String rootPath = String.format("%d/project/%d", AppContext.getAccountId(), projectId);
+        String rootPath = String.format("%d/project/%d", MyCollabUI.getAccountId(), projectId);
         addComponent(new ResourcesDisplayComponent(new Folder(rootPath)));
     }
 }

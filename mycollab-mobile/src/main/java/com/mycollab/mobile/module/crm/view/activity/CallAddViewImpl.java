@@ -23,7 +23,7 @@ import com.mycollab.mobile.ui.ValueComboBox;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CallWithBLOBs;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.vaadin.addon.touchkit.ui.DatePicker;
@@ -40,7 +40,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getSubject() != null ? beanItem.getSubject() : AppContext.getMessage(CallI18nEnum.NEW);
+        return beanItem.getSubject() != null ? beanItem.getSubject() : UserUIContext.getMessage(CallI18nEnum.NEW);
     }
 
     @Override

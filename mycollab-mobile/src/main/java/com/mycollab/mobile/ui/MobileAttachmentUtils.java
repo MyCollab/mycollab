@@ -25,7 +25,8 @@ import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
@@ -123,13 +124,13 @@ public class MobileAttachmentUtils {
 
         MButton removeAttachment = new MButton("", clickEvent -> {
             ConfirmDialog.show(UI.getCurrent(),
-                    AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                     dialog -> {
                         if (dialog.isConfirmed()) {
                             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                            attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
+                            attachmentService.removeResource(attachment.getPath(), UserUIContext.getUsername(), MyCollabUI.getAccountId());
                             ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });
@@ -181,16 +182,16 @@ public class MobileAttachmentUtils {
                             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                             ImageIO.write(scaledImage, fileExt, outStream);
 
-                            resourceService.saveContent(constructContent(fileName, attachmentPath), AppContext.getUsername(),
-                                    new ByteArrayInputStream(outStream.toByteArray()), AppContext.getAccountId());
+                            resourceService.saveContent(constructContent(fileName, attachmentPath), UserUIContext.getUsername(),
+                                    new ByteArrayInputStream(outStream.toByteArray()), MyCollabUI.getAccountId());
                         } catch (IOException e) {
                             LOG.error("Error in upload file", e);
-                            resourceService.saveContent(constructContent(fileName, attachmentPath), AppContext.getUsername(),
-                                    new FileInputStream(fileStores.get(fileName)), AppContext.getAccountId());
+                            resourceService.saveContent(constructContent(fileName, attachmentPath), UserUIContext.getUsername(),
+                                    new FileInputStream(fileStores.get(fileName)), MyCollabUI.getAccountId());
                         }
                     } else {
                         resourceService.saveContent(constructContent(fileName, attachmentPath),
-                                AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
+                                UserUIContext.getUsername(), new FileInputStream(file), MyCollabUI.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {

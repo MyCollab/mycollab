@@ -18,10 +18,10 @@ package com.mycollab.mobile.module.crm.view.activity
 
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.mobile.module.crm.CrmUrlResolver
-import com.mycollab.vaadin.AppContext
 import com.mycollab.mobile.module.crm.CrmModuleScreenData
 import com.mycollab.mobile.module.crm.events.CrmEvent
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum
+import com.mycollab.vaadin.UserUIContext
 
 /**
  * @author MyCollab Ltd
@@ -36,7 +36,7 @@ class ActivityUrlResolver extends CrmUrlResolver {
     class ActivityListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-                new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER))))
+                new CrmModuleScreenData.GotoModule(UserUIContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER))))
         }
     }
 

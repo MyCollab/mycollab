@@ -94,7 +94,7 @@ public class BugSearchCriteria extends SearchCriteria {
     private static class BugTypeCustomSqlParam extends CustomSqlParam {
         private String type;
 
-        public BugTypeCustomSqlParam(String id, String type) {
+        BugTypeCustomSqlParam(String id, String type) {
             super(id);
             this.type = type;
         }

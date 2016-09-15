@@ -19,7 +19,7 @@ package com.mycollab.vaadin.resources;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.resources.file.VaadinFileResource;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
@@ -56,7 +56,7 @@ public class VaadinResourceFactory {
     }
 
     public static Resource getLogoResource(String logoId, int size) {
-        return new ExternalResource(StorageFactory.getLogoPath(AppContext.getAccountId(), logoId, size));
+        return new ExternalResource(StorageFactory.getLogoPath(MyCollabUI.getAccountId(), logoId, size));
     }
 
     public static Resource getAvatarResource(String avatarId, int size) {

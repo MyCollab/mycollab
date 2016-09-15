@@ -26,7 +26,7 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;
@@ -38,14 +38,14 @@ import java.util.Collection;
  */
 public class TaskCustomizeReportOutputWindow extends CustomizeReportOutputWindow<TaskSearchCriteria, SimpleTask> {
     public TaskCustomizeReportOutputWindow(VariableInjector<TaskSearchCriteria> variableInjector) {
-        super(ProjectTypeConstants.TASK, AppContext.getMessage(TaskI18nEnum.LIST), SimpleTask.class,
+        super(ProjectTypeConstants.TASK, UserUIContext.getMessage(TaskI18nEnum.LIST), SimpleTask.class,
                 AppContextUtil.getSpringBean(ProjectTaskService.class), variableInjector);
     }
 
     @Override
     protected Object[] buildSampleData() {
-        return new Object[]{"Task A", "Note 1", AppContext.formatDate(new LocalDate().minusDays(2).toDate()),
-                AppContext.formatDate(new LocalDate().plusDays(1).toDate()), AppContext.formatDate(new LocalDate().plusDays(1).toDate()),
+        return new Object[]{"Task A", "Note 1", UserUIContext.formatDate(new LocalDate().minusDays(2).toDate()),
+                UserUIContext.formatDate(new LocalDate().plusDays(1).toDate()), UserUIContext.formatDate(new LocalDate().plusDays(1).toDate()),
                 TaskPriority.High.name(), "50", "Will Smith", "Jonh Adam", "3", "1", "true",
                 "Project Closing", "3", "2"};
     }

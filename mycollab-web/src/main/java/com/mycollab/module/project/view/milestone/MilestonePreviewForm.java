@@ -40,7 +40,7 @@ import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -90,7 +90,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             } else if (Milestone.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(milestone.getDescription());
             } else if (Milestone.Field.status.equalTo(propertyId)) {
-                String milestoneStatus = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, beanItem.getStatus());
+                String milestoneStatus = UserUIContext.getMessage(OptionI18nEnum.MilestoneStatus.class, beanItem.getStatus());
                 FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(beanItem.getStatus());
                 return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML)
                         .withStyleName(WebUIConstants.FIELD_NOTE);
@@ -116,7 +116,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             withMargin(false).withFullWidth();
             MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
-            final CheckBox openSelection = new CheckBox(AppContext.getMessage(StatusI18nEnum.Open), true);
+            final CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
                 if (openSelection.getValue()) {
                     searchCriteria.setIsOpenned(new SearchField());
@@ -126,7 +126,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 updateSearchStatus();
             });
 
-            final CheckBox overdueSelection = new CheckBox(AppContext.getMessage(StatusI18nEnum.Overdue), false);
+            final CheckBox overdueSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Overdue), false);
             overdueSelection.addValueChangeListener(valueChangeEvent -> {
                 if (overdueSelection.getValue()) {
                     searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
@@ -139,13 +139,13 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             Label spacingLbl1 = new Label("");
             Label spacingLbl2 = new Label("");
 
-            final CheckBox taskSelection = new CheckBox(AppContext.getMessage(TaskI18nEnum.LIST), true);
+            final CheckBox taskSelection = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.LIST), true);
             taskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(taskSelection.getValue(), ProjectTypeConstants.TASK));
 
-            final CheckBox bugSelection = new CheckBox(AppContext.getMessage(BugI18nEnum.LIST), true);
+            final CheckBox bugSelection = new CheckBox(UserUIContext.getMessage(BugI18nEnum.LIST), true);
             bugSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(bugSelection.getValue(), ProjectTypeConstants.BUG));
 
-            final CheckBox riskSelection = new CheckBox(AppContext.getMessage(RiskI18nEnum.LIST), true);
+            final CheckBox riskSelection = new CheckBox(UserUIContext.getMessage(RiskI18nEnum.LIST), true);
             riskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(riskSelection.getValue(), ProjectTypeConstants.RISK));
 
             header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, riskSelection, spacingLbl2)
@@ -192,13 +192,13 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
             String status = "";
             if (genericTask.isBug()) {
-                status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
+                status = UserUIContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
             } else if (genericTask.isMilestone()) {
-                status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
+                status = UserUIContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
             } else if (genericTask.isRisk()) {
-                status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
+                status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             } else if (genericTask.isTask()) {
-                status = AppContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
+                status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             }
             rowComp.with(new ELabel(status).withStyleName(WebUIConstants.BLOCK).withWidthUndefined());
             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);

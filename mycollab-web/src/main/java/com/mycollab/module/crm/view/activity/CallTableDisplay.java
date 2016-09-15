@@ -25,7 +25,7 @@ import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
 import com.mycollab.module.crm.service.CallService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -60,13 +60,13 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
             final SimpleCall call = getBeanByIndex(itemId);
             MButton b = new MButton("", clickEvent -> fireTableEvent(new TableClickEvent(CallTableDisplay.this, call, "isClosed")))
                     .withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK);
-            b.setDescription(AppContext.getMessage(CallI18nEnum.OPT_CLOSE_THIS_CALL));
+            b.setDescription(UserUIContext.getMessage(CallI18nEnum.OPT_CLOSE_THIS_CALL));
             return b;
         });
 
         this.addGeneratedColumn("startdate", (source, itemId, columnId) -> {
             final SimpleCall call = getBeanByIndex(itemId);
-            return new Label(AppContext.formatDateTime(call.getStartdate()));
+            return new Label(UserUIContext.formatDateTime(call.getStartdate()));
         });
 
         this.addGeneratedColumn("status", (source, itemId, columnId) -> {

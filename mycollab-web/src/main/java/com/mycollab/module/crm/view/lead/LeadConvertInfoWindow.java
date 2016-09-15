@@ -27,7 +27,7 @@ import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.mycollab.module.crm.view.opportunity.OpportunitySalesStageComboBox;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -60,7 +60,7 @@ public class LeadConvertInfoWindow extends Window {
         this.setModal(true);
         this.center();
 
-        setCaption(AppContext.getMessage(LeadI18nEnum.WINDOW_CONVERT_LEAD_TITLE, lead.getLastname(), lead.getFirstname()));
+        setCaption(UserUIContext.getMessage(LeadI18nEnum.WINDOW_CONVERT_LEAD_TITLE, lead.getLastname(), lead.getFirstname()));
     }
 
     public Layout initContent() {
@@ -84,10 +84,10 @@ public class LeadConvertInfoWindow extends Window {
     }
 
     private ComponentContainer createButtonControls() {
-        MButton convertButton = new MButton(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD), clickEvent -> {
+        MButton convertButton = new MButton(UserUIContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD), clickEvent -> {
             LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
             lead.setStatus("Converted");
-            leadService.updateWithSession(lead, AppContext.getUsername());
+            leadService.updateWithSession(lead, UserUIContext.getUsername());
             Opportunity opportunity = null;
             if (opportunityForm != null && opportunityForm.isVisible()) {
                 if (opportunityForm.validateForm()) {
@@ -95,12 +95,12 @@ public class LeadConvertInfoWindow extends Window {
                 }
             }
 
-            leadService.convertLead(lead, opportunity, AppContext.getUsername());
+            leadService.convertLead(lead, opportunity, UserUIContext.getUsername());
             LeadConvertInfoWindow.this.close();
             EventBusFactory.getInstance().post(new LeadEvent.GotoRead(LeadConvertInfoWindow.this, lead.getId()));
         }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
-        MButton cancelButton = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         return new MHorizontalLayout(cancelButton, convertButton).alignAll(Alignment.MIDDLE_CENTER);
@@ -192,8 +192,8 @@ public class LeadConvertInfoWindow extends Window {
                         MTextField tf = new MTextField();
                         if (isValidateForm) {
                             tf.withNullRepresentation("").withRequired(true)
-                                    .withRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                            AppContext.getMessage(GenericI18Enum.FORM_NAME)));
+                                    .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                                            UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                         }
                         return tf;
                     } else if (propertyId.equals("currencyid")) {

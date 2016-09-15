@@ -25,12 +25,11 @@ import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
-import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -52,7 +51,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(TaskI18nEnum.NEW) : beanItem.getSubject();
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(TaskI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override

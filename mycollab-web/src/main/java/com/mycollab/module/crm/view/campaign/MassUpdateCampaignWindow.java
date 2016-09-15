@@ -21,7 +21,7 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.FormContainer;
@@ -63,10 +63,10 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
             final FormContainer formLayout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            formLayout.addSection(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION), informationLayout.getLayout());
+            formLayout.addSection(UserUIContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION), informationLayout.getLayout());
 
             campaignGoal = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            formLayout.addSection(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL), campaignGoal.getLayout());
+            formLayout.addSection(UserUIContext.getMessage(CampaignI18nEnum.SECTION_GOAL), campaignGoal.getLayout());
 
             formLayout.addComponent(buildButtonControls());
 
@@ -76,13 +76,13 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
         @Override
         protected Component onAttachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("assignuser")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
             } else if (propertyId.equals("status")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 1, 0);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_STATUS), 1, 0);
             } else if (propertyId.equals("type")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_TYPE), 0, 1);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_TYPE), 0, 1);
             } else if (propertyId.equals("currencyid")) {
-                return campaignGoal.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_CURRENCY), 0, 0);
+                return campaignGoal.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_CURRENCY), 0, 0);
             }
             return null;
         }

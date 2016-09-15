@@ -24,7 +24,7 @@ import com.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.Version;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -76,7 +76,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(BugI18nEnum.NEW) : AppContext.getMessage(BugI18nEnum.DETAIL);
+        return (beanItem.getId() == null) ? UserUIContext.getMessage(BugI18nEnum.NEW) : UserUIContext.getMessage(BugI18nEnum.DETAIL);
     }
 
     @Override

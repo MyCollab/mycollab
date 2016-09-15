@@ -22,7 +22,7 @@ import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -72,7 +72,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
             if (isValidateForm) {
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
+                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
             }
 
             return tf;
@@ -82,7 +82,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
             TextField txtField = new TextField();
             if (isValidateForm) {
                 txtField.setRequired(true);
-                txtField.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, AppContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME)));
+                txtField.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME)));
             }
 
             return txtField;

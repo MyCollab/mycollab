@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.project.view.message;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -43,7 +43,7 @@ public class MessageAttachmentField extends ProjectFormAttachmentUploadField {
         compHeader.setWidth("100%");
         compHeader.setStyleName("attachment-field-header");
 
-        Label headerLbl = new Label(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
+        Label headerLbl = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
         headerLbl.setStyleName("field-caption");
 
         compHeader.addComponent(headerLbl);

@@ -31,7 +31,7 @@ import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.module.user.ui.components.UserVerticalTabsheet;
 import com.mycollab.premium.module.user.accountsettings.view.UserAccountController;
 import com.mycollab.shell.events.ShellEvent;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -78,7 +78,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                 .withMargin(new MarginInfo(true, true, true, false));
         AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
-        Button helpBtn = new Button(AppContext.getMessage(GenericI18Enum.ACTION_HELP));
+        Button helpBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP));
         helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
         helpBtn.addStyleName(WebUIConstants.BUTTON_LINK);
         ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/account-management/");
@@ -103,22 +103,22 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
     private void buildComponents() {
         accountTab.addTab(constructUserInformationComponent(),
-                SettingUIConstants.PROFILE, AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE));
+                SettingUIConstants.PROFILE, UserUIContext.getMessage(AdminI18nEnum.VIEW_PROFILE));
 
         if (!SiteConfiguration.isCommunityEdition()) {
             accountTab.addTab(constructAccountSettingsComponent(),
-                    SettingUIConstants.BILLING, AppContext.getMessage(AdminI18nEnum.VIEW_BILLING));
+                    SettingUIConstants.BILLING, UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING));
         }
 
         accountTab.addTab(constructUserRoleComponent(), SettingUIConstants.USERS,
-                AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES));
+                UserUIContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES));
 
         accountTab.addTab(constructThemeComponent(), SettingUIConstants.GENERAL_SETTING,
-                AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
+                UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
 
         if (!SiteConfiguration.isDemandEdition()) {
             accountTab.addTab(constructSetupComponent(), SettingUIConstants.SETUP,
-                    AppContext.getMessage(AdminI18nEnum.VIEW_SETUP));
+                    UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP));
         }
 
         accountTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -183,7 +183,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         if (serviceMenuContainer == null) {
             serviceMenuContainer = new MHorizontalLayout();
             serviceMenu = new ServiceMenu();
-            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
+            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
@@ -191,7 +191,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                 }
             });
 
-            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_CRM), new Button.ClickListener() {
+            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_CRM), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -200,7 +200,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                 }
             });
 
-            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), new Button.ClickListener() {
+            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -210,7 +210,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
             });
 
 
-            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE), new Button.ClickListener() {
+            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PEOPLE), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));

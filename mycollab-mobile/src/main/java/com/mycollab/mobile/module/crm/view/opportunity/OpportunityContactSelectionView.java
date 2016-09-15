@@ -25,7 +25,7 @@ import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Inc.
@@ -36,7 +36,7 @@ public class OpportunityContactSelectionView extends AbstractRelatedItemSelectio
     private static final long serialVersionUID = 2293034561089085559L;
 
     public OpportunityContactSelectionView(AbstractRelatedListView<SimpleContact, ContactSearchCriteria> relatedListView) {
-        super(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), relatedListView);
+        super(UserUIContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), relatedListView);
     }
 
     @Override

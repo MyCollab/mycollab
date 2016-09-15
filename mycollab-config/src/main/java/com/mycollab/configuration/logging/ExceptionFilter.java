@@ -27,11 +27,11 @@ import ch.qos.logback.core.spi.FilterReply;
  * @since 5.1.3
  */
 public class ExceptionFilter extends Filter<ILoggingEvent> {
-    private static Class[] blacklistClss;
+    private static Class[] blacklistClasses;
 
     static {
         try {
-            blacklistClss = new Class[]{Class.forName("org.apache.jackrabbit.core.cluster.ClusterException"),
+            blacklistClasses = new Class[]{Class.forName("org.apache.jackrabbit.core.cluster.ClusterException"),
                     Class.forName("org.springframework.dao.UncategorizedDataAccessException"),
                     Class.forName("org.springframework.transaction.CannotCreateTransactionException"),
                     Class.forName("com.mycollab.core.SessionExpireException"),
@@ -57,7 +57,7 @@ public class ExceptionFilter extends Filter<ILoggingEvent> {
 
         final ThrowableProxy throwableProxyImpl = (ThrowableProxy) throwableProxy;
         final Throwable throwable = throwableProxyImpl.getThrowable();
-        for (Class exceptCls : blacklistClss) {
+        for (Class exceptCls : blacklistClasses) {
             if (isInstanceInBlackList(exceptCls, throwable)) {
                 return FilterReply.DENY;
             }
@@ -67,12 +67,6 @@ public class ExceptionFilter extends Filter<ILoggingEvent> {
     }
 
     private static boolean isInstanceInBlackList(Class cls, Throwable throwable) {
-        if (cls.isInstance(throwable)) {
-            return true;
-        }
-        if (throwable.getCause() != null) {
-            return isInstanceInBlackList(cls, throwable.getCause());
-        }
-        return false;
+        return cls.isInstance(throwable) || throwable.getCause() != null && isInstanceInBlackList(cls, throwable.getCause());
     }
 }

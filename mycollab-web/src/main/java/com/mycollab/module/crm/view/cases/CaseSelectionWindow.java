@@ -21,7 +21,8 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import org.vaadin.viritin.button.MButton;
@@ -40,7 +41,7 @@ public class CaseSelectionWindow extends MWindow {
     private FieldSelection fieldSelection;
 
     public CaseSelectionWindow(FieldSelection fieldSelection) {
-        super(AppContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, AppContext.getMessage(CaseI18nEnum.SINGLE)));
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(CaseI18nEnum.SINGLE)));
         this.withModal(true).withResizable(false).withWidth("1000px");
         this.fieldSelection = fieldSelection;
     }
@@ -66,7 +67,7 @@ public class CaseSelectionWindow extends MWindow {
                 fieldSelection.fireValueChange(cases);
                 close();
             }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCases(
-                    AppContext.getUserLocale(), cases, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
+                    UserUIContext.getUserLocale(), cases, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }
 }

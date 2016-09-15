@@ -28,18 +28,16 @@ import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.UserDashboardView;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -65,12 +63,12 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
         this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("tm-container").withFullWidth();
 
         MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
-        ELabel titleLbl = ELabel.h2(AppContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
+        ELabel titleLbl = ELabel.h2(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
-        final CheckBox includeNoDateSet = new CheckBox(AppContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
+        final CheckBox includeNoDateSet = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         includeNoDateSet.setValue(false);
 
-        final CheckBox includeClosedMilestone = new CheckBox(AppContext.getMessage(MilestoneStatus.Closed));
+        final CheckBox includeClosedMilestone = new CheckBox(UserUIContext.getMessage(MilestoneStatus.Closed));
         includeClosedMilestone.setValue(false);
 
         includeNoDateSet.addValueChangeListener(valueChangeEvent -> displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue()));
@@ -129,13 +127,13 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             }
 
             if (milestone.getEnddate() == null) {
-                timestampDiv.appendChild(new Span().setCSSClass("date").appendText(AppContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET)));
+                timestampDiv.appendChild(new Span().setCSSClass("date").appendText(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET)));
             } else {
                 if (milestone.isOverdue()) {
-                    timestampDiv.appendChild(new Span().setCSSClass("date overdue").appendText(AppContext.formatDate(milestone.getEnddate()) +
-                            " (" + AppContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, AppContext.formatDuration(milestone.getEnddate())) + ")"));
+                    timestampDiv.appendChild(new Span().setCSSClass("date overdue").appendText(UserUIContext.formatDate(milestone.getEnddate()) +
+                            " (" + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(milestone.getEnddate())) + ")"));
                 } else {
-                    timestampDiv.appendChild(new Span().setCSSClass("date").appendText(AppContext.formatDate(milestone.getEnddate())));
+                    timestampDiv.appendChild(new Span().setCSSClass("date").appendText(UserUIContext.formatDate(milestone.getEnddate())));
                 }
             }
             li.appendChild(timestampDiv);

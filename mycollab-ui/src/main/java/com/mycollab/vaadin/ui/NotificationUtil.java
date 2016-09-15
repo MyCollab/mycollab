@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
@@ -36,11 +36,11 @@ public class NotificationUtil {
     }
 
     public static void showWarningNotification(String description) {
-        showNotification(AppContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE), description, Type.WARNING_MESSAGE);
+        showNotification(UserUIContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE), description, Type.WARNING_MESSAGE);
     }
 
     public static void showErrorNotification(String description) {
-        showNotification(AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE), description, Type.ERROR_MESSAGE);
+        showNotification(UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE), description, Type.ERROR_MESSAGE);
     }
 
     public static void showNotification(String caption, String description, Type type) {
@@ -58,36 +58,36 @@ public class NotificationUtil {
 
     public static void showGotoLastRecordNotification() {
         showNotification(
-                AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
-                AppContext.getMessage(GenericI18Enum.NOTIFICATION_GOTO_LAST_RECORD),
+                UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
+                UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_GOTO_LAST_RECORD),
                 Type.HUMANIZED_MESSAGE);
     }
 
     public static void showGotoFirstRecordNotification() {
         showNotification(
-                AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
-                AppContext.getMessage(GenericI18Enum.NOTIFICATION_GOTO_FIRST_RECORD),
+                UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
+                UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_GOTO_FIRST_RECORD),
                 Type.HUMANIZED_MESSAGE);
     }
 
     public static void showRecordNotExistNotification() {
         showNotification(
-                AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
-                AppContext.getMessage(GenericI18Enum.NOTIFICATION_RECORD_IS_NOT_EXISTED),
+                UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
+                UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_RECORD_IS_NOT_EXISTED),
                 Type.HUMANIZED_MESSAGE);
     }
 
     public static void showMessagePermissionAlert() {
         showNotification(
-                AppContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
-                AppContext.getMessage(GenericI18Enum.NOTIFICATION_NO_PERMISSION_DO_TASK),
+                UserUIContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
+                UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_NO_PERMISSION_DO_TASK),
                 Type.WARNING_MESSAGE);
     }
 
     public static void showFeatureNotPresentInSubscription() {
         showNotification(
-                AppContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
-                AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_SUBSCRIPTION),
+                UserUIContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
+                UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_SUBSCRIPTION),
                 Type.WARNING_MESSAGE);
     }
 }

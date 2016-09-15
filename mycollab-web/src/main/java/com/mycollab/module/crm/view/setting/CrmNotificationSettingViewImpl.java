@@ -23,7 +23,7 @@ import com.mycollab.module.crm.domain.CrmNotificationSetting;
 import com.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.mycollab.module.project.i18n.ProjectSettingI18nEnum;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -59,18 +59,18 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements 
 
         optionGroup.addItem(NotificationType.Default.name());
         optionGroup.setItemCaption(NotificationType.Default.name(),
-                AppContext.getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
+                UserUIContext.getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
 
         optionGroup.addItem(NotificationType.None.name());
-        optionGroup.setItemCaption(NotificationType.None.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.None.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
 
         optionGroup.addItem(NotificationType.Minimal.name());
         optionGroup.setItemCaption(NotificationType.Minimal.name(),
-                AppContext.getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
+                UserUIContext.getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
 
         optionGroup.addItem(NotificationType.Full.name());
-        optionGroup.setItemCaption(NotificationType.Full.name(), AppContext
+        optionGroup.setItemCaption(NotificationType.Full.name(), UserUIContext
                 .getMessage(ProjectSettingI18nEnum.OPT_MAXIMUM_SETTING));
 
         optionGroup.setHeight("100%");
@@ -84,18 +84,18 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements 
             optionGroup.select(levelVal);
         }
 
-        Button updateBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+        Button updateBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
             try {
                 notification.setLevel((String) optionGroup.getValue());
                 CrmNotificationSettingService crmNotificationSettingService = AppContextUtil
                         .getSpringBean(CrmNotificationSettingService.class);
                 if (notification.getId() == null) {
-                    crmNotificationSettingService.saveWithSession(notification, AppContext.getUsername());
+                    crmNotificationSettingService.saveWithSession(notification, UserUIContext.getUsername());
                 } else {
-                    crmNotificationSettingService.updateWithSession(notification, AppContext.getUsername());
+                    crmNotificationSettingService.updateWithSession(notification, UserUIContext.getUsername());
                 }
-                NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.OPT_CONGRATS),
-                        AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+                NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
+                        UserUIContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }

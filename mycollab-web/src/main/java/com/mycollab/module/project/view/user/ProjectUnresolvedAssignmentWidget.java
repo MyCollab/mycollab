@@ -29,10 +29,9 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.project.ui.components.GenericTaskRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.vaadin.data.Property;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 import org.joda.time.LocalDate;
@@ -51,11 +50,11 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
     public ProjectUnresolvedAssignmentWidget() {
         super("", new CssLayout());
         this.setWidth("100%");
-        final CheckBox myItemsSelection = new CheckBox(AppContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+        final CheckBox myItemsSelection = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
         myItemsSelection.addValueChangeListener(valueChangeEvent -> {
             boolean isMyItemsOption = myItemsSelection.getValue();
             if (isMyItemsOption) {
-                searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                searchCriteria.setAssignUser(StringSearchField.and(UserUIContext.getUsername()));
             } else {
                 searchCriteria.setAssignUser(null);
             }
@@ -65,7 +64,7 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
                 new GenericTaskRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
-                return AppContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT);
+                return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT);
             }
         };
         addHeaderElement(myItemsSelection);
@@ -73,7 +72,7 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
     }
 
     public void displayUnresolvedAssignmentsThisWeek() {
-        title = AppContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_THIS_WEEK);
+        title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_THIS_WEEK);
         searchCriteria = new ProjectGenericTaskSearchCriteria();
         searchCriteria.setIsOpenned(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
@@ -85,7 +84,7 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
     }
 
     public void displayUnresolvedAssignmentsNextWeek() {
-        title = AppContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_NEXT_WEEK);
+        title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_ASSIGNMENT_NEXT_WEEK);
         searchCriteria = new ProjectGenericTaskSearchCriteria();
         searchCriteria.setIsOpenned(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));

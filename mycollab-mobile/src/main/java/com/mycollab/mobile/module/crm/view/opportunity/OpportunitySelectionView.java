@@ -17,13 +17,13 @@
 package com.mycollab.mobile.module.crm.view.opportunity;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -41,7 +41,7 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
     public OpportunitySelectionView() {
         super();
         createUI();
-        this.setCaption(AppContext.getMessage(OpportunityI18nEnum.M_VIEW_OPPORTUNITY_NAME_LOOKUP));
+        this.setCaption(UserUIContext.getMessage(OpportunityI18nEnum.M_VIEW_OPPORTUNITY_NAME_LOOKUP));
     }
 
     public void createUI() {
@@ -54,7 +54,7 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
     @Override
     public void load() {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         itemList.search(searchCriteria);
         SimpleOpportunity clearOpportunity = new SimpleOpportunity();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearOpportunity, 0));

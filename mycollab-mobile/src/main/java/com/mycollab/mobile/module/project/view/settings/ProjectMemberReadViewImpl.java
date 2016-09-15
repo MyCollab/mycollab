@@ -34,7 +34,8 @@ import com.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -102,20 +103,20 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         permissionGroup.removeAllComponents();
         if (roleId != null && roleId > 0) {
             ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
-            SimpleProjectRole role = roleService.findById(roleId, AppContext.getAccountId());
+            SimpleProjectRole role = roleService.findById(roleId, MyCollabUI.getAccountId());
             if (role != null) {
                 final PermissionMap permissionMap = role.getPermissionMap();
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                     final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                    Label permissionLbl = new Label(AppContext.getPermissionCaptionValue(permissionMap, permissionPath));
-                    permissionLbl.setCaption(AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)));
+                    Label permissionLbl = new Label(UserUIContext.getPermissionCaptionValue(permissionMap, permissionPath));
+                    permissionLbl.setCaption(UserUIContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)));
                     permissionGroup.addComponent(permissionLbl);
                 }
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                Label permissionLbl = new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS));
+                Label permissionLbl = new Label(UserUIContext.getMessage(SecurityI18nEnum.ACCESS));
                 permissionLbl.setCaption(permissionPath);
                 permissionGroup.addComponent(permissionLbl);
             }
@@ -136,13 +137,13 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         public ComponentContainer getLayout() {
             VerticalLayout layout = new VerticalLayout();
             layout.setMargin(false);
-            layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION)));
+            layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION)));
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
             layout.addComponent(informationLayout.getLayout());
             layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
 
-            layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS)));
+            layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS)));
             layout.addComponent(permissionGroup);
             return layout;
         }
@@ -150,11 +151,11 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         @Override
         public Component onAttachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("memberFullName")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
             } else if (propertyId.equals("email")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
             } else if (propertyId.equals("roleName")) {
-                return informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 2);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 2);
             }
             return null;
         }
@@ -176,7 +177,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
             } else if (propertyId.equals("roleName")) {
                 String memberRole;
                 if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
-                    memberRole = AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);
+                    memberRole = UserUIContext.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);
                 } else {
                     memberRole = beanItem.getRoleName();
                 }

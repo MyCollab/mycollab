@@ -30,7 +30,7 @@ import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.Switch;
@@ -70,7 +70,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         content.setSpacing(true);
         content.setSizeFull();
         this.setContent(content);
-        this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
+        this.setCaption(UserUIContext.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
         this.addStyleName("timelog-edit-view");
 
         this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
@@ -100,7 +100,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                 Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
                 for (final SimpleItemTimeLogging item : currentListData) {
                     if (!DateUtils.isSameDay(item.getLogforday(), currentDate)) {
-                        Label dateLbl = new Label(AppContext.formatDate(item.getLogforday()));
+                        Label dateLbl = new Label(UserUIContext.formatDate(item.getLogforday()));
                         dateLbl.setStyleName("log-day");
                         listContainer.addComponent(dateLbl);
                         currentDate = item.getLogforday();
@@ -119,11 +119,11 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         MVerticalLayout controlBtns = new MVerticalLayout().withFullWidth();
         controlBtns.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        MButton addNewEntryBtn = new MButton(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY),
+        MButton addNewEntryBtn = new MButton(UserUIContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY),
                 clickEvent -> UI.getCurrent().addWindow(new NewTimeLogEntryWindow())).withFullWidth();
         controlBtns.addComponent(addNewEntryBtn);
 
-        MButton updateRemainTimeBtn = new MButton(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS),
+        MButton updateRemainTimeBtn = new MButton(UserUIContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS),
                 clickEvent -> UI.getCurrent().addWindow(new UpdateRemainTimeWindow())).withFullWidth();
         controlBtns.addComponent(updateRemainTimeBtn);
 
@@ -139,7 +139,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         totalLayout.setStyleName("summary-block");
         totalLayout.addStyleName("total-time");
         totalLayout.setWidth("100%");
-        final Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
+        final Label lbTimeInstructTotal = new Label(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
         lbTimeInstructTotal.setStyleName("block-label");
         totalLayout.addComponent(lbTimeInstructTotal);
         this.totalSpentTimeLbl = new Label("_");
@@ -156,7 +156,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         updateLayout.addStyleName("remain-time");
         updateLayout.setWidth("100%");
 
-        final Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
+        final Label lbTimeInstructTotal = new Label(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
         lbTimeInstructTotal.setStyleName("block-label");
         updateLayout.addComponent(lbTimeInstructTotal);
         this.remainTimeLbl = new Label("_");
@@ -233,7 +233,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             VerticalLayout leftCol = new VerticalLayout();
             leftCol.setWidth("100%");
 
-            Label valueLbl = new Label(AppContext.formatTime(obj.getLogvalue()));
+            Label valueLbl = new Label(UserUIContext.formatTime(obj.getLogvalue()));
             valueLbl.setStyleName("log-value");
             leftCol.addComponent(valueLbl);
 
@@ -250,7 +250,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                         "<span aria-hidden=\"true\" data-icon=\""
                                 + IconConstants.CIRCLE_CHECK
                                 + "\"></span><div class=\"screen-reader-text\">"
-                                + AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE)
+                                + UserUIContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE)
                                 + "</div>");
                 billableLbl.setContentMode(ContentMode.HTML);
                 billableLbl.setWidthUndefined();
@@ -273,7 +273,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         private MButton createBtn;
 
         NewTimeLogEntryWindow() {
-            super(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY));
+            super(UserUIContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY));
             withModal(true).withResizable(false).withClosable(false).withDraggable(false)
                     .withStyleName("time-log-window", "new-time-entry-window").withWidth("95%").withCenter();
             constructUI();
@@ -289,17 +289,17 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             inputWrapper.setStyleName("input-wrapper");
 
             this.newTimeInputField = new NumericTextField();
-            this.newTimeInputField.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_SPENT_HOURS));
+            this.newTimeInputField.setCaption(UserUIContext.getMessage(TimeTrackingI18nEnum.M_FORM_SPENT_HOURS));
 
             this.newTimeInputField.setWidth("100%");
             inputWrapper.addComponent(this.newTimeInputField);
 
             this.forDate = new DatePicker();
             this.forDate.setValue(new GregorianCalendar().getTime());
-            this.forDate.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.LOG_FOR_DATE));
+            this.forDate.setCaption(UserUIContext.getMessage(TimeTrackingI18nEnum.LOG_FOR_DATE));
             inputWrapper.addComponent(this.forDate);
 
-            this.isBillableField = new Switch(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_IS_BILLABLE), true);
+            this.isBillableField = new Switch(UserUIContext.getMessage(TimeTrackingI18nEnum.M_FORM_IS_BILLABLE), true);
             inputWrapper.addComponent(this.isBillableField);
             addLayout.addComponent(inputWrapper);
 
@@ -307,7 +307,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             buttonLayout.setStyleName("button-layout");
             buttonLayout.setWidth("100%");
 
-            createBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE), clickEvent -> {
+            createBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CREATE), clickEvent -> {
                 double d = 0;
                 try {
                     d = Double.parseDouble(newTimeInputField.getValue());
@@ -323,7 +323,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                 }
             }).withStyleName("add-btn");
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
+            Button cancelBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
 
             buttonLayout.addComponent(cancelBtn);
             buttonLayout.addComponent(this.createBtn);
@@ -339,7 +339,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         private MButton createBtn;
 
         UpdateRemainTimeWindow() {
-            super(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS));
+            super(UserUIContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS));
             withModal(true).withResizable(false).withClosable(false).withDraggable(false)
                     .withStyleName("time-log-window", "update-remain-time-window").withWidth("95%").withCenter();
             constructUI();
@@ -363,7 +363,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
             buttonLayout.setStyleName("button-layout");
             buttonLayout.setWidth("100%");
 
-            createBtn = new MButton(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+            createBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
                 try {
                     double d = 0;
                     try {
@@ -384,7 +384,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                 }
             }).withStyleName("add-btn");
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
+            Button cancelBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close());
 
             buttonLayout.addComponent(cancelBtn);
             buttonLayout.addComponent(this.createBtn);

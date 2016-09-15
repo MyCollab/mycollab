@@ -20,7 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -39,17 +39,17 @@ public class MilestoneFormLayoutFactory extends AbstractFormLayoutFactory {
     @Override
     public Component onAttachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("name")) {
-            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
         } else if (propertyId.equals("status")) {
-            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 0, 1);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_STATUS), 0, 1);
         } else if (propertyId.equals("owner")) {
-            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
         } else if (propertyId.equals("startdate")) {
-            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
         } else if (propertyId.equals("enddate")) {
-            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 4);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 4);
         } else if (propertyId.equals("description")) {
-            return informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 7);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 7);
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class MilestoneFormLayoutFactory extends AbstractFormLayoutFactory {
         final VerticalLayout layout = new VerticalLayout();
         layout.setWidth("100%");
         layout.setMargin(false);
-        layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(MilestoneI18nEnum.SINGLE)));
+        layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE)));
 
         informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8);
         layout.addComponent(informationLayout.getLayout());

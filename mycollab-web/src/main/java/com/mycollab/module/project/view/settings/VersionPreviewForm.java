@@ -28,7 +28,7 @@ import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppContext;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.DateViewField;
@@ -136,7 +136,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
 
         private class BugStatusCheckbox extends CheckBox {
             BugStatusCheckbox(final Enum name, boolean defaultValue) {
-                super(AppContext.getMessage(name), defaultValue);
+                super(UserUIContext.getMessage(name), defaultValue);
                 this.addValueChangeListener(event -> updateTypeSearchStatus(getValue(), name.name()));
             }
         }
