@@ -28,6 +28,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.OptionGroup;
@@ -98,7 +99,7 @@ public class NotificationSettingWindow extends MWindow {
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        }).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
         MHorizontalLayout btnControls = new MHorizontalLayout(closeBtn, saveBtn);
         body.with(btnControls).withAlign(btnControls, Alignment.TOP_RIGHT);
 

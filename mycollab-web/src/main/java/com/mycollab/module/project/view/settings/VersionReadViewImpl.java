@@ -125,7 +125,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
     }
 
     @Override
-    protected ComponentContainer createButtonControls() {
+    protected HorizontalLayout createButtonControls() {
         ProjectPreviewFormControlsGenerator<Version> versionPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         HorizontalLayout topPanel = versionPreviewForm.createButtonControls(ProjectRolePermissionCollections.VERSIONS);
 

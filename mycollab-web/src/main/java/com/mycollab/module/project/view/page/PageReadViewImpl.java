@@ -128,7 +128,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     }
 
     @Override
-    protected ComponentContainer createButtonControls() {
+    protected HorizontalLayout createButtonControls() {
         ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         HorizontalLayout buttonControls = pagesPreviewForm.createButtonControls(
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED

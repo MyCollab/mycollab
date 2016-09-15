@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -143,6 +144,10 @@ public abstract class MyCollabUI extends UI {
 
     public static String getDateTimeFormat() {
         return getInstance().billingAccount.getDateTimeFormatInstance();
+    }
+
+    public static Locale getDefaultLocale() {
+        return getInstance().billingAccount.getLocaleInstance();
     }
 
     /**

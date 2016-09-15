@@ -20,6 +20,7 @@ package com.mycollab.module.project.domain;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 
 import java.util.Date;
 
@@ -188,12 +189,16 @@ public class SimpleMilestone extends Milestone {
     }
 
     public boolean isOverdue() {
-        if (!OptionI18nEnum.MilestoneStatus.Closed.name().equals(getStatus())) {
+        if (!MilestoneStatus.Closed.name().equals(getStatus())) {
             Date now = DateTimeUtils.getCurrentDateWithoutMS();
             return (getEnddate() != null && getEnddate().before(now));
         }
 
         return false;
+    }
+
+    public boolean isClosed() {
+        return MilestoneStatus.Closed.name().equals(getStatus());
     }
 
     public enum Field {

@@ -50,7 +50,7 @@ import org.springframework.stereotype.Component
       val subDomain = "api"
       val recoveryPasswordURL = SiteConfiguration.getSiteUrl(subDomain) + "user/recoverypassword/" +
         UrlEncodeDecoder.encode(username)
-      val locale: Locale = LocalizationHelper.getLocaleInstance(user.getLanguage)
+      val locale = LocalizationHelper.getLocaleInstance(user.getLanguage)
       contentGenerator.putVariable("username", user.getUsername)
       contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)
       contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(locale, MailI18nEnum.Copyright,

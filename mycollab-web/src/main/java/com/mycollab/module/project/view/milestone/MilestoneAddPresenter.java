@@ -31,6 +31,7 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.module.project.events.MilestoneEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
@@ -124,7 +125,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
                 ProjectTypeConstants.MILESTONE, "" + milestone.getId());
         uploadField.saveContentsToRepo(attachPath);
 
-        if (!SiteConfiguration.isCommunityEdition() && OptionI18nEnum.MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
+        if (!SiteConfiguration.isCommunityEdition() && MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
             ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK,

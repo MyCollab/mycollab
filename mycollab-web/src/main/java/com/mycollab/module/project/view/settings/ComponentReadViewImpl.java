@@ -143,7 +143,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
     }
 
     @Override
-    protected ComponentContainer createButtonControls() {
+    protected HorizontalLayout createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         HorizontalLayout topPanel = componentPreviewForm.createButtonControls(ProjectRolePermissionCollections.COMPONENTS);
         quickActionStatusBtn = new MButton("", clickEvent -> {

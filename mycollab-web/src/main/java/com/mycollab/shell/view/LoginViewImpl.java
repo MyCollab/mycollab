@@ -24,9 +24,10 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ExceptionUtils;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.events.UserEvent;
 import com.mycollab.shell.events.ShellEvent;
-import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
@@ -73,21 +74,22 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             passwordField.addValidator(passwordValidator);
             custom.addComponent(passwordField, "passwordField");
 
-            rememberMe = new CheckBox(UserUIContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
+            rememberMe = new CheckBox(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
             custom.addComponent(rememberMe, "rememberMe");
 
             loginBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
             loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             custom.addComponent(loginBtn, "loginButton");
 
-            MButton forgotPasswordBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
-                    clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null)))
+            MButton forgotPasswordBtn = new MButton(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(),
+                    ShellI18nEnum.BUTTON_FORGOT_PASSWORD), clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null)))
                     .withStyleName(WebUIConstants.BUTTON_LINK);
             custom.addComponent(forgotPasswordBtn, "forgotLink");
 
-            custom.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SIGNIN_MYCOLLAB)), "newToUs");
+            custom.addComponent(ELabel.html(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.OPT_REMEMBER_PASSWORD,
+                    ShellI18nEnum.OPT_SIGNIN_MYCOLLAB)), "newToUs");
             custom.addComponent(ELabel.html(new A("https://www.mycollab.com/pricing/", "_blank").appendText
-                    (UserUIContext.getMessage(ShellI18nEnum.ACTION_CREATE_ACCOUNT)).write())
+                    (LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.ACTION_CREATE_ACCOUNT)).write())
                     .withWidthUndefined(), "createAccountLink");
 
             return custom;
@@ -95,12 +97,12 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
         @Override
         protected String getUserNameFieldCaption() {
-            return UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL);
+            return LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), GenericI18Enum.FORM_EMAIL);
         }
 
         @Override
         protected String getPasswordFieldCaption() {
-            return UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD);
+            return LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.FORM_PASSWORD);
         }
 
         // You can also override this method to handle the login directly, instead of using the event mechanism

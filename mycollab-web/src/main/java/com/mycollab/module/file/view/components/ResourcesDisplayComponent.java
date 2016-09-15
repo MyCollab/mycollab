@@ -59,7 +59,6 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -238,7 +237,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 for (Resource res : resources) {
                     ComponentContainer resContainer = buildResourceRowComp(res);
                     if (resContainer != null) {
-                        bodyContainer.addComponent(buildResourceRowComp(res));
+                        bodyContainer.addComponent(resContainer);
                     }
                 }
             }
@@ -256,7 +255,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         .addWindow(new RenameResourceWindow(selectedResource)))
                         .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK);
 
-                Button downloadBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
+                MButton downloadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
+                        .withStyleName(WebUIConstants.BUTTON_LINK).withIcon(FontAwesome.DOWNLOAD);
 
                 LazyStreamSource streamSource = new LazyStreamSource() {
                     private static final long serialVersionUID = 1L;
@@ -277,23 +277,14 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(streamSource);
                 downloaderExt.extend(downloadBtn);
 
-                downloadBtn.addStyleName(WebUIConstants.BUTTON_LINK);
-                downloadBtn.setIcon(FontAwesome.DOWNLOAD);
-
                 MButton moveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_MOVE) + "...", clickEvent ->
                         UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource)))
                         .withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_LINK);
 
-                Button deleteBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+                MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+                        clickEvent -> deleteResourceAction(Collections.singletonList(selectedResource)))
+                        .withStyleName(WebUIConstants.BUTTON_LINK).withIcon(FontAwesome.TRASH_O);
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        deleteResourceAction(Collections.singletonList(selectedResource));
-                    }
-                });
-                deleteBtn.addStyleName(WebUIConstants.BUTTON_LINK);
-                deleteBtn.setIcon(FontAwesome.TRASH_O);
                 selectedResourceControlLayout.with(new MVerticalLayout(renameBtn, downloadBtn, moveBtn, deleteBtn)
                         .withStyleName("panel-body"));
             } else {

@@ -50,6 +50,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     protected AdvancedPreviewBeanForm<B> previewForm;
     protected ReadViewLayout previewLayout;
     protected MHorizontalLayout header;
+    protected HorizontalLayout actionControls;
     private MVerticalLayout sidebarContent;
     private MVerticalLayout bodyContent;
     private Button favoriteBtn;
@@ -100,10 +101,10 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
     private void initContent() {
         previewForm = initPreviewForm();
-        ComponentContainer actionControls = createButtonControls();
+        actionControls = createButtonControls();
         if (actionControls != null) {
             actionControls.setWidthUndefined();
-            addHeaderRightContent(actionControls);
+            header.with(actionControls).withAlign(actionControls, Alignment.TOP_RIGHT);
         }
 
         MCssLayout contentWrapper = new MCssLayout().withFullWidth().withStyleName(WebUIConstants.CONTENT_WRAPPER);
@@ -210,10 +211,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         }
     }
 
-    public void addHeaderRightContent(Component c) {
-        header.with(c).withAlign(c, Alignment.TOP_RIGHT);
-    }
-
     public void addToSideBar(Component... components) {
         for (Component component : components) {
             sidebarContent.addComponent(component);
@@ -252,7 +249,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         return null;
     }
 
-    abstract protected ComponentContainer createButtonControls();
+    abstract protected HorizontalLayout createButtonControls();
 
     abstract protected ComponentContainer createBottomPanel();
 }

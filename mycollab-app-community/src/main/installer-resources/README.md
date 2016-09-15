@@ -46,6 +46,7 @@ Version 5.4.3
 **Library Upgrades**
 
 * Hiraki CP 4.5.0
+* Jackrabbit 2.13.3
 * Other libraries
 
 **Improvements & New Features**

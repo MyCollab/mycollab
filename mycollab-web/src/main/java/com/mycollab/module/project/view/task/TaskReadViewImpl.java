@@ -70,7 +70,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private TagViewComponent tagViewComponent;
     private ProjectFollowersComp<SimpleTask> followerSheet;
     private DateInfoComp dateInfoComp;
-    private TaskTimeLogSheet timesheetComp;
+    private TaskTimeLogSheet timeLogComp;
     private PeopleInfoComp peopleInfoComp;
     private MButton quickActionStatusBtn;
 
@@ -99,8 +99,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         if (SiteConfiguration.isCommunityEdition()) {
             addToSideBar(dateInfoComp, peopleInfoComp, followerSheet);
         } else {
-            timesheetComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
-            addToSideBar(dateInfoComp, peopleInfoComp, timesheetComp, followerSheet);
+            timeLogComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
+            addToSideBar(dateInfoComp, peopleInfoComp, timeLogComp, followerSheet);
         }
     }
 
@@ -120,8 +120,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
         }
 
-        if (timesheetComp != null) {
-            timesheetComp.displayTime(beanItem);
+        if (timeLogComp != null) {
+            timeLogComp.displayTime(beanItem);
         }
 
         activityComponent.loadActivities("" + beanItem.getId());
@@ -141,7 +141,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     }
 
     @Override
-    protected ComponentContainer createButtonControls() {
+    protected HorizontalLayout createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         final HorizontalLayout topPanel = taskPreviewForm.createButtonControls(
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
