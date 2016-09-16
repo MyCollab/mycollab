@@ -36,4 +36,6 @@ public interface ProjectGenericTaskService extends ISearchableService<ProjectGen
     void updateAssignmentValue(ProjectGenericTask assignment, String username);
 
     void closeSubAssignmentOfMilestone(Integer milestoneId);
+
+    ProjectGenericTask findAssignment(String type, Integer typeId);
 }

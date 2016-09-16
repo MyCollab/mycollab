@@ -18,7 +18,9 @@ package com.mycollab.module.project.ui;
 
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.vaadin.server.FontAwesome;
 
@@ -86,6 +88,16 @@ public class ProjectAssetsManager {
             return FontAwesome.ARROW_UP;
         } else {
             return FontAwesome.ARROW_DOWN;
+        }
+    }
+
+    public static FontAwesome getMilestoneStatus(String status) {
+        if (MilestoneStatus.Closed.name().equals(status)) {
+            return FontAwesome.MINUS_CIRCLE;
+        } else if (MilestoneStatus.InProgress.name().equals(status)) {
+            return FontAwesome.CLOCK_O;
+        } else {
+            return FontAwesome.SPINNER;
         }
     }
 

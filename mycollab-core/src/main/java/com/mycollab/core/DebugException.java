@@ -24,4 +24,8 @@ public class DebugException extends MyCollabException {
     public DebugException(String message) {
         super(message);
     }
+
+    public DebugException(String message, Throwable e) {
+        super(message, e);
+    }
 }

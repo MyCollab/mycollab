@@ -117,7 +117,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         popupContent = new OptionPopupContent();
         componentPopupSelection.setContent(popupContent);
 
-        MHorizontalLayout content = new MHorizontalLayout().withSpacing(true).with(componentsText)
+        MHorizontalLayout content = new MHorizontalLayout().with(componentsText)
                 .withAlign(componentsText, Alignment.MIDDLE_LEFT);
 
         MHorizontalLayout multiSelectComp = new MHorizontalLayout().withSpacing(false).with(componentsText,

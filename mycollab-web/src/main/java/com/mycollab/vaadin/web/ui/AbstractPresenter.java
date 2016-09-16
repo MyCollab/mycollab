@@ -68,22 +68,14 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         if (view == null) {
             try {
                 view = implClass.newInstance();
-                view.addAttachListener(new ClientConnector.AttachListener() {
-                    @Override
-                    public void attach(ClientConnector.AttachEvent event) {
-                        if (view instanceof InitializingView) {
-                            ((InitializingView) view).initContent();
-                        }
-                        viewAttached();
+                view.addAttachListener(attachEvent -> {
+                    if (view instanceof InitializingView) {
+                        ((InitializingView) view).initContent();
                     }
+                    viewAttached();
                 });
 
-                view.addDetachListener(new ClientConnector.DetachListener() {
-                    @Override
-                    public void detach(ClientConnector.DetachEvent event) {
-                        viewDetached();
-                    }
-                });
+                view.addDetachListener(detachEvent -> viewDetached());
                 postInitView();
             } catch (Exception e) {
                 LOG.error("Can not init view " + implClass, e);

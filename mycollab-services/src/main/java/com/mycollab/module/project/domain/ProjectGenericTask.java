@@ -20,7 +20,6 @@ import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -259,7 +258,7 @@ public class ProjectGenericTask implements Serializable {
             if (endDate != null && dueDate != null) {
                 return (endDate.before(dueDate)) ? endDate : dueDate;
             } else {
-                return MoreObjects.firstNonNull(endDate, dueDate);
+                return (endDate != null) ? endDate : dueDate;
             }
         }
     }
@@ -275,7 +274,7 @@ public class ProjectGenericTask implements Serializable {
             if (startDate != null && dueDate != null) {
                 return (startDate.before(dueDate)) ? dueDate : startDate;
             } else {
-                return MoreObjects.firstNonNull(startDate, dueDate);
+                return (startDate != null) ? startDate : dueDate;
             }
         }
     }

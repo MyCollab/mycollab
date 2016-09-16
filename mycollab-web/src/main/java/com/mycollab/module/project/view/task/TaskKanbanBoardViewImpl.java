@@ -43,9 +43,9 @@ import com.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
 import com.mycollab.module.project.view.task.components.TaskSearchPanel;
 import com.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -166,7 +166,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         kanbanLayout.setComponentHorizontalDropRatio(0.3f);
         kanbanLayout.setDragMode(LayoutDragMode.CLONE_OTHER);
 
-//      Enable dropping components
+        // Enable dropping components
         kanbanLayout.setDropHandler(new DropHandler() {
             @Override
             public void drop(DragAndDropEvent event) {
@@ -350,7 +350,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         private Label header;
 
         KanbanBlock(final OptionVal stage) {
-            this.withFullHeight().withWidth("300px").withStyleName("kanban-block").withMargin(false);
+            this.withFullHeight().withWidth("350px").withStyleName("kanban-block").withMargin(false);
             this.optionVal = stage;
             final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
             this.setId(optionId);
@@ -456,7 +456,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             }
 
             if (canExecute) {
-                MButton changeColorBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.ACTION_CHANGE_COLOR), clickEvent -> {
+                MButton changeColorBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE_COLOR), clickEvent -> {
                     ColumnColorPickerWindow popup = new ColumnColorPickerWindow(Color.CYAN);
                     UI.getCurrent().addWindow(popup);
                     popup.addColorChangeListener(colorChangeEvent -> {
@@ -520,14 +520,14 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
             if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
                 if (Boolean.FALSE.equals(optionVal.getIsshow())) {
                     hideColumnBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMN));
-                    hideColumnBtn.setIcon(FontAwesome.TOGGLE_ON);
+                    hideColumnBtn.setIcon(FontAwesome.TOGGLE_UP);
                     ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(WebUIConstants.FIELD_NOTE)
                             .withDescription(UserUIContext.getMessage(TaskI18nEnum.OPT_INVISIBLE_COLUMN_DESCRIPTION));
                     buttonControls.addComponent(invisibleLbl, 0);
                     buttonControls.withAlign(invisibleLbl, Alignment.MIDDLE_LEFT);
                 } else {
                     hideColumnBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMN));
-                    hideColumnBtn.setIcon(FontAwesome.TOGGLE_OFF);
+                    hideColumnBtn.setIcon(FontAwesome.TOGGLE_DOWN);
                     if (buttonControls.getComponentCount() > 1) {
                         buttonControls.removeComponent(buttonControls.getComponent(0));
                     }

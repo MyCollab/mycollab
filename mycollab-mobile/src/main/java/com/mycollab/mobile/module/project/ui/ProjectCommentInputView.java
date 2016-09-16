@@ -128,7 +128,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         uploadSucceedLayout.with(uploadResult).expand(uploadResult);
 
         MButton removeAttachment = new MButton("", clickEvent -> statusWrapper.removeComponent(uploadSucceedLayout))
-                .withIcon(FontAwesome.TRASH).withStyleName(MobileUIConstants.BUTTON_LINK);
+                .withIcon(FontAwesome.TRASH_O).withStyleName(MobileUIConstants.BUTTON_LINK);
         uploadSucceedLayout.addComponent(removeAttachment);
         return uploadSucceedLayout;
     }

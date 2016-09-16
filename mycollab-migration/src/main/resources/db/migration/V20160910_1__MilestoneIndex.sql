@@ -1,0 +1,3 @@
+ALTER TABLE `m_prj_milestone`
+ADD COLUMN `orderIndex` INT(5) UNSIGNED NULL,
+ADD COLUMN `color` VARCHAR(6) NULL;

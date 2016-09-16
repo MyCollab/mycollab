@@ -16,9 +16,11 @@
  */
 package com.mycollab.module.project.service.impl;
 
+import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultSearchService;
 import com.mycollab.module.project.dao.ProjectGenericTaskMapper;
+import com.mycollab.module.project.domain.ProjectGenericTask;
 import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.mycollab.module.project.service.ProjectGenericTaskService;
 import com.mycollab.module.user.domain.BillingAccount;
@@ -57,5 +59,14 @@ public abstract class AbstractProjectGenericTaskServiceImpl extends DefaultSearc
     @Override
     public List<Integer> getProjectsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria) {
         return projectGenericTaskMapper.getProjectsHasOverdueAssignments(searchCriteria);
+    }
+
+    @Override
+    public ProjectGenericTask findAssignment(String type, Integer typeId) {
+        ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
+        searchCriteria.setTypes(new SetSearchField<>(type));
+        searchCriteria.setTypeIds(new SetSearchField<>(typeId));
+        List<ProjectGenericTask> assignments = findAbsoluteListByCriteria(searchCriteria, 0, 1);
+        return (assignments.size() > 0) ? assignments.get(0) : null;
     }
 }

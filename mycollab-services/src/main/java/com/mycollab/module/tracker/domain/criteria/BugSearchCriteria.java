@@ -24,6 +24,7 @@ import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Arrays;
@@ -87,6 +88,9 @@ public class BugSearchCriteria extends SearchCriteria {
 
     public static final PropertyListParam<String> p_assignee = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_ASSIGNEE,
             new PropertyListParam<String>("assignuser", "m_tracker_bug", "assignuser"));
+
+    public static final PropertyListParam<String> p_createdUser = CacheParamMapper.register(ProjectTypeConstants.BUG, ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE,
+            new PropertyListParam<String>("logby", "m_tracker_bug", "logby"));
 
     public static final PropertyListParam p_projectIds = CacheParamMapper.register(ProjectTypeConstants.BUG, null,
             new PropertyListParam("projectid", "m_tracker_bug", "projectid"));

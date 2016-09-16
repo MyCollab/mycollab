@@ -18,6 +18,7 @@ package com.mycollab.module.project.domain.criteria;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.db.arguments.*;
 import com.mycollab.db.query.*;
@@ -34,6 +35,9 @@ public class TaskSearchCriteria extends SearchCriteria {
 
     public static final PropertyListParam<String> p_assignee = CacheParamMapper.register(ProjectTypeConstants.TASK,
             GenericI18Enum.FORM_ASSIGNEE, new PropertyListParam<String>("assignuser", "m_prj_task", "assignUser"));
+
+    public static final PropertyListParam<String> p_createdUser = CacheParamMapper.register(ProjectTypeConstants.TASK,
+            ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE, new PropertyListParam<String>("createduser", "m_prj_task", "logby"));
 
     public static final PropertyListParam<Integer> p_milestoneId = CacheParamMapper.register(ProjectTypeConstants.TASK, TaskI18nEnum.FORM_PHASE,
             new PropertyListParam<Integer>("milestone", "m_prj_task", "milestoneId"));

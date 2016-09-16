@@ -42,6 +42,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
     public static final String OPEN_BUGS = "OPEN_BUGS";
     public static final String OVERDUE_BUGS = "OVERDUE_BUGS";
     public static final String MY_BUGS = "MY_BUGS";
+    public static final String BUGS_CREATED_BY_ME = "BUGS_CREATED_BY_ME";
     public static final String NEW_THIS_WEEK = "NEW_THIS_WEEK";
     public static final String UPDATE_THIS_WEEK = "UPDATE_THIS_WEEK";
     public static final String NEW_LAST_WEEK = "NEW_LAST_WEEK";
@@ -90,6 +91,10 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 SearchFieldInfo.inCollection(BugSearchCriteria.p_assignee, ConstantValueInjector.valueOf(String.class,
                         Collections.singletonList(UserUIContext.getUsername()))));
 
+        SearchQueryInfo bugsCreatedByMeQuery = new SearchQueryInfo(MY_BUGS, UserUIContext.getMessage(BugI18nEnum.VAL_BUGS_CREATED_BY_ME),
+                SearchFieldInfo.inCollection(BugSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(String.class,
+                        Collections.singletonList(UserUIContext.getUsername()))));
+
         SearchQueryInfo newBugsThisWeekQuery = new SearchQueryInfo(NEW_THIS_WEEK, UserUIContext.getMessage(BugI18nEnum.VAL_NEW_THIS_WEEK),
                 SearchFieldInfo.inDateRange(BugSearchCriteria.p_createddate, VariableInjector.THIS_WEEK));
 
@@ -110,6 +115,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
         this.addSharedSearchQueryInfo(allOpenBugsQuery);
         this.addSharedSearchQueryInfo(overdueTaskQuery);
         this.addSharedSearchQueryInfo(myBugsQuery);
+        this.addSharedSearchQueryInfo(bugsCreatedByMeQuery);
         this.addSharedSearchQueryInfo(newBugsThisWeekQuery);
         this.addSharedSearchQueryInfo(updateBugsThisWeekQuery);
         this.addSharedSearchQueryInfo(newBugsLastWeekQuery);

@@ -34,6 +34,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
@@ -177,9 +178,9 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);
         viewButtons.addButton(boardBtn);
-//        if (!SiteConfiguration.isCommunityEdition()) {
-//            viewButtons.addButton(kanbanBtn);
-//        }
+        if (!SiteConfiguration.isCommunityEdition()) {
+            viewButtons.addButton(kanbanBtn);
+        }
         viewButtons.withDefaultButton(boardBtn);
         layout.with(viewButtons);
 
@@ -222,17 +223,17 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void updateClosedMilestoneNumber(int closeMilestones) {
-        closedHeader.setValue(FontAwesome.MINUS_CIRCLE.getHtml() + " " +
+        closedHeader.setValue(ProjectAssetsManager.getAsset(MilestoneStatus.Closed.name()).getHtml() + " " +
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
     }
 
     private void updateFutureMilestoneNumber(int futureMilestones) {
-        futureHeader.setValue(FontAwesome.CLOCK_O.getHtml() + " " +
+        futureHeader.setValue(ProjectAssetsManager.getAsset(MilestoneStatus.Future.name()).getHtml() + " " +
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
     }
 
     private void updateInProgressMilestoneNumber(int inProgressMilestones) {
-        inProgressHeader.setValue(FontAwesome.SPINNER.getHtml() + " " +
+        inProgressHeader.setValue(ProjectAssetsManager.getAsset(MilestoneStatus.InProgress.name()).getHtml() + " " +
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
                 ")");
     }

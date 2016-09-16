@@ -46,6 +46,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
     public static final String OPEN_TASKS = "OPEN_TASKS";
     public static final String OVERDUE_TASKS = "OVERDUE_TASKS";
     public static final String MY_TASKS = "MY_TASKS";
+    public static final String TASKS_CREATED_BY_ME = "TASKS_CREATED_BY_ME";
     public static final String NEW_TASKS_THIS_WEEK = "NEW_TASKS_THIS_WEEK";
     public static final String UPDATE_TASKS_THIS_WEEK = "UPDATE_TASKS_THIS_WEEK";
     public static final String NEW_TASKS_LAST_WEEK = "NEW_TASKS_LAST_WEEK";
@@ -99,6 +100,9 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
         SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_MY_TASKS),
                 SearchFieldInfo.inCollection(TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
 
+        SearchQueryInfo tasksCreatedByMeQuery = new SearchQueryInfo(TASKS_CREATED_BY_ME, UserUIContext.getMessage(TaskI18nEnum.VAL_TASKS_CREATED_BY_ME),
+                SearchFieldInfo.inCollection(TaskSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+
         SearchQueryInfo newTasksThisWeekQuery = new SearchQueryInfo(NEW_TASKS_THIS_WEEK, UserUIContext.getMessage(TaskI18nEnum.VAL_NEW_THIS_WEEK),
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_createtime, VariableInjector.THIS_WEEK));
 
@@ -115,6 +119,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
         this.addSharedSearchQueryInfo(allOpenTaskQuery);
         this.addSharedSearchQueryInfo(overdueTaskQuery);
         this.addSharedSearchQueryInfo(myTasksQuery);
+        this.addSharedSearchQueryInfo(tasksCreatedByMeQuery);
         this.addSharedSearchQueryInfo(newTasksThisWeekQuery);
         this.addSharedSearchQueryInfo(updateTasksThisWeekQuery);
         this.addSharedSearchQueryInfo(newTasksLastWeekQuery);

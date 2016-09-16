@@ -269,7 +269,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             this.setHeight("100%");
             this.optionVal = stage;
             root = new MVerticalLayout();
-            root.setWidth("300px");
+            root.setWidth("350px");
             root.addStyleName("kanban-block");
             this.setCompositionRoot(root);
 

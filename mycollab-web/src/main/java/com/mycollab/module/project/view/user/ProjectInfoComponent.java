@@ -293,7 +293,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             popupButtonsControl.addSeparator();
 
             if (UserUIContext.canAccess(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-                final MButton markProjectTemplateBtn = new MButton().withIcon(FontAwesome.STICKY_NOTE);
+                final MButton markProjectTemplateBtn = new MButton().withIcon(FontAwesome.ANCHOR);
                 markProjectTemplateBtn.addClickListener(clickEvent -> {
                     Boolean isTemplate = !MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
                     project.setIstemplate(isTemplate);

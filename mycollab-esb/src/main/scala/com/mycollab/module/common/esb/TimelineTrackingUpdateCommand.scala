@@ -38,6 +38,9 @@ import org.springframework.stereotype.Component
   @AllowConcurrentEvents
   @Subscribe
   def execute(event: TimelineTrackingUpdateEvent): Unit = {
+    if (event.fieldVal == null) {
+      return
+    }
     val lock = DistributionLockUtil.getLock("timeline-" + event.accountId)
     try {
       if (lock.tryLock(120, TimeUnit.SECONDS)) {
