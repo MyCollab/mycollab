@@ -55,11 +55,13 @@ import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd.
@@ -158,7 +160,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
             contentWrapper.addStyleName("main-content");
-            MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(true).withFullWidth().withStyleName("top-panel").withHeight("42px");
+            MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, true))
+                    .withFullWidth().withStyleName("top-panel").withHeight("42px");
             contentWrapper.addComponentAsFirst(topPanel);
 
             CssLayout navigatorWrapper = myProjectTab.getNavigatorWrapper();
@@ -170,9 +173,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.setProject(project);
 
-            Button helpBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP));
-            helpBtn.setIcon(FontAwesome.MORTAR_BOARD);
-            helpBtn.addStyleName(WebUIConstants.BUTTON_LINK);
+            MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP)).withIcon(FontAwesome.MORTAR_BOARD)
+                    .withStyleName(WebUIConstants.BUTTON_LINK);
             ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/project-management/");
             BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
             helpOpener.extend(helpBtn);
@@ -331,15 +333,11 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
         }
     }
 
-    private static class AskToAddMoreMembersWindow extends Window {
+    private static class AskToAddMoreMembersWindow extends MWindow {
         AskToAddMoreMembersWindow() {
             super(UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION));
-            this.setWidth("600px");
-            this.setResizable(false);
-            this.setModal(true);
-
             MVerticalLayout content = new MVerticalLayout();
-            this.setContent(content);
+            this.withWidth("600px").withResizable(false).withModal(true).withContent(content).withCenter();
 
             content.with(new Label(UserUIContext.getMessage(ProjectI18nEnum.OPT_ASK_TO_ADD_MEMBERS)));
 

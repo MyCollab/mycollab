@@ -44,6 +44,7 @@ import com.vaadin.ui.Window;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.List;
 
@@ -54,13 +55,10 @@ import static com.mycollab.module.project.i18n.ProjectI18nEnum.*;
  * @author MyCollab Ltd
  * @since 5.2.8
  */
-public class ProjectAddBaseTemplateWindow extends Window {
+public class ProjectAddBaseTemplateWindow extends MWindow {
     public ProjectAddBaseTemplateWindow() {
         super(UserUIContext.getMessage(OPT_CREATE_PROJECT_FROM_TEMPLATE));
-        this.setModal(true);
-        this.setClosable(true);
-        this.setResizable(false);
-        this.setWidth("550px");
+        this.withModal(true).withClosable(true).withResizable(false).withWidth("550px");
         MVerticalLayout content = new MVerticalLayout();
         GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
         final TemplateProjectComboBox templateProjectComboBox = new TemplateProjectComboBox();

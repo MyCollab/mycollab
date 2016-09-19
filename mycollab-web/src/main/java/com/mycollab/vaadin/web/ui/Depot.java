@@ -19,13 +19,14 @@ package com.mycollab.vaadin.web.ui;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.*;
+import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class Depot extends VerticalLayout {
+public class Depot extends DDVerticalLayout {
     private static final long serialVersionUID = 1L;
 
     private boolean isOpened = true;

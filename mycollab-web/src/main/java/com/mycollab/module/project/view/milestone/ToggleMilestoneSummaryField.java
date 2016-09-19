@@ -57,8 +57,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         this.milestone = milestone;
         this.maxLength = maxLength;
         this.setWidth("100%");
-        titleLinkLbl = ELabel.html(buildMilestoneLink()).withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN,
-                UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
+        titleLinkLbl = ELabel.h3(buildMilestoneLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
         this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {

@@ -40,6 +40,7 @@ import com.hp.gagawa.java.elements.*;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
+import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -52,19 +53,21 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class MilestoneTimelineWidget extends MVerticalLayout {
+public class MilestoneTimelineWidget extends DDVerticalLayout {
     private CssLayout timelineContainer;
     private List<SimpleMilestone> milestones;
 
     public void display() {
-        this.withFullWidth().withStyleName("tm-container");
+        this.setWidth("100%");
+        this.addStyleName("tm-container");
+        this.setSpacing(true);
+        this.setMargin(true);
 
         MHorizontalLayout headerLayout = new MHorizontalLayout();
         ELabel titleLbl = ELabel.h2(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
         final CheckBox noDateSetMilestone = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         noDateSetMilestone.setValue(false);
-
 
         final CheckBox includeClosedMilestone = new CheckBox(UserUIContext.getMessage(MilestoneStatus.Closed));
         includeClosedMilestone.setValue(false);

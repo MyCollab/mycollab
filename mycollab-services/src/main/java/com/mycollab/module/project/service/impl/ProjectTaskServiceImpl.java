@@ -33,6 +33,7 @@ import com.mycollab.core.cache.CacheKey;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
@@ -51,6 +52,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -223,7 +225,6 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         return taskMapperExt.findByProjectAndTaskKey(taskKey, projectShortName, sAccountId);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<SimpleTask> findSubTasks(Integer parentTaskId, Integer sAccountId, SearchCriteria.OrderField orderField) {
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
@@ -231,6 +232,24 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
         searchCriteria.setOrderFields(Collections.singletonList(orderField));
         return taskMapperExt.findPageableListByCriteria(searchCriteria, new RowBounds(0, Integer.MAX_VALUE));
+    }
+
+    @Override
+    public Integer getCountOfOpenSubTasks(Integer taskId) {
+        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+        searchCriteria.setParentTaskId(new NumberSearchField(taskId));
+        searchCriteria.addExtraField(TaskSearchCriteria.p_status.buildPropertyParamNotInList(SearchField.AND,
+                Collections.singletonList(StatusI18nEnum.Closed.name())));
+        return taskMapperExt.getTotalCount(searchCriteria);
+    }
+
+    @Override
+    public void massUpdateTaskStatuses(Integer parentTaskId, String status, @CacheKey Integer sAccountId) {
+        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+        searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
+        searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update("UPDATE `m_prj_task` SET `status`=? WHERE `parentTaskId`=?", status, parentTaskId);
     }
 
     @Override

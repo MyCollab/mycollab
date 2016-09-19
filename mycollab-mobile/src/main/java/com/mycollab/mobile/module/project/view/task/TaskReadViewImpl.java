@@ -20,6 +20,7 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
@@ -88,8 +89,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
         relatedComments.displayTotalComments(beanItem.getId() + "");
 
-        taskTimeLogComp.displayTime(beanItem);
-        previewForm.addComponent(taskTimeLogComp);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            taskTimeLogComp.displayTime(beanItem);
+            previewForm.addComponent(taskTimeLogComp);
+        }
 
         ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
@@ -168,8 +171,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         Component section = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
         toolbarLayout.addComponent(section);
 
-        taskTimeLogComp = new TaskTimeLogComp();
-        toolbarLayout.addComponent(taskTimeLogComp);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            taskTimeLogComp = new TaskTimeLogComp();
+            toolbarLayout.addComponent(taskTimeLogComp);
+        }
+
         return toolbarLayout;
     }
 

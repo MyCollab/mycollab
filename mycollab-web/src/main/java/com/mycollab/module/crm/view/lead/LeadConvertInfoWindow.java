@@ -39,28 +39,23 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 /**
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public class LeadConvertInfoWindow extends Window {
+public class LeadConvertInfoWindow extends MWindow {
     private static final long serialVersionUID = -4005327071240226216L;
 
     private final SimpleLead lead;
     private LeadOpportunityForm opportunityForm;
 
     public LeadConvertInfoWindow(SimpleLead lead) {
-        super();
+        super(UserUIContext.getMessage(LeadI18nEnum.WINDOW_CONVERT_LEAD_TITLE, lead.getLastname(), lead.getFirstname()));
 
         this.lead = lead;
-        this.setWidth("900px");
-        this.setContent(initContent());
-        this.setResizable(false);
-        this.setModal(true);
-        this.center();
-
-        setCaption(UserUIContext.getMessage(LeadI18nEnum.WINDOW_CONVERT_LEAD_TITLE, lead.getLastname(), lead.getFirstname()));
+        this.withWidth("900px").withContent(initContent()).withResizable(false).withModal(true).withCenter();
     }
 
     public Layout initContent() {
@@ -71,19 +66,13 @@ public class LeadConvertInfoWindow extends Window {
         contentLayout.addComponent(createBody());
         ComponentContainer buttonControls = createButtonControls();
         if (buttonControls != null) {
-            final MHorizontalLayout controlPanel = new MHorizontalLayout();
-            buttonControls.setSizeUndefined();
-            controlPanel.addComponent(buttonControls);
-            controlPanel.setWidth("100%");
-            controlPanel.setMargin(true);
-            controlPanel.setComponentAlignment(buttonControls, Alignment.MIDDLE_CENTER);
-            contentLayout.addComponent(controlPanel);
+            contentLayout.addComponent(buttonControls);
         }
 
         return contentLayout;
     }
 
-    private ComponentContainer createButtonControls() {
+    private MHorizontalLayout createButtonControls() {
         MButton convertButton = new MButton(UserUIContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD), clickEvent -> {
             LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
             lead.setStatus("Converted");
@@ -141,7 +130,6 @@ public class LeadConvertInfoWindow extends Window {
         });
 
         infoLayout.addComponent(isCreateOpportunityChk);
-
         layout.addComponent(infoLayout);
         return layout;
     }

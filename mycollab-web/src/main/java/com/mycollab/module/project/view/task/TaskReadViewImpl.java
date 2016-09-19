@@ -41,10 +41,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
-import com.mycollab.vaadin.web.ui.ReadViewLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -168,8 +165,24 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
             }
 
-            ProjectTaskService service = AppContextUtil.getSpringBean(ProjectTaskService.class);
-            service.updateWithSession(beanItem, UserUIContext.getUsername());
+            ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            projectTaskService.updateWithSession(beanItem, UserUIContext.getUsername());
+
+            if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
+                Integer countOfOpenSubTasks = projectTaskService.getCountOfOpenSubTasks(beanItem.getId());
+                if (countOfOpenSubTasks > 0) {
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_CLOSE_SUB_ASSIGNMENTS),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    projectTaskService.massUpdateTaskStatuses(beanItem.getId(), StatusI18nEnum.Closed.name(), MyCollabUI.getAccountId());
+                                }
+                            });
+                }
+            }
         }).withStyleName(WebUIConstants.BUTTON_ACTION);
 
         taskPreviewForm.insertToControlBlock(quickActionStatusBtn);

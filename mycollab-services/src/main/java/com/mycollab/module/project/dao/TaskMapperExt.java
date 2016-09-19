@@ -42,4 +42,5 @@ public interface TaskMapperExt extends ISearchableDAO<TaskSearchCriteria> {
 
     SimpleTask findByProjectAndTaskKey(@Param("taskkey") int taskkey, @Param("prjShortName") String projectShortName,
                                        @Param("sAccountId") int sAccountId);
+
 }

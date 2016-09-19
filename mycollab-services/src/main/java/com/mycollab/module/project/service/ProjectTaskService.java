@@ -21,6 +21,7 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.cache.CacheEvict;
 import com.mycollab.core.cache.CacheKey;
 import com.mycollab.core.cache.Cacheable;
+import com.mycollab.db.persistence.IMassUpdateDAO;
 import com.mycollab.db.persistence.service.IDefaultService;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
@@ -46,6 +47,11 @@ public interface ProjectTaskService extends IDefaultService<Integer, Task, TaskS
 
     @Cacheable
     List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);
+
+    Integer getCountOfOpenSubTasks(Integer taskId);
+
+    @CacheEvict
+    void massUpdateTaskStatuses(Integer parentTaskId, String status, @CacheKey Integer sAccountId);
 
     @Cacheable
     List<GroupItem> getStatusSummary(@CacheKey TaskSearchCriteria criteria);

@@ -19,6 +19,7 @@ package com.mycollab.mobile.module.project.view.bug;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
@@ -117,7 +118,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         relatedComments.displayTotalComments(beanItem.getId() + "");
 
         displayWorkflowControl();
-        bugTimeLogComp.displayTime(beanItem);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            bugTimeLogComp.displayTime(beanItem);
+        }
 
         ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
@@ -167,8 +170,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     protected ComponentContainer createBottomPanel() {
         MVerticalLayout toolbarLayout = new MVerticalLayout().withFullWidth().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        bugTimeLogComp = new BugTimeLogComp();
-        toolbarLayout.addComponent(bugTimeLogComp);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            bugTimeLogComp = new BugTimeLogComp();
+            toolbarLayout.addComponent(bugTimeLogComp);
+        }
+
         relatedComments = new CommentNavigationButton(ProjectTypeConstants.BUG, beanItem.getId() + "");
         Component section = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
         toolbarLayout.addComponent(section);

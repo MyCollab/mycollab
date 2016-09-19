@@ -284,7 +284,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             progressLayout.with(progressInfoLbl);
 
             if (totalAssignments > 0) {
-                final Button viewIssuesBtn = new Button(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS));
+                final MButton viewIssuesBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_ASSIGNMENTS))
+                        .withStyleName(WebUIConstants.BUTTON_LINK);
                 viewIssuesBtn.addClickListener(clickEvent -> {
                     showIssues = !showIssues;
                     if (showIssues) {
@@ -292,7 +293,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         viewIssuesBtn.setCaption(UserUIContext.getMessage(ProjectI18nEnum.ACTION_HIDE_ASSIGNMENTS));
                         ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
                         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                        searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
+                        searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
+                                ProjectTypeConstants.RISK));
                         searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
                         ProjectGenericTaskService genericTaskService = AppContextUtil.getSpringBean
                                 (ProjectGenericTaskService.class);
@@ -328,7 +330,6 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         issueLayout.setVisible(false);
                     }
                 });
-                viewIssuesBtn.addStyleName(WebUIConstants.BUTTON_LINK);
                 progressLayout.with(viewIssuesBtn);
             }
 

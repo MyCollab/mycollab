@@ -22,13 +22,13 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.vaadin.MyCollabUI;
-import com.vaadin.ui.CssLayout;
+import fi.jasoft.dragdroplayouts.DDCssLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectActivityStreamComponent extends CssLayout {
+public class ProjectActivityStreamComponent extends DDCssLayout {
     private static final long serialVersionUID = 1L;
 
     public void showProjectFeeds() {
