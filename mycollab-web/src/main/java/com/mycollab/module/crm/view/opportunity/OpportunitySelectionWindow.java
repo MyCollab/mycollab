@@ -21,6 +21,7 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.mycollab.module.crm.fielddef.OpportunityTableFieldDef;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;

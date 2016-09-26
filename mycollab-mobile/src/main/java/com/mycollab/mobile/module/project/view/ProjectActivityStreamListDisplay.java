@@ -24,6 +24,7 @@ import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -135,11 +136,11 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
         Text image = new Text(ProjectAssetsManager.getAsset(activity.getType()).getHtml());
         A itemLink = new A();
         if (ProjectTypeConstants.TASK.equals(activity.getType()) || ProjectTypeConstants.BUG.equals(activity.getType())) {
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
                     activity.getProjectShortName(), activity.getExtratypeid(),
                     activity.getType(), activity.getItemKey() + ""));
         } else {
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
                     activity.getProjectShortName(), activity.getExtratypeid(),
                     activity.getType(), activity.getTypeid()));
         }

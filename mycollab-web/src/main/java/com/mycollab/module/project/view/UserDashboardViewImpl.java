@@ -187,9 +187,11 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         };
         headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.TOP_RIGHT);
         headerContent.with(headerContentTop);
-        MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel(UserUIContext.getMessage
-                        (GenericI18Enum.FORM_EMAIL) + ": ").withStyleName(UIConstants.META_INFO),
-                ELabel.html(new A(String.format("mailto:%s", UserUIContext.getUsername())).appendText(UserUIContext.getUsername()).write()));
+        MHorizontalLayout metaInfoLayout = new MHorizontalLayout();
+        if (Boolean.TRUE.equals(MyCollabUI.getBillingAccount().getDisplayemailpublicly())) {
+            metaInfoLayout.with(new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": ").withStyleName(UIConstants.META_INFO),
+                    ELabel.html(new A(String.format("mailto:%s", UserUIContext.getUsername())).appendText(UserUIContext.getUsername()).write()));
+        }
         metaInfoLayout.with(ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE,
                 UserUIContext.formatPrettyTime(UserUIContext.getUser().getRegisteredtime()))));
         metaInfoLayout.with(ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN,

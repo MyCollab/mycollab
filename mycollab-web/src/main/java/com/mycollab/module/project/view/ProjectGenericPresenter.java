@@ -18,7 +18,7 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.UserNotBelongProjectException;
-import com.mycollab.module.project.events.ProjectEvent;
+import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;

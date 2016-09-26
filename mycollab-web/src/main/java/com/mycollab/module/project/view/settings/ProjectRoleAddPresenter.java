@@ -23,7 +23,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectRole;
 import com.mycollab.module.project.domain.SimpleProject;
-import com.mycollab.module.project.events.ProjectRoleEvent;
+import com.mycollab.module.project.event.ProjectRoleEvent;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.spring.AppContextUtil;

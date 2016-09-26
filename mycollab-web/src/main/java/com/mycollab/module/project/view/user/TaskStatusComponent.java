@@ -22,11 +22,11 @@ import com.mycollab.db.arguments.DateSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.module.project.domain.ProjectGenericTask;
-import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
-import com.mycollab.module.project.service.ProjectGenericTaskService;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
@@ -44,7 +44,7 @@ public class TaskStatusComponent extends Depot {
     private static final long serialVersionUID = 1L;
 
     private TaskStatusPagedList taskComponents;
-    private ProjectGenericTaskSearchCriteria searchCriteria;
+    private ProjectTicketSearchCriteria searchCriteria;
 
     public TaskStatusComponent() {
         super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
@@ -69,7 +69,7 @@ public class TaskStatusComponent extends Depot {
     }
 
     public void showProjectTasksByStatus(List<Integer> prjKeys) {
-        searchCriteria = new ProjectGenericTaskSearchCriteria();
+        searchCriteria = new ProjectTicketSearchCriteria();
         searchCriteria.setProjectIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
         searchCriteria.setIsOpenned(new SearchField());
         searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
@@ -81,16 +81,16 @@ public class TaskStatusComponent extends Depot {
         setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskComponents.getTotalCount()));
     }
 
-    private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectGenericTaskService,
-            ProjectGenericTaskSearchCriteria, ProjectGenericTask> {
+    private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectTicketService,
+            ProjectTicketSearchCriteria, ProjectTicket> {
 
         TaskStatusPagedList() {
-            super(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowDisplayHandler(), 10);
+            super(AppContextUtil.getSpringBean(ProjectTicketService.class), new GenericTaskRowDisplayHandler(), 10);
         }
 
         @Override
         protected String stringWhenEmptyList() {
-            return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_OVERDUE_ASSIGNMENT);
+            return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_OVERDUE_TICKET);
         }
     }
 }

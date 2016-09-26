@@ -22,9 +22,9 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.html.DivLessFormatter;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.domain.ProjectGenericTask;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -45,10 +45,10 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
+public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDisplayHandler<ProjectTicket> {
 
     @Override
-    public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
+    public Component generateRow(AbstractBeanPagedList host, ProjectTicket genericTask, int rowIndex) {
         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
@@ -79,11 +79,11 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
         taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         if (ProjectTypeConstants.BUG.equals(genericTask.getType()) || ProjectTypeConstants.TASK.equals(genericTask.getType())) {
             taskLink.appendText(genericTask.getName());
-            taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+            taskLink.setHref(ProjectLinkGenerator.generateProjectItemLink(genericTask.getProjectShortName(),
                     genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
         } else {
             taskLink.appendText(genericTask.getName());
-            taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+            taskLink.setHref(ProjectLinkGenerator.generateProjectItemLink(genericTask.getProjectShortName(),
                     genericTask.getProjectId(), genericTask.getType(), genericTask.getTypeId() + ""));
         }
 

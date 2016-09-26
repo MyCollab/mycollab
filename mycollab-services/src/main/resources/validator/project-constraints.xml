@@ -93,7 +93,7 @@
                 <element name="lastDateField">deadline</element>
             </constraint>
         </class>
-        <field name="taskname">
+        <field name="name">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>Name must not be null</message>
             </constraint>
@@ -101,7 +101,7 @@
     </bean>
 
     <bean class="Risk" ignore-annotations="false">
-        <field name="riskname">
+        <field name="name">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>Name must not be null</message>
             </constraint>

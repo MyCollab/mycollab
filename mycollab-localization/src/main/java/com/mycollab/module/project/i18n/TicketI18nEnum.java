@@ -27,5 +27,19 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("project-ticket")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum TicketI18nEnum {
-    M_TICKET_NUM
+    LIST,
+    NEW,
+
+    OPT_TICKETS_VALUE,
+
+    VAL_ALL_TICKETS,
+    VAL_ALL_OPEN_TICKETS,
+    VAL_ALL_CLOSED_TICKETS,
+    VAL_OVERDUE_TICKETS,
+    VAL_MY_TICKETS,
+    VAL_TICKETS_CREATED_BY_ME,
+    VAL_NEW_THIS_WEEK,
+    VAL_UPDATE_THIS_WEEK,
+    VAL_NEW_LAST_WEEK,
+    VAL_UPDATE_LAST_WEEK,
 }

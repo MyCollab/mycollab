@@ -19,10 +19,9 @@ package com.mycollab.module.project.view.bug.components;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.bug.IPrioritySummaryChartWidget;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -76,7 +75,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
         bodyContent.removeAllComponents();
         BugPriorityClickListener listener = new BugPriorityClickListener();
         if (!groupItems.isEmpty()) {
-            for (BugPriority priority : OptionI18nEnum.bug_priorities) {
+            for (OptionI18nEnum.Priority priority : OptionI18nEnum.task_priorities) {
                 boolean isFound = false;
                 for (GroupItem item : groupItems) {
                     if (priority.name().equals(item.getGroupid())) {
@@ -84,7 +83,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
-                                .withIcon(ProjectAssetsManager.getBugPriority(priority.name()))
+                                .withIcon(ProjectAssetsManager.getPriority(priority.name()))
                                 .withStyleName(WebUIConstants.BUTTON_LINK, "bug-" + priority.name().toLowerCase())
                                 .withWidth("110px");
 
@@ -100,7 +99,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                     MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                     priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     Button priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
-                    priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));
+                    priorityLink.setIcon(ProjectAssetsManager.getPriority(priority.name()));
                     priorityLink.setWidth("110px");
                     priorityLink.setStyleName(WebUIConstants.BUTTON_LINK);
                     priorityLink.addStyleName("bug-" + priority.name().toLowerCase());

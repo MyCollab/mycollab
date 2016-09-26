@@ -66,7 +66,7 @@ import org.springframework.stereotype.Component
     }
     
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("summary", summary)
+    contentGenerator.putVariable("name", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
   

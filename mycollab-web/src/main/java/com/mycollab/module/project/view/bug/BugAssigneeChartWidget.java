@@ -22,7 +22,7 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;

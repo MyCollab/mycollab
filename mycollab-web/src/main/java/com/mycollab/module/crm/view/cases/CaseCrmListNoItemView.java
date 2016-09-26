@@ -19,7 +19,7 @@ package com.mycollab.module.crm.view.cases;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.events.CaseEvent;
+import com.mycollab.module.crm.event.CaseEvent;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.CrmListNoItemView;

@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.fielddef.AccountTableFieldDef;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;

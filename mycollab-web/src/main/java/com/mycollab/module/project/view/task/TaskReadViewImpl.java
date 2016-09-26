@@ -129,7 +129,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getTaskname();
+        return beanItem.getName();
     }
 
     @Override
@@ -281,7 +281,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(bean, "logby");
+                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
                 String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "logByAvatarId");
                 String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "logByFullName");
 

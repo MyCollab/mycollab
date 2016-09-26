@@ -25,7 +25,7 @@ import com.mycollab.db.query.Param;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
-import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.event.OpportunityEvent;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
@@ -35,9 +35,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -96,11 +94,6 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
         }
 
         @Override
-        public ComponentContainer constructHeader() {
-            return OpportunitySearchPanel.this.constructHeader();
-        }
-
-        @Override
         public ComponentContainer constructBody() {
             MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
 
@@ -151,11 +144,6 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
         OpportunityAdvancedSearchLayout() {
             super(OpportunitySearchPanel.this, CrmTypeConstants.OPPORTUNITY);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return OpportunitySearchPanel.this.constructHeader();
         }
 
         @Override

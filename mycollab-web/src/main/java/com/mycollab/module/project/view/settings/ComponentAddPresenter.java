@@ -20,7 +20,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProject;
-import com.mycollab.module.project.events.BugComponentEvent;
+import com.mycollab.module.project.event.BugComponentEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.bug.BugComponentContainer;
 import com.mycollab.module.tracker.domain.Component;

@@ -18,10 +18,8 @@ package com.mycollab.module.project.ui;
 
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
-import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.vaadin.server.FontAwesome;
 
 import java.util.HashMap;
@@ -40,6 +38,7 @@ public class ProjectAssetsManager {
         resources.put(ProjectTypeConstants.MESSAGE, FontAwesome.COMMENT);
         resources.put(ProjectTypeConstants.MILESTONE, FontAwesome.FLAG_CHECKERED);
         resources.put(ProjectTypeConstants.TASK, FontAwesome.TASKS);
+        resources.put(ProjectTypeConstants.TICKET, FontAwesome.LIST);
         resources.put(ProjectTypeConstants.PAGE, FontAwesome.FILE);
         resources.put(ProjectTypeConstants.BUG, FontAwesome.BUG);
         resources.put(ProjectTypeConstants.BUG_COMPONENT, FontAwesome.CUBE);
@@ -63,28 +62,9 @@ public class ProjectAssetsManager {
         return "&#x" + Integer.toHexString(resources.get(resId).getCodepoint());
     }
 
-    public static FontAwesome getBugPriority(String bugPriority) {
-        if (BugPriority.Blocker.name().equals(bugPriority) || TaskPriority.High.name()
-                .equals(bugPriority) || BugPriority.Major.name().equals(bugPriority)) {
-            return FontAwesome.ARROW_UP;
-        } else {
-            return FontAwesome.ARROW_DOWN;
-        }
-    }
-
-    public static String getBugPriorityHtml(String bugPriority) {
-        if (StringUtils.isBlank(bugPriority)) {
-            bugPriority = BugPriority.Major.name();
-        }
-
-        FontAwesome fontAwesome = getBugPriority(bugPriority);
-        return String.format("<span class=\"bug-%s v-icon\" style=\"font-family: FontAwesome;\">&#x%s;</span>",
-                bugPriority.toLowerCase(), Integer.toHexString(fontAwesome.getCodepoint()));
-    }
-
-    public static FontAwesome getTaskPriority(String taskPriority) {
-        if (TaskPriority.Urgent.name().equals(taskPriority) || TaskPriority.High.name()
-                .equals(taskPriority) || TaskPriority.Medium.name().equals(taskPriority) || taskPriority == null) {
+    public static FontAwesome getPriority(String priority) {
+        if (Priority.Urgent.name().equals(priority) || Priority.High.name()
+                .equals(priority) || Priority.Medium.name().equals(priority) || priority == null) {
             return FontAwesome.ARROW_UP;
         } else {
             return FontAwesome.ARROW_DOWN;
@@ -103,9 +83,9 @@ public class ProjectAssetsManager {
 
     public static String getTaskPriorityHtml(String taskPriority) {
         if (StringUtils.isBlank(taskPriority)) {
-            taskPriority = TaskPriority.Medium.name();
+            taskPriority = Priority.Medium.name();
         }
-        FontAwesome fontAwesome = getTaskPriority(taskPriority);
+        FontAwesome fontAwesome = getPriority(taskPriority);
         return String.format("<span class=\"task-%s v-icon\" style=\"font-family: FontAwesome;\">&#x%s;</span>",
                 taskPriority.toLowerCase(), Integer.toHexString(fontAwesome.getCodepoint()));
     }

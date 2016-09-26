@@ -20,6 +20,7 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.parameters.BugScreenData;
+import com.mycollab.module.project.view.ticket.TicketContainer;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -39,7 +40,8 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         ProjectView projectViewContainer = (ProjectView) container;
-        projectViewContainer.gotoSubView(ProjectTypeConstants.BUG);
+        TicketContainer ticketContainer = (TicketContainer) projectViewContainer.gotoSubView(ProjectTypeConstants.TICKET);
+        ticketContainer.setContent(view);
 
         view.removeAllComponents();
 

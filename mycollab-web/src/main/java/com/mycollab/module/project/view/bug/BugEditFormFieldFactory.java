@@ -21,8 +21,8 @@ import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.ui.components.PriorityComboBox;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
-import com.mycollab.module.project.view.bug.components.BugPriorityComboBox;
 import com.mycollab.module.project.view.bug.components.BugSeverityComboBox;
 import com.mycollab.module.project.view.milestone.MilestoneComboBox;
 import com.mycollab.module.project.view.settings.component.ComponentMultiSelectField;
@@ -68,7 +68,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         } else if (propertyId.equals("description")) {
             return new RichTextArea();
         } else if (propertyId.equals("priority")) {
-            return new BugPriorityComboBox();
+            return new PriorityComboBox();
         } else if (propertyId.equals("assignuser")) {
             ProjectMemberSelectionField field = new ProjectMemberSelectionField();
             field.addValueChangeListener(valueChangeEvent -> {
@@ -99,7 +99,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         } else if (propertyId.equals("fixedVersions")) {
             fixedVersionSelect = new VersionMultiSelectField();
             return fixedVersionSelect;
-        } else if (propertyId.equals("summary")) {
+        } else if (propertyId.equals("name")) {
             final TextField tf = new TextField();
             if (isValidateForm) {
                 tf.setNullRepresentation("");

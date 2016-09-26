@@ -17,7 +17,7 @@
 package com.mycollab.module.file.view
 
 import com.mycollab.eventmanager.EventBusFactory
-import com.mycollab.module.crm.view.CrmUrlResolver
+import com.mycollab.module.crm.httpmapping.CrmUrlResolver
 import com.mycollab.shell.events.ShellEvent
 import com.mycollab.vaadin.mvp.UrlResolver
 import com.mycollab.vaadin.web.ui.ModuleHelper

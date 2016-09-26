@@ -45,8 +45,9 @@ Version 5.4.3
 
 **Library Upgrades**
 
-* Hiraki CP 4.5.0
-* Vaadin 7.7.1
+* Hiraki CP 4.5.1
+* Jackson 2.8.3
+* Vaadin 7.7.2
 * Jackrabbit 2.13.3
 * Other libraries
 
@@ -55,6 +56,7 @@ Version 5.4.3
 * [Premium] Project admin can customise the project dashboard page
 * [Premium] Kanban board for phases/sprint
 * [Premium] Close phase, assignments have option to close the sub-assignments
+* Simplify the views of tasks, bugs, and risks
 * More stable the upgrade process
 * Other minor improvements
 
@@ -62,6 +64,7 @@ Version 5.4.3
 
 * [Premium] Can not mass update project risks
 * [Community] Can not preview bug, task on mobile web page because of lacking time service
+* Update the mail settings is not effect immediately
 
 Version 5.4.2
 -------------

@@ -79,7 +79,7 @@ public class ProjectRoleServiceImpl extends DefaultService<Integer, ProjectRole,
         rolePer.setProjectid(projectId);
         rolePer.setRoleval(perVal);
 
-        int data = projectRolePermissionMapper.countByExample(ex);
+        Long data = projectRolePermissionMapper.countByExample(ex);
         if (data > 0) {
             projectRolePermissionMapper.updateByExampleSelective(rolePer, ex);
         } else {

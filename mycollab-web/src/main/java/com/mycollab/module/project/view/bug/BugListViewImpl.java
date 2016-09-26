@@ -35,7 +35,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -171,7 +171,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
             SimpleBug bug = new SimpleBug();
             bug.setProjectid(CurrentProjectVariables.getProjectId());
             bug.setSaccountid(MyCollabUI.getAccountId());
-            bug.setLogby(UserUIContext.getUsername());
+            bug.setCreateduser(UserUIContext.getUsername());
             UI.getCurrent().addWindow(new BugAddWindow(bug));
         }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION).withDescription(UserUIContext.getMessage(BugI18nEnum.NEW))
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
@@ -254,10 +254,10 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     private void queryAndDisplayBugs() {
         wrapBody.removeAllComponents();
         if (UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE).equals(groupByState)) {
-            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("duedate", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("dueDate", sortDirection)));
             bugGroupOrderComponent = new DueDateOrderComponent();
         } else if (UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE).equals(groupByState)) {
-            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("m_tracker_bug.startdate", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("startDate", sortDirection)));
             bugGroupOrderComponent = new StartDateOrderComponent();
         } else if (UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("lastUpdatedTime", sortDirection)));

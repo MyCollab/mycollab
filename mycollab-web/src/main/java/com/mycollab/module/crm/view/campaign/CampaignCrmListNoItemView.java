@@ -19,7 +19,7 @@ package com.mycollab.module.crm.view.campaign;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.events.CampaignEvent;
+import com.mycollab.module.crm.event.CampaignEvent;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.CrmListNoItemView;

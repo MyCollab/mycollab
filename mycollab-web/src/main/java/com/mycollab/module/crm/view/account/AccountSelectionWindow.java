@@ -21,6 +21,7 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.fielddef.AccountTableFieldDef;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -61,8 +62,7 @@ public class AccountSelectionWindow extends MWindow {
     }
 
     private void createAccountList() {
-        tableItem = new AccountTableDisplay(Arrays.asList(
-                AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),
+        tableItem = new AccountTableDisplay(Arrays.asList(AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),
                 AccountTableFieldDef.assignUser()));
 
         tableItem.setWidth("100%");

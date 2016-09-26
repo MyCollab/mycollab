@@ -38,7 +38,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
-import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -107,7 +107,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getTaskname();
+        return beanItem.getName();
     }
 
     @Override
@@ -197,11 +197,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             } else if (propertyId.equals("enddate")) {
                 return new DefaultViewField(UserUIContext.formatDate(beanItem.getEnddate()));
             } else if (propertyId.equals("deadline")) {
-                return new DefaultViewField(UserUIContext.formatDate(beanItem.getDeadline()));
+                return new DefaultViewField(UserUIContext.formatDate(beanItem.getDuedate()));
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    FontAwesome fontPriority = ProjectAssetsManager.getTaskPriority(beanItem.getPriority());
-                    String priorityLbl = fontPriority.getHtml() + " " + UserUIContext.getMessage(TaskPriority.class, beanItem.getPriority());
+                    FontAwesome fontPriority = ProjectAssetsManager.getPriority(beanItem.getPriority());
+                    String priorityLbl = fontPriority.getHtml() + " " + UserUIContext.getMessage(Priority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
                     field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
                     return field;
@@ -214,8 +214,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                             .MILESTONE).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), milestoneLink);
                     return new DefaultViewField(milestoneDiv.write(), ContentMode.HTML);
                 }
-            } else if (propertyId.equals("notes")) {
-                return new RichTextViewField(beanItem.getNotes());
+            } else if (propertyId.equals(Task.Field.description.equalTo(propertyId))) {
+                return new RichTextViewField(beanItem.getDescription());
             }
             return null;
         }

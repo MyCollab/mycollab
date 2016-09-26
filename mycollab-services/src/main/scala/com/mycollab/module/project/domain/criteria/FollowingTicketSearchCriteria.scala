@@ -26,5 +26,5 @@ import scala.beans.BeanProperty
   * @since 5.2.10
   */
 class FollowingTicketSearchCriteria extends MonitorSearchCriteria {
-  @BeanProperty var summary: StringSearchField = _
+  @BeanProperty var name: StringSearchField = _
 }

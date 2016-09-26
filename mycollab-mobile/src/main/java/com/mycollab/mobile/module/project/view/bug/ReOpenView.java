@@ -52,7 +52,7 @@ class ReOpenView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ReOpenView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption(UserUIContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bug.getSummary()));
+        this.setCaption(UserUIContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bug.getName()));
         this.bug = bug;
         this.callbackForm = callbackForm;
 

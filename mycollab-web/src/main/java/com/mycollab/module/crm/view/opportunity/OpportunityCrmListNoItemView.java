@@ -19,7 +19,7 @@ package com.mycollab.module.crm.view.opportunity;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.event.OpportunityEvent;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.CrmListNoItemView;

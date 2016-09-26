@@ -93,7 +93,7 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
                     super.onGo(container, data);
 
                     MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(),
-                            task.getProjectShortname()), task.getTaskname());
+                            task.getProjectShortname()), task.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

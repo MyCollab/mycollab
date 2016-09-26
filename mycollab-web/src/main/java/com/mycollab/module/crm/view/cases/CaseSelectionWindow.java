@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.mycollab.module.crm.fielddef.CaseTableFieldDef;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;

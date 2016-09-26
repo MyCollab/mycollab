@@ -174,43 +174,11 @@ public class ProjectLinkBuilder {
     public static String generateProjectItemHtmlLinkAndTooltip(String prjShortName, Integer projectId, String summary, String type, String typeId) {
         Text image = new Text(ProjectAssetsManager.getAsset(type).getHtml());
         A link = new A().setId("tag" + TOOLTIP_ID);
-        link.setHref(MyCollabUI.getSiteUrl() + generateProjectItemLink(prjShortName, projectId, type, typeId)).appendChild(new Text(summary));
+        link.setHref(MyCollabUI.getSiteUrl() + ProjectLinkGenerator.generateProjectItemLink(prjShortName, projectId, type, typeId)).appendChild(new Text(summary));
         link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(type, typeId));
         link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         Div div = new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE(), link);
         return div.write();
     }
 
-    public static String generateProjectItemLink(String prjShortName, Integer projectId, String type, String typeId) {
-        String result = "";
-
-        if (typeId == null || StringUtils.isBlank(typeId) || "null".equals(typeId)) {
-            return "";
-        }
-
-        try {
-            if (ProjectTypeConstants.PROJECT.equals(type)) {
-            } else if (ProjectTypeConstants.MESSAGE.equals(type)) {
-                result = ProjectLinkGenerator.generateMessagePreviewLink(projectId, Integer.parseInt(typeId));
-            } else if (ProjectTypeConstants.MILESTONE.equals(type)) {
-                result = ProjectLinkGenerator.generateMilestonePreviewLink(projectId, Integer.parseInt(typeId));
-            } else if (ProjectTypeConstants.RISK.equals(type)) {
-                result = ProjectLinkGenerator.generateRiskPreviewLink(projectId, Integer.parseInt(typeId));
-            } else if (ProjectTypeConstants.TASK.equals(type)) {
-                result = ProjectLinkGenerator.generateTaskPreviewLink(Integer.parseInt(typeId), prjShortName);
-            } else if (ProjectTypeConstants.BUG.equals(type)) {
-                result = ProjectLinkGenerator.generateBugPreviewLink(Integer.parseInt(typeId), prjShortName);
-            } else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
-                result = ProjectLinkGenerator.generateBugComponentPreviewLink(projectId, Integer.parseInt(typeId));
-            } else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
-                result = ProjectLinkGenerator.generateBugVersionPreviewLink(projectId, Integer.parseInt(typeId));
-            } else if (ProjectTypeConstants.PAGE.equals(type)) {
-                result = ProjectLinkGenerator.generatePageRead(projectId, typeId);
-            }
-        } catch (Exception e) {
-            LOG.error(String.format("Error generate tooltip%d---%s---%s", projectId, type, typeId), e);
-        }
-
-        return "#" + result;
-    }
 }

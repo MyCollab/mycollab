@@ -26,9 +26,7 @@ import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -109,11 +107,6 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
             searchCriteria.setProjectName(StringSearchField.and(this.nameField.getValue().trim()));
             return searchCriteria;
         }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return ProjectSearchPanel.this.constructHeader();
-        }
     }
 
     private class ProjectAdvancedSearchLayout extends DynamicQueryParamLayout<ProjectSearchCriteria> {
@@ -121,11 +114,6 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
 
         private ProjectAdvancedSearchLayout() {
             super(ProjectSearchPanel.this, ProjectTypeConstants.PROJECT);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return ProjectSearchPanel.this.constructHeader();
         }
 
         @Override

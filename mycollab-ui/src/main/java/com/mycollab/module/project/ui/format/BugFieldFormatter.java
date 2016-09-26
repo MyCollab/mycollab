@@ -32,11 +32,11 @@ public final class BugFieldFormatter extends FieldGroupFormatter {
     private BugFieldFormatter() {
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);
         generateFieldDisplayHandler("environment", BugI18nEnum.FORM_ENVIRONMENT, TRIM_HTMLS);
-        generateFieldDisplayHandler("summary", BugI18nEnum.FORM_SUMMARY);
+        generateFieldDisplayHandler("name", BugI18nEnum.FORM_SUMMARY);
         generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS,
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugStatus.class));
-        generateFieldDisplayHandler("priority", BugI18nEnum.FORM_PRIORITY,
-                new I18nHistoryFieldFormat(OptionI18nEnum.BugPriority.class));
+        generateFieldDisplayHandler("priority", GenericI18Enum.FORM_PRIORITY,
+                new I18nHistoryFieldFormat(OptionI18nEnum.Priority.class));
         generateFieldDisplayHandler("severity", BugI18nEnum.FORM_SEVERITY,
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugSeverity.class));
         generateFieldDisplayHandler("resolution", BugI18nEnum.FORM_RESOLUTION,

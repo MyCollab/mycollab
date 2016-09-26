@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.account;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.fielddef.AccountTableFieldDef;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;

@@ -19,7 +19,7 @@ package com.mycollab.module.project.view;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.project.events.ProjectEvent;
+import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.web.ui.IListView;
 import com.mycollab.vaadin.web.ui.ListSelectionPresenter;

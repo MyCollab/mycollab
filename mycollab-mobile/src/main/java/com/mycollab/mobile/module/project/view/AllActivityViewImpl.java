@@ -29,6 +29,7 @@ import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -189,10 +190,10 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
 
         if (ProjectTypeConstants.TASK.equals(activityStream.getType())
                 || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(activityStream.getProjectShortName(),
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
                     activityStream.getExtratypeid(), activityStream.getType(), activityStream.getItemKey() + ""));
         } else {
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(activityStream.getProjectShortName(),
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
                     activityStream.getExtratypeid(), activityStream.getType(), activityStream.getTypeid()));
         }
         itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));

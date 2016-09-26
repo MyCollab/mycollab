@@ -81,9 +81,7 @@ public class SimpleBug extends BugWithBLOBs {
 
     public String getLoguserFullName() {
         if (isBlank(loguserFullName)) {
-            String displayName = getLogby();
-            return StringUtils
-                    .extractNameFromEmail(displayName);
+            return StringUtils.extractNameFromEmail(getCreateduser());
         }
         return loguserFullName;
     }
@@ -173,7 +171,7 @@ public class SimpleBug extends BugWithBLOBs {
         return isCompleted(this);
     }
 
-    public static final boolean isCompleted(BugWithBLOBs bug) {
+    public static boolean isCompleted(BugWithBLOBs bug) {
         return BugStatus.Verified.name().equals(bug.getStatus()) || BugStatus.Resolved.name().equals(bug.getStatus());
     }
 

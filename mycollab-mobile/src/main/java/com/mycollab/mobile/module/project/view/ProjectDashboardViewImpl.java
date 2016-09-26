@@ -122,11 +122,11 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         int totalAssignments = currentProject.getNumBugs() + currentProject.getNumTasks() + currentProject.getNumRisks();
         ELabel progressInfoLbl;
         if (totalAssignments > 0) {
-            progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+            progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                     (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                             * 100 / totalAssignments)).withWidthUndefined().withStyleName(UIConstants.META_INFO);
         } else {
-            progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT)).withWidthUndefined().withStyleName
+            progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET)).withWidthUndefined().withStyleName
                     (UIConstants.META_INFO);
         }
         projectInfo.addComponent(progressInfoLbl);

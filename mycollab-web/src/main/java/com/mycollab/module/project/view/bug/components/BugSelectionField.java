@@ -91,7 +91,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
         }
         BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setSummary(StringSearchField.and(query));
+        searchCriteria.setName(StringSearchField.and(query));
         items = bugService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         return new ArrayList<Object>(items);
     }
@@ -99,7 +99,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
     private class BugSuggestionConverter extends BeanSuggestionConverter {
 
         public BugSuggestionConverter() {
-            super(SimpleBug.class, "id", "summary", "summary");
+            super(SimpleBug.class, "id", "name", "name");
         }
 
         @Override

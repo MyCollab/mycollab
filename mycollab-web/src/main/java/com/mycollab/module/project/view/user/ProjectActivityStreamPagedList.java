@@ -30,6 +30,7 @@ import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -187,12 +188,12 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         A itemLink = new A().setId("tag" + TOOLTIP_ID);
         if (ProjectTypeConstants.TASK.equals(activityStream.getType())
                 || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
                     activityStream.getProjectShortName(),
                     activityStream.getExtratypeid(), activityStream.getType(),
                     activityStream.getItemKey() + ""));
         } else {
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
                     activityStream.getProjectShortName(),
                     activityStream.getExtratypeid(), activityStream.getType(),
                     activityStream.getTypeid()));

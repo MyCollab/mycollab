@@ -31,7 +31,7 @@ public class AbstractMobileTabPageView extends TabBarView implements PageView {
     private static final long serialVersionUID = 664039475002291943L;
 
     /*
-     * Now we use EventBus to manage events
+     * Now we use EventBus to manage event
      * @see com.mycollab.eventmanager.EventBusFactory
      */
     @Deprecated

@@ -24,6 +24,7 @@ import com.mycollab.html.FormatUtils._
 import com.mycollab.html.LinkUtils
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.domain._
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.{BugI18nEnum, OptionI18nEnum}
 import com.mycollab.module.project.service.{MilestoneService, ProjectNotificationSettingService}
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
@@ -59,7 +60,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
   protected def buildExtraTemplateVariables(context: MailContext[SimpleBug]) {
     val emailNotification = context.getEmailNotification
     
-    val summary = "#" + bean.getBugkey + " - " + bean.getSummary
+    val summary = "#" + bean.getBugkey + " - " + bean.getName
     val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean.getBugkey, bean.getProjectShortName)
     
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
@@ -75,14 +76,14 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
     contentGenerator.putVariable("projectName", bean.getProjectname)
     contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean.getProjectid))
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("summary", summary)
+    contentGenerator.putVariable("name", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
   
   protected def getBeanInContext(notification: ProjectRelayEmailNotification): SimpleBug =
     bugService.findById(notification.getTypeid.toInt, notification.getSaccountid)
   
-  protected def getItemName: String = StringUtils.trim(bean.getSummary, 100)
+  protected def getItemName: String = StringUtils.trim(bean.getName, 100)
   
   override protected def getProjectName: String = bean.getProjectname
   
@@ -134,7 +135,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
   }
   
   class BugFieldNameMapper extends ItemFieldMapper {
-    put(BugWithBLOBs.Field.summary, BugI18nEnum.FORM_SUMMARY, isColSpan = true)
+    put(BugWithBLOBs.Field.name, BugI18nEnum.FORM_SUMMARY, isColSpan = true)
     put(BugWithBLOBs.Field.environment, BugI18nEnum.FORM_ENVIRONMENT, isColSpan = true)
     put(BugWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
     put(BugWithBLOBs.Field.assignuser, new AssigneeFieldFormat(BugWithBLOBs.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
@@ -142,9 +143,10 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
     put(BugWithBLOBs.Field.status, new I18nFieldFormat(BugWithBLOBs.Field.status.name, GenericI18Enum.FORM_STATUS, classOf[OptionI18nEnum.BugStatus]))
     put(BugWithBLOBs.Field.resolution, new I18nFieldFormat(BugWithBLOBs.Field.resolution.name, BugI18nEnum.FORM_RESOLUTION, classOf[OptionI18nEnum.BugResolution]))
     put(BugWithBLOBs.Field.severity, new I18nFieldFormat(BugWithBLOBs.Field.severity.name, BugI18nEnum.FORM_SEVERITY, classOf[OptionI18nEnum.BugSeverity]))
-    put(BugWithBLOBs.Field.priority, new I18nFieldFormat(BugWithBLOBs.Field.priority.name, BugI18nEnum.FORM_PRIORITY, classOf[OptionI18nEnum.BugPriority]))
+    put(BugWithBLOBs.Field.priority, new I18nFieldFormat(BugWithBLOBs.Field.priority.name, GenericI18Enum.FORM_PRIORITY,
+      classOf[Priority]))
     put(BugWithBLOBs.Field.duedate, new DateFieldFormat(BugWithBLOBs.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
-    put(BugWithBLOBs.Field.logby, new LogUserFieldFormat(BugWithBLOBs.Field.logby.name, BugI18nEnum.FORM_LOG_BY))
+    put(BugWithBLOBs.Field.createduser, new LogUserFieldFormat(BugWithBLOBs.Field.createduser.name, BugI18nEnum.FORM_LOG_BY))
   }
   
   class MilestoneFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
@@ -224,10 +226,10 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
     
     def formatField(context: MailContext[_]): String = {
       val bug = context.getWrappedBean.asInstanceOf[SimpleBug]
-      if (bug.getLogby != null) {
+      if (bug.getCreateduser != null) {
         val userAvatarLink = MailUtils.getAvatarLink(bug.getLoguserAvatarId, 16)
         val img = newImg("avatar", userAvatarLink)
-        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(bug.getSaccountid), bug.getLogby)
+        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(bug.getSaccountid), bug.getCreateduser)
         val link = newA(userLink, bug.getLoguserFullName)
         newLink(img, link).write
       }

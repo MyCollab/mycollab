@@ -274,13 +274,12 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             ckEditorTextField.setWidth("100%");
             ckEditorTextField.setHeight("200px");
 
-            MHorizontalLayout titleLayout = new MHorizontalLayout().withFullWidth();
             Label titleLbl = new Label(UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE));
             final TextField titleField = new MTextField().withFullWidth().withNullRepresentation("").withRequired(true)
                     .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
                             UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
 
-            titleLayout.with(titleLbl, titleField).expand(titleField);
+            MHorizontalLayout titleLayout = new MHorizontalLayout(titleLbl, titleField).expand(titleField).withFullWidth();
 
             addMessageWrapper.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
                     .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);

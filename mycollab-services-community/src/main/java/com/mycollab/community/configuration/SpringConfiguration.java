@@ -34,7 +34,8 @@ import org.springframework.context.annotation.Configuration;
         "com.mycollab.community.module.user.service",
         "com.mycollab.community.schedule.jobs",
         "com.mycollab.community.schedule.spring",
-        "com.mycollab.community.vaadin.ui.service"
+        "com.mycollab.community.vaadin.ui.service",
+        "com.mycollab.community.module.project.view.service"
 })
 public class SpringConfiguration {
 }

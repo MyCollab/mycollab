@@ -105,8 +105,7 @@ public class StringParam extends ColumnParam {
         return buildStringParamIsNotEqual(SearchField.AND, value);
     }
 
-    public OneValueSearchField orStringParamIsNotEqual(StringParam param,
-                                                       Object value) {
+    public OneValueSearchField orStringParamIsNotEqual(StringParam param, Object value) {
         return buildStringParamIsNotEqual(SearchField.OR, value);
     }
 

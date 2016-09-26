@@ -64,17 +64,17 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
 
         this.addGeneratedColumn("loguserFullName", (source, itemId, columnId) -> {
             SimpleBug bug = getBeanByIndex(itemId);
-            return new ProjectUserLink(bug.getLogby(), bug.getLoguserAvatarId(), bug.getLoguserFullName());
+            return new ProjectUserLink(bug.getCreateduser(), bug.getLoguserAvatarId(), bug.getLoguserFullName());
         });
 
-        this.addGeneratedColumn("summary", (source, itemId, columnId) -> {
+        this.addGeneratedColumn("name", (source, itemId, columnId) -> {
             SimpleBug bug = getBeanByIndex(itemId);
-            LabelLink b = new LabelLink(bug.getSummary(), ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
+            LabelLink b = new LabelLink(bug.getName(), ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
                     bug.getProjectShortName()));
 
             if (StringUtils.isNotBlank(bug.getPriority())) {
-                b.setIconLink(ProjectAssetsManager.getBugPriority(bug.getPriority()));
-                b.addStyleName("bug-" + bug.getPriority().toLowerCase());
+                b.setIconLink(ProjectAssetsManager.getPriority(bug.getPriority()));
+                b.addStyleName("task-" + bug.getPriority().toLowerCase());
             }
 
             b.setDescription(ProjectTooltipGenerator.generateToolTipBug(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),

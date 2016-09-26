@@ -26,7 +26,7 @@ import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
@@ -112,7 +112,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
         AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
         if (bug.getId() == null) {
             bug.setStatus(BugStatus.Open.name());
-            bug.setLogby(UserUIContext.getUsername());
+            bug.setCreateduser(UserUIContext.getUsername());
             int bugId = bugService.saveWithSession(bug, UserUIContext.getUsername());
             AttachmentUploadField uploadField = view.getAttachUploadField();
             String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), bug.getProjectid(),

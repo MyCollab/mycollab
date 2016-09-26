@@ -27,10 +27,12 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
-import com.mycollab.module.project.events.TaskEvent;
+import com.mycollab.module.project.event.TaskEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ticket.TicketContainer;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -71,7 +73,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
 
             @Override
             public void onCancel() {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null));
+                EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null));
             }
 
             @Override
@@ -85,10 +87,10 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-            TaskContainer taskContainer = (TaskContainer) container;
-            taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
-            taskContainer.removeAllComponents();
-            taskContainer.addComponent(view);
+            TicketContainer ticketContainer = (TicketContainer) container;
+            ticketContainer.navigateToContainer(ProjectTypeConstants.TASK);
+            ticketContainer.removeAllComponents();
+            ticketContainer.addComponent(view);
             SimpleTask task = (SimpleTask) data.getParams();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
@@ -119,7 +121,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
         }
 
         if (item.getId() == null) {
-            item.setLogby(UserUIContext.getUsername());
+            item.setCreateduser(UserUIContext.getUsername());
             int taskId = taskService.saveWithSession(item, UserUIContext.getUsername());
 
             List<String> followers = view.getFollowers();

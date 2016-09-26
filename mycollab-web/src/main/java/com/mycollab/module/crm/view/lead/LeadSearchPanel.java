@@ -24,7 +24,7 @@ import com.mycollab.db.query.Param;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.mycollab.module.crm.events.LeadEvent;
+import com.mycollab.module.crm.event.LeadEvent;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.user.ui.components.ActiveUserListSelect;
@@ -32,9 +32,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -88,13 +86,8 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        public LeadBasicSearchLayout() {
+        LeadBasicSearchLayout() {
             super(LeadSearchPanel.this);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return LeadSearchPanel.this.constructHeader();
         }
 
         @Override
@@ -145,13 +138,8 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
     private class LeadAdvancedSearchLayout extends DynamicQueryParamLayout<LeadSearchCriteria> {
 
-        public LeadAdvancedSearchLayout() {
+        LeadAdvancedSearchLayout() {
             super(LeadSearchPanel.this, CrmTypeConstants.LEAD);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return LeadSearchPanel.this.constructHeader();
         }
 
         @Override

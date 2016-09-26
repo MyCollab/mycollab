@@ -26,7 +26,7 @@ import com.mycollab.module.project.ProjectMemberStatusConstants;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
-import com.mycollab.module.project.events.ProjectMemberEvent;
+import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.spring.AppContextUtil;

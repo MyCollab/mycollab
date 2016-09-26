@@ -23,6 +23,7 @@ import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.domain._
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.{OptionI18nEnum, TaskI18nEnum}
 import com.mycollab.module.project.service._
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
@@ -57,7 +58,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
   protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
     val emailNotification = context.getEmailNotification
 
-    val summary = "#" + bean.getTaskkey + " - " + bean.getTaskname
+    val summary = "#" + bean.getTaskkey + " - " + bean.getName
     val summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getTaskkey, bean.getProjectShortname)
 
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
@@ -73,14 +74,14 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
     contentGenerator.putVariable("projectName", bean.getProjectName)
     contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean.getProjectid))
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("summary", summary)
+    contentGenerator.putVariable("name", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
 
   protected def getBeanInContext(notification: ProjectRelayEmailNotification): SimpleTask =
     projectTaskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
 
-  protected def getItemName: String = StringUtils.trim(bean.getTaskname, 100)
+  protected def getItemName: String = StringUtils.trim(bean.getName, 100)
   
   override protected def getProjectName: String = bean.getProjectName
   
@@ -135,18 +136,18 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
   }
 
   class TaskFieldNameMapper extends ItemFieldMapper {
-    put(Task.Field.taskname, GenericI18Enum.FORM_NAME, isColSpan = true)
+    put(Task.Field.name, GenericI18Enum.FORM_NAME, isColSpan = true)
     put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
     put(Task.Field.enddate, new DateFieldFormat(Task.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
-    put(Task.Field.deadline, new DateFieldFormat(Task.Field.deadline.name, GenericI18Enum.FORM_DUE_DATE))
+    put(Task.Field.duedate, new DateFieldFormat(Task.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
     put(Task.Field.percentagecomplete, TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)
-    put(Task.Field.priority, new I18nFieldFormat(Task.Field.priority.name, TaskI18nEnum.FORM_PRIORITY, classOf[OptionI18nEnum.TaskPriority]))
+    put(Task.Field.priority, new I18nFieldFormat(Task.Field.priority.name, GenericI18Enum.FORM_PRIORITY, classOf[Priority]))
     put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(Task.Field.isestimated, TaskI18nEnum.FORM_IS_ESTIMATED)
     put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE)
     put(Task.Field.milestoneid, new MilestoneFieldFormat(Task.Field.milestoneid.name, TaskI18nEnum.FORM_PHASE))
     put(Task.Field.parenttaskid, new TaskFieldFormat(Task.Field.parenttaskid.name, TaskI18nEnum.FORM_PARENT_TASK))
-    put(Task.Field.notes, TaskI18nEnum.FORM_NOTES)
+    put(Task.Field.description, GenericI18Enum.FORM_DESCRIPTION)
     put(Task.Field.status, GenericI18Enum.FORM_STATUS)
   }
 
@@ -192,7 +193,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
         val parentTaskLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.getParentTaskKey,
           task.getProjectShortname)
-        val link = FormatUtils.newA(parentTaskLink, task.getTaskname)
+        val link = FormatUtils.newA(parentTaskLink, task.getName)
         FormatUtils.newLink(img, link).write
       }
       else {
@@ -211,7 +212,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         if (task != null) {
           val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK));
           val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.getTaskkey, task.getProjectShortname)
-          val link = FormatUtils.newA(taskListLink, task.getTaskname)
+          val link = FormatUtils.newA(taskListLink, task.getName)
           return FormatUtils.newLink(img, link).write
         }
       }
@@ -247,7 +248,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         val milestoneService = AppContextUtil.getSpringBean(classOf[MilestoneService])
         val milestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
         if (milestone != null) {
-          val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
+          val img = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
           val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
             milestone.getProjectid, milestone.getId)
           val link = FormatUtils.newA(milestoneLink, milestone.getName)

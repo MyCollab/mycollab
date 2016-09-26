@@ -23,7 +23,7 @@ import com.mycollab.db.query.Param;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.mycollab.module.crm.events.AccountEvent;
+import com.mycollab.module.crm.event.AccountEvent;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.user.ui.components.ActiveUserListSelect;
@@ -31,9 +31,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -62,11 +60,10 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected Component buildExtraControls() {
-        MButton newBtn = new MButton(UserUIContext.getMessage(AccountI18nEnum.NEW),
+        return new MButton(UserUIContext.getMessage(AccountI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
-        return newBtn;
     }
 
     @Override
@@ -81,13 +78,8 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     private class AccountAdvancedSearchLayout extends DynamicQueryParamLayout<AccountSearchCriteria> {
 
-        public AccountAdvancedSearchLayout() {
+        AccountAdvancedSearchLayout() {
             super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return AccountSearchPanel.this.constructHeader();
         }
 
         @Override
@@ -144,11 +136,6 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
                     clickEvent -> moveToAdvancedSearchLayout()).withStyleName(WebUIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return AccountSearchPanel.this.constructHeader();
         }
 
         @Override

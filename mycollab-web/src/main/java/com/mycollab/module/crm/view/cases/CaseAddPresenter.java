@@ -24,7 +24,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCase;
-import com.mycollab.module.crm.events.CaseEvent;
+import com.mycollab.module.crm.event.CaseEvent;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

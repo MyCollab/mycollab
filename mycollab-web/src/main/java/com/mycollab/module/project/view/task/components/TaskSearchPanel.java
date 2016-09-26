@@ -27,17 +27,14 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.mycollab.module.project.events.TaskEvent;
+import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -188,11 +185,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return TaskSearchPanel.this.constructHeader();
-        }
     }
 
     private class TaskAdvancedSearchLayout extends DynamicQueryParamLayout<TaskSearchCriteria> {
@@ -200,11 +192,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
         private TaskAdvancedSearchLayout() {
             super(TaskSearchPanel.this, ProjectTypeConstants.TASK);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return TaskSearchPanel.this.constructHeader();
         }
 
         @Override

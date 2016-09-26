@@ -31,7 +31,7 @@ public class TaskSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
     public static final StringParam p_taskname = CacheParamMapper.register(ProjectTypeConstants.TASK,
-            GenericI18Enum.FORM_NAME, new StringParam("taskname", "m_prj_task", "taskname"));
+            GenericI18Enum.FORM_NAME, new StringParam("taskname", "m_prj_task", "name"));
 
     public static final PropertyListParam<String> p_assignee = CacheParamMapper.register(ProjectTypeConstants.TASK,
             GenericI18Enum.FORM_ASSIGNEE, new PropertyListParam<String>("assignuser", "m_prj_task", "assignUser"));
@@ -68,7 +68,7 @@ public class TaskSearchCriteria extends SearchCriteria {
 
     private NumberSearchField projectId;
     private NumberSearchField parentTaskId;
-    private StringSearchField taskName;
+    private StringSearchField name;
     private DateSearchField dueDate;
     private NumberSearchField milestoneId;
     private StringSearchField assignUser;
@@ -84,12 +84,12 @@ public class TaskSearchCriteria extends SearchCriteria {
         this.parentTaskId = parentTaskId;
     }
 
-    public StringSearchField getTaskName() {
-        return taskName;
+    public StringSearchField getName() {
+        return name;
     }
 
-    public void setTaskName(StringSearchField taskName) {
-        this.taskName = taskName;
+    public void setName(StringSearchField name) {
+        this.name = name;
     }
 
     public SetSearchField<String> getStatuses() {

@@ -21,7 +21,7 @@ import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.events.BugVersionEvent;
+import com.mycollab.module.project.event.BugVersionEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.service.VersionService;

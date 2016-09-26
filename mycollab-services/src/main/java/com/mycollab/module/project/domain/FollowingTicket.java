@@ -20,121 +20,119 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class FollowingTicket implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Integer projectId;
+    private Integer projectId;
 
-	private String projectName;
+    private String projectName;
 
-	private String type;
+    private String type;
 
-	private Integer typeId;
+    private Integer typeId;
 
-	private String summary;
+    private String name;
 
-	private String status;
+    private String status;
 
-	private Date dueDate;
+    private Date dueDate;
 
-	private String assignUser;
+    private String assignUser;
 
-	private String assignUserAvatarId;
+    private String assignUserAvatarId;
 
-	private String assignUserFullName;
+    private String assignUserFullName;
 
-	private Date monitorDate;
+    private Date monitorDate;
 
-	public Integer getProjectId() {
-		return projectId;
-	}
+    public Integer getProjectId() {
+        return projectId;
+    }
 
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
-	}
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getSummary() {
-		return summary;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getAssignUser() {
-		return assignUser;
-	}
+    public String getAssignUser() {
+        return assignUser;
+    }
 
-	public void setAssignUser(String assignUser) {
-		this.assignUser = assignUser;
-	}
+    public void setAssignUser(String assignUser) {
+        this.assignUser = assignUser;
+    }
 
-	public String getAssignUserFullName() {
-		return assignUserFullName;
-	}
+    public String getAssignUserFullName() {
+        return assignUserFullName;
+    }
 
-	public void setAssignUserFullName(String assignUserFullName) {
-		this.assignUserFullName = assignUserFullName;
-	}
+    public void setAssignUserFullName(String assignUserFullName) {
+        this.assignUserFullName = assignUserFullName;
+    }
 
-	public String getAssignUserAvatarId() {
-		return assignUserAvatarId;
-	}
+    public String getAssignUserAvatarId() {
+        return assignUserAvatarId;
+    }
 
-	public void setAssignUserAvatarId(String assignUserAvatarId) {
-		this.assignUserAvatarId = assignUserAvatarId;
-	}
+    public void setAssignUserAvatarId(String assignUserAvatarId) {
+        this.assignUserAvatarId = assignUserAvatarId;
+    }
 
-	public Date getMonitorDate() {
-		return monitorDate;
-	}
+    public Date getMonitorDate() {
+        return monitorDate;
+    }
 
-	public void setMonitorDate(Date monitorDate) {
-		this.monitorDate = monitorDate;
-	}
+    public void setMonitorDate(Date monitorDate) {
+        this.monitorDate = monitorDate;
+    }
 
-	public Integer getTypeId() {
-		return typeId;
-	}
+    public Integer getTypeId() {
+        return typeId;
+    }
 
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
-	}
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public Date getDueDate() {
-		return dueDate;
-	}
+    public Date getDueDate() {
+        return dueDate;
+    }
 
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
-	}
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
 }

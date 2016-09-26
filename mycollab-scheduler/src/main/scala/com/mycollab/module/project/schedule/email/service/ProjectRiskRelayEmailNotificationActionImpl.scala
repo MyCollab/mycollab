@@ -48,7 +48,7 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
   @Autowired var riskService: RiskService = _
   private val mapper = new ProjectFieldNameMapper
   
-  override protected def getItemName: String = StringUtils.trim(bean.getRiskname, 100)
+  override protected def getItemName: String = StringUtils.trim(bean.getName, 100)
   
   override protected def getProjectName: String = bean.getProjectName
   
@@ -68,7 +68,7 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
   
   override protected def buildExtraTemplateVariables(context: MailContext[SimpleRisk]) {
     val emailNotification = context.getEmailNotification
-    val summary = bean.getRiskname
+    val summary = bean.getName
     val summaryLink = ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
     
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
@@ -84,35 +84,35 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
     contentGenerator.putVariable("projectName", bean.getProjectName)
     contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean.getProjectid))
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("summary", summary)
+    contentGenerator.putVariable("name", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
   
   class ProjectFieldNameMapper extends ItemFieldMapper {
-    put(Risk.Field.riskname, GenericI18Enum.FORM_NAME, isColSpan = true)
+    put(Risk.Field.name, GenericI18Enum.FORM_NAME, isColSpan = true)
     put(Risk.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
     put(Risk.Field.probalitity, new I18nFieldFormat(Risk.Field.probalitity.name, RiskI18nEnum.FORM_PROBABILITY,
       classOf[RiskProbability]))
     put(Risk.Field.consequence, new I18nFieldFormat(Risk.Field.consequence.name, RiskI18nEnum.FORM_CONSEQUENCE, classOf[RiskConsequence]))
     put(Risk.Field.startdate, new DateFieldFormat(Risk.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
     put(Risk.Field.enddate, new DateFieldFormat(Risk.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
-    put(Risk.Field.datedue, new DateFieldFormat(Risk.Field.datedue.name, GenericI18Enum.FORM_DUE_DATE))
+    put(Risk.Field.duedate, new DateFieldFormat(Risk.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
     put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name, GenericI18Enum.FORM_STATUS,
       classOf[OptionI18nEnum.StatusI18nEnum]))
     put(Risk.Field.milestoneid, new MilestoneFieldFormat(Risk.Field.milestoneid.name, RiskI18nEnum.FORM_PHASE))
-    put(Risk.Field.assigntouser, new AssigneeFieldFormat(Risk.Field.assigntouser.name, GenericI18Enum.FORM_ASSIGNEE))
-    put(Risk.Field.raisedbyuser, new RaisedByFieldFormat(Risk.Field.raisedbyuser.name, RiskI18nEnum.FORM_RAISED_BY))
+    put(Risk.Field.assignuser, new AssigneeFieldFormat(Risk.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
+    put(Risk.Field.createduser, new RaisedByFieldFormat(Risk.Field.createduser.name, RiskI18nEnum.FORM_RAISED_BY))
     put(Risk.Field.response, RiskI18nEnum.FORM_RESPONSE, isColSpan = true)
   }
   
   class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
     def formatField(context: MailContext[_]): String = {
       val risk = context.getWrappedBean.asInstanceOf[SimpleRisk]
-      if (risk.getAssigntouser != null) {
+      if (risk.getAssignuser != null) {
         val userAvatarLink = MailUtils.getAvatarLink(risk.getAssignToUserAvatarId, 16)
         val img = FormatUtils.newImg("avatar", userAvatarLink)
         val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid),
-          risk.getAssigntouser)
+          risk.getAssignuser)
         val link = FormatUtils.newA(userLink, risk.getAssignedToUserFullName)
         FormatUtils.newLink(img, link).write
       }
@@ -143,11 +143,11 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
   class RaisedByFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
     def formatField(context: MailContext[_]): String = {
       val risk = context.getWrappedBean.asInstanceOf[SimpleRisk]
-      if (risk.getRaisedbyuser != null) {
+      if (risk.getCreateduser != null) {
         val userAvatarLink = MailUtils.getAvatarLink(risk.getRaisedByUserAvatarId, 16)
         val img = FormatUtils.newImg("avatar", userAvatarLink)
         val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid),
-          risk.getRaisedbyuser)
+          risk.getCreateduser)
         val link = FormatUtils.newA(userLink, risk.getRaisedByUserFullName)
         FormatUtils.newLink(img, link).write
       }

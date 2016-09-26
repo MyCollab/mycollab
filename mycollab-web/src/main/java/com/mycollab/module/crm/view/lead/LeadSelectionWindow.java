@@ -21,6 +21,7 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.mycollab.module.crm.fielddef.LeadTableFieldDef;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;

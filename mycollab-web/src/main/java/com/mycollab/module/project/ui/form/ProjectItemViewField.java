@@ -19,7 +19,7 @@ package com.mycollab.module.project.ui.form;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.TooltipHelper;
@@ -56,7 +56,7 @@ public class ProjectItemViewField extends CustomField<String> {
         SimpleProject project = CurrentProjectVariables.getProject();
         DivLessFormatter div = new DivLessFormatter();
 
-        A milestoneLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectItemLink(project.getShortname(),
+        A milestoneLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkGenerator.generateProjectItemLink(project.getShortname(),
                 project.getId(), type, typeId)).appendText(typeDisplayName);
         milestoneLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(type, typeId + ""));
         milestoneLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());

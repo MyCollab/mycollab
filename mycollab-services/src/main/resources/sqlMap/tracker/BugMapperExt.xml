@@ -33,11 +33,11 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.assignuser)
-            ${searchCriteria.assignuser.operation} m_tracker_bug.assignuser #equals($searchCriteria.assignuser.value)
+            ${searchCriteria.assignuser.operation} m_tracker_bug.assignUser #equals($searchCriteria.assignuser.value)
         #end
         
-        #ifnotnull($searchCriteria.summary)
-            ${searchCriteria.summary.operation} m_tracker_bug.summary LIKE '%${searchCriteria.summary.value}%'
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_tracker_bug.name LIKE '%${searchCriteria.name.value}%'
         #end
         
         #ifnotnull($searchCriteria.detail)
@@ -89,7 +89,7 @@
         #end
         
         #ifnotnull($searchCriteria.loguser)
-            ${searchCriteria.loguser.operation} m_tracker_bug.logby = @{searchCriteria.loguser.value}
+            ${searchCriteria.loguser.operation} m_tracker_bug.createdUser = @{searchCriteria.loguser.value}
         #end
         
         #ifnotnull($searchCriteria.projectId)
@@ -182,11 +182,11 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.assignuser)
-            ${searchCriteria.assignuser.operation} m_tracker_bug.assignuser #equals($searchCriteria.assignuser.value)
+            ${searchCriteria.assignuser.operation} m_tracker_bug.assignUser #equals($searchCriteria.assignuser.value)
         #end
         
-        #ifnotnull($searchCriteria.summary)
-            ${searchCriteria.summary.operation} m_tracker_bug.summary LIKE '%${searchCriteria.summary.value}%'
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_tracker_bug.name LIKE '%${searchCriteria.name.value}%'
         #end
         
         #ifnotnull($searchCriteria.detail)
@@ -238,7 +238,7 @@
         #end
         
         #ifnotnull($searchCriteria.loguser)
-            ${searchCriteria.loguser.operation} m_tracker_bug.logby = @{searchCriteria.loguser.value}
+            ${searchCriteria.loguser.operation} m_tracker_bug.createdUser = @{searchCriteria.loguser.value}
         #end
         
         #ifnotnull($searchCriteria.projectId)
@@ -329,8 +329,8 @@
 
     <sql id="selectBug">
         <![CDATA[
-            SELECT DISTINCT m_tracker_bug.id, m_tracker_bug.summary, m_tracker_bug.detail, m_tracker_bug.assignuser, m_tracker_bug.createdTime,
-                 m_tracker_bug.logby, m_tracker_bug.severity, m_tracker_bug.priority, m_tracker_bug.lastUpdatedTime,
+            SELECT DISTINCT m_tracker_bug.id, m_tracker_bug.name, m_tracker_bug.detail, m_tracker_bug.assignUser, m_tracker_bug.createdTime,
+                 m_tracker_bug.createdUser, m_tracker_bug.severity, m_tracker_bug.priority, m_tracker_bug.lastUpdatedTime,
                  m_tracker_bug.status, m_tracker_bug.duedate, m_tracker_bug.environment, m_tracker_bug.resolution,
                  m_tracker_bug.cus_int_01, m_tracker_bug.cus_int_02, m_tracker_bug.cus_int_03, m_tracker_bug.cus_int_04, 
                  m_tracker_bug.cus_int_05, m_tracker_bug.cus_int_06, m_tracker_bug.cus_int_07,
@@ -340,7 +340,7 @@
                  m_tracker_bug.cus_time_03, m_tracker_bug.cus_time_04, m_tracker_bug.cus_dbl_01, m_tracker_bug.bugindex,
                  m_tracker_bug.cus_dbl_02, m_tracker_bug.cus_dbl_03, m_tracker_bug.projectId,
                  m_tracker_bug.resolveddate, m_tracker_bug.sAccountId, m_tracker_bug.description, m_tracker_bug.estimateTime,
-                 m_tracker_bug.startdate, m_tracker_bug.enddate,
+                 m_tracker_bug.startDate, m_tracker_bug.endDate,
                  (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Bug' AND m_comment.typeId=m_tracker_bug.id) AS numComments,
@@ -368,8 +368,8 @@
                  (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = m_tracker_bug.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers
             FROM m_tracker_bug
                 LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
-                LEFT OUTER JOIN s_user AS assignuserTbl ON (m_tracker_bug.assignuser=assignuserTbl.username)
-                LEFT OUTER JOIN s_user AS loguserTbl ON (m_tracker_bug.logby=loguserTbl.username)
+                LEFT OUTER JOIN s_user AS assignuserTbl ON (m_tracker_bug.assignUser=assignuserTbl.username)
+                LEFT OUTER JOIN s_user AS loguserTbl ON (m_tracker_bug.createdUser=loguserTbl.username)
                 LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem1 ON (relatedItem1.bugid = m_tracker_bug.id AND relatedItem1.type='AffVersion')
                 LEFT OUTER JOIN m_tracker_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId)
                 LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem2 ON (relatedItem2.bugid = m_tracker_bug.id AND relatedItem2.type='FixVersion')
@@ -484,36 +484,36 @@
     <select id="getAssignedDefectsSummary" parameterType="BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
-        SELECT m_tracker_bug.assignuser AS groupid,
-            COUNT(IFNULL(m_tracker_bug.assignuser, '')) AS value,
+        SELECT m_tracker_bug.assignUser AS groupid,
+            COUNT(IFNULL(m_tracker_bug.assignUser, '')) AS value,
             s_user.avatarId AS extraValue,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
         FROM m_tracker_bug
-            LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser = s_user.username)
+            LEFT OUTER JOIN s_user ON (m_tracker_bug.assignUser = s_user.username)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
-        GROUP BY m_tracker_bug.assignuser
+        GROUP BY m_tracker_bug.assignUser
     </select>
 
     <select id="getReporterDefectsSummary" parameterType="BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
-        SELECT m_tracker_bug.logby AS groupid,
-            COUNT(IFNULL(m_tracker_bug.logby,'')) AS value,
+        SELECT m_tracker_bug.createdUser AS groupid,
+            COUNT(IFNULL(m_tracker_bug.createdUser,'')) AS value,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
         FROM m_tracker_bug
-            LEFT OUTER JOIN s_user ON (m_tracker_bug.logby = s_user.username)
+            LEFT OUTER JOIN s_user ON (m_tracker_bug.createdUser = s_user.username)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
-        GROUP BY m_tracker_bug.logby
+        GROUP BY m_tracker_bug.createdUser
     </select>
 
     <select id="getComponentDefectsSummary" parameterType="BugSearchCriteria"

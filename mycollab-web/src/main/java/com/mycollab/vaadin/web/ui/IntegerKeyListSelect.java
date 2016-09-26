@@ -35,10 +35,9 @@ public class IntegerKeyListSelect extends ListSelect {
             Class valueCls = newValue.getClass();
             ArrayList<Integer> wrappedList = new ArrayList<>();
             if (Collection.class.isAssignableFrom(valueCls)) {
-                Iterator iter = ((Collection) newValue).iterator();
-                while (iter.hasNext()) {
+                for (Object o : ((Collection) newValue)) {
                     try {
-                        Integer value = Integer.parseInt(iter.next().toString());
+                        Integer value = Integer.parseInt(o.toString());
                         wrappedList.add(value);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -58,7 +57,6 @@ public class IntegerKeyListSelect extends ListSelect {
                 super.setValue(wrappedList);
             } else {
                 super.setValue(newValue);
-                return;
             }
         } else {
             super.setValue(null);

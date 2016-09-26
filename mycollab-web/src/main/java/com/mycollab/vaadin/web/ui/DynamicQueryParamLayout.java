@@ -36,7 +36,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends GenericSearchPanel.SearchLayout<S> {
+public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends SearchLayout<S> {
     private static final long serialVersionUID = 1L;
 
     protected String type;
@@ -105,7 +105,9 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     protected abstract Class<S> getType();
 
-    public abstract ComponentContainer constructHeader();
+    public final ComponentContainer constructHeader() {
+        return ((DefaultGenericSearchPanel)searchPanel).constructHeader();
+    }
 
     public abstract Param[] getParamFields();
 

@@ -26,7 +26,7 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
  * @since 1.0
  */
 public class FollowingTicketFieldDef {
-    public static final TableViewField summary = new TableViewField(FollowerI18nEnum.FORM_SUMMARY, "summary",
+    public static final TableViewField summary = new TableViewField(FollowerI18nEnum.FORM_SUMMARY, "name",
             WebUIConstants.TABLE_EX_LABEL_WIDTH);
 
     public static final TableViewField project = new TableViewField(FollowerI18nEnum.FORM_PROJECT_NAME, "projectName",

@@ -70,8 +70,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
 
         SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
-        List<SaveSearchResult> savedSearchResults = saveSearchResultService.findPageableListByCriteria(new
-                BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        List<SaveSearchResult> savedSearchResults = saveSearchResultService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         savedQueries = new ArrayList<>();
         for (SaveSearchResult searchResultWithBLOBs : savedSearchResults) {
             try {
@@ -91,13 +90,15 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
     }
 
     public void selectQueryInfo(String queryId) {
-        for (SearchQueryInfo queryInfo : sharedQueries) {
-            if (queryId.equals(queryInfo.getQueryId())) {
-                selectedQueryName = queryInfo.getQueryName();
-                updateQueryNameField(selectedQueryName);
-                fireEvent(new QuerySelectEvent(this, queryInfo.getSearchFieldInfos()));
-                EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, queryInfo.getSearchFieldInfos()));
-                componentPopupSelection.setPopupVisible(false);
+        if (sharedQueries != null) {
+            for (SearchQueryInfo queryInfo : sharedQueries) {
+                if (queryId.equals(queryInfo.getQueryId())) {
+                    selectedQueryName = queryInfo.getQueryName();
+                    updateQueryNameField(selectedQueryName);
+                    fireEvent(new QuerySelectEvent(this, queryInfo.getSearchFieldInfos()));
+                    EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, queryInfo.getSearchFieldInfos()));
+                    componentPopupSelection.setPopupVisible(false);
+                }
             }
         }
     }

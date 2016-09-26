@@ -23,7 +23,7 @@
                 <element name="lastDateField">duedate</element>
             </constraint>
         </class>
-        <field name="summary">
+        <field name="name">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>Summary must not be null</message>
             </constraint>

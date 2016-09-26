@@ -24,7 +24,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Task;
-import com.mycollab.module.project.events.TaskEvent;
+import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -57,7 +57,7 @@ public class AssignTaskWindow extends MWindow {
     private final Task task;
 
     public AssignTaskWindow(Task task) {
-        super(UserUIContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getTaskname()));
+        super(UserUIContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getName()));
         this.task = task;
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
         this.withWidth("750px").withModal(true).withResizable(false).withCenter().withContent(contentLayout);

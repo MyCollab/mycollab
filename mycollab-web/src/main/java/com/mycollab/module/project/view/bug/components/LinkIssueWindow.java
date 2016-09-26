@@ -19,7 +19,7 @@ package com.mycollab.module.project.view.bug.components;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.tracker.domain.RelatedBug;
 import com.mycollab.module.tracker.domain.SimpleBug;

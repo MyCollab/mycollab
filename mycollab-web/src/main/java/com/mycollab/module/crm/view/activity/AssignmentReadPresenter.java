@@ -24,7 +24,7 @@ import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.domain.SimpleTask;
 import com.mycollab.module.crm.domain.Task;
 import com.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
-import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.event.ActivityEvent;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.service.TaskService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

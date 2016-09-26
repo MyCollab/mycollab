@@ -28,7 +28,7 @@ import com.mycollab.module.crm.domain.ContactOpportunity;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.event.OpportunityEvent;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.service.ContactOpportunityService;

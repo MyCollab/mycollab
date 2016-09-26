@@ -24,7 +24,7 @@ import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.domain.CallWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCall;
 import com.mycollab.module.crm.domain.criteria.CallSearchCriteria;
-import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.event.ActivityEvent;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.service.CallService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

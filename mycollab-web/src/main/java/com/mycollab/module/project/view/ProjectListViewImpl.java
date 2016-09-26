@@ -28,6 +28,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.mycollab.module.project.fielddef.ProjectTableFieldDef;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;

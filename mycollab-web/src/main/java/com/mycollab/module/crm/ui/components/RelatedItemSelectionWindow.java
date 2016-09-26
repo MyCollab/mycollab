@@ -34,10 +34,11 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> ex
     private static final long serialVersionUID = 1L;
     private static final String selectedFieldName = "selected";
 
-    protected RelatedListComp2 relatedListComp;
-    protected IPagedBeanTable<S, T> tableItem;
-    protected Set selectedItems = new HashSet();
+    private RelatedListComp2 relatedListComp;
+    private Set selectedItems = new HashSet();
+
     protected MVerticalLayout bodyContent;
+    protected IPagedBeanTable<S, T> tableItem;
 
     public RelatedItemSelectionWindow(String title, RelatedListComp2 relatedList) {
         super(title);

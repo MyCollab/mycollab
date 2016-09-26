@@ -25,7 +25,7 @@ import com.mycollab.db.query.Param;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.mycollab.module.crm.events.CaseEvent;
+import com.mycollab.module.crm.event.CaseEvent;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
@@ -34,9 +34,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -65,11 +63,10 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
 
     @Override
     protected Component buildExtraControls() {
-        MButton newBtn = new MButton(UserUIContext.getMessage(CaseI18nEnum.NEW),
+        return new MButton(UserUIContext.getMessage(CaseI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CASE));
-        return newBtn;
     }
 
     @SuppressWarnings("unchecked")
@@ -86,13 +83,8 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
     private class CaseAdvancedSearchLayout extends DynamicQueryParamLayout<CaseSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
-        public CaseAdvancedSearchLayout() {
+        CaseAdvancedSearchLayout() {
             super(CaseSearchPanel.this, CrmTypeConstants.CASE);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return CaseSearchPanel.this.constructHeader();
         }
 
         @Override
@@ -121,13 +113,8 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
         private TextField subjectField;
         private CheckBox myItemCheckbox;
 
-        public CaseBasicSearchLayout() {
+        CaseBasicSearchLayout() {
             super(CaseSearchPanel.this);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return CaseSearchPanel.this.constructHeader();
         }
 
         @Override

@@ -24,7 +24,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.mycollab.module.crm.events.*;
+import com.mycollab.module.crm.event.*;
 import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.service.AccountService;

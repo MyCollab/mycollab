@@ -21,7 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.view.bug.IBugAssigneeChartWidget;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;

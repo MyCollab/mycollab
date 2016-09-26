@@ -25,7 +25,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
@@ -68,7 +68,7 @@ public class ResolvedInputWindow extends MWindow {
     private VersionMultiSelectField fixedVersionSelect;
 
     public ResolvedInputWindow(SimpleBug bugValue) {
-        super(UserUIContext.getMessage(BugI18nEnum.OPT_RESOLVE_BUG, bugValue.getSummary()));
+        super(UserUIContext.getMessage(BugI18nEnum.OPT_RESOLVE_BUG, bugValue.getName()));
         this.bug = BeanUtility.deepClone(bugValue);
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
@@ -196,8 +196,8 @@ public class ResolvedInputWindow extends MWindow {
                         bean.setResolution(BugResolution.Fixed.name());
                     }
                     return new ResolutionField();
-                } else if (propertyId.equals("assignuser")) {
-                    bug.setAssignuser(bug.getLogby());
+                } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
+                    bug.setAssignuser(bug.getCreateduser());
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("fixedVersions")) {
                     fixedVersionSelect = new VersionMultiSelectField();

@@ -19,6 +19,7 @@ package com.mycollab.db.query;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mycollab.common.i18n.QueryI18nEnum;
+import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
@@ -60,11 +61,15 @@ public class SearchFieldInfo implements Serializable {
     }
 
     public static SearchFieldInfo inCollection(PropertyListParam param, VariableInjector value) {
-        return new SearchFieldInfo(SearchField.AND, param, QueryI18nEnum.CollectionI18nEnum.IN.name(), value);
+        return new SearchFieldInfo(SearchField.AND, param, CollectionI18nEnum.IN.name(), value);
     }
 
     public static SearchFieldInfo inCollection(I18nStringListParam param, VariableInjector value) {
-        return new SearchFieldInfo(SearchField.AND, param, QueryI18nEnum.CollectionI18nEnum.IN.name(), value);
+        return new SearchFieldInfo(SearchField.AND, param, CollectionI18nEnum.IN.name(), value);
+    }
+
+    public static SearchFieldInfo notInCollection(I18nStringListParam param, VariableInjector value) {
+        return new SearchFieldInfo(SearchField.AND, param, CollectionI18nEnum.NOT_IN.name(), value);
     }
 
     public static SearchFieldInfo inCollection(StringListParam param, VariableInjector value) {
@@ -127,7 +132,7 @@ public class SearchFieldInfo implements Serializable {
             }
         } else if (param instanceof I18nStringListParam) {
             I18nStringListParam wrapParam = (I18nStringListParam) param;
-            QueryI18nEnum.CollectionI18nEnum compareValue = valueOf(compareOper);
+            CollectionI18nEnum compareValue = valueOf(compareOper);
             switch (compareValue) {
                 case IN:
                     return wrapParam.buildStringParamInList(prefixOper, (Collection<String>) this.eval());
@@ -149,7 +154,7 @@ public class SearchFieldInfo implements Serializable {
             return null;
         } else if (param instanceof PropertyListParam) {
             PropertyListParam wrapParam = (PropertyListParam) param;
-            QueryI18nEnum.CollectionI18nEnum compareValue = QueryI18nEnum.CollectionI18nEnum.valueOf(compareOper);
+            CollectionI18nEnum compareValue = CollectionI18nEnum.valueOf(compareOper);
             switch (compareValue) {
                 case IN:
                     return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());
@@ -160,7 +165,7 @@ public class SearchFieldInfo implements Serializable {
             }
         } else if (param instanceof CustomSqlParam) {
             CustomSqlParam wrapParam = (CustomSqlParam) param;
-            QueryI18nEnum.CollectionI18nEnum compareValue = QueryI18nEnum.CollectionI18nEnum.valueOf(compareOper);
+            CollectionI18nEnum compareValue = CollectionI18nEnum.valueOf(compareOper);
             switch (compareValue) {
                 case IN:
                     return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());

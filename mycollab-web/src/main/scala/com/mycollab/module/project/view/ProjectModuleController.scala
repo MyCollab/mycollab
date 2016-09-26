@@ -22,8 +22,8 @@ import com.google.common.eventbus.Subscribe
 import com.mycollab.eventmanager.ApplicationEventListener
 import com.mycollab.module.crm.domain.SimpleAccount
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria
-import com.mycollab.module.project.events.ProjectEvent.{GotoMyProject, GotoUserDashboard}
-import com.mycollab.module.project.events.{ClientEvent, ProjectEvent, ReportEvent, StandUpEvent}
+import com.mycollab.module.project.event.ProjectEvent.{GotoMyProject, GotoUserDashboard}
+import com.mycollab.module.project.event.{ClientEvent, ProjectEvent, ReportEvent, StandUpEvent}
 import com.mycollab.module.project.view.client.IClientPresenter
 import com.mycollab.module.project.view.parameters.ClientScreenData.{Add, Read}
 import com.mycollab.module.project.view.parameters.{ClientScreenData, ProjectScreenData, ReportScreenData, StandupScreenData}

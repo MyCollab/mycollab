@@ -25,8 +25,8 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
-        #ifnotnull($searchCriteria.taskName)
-            ${searchCriteria.taskName.operation} m_prj_task.taskname LIKE '%${searchCriteria.taskName.value}%'
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_prj_task.name LIKE '%${searchCriteria.name.value}%'
         #end
        
         #ifnotnull($searchCriteria.projectId)
@@ -71,10 +71,7 @@
         #end
 
         #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation}
-            CAST(m_prj_task.deadline AS DATE )
-            ${searchCriteria.dueDate.comparison}
-            @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} CAST(m_prj_task.dueDate AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
 
         #ifnotnull($searchCriteria.hasParentTask)
@@ -93,8 +90,8 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
-        #ifnotnull($searchCriteria.taskName)
-            ${searchCriteria.taskName.operation} m_prj_task.taskname LIKE '%${searchCriteria.taskName.value}%'
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_prj_task.name LIKE '%${searchCriteria.name.value}%'
         #end
         
         #ifnotnull($searchCriteria.projectId)
@@ -146,17 +143,17 @@
 
     <sql id="selectTask">
         <![CDATA[
-            SELECT m_prj_task.id, m_prj_task.taskname, m_prj_task.percentagecomplete, m_prj_task.startdate, m_prj_task.enddate, m_prj_task.priority,
-                 m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectId, m_prj_task.deadline, m_prj_task.notes, m_prj_task.taskindex,
+            SELECT m_prj_task.id, m_prj_task.name, m_prj_task.percentagecomplete, m_prj_task.startDate, m_prj_task.endDate, m_prj_task.priority,
+                 m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectId, m_prj_task.dueDate, m_prj_task.description, m_prj_task.taskindex,
                  m_prj_task.originalEstimate, m_prj_task.remainEstimate,
                  m_prj_task.milestoneId, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
                  m_prj_milestone.name AS milestoneName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
-                 m_prj_task.logBy, m_prj_task.taskkey,
+                 m_prj_task.createdUser, m_prj_task.taskkey,
                  s_user.avatarId AS assignUserAvatarId,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                  log_user.avatarId AS logByAvatarId,
                  concat(log_user.firstname, ' ', LTRIM(concat(IFNULL(log_user.middlename, ''), ' ')), log_user.lastname) AS logByFullName,
-                 parentTask.taskname AS parentTaskName, parentTask.taskkey AS parentTaskKey,
+                 parentTask.name AS parentTaskName, parentTask.taskkey AS parentTaskKey,
                  (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Task' AND m_comment.typeId=m_prj_task.id) AS numComments,
@@ -173,7 +170,7 @@
               LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
               LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)
               LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)
-              LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.logBy)
+              LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.createdUser)
               LEFT OUTER JOIN m_prj_task AS parentTask ON (m_prj_task.parentTaskId = parentTask.id)
         ]]>
     </sql>

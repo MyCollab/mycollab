@@ -25,7 +25,7 @@ import com.mycollab.db.query.SearchFieldInfo;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.mycollab.module.project.view.milestone.MilestoneListSelect;
@@ -36,10 +36,7 @@ import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
-import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -183,11 +180,6 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return BugSearchPanel.this.constructHeader();
-        }
     }
 
     private class BugAdvancedSearchLayout extends DynamicQueryParamLayout<BugSearchCriteria> {
@@ -195,11 +187,6 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
 
         BugAdvancedSearchLayout() {
             super(BugSearchPanel.this, ProjectTypeConstants.BUG);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return BugSearchPanel.this.constructHeader();
         }
 
         @Override

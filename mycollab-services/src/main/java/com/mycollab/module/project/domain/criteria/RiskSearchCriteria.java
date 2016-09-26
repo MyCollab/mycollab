@@ -21,10 +21,11 @@ import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.db.query.*;
+import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.OptionI18nEnum.RiskConsequence;
+import com.mycollab.module.project.i18n.OptionI18nEnum.RiskProbability;
+import com.mycollab.module.project.i18n.RiskI18nEnum;
 
 import java.util.Arrays;
 
@@ -36,7 +37,7 @@ public class RiskSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
     public static final Param p_assignee = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_ASSIGNEE,
-            new PropertyListParam("assignuser", "m_prj_risk", "assigntouser"));
+            new PropertyListParam("assignuser", "m_prj_risk", "assignUser"));
 
     public static final Param p_raisedUser = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_RAISED_BY,
             new PropertyListParam("raiseduser", "m_prj_risk", "raisedbyuser"));
@@ -55,12 +56,14 @@ public class RiskSearchCriteria extends SearchCriteria {
             RiskI18nEnum.FORM_PHASE, new PropertyListParam<Integer>("milestones", "m_prj_risk", "milestoneId"));
 
     public static final Param p_probalitity = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_PROBABILITY,
-            new StringListParam("probalitity", "m_prj_risk", "probalitity",
-                    Arrays.asList("Certain", "Likely", "Possible", "Unlikely", "Rare")));
+            new I18nStringListParam("probalitity", "m_prj_risk", "probalitity",
+                    Arrays.asList(RiskProbability.Certain, RiskProbability.Likely, RiskProbability.Possible,
+                            RiskProbability.Unlikely, RiskProbability.Rare)));
 
     public static final Param p_consequence = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_CONSEQUENCE,
-            new StringListParam("consequence", "m_prj_risk", "consequence",
-            Arrays.asList("Catastrophic", "Critical", "Marginal", "Negligible")));
+            new I18nStringListParam("consequence", "m_prj_risk", "consequence",
+                    Arrays.asList(RiskConsequence.Catastrophic, RiskConsequence.Critical, RiskConsequence.Marginal,
+                            RiskConsequence.Negligible)));
 
     public static final Param p_createdtime = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_CREATED_TIME,
             new DateParam("createdtime", "m_prj_risk", "createdTime"));
@@ -68,22 +71,22 @@ public class RiskSearchCriteria extends SearchCriteria {
     public static final Param p_lastupdatedtime = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_LAST_UPDATED_TIME,
             new DateParam("lastupdatedtime", "m_prj_risk", "lastUpdatedTime"));
 
-    private StringSearchField riskname;
+    private StringSearchField name;
 
     private StringSearchField raisedByUser;
 
-    private StringSearchField assignToUser;
+    private StringSearchField assignUser;
 
     private NumberSearchField projectId;
 
     private NumberSearchField id;
 
-    public StringSearchField getRiskname() {
-        return riskname;
+    public StringSearchField getName() {
+        return name;
     }
 
-    public void setRiskname(StringSearchField riskname) {
-        this.riskname = riskname;
+    public void setName(StringSearchField name) {
+        this.name = name;
     }
 
     public NumberSearchField getProjectId() {
@@ -102,12 +105,12 @@ public class RiskSearchCriteria extends SearchCriteria {
         this.raisedByUser = raisedByUser;
     }
 
-    public StringSearchField getAssignToUser() {
-        return assignToUser;
+    public StringSearchField getAssignUser() {
+        return assignUser;
     }
 
-    public void setAssignToUser(StringSearchField assignToUser) {
-        this.assignToUser = assignToUser;
+    public void setAssignUser(StringSearchField assignUser) {
+        this.assignUser = assignUser;
     }
 
     public void setId(NumberSearchField id) {

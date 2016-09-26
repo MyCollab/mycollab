@@ -71,7 +71,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
                     ToggleBugSummaryField.this.removeComponent(titleLinkLbl);
                     ToggleBugSummaryField.this.removeComponent(buttonControls);
                     final TextField editField = new TextField();
-                    editField.setValue(bug.getSummary());
+                    editField.setValue(bug.getName());
                     editField.setWidth("100%");
                     editField.focus();
                     ToggleBugSummaryField.this.addComponent(editField);
@@ -93,8 +93,8 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
         addComponent(buttonControls);
         addStyleName("editable-field");
         String newValue = editField.getValue();
-        if (StringUtils.isNotBlank(newValue) && !newValue.equals(bug.getSummary())) {
-            bug.setSummary(newValue);
+        if (StringUtils.isNotBlank(newValue) && !newValue.equals(bug.getName())) {
+            bug.setName(newValue);
             titleLinkLbl.setValue(buildBugLink());
             BugService bugService = AppContextUtil.getSpringBean(BugService.class);
             bugService.updateSelectiveWithSession(BeanUtility.deepClone(bug), UserUIContext.getUsername());
@@ -104,7 +104,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
     }
 
     private String buildBugLink() {
-        String linkName = StringUtils.trim(bug.getSummary(), maxLength, true);
+        String linkName = StringUtils.trim(bug.getName(), maxLength, true);
         A bugLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
                 CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);

@@ -56,9 +56,9 @@ public final class TaskHistoryFieldFormat implements HistoryFieldFormat {
             if (task != null) {
                 if (displayAsHtml) {
                     return ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.getShortName(),
-                            task.getProjectid(), task.getTaskname(), ProjectTypeConstants.TASK, task.getId() + "");
+                            task.getProjectid(), task.getName(), ProjectTypeConstants.TASK, task.getId() + "");
                 } else {
-                    return task.getTaskname();
+                    return task.getName();
                 }
             } else {
                 return "Deleted task";

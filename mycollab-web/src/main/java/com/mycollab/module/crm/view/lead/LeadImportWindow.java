@@ -22,7 +22,7 @@ import com.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.mycollab.iexporter.csv.CSVBooleanFormatter;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.mycollab.module.crm.events.LeadEvent;
+import com.mycollab.module.crm.event.LeadEvent;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;

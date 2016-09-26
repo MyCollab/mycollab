@@ -23,6 +23,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ticket.TicketContainer;
 import com.mycollab.vaadin.events.SearchHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -54,10 +55,10 @@ public class TaskKanbanBoardPresenter extends ProjectGenericPresenter<TaskKanban
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            TaskContainer taskContainer = (TaskContainer) container;
-            taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
-            taskContainer.removeAllComponents();
-            taskContainer.addComponent(view);
+            TicketContainer ticketContainer = (TicketContainer) container;
+            ticketContainer.navigateToContainer(ProjectTypeConstants.TASK);
+            ticketContainer.removeAllComponents();
+            ticketContainer.addComponent(view);
             view.display();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

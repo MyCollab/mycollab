@@ -24,7 +24,7 @@ import com.mycollab.iexporter.csv.CSVBooleanFormatter;
 import com.mycollab.iexporter.csv.CSVDateFormatter;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.mycollab.module.crm.events.ContactEvent;
+import com.mycollab.module.crm.event.ContactEvent;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;

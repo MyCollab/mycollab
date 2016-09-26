@@ -25,9 +25,9 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -232,14 +232,14 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             if (CollectionUtils.isNotEmpty(relatedBugs)) {
                 for (final SimpleRelatedBug relatedBug : relatedBugs) {
                     if (relatedBug.getRelated()) {
-                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(OptionI18nEnum.BugRelation.class,
+                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(BugRelation.class,
                                 relatedBug.getRelatedType())).withStyleName(WebUIConstants.ARROW_BTN).withWidthUndefined();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
                         MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
                                 .expand(toggleRelatedBugField).withFullWidth();
                         header.with(bugContainer);
                     } else {
-                        Enum relatedEnum = OptionI18nEnum.BugRelation.valueOf(relatedBug.getRelatedType()).getReverse();
+                        Enum relatedEnum = BugRelation.valueOf(relatedBug.getRelatedType()).getReverse();
                         ELabel relatedLink = new ELabel(UserUIContext.getMessage(relatedEnum)).withStyleName(WebUIConstants.ARROW_BTN)
                                 .withWidthUndefined();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
@@ -340,7 +340,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(bean, "logby");
+                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
                 String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "loguserAvatarId");
                 String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "loguserFullName");
 

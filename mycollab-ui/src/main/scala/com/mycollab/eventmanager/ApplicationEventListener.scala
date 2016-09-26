@@ -22,7 +22,7 @@ import com.mycollab.events.ApplicationEvent
 
 /**
   * A listener that listens and is able to handle {@link ApplicationEvent
- * application events}.
+ * application event}.
   *
   * @author MyCollab Ltd.
   * @since 5.0.3

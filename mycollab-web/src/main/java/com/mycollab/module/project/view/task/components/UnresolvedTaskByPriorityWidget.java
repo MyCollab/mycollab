@@ -23,9 +23,9 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.mycollab.module.project.events.TaskEvent;
+import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -95,7 +95,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
         this.setTitle(UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
 
         if (!groupItems.isEmpty()) {
-            for (TaskPriority priority : OptionI18nEnum.task_priorities) {
+            for (Priority priority : OptionI18nEnum.task_priorities) {
                 boolean isFound = false;
                 for (GroupItem item : groupItems) {
                     if (priority.name().equals(item.getGroupid())) {
@@ -103,7 +103,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
-                                .withIcon(ProjectAssetsManager.getTaskPriority(priority.name()))
+                                .withIcon(ProjectAssetsManager.getPriority(priority.name()))
                                 .withStyleName(WebUIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
                                 .withWidth("110px");
 
@@ -121,7 +121,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                     MHorizontalLayout priorityLayout = new MHorizontalLayout().withFullWidth();
                     priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
-                            .withIcon(ProjectAssetsManager.getTaskPriority(priority.name()))
+                            .withIcon(ProjectAssetsManager.getPriority(priority.name()))
                             .withStyleName(WebUIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
                             .withWidth("100px");
                     priorityLayout.addComponent(priorityLink);

@@ -34,7 +34,7 @@ import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.service.GanttAssignmentService;
 import com.mycollab.module.project.service.MilestoneService;
-import com.mycollab.module.project.service.ProjectGenericTaskService;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.service.ProjectService;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +95,7 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
         }
         Integer recordId = super.saveWithSession(record, username);
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                GanttAssignmentService.class, ProjectGenericTaskService.class}));
+                GanttAssignmentService.class, ProjectTicketService.class}));
         return recordId;
     }
 
@@ -103,7 +103,7 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
     public Integer updateWithSession(Milestone record, String username) {
         int result = super.updateWithSession(record, username);
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                GanttAssignmentService.class, ProjectGenericTaskService.class}));
+                GanttAssignmentService.class, ProjectTicketService.class}));
         return result;
     }
 

@@ -69,7 +69,7 @@ public class RoleServiceDBImpl extends DefaultService<Integer, Role, RoleSearchC
         rolePer.setRoleid(roleId);
         rolePer.setRoleval(perVal);
 
-        int data = rolePermissionMapper.countByExample(ex);
+        Long data = rolePermissionMapper.countByExample(ex);
         if (data > 0) {
             rolePermissionMapper.updateByExampleSelective(rolePer, ex);
         } else {

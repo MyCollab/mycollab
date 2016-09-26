@@ -20,6 +20,7 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.ui.UIUtils;
+import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd
@@ -34,5 +35,10 @@ public class TransparentContainer extends AbstractPageView {
         } else {
             throw new MyCollabException("Can not find ProjectView parent");
         }
+    }
+
+    public void setContent(Component content) {
+        removeAllComponents();
+        addComponent(content);
     }
 }

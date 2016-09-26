@@ -16,8 +16,8 @@
  */
 package com.mycollab.reporting;
 
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.persistence.service.ISearchableService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;

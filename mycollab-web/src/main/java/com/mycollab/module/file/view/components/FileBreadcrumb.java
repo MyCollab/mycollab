@@ -44,7 +44,7 @@ import java.util.List;
 public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, HasSearchHandlers<FileSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
-    private List<SearchHandler<FileSearchCriteria>> handers;
+    private List<SearchHandler<FileSearchCriteria>> handlers;
 
     private String rootFolderPath;
 
@@ -211,16 +211,16 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
 
     @Override
     public void addSearchHandler(final SearchHandler<FileSearchCriteria> handler) {
-        if (handers == null) {
-            handers = new ArrayList<>();
+        if (handlers == null) {
+            handlers = new ArrayList<>();
         }
-        handers.add(handler);
+        handlers.add(handler);
     }
 
     @Override
     public void notifySearchHandler(final FileSearchCriteria criteria) {
-        if (handers != null) {
-            for (SearchHandler<FileSearchCriteria> handler : handers) {
+        if (handlers != null) {
+            for (SearchHandler<FileSearchCriteria> handler : handlers) {
                 handler.onSearch(criteria);
             }
         }

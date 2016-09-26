@@ -22,7 +22,7 @@ import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.PageEvent;
+import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.service.ProjectPageService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;

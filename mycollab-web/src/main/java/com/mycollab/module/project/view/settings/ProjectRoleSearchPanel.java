@@ -23,11 +23,13 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
-import com.mycollab.module.project.events.ProjectRoleEvent;
+import com.mycollab.module.project.event.ProjectRoleEvent;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.web.ui.BasicSearchLayout;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
+import com.mycollab.vaadin.web.ui.SearchLayout;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -73,11 +75,6 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
 
         private ProjectRoleBasicSearchLayout() {
             super(ProjectRoleSearchPanel.this);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return ProjectRoleSearchPanel.this.constructHeader();
         }
 
         @Override

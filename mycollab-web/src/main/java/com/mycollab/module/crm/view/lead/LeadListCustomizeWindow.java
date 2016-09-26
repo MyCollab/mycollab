@@ -18,6 +18,7 @@ package com.mycollab.module.crm.view.lead;
 
 import com.mycollab.common.TableViewField;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.fielddef.LeadTableFieldDef;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 

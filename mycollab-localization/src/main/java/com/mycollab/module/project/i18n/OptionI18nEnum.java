@@ -26,17 +26,14 @@ import com.mycollab.core.MyCollabException;
  * @since 4.3.3
  */
 public class OptionI18nEnum {
-    public static TaskPriority[] task_priorities = {TaskPriority.Urgent,
-            TaskPriority.High, TaskPriority.Medium, TaskPriority.Low,
-            TaskPriority.None};
+    public static Priority[] task_priorities = {Priority.Urgent,
+            Priority.High, Priority.Medium, Priority.Low,
+            Priority.None};
 
     public static BugStatus[] bug_statuses = {BugStatus.Open,
             BugStatus.Verified, BugStatus.Resolved,
             BugStatus.ReOpen};
 
-    public static BugPriority[] bug_priorities = {BugPriority.Blocker,
-            BugPriority.Critical, BugPriority.Major, BugPriority.Minor,
-            BugPriority.Trivial};
 
     public static BugSeverity[] bug_severities = {BugSeverity.Critical,
             BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial};
@@ -62,7 +59,7 @@ public class OptionI18nEnum {
 
     @BaseName("project-task-priority")
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
-    public enum TaskPriority {
+    public enum Priority {
         Urgent, High, Medium, Low, None
     }
 
@@ -70,12 +67,6 @@ public class OptionI18nEnum {
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum BugStatus {
         Open, Verified, Resolved, ReOpen
-    }
-
-    @BaseName("project-bug-priority")
-    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
-    public enum BugPriority {
-        Blocker, Critical, Major, Minor, Trivial
     }
 
     @BaseName("project-bug-severity")
@@ -131,15 +122,5 @@ public class OptionI18nEnum {
         Critical,
         Marginal,
         Negligible
-    }
-
-    @BaseName("project-risk-rate")
-    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
-    public enum RiskRate {
-        Epic_Fail,
-        Poor,
-        OK,
-        Good,
-        Excellent
     }
 }

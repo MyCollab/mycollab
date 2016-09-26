@@ -21,7 +21,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugComponentEvent;
+import com.mycollab.module.project.event.BugComponentEvent;
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ProjectListNoItemView;

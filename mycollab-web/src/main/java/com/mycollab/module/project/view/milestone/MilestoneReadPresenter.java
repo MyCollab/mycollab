@@ -30,7 +30,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.mycollab.module.project.events.MilestoneEvent;
+import com.mycollab.module.project.event.MilestoneEvent;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;

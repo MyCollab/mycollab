@@ -19,14 +19,14 @@ package com.mycollab.module.crm.view.campaign;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.fielddef.AccountTableFieldDef;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.account.AccountSearchPanel;
 import com.mycollab.module.crm.view.account.AccountTableDisplay;
-import com.mycollab.module.crm.view.account.AccountTableFieldDef;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.ui.Button;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
 
@@ -45,12 +45,11 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
     @Override
     protected void initUI() {
         tableItem = new AccountTableDisplay(AccountTableFieldDef.selected(),
-                Arrays.asList(AccountTableFieldDef.accountname(),
-                        AccountTableFieldDef.phoneoffice(),
+                Arrays.asList(AccountTableFieldDef.accountname(), AccountTableFieldDef.phoneoffice(),
                         AccountTableFieldDef.email(), AccountTableFieldDef.city()));
 
-        Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
-        selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+        MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
+                .withStyleName(WebUIConstants.BUTTON_ACTION);
 
         AccountSearchPanel accountSimpleSearchPanel = new AccountSearchPanel();
         accountSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

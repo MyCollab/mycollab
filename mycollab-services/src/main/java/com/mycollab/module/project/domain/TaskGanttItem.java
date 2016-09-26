@@ -83,7 +83,7 @@ public class TaskGanttItem extends AssignWithPredecessors {
 
     public Task buildNewTask() {
         Task newTask = new Task();
-        newTask.setTaskname(getName());
+        newTask.setName(getName());
         newTask.setStartdate(getStartDate());
         newTask.setEnddate(getEndDate());
         newTask.setPercentagecomplete(getProgress());

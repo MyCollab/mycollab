@@ -54,7 +54,7 @@ class ApproveInputView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ApproveInputView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
+        this.setCaption(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getName()));
         this.bug = bug;
         this.callbackForm = callbackForm;
 
@@ -117,10 +117,10 @@ class ApproveInputView extends AbstractMobilePageView {
 
             @Override
             public Component onAttachField(Object propertyId, final Field<?> field) {
-                if (propertyId.equals("assignuser")) {
+                if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, "Comments", 0, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS), 0, 1);
                 }
                 return null;
             }

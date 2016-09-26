@@ -22,7 +22,7 @@ import com.mycollab.common.service.CommentService;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -60,7 +60,7 @@ public class ApproveInputWindow extends MWindow {
     private final SimpleBug bug;
 
     public ApproveInputWindow(SimpleBug bug) {
-        super(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getSummary()));
+        super(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getName()));
         this.bug = bug;
 
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));

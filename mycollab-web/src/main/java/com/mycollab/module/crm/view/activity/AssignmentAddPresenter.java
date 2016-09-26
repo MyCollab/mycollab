@@ -21,7 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.domain.Task;
-import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.event.ActivityEvent;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.service.TaskService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

@@ -65,7 +65,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? null : beanItem.getTaskname();
+        return (beanItem.getId() == null) ? null : beanItem.getName();
     }
 
     @Override

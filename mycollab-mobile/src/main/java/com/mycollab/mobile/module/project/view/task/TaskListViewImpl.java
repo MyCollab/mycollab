@@ -80,7 +80,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
             protected TaskSearchCriteria fillUpSearchCriteria(String value) {
                 TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setTaskName(StringSearchField.and(value));
+                searchCriteria.setName(StringSearchField.and(value));
                 return searchCriteria;
             }
         };
@@ -104,7 +104,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
             MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth();
 
             A taskLink = new A(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(), task
-                    .getProjectShortname())).appendText(String.format("[#%s] - %s", task.getTaskkey(), task.getTaskname()));
+                    .getProjectShortname())).appendText(String.format("[#%s] - %s", task.getTaskkey(), task.getName()));
 
             CssLayout taskLbl = new CssLayout(new ELabel(taskLink.write(), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS));
             rowLayout.with(new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK)

@@ -21,15 +21,14 @@ import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.ui.components.IGroupComponent;
-import com.mycollab.module.project.view.bug.BugPopupFieldFactory;
+import com.mycollab.module.project.view.service.BugComponentFactory;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -63,7 +62,7 @@ public class BugRowComponent extends MVerticalLayout {
 
         final ToggleBugSummaryField bugWrapper = new ToggleBugSummaryField(bug);
 
-        BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
+        BugComponentFactory popupFieldFactory = AppContextUtil.getSpringBean(BugComponentFactory.class);
         MHorizontalLayout headerLayout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(false,
                 true, false, false));
         Component priorityField = popupFieldFactory.createPriorityPopupField(bug);

@@ -29,7 +29,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.PageEvent;
+import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.spring.AppContextUtil;

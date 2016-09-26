@@ -14,15 +14,15 @@
     <select id="findRelatedBugs" parameterType="int" resultMap="SimpleRelatedBugResult" lang="velocity">
         <![CDATA[
             (SELECT DISTINCT m_tracker_related_bug.relatetype AS relatedType, m_tracker_related_bug.id, 1 AS isRelated,
-              m_tracker_bug.id as related_id, m_tracker_bug.summary AS related_summary, m_tracker_bug.assignuser AS related_assignuser,
-              m_tracker_bug.createdTime AS related_createdTime, m_tracker_bug.logby AS related_logby, m_tracker_bug.severity,
+              m_tracker_bug.id as related_id, m_tracker_bug.name AS related_summary, m_tracker_bug.assignUser AS related_assignUser,
+              m_tracker_bug.createdTime AS related_createdTime, m_tracker_bug.createdUser AS related_createdUser, m_tracker_bug.severity,
               m_tracker_bug.priority AS related_priority, m_tracker_bug.lastUpdatedTime AS related_lastUpdatedTime,
               m_tracker_bug.status AS related_status, m_tracker_bug.duedate AS related_duedate, m_tracker_bug.resolution AS related_resolution,
               m_tracker_bug.projectId As related_projectId, m_tracker_bug.resolveddate AS related_resolveddate,
               m_tracker_bug.estimateTime AS related_estimateTime, m_tracker_bug.estimateRemainTime AS related_estimateRemainTime,
               m_tracker_bug.sAccountId AS related_sAccountId, m_tracker_bug.milestoneId AS related_milestoneId,
               m_tracker_bug.bugkey AS related_bugkey, m_tracker_bug.bugIndex AS related_bugIndex,
-              m_tracker_bug.startdate AS related_startdate, m_tracker_bug.enddate AS related_enddate,
+              m_tracker_bug.startDate AS related_startDate, m_tracker_bug.endDate AS related_endDate,
               m_tracker_bug.ganttIndex AS related_ganttIndex, m_tracker_bug.percentagecomplete AS related_percentagecomplete,
               m_tracker_bug.detail AS related_detail, m_tracker_bug.environment AS related_environment,
               m_tracker_bug.description AS related_description
@@ -30,15 +30,15 @@
             WHERE m_tracker_related_bug.bugid = @{bugId} AND m_tracker_related_bug.relatedid = m_tracker_bug.id)
             UNION
             (SELECT DISTINCT m_tracker_related_bug.relatetype AS relatedType, m_tracker_related_bug.id, 0 AS isRelated,
-              m_tracker_bug.id as related_id, m_tracker_bug.summary AS related_summary, m_tracker_bug.assignuser AS related_assignuser,
-              m_tracker_bug.createdTime AS related_createdTime, m_tracker_bug.logby AS related_logby, m_tracker_bug.severity,
+              m_tracker_bug.id as related_id, m_tracker_bug.name AS related_summary, m_tracker_bug.assignUser AS related_assignUser,
+              m_tracker_bug.createdTime AS related_createdTime, m_tracker_bug.createdUser AS related_createdUser, m_tracker_bug.severity,
               m_tracker_bug.priority AS related_priority, m_tracker_bug.lastUpdatedTime AS related_lastUpdatedTime,
               m_tracker_bug.status AS related_status, m_tracker_bug.duedate AS related_duedate, m_tracker_bug.resolution AS related_resolution,
               m_tracker_bug.projectId As related_projectId, m_tracker_bug.resolveddate AS related_resolveddate,
               m_tracker_bug.estimateTime AS related_estimateTime, m_tracker_bug.estimateRemainTime AS related_estimateRemainTime,
               m_tracker_bug.sAccountId AS related_sAccountId, m_tracker_bug.milestoneId AS related_milestoneId,
               m_tracker_bug.bugkey AS related_bugkey, m_tracker_bug.bugIndex AS related_bugIndex,
-              m_tracker_bug.startdate AS related_startdate, m_tracker_bug.enddate AS related_enddate,
+              m_tracker_bug.startDate AS related_startDate, m_tracker_bug.endDate AS related_endDate,
               m_tracker_bug.ganttIndex AS related_ganttIndex, m_tracker_bug.percentagecomplete AS related_percentagecomplete,
               m_tracker_bug.detail AS related_detail, m_tracker_bug.environment AS related_environment,
               m_tracker_bug.description AS related_description

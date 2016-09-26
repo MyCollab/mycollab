@@ -18,6 +18,8 @@ package com.mycollab.module.project;
 
 import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.UrlEncodeDecoder;
+import com.mycollab.core.DebugException;
+import com.mycollab.core.utils.StringUtils;
 
 import static com.mycollab.common.GenericLinkUtils.URL_PREFIX_PARAM;
 
@@ -35,8 +37,8 @@ public class ProjectLinkGenerator {
         return siteUrl + URL_PREFIX_PARAM + generateProjectLink(projectId);
     }
 
-    public static String generateTaskDashboardLink(Integer projectId) {
-        return "project/task/dashboard/" + UrlEncodeDecoder.encode(projectId);
+    public static String generateTicketDashboardLink(Integer projectId) {
+        return "project/ticket/dashboard/" + UrlEncodeDecoder.encode(projectId);
     }
 
     public static String generateTaskPreviewLink(Integer taskkey, String prjShortName) {
@@ -158,6 +160,27 @@ public class ProjectLinkGenerator {
         return "project/bug/list/" + UrlEncodeDecoder.encode(projectId);
     }
 
+    public static String generateProjectTicketFullLink(String siteUrl, String prjShortName, Integer projectId, String type, Integer typeId) {
+        String result = "";
+
+        if (typeId == null) {
+            return "";
+        }
+        if (ProjectTypeConstants.MILESTONE.equals(type)) {
+            result = ProjectLinkGenerator.generateMilestonePreviewLink(projectId, typeId);
+        } else if (ProjectTypeConstants.TASK.equals(type)) {
+            result = generateTaskPreviewLink(typeId, prjShortName);
+        } else if (ProjectTypeConstants.BUG.equals(type)) {
+            result = generateBugPreviewLink(typeId, prjShortName);
+        } else if (ProjectTypeConstants.RISK.equals(type)) {
+            result = generateRiskPreviewLink(projectId, typeId);
+        } else {
+            throw new DebugException("Not support this type " + type);
+        }
+
+        return siteUrl + "#" + result;
+    }
+
     public static String generateBugPreviewFullLink(String siteUrl, Integer bugKey, String prjShortname) {
         return siteUrl + URL_PREFIX_PARAM + generateBugPreviewLink(bugKey, prjShortname);
     }
@@ -212,5 +235,38 @@ public class ProjectLinkGenerator {
 
     public static String generateProjectSettingFullLink(String siteUrl, Integer projectId) {
         return siteUrl + URL_PREFIX_PARAM + generateProjectSettingLink(projectId);
+    }
+
+    public static String generateProjectItemLink(String prjShortName, Integer projectId, String type, String typeId) {
+        String result = "";
+
+        if (typeId == null || StringUtils.isBlank(typeId) || "null".equals(typeId)) {
+            return "";
+        }
+
+        try {
+            if (ProjectTypeConstants.PROJECT.equals(type)) {
+            } else if (ProjectTypeConstants.MESSAGE.equals(type)) {
+                result = generateMessagePreviewLink(projectId, Integer.parseInt(typeId));
+            } else if (ProjectTypeConstants.MILESTONE.equals(type)) {
+                result = generateMilestonePreviewLink(projectId, Integer.parseInt(typeId));
+            } else if (ProjectTypeConstants.RISK.equals(type)) {
+                result = generateRiskPreviewLink(projectId, Integer.parseInt(typeId));
+            } else if (ProjectTypeConstants.TASK.equals(type)) {
+                result = generateTaskPreviewLink(Integer.parseInt(typeId), prjShortName);
+            } else if (ProjectTypeConstants.BUG.equals(type)) {
+                result = generateBugPreviewLink(Integer.parseInt(typeId), prjShortName);
+            } else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
+                result = generateBugComponentPreviewLink(projectId, Integer.parseInt(typeId));
+            } else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
+                result = generateBugVersionPreviewLink(projectId, Integer.parseInt(typeId));
+            } else if (ProjectTypeConstants.PAGE.equals(type)) {
+                result = generatePageRead(projectId, typeId);
+            }
+        } catch (Exception e) {
+            throw new DebugException(String.format("Error generate tooltip%d---%s---%s", projectId, type, typeId), e);
+        }
+
+        return "#" + result;
     }
 }

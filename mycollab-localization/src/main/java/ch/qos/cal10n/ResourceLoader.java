@@ -70,7 +70,7 @@ public class ResourceLoader {
             if (!cacheWatchFolders.contains(parentFile.getAbsolutePath())) {
                 cacheWatchFolders.add(parentFile.getAbsolutePath());
                 Path folder = Paths.get(parentFile.getAbsolutePath());
-                // Register events
+                // Register event
                 try {
                     folder.register(watchService,
                             StandardWatchEventKinds.ENTRY_CREATE,

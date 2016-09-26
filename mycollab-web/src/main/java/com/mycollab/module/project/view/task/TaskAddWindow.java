@@ -16,40 +16,10 @@
  */
 package com.mycollab.module.project.view.task;
 
-import com.mycollab.common.domain.MonitorItem;
-import com.mycollab.common.i18n.FollowerI18nEnum;
-import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.service.MonitorItemService;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.file.AttachmentUtils;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.module.project.domain.Task;
-import com.mycollab.module.project.events.AssignmentEvent;
-import com.mycollab.module.project.events.TaskEvent;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
-import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
-import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
-import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import org.vaadin.jouni.restrain.Restrain;
-import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MWindow;
-
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -59,119 +29,13 @@ public class TaskAddWindow extends MWindow {
     public TaskAddWindow(SimpleTask task) {
         setCaption(task.getId() == null ? UserUIContext.getMessage(TaskI18nEnum.NEW) : UserUIContext.getMessage(TaskI18nEnum.DETAIL));
 
-        EditForm editForm = new EditForm();
+        TaskEditForm editForm = new TaskEditForm() {
+            @Override
+            protected void postExecution() {
+                close();
+            }
+        };
         editForm.setBean(task);
         this.withWidth("1200px").withModal(true).withResizable(false).withContent(editForm).withCenter();
-    }
-
-    private class EditForm extends AdvancedEditBeanForm<SimpleTask> {
-
-        @Override
-        public void setBean(final SimpleTask item) {
-            this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new TaskEditFormFieldFactory(this, CurrentProjectVariables.getProjectId()));
-            super.setBean(item);
-        }
-
-        class FormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
-            private GridFormLayoutHelper informationLayout;
-
-            @Override
-            public ComponentContainer getLayout() {
-                VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
-                layout.addComponent(informationLayout.getLayout());
-
-                MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
-                buttonControls.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-
-                MButton updateAllBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
-                    EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskAddWindow.this, EditForm.this.bean));
-                    close();
-                }).withStyleName(WebUIConstants.BUTTON_LINK);
-
-                MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
-                    if (EditForm.this.validateForm()) {
-                        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        Integer taskId;
-                        if (bean.getId() == null) {
-                            taskId = taskService.saveWithSession(bean, UserUIContext.getUsername());
-                        } else {
-                            taskService.updateWithSession(bean, UserUIContext.getUsername());
-                            taskId = bean.getId();
-                        }
-
-                        TaskEditFormFieldFactory taskEditFormFieldFactory = (TaskEditFormFieldFactory) fieldFactory;
-
-                        AttachmentUploadField uploadField = taskEditFormFieldFactory.getAttachmentUploadField();
-                        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), bean.getProjectid(),
-                                ProjectTypeConstants.TASK, "" + taskId);
-                        uploadField.saveContentsToRepo(attachPath);
-
-                        ProjectSubscribersComp subcribersComp = taskEditFormFieldFactory.getSubscribersComp();
-                        List<String> followers = subcribersComp.getFollowers();
-                        if (followers.size() > 0) {
-                            List<MonitorItem> monitorItems = new ArrayList<>();
-                            for (String follower : followers) {
-                                MonitorItem monitorItem = new MonitorItem();
-                                monitorItem.setMonitorDate(new GregorianCalendar().getTime());
-                                monitorItem.setSaccountid(MyCollabUI.getAccountId());
-                                monitorItem.setType(ProjectTypeConstants.TASK);
-                                monitorItem.setTypeid(taskId);
-                                monitorItem.setUser(follower);
-                                monitorItem.setExtratypeid(bean.getProjectid());
-                                monitorItems.add(monitorItem);
-                            }
-                            MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
-                            monitorItemService.saveMonitorItems(monitorItems);
-                        }
-
-                        close();
-                        EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(TaskAddWindow.this, taskId));
-                        EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(TaskAddWindow.this,
-                                ProjectTypeConstants.TASK, taskId));
-                    }
-                }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
-
-                MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                        .withStyleName(WebUIConstants.BUTTON_OPTION);
-                buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
-
-                layout.addComponent(buttonControls);
-                layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
-                layout.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
-                new Restrain(layout).setMaxHeight("600px");
-                return layout;
-            }
-
-            @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
-                if (Task.Field.taskname.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
-                } else if (Task.Field.startdate.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 1);
-                } else if (Task.Field.enddate.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE), 1, 1);
-                } else if (Task.Field.deadline.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 2);
-                } else if (Task.Field.assignuser.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
-                } else if (Task.Field.priority.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(TaskI18nEnum.FORM_PRIORITY),
-                            UserUIContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP), 0, 3);
-                } else if (Task.Field.milestoneid.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(TaskI18nEnum.FORM_PHASE), 1, 3);
-                } else if (Task.Field.notes.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 4, 2, "100%");
-                } else if (Task.Field.id.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 5, 2, "100%");
-                } else if (SimpleTask.Field.selected.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS),
-                            UserUIContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP), 0, 6, 2, "100%");
-                }
-                return null;
-            }
-        }
     }
 }

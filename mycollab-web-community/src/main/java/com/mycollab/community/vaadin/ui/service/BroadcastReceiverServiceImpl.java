@@ -36,7 +36,6 @@ public class BroadcastReceiverServiceImpl extends AbstractBroadcastReceiverServi
         Object wrapObj = message.getWrapObj();
         if (wrapObj instanceof AbstractNotification) {
             AbstractNotification notification = (AbstractNotification) wrapObj;
-
         }
     }
 }

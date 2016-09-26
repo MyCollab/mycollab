@@ -26,6 +26,7 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.button.MButton;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -89,17 +90,15 @@ public class VerticalTabsheet extends CustomComponent {
     }
 
     public void hideTabsCaption() {
-        Iterator<Component> iter = navigatorContainer.iterator();
-        while (iter.hasNext()) {
-            ButtonTabImpl comp = (ButtonTabImpl) iter.next();
+        for (Component aNavigatorContainer : navigatorContainer) {
+            ButtonTabImpl comp = (ButtonTabImpl) aNavigatorContainer;
             comp.hideCaption();
         }
     }
 
     public void showTabsCaption() {
-        Iterator<Component> iter = navigatorContainer.iterator();
-        while (iter.hasNext()) {
-            ButtonTabImpl comp = (ButtonTabImpl) iter.next();
+        for (Component aNavigatorContainer : navigatorContainer) {
+            ButtonTabImpl comp = (ButtonTabImpl) aNavigatorContainer;
             comp.showCaption();
         }
     }
@@ -144,9 +143,7 @@ public class VerticalTabsheet extends CustomComponent {
             } else {
                 button.setIcon(resource);
             }
-            button.setStyleName(TAB_STYLENAME);
-            button.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            button.setWidth("90%");
+            button.withStyleName(TAB_STYLENAME, UIConstants.TEXT_ELLIPSIS).withWidth("90%");
 
             if (button.getLevel() > 0) {
                 int insertIndex = 0;
@@ -173,12 +170,9 @@ public class VerticalTabsheet extends CustomComponent {
     public Button addButtonOnNavigatorContainer(String id, String caption, Resource icon) {
         if (getButtonById(id) == null) {
             final ButtonTabImpl button = new ButtonTabImpl(id, 0, caption, "");
+            button.withStyleName(TAB_STYLENAME, UIConstants.TEXT_ELLIPSIS).withWidth("90%").withIcon(icon);
             navigatorContainer.addComponent(button);
             navigatorContainer.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
-            button.setStyleName(TAB_STYLENAME);
-            button.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            button.setWidth("90%");
-            button.setIcon(icon);
             return button;
         }
         return null;
@@ -260,9 +254,7 @@ public class VerticalTabsheet extends CustomComponent {
 
     public void setNavigatorWidth(String width) {
         navigatorContainer.setWidth(width);
-        Iterator<Component> i = navigatorContainer.iterator();
-        while (i.hasNext()) {
-            Component childComponent = i.next();
+        for (Component childComponent : navigatorContainer) {
             childComponent.setWidth(width);
         }
     }
@@ -318,7 +310,7 @@ public class VerticalTabsheet extends CustomComponent {
         contentWrapper.addComponent(newContainer);
     }
 
-    public static class ButtonTabImpl extends Button {
+    public static class ButtonTabImpl extends MButton {
         private static final long serialVersionUID = 1L;
 
         private String tabId;
@@ -326,7 +318,7 @@ public class VerticalTabsheet extends CustomComponent {
         String link;
         private String caption;
 
-        public ButtonTabImpl(String id, int level, String caption, String link) {
+        ButtonTabImpl(String id, int level, String caption, String link) {
             super(caption);
             this.tabId = id;
             this.link = link;
@@ -360,7 +352,7 @@ public class VerticalTabsheet extends CustomComponent {
         private String caption;
         private Component component;
 
-        public TabImpl(String id, String caption, Component component) {
+        TabImpl(String id, String caption, Component component) {
             this.tabId = id;
             this.caption = caption;
             this.component = component;
@@ -451,7 +443,6 @@ public class VerticalTabsheet extends CustomComponent {
         @Override
         public void setStyleName(String styleName) {
             component.setStyleName(styleName);
-
         }
 
         @Override

@@ -22,7 +22,7 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
-import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.event.OpportunityEvent;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;

@@ -77,7 +77,7 @@ public class ComponentServiceImpl extends DefaultService<Integer, Component, Com
         ComponentExample ex = new ComponentExample();
         ex.createCriteria().andComponentnameEqualTo(record.getComponentname()).andProjectidEqualTo(record.getProjectid());
 
-        int count = componentMapper.countByExample(ex);
+        Long count = componentMapper.countByExample(ex);
         if (count > 0) {
             throw new MyCollabException("There is an existing record has name " + record.getComponentname());
         } else {

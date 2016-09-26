@@ -47,10 +47,10 @@ public class BugServiceTest extends IntegrationServiceTest {
         List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(null));
 
         assertThat(bugs.size()).isEqualTo(3);
-        assertThat(bugs).extracting("id", "detail", "summary").contains(
-                tuple(1, "detail 1", "summary 1"),
-                tuple(2, "detail 2", "summary 2"),
-                tuple(3, "detail 3", "summary 3"));
+        assertThat(bugs).extracting("id", "detail", "name").contains(
+                tuple(1, "detail 1", "name 1"),
+                tuple(2, "detail 2", "name 2"),
+                tuple(3, "detail 3", "name 3"));
     }
 
     @DataSet
@@ -59,12 +59,12 @@ public class BugServiceTest extends IntegrationServiceTest {
         BugSearchCriteria criteria = new BugSearchCriteria();
         criteria.setAssignuser(StringSearchField.and("user1"));
         criteria.setLoguser(StringSearchField.and("admin"));
-        criteria.setSummary(StringSearchField.and("summary"));
+        criteria.setName(StringSearchField.and("name"));
         criteria.setDetail(StringSearchField.and("detail"));
 
         List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(bugs.size()).isEqualTo(1);
-        assertThat(bugs).extracting("id", "detail", "summary").contains(tuple(2, "detail 2", "summary 2"));
+        assertThat(bugs).extracting("id", "detail", "name").contains(tuple(2, "detail 2", "name 2"));
     }
 
     @DataSet
@@ -87,8 +87,8 @@ public class BugServiceTest extends IntegrationServiceTest {
         List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(bugs.size()).isEqualTo(1);
-        assertThat(bugs).extracting("id", "detail", "summary").contains(
-                tuple(1, "detail 1", "summary 1"));
+        assertThat(bugs).extracting("id", "detail", "name").contains(
+                tuple(1, "detail 1", "name 1"));
     }
 
     @DataSet
@@ -109,7 +109,7 @@ public class BugServiceTest extends IntegrationServiceTest {
         List<SimpleBug> bugs = bugService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         assertThat(bugs.size()).isEqualTo(1);
-        assertThat(bugs).extracting("id", "detail", "summary").contains(tuple(1, "detail 1", "summary 1"));
+        assertThat(bugs).extracting("id", "detail", "name").contains(tuple(1, "detail 1", "name 1"));
     }
 
     @DataSet
@@ -150,11 +150,11 @@ public class BugServiceTest extends IntegrationServiceTest {
     @DataSet
     public void testSaveBug() {
         BugWithBLOBs bug = new BugWithBLOBs();
-        bug.setSummary("summary4");
+        bug.setName("summary4");
         bug.setStatus("aaa");
         bug.setProjectid(1);
         bug.setSaccountid(1);
         int bugId = bugService.saveWithSession(bug, "admin");
-        assertThat(bugService.findById(bugId, 1).getSummary()).isEqualTo("summary4");
+        assertThat(bugService.findById(bugId, 1).getName()).isEqualTo("summary4");
     }
 }

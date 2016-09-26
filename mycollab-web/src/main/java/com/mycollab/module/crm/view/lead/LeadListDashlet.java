@@ -21,6 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.mycollab.module.crm.fielddef.LeadTableFieldDef;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;

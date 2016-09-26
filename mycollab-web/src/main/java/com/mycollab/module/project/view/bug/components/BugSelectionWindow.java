@@ -19,9 +19,9 @@ package com.mycollab.module.project.view.bug.components;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTooltipGenerator;
+import com.mycollab.module.project.fielddef.BugTableFieldDef;
 import com.mycollab.module.project.view.bug.BugSearchPanel;
 import com.mycollab.module.project.view.bug.BugTableDisplay;
-import com.mycollab.module.project.view.bug.BugTableFieldDef;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
@@ -72,10 +72,10 @@ public class BugSelectionWindow extends MWindow {
                 Arrays.asList(BugTableFieldDef.summary(), BugTableFieldDef.severity(), BugTableFieldDef.resolution()));
         tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
-        tableItem.addGeneratedColumn("summary", (source, itemId, columnId) -> {
+        tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
             final SimpleBug bug = tableItem.getBeanByIndex(itemId);
 
-            MButton b = new MButton(bug.getSummary(), clickEvent -> {
+            MButton b = new MButton(bug.getName(), clickEvent -> {
                 fieldSelection.fireValueChange(bug);
                 close();
             }).withStyleName(WebUIConstants.BUTTON_LINK);

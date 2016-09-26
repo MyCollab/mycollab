@@ -23,7 +23,6 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("project-breadcrumb")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum BreadcrumbI18nEnum {
-    FRA_TASK_DASHBOARD,
     FRA_TIME_TRACKING,
     FRA_FILES,
     FRA_STANDUP,

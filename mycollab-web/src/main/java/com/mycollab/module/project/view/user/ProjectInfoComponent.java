@@ -36,7 +36,7 @@ import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
-import com.mycollab.module.project.events.*;
+import com.mycollab.module.project.event.*;
 import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.module.project.service.ProjectService;

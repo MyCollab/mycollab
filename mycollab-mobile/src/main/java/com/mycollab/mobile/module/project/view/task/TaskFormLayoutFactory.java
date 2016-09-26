@@ -48,25 +48,25 @@ public class TaskFormLayoutFactory extends AbstractFormLayoutFactory {
 
     @Override
     public Component onAttachField(Object propertyId, final Field<?> field) {
-        if (propertyId.equals("taskname")) {
+        if (Task.Field.name.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
-        } else if (propertyId.equals("startdate")) {
+        } else if (Task.Field.startdate.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 1);
-        } else if (propertyId.equals("enddate")) {
+        } else if (Task.Field.enddate.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 2);
-        } else if (propertyId.equals("deadline")) {
+        } else if (Task.Field.duedate.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 3);
-        } else if (propertyId.equals("priority")) {
-            return informationLayout.addComponent(field, UserUIContext.getMessage(TaskI18nEnum.FORM_PRIORITY), 0, 4);
-        } else if (propertyId.equals("assignuser")) {
+        } else if (Task.Field.priority.equalTo(propertyId)) {
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY), 0, 4);
+        } else if (Task.Field.assignuser.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 5);
         } else if (Task.Field.milestoneid.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(TaskI18nEnum.FORM_PHASE), 0, 6);
-        } else if (propertyId.equals("percentagecomplete")) {
+        } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 0, 7);
-        } else if (propertyId.equals("notes")) {
+        } else if (propertyId.equals(Task.Field.description.equalTo(propertyId))) {
             field.setSizeUndefined();
-            return informationLayout.addComponent(field, UserUIContext.getMessage(TaskI18nEnum.FORM_NOTES), 0, 8);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 8);
         }
         return null;
     }

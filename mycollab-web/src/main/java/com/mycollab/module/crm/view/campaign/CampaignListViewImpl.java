@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.campaign;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.mycollab.module.crm.fielddef.CampaignTableFieldDef;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
@@ -63,12 +64,9 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
     protected AbstractPagedBeanTable<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
         CampaignTableDisplay campaignTableDisplay = new CampaignTableDisplay(
                 CrmTypeConstants.CAMPAIGN, CampaignTableFieldDef.selected(),
-                Arrays.asList(CampaignTableFieldDef.campaignname(),
-                        CampaignTableFieldDef.status(),
-                        CampaignTableFieldDef.type(),
-                        CampaignTableFieldDef.expectedRevenue(),
-                        CampaignTableFieldDef.endDate(),
-                        CampaignTableFieldDef.assignUser()));
+                Arrays.asList(CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.status(),
+                        CampaignTableFieldDef.type(), CampaignTableFieldDef.expectedRevenue(),
+                        CampaignTableFieldDef.endDate(), CampaignTableFieldDef.assignUser()));
 
         return campaignTableDisplay;
     }

@@ -65,7 +65,7 @@ import java.util.concurrent.locks.Lock;
  */
 @Service
 @Transactional
-@Traceable(nameField = "summary", extraFieldName = "projectid")
+@Traceable(nameField = "name", extraFieldName = "projectid")
 @Watchable(userFieldName = "assignuser")
 public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements BugService {
     static {
@@ -105,14 +105,14 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
                 Integer maxKey = bugMapperExt.getMaxKey(record.getProjectid());
                 record.setBugkey((maxKey == null) ? 1 : (maxKey + 1));
                 if (record.getPriority() == null) {
-                    record.setPriority(OptionI18nEnum.BugPriority.Major.name());
+                    record.setPriority(OptionI18nEnum.Priority.Medium.name());
                 }
                 if (record.getStatus() == null) {
                     record.setStatus(OptionI18nEnum.BugStatus.Open.name());
                 }
                 Integer bugId = super.saveWithSession(record, username);
                 asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                        ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
+                        ProjectTicketService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
                         TimelineTrackingService.class}));
 
                 asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, bugId, "status", record.getStatus(),
@@ -137,7 +137,7 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
 
     private void cleanAfterUpdate(BugWithBLOBs record) {
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
+                ProjectTicketService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
                 ItemTimeLoggingService.class, TimelineTrackingService.class}));
         asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.getId(), "status", record.getStatus(),
                 record.getProjectid(), record.getSaccountid()));

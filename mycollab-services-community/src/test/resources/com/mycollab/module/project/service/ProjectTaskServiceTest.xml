@@ -34,12 +34,12 @@
         shortname="aaa" projectStatus="Open" />
 
     <m_prj_task sAccountId="1" projectId="1" id="1"
-        percentagecomplete="40" taskname="task1" taskkey="1" />
+        percentagecomplete="40" name="task1" taskkey="1" />
 
     <m_prj_task sAccountId="1" projectId="1" id="2"
-        percentagecomplete="0" taskname="task2" taskkey="2" />
+        percentagecomplete="0" name="task2" taskkey="2" />
 
     <m_prj_task sAccountId="2" projectId="3" id="3"
-        percentagecomplete="0" taskname="task1" taskkey="1" />
+        percentagecomplete="0" name="task1" taskkey="1" />
 
 </dataset>

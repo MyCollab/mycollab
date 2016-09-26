@@ -19,7 +19,7 @@ package com.mycollab.module.project.view.user;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.Project;
-import com.mycollab.module.project.events.ProjectEvent;
+import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;

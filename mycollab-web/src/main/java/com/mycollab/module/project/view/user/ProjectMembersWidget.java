@@ -30,7 +30,7 @@ import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
-import com.mycollab.module.project.events.ProjectMemberEvent;
+import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;

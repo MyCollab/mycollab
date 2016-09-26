@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.lead;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.mycollab.module.crm.fielddef.LeadTableFieldDef;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
@@ -63,9 +64,8 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
     protected AbstractPagedBeanTable<LeadSearchCriteria, SimpleLead> createBeanTable() {
         return new LeadTableDisplay(CrmTypeConstants.LEAD, LeadTableFieldDef.selected(),
                 Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
-                        LeadTableFieldDef.accountName(),
-                        LeadTableFieldDef.phoneoffice(), LeadTableFieldDef.email(),
-                        LeadTableFieldDef.assignedUser()));
+                        LeadTableFieldDef.accountName(), LeadTableFieldDef.phoneoffice(),
+                        LeadTableFieldDef.email(), LeadTableFieldDef.assignedUser()));
     }
 
     @Override

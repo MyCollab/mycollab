@@ -21,7 +21,7 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.event.ActivityEvent;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
@@ -30,10 +30,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.SplitButton;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -111,11 +108,6 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
 
         EventBasicSearchLayout() {
             super(ActivitySearchPanel.this);
-        }
-
-        @Override
-        public ComponentContainer constructHeader() {
-            return ActivitySearchPanel.this.constructHeader();
         }
 
         @Override

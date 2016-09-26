@@ -24,7 +24,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
-import com.mycollab.module.crm.events.CampaignEvent;
+import com.mycollab.module.crm.event.CampaignEvent;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

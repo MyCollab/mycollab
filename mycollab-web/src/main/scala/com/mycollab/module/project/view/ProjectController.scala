@@ -24,8 +24,8 @@ import com.mycollab.eventmanager.ApplicationEventListener
 import com.mycollab.module.page.domain.Page
 import com.mycollab.module.project.domain._
 import com.mycollab.module.project.domain.criteria._
-import com.mycollab.module.project.events.InvoiceEvent.GotoList
-import com.mycollab.module.project.events._
+import com.mycollab.module.project.event.InvoiceEvent.GotoList
+import com.mycollab.module.project.event._
 import com.mycollab.module.project.view.bug.BugPresenter
 import com.mycollab.module.project.view.file.FilePresenter
 import com.mycollab.module.project.view.message.MessagePresenter
@@ -33,11 +33,10 @@ import com.mycollab.module.project.view.milestone.MilestonePresenter
 import com.mycollab.module.project.view.page.PagePresenter
 import com.mycollab.module.project.view.parameters.MilestoneScreenData.{Kanban, Roadmap}
 import com.mycollab.module.project.view.parameters.ProjectScreenData.GotoFavorite
-import com.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.mycollab.module.project.view.parameters._
 import com.mycollab.module.project.view.risk.IRiskPresenter
 import com.mycollab.module.project.view.settings.UserSettingPresenter
-import com.mycollab.module.project.view.task.TaskPresenter
+import com.mycollab.module.project.view.ticket.TicketPresenter
 import com.mycollab.module.project.view.time.IInvoiceListPresenter
 import com.mycollab.module.project.view.user.ProjectDashboardPresenter
 import com.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants}
@@ -52,6 +51,7 @@ import com.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
   */
 class ProjectController(val projectView: ProjectView) extends AbstractController {
   bindProjectEvents()
+  bindTicketEvents()
   bindTaskEvents()
   bindRiskEvents()
   bindBugEvents()
@@ -111,11 +111,21 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     })
   }
   
+  private def bindTicketEvents(): Unit = {
+    this.register(new ApplicationEventListener[TicketEvent.GotoDashboard] {
+      @Subscribe def handle(event: TicketEvent.GotoDashboard) {
+        val data = new TicketScreenData.GotoDashboard(event.getData)
+        val presenter = PresenterResolver.getPresenter(classOf[TicketPresenter])
+        presenter.go(projectView, data)
+      }
+    })
+  }
+  
   private def bindTaskEvents(): Unit = {
     this.register(new ApplicationEventListener[TaskEvent.GotoRead] {
       @Subscribe def handle(event: TaskEvent.GotoRead) {
         val data = new TaskScreenData.Read(event.getData.asInstanceOf[Integer])
-        val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[TicketPresenter])
         presenter.go(projectView, data)
       }
     })
@@ -129,14 +139,14 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         else {
           data = new TaskScreenData.Add(new SimpleTask)
         }
-        val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[TicketPresenter])
         presenter.go(projectView, data)
       }
     })
     this.register(new ApplicationEventListener[TaskEvent.GotoEdit] {
       @Subscribe def handle(event: TaskEvent.GotoEdit) {
         val data = new TaskScreenData.Edit(event.getData.asInstanceOf[SimpleTask])
-        val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[TicketPresenter])
         presenter.go(projectView, data)
       }
     })
@@ -144,15 +154,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     this.register(new ApplicationEventListener[TaskEvent.GotoKanbanView] {
       @Subscribe override def handle(event: TaskEvent.GotoKanbanView): Unit = {
         val data = new TaskScreenData.GotoKanbanView
-        val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
-        presenter.go(projectView, data)
-      }
-    })
-    
-    this.register(new ApplicationEventListener[TaskEvent.GotoDashboard] {
-      @Subscribe def handle(event: TaskEvent.GotoDashboard) {
-        val data = new GotoDashboard(event.getData)
-        val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[TicketPresenter])
         presenter.go(projectView, data)
       }
     })

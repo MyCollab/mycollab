@@ -24,7 +24,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
-import com.mycollab.module.crm.events.ContactEvent;
+import com.mycollab.module.crm.event.ContactEvent;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

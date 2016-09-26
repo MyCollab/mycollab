@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CacheParamMapper {
     private static Map<String, Map<String, ValueParam>> map = new ConcurrentHashMap<>();
 
-    public static final <P extends Param> P register(String type, Enum displayName, P param) {
+    public static <P extends Param> P register(String type, Enum displayName, P param) {
         Map<String, ValueParam> valueParamMap = map.get(type);
         if (valueParamMap == null) {
             valueParamMap = new ConcurrentHashMap<>();
@@ -36,7 +36,7 @@ public class CacheParamMapper {
         return param;
     }
 
-    public static final ValueParam getValueParam(String type, String id) {
+    public static ValueParam getValueParam(String type, String id) {
         Map<String, ValueParam> valueParamMap = map.get(type);
         return (valueParamMap != null) ? valueParamMap.get(id) : null;
     }

@@ -21,6 +21,7 @@ import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.mycollab.module.crm.fielddef.CampaignTableFieldDef;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;

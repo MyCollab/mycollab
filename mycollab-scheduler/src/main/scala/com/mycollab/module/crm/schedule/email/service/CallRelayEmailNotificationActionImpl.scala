@@ -77,7 +77,7 @@ class CallRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
     }
 
     contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("summary", summary)
+    contentGenerator.putVariable("name", summary)
     contentGenerator.putVariable("summaryLink", summaryLink)
   }
 

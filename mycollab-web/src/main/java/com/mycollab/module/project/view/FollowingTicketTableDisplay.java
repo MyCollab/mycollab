@@ -24,7 +24,7 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.FollowingTicket;
 import com.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
-import com.mycollab.module.project.events.ProjectEvent;
+import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.service.ProjectFollowingTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -59,9 +59,9 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                 FollowingTicket.class, Arrays.asList(FollowingTicketFieldDef.summary,
                         FollowingTicketFieldDef.project, FollowingTicketFieldDef.assignee, FollowingTicketFieldDef.createdDate));
 
-        this.addGeneratedColumn("summary", (source, itemId, columnId) -> {
+        this.addGeneratedColumn("name", (source, itemId, columnId) -> {
             final FollowingTicket ticket = getBeanByIndex(itemId);
-            final MButton ticketLink = new MButton(ticket.getSummary()).withStyleName(WebUIConstants.BUTTON_LINK);
+            final MButton ticketLink = new MButton(ticket.getName()).withStyleName(WebUIConstants.BUTTON_LINK);
 
             if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
                 ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));

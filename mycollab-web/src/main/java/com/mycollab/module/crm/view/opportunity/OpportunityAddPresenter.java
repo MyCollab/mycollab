@@ -24,7 +24,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
-import com.mycollab.module.crm.events.OpportunityEvent;
+import com.mycollab.module.crm.event.OpportunityEvent;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

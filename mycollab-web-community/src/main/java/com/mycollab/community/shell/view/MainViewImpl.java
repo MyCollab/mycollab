@@ -21,6 +21,7 @@ import com.mycollab.common.i18n.LicenseI18nEnum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification;
+import com.mycollab.community.shell.view.components.AdRequestWindow;
 import com.mycollab.community.shell.view.components.CommunitySliderPanel;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -32,7 +33,6 @@ import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.shell.view.AbstractMainView;
 import com.mycollab.shell.view.components.AbstractAboutWindow;
-import com.mycollab.community.shell.view.components.AdRequestWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -128,13 +128,6 @@ public class MainViewImpl extends AbstractMainView {
             EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "general"}));
         }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
         accountPopupContent.addOption(generalSettingBtn);
-
-        MButton themeCustomizeBtn = new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_THEME), clickEvent -> {
-            accountMenu.setPopupVisible(false);
-            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "theme"}));
-        }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.THEME_CUSTOMIZE));
-        accountPopupContent.addOption(themeCustomizeBtn);
-
 
         MButton setupBtn = new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP), clickEvent -> {
             accountMenu.setPopupVisible(false);

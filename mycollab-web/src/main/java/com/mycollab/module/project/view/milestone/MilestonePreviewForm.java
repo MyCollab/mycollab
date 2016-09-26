@@ -27,14 +27,14 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
-import com.mycollab.module.project.domain.ProjectGenericTask;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleMilestone;
-import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectGenericTaskService;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
@@ -107,9 +107,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
     }
 
     private static class AssignmentsComp extends MVerticalLayout {
-        private ProjectGenericTaskSearchCriteria searchCriteria;
+        private ProjectTicketSearchCriteria searchCriteria;
         private SimpleMilestone beanItem;
-        private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> assignmentsLayout;
+        private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> assignmentsLayout;
 
         AssignmentsComp(SimpleMilestone milestone) {
             this.beanItem = milestone;
@@ -153,10 +153,10 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(riskSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1, spacingLbl2);
 
-            assignmentsLayout = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowRenderer());
+            assignmentsLayout = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), new GenericTaskRowRenderer());
             assignmentsLayout.setMargin(new MarginInfo(true, true, true, false));
             this.with(header, assignmentsLayout);
-            searchCriteria = new ProjectGenericTaskSearchCriteria();
+            searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setIsOpenned(new SearchField());
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
@@ -183,9 +183,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
         }
     }
 
-    private static class GenericTaskRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
+    private static class GenericTaskRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<ProjectTicket> {
         @Override
-        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, ProjectTicket genericTask, int rowIndex) {
             MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);
             rowComp.addStyleName("margin-bottom");
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
@@ -205,9 +205,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                     .setTitle(genericTask.getAssignUserFullName());
 
-            ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
+            ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(genericTask);
             rowComp.with(ELabel.html(img.write()).withWidthUndefined(),
-                    toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
+                    toggleTicketSummaryField).expand(toggleTicketSummaryField);
             return rowComp;
         }
     }

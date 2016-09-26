@@ -19,8 +19,9 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.fielddef.BugTableFieldDef;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -64,7 +65,7 @@ public class BugCustomizeReportOutputWindow extends CustomizeReportOutputWindow<
 
     @Override
     protected Object[] buildSampleData() {
-        return new Object[]{"Bug A", "Virtual Environment", BugPriority.Critical.name(),
+        return new Object[]{"Bug A", "Virtual Environment", OptionI18nEnum.Priority.High.name(),
                 BugSeverity.Major.name(), BugStatus.Open.name(), BugResolution.None.name(),
                 "John Adam", UserUIContext.formatDate(new LocalDate().minusDays(2).toDate()), UserUIContext.formatDate(new
                 LocalDate().plusDays(1).toDate()), UserUIContext.formatDate(new LocalDate().plusDays(2).toDate()),

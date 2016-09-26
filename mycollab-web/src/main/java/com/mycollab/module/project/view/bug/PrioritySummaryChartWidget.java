@@ -17,13 +17,13 @@
 package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.domain.GroupItem;
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.ui.chart.PieChartWrapper;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
@@ -41,7 +41,7 @@ public class PrioritySummaryChartWidget extends PieChartWrapper<BugSearchCriteri
     private static final long serialVersionUID = 1L;
 
     public PrioritySummaryChartWidget() {
-        super(BugPriority.class, 350, 280);
+        super(Priority.class, 350, 280);
     }
 
     @Override
@@ -55,8 +55,8 @@ public class PrioritySummaryChartWidget extends PieChartWrapper<BugSearchCriteri
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        BugPriority[] bugPriorities = OptionI18nEnum.bug_priorities;
-        for (BugPriority priority : bugPriorities) {
+        Priority[] bugPriorities = OptionI18nEnum.task_priorities;
+        for (Priority priority : bugPriorities) {
             boolean isFound = false;
             for (GroupItem item : groupItems) {
                 if (priority.name().equals(item.getGroupid())) {

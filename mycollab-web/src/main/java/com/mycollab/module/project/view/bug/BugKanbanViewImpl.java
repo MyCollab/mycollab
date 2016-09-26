@@ -28,7 +28,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.events.BugEvent;
+import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -36,17 +36,17 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.mycollab.module.project.view.bug.components.ToggleBugSummaryField;
+import com.mycollab.module.project.view.service.BugComponentFactory;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -216,7 +216,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             root.addStyleName("kanban-item");
             this.setCompositionRoot(root);
 
-            BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
+            BugComponentFactory popupFieldFactory = AppContextUtil.getSpringBean(BugComponentFactory.class);
             MHorizontalLayout headerLayout = new MHorizontalLayout();
             ToggleBugSummaryField bugLinkLbl = new ToggleBugSummaryField(bug, 70);
 
@@ -385,7 +385,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 bug.setProjectid(CurrentProjectVariables.getProjectId());
                 bug.setStatus(optionVal.getTypeval());
                 bug.setProjectShortName(CurrentProjectVariables.getShortName());
-                bug.setLogby(UserUIContext.getUsername());
+                bug.setCreateduser(UserUIContext.getUsername());
                 final MVerticalLayout layout = new MVerticalLayout();
                 layout.addStyleName("kanban-item");
                 final TextField bugNameField = new TextField();
@@ -396,7 +396,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
                     String summary = bugNameField.getValue();
                     if (StringUtils.isNotBlank(summary)) {
-                        bug.setSummary(summary);
+                        bug.setName(summary);
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         bugService.saveWithSession(bug, UserUIContext.getUsername());
                         dragLayoutContainer.removeComponent(layout);

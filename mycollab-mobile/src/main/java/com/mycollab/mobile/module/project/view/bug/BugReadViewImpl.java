@@ -37,7 +37,7 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -137,7 +137,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getSummary();
+        return beanItem.getName();
     }
 
     @Override
@@ -204,7 +204,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                                 beanItem.getAssignUserAvatarId(), false), ContentMode.HTML);
             } else if (propertyId.equals("loguserFullName")) {
                 return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
-                        .getProjectId(), beanItem.getLogby(), beanItem.getLoguserFullName(), beanItem
+                        .getProjectId(), beanItem.getCreateduser(), beanItem.getLoguserFullName(), beanItem
                         .getLoguserAvatarId(), false), ContentMode.HTML);
             } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
                 if (beanItem.getMilestoneid() != null) {
@@ -225,8 +225,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new I18nFormViewField(beanItem.getStatus(), BugStatus.class);
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " "
-                            + UserUIContext.getMessage(BugPriority.class, beanItem.getPriority());
+                    String priorityLink = ProjectAssetsManager.getPriority(beanItem.getPriority()).getHtml() + " "
+                            + UserUIContext.getMessage(OptionI18nEnum.Priority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
                     field.addStyleName("bug-" + beanItem.getPriority().toLowerCase());
                     return field;

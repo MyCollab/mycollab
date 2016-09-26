@@ -29,7 +29,7 @@ import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.mycollab.module.project.events.ProjectEvent;
+import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
@@ -142,11 +142,11 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             int totalAssignments = project.getNumBugs() + project.getNumTasks() + project.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
-                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                                 * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
-                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
                         .withStyleName(UIConstants.META_INFO);
             }
             linkIconFix.addComponent(progressInfoLbl);

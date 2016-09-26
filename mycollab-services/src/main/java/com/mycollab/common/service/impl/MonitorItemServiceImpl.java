@@ -70,7 +70,7 @@ public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem,
     public Integer saveWithSession(MonitorItem record, String username) {
         MonitorItemExample ex = new MonitorItemExample();
         ex.createCriteria().andTypeEqualTo(record.getType()).andTypeidEqualTo(record.getTypeid()).andUserEqualTo(record.getUser());
-        int count = monitorItemMapper.countByExample(ex);
+        Long count = monitorItemMapper.countByExample(ex);
         if (count > 0) {
             return 1;
         } else {

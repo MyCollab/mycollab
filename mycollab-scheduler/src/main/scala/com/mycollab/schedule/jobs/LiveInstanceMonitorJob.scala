@@ -45,8 +45,8 @@ class LiveInstanceMonitorJob extends GenericQuartzJobBean {
   @Autowired private val appPropertiesService: AppPropertiesService = null
 
   def executeJob(context: JobExecutionContext): Unit = {
-    val numProjects = projectMapper.countByExample(new ProjectExample)
-    val numUsers = userMapper.countByExample(new UserExample)
+    val numProjects = projectMapper.countByExample(new ProjectExample).toInt
+    val numUsers = userMapper.countByExample(new UserExample).toInt
 
     val liveInstance = new LiveInstance()
     liveInstance.setAppversion(MyCollabVersion.getVersion)

@@ -27,9 +27,11 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.mycollab.module.project.events.TaskEvent;
+import com.mycollab.module.project.event.TaskEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ticket.TicketContainer;
 import com.mycollab.reporting.FormReportLayout;
 import com.mycollab.reporting.PrintButton;
 import com.mycollab.spring.AppContextUtil;
@@ -80,8 +82,8 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
             @Override
             public void onPrint(Object source, SimpleTask data) {
                 PrintButton btn = (PrintButton) source;
-                btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.TASK, Task.Field.taskname.name(),
-                        TaskDefaultFormLayoutFactory.getForm(), Task.Field.taskname.name(), Task.Field.id.name(),
+                btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.TASK, Task.Field.name.name(),
+                        TaskDefaultFormLayoutFactory.getForm(), Task.Field.name.name(), Task.Field.id.name(),
                         Task.Field.parenttaskid.name(), "selected"));
             }
 
@@ -96,7 +98,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                             if (confirmDialog.isConfirmed()) {
                                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                                 taskService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
-                                EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null));
+                                EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null));
                             }
                         });
             }
@@ -110,7 +112,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
             @Override
             public void onCancel() {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(this, null));
+                EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null));
             }
 
             @Override
@@ -150,10 +152,10 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
     @Override
     protected void onGo(final ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            TaskContainer taskContainer = (TaskContainer) container;
-            taskContainer.removeAllComponents();
+            TicketContainer ticketContainer = (TicketContainer) container;
+            ticketContainer.removeAllComponents();
 
-            taskContainer.addComponent(view);
+            ticketContainer.addComponent(view);
             if (data.getParams() instanceof Integer) {
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = taskService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());

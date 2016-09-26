@@ -8,7 +8,7 @@
         <tr>
             <td style="padding: 10px 30px">
                 <p>${actionHeading}</p>
-                <p><b><@lib.hyperLink displayName=summary webLink=summaryLink/></b></p>
+                <p><b><@lib.hyperLink displayName=name webLink=summaryLink/></b></p>
                 <#if mapper?has_content>
                 <table width="100%" cellpadding="0" cellspacing="0" style="font-size: 12px; margin: 20px 0px; border-collapse: collapse;">
                     <#assign lineBreak=true>

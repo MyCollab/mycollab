@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.cases;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.mycollab.module.crm.fielddef.CaseTableFieldDef;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.security.RolePermissionCollections;
@@ -60,10 +61,9 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
     protected AbstractPagedBeanTable<CaseSearchCriteria, SimpleCase> createBeanTable() {
         return new CaseTableDisplay(
                 CrmTypeConstants.CASE, CaseTableFieldDef.selected(),
-                Arrays.asList(CaseTableFieldDef.subject(),
-                        CaseTableFieldDef.account(), CaseTableFieldDef.priority(),
-                        CaseTableFieldDef.status(), CaseTableFieldDef.assignUser(),
-                        CaseTableFieldDef.createdTime()));
+                Arrays.asList(CaseTableFieldDef.subject(), CaseTableFieldDef.account(),
+                        CaseTableFieldDef.priority(), CaseTableFieldDef.status(),
+                        CaseTableFieldDef.assignUser(), CaseTableFieldDef.createdTime()));
     }
 
     @Override

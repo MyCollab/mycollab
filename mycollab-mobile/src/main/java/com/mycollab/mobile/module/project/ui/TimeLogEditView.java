@@ -82,7 +82,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
     private void initUI() {
         headerPanel = new HorizontalLayout();
         headerPanel.setWidth("100%");
-        headerPanel.setStyleName("summary-info-panel");
+        headerPanel.setStyleName("name-info-panel");
         headerPanel.setMargin(new MarginInfo(true, false, true, false));
         headerPanel.setHeightUndefined();
         content.addComponent(headerPanel);
@@ -136,7 +136,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
     private void constructSpentTimeEntryPanel() {
         final VerticalLayout totalLayout = new VerticalLayout();
         totalLayout.setMargin(new MarginInfo(false, true, false, true));
-        totalLayout.setStyleName("summary-block");
+        totalLayout.setStyleName("name-block");
         totalLayout.addStyleName("total-time");
         totalLayout.setWidth("100%");
         final Label lbTimeInstructTotal = new Label(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
@@ -152,7 +152,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
     private void constructRemainTimeEntryPanel() {
         final VerticalLayout updateLayout = new VerticalLayout();
         updateLayout.setMargin(new MarginInfo(false, true, false, true));
-        updateLayout.setStyleName("summary-block");
+        updateLayout.setStyleName("name-block");
         updateLayout.addStyleName("remain-time");
         updateLayout.setWidth("100%");
 

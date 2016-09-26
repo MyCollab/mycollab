@@ -94,7 +94,7 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
                     super.onGo(container, data);
 
                     MyCollabUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(),
-                            bug.getProjectShortName()), bug.getSummary());
+                            bug.getProjectShortName()), bug.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

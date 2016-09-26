@@ -19,7 +19,6 @@ package com.mycollab.vaadin.web.ui;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.SearchHandler;
-import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
@@ -70,56 +69,4 @@ public abstract class GenericSearchPanel<S extends SearchCriteria> extends Custo
         }
     }
 
-    abstract public static class SearchLayout<S extends SearchCriteria> extends CustomLayoutExt {
-        protected GenericSearchPanel<S> searchPanel;
-
-        public SearchLayout(GenericSearchPanel<S> parent, String layoutName) {
-            super(layoutName);
-            this.searchPanel = parent;
-        }
-
-        public void callSearchAction() {
-            final S searchCriteria = this.fillUpSearchCriteria();
-            this.searchPanel.notifySearchHandler(searchCriteria);
-        }
-
-        abstract protected S fillUpSearchCriteria();
-
-        abstract protected void addHeaderRight(Component c);
-
-    }
-
-    abstract public static class BasicSearchLayout<S extends SearchCriteria> extends SearchLayout<S> {
-        private static final long serialVersionUID = 1L;
-        protected ComponentContainer header;
-        protected ComponentContainer body;
-
-        public BasicSearchLayout(final GenericSearchPanel<S> parent) {
-            super(parent, "basicSearch");
-            this.setStyleName("basicSearchLayout");
-            this.initLayout();
-        }
-
-        private void initLayout() {
-            this.header = this.constructHeader();
-            this.body = this.constructBody();
-            if (header != null) {
-                this.addComponent(this.header, "basicSearchHeader");
-            }
-
-            this.addComponent(this.body, "basicSearchBody");
-        }
-
-        @Override
-        protected void addHeaderRight(Component c) {
-            if (this.header == null)
-                return;
-
-            this.header.addComponent(c);
-        }
-
-        abstract public ComponentContainer constructHeader();
-
-        abstract public ComponentContainer constructBody();
-    }
 }

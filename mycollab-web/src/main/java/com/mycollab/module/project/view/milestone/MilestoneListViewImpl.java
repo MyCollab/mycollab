@@ -28,7 +28,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.mycollab.module.project.events.MilestoneEvent;
+import com.mycollab.module.project.event.MilestoneEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -36,11 +36,11 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ComponentUtils;
+import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
@@ -292,17 +292,17 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks() + milestone.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
-                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_ASSIGNMENT,
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
                                 * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
             } else {
-                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_ASSIGNMENT))
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
                         .withStyleName(UIConstants.META_INFO);
             }
             this.addComponent(progressInfoLbl);
 
             CssLayout metaBlock = new CssLayout();
-            MilestonePopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(MilestonePopupFieldFactory.class);
+            MilestoneComponentFactory popupFieldFactory = AppContextUtil.getSpringBean(MilestoneComponentFactory.class);
             metaBlock.addComponent(popupFieldFactory.createMilestoneAssigneePopupField(milestone, false));
             metaBlock.addComponent(popupFieldFactory.createStartDatePopupField(milestone));
             metaBlock.addComponent(popupFieldFactory.createEndDatePopupField(milestone));

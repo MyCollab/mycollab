@@ -6,16 +6,16 @@
     <s_user username="nghiemle" firstname="Nghiem" lastname="Le" email="nghiemle@esofthead.com" />
     <m_prj_project id="1" name="aaa" sAccountId="1" shortname="aaa" projectStatus="Open" />
 
-    <m_tracker_bug summary="summary 1" id="1" projectId="1"
+    <m_tracker_bug name="name 1" id="1" projectId="1"
         detail="detail 1" status="Open" resolution="1" assignuser="hai79"
         logby="hai79" createdTime="2014-10-02 06:45:22" sAccountId="1" />
-    <m_tracker_bug summary="summary 2" id="2" projectId="1"
+    <m_tracker_bug name="name 2" id="2" projectId="1"
         detail="detail 2" status="InProgress" resolution="1" assignuser="nghiemle"
         logby="nghiemle" createdTime="2014-10-02 07:45:22" sAccountId="1" />
-    <m_tracker_bug summary="summary 3" id="3" projectId="1"
+    <m_tracker_bug name="name 3" id="3" projectId="1"
         detail="detail 3" status="Reopenned" resolution="1" logby="hai79"
         assignuser="hai79" createdTime="2014-10-03 06:45:22" sAccountId="1" />
-    <m_tracker_bug summary="summary 4" id="4" projectId="1"
+    <m_tracker_bug name="name 4" id="4" projectId="1"
         detail="detail 4" status="Closed" resolution="1" logby="nghiemle"
         assignuser="nghiemle" createdTime="2014-10-01 06:45:22"
         sAccountId="1" />

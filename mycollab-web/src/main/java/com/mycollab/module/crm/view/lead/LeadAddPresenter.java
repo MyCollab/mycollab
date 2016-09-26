@@ -24,7 +24,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.domain.SimpleLead;
-import com.mycollab.module.crm.events.LeadEvent;
+import com.mycollab.module.crm.event.LeadEvent;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;

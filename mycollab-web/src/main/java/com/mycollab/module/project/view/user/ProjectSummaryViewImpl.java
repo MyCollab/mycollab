@@ -57,10 +57,10 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         leftPanel.setMargin(new MarginInfo(false, true, false, false));
 
         MilestoneTimelineWidget milestoneTimelineWidget = new MilestoneTimelineWidget();
-        ProjectOverdueAssignmentsWidget taskOverdueWidget = new ProjectOverdueAssignmentsWidget();
-        ProjectUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new ProjectUnresolvedAssignmentWidget();
+        ProjectOverdueTicketsWidget taskOverdueWidget = new ProjectOverdueTicketsWidget();
+        ProjectUnresolvedTicketsWidget unresolvedAssignmentThisWeekWidget = new ProjectUnresolvedTicketsWidget();
 
-        ProjectUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new ProjectUnresolvedAssignmentWidget();
+        ProjectUnresolvedTicketsWidget unresolvedAssignmentNextWeekWidget = new ProjectUnresolvedTicketsWidget();
 
         leftPanel.addComponent(milestoneTimelineWidget);
         leftPanel.addComponent(unresolvedAssignmentThisWeekWidget);
@@ -117,7 +117,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         unresolvedAssignmentNextWeekWidget.displayUnresolvedAssignmentsNextWeek();
         activityPanel.showProjectFeeds();
         membersWidget.showInformation();
-        taskOverdueWidget.showOpenAssignments();
+        taskOverdueWidget.showOpenTickets();
 
         layout.with(leftPanel, rightPanel).expand(leftPanel);
     }

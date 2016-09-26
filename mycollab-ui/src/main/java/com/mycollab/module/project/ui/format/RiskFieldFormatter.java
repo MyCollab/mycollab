@@ -44,9 +44,10 @@ public final class RiskFieldFormatter extends FieldGroupFormatter {
         this.generateFieldDisplayHandler(Risk.Field.startdate.name(), GenericI18Enum.FORM_START_DATE, DATE_FIELD);
         this.generateFieldDisplayHandler(Risk.Field.enddate.name(), GenericI18Enum.FORM_END_DATE, DATE_FIELD);
         this.generateFieldDisplayHandler(Risk.Field.milestoneid.name(), RiskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
-        this.generateFieldDisplayHandler("probalitity", RiskI18nEnum.FORM_PROBABILITY, new I18nHistoryFieldFormat(RiskProbability.class));
+        this.generateFieldDisplayHandler(Risk.Field.probalitity.name(), RiskI18nEnum.FORM_PROBABILITY,
+                new I18nHistoryFieldFormat(RiskProbability.class));
         this.generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS, new I18nHistoryFieldFormat(StatusI18nEnum.class));
-        this.generateFieldDisplayHandler("level", RiskI18nEnum.FORM_RATING);
+        this.generateFieldDisplayHandler("priority", GenericI18Enum.FORM_PRIORITY);
         this.generateFieldDisplayHandler("response", RiskI18nEnum.FORM_RESPONSE, TRIM_HTMLS);
     }
 

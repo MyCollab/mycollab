@@ -25,7 +25,7 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleMeeting;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.mycollab.module.crm.events.ActivityEvent;
+import com.mycollab.module.crm.event.ActivityEvent;
 import com.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.service.MeetingService;

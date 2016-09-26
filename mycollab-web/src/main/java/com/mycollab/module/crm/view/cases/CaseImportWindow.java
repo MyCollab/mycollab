@@ -21,7 +21,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.mycollab.module.crm.events.CaseEvent;
+import com.mycollab.module.crm.event.CaseEvent;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.mycollab.spring.AppContextUtil;

@@ -43,7 +43,6 @@ public class VersionMultiSelectField extends MultiSelectComp {
         super("versionname", true);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected List<Version> createData() {
         VersionSearchCriteria searchCriteria = new VersionSearchCriteria();

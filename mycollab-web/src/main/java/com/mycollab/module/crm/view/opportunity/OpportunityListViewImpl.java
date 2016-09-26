@@ -19,6 +19,7 @@ package com.mycollab.module.crm.view.opportunity;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.mycollab.module.crm.fielddef.OpportunityTableFieldDef;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.crm.view.campaign.CampaignImportWindow;

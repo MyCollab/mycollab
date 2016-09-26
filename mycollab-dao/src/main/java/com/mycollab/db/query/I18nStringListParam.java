@@ -32,19 +32,19 @@ public class I18nStringListParam extends ColumnParam {
 
     public static CollectionI18nEnum[] OPTIONS = {CollectionI18nEnum.IN, CollectionI18nEnum.NOT_IN};
 
-    private List<? extends Enum<?>> lstValues;
+    private List<? extends Enum<?>> values;
 
     public I18nStringListParam(String id, String table, String column, List<? extends Enum<?>> values) {
         super(id, table, column);
-        this.lstValues = values;
+        this.values = values;
     }
 
-    public List<? extends Enum<?>> getLstValues() {
-        return lstValues;
+    public List<? extends Enum<?>> getValues() {
+        return values;
     }
 
-    public void setLstValues(List<? extends Enum<?>> lstValues) {
-        this.lstValues = lstValues;
+    public void setValues(List<? extends Enum<?>> lstValues) {
+        this.values = lstValues;
     }
 
     public CollectionValueSearchField buildStringParamInList(String oper, Collection<?> value) {

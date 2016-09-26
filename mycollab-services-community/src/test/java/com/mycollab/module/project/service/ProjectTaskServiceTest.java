@@ -36,7 +36,7 @@ public class ProjectTaskServiceTest extends IntegrationServiceTest {
     @Test
     public void testFindById() {
         SimpleTask task = projectTaskService.findById(1, 1);
-        assertThat(task.getTaskname()).isEqualTo("task1");
+        assertThat(task.getName()).isEqualTo("task1");
         assertThat(task.getProjectShortname()).isEqualTo("aaa");
     }
 
@@ -44,7 +44,7 @@ public class ProjectTaskServiceTest extends IntegrationServiceTest {
     @Test
     public void testFindByProjectAndTaskKey() {
         SimpleTask task = projectTaskService.findByProjectAndTaskKey(1, "aaa", 1);
-        assertThat(task.getTaskname()).isEqualTo("task1");
+        assertThat(task.getName()).isEqualTo("task1");
         assertThat(task.getProjectShortname()).isEqualTo("aaa");
     }
 }

@@ -8,7 +8,7 @@
         <tr>
             <td style="padding: 10px 30px;">
                 <p>${actionHeading}</p>
-                <p><b><@lib.hyperLink displayName=summary webLink=summaryLink/></b></p>
+                <p><b><@lib.hyperLink displayName=name webLink=summaryLink/></b></p>
             </td>
         </tr>
         <#if lastComments?has_content>

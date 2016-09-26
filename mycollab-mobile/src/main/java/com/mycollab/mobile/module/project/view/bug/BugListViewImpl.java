@@ -107,7 +107,7 @@ public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, Sim
             MVerticalLayout bugRowLayout = new MVerticalLayout().withFullWidth();
 
             A bugLink = new A(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName
-                    ())).appendText(String.format("[#%s] - %s", bug.getBugkey(), bug.getSummary()));
+                    ())).appendText(String.format("[#%s] - %s", bug.getBugkey(), bug.getName()));
 
             CssLayout bugLbl = new CssLayout(new ELabel(bugLink.write(), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS));
             bugRowLayout.with(new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)

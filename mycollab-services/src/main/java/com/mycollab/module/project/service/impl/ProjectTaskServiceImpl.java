@@ -46,13 +46,12 @@ import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.domain.TaskExample;
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.esb.DeleteProjectTaskEvent;
-import com.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.service.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +71,7 @@ import java.util.concurrent.locks.Lock;
  */
 @Service
 @Transactional
-@Traceable(nameField = "taskname", extraFieldName = "projectid")
+@Traceable(nameField = "name", extraFieldName = "projectid")
 @Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSearchCriteria> implements ProjectTaskService {
     static {
@@ -123,9 +122,9 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         }
 
         if (record.getPriority() == null) {
-            record.setPriority(TaskPriority.Medium.name());
+            record.setPriority(Priority.Medium.name());
         }
-        record.setLogby(username);
+        record.setCreateduser(username);
         Lock lock = DistributionLockUtil.getLock("task-" + record.getSaccountid());
 
         try {
@@ -134,7 +133,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
                 record.setTaskkey((key == null) ? 1 : (key + 1));
 
                 int taskId = super.saveWithSession(record, username);
-                asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class, ProjectGenericTaskService.class,
+                asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class, ProjectTicketService.class,
                         ProjectActivityStreamService.class, ProjectMemberService.class, MilestoneService.class,
                         TimelineTrackingService.class, GanttAssignmentService.class}));
                 asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.TASK, taskId, "status",
@@ -180,7 +179,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
 
     private void cleanCacheUpdate(Task record) {
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                ProjectGenericTaskService.class, ProjectActivityStreamService.class, ProjectMemberService.class,
+                ProjectTicketService.class, ProjectActivityStreamService.class, ProjectMemberService.class,
                 MilestoneService.class, ItemTimeLoggingService.class, TimelineTrackingService.class,
                 GanttAssignmentService.class}));
         asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.TASK, record.getId(), "status",
@@ -191,7 +190,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     public void massRemoveWithSession(List<Task> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
         asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectService.class,
-                ProjectGenericTaskService.class, ProjectActivityStreamService.class, ProjectMemberService.class,
+                ProjectTicketService.class, ProjectActivityStreamService.class, ProjectMemberService.class,
                 MilestoneService.class, ItemTimeLoggingService.class, GanttAssignmentService.class}));
         DeleteProjectTaskEvent event = new DeleteProjectTaskEvent(items.toArray(new Task[items.size()]),
                 username, accountId);

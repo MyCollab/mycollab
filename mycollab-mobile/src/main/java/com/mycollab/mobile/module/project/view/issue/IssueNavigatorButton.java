@@ -19,9 +19,9 @@ package com.mycollab.mobile.module.project.view.issue;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
-import com.mycollab.module.project.service.ProjectGenericTaskService;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
@@ -34,7 +34,7 @@ public class IssueNavigatorButton extends NavigationButton {
     private Integer milestoneId;
 
     public IssueNavigatorButton() {
-        super(UserUIContext.getMessage(TicketI18nEnum.M_TICKET_NUM, 0));
+        super(UserUIContext.getMessage(TicketI18nEnum.OPT_TICKETS_VALUE, 0));
         this.addClickListener(navigationButtonClickEvent -> {
             if (milestoneId != null) {
                 getNavigationManager().navigateTo(new IssueListView(milestoneId));
@@ -44,11 +44,11 @@ public class IssueNavigatorButton extends NavigationButton {
 
     public void displayTotalIssues(Integer milestoneId) {
         this.milestoneId = milestoneId;
-        ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
+        ProjectTicketSearchCriteria criteria = new ProjectTicketSearchCriteria();
         criteria.setMilestoneId(NumberSearchField.equal(milestoneId));
         criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
-        ProjectGenericTaskService ticketService = AppContextUtil.getSpringBean(ProjectGenericTaskService.class);
-        this.setCaption(UserUIContext.getMessage(TicketI18nEnum.M_TICKET_NUM, ticketService.getTotalCount(criteria)));
+        ProjectTicketService ticketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
+        this.setCaption(UserUIContext.getMessage(TicketI18nEnum.OPT_TICKETS_VALUE, ticketService.getTotalCount(criteria)));
     }
 }

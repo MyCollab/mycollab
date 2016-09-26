@@ -15,11 +15,11 @@
                             <td style="font-weight: bold; ${styles.cell('300px')}">Assignment</td>
                             <td style="font-weight: bold; ${styles.cell('300px')}">Assignee</td>
                         </tr>
-                        <#list assignments as assignment>
+                        <#list assignments as ticket>
                             <tr style="border-bottom: 1px solid ${styles.border_color}">
-                                <td style="${styles.cell('80px')} color: ${styles.meta_color}">${formatter.formatDate(assignment.dueDate)}</td>
-                                <td style="${styles.cell('300px')}">${formatter.formatLink(subdomain, assignment)}</td>
-                                <td style="${styles.cell('300px')}">${formatter.formatAssignUser(subdomain, assignment)}</td>
+                                <td style="${styles.cell('80px')} color: ${styles.meta_color}">${formatter.formatDate(ticket.dueDate)}</td>
+                                <td style="${styles.cell('300px')}">${formatter.formatLink(subdomain, ticket)}</td>
+                                <td style="${styles.cell('300px')}">${formatter.formatAssignUser(subdomain, ticket)}</td>
                             </tr>
                         </#list>
                     </table>

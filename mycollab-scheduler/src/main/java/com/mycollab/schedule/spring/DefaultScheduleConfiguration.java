@@ -16,7 +16,7 @@
  */
 package com.mycollab.schedule.spring;
 
-import com.mycollab.module.project.schedule.email.service.OverdueProjectAssignmentsNotificationJob;
+import com.mycollab.module.project.schedule.email.service.OverdueProjectTicketsNotificationJob;
 import com.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.mycollab.schedule.QuartzScheduleProperties;
 import com.mycollab.schedule.jobs.*;
@@ -52,7 +52,7 @@ public class DefaultScheduleConfiguration {
     @Bean
     public JobDetailFactoryBean projectOverdueAssignmentsNotificationEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
-        bean.setJobClass(OverdueProjectAssignmentsNotificationJob.class);
+        bean.setJobClass(OverdueProjectTicketsNotificationJob.class);
         return bean;
     }
 
@@ -128,13 +128,13 @@ public class DefaultScheduleConfiguration {
         bean.setJobFactory(factory);
         bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey");
 
-        bean.setTriggers(
-                projectSendRelayNotificationEmailTrigger().getObject(),
-                projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
-                crmSendRelayNotificationEmailTrigger().getObject(),
-                cleanUpTimelineCacheDataTrigger().getObject(),
-                liveInstanceMonitorTrigger().getObject()
-        );
+//        bean.setTriggers(
+//                projectSendRelayNotificationEmailTrigger().getObject(),
+//                projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
+//                crmSendRelayNotificationEmailTrigger().getObject(),
+//                cleanUpTimelineCacheDataTrigger().getObject(),
+//                liveInstanceMonitorTrigger().getObject()
+//        );
         return bean;
     }
 }
