@@ -14,7 +14,7 @@
     <select id="findRelatedBugs" parameterType="int" resultMap="SimpleRelatedBugResult" lang="velocity">
         <![CDATA[
             (SELECT DISTINCT m_tracker_related_bug.relatetype AS relatedType, m_tracker_related_bug.id, 1 AS isRelated,
-              m_tracker_bug.id as related_id, m_tracker_bug.name AS related_summary, m_tracker_bug.assignUser AS related_assignUser,
+              m_tracker_bug.id as related_id, m_tracker_bug.name AS related_name, m_tracker_bug.assignUser AS related_assignUser,
               m_tracker_bug.createdTime AS related_createdTime, m_tracker_bug.createdUser AS related_createdUser, m_tracker_bug.severity,
               m_tracker_bug.priority AS related_priority, m_tracker_bug.lastUpdatedTime AS related_lastUpdatedTime,
               m_tracker_bug.status AS related_status, m_tracker_bug.duedate AS related_duedate, m_tracker_bug.resolution AS related_resolution,
@@ -30,7 +30,7 @@
             WHERE m_tracker_related_bug.bugid = @{bugId} AND m_tracker_related_bug.relatedid = m_tracker_bug.id)
             UNION
             (SELECT DISTINCT m_tracker_related_bug.relatetype AS relatedType, m_tracker_related_bug.id, 0 AS isRelated,
-              m_tracker_bug.id as related_id, m_tracker_bug.name AS related_summary, m_tracker_bug.assignUser AS related_assignUser,
+              m_tracker_bug.id as related_id, m_tracker_bug.name AS related_name, m_tracker_bug.assignUser AS related_assignUser,
               m_tracker_bug.createdTime AS related_createdTime, m_tracker_bug.createdUser AS related_createdUser, m_tracker_bug.severity,
               m_tracker_bug.priority AS related_priority, m_tracker_bug.lastUpdatedTime AS related_lastUpdatedTime,
               m_tracker_bug.status AS related_status, m_tracker_bug.duedate AS related_duedate, m_tracker_bug.resolution AS related_resolution,

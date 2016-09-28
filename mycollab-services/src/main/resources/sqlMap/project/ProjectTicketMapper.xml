@@ -327,8 +327,8 @@
     <sql id="selectGenericTaskFromBug">
     <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
-                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
-                s_user.avatarId as assignUserAvatarId,
+                concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+                assignUserTbl.avatarId as assignUserAvatarId,
                 createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
                 concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
                 mainTbl.dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
@@ -341,17 +341,18 @@
                 mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
                 mainTbl.milestoneId
           FROM m_tracker_bug AS mainTbl
-              LEFT OUTER JOIN s_user ON (mainTbl.assignUser=s_user.username)
+              LEFT OUTER JOIN s_user AS assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
               LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
     </sql>
 
     <sql id="selectGenericTaskFromTask">
-        <![CDATA[
+    <![CDATA[
           SELECT mainTbl.name,  mainTbl.description,
-            assignUserTbl.username AS assignUser, assignUserTbl.avatarId as assignUserAvatarId,
+            mainTbl.assignUser,
             concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+            assignUserTbl.avatarId as assignUserAvatarId,
             createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
             concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
             mainTbl.dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
@@ -361,9 +362,7 @@
                     FROM m_comment
                     WHERE m_comment.type='Project-Task' AND m_comment.typeId=mainTbl.id) AS numComments,
             (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = mainTbl.id AND m_monitor_item.type = 'Project-Task') AS numFollowers,
-            mainTbl.priority,
-            mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
-            mainTbl.milestoneId
+            mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId
           FROM m_prj_task AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
@@ -423,6 +422,40 @@
 
     <select id="findTicketsByCriteria" parameterType="ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
         (
+        <include refid="selectGenericTaskFromTask" />
+        #ifnotnull($_parameter.searchCriteria)
+          #trimext("WHERE" "AND|OR")
+            <include refid="queryTaskSearchCriteria" />
+          #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectGenericTaskFromRisk" />
+        #ifnotnull($_parameter.searchCriteria)
+          #trimext("WHERE" "AND|OR")
+            <include refid="queryRiskSearchCriteria" />
+          #end
+        #end
+        )
+
+        UNION
+        (
+        <include refid="selectGenericTaskFromBug" />
+        #ifnotnull($_parameter.searchCriteria)
+          #trimext("WHERE" "AND|OR")
+            <include refid="queryBugSearchCriteria" />
+          #end
+        #end
+        )
+
+        #ifnotnull($_parameter.searchCriteria)
+          <include refid="orderStatement" />
+        #end
+    </select>
+
+    <select id="findPageableListByCriteria" parameterType="ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
+        (
         <include refid="selectGenericTaskFromRisk" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
@@ -451,49 +484,13 @@
           #end
         #end
         )
-        #ifnotnull($_parameter.searchCriteria)
-        <include refid="orderStatement" />
-        #end
-    </select>
-
-    <select id="findPageableListByCriteria" parameterType="ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
-
-        (
-        <include refid="selectGenericTaskFromRisk" />
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="queryRiskSearchCriteria" />
-            #end
-        #end
-        )
-
-        UNION
-
-        (
-        <include refid="selectGenericTaskFromBug" />
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="queryBugSearchCriteria" />
-            #end
-        #end
-        )
-
-        UNION
-        (
-        <include refid="selectGenericTaskFromTask" />
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="queryTaskSearchCriteria" />
-            #end
-        #end
-        )
         UNION
         (
         <include refid="selectGenericTaskFromMilestone" />
         #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="queryMilestoneSearchCriteria" />
-            #end
+          #trimext("WHERE" "AND|OR")
+            <include refid="queryMilestoneSearchCriteria" />
+          #end
         #end
         )
         #ifnotnull($_parameter.searchCriteria)
@@ -572,26 +569,70 @@
 
     <select id="getAssigneeSummary" parameterType="ProjectTicketSearchCriteria"
             resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-        SELECT m_prj_member.username AS groupid, (SELECT COUNT(*) FROM
-          (
-            (SELECT mainTbl.name FROM m_prj_task AS mainTbl
+        SELECT tmpTbl.assignUser AS groupid, COUNT(tmpTbl.assignUser) AS value, tmpTbl.fullname AS groupname
+          FROM
+          ((SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Task' AS type,
+              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname
+          FROM m_prj_task AS mainTbl
+            INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username)
+            LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
+          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-              <include refid="queryTaskSearchCriteria" />
-            #end)
-            UNION
-            (SELECT mainTbl.name FROM m_tracker_bug AS mainTbl
+              <include refid="queryTaskSearchCriteria"/>
+            #end
+          #end)
+          UNION
+          (SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Bug' AS type,
+              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname
+          FROM m_tracker_bug AS mainTbl
+            INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username)
+            LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
+          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-              <include refid="queryBugSearchCriteria" />
-            #end)
-            UNION
-            (SELECT mainTbl.name FROM m_prj_risk AS mainTbl
+              <include refid="queryBugSearchCriteria"/>
+            #end
+          #end)
+          UNION
+          (SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Risk' AS type,
+              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname
+          FROM m_prj_risk AS mainTbl
+            INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username)
+            LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
+          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-              <include refid="queryRiskSearchCriteria" />
-            #end)
-          ) AS tempTbl) AS value,
-          s_user.avatarId AS extraValue, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), '')), s_user.lastname) as groupname
-        FROM m_prj_member
-          LEFT OUTER JOIN s_user ON (m_prj_member.username = s_user.username)
-        GROUP BY m_prj_member.username
+              <include refid="queryRiskSearchCriteria"/>
+            #end
+          #end)) AS tmpTbl
+        GROUP BY tmpTbl.assignUser
+    </select>
+
+    <select id="getPrioritySummary" parameterType="ProjectTicketSearchCriteria"
+            resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+        SELECT tmpTbl.priority AS groupid, COUNT(tmpTbl.priority) AS value, '' AS groupname
+        FROM
+        ((SELECT mainTbl.priority AS priority, mainTbl.id AS typeId
+          FROM m_prj_task AS mainTbl
+          #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+              <include refid="queryTaskSearchCriteria"/>
+            #end
+          #end)
+        UNION
+        (SELECT mainTbl.priority AS priority, mainTbl.id AS typeId
+          FROM m_tracker_bug AS mainTbl
+          #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+              <include refid="queryBugSearchCriteria"/>
+            #end
+          #end)
+        UNION
+        (SELECT mainTbl.priority AS priority, mainTbl.id AS typeId
+          FROM m_prj_risk AS mainTbl
+          #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+              <include refid="queryRiskSearchCriteria"/>
+            #end
+          #end)) AS tmpTbl
+        GROUP BY tmpTbl.priority
     </select>
 </mapper>

@@ -107,7 +107,7 @@
     </dependencies>
     <build>
         <plugins>
-
+<!--
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -225,9 +225,9 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
+            -->
         </plugins>
     </build>
 

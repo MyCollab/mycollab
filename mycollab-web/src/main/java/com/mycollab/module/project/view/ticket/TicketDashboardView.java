@@ -28,5 +28,5 @@ import com.mycollab.vaadin.web.ui.IListView;
 public interface TicketDashboardView extends IListView<ProjectTicketSearchCriteria, ProjectTicket>, PageView {
     void displayView(String query);
 
-    void queryAssignments(ProjectTicketSearchCriteria searchCriteria);
+    void queryTickets(ProjectTicketSearchCriteria searchCriteria);
 }

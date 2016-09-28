@@ -16,6 +16,7 @@
  */
 package com.mycollab.common.service.impl;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.ModuleNameConstants;
@@ -29,13 +30,16 @@ import com.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.mycollab.common.service.ActivityStreamService;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.common.service.RelayEmailNotificationService;
+import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
-import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.service.MessageService;
-import com.google.common.eventbus.AsyncEventBus;
+import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.ProjectTicketService;
+import com.mycollab.module.project.service.RiskService;
+import com.mycollab.module.tracker.service.BugService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +84,15 @@ public class CommentServiceImpl extends DefaultService<Integer, CommentWithBLOBs
 
         if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
             asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{MessageService.class}));
+        } else if (ProjectTypeConstants.RISK.equals(record.getType())) {
+            asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{RiskService.class,
+                    ProjectTicketService.class}));
+        } else if (ProjectTypeConstants.TASK.equals(record.getType())) {
+            asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectTaskService.class,
+                    ProjectTicketService.class}));
+        } else if (ProjectTypeConstants.BUG.equals(record.getType())) {
+            asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{BugService.class,
+                    ProjectTicketService.class}));
         }
 
         relayEmailNotificationService.saveWithSession(getRelayEmailNotification(record, username), username);

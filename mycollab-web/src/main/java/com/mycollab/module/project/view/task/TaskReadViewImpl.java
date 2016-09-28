@@ -178,7 +178,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
-                                    projectTaskService.massUpdateTaskStatuses(beanItem.getId(), StatusI18nEnum.Closed.name(), MyCollabUI.getAccountId());
+                                    projectTaskService.massUpdateTaskStatuses(beanItem.getId(), StatusI18nEnum.Closed.name(),
+                                            MyCollabUI.getAccountId());
                                 }
                             });
                 }

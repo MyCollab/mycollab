@@ -24,8 +24,9 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum TimeTrackingI18nEnum {
     BUTTON_LOG_TIME,
-    BUTTON_LINK_TASK,
-    BUTTON_DETACH_TASK,
+
+    ACTION_LINK_TICKET,
+    ACTION_UNLINK_TICKET,
 
     DIALOG_LOG_TIME_ENTRY_TITLE,
 

@@ -225,7 +225,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         }
 
         @Override
-        public void setTotalCountNumber(int totalCountNumber) {
+        public void setTotalCountNumber(Integer totalCountNumber) {
 
         }
 

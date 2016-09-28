@@ -49,7 +49,7 @@ public class TicketDashboardPresenter extends ProjectGenericListPresenter<Ticket
 
     @Override
     public void doSearch(ProjectTicketSearchCriteria searchCriteria) {
-        view.queryAssignments(searchCriteria);
+        view.queryTickets(searchCriteria);
     }
 
     @Override

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.task.components;
+package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.common.domain.OptionVal;
@@ -66,10 +66,10 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed;
  * @author MyCollab Ltd
  * @since 5.2.2
  */
-public class TaskStatusTrendChartWidget extends Depot {
+public class TicketCloseTrendChartWidget extends Depot {
     private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC);
 
-    public TaskStatusTrendChartWidget() {
+    public TicketCloseTrendChartWidget() {
         super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_RESOLVING_TREND_IN_DURATION, 30), new MVerticalLayout().withFullWidth());
         setContentBorder(true);
     }
@@ -77,24 +77,24 @@ public class TaskStatusTrendChartWidget extends Depot {
     public void display(TimelineTrackingSearchCriteria searchCriteria) {
         MVerticalLayout content = (MVerticalLayout) getContent();
         content.removeAllComponents();
-        TaskStatusChartWrapper chartWrapper = new TaskStatusChartWrapper();
+        TicketStatusChartWrapper chartWrapper = new TicketStatusChartWrapper();
         content.addComponent(chartWrapper);
         chartWrapper.display(searchCriteria);
     }
 
-    private static class TaskStatusChartWrapper extends GenericChartWrapper {
+    private static class TicketStatusChartWrapper extends GenericChartWrapper {
         private TimelineTrackingService timelineTrackingService;
         private Map<String, List<GroupItem>> groupItems;
-        private TimeSeriesCollection dataset;
+        private TimeSeriesCollection dataSet;
 
-        private TaskStatusChartWrapper() {
+        private TicketStatusChartWrapper() {
             super(350, 280);
             timelineTrackingService = AppContextUtil.getSpringBean(TimelineTrackingService.class);
         }
 
         @Override
         protected JFreeChart createChart() {
-            dataset = new TimeSeriesCollection();
+            dataSet = new TimeSeriesCollection();
             if (groupItems != null) {
                 Set<Map.Entry<String, List<GroupItem>>> entries = groupItems.entrySet();
                 Map<Date, Double> openMap = new HashMap<>(30);
@@ -104,7 +104,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                         for (GroupItem item : entry.getValue()) {
                             series.add(new Day(formatter.parseDateTime(item.getGroupname()).toDate()), item.getValue());
                         }
-                        dataset.addSeries(series);
+                        dataSet.addSeries(series);
                     } else {
                         for (GroupItem item : entry.getValue()) {
                             Date date = formatter.parseDateTime(item.getGroupname()).toDate();
@@ -122,9 +122,9 @@ public class TaskStatusTrendChartWidget extends Depot {
                 for (Map.Entry<Date, Double> entry : openMap.entrySet()) {
                     series.add(new Day(entry.getKey()), entry.getValue());
                 }
-                dataset.addSeries(series);
+                dataSet.addSeries(series);
 
-                JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset, false, true, false);
+                JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataSet, false, true, false);
                 chart.setBackgroundPaint(Color.white);
 
                 XYPlot plot = (XYPlot) chart.getPlot();
@@ -158,7 +158,7 @@ public class TaskStatusTrendChartWidget extends Depot {
             final CssLayout mainLayout = new CssLayout();
             mainLayout.setWidth("100%");
             mainLayout.addStyleName("legendBoxContent");
-            final List series = dataset.getSeries();
+            final List series = dataSet.getSeries();
 
             for (int i = 0; i < series.size(); i++) {
                 final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true));

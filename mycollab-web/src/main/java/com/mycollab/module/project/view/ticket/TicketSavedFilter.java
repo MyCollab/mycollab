@@ -158,7 +158,7 @@ public class TicketSavedFilter extends SavedFilterComboBox {
         this.addSharedSearchQueryInfo(updateTasksLastWeekQuery);
     }
 
-    public void setTotalCountNumber(int countNumber) {
+    public void setTotalCountNumber(Integer countNumber) {
         componentsText.setReadOnly(false);
         componentsText.setValue(selectedQueryName + " (" + countNumber + ")");
         componentsText.setReadOnly(true);

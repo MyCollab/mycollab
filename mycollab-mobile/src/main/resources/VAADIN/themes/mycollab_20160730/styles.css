@@ -493,46 +493,6 @@ body {
 	padding: 5px;
 }
 
-.bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {
-	color: #d32d1a;
-}
-
-.bug-blocker.v-icon {
-	color: #d32d1a;
-}
-
-.bug-critical .v-icon, .v-filterselect-item-bug-critical .v-icon {
-	color: #e95948;
-}
-
-.bug-critical.v-icon {
-	color: #e95948;
-}
-
-.bug-major .v-icon, .v-filterselect-item-bug-major .v-icon {
-	color: #f09085;
-}
-
-.bug-major.v-icon {
-	color: #f09085;
-}
-
-.bug-minor .v-icon, .v-filterselect-item-bug-minor .v-icon {
-	color: #f7c7c1;
-}
-
-.bug-minor.v-icon {
-	color: #f7c7c1;
-}
-
-.bug-trivial .v-icon, .v-filterselect-item-bug-trivial .v-icon {
-	color: #b7b9b0;
-}
-
-.bug-trivial.v-icon {
-	color: #b7b9b0;
-}
-
 .bug-severity-critical .v-icon, .v-filterselect-item-bug-severity-critical .v-icon {
 	color: #d32d1a;
 }

@@ -29,6 +29,4 @@ object AssignmentEvent {
   
   class NewAssignmentAdd(source: AnyRef, @BeanProperty val typeVal: String, @BeanProperty val typeIdVal: Integer) extends
     ApplicationEvent(source, null) {}
-  
-  class SearchRequest(source: AnyRef, data: ProjectTicketSearchCriteria) extends ApplicationEvent(source, data) {};
 }

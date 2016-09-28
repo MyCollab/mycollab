@@ -203,7 +203,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                     FontAwesome fontPriority = ProjectAssetsManager.getPriority(beanItem.getPriority());
                     String priorityLbl = fontPriority.getHtml() + " " + UserUIContext.getMessage(Priority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
-                    field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
+                    field.addStyleName("priority-" + beanItem.getPriority().toLowerCase());
                     return field;
                 }
             } else if (Task.Field.milestoneid.equalTo(propertyId)) {

@@ -227,7 +227,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
     }
 
     @Override
-    public void setTotalCountNumber(int totalCountNumber) {
+    public void setTotalCountNumber(Integer totalCountNumber) {
 
     }
 }

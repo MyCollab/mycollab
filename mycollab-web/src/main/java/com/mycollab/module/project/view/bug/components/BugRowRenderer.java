@@ -46,7 +46,7 @@ public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<S
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         String bugPriority = bug.getPriority();
-        Span priorityLink = new Span().appendText(ProjectAssetsManager.getPriority(bugPriority).getHtml()).setTitle(bugPriority);
+        Span priorityLink = new Span().appendText(ProjectAssetsManager.getPriorityHtml(bugPriority)).setTitle(bugPriority);
 
         Span statusSpan = new Span().appendText(UserUIContext.getMessage(OptionI18nEnum.BugStatus.class,
                 bug.getStatus())).setCSSClass(WebUIConstants.BLOCK);

@@ -31,6 +31,7 @@ public enum TicketI18nEnum {
     NEW,
 
     OPT_TICKETS_VALUE,
+    OPT_SELECT_TICKET,
 
     VAL_ALL_TICKETS,
     VAL_ALL_OPEN_TICKETS,

@@ -25,7 +25,7 @@ import com.mycollab.module.project.domain.criteria.TaskSearchCriteria
   */
 object TaskEvent {
 
-  class SearchRequest(source: AnyRef, data: TaskSearchCriteria) extends ApplicationEvent(source, data) {};
+  class SearchRequest(source: AnyRef, data: TaskSearchCriteria) extends ApplicationEvent(source, data) {}
 
   class HasTaskChange(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 

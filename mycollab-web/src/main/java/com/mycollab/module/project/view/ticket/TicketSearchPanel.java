@@ -27,7 +27,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.event.AssignmentEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
@@ -43,6 +43,7 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,8 +52,8 @@ import java.util.List;
  */
 public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSearchCriteria> {
     private static final long serialVersionUID = 1L;
-    private ProjectTicketSearchCriteria searchCriteria;
 
+    private ProjectTicketSearchCriteria searchCriteria;
     private TicketSavedFilter savedFilterComboBox;
 
     private static Param[] paramFields = new Param[]{
@@ -80,7 +81,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
                     ProjectTicketSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class,
                             fieldInfos);
                     criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                    EventBusFactory.getInstance().post(new AssignmentEvent.SearchRequest(TicketSearchPanel.this, criteria));
+                    EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(TicketSearchPanel.this, criteria));
                     EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, fieldInfos));
                 }
             });
@@ -92,7 +93,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
     }
 
     @Override
-    public void setTotalCountNumber(int countNumber) {
+    public void setTotalCountNumber(Integer countNumber) {
         savedFilterComboBox.setTotalCountNumber(countNumber);
     }
 
@@ -173,10 +174,11 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
             searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_name,
                     QueryI18nEnum.StringI18nEnum.CONTAINS.name(),
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
-//            if (myItemCheckbox.getValue()) {
-//                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_assignee, QueryI18nEnum.CollectionI18nEnum.IN.name(),
-//                        ConstantValueInjector.valueOf(Arrays.asList(UserUIContext.getUsername()))));
-//            }
+            if (myItemCheckbox.getValue()) {
+                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_assignee,
+                        QueryI18nEnum.CollectionI18nEnum.IN.name(),
+                        ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+            }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class, searchFieldInfos);
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));

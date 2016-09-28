@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.task.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.QueryI18nEnum;
+import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.ConstantValueInjector;
@@ -44,6 +45,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
@@ -95,7 +97,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
     }
 
     @Override
-    public void setTotalCountNumber(int countNumber) {
+    public void setTotalCountNumber(Integer countNumber) {
         savedFilterComboBox.setTotalCountNumber(countNumber);
     }
 
@@ -176,8 +178,8 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_taskname, StringI18nEnum.CONTAINS.name(),
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
-                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_assignee, QueryI18nEnum.CollectionI18nEnum.IN.name(),
-                        ConstantValueInjector.valueOf(Arrays.asList(UserUIContext.getUsername()))));
+                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_assignee, CollectionI18nEnum.IN.name(),
+                        ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,

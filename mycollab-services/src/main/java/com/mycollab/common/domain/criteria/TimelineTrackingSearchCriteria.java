@@ -25,6 +25,7 @@ import com.mycollab.db.arguments.StringSearchField;
  * @since 5.2.2
  */
 public class TimelineTrackingSearchCriteria extends SearchCriteria {
+
     private StringSearchField type;
     private StringSearchField fieldgroup;
     private SetSearchField<Integer> extraTypeIds;

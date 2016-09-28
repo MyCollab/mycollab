@@ -224,5 +224,4 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             this.addComponent(layout);
         }
     }
-
 }

@@ -119,22 +119,22 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         final MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Closed.name()));
         int totalCloseCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox closeMilestoneSelection = new CheckBox(UserUIContext.getMessage(MilestoneI18nEnum
-                .WIDGET_CLOSED_PHASE_TITLE) + " (" + totalCloseCount + ")", true);
+        final CheckBox closeMilestoneSelection = new CheckBox(String.format("%s (%d)",
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), totalCloseCount), true);
         closeMilestoneSelection.setIcon(FontAwesome.MINUS_CIRCLE);
         filterPanel.addComponent(closeMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.InProgress.name()));
         int totalInProgressCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox inProgressMilestoneSelection = new CheckBox(UserUIContext.getMessage(MilestoneI18nEnum
-                .WIDGET_INPROGRESS_PHASE_TITLE) + " (" + totalInProgressCount + ")", true);
+        final CheckBox inProgressMilestoneSelection = new CheckBox(String.format("%s (%d)",
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), totalInProgressCount), true);
         inProgressMilestoneSelection.setIcon(FontAwesome.SPINNER);
         filterPanel.addComponent(inProgressMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Future.name()));
         int totalFutureCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox futureMilestoneSelection = new CheckBox(UserUIContext.getMessage(MilestoneI18nEnum
-                .WIDGET_FUTURE_PHASE_TITLE) + " (" + totalFutureCount + ")", true);
+        final CheckBox futureMilestoneSelection = new CheckBox(String.format("%s (%d)",
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE), totalFutureCount), true);
 
         closeMilestoneSelection.addValueChangeListener(valueChangeEvent ->
                 displayMilestones(tmpCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
@@ -215,18 +215,18 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent ->
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null))).withIcon(FontAwesome.SERVER);
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null))).withIcon(FontAwesome.SERVER).withWidth("100px");
 
-        MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon(FontAwesome.NAVICON);
-
-        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
-                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneRoadmapViewImpl.this)))
-                .withIcon(FontAwesome.TH);
+        MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon
+                (FontAwesome.NAVICON).withWidth("100px");
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);
         viewButtons.addButton(boardBtn);
         if (!SiteConfiguration.isCommunityEdition()) {
+            MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
+                    clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneRoadmapViewImpl.this)))
+                    .withIcon(FontAwesome.TH).withWidth("100px");
             viewButtons.addButton(kanbanBtn);
         }
 
@@ -297,26 +297,26 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
                         ProjectTicketService genericTaskService = AppContextUtil.getSpringBean
                                 (ProjectTicketService.class);
-                        List<ProjectTicket> genericTasks = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
-                        for (ProjectTicket genericTask : genericTasks) {
-                            ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(genericTask);
+                        List<ProjectTicket> tickets = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
+                        for (ProjectTicket ticket : tickets) {
+                            ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(ticket);
                             MHorizontalLayout rowComp = new MHorizontalLayout();
                             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                            rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
+                            rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())).withWidthUndefined());
                             String status = "";
-                            if (genericTask.isBug()) {
-                                status = UserUIContext.getMessage(BugStatus.class, genericTask.getStatus());
-                            } else if (genericTask.isMilestone()) {
-                                status = UserUIContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
-                            } else if (genericTask.isRisk()) {
-                                status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
-                            } else if (genericTask.isTask()) {
-                                status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
+                            if (ticket.isBug()) {
+                                status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
+                            } else if (ticket.isMilestone()) {
+                                status = UserUIContext.getMessage(MilestoneStatus.class, ticket.getStatus());
+                            } else if (ticket.isRisk()) {
+                                status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
+                            } else if (ticket.isTask()) {
+                                status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
                             }
                             rowComp.with(new ELabel(status).withStyleName(WebUIConstants.BLOCK).withWidthUndefined());
-                            String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-                            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
-                                    .setTitle(genericTask.getAssignUserFullName());
+                            String avatarLink = StorageFactory.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
+                            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                                    .setTitle(ticket.getAssignUserFullName());
                             rowComp.with(ELabel.html(img.write()).withWidthUndefined());
 
                             rowComp.with(toggleTicketSummaryField).expand(toggleTicketSummaryField);

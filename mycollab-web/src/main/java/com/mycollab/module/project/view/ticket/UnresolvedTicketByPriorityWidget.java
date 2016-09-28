@@ -14,27 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.task.components;
+package com.mycollab.module.project.view.ticket;
 
 import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.core.utils.BeanUtility;
-import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TaskEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.view.task.ITaskPriorityChartWidget;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.ButtonI18nComp;
-import com.mycollab.vaadin.web.ui.DepotWithChart;
+import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
@@ -43,19 +41,26 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
+public class UnresolvedTicketByPriorityWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
-    private TaskSearchCriteria searchCriteria;
+    private ProjectTicketSearchCriteria searchCriteria;
     private int totalCount;
     private List<GroupItem> groupItems;
+
+    public UnresolvedTicketByPriorityWidget() {
+        super("", new MVerticalLayout());
+        setContentBorder(true);
+    }
 
     private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new ApplicationEventListener<TaskEvent.HasTaskChange>() {
         @Override
@@ -79,19 +84,18 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
         super.detach();
     }
 
-    public void setSearchCriteria(TaskSearchCriteria searchCriteria) {
+    public void setSearchCriteria(ProjectTicketSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
 
-        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-        totalCount = taskService.getTotalCount(searchCriteria);
-        groupItems = taskService.getPrioritySummary(searchCriteria);
+        ProjectTicketService ticketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
+        totalCount = ticketService.getTotalCount(searchCriteria);
+        groupItems = ticketService.getPrioritySummary(searchCriteria);
         displayPlainMode();
     }
 
-    @Override
-    protected void displayPlainMode() {
-        this.bodyContent.removeAllComponents();
-        TaskPriorityClickListener listener = new TaskPriorityClickListener();
+    private void displayPlainMode() {
+        bodyContent.removeAllComponents();
+        TicketPriorityClickListener listener = new TicketPriorityClickListener();
         this.setTitle(UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
 
         if (!groupItems.isEmpty()) {
@@ -104,16 +108,15 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                                 .withIcon(ProjectAssetsManager.getPriority(priority.name()))
-                                .withStyleName(WebUIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
+                                .withStyleName(WebUIConstants.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
                                 .withWidth("110px");
 
                         priorityLayout.addComponent(priorityLink);
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount,
-                                totalCount - item.getValue().intValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue().intValue(), false);
                         indicator.setWidth("100%");
                         priorityLayout.with(indicator).expand(indicator);
 
-                        this.bodyContent.addComponent(priorityLayout);
+                        bodyContent.addComponent(priorityLayout);
                     }
                 }
 
@@ -122,7 +125,7 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
                     priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                             .withIcon(ProjectAssetsManager.getPriority(priority.name()))
-                            .withStyleName(WebUIConstants.BUTTON_LINK, "task-" + priority.name().toLowerCase())
+                            .withStyleName(WebUIConstants.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
                             .withWidth("100px");
                     priorityLayout.addComponent(priorityLink);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
@@ -134,23 +137,15 @@ public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
         }
     }
 
-    @Override
-    protected void displayChartMode() {
-        this.bodyContent.removeAllComponents();
-        ITaskPriorityChartWidget taskPriorityChartWidget = ViewManager.getCacheComponent(ITaskPriorityChartWidget.class);
-        taskPriorityChartWidget.displayChart(searchCriteria);
-        bodyContent.addComponent(taskPriorityChartWidget);
-    }
-
-    private class TaskPriorityClickListener implements Button.ClickListener {
+    private class TicketPriorityClickListener implements Button.ClickListener {
         private static final long serialVersionUID = 1L;
 
         @Override
         public void buttonClick(final ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
-            TaskSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
-            criteria.setPriorities(new SetSearchField<>(key));
-            EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, criteria));
+            ProjectTicketSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
+            criteria.addExtraField(ProjectTicketSearchCriteria.p_priority.andStringParamInList(Collections.singletonList(key)));
+            EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(this, criteria));
         }
     }
 }

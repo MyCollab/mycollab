@@ -47,6 +47,8 @@ public interface ProjectTicketMapper extends ISearchableDAO<ProjectTicketSearchC
 
     List<GroupItem> getAssigneeSummary(@Param("searchCriteria") ProjectTicketSearchCriteria criteria);
 
+    List<GroupItem> getPrioritySummary(@Param("searchCriteria") ProjectTicketSearchCriteria criteria);
+
     List<ProjectTicket> findTicketsByCriteria(@Param("searchCriteria") ProjectTicketSearchCriteria criteria,
                                               RowBounds rowBounds);
 }

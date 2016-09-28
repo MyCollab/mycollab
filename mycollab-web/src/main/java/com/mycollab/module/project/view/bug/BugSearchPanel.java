@@ -107,7 +107,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
     }
 
     @Override
-    public void setTotalCountNumber(int countNumber) {
+    public void setTotalCountNumber(Integer countNumber) {
         savedFilterComboBox.setTotalCountNumber(countNumber);
     }
 

@@ -165,20 +165,20 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         layout.addComponent(printBtn);
 
-        MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.SERVER);
+        MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.SERVER).withWidth("100px");
 
         MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)))
-                .withIcon(FontAwesome.NAVICON);
+                .withIcon(FontAwesome.NAVICON).withWidth("100px");
 
-        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
-                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneListViewImpl.this)))
-                .withIcon(FontAwesome.TH);
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);
         viewButtons.addButton(boardBtn);
         if (!SiteConfiguration.isCommunityEdition()) {
+            MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
+                    clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneListViewImpl.this)))
+                    .withIcon(FontAwesome.TH).withWidth("100px");
             viewButtons.addButton(kanbanBtn);
         }
         viewButtons.withDefaultButton(boardBtn);

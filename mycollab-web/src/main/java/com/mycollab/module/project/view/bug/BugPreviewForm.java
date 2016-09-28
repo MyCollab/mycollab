@@ -212,7 +212,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     String priorityLink = ProjectAssetsManager.getPriority(beanItem.getPriority()).getHtml() + " "
                             + UserUIContext.getMessage(OptionI18nEnum.Priority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
-                    field.addStyleName("bug-" + beanItem.getPriority().toLowerCase());
+                    field.addStyleName("priority-" + beanItem.getPriority().toLowerCase());
                     return field;
                 }
             } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {

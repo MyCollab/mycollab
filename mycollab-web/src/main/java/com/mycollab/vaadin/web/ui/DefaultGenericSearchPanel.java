@@ -83,7 +83,7 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
         }
     }
 
-    public void setTotalCountNumber(int countNumber) {
+    public void setTotalCountNumber(Integer countNumber) {
         if (headerText instanceof HeaderWithFontAwesome) {
             ((HeaderWithFontAwesome) headerText).appendToTitle(UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, countNumber));
         }

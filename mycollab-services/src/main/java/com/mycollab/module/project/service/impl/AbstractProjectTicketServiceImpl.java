@@ -87,7 +87,12 @@ public abstract class AbstractProjectTicketServiceImpl extends DefaultSearchServ
     }
 
     @Override
-    public List findAssignmentsByCriteria(@CacheKey BasicSearchRequest<ProjectTicketSearchCriteria> searchRequest) {
+    public List<GroupItem> getPrioritySummary(@CacheKey ProjectTicketSearchCriteria criteria) {
+        return projectTicketMapper.getPrioritySummary(criteria);
+    }
+
+    @Override
+    public List findTicketsByCriteria(@CacheKey BasicSearchRequest<ProjectTicketSearchCriteria> searchRequest) {
         return projectTicketMapper.findTicketsByCriteria(searchRequest.getSearchCriteria(),
                 new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
                         searchRequest.getNumberOfItems()));

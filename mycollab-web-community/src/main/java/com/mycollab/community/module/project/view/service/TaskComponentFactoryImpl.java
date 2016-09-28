@@ -47,7 +47,7 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
 
     @Override
     public AbstractComponent createPriorityPopupField(SimpleTask task) {
-        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(task.getPriority()))
+        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(task.getPriority()))
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY_HELP)).build();
     }
 

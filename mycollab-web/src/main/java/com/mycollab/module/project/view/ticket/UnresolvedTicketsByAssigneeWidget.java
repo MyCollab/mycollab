@@ -20,20 +20,20 @@ import com.mycollab.common.domain.GroupItem;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.module.project.view.task.ITaskAssigneeChartWidget;
 import com.mycollab.module.user.CommonTooltipGenerator;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.DepotWithChart;
+import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
@@ -41,6 +41,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class UnresolvedTicketsByAssigneeWidget extends DepotWithChart {
+public class UnresolvedTicketsByAssigneeWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
     private ProjectTicketSearchCriteria searchCriteria;
@@ -64,6 +65,11 @@ public class UnresolvedTicketsByAssigneeWidget extends DepotWithChart {
 //            }
 //        }
 //    };
+
+    public UnresolvedTicketsByAssigneeWidget() {
+        super("", new MVerticalLayout());
+        setContentBorder(true);
+    }
 
     @Override
     public void attach() {
@@ -88,8 +94,7 @@ public class UnresolvedTicketsByAssigneeWidget extends DepotWithChart {
         displayPlainMode();
     }
 
-    @Override
-    protected void displayPlainMode() {
+    private void displayPlainMode() {
         bodyContent.removeAllComponents();
         if (CollectionUtils.isNotEmpty(groupItems)) {
             for (GroupItem item : groupItems) {
@@ -113,15 +118,7 @@ public class UnresolvedTicketsByAssigneeWidget extends DepotWithChart {
         }
     }
 
-    @Override
-    protected void displayChartMode() {
-        bodyContent.removeAllComponents();
-        ITaskAssigneeChartWidget taskAssigneeChartWidget = ViewManager.getCacheComponent(ITaskAssigneeChartWidget.class);
-//        taskAssigneeChartWidget.displayChart(searchCriteria);
-//        bodyContent.addComponent(taskAssigneeChartWidget);
-    }
-
-    class TicketAssigneeLink extends MButton {
+    private class TicketAssigneeLink extends MButton {
         private static final long serialVersionUID = 1L;
 
         TicketAssigneeLink(final String assignee, String assigneeAvatarId, final String assigneeFullName) {
@@ -130,7 +127,8 @@ public class UnresolvedTicketsByAssigneeWidget extends DepotWithChart {
             this.withListener(clickEvent -> {
                 ProjectTicketSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
                 criteria.setAssignUser(StringSearchField.and(assignee));
-//                EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(UnresolvedTicketsByAssigneeWidget.this, criteria));
+                EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(UnresolvedTicketsByAssigneeWidget.this,
+                        criteria));
             }).withWidth("100%").withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))
                     .withStyleName(WebUIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
             UserService service = AppContextUtil.getSpringBean(UserService.class);

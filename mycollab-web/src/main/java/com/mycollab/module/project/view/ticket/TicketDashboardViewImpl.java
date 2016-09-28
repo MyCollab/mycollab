@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.ticket;
 
 import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.UrlEncodeDecoder;
+import com.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.QueryAnalyzer;
 import com.mycollab.core.MyCollabException;
@@ -35,8 +36,8 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.event.AssignmentEvent;
 import com.mycollab.module.project.event.TaskEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
@@ -44,6 +45,7 @@ import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.module.project.view.task.components.*;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
@@ -67,7 +69,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,21 +94,21 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
     private VerticalLayout rightColumn;
     private TicketGroupOrderComponent ticketGroupOrderComponent;
 
-    private ApplicationEventListener<AssignmentEvent.SearchRequest> searchHandler = new
-            ApplicationEventListener<AssignmentEvent.SearchRequest>() {
+    private ApplicationEventListener<TicketEvent.SearchRequest> searchHandler = new
+            ApplicationEventListener<TicketEvent.SearchRequest>() {
                 @Override
                 @Subscribe
-                public void handle(AssignmentEvent.SearchRequest event) {
+                public void handle(TicketEvent.SearchRequest event) {
                     ProjectTicketSearchCriteria criteria = (ProjectTicketSearchCriteria) event.getData();
                     if (criteria != null) {
                         criteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                                 ProjectTypeConstants.RISK));
-                        queryAssignments(criteria);
+                        queryTickets(criteria);
                     }
                 }
             };
 
-    private ApplicationEventListener<TaskEvent.NewTaskAdded> newTaskAddedHandler = new
+    private ApplicationEventListener<TaskEvent.NewTaskAdded> newTicketAddedHandler = new
             ApplicationEventListener<TaskEvent.NewTaskAdded>() {
                 @Override
                 @Subscribe
@@ -117,7 +118,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
 //                    if (task != null && ticketGroupOrderComponent != null) {
 //                        ticketGroupOrderComponent.insertTasks(Collections.singletonList(task));
 //                    }
-                    displayTaskStatistic();
+                    displayTicketsStatistic();
 
                     int totalTasks = projectTaskService.getTotalAssignmentsCount(baseCriteria);
                     ticketSearchPanel.setTotalCountNumber(totalTasks);
@@ -143,7 +144,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
             } else {
                 sortDirection = SearchCriteria.DESC;
             }
-            queryAndDisplayTasks();
+            queryAndDisplayTickets();
         });
         sortDirection = SearchCriteria.DESC;
         groupWrapLayout.addComponent(sortCombo);
@@ -154,7 +155,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
                 UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER));
         groupCombo.addValueChangeListener(valueChangeEvent -> {
             groupByState = (String) groupCombo.getValue();
-            queryAndDisplayTasks();
+            queryAndDisplayTickets();
         });
         groupByState = UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE);
         groupWrapLayout.addComponent(groupCombo);
@@ -172,8 +173,8 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
         groupWrapLayout.addComponent(printBtn);
 
         MButton newTicketBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.NEW), clickEvent -> {
-            UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class).createNewTicketWindow(new
-                    Date(), CurrentProjectVariables.getProjectId(), null, false));
+            UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)
+                    .createNewTicketWindow(null, CurrentProjectVariables.getProjectId(), null, false));
         }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         groupWrapLayout.addComponent(newTicketBtn);
@@ -200,7 +201,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
     @Override
     public void attach() {
         EventBusFactory.getInstance().register(searchHandler);
-        EventBusFactory.getInstance().register(newTaskAddedHandler);
+        EventBusFactory.getInstance().register(newTicketAddedHandler);
         EventBusFactory.getInstance().register(addQueryHandler);
         super.attach();
     }
@@ -208,7 +209,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
     @Override
     public void detach() {
         EventBusFactory.getInstance().unregister(searchHandler);
-        EventBusFactory.getInstance().unregister(newTaskAddedHandler);
+        EventBusFactory.getInstance().unregister(newTicketAddedHandler);
         EventBusFactory.getInstance().unregister(addQueryHandler);
         super.detach();
     }
@@ -230,7 +231,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
                 searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                 searchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                         ProjectTypeConstants.RISK));
-                queryAssignments(searchCriteria);
+                queryTickets(searchCriteria);
             } catch (Exception e) {
                 LOG.error("Error", e);
                 ticketSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
@@ -245,40 +246,40 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
 
     }
 
-    private void displayTaskStatistic() {
+    private void displayTicketsStatistic() {
         rightColumn.removeAllComponents();
-//        final TaskStatusTrendChartWidget taskStatusTrendChartWidget = new TaskStatusTrendChartWidget();
-//        rightColumn.addComponent(taskStatusTrendChartWidget);
+        final TicketCloseTrendChartWidget taskStatusTrendChartWidget = new TicketCloseTrendChartWidget();
+        rightColumn.addComponent(taskStatusTrendChartWidget);
         UnresolvedTicketsByAssigneeWidget unresolvedTicketsByAssigneeWidget = new UnresolvedTicketsByAssigneeWidget();
         unresolvedTicketsByAssigneeWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTicketsByAssigneeWidget);
-//
-//        UnresolvedTaskByPriorityWidget unresolvedTaskByPriorityWidget = new UnresolvedTaskByPriorityWidget();
-//        unresolvedTaskByPriorityWidget.setSearchCriteria(statisticSearchCriteria);
-//        rightColumn.addComponent(unresolvedTaskByPriorityWidget);
+
+        UnresolvedTicketByPriorityWidget unresolvedTicketByPriorityWidget = new UnresolvedTicketByPriorityWidget();
+        unresolvedTicketByPriorityWidget.setSearchCriteria(statisticSearchCriteria);
+        rightColumn.addComponent(unresolvedTicketByPriorityWidget);
 //
 //        UnresolvedTaskByStatusWidget unresolvedTaskByStatusWidget = new UnresolvedTaskByStatusWidget();
 //        unresolvedTaskByStatusWidget.setSearchCriteria(statisticSearchCriteria);
 //        rightColumn.addComponent(unresolvedTaskByStatusWidget);
 //
-//        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
-//            @Override
-//            public void run() {
-//                TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();
-//                timelineTrackingSearchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-//                taskStatusTrendChartWidget.display(timelineTrackingSearchCriteria);
-//            }
-//        });
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+            @Override
+            public void run() {
+                TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();
+                timelineTrackingSearchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                taskStatusTrendChartWidget.display(timelineTrackingSearchCriteria);
+            }
+        });
     }
 
     @Override
-    public void queryAssignments(final ProjectTicketSearchCriteria searchCriteria) {
+    public void queryTickets(final ProjectTicketSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
-        queryAndDisplayTasks();
-        displayTaskStatistic();
+        queryAndDisplayTickets();
+        displayTicketsStatistic();
     }
 
-    private void queryAndDisplayTasks() {
+    private void queryAndDisplayTickets() {
         wrapBody.removeAllComponents();
 
         if (UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE).equals(groupByState)) {
@@ -294,7 +295,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdtime", sortDirection)));
             ticketGroupOrderComponent = new CreatedDateOrderComponent();
         } else if (UserUIContext.getMessage(GenericI18Enum.OPT_USER).equals(groupByState)) {
-            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdtime", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("assignUser", sortDirection)));
             ticketGroupOrderComponent = new UserOrderComponent();
         } else {
             throw new MyCollabException("Do not support group view by " + groupByState);
@@ -306,21 +307,20 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
         currentPage = 0;
         int pages = totalTasks / 20;
         if (currentPage < pages) {
-            Button moreBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_MORE), clickEvent -> {
-                int newTotalTasks = projectTicketService.getTotalAssignmentsCount(baseCriteria);
-                int newNumPages = newTotalTasks / 20;
+            MButton moreBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_MORE), clickEvent -> {
+                int newTotalTickets = projectTicketService.getTotalAssignmentsCount(baseCriteria);
+                int newNumPages = newTotalTickets / 20;
                 currentPage++;
-                List<ProjectTicket> otherTickets = projectTicketService.findAssignmentsByCriteria(new
+                List<ProjectTicket> otherTickets = projectTicketService.findTicketsByCriteria(new
                         BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
                 ticketGroupOrderComponent.insertTickets(otherTickets);
                 if (currentPage >= newNumPages) {
                     wrapBody.removeComponent(wrapBody.getComponent(1));
                 }
-            });
-            moreBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.ANGLE_DOUBLE_DOWN);
             wrapBody.addComponent(moreBtn);
         }
-        List<ProjectTicket> tickets = projectTicketService.findAssignmentsByCriteria(new BasicSearchRequest<>
+        List<ProjectTicket> tickets = projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>
                 (baseCriteria, currentPage + 1, 20));
         ticketGroupOrderComponent.insertTickets(tickets);
     }

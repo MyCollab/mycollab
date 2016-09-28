@@ -75,7 +75,7 @@ public abstract class SearchInputField<S extends SearchCriteria> extends TextFie
     abstract protected S fillUpSearchCriteria(String value);
 
     @Override
-    public void setTotalCountNumber(int totalCountNumber) {
+    public void setTotalCountNumber(Integer totalCountNumber) {
 
     }
 }

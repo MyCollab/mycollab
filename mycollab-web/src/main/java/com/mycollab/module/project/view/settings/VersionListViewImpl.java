@@ -79,7 +79,7 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
                         new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 2 * WebUIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DUE_DATE, "duedate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_EX_LABEL_WIDTH)));
+                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH)));
 
         tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
             final SimpleVersion version = tableItem.getBeanByIndex(itemId);

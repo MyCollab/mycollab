@@ -84,7 +84,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                                 .withIcon(ProjectAssetsManager.getPriority(priority.name()))
-                                .withStyleName(WebUIConstants.BUTTON_LINK, "bug-" + priority.name().toLowerCase())
+                                .withStyleName(WebUIConstants.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
                                 .withWidth("110px");
 
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue().intValue(), false);
@@ -102,7 +102,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                     priorityLink.setIcon(ProjectAssetsManager.getPriority(priority.name()));
                     priorityLink.setWidth("110px");
                     priorityLink.setStyleName(WebUIConstants.BUTTON_LINK);
-                    priorityLink.addStyleName("bug-" + priority.name().toLowerCase());
+                    priorityLink.addStyleName("priority-" + priority.name().toLowerCase());
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
                     priorityLayout.with(priorityLink, indicator).expand(indicator);
