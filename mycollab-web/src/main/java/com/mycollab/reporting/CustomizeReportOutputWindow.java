@@ -35,6 +35,7 @@ import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.*;
@@ -115,8 +116,8 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
 
-        final Button exportBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
-        exportBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+        final MButton exportBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT))
+                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.DOWNLOAD);
         OnDemandFileDownloader pdfFileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
             @Override
             protected StreamResource.StreamSource buildStreamSource() {

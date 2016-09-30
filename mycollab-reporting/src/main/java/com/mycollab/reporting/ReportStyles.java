@@ -21,6 +21,7 @@ import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.LineBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
+import net.sf.dynamicreports.report.constant.Markup;
 import net.sf.dynamicreports.report.constant.VerticalTextAlignment;
 
 import java.awt.*;
@@ -50,6 +51,7 @@ public class ReportStyles {
     private StyleBuilder formCaptionStyle;
     private StyleBuilder borderStyle;
     private StyleBuilder metaInfoStyle;
+    private StyleBuilder htmlStyle;
 
     private ReportStyles() {
         rootStyle = stl.style().setPadding(4);
@@ -64,6 +66,8 @@ public class ReportStyles {
         h2Style = stl.style(rootStyle).setFontSize(18);
         h3Style = stl.style(rootStyle).setFontSize(16);
         h4Style = stl.style(rootStyle).setFontSize(14);
+
+        htmlStyle = stl.style().setHorizontalTextAlignment(HorizontalTextAlignment.LEFT).setMarkup(Markup.HTML);
 
         columnTitleStyle = stl.style(rootStyle).setVerticalTextAlignment(VerticalTextAlignment.MIDDLE)
                 .setHorizontalTextAlignment(HorizontalTextAlignment.LEFT).setBorder(stl.pen1Point())
@@ -108,6 +112,10 @@ public class ReportStyles {
 
     public StyleBuilder getH4Style() {
         return h4Style;
+    }
+
+    public StyleBuilder getHtmlStyle() {
+        return htmlStyle;
     }
 
     public Color getBorderColor() {

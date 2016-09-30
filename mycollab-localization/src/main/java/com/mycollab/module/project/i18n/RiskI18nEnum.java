@@ -31,7 +31,6 @@ public enum RiskI18nEnum {
 
     FORM_RAISED_BY,
     FORM_RELATED,
-    FORM_PHASE,
     FORM_RESPONSE,
     FORM_CONSEQUENCE,
     FORM_PROBABILITY,

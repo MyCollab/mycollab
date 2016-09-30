@@ -25,7 +25,7 @@ import com.mycollab.html.LinkUtils
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.domain._
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
-import com.mycollab.module.project.i18n.{BugI18nEnum, OptionI18nEnum}
+import com.mycollab.module.project.i18n.{BugI18nEnum, MilestoneI18nEnum, OptionI18nEnum}
 import com.mycollab.module.project.service.{MilestoneService, ProjectNotificationSettingService}
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
 import com.mycollab.module.tracker.domain.{BugWithBLOBs, SimpleBug}
@@ -139,7 +139,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
     put(BugWithBLOBs.Field.environment, BugI18nEnum.FORM_ENVIRONMENT, isColSpan = true)
     put(BugWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
     put(BugWithBLOBs.Field.assignuser, new AssigneeFieldFormat(BugWithBLOBs.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
-    put(BugWithBLOBs.Field.milestoneid, new MilestoneFieldFormat(BugWithBLOBs.Field.milestoneid.name, BugI18nEnum.FORM_PHASE))
+    put(BugWithBLOBs.Field.milestoneid, new MilestoneFieldFormat(BugWithBLOBs.Field.milestoneid.name, MilestoneI18nEnum.SINGLE))
     put(BugWithBLOBs.Field.status, new I18nFieldFormat(BugWithBLOBs.Field.status.name, GenericI18Enum.FORM_STATUS, classOf[OptionI18nEnum.BugStatus]))
     put(BugWithBLOBs.Field.resolution, new I18nFieldFormat(BugWithBLOBs.Field.resolution.name, BugI18nEnum.FORM_RESOLUTION, classOf[OptionI18nEnum.BugResolution]))
     put(BugWithBLOBs.Field.severity, new I18nFieldFormat(BugWithBLOBs.Field.severity.name, BugI18nEnum.FORM_SEVERITY, classOf[OptionI18nEnum.BugSeverity]))

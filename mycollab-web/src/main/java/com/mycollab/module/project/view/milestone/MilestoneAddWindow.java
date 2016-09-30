@@ -22,8 +22,8 @@ import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
-import com.mycollab.module.project.event.AssignmentEvent;
 import com.mycollab.module.project.event.MilestoneEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.spring.AppContextUtil;
@@ -85,7 +85,7 @@ public class MilestoneAddWindow extends MWindow {
                 uploadField.saveContentsToRepo(attachPath);
 
                 EventBusFactory.getInstance().post(new MilestoneEvent.NewMilestoneAdded(MilestoneAddWindow.this, milestoneId));
-                EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(MilestoneAddWindow.this,
+                EventBusFactory.getInstance().post(new TicketEvent.NewTicketAdded(MilestoneAddWindow.this,
                         ProjectTypeConstants.MILESTONE, milestoneId));
                 close();
             }

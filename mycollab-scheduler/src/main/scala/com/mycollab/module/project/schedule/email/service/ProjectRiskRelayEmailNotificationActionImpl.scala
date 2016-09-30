@@ -24,7 +24,7 @@ import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.domain.{ProjectRelayEmailNotification, Risk, SimpleRisk}
 import com.mycollab.module.project.i18n.OptionI18nEnum.{RiskConsequence, RiskProbability}
-import com.mycollab.module.project.i18n.RiskI18nEnum
+import com.mycollab.module.project.i18n.{MilestoneI18nEnum, RiskI18nEnum}
 import com.mycollab.module.project.service.{MilestoneService, RiskService}
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
 import com.mycollab.module.user.AccountLinkGenerator
@@ -99,7 +99,7 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
     put(Risk.Field.duedate, new DateFieldFormat(Risk.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
     put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name, GenericI18Enum.FORM_STATUS,
       classOf[OptionI18nEnum.StatusI18nEnum]))
-    put(Risk.Field.milestoneid, new MilestoneFieldFormat(Risk.Field.milestoneid.name, RiskI18nEnum.FORM_PHASE))
+    put(Risk.Field.milestoneid, new MilestoneFieldFormat(Risk.Field.milestoneid.name, MilestoneI18nEnum.SINGLE))
     put(Risk.Field.assignuser, new AssigneeFieldFormat(Risk.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(Risk.Field.createduser, new RaisedByFieldFormat(Risk.Field.createduser.name, RiskI18nEnum.FORM_RAISED_BY))
     put(Risk.Field.response, RiskI18nEnum.FORM_RESPONSE, isColSpan = true)

@@ -23,6 +23,7 @@ import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 
@@ -85,7 +86,7 @@ public class BugDefaultFormLayoutFactory {
                 .fieldIndex(9).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.milestoneid)
-                .displayName(BugI18nEnum.FORM_PHASE)
+                .displayName(MilestoneI18nEnum.SINGLE)
                 .fieldIndex(10).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.estimatetime)

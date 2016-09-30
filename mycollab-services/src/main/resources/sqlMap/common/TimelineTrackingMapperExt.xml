@@ -9,8 +9,11 @@
             ${searchCriteria.saccountid.operation} temp_tbl.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
 
-        #ifnotnull($searchCriteria.type)
-            ${searchCriteria.type.operation} temp_tbl.type = @{searchCriteria.type.value}
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} temp_tbl.type IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
         #end
 
         #ifnotnull($searchCriteria.fieldgroup)
@@ -36,8 +39,11 @@
             ${searchCriteria.saccountid.operation} s_timeline_tracking.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
 
-        #ifnotnull($searchCriteria.type)
-            ${searchCriteria.type.operation} s_timeline_tracking.type = @{searchCriteria.type.value}
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} temp_tbl.type IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
         #end
 
         #ifnotnull($searchCriteria.fieldgroup)
@@ -56,19 +62,21 @@
     </sql>
 
     <select id="findTimelineItems" parameterType="map" resultType="map" lang="velocity">
-            #repeat(${_parameter.groupVals} $groupVal "UNION" "" "")
-              #repeat(${_parameter.dates} $date "UNION" "" "")
-                SELECT s_timeline_tracking.fieldval AS groupid,
-                  (SELECT COALESCE(SUM(temp_tbl.flag), 0) FROM s_timeline_tracking AS temp_tbl WHERE
-                    temp_tbl.fieldval = s_timeline_tracking.fieldval AND temp_tbl.forDay &lt;= @{date}
-                  <include refid="queryTempSearchCriteria"/>) AS value,
-                  DATE_FORMAT(@{date},"%Y-%m-%d") as groupname
+    <![CDATA[
+      #repeat(${_parameter.groupVals} $groupVal "UNION" "" "")
+        #repeat(${_parameter.dates} $date "UNION" "" "")
+          SELECT s_timeline_tracking.fieldval AS groupid,
+            (SELECT COALESCE(SUM(temp_tbl.flag), 0)
+              FROM s_timeline_tracking AS temp_tbl
+              WHERE temp_tbl.fieldval = s_timeline_tracking.fieldval AND temp_tbl.forDay <= @{date}
+                <include refid="queryTempSearchCriteria"/>) AS value, DATE_FORMAT(@{date},"%Y-%m-%d") as groupname
                 FROM s_timeline_tracking
                 #trimext("WHERE" "AND|OR")
-                  s_timeline_tracking.fieldval = '${groupVal}'
-                    <include refid="querySearchCriteria"/>
-                  #end
-              #end
-            #end
+                  s_timeline_tracking.fieldval = '${groupVal}' AND
+                  <include refid="querySearchCriteria"/>
+                #end
+        #end
+      #end
+    ]]>
     </select>
 </mapper>

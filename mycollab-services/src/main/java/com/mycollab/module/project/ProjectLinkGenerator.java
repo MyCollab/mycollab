@@ -160,27 +160,6 @@ public class ProjectLinkGenerator {
         return "project/bug/list/" + UrlEncodeDecoder.encode(projectId);
     }
 
-    public static String generateProjectTicketFullLink(String siteUrl, String prjShortName, Integer projectId, String type, Integer typeId) {
-        String result = "";
-
-        if (typeId == null) {
-            return "";
-        }
-        if (ProjectTypeConstants.MILESTONE.equals(type)) {
-            result = ProjectLinkGenerator.generateMilestonePreviewLink(projectId, typeId);
-        } else if (ProjectTypeConstants.TASK.equals(type)) {
-            result = generateTaskPreviewLink(typeId, prjShortName);
-        } else if (ProjectTypeConstants.BUG.equals(type)) {
-            result = generateBugPreviewLink(typeId, prjShortName);
-        } else if (ProjectTypeConstants.RISK.equals(type)) {
-            result = generateRiskPreviewLink(projectId, typeId);
-        } else {
-            throw new DebugException("Not support this type " + type);
-        }
-
-        return siteUrl + "#" + result;
-    }
-
     public static String generateBugPreviewFullLink(String siteUrl, Integer bugKey, String prjShortname) {
         return siteUrl + URL_PREFIX_PARAM + generateBugPreviewLink(bugKey, prjShortname);
     }

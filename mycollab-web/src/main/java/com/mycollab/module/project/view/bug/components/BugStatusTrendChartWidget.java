@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.bug.components;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.mycollab.common.service.TimelineTrackingService;
+import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -175,7 +176,7 @@ public class BugStatusTrendChartWidget extends Depot {
         }
 
         void display(TimelineTrackingSearchCriteria searchCriteria) {
-            searchCriteria.setType(StringSearchField.and(ProjectTypeConstants.BUG));
+            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG));
             searchCriteria.setFieldgroup(StringSearchField.and("status"));
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);

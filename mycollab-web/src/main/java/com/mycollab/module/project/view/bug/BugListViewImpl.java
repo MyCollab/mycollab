@@ -45,9 +45,9 @@ import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -163,8 +163,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                         return baseCriteria;
                     }
                 }))
-        ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION);
-        printBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
         MButton newBugBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.NEW), clickEvent -> {

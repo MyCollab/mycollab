@@ -42,7 +42,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
-import com.mycollab.module.project.view.task.components.*;
+import com.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AsyncInvoker;
@@ -61,7 +61,10 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
@@ -257,11 +260,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
         UnresolvedTicketByPriorityWidget unresolvedTicketByPriorityWidget = new UnresolvedTicketByPriorityWidget();
         unresolvedTicketByPriorityWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTicketByPriorityWidget);
-//
-//        UnresolvedTaskByStatusWidget unresolvedTaskByStatusWidget = new UnresolvedTaskByStatusWidget();
-//        unresolvedTaskByStatusWidget.setSearchCriteria(statisticSearchCriteria);
-//        rightColumn.addComponent(unresolvedTaskByStatusWidget);
-//
+
         AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {

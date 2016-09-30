@@ -23,6 +23,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugComponentEvent;
 import com.mycollab.module.project.event.BugVersionEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
@@ -98,7 +99,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
             } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 5);
             } else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
-                informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 5);
+                informationLayout.addComponent(field, UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), 1, 5);
             } else if (SimpleBug.Field.components.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_COMPONENTS), UserUIContext
                         .getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 0, 6, 2, "100%");

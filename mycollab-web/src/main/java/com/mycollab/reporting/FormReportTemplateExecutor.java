@@ -91,8 +91,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
         titleContent = cmp.multiPageList();
         titleContent.add(defaultTitleComponent());
         reportBuilder.setParameters(parameters);
-        reportBuilder
-                .title(titleContent)
+        reportBuilder.title(titleContent)
                 .setPageFormat(PageType.A4, PageOrientation.PORTRAIT)
                 .pageFooter(cmp.pageXofY().setStyle(reportStyles.getBoldCenteredStyle()))
                 .setLocale(locale);
@@ -209,7 +208,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                                 }
                             }
                         } catch (Exception e) {
-                            LOG.error("Error while generate field " + BeanUtility.printBeanObj(dynaField));
+                            LOG.error("Error while generate field " + BeanUtility.printBeanObj(dynaField), e);
                         }
                     }
                 }

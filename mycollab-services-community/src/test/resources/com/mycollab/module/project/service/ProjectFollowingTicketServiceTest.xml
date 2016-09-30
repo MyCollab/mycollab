@@ -1,60 +1,55 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
 
-	<s_account id="1" createdTime="2013-04-10 13:29:23"
-		paymentMethod="Credit Card" status="Active" />
+	<s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active" />
 
-	<s_user firstname="a1" lastname="b1" username="hainguyen@esofthead.com"
-		email="hainguyen@esofthead.com" />
+	<s_user firstname="a1" lastname="b1" username="hainguyen@esofthead.com" email="hainguyen@esofthead.com" />
 
-	<s_user firstname="a2" lastname="b2" username="nghiemle@esofthead.com"
-		email="nghiemle@esofthead.com" />
+	<s_user firstname="a2" lastname="b2" username="nghiemle@esofthead.com" email="nghiemle@esofthead.com" />
 
-	<m_prj_project id="1" name="a" sAccountId="1" shortname="aaa"
-		projectStatus="Open" />
+	<m_prj_project id="1" name="a" sAccountId="1" shortname="aaa" projectStatus="Open" />
 
-	<m_prj_project id="2" name="b" sAccountId="1" shortname="bbb"
-		projectStatus="Open" />
+	<m_prj_project id="2" name="b" sAccountId="1" shortname="bbb" projectStatus="Open" />
 
 	<m_prj_task sAccountId="1" projectId="1" id="1"
-		percentagecomplete="40" name="ticket 1" taskkey="1"
+		percentagecomplete="40" name="task 1" taskkey="1"
 		assignUser="hainguyen@esofthead.com" />
 
 	<m_prj_task sAccountId="1" projectId="1" id="2"
-		percentagecomplete="100" name="ticket 2" taskkey="2"
+		percentagecomplete="100" name="task 2" taskkey="2"
 		assignUser="nghiemle@esofthead.com" />
 
 	<m_prj_task sAccountId="1" projectId="2" id="3"
-		percentagecomplete="60" name="ticket 3" taskkey="3"
+		percentagecomplete="60" name="task 3" taskkey="3"
 		assignUser="hainguyen@esofthead.com" />
 
 	<m_prj_task sAccountId="1" projectId="2" id="4"
-		percentagecomplete="90" name="ticket 4" taskkey="4"
+		percentagecomplete="90" name="task 4" taskkey="4"
 		assignUser="nghiemle@esofthead.com" />
 
 	<m_tracker_bug sAccountId="1" projectId="1" id="1"
-		name="bug 1" status="Open" assignuser="hainguyen@esofthead.com" />
+		name="bug 1" status="Open" assignUser="hainguyen@esofthead.com" />
 
 	<m_tracker_bug sAccountId="1" projectId="1" id="2"
-		name="bug 2" status="Closed" assignuser="nghiemle@esofthead.com" />
+		name="bug 2" status="Closed" assignUser="nghiemle@esofthead.com" />
 
 	<m_tracker_bug sAccountId="1" projectId="2" id="3"
-		name="bug 3" status="Open" assignuser="hainguyen@esofthead.com" />
+		name="bug 3" status="Open" assignUser="hainguyen@esofthead.com" />
 
 	<m_tracker_bug sAccountId="1" projectId="2" id="4"
-		name="bug 4" status="Closed" assignuser="nghiemle@esofthead.com" />
+		name="bug 4" status="Closed" assignUser="nghiemle@esofthead.com" />
 
 	<m_prj_risk sAccountId="1" projectId="1" id="1"
-		name="risk 1" status="Open" assigntouser="hainguyen@esofthead.com" />
+		name="risk 1" status="Open" assignUser="hainguyen@esofthead.com" />
 
 	<m_prj_risk sAccountId="1" projectId="1" id="2"
-		name="risk 2" status="Closed" assigntouser="nghiemle@esofthead.com" />
+		name="risk 2" status="Closed" assignUser="nghiemle@esofthead.com" />
 
 	<m_prj_risk sAccountId="1" projectId="2" id="3"
-		name="risk 3" status="Open" assigntouser="hainguyen@esofthead.com" />
+		name="risk 3" status="Open" assignUser="hainguyen@esofthead.com" />
 
 	<m_prj_risk sAccountId="1" projectId="2" id="4"
-		name="risk 4" status="Closed" assigntouser="nghiemle@esofthead.com" />
+		name="risk 4" status="Closed" assignUser="nghiemle@esofthead.com" />
 
 	<m_monitor_item id="1" monitor_date="2014-10-21 00:00:00"
 		type="Project-Task" typeId="1" extraTypeId="1" sAccountId="1"

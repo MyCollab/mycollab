@@ -132,7 +132,7 @@ public class ProjectTooltipGenerator {
                     : "";
             String assignUserAvatarLink = StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 16);
             Td cell42 = buildCellLink(assignUserLink, assignUserAvatarLink, task.getAssignUserFullName());
-            Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_PHASE));
+            Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, MilestoneI18nEnum.SINGLE));
             String taskgroupLink = (task.getMilestoneName() != null) ? ProjectLinkGenerator
                     .generateMilestonePreviewFullLink(siteURL, task.getProjectid(), task.getMilestoneid()) : "";
             Td cell44 = buildCellLink(taskgroupLink, task.getMilestoneName());
@@ -227,7 +227,7 @@ public class ProjectTooltipGenerator {
             tooltipManager.appendRow(trRow6);
 
             Tr trRow7 = new Tr();
-            Td cell71 = buildCellName(LocalizationHelper.getMessage(locale, BugI18nEnum.FORM_PHASE));
+            Td cell71 = buildCellName(LocalizationHelper.getMessage(locale, MilestoneI18nEnum.SINGLE));
             String phaseLink = (bug.getMilestoneid() != null) ? ProjectLinkGenerator.generateMilestonePreviewFullLink(siteURL, bug.getProjectid(), bug.getMilestoneid()) : "";
             Td cell72 = buildCellLink(phaseLink, bug.getMilestoneName());
             cell72.setAttribute("colspan", "3");

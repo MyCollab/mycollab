@@ -22,8 +22,9 @@ import com.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.common.service.TimelineTrackingService;
-import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.SetSearchField;
+import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -31,13 +32,13 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.ui.chart.GenericChartWrapper;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -52,6 +53,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -59,8 +61,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed;
 
 /**
  * @author MyCollab Ltd
@@ -77,9 +77,9 @@ public class TicketCloseTrendChartWidget extends Depot {
     public void display(TimelineTrackingSearchCriteria searchCriteria) {
         MVerticalLayout content = (MVerticalLayout) getContent();
         content.removeAllComponents();
-        TicketStatusChartWrapper chartWrapper = new TicketStatusChartWrapper();
-        content.addComponent(chartWrapper);
-        chartWrapper.display(searchCriteria);
+//        TicketStatusChartWrapper chartWrapper = new TicketStatusChartWrapper();
+//        content.addComponent(chartWrapper);
+//        chartWrapper.display(searchCriteria);
     }
 
     private static class TicketStatusChartWrapper extends GenericChartWrapper {
@@ -99,7 +99,7 @@ public class TicketCloseTrendChartWidget extends Depot {
                 Set<Map.Entry<String, List<GroupItem>>> entries = groupItems.entrySet();
                 Map<Date, Double> openMap = new HashMap<>(30);
                 for (Map.Entry<String, List<GroupItem>> entry : entries) {
-                    if (Closed.name().equals(entry.getKey())) {
+                    if (StatusI18nEnum.Closed.name().equals(entry.getKey())) {
                         TimeSeries series = new TimeSeries(entry.getKey());
                         for (GroupItem item : entry.getValue()) {
                             series.add(new Day(formatter.parseDateTime(item.getGroupname()).toDate()), item.getValue());
@@ -167,12 +167,11 @@ public class TicketCloseTrendChartWidget extends Depot {
                 final TimeSeries key = (TimeSeries) series.get(i);
                 int colorIndex = i % CHART_COLOR_STR.size();
                 final String color = "<div style = \" width:13px;height:13px;background: #" + CHART_COLOR_STR.get(colorIndex) + "\" />";
-                final Label lblCircle = new Label(color);
-                lblCircle.setContentMode(ContentMode.HTML);
+                final ELabel lblCircle = ELabel.html(color);
+
                 String captionBtn = UserUIContext.getMessage(StatusI18nEnum.class, (String) key.getKey());
-                final Button btnLink = new Button(StringUtils.trim(captionBtn, 30, true));
-                btnLink.setDescription(captionBtn);
-                btnLink.addStyleName(WebUIConstants.BUTTON_LINK);
+                final MButton btnLink = new MButton(StringUtils.trim(captionBtn, 30, true)).withDescription
+                        (captionBtn).withStyleName(WebUIConstants.BUTTON_LINK);
                 layout.with(lblCircle, btnLink);
                 mainLayout.addComponent(layout);
             }
@@ -181,7 +180,7 @@ public class TicketCloseTrendChartWidget extends Depot {
         }
 
         void display(TimelineTrackingSearchCriteria searchCriteria) {
-            searchCriteria.setType(StringSearchField.and(ProjectTypeConstants.TASK));
+            searchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.TASK, ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
             searchCriteria.setFieldgroup(StringSearchField.and("status"));
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);

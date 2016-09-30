@@ -16,11 +16,10 @@
  */
 package com.mycollab.module.project.view;
 
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.arguments.ValuedBean;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.event.ProjectEvent;
-import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.web.ui.IListView;
 import com.mycollab.vaadin.web.ui.ListSelectionPresenter;
 
@@ -31,8 +30,6 @@ import com.mycollab.vaadin.web.ui.ListSelectionPresenter;
 public abstract class ProjectGenericListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
         extends ListSelectionPresenter<V, S, B> {
     private static final long serialVersionUID = 7270489652418186012L;
-
-    private PageView candidateView;
 
     public ProjectGenericListPresenter(Class<V> viewClass) {
         super(viewClass);

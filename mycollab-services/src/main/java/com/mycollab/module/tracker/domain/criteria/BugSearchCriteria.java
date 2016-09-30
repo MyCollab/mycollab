@@ -21,6 +21,7 @@ import com.mycollab.db.arguments.*;
 import com.mycollab.db.query.*;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
@@ -61,7 +62,7 @@ public class BugSearchCriteria extends SearchCriteria {
     public static final NumberParam p_bugkey = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_BUG_KEY,
             new NumberParam("key", "m_tracker_bug", "bugkey"));
 
-    public static final PropertyListParam<Integer> p_milestones = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_PHASE,
+    public static final PropertyListParam<Integer> p_milestones = CacheParamMapper.register(ProjectTypeConstants.BUG, MilestoneI18nEnum.SINGLE,
             new PropertyListParam<Integer>("milestones", "m_tracker_bug", "milestoneId"));
 
     public static final I18nStringListParam p_priority = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_PRIORITY,
@@ -116,12 +117,9 @@ public class BugSearchCriteria extends SearchCriteria {
                     {
                         SELECT("COUNT(*)");
                         FROM("m_tracker_bug_related_item");
-                        WHERE(String.format(
-                                "m_tracker_bug_related_item.type='%s'", type));
+                        WHERE(String.format("m_tracker_bug_related_item.type='%s'", type));
                         AND();
-                        WHERE(String.format(
-                                "m_tracker_bug_related_item.typeid=%d",
-                                affectedVersion));
+                        WHERE(String.format("m_tracker_bug_related_item.typeid=%d", affectedVersion));
                         AND();
                         WHERE("m_tracker_bug_related_item.bugid=m_tracker_bug.id");
                     }
@@ -153,12 +151,9 @@ public class BugSearchCriteria extends SearchCriteria {
                     {
                         SELECT("COUNT(*)");
                         FROM("m_tracker_bug_related_item");
-                        WHERE(String.format(
-                                "m_tracker_bug_related_item.type='%s'", type));
+                        WHERE(String.format("m_tracker_bug_related_item.type='%s'", type));
                         AND();
-                        WHERE(String.format(
-                                "m_tracker_bug_related_item.typeid=%d",
-                                affectedVersion));
+                        WHERE(String.format("m_tracker_bug_related_item.typeid=%d", affectedVersion));
                         AND();
                         WHERE("m_tracker_bug_related_item.bugid=m_tracker_bug.id");
                     }

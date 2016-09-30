@@ -47,12 +47,7 @@ public class BugListPresenter extends ProjectGenericListPresenter<BugListView, B
 
     @Override
     protected void viewAttached() {
-        view.getSearchHandlers().addSearchHandler(new SearchHandler<BugSearchCriteria>() {
-            @Override
-            public void onSearch(BugSearchCriteria criteria) {
-                doSearch(criteria);
-            }
-        });
+        view.getSearchHandlers().addSearchHandler(criteria -> doSearch(criteria));
     }
 
     @Override

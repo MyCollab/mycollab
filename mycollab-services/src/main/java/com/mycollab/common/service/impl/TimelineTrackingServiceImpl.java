@@ -109,7 +109,7 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
             dates = boundDays(calculatedDate.plusDays(1), endDate);
             if (dates.size() > 0) {
                 boolean isValidForBatchSave = true;
-                final String type = criteria.getType().getValue();
+                final Set<String> types = criteria.getTypes().getValues();
                 SetSearchField<Integer> extraTypeIds = criteria.getExtraTypeIds();
                 Integer tmpExtraTypeId = null;
                 if (extraTypeIds != null) {
@@ -128,21 +128,17 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
                     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
                     final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-                    final List<Map> filterCollections = new ArrayList<>(Collections2.filter(timelineItems, new
-                            Predicate<Map>() {
-                                @Override
-                                public boolean apply(Map input) {
-                                    String dateStr = (String) input.get("groupname");
-                                    DateTime dt = formatter.parseDateTime(dateStr);
-                                    return !dt.equals(endDate);
-                                }
-                            }));
+                    final List<Map> filterCollections = new ArrayList<>(Collections2.filter(timelineItems, input -> {
+                        String dateStr = (String) input.get("groupname");
+                        DateTime dt = formatter.parseDateTime(dateStr);
+                        return !dt.equals(endDate);
+                    }));
                     jdbcTemplate.batchUpdate("INSERT INTO `s_timeline_tracking_cache`(type, fieldval,extratypeid,sAccountId," +
                             "forDay, fieldgroup,count) VALUES(?,?,?,?,?,?,?)", new BatchPreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
                             Map item = filterCollections.get(i);
-                            preparedStatement.setString(1, type);
+//                            preparedStatement.setString(1, types);
                             String fieldVal = (String) item.get("groupid");
                             preparedStatement.setString(2, fieldVal);
                             preparedStatement.setInt(3, extraTypeId);

@@ -34,29 +34,29 @@ import java.util.List;
  * @since 5.2.2
  */
 public class CreatedDateOrderComponent extends TicketGroupOrderComponent {
-    private SortedArrayMap<Long, DefaultTicketGroupComponent> createdDateAvailables = new SortedArrayMap<>();
+    private SortedArrayMap<String, DefaultTicketGroupComponent> createdDateAvailables = new SortedArrayMap<>();
     private DefaultTicketGroupComponent unspecifiedTasks;
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat());
         for (ProjectTicket ticket : tickets) {
             if (ticket.getCreatedTime() != null) {
                 Date createdDate = ticket.getCreatedTime();
                 DateTime jodaTime = new DateTime(createdDate, DateTimeZone.UTC);
                 DateTime monDay = jodaTime.dayOfWeek().withMinimumValue();
-                if (createdDateAvailables.containsKey(monDay.getMillis())) {
-                    DefaultTicketGroupComponent groupComponent = createdDateAvailables.get(monDay.getMillis());
+                String monDayStr = formatter.print(monDay);
+                if (createdDateAvailables.containsKey(monDayStr)) {
+                    DefaultTicketGroupComponent groupComponent = createdDateAvailables.get(monDayStr);
                     groupComponent.insertTicket(ticket);
                 } else {
                     DateTime maxValue = monDay.dayOfWeek().withMaximumValue();
-                    DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat());
-                    String monDayStr = formatter.print(monDay);
                     String sundayStr = formatter.print(maxValue);
                     String titleValue = String.format("%s - %s", monDayStr, sundayStr);
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(titleValue);
-                    createdDateAvailables.put(monDay.getMillis(), groupComponent);
-                    int index = createdDateAvailables.getKeyIndex(monDay.getMillis());
+                    createdDateAvailables.put(monDayStr, groupComponent);
+                    int index = createdDateAvailables.getKeyIndex(monDayStr);
                     if (index > -1) {
                         addComponent(groupComponent, index);
                     } else {

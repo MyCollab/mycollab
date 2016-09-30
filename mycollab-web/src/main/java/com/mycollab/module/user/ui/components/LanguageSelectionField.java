@@ -52,7 +52,7 @@ public class LanguageSelectionField extends CustomField<String> {
         for (Locale locale : supportedLanguage) {
             String language = locale.toLanguageTag();
             languageBox.addItem(language);
-            languageBox.setItemCaption(language, locale.getDisplayName(UserUIContext.getUserLocale()));
+            languageBox.setItemCaption(language, locale.getDisplayName(locale));
         }
         languageBox.addValueChangeListener(valueChangeEvent -> {
             String value = (String) valueChangeEvent.getProperty().getValue();

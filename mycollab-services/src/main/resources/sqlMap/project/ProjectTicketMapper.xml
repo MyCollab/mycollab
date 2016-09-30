@@ -30,6 +30,7 @@
         <result column="startDate" jdbcType="TIMESTAMP" property="startDate" />
         <result column="endDate" jdbcType="TIMESTAMP" property="endDate" />
         <result column="milestoneId" jdbcType="INTEGER" property="milestoneId" />
+        <result column="milestoneName" jdbcType="VARCHAR" property="milestoneName" />
     </resultMap>
 
     <resultMap id="BaseResultTaskCountMap"
@@ -292,12 +293,13 @@
                     FROM m_comment
                     WHERE m_comment.type='Project-Risk' AND m_comment.typeId=mainTbl.id) AS numComments,
             (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = mainTbl.id AND m_monitor_item.type = 'Project-Risk') AS numFollowers,
-            mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId
-                 
+            mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId,
+            m_prj_milestone.name AS milestoneName
           FROM m_prj_risk AS mainTbl
               LEFT OUTER JOIN s_user ON (mainTbl.assignUser=s_user.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
               LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
+              LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
 
@@ -316,7 +318,7 @@
                     WHERE m_comment.type='Project-Milestone' AND m_comment.typeId=mainTbl.id) AS numComments,
             0 AS numFollowers, "" AS priority,
             mainTbl.sAccountId, mainTbl.startdate AS startDate, mainTbl.enddate AS endDate,
-            mainTbl.id AS milestoneId
+            mainTbl.id AS milestoneId, mainTbl.name AS milestoneName
           FROM m_prj_milestone AS mainTbl
             LEFT OUTER JOIN s_user ON (mainTbl.owner=s_user.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
@@ -339,11 +341,12 @@
                     WHERE m_comment.type='Project-Bug' AND m_comment.typeId=mainTbl.id) AS numComments,
                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = mainTbl.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers,
                 mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
-                mainTbl.milestoneId
+                mainTbl.milestoneId, m_prj_milestone.name AS milestoneName
           FROM m_tracker_bug AS mainTbl
               LEFT OUTER JOIN s_user AS assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
               LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
+              LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
 
@@ -362,11 +365,13 @@
                     FROM m_comment
                     WHERE m_comment.type='Project-Task' AND m_comment.typeId=mainTbl.id) AS numComments,
             (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = mainTbl.id AND m_monitor_item.type = 'Project-Task') AS numFollowers,
-            mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId
+            mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId,
+            m_prj_milestone.name AS milestoneName
           FROM m_prj_task AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
             LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
+            LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
 

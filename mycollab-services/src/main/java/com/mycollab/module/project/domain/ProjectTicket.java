@@ -84,6 +84,8 @@ public class ProjectTicket extends ValuedBean implements Serializable {
 
     private Integer milestoneId;
 
+    private String milestoneName;
+
     private Integer numComments;
 
     public String getName() {
@@ -115,6 +117,14 @@ public class ProjectTicket extends ValuedBean implements Serializable {
 
     public void setMilestoneId(Integer milestoneId) {
         this.milestoneId = milestoneId;
+    }
+
+    public String getMilestoneName() {
+        return milestoneName;
+    }
+
+    public void setMilestoneName(String milestoneName) {
+        this.milestoneName = milestoneName;
     }
 
     public boolean isBug() {

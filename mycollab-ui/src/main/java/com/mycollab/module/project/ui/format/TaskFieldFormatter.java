@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.HumanTime;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.domain.Task;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
@@ -50,7 +51,7 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler(Task.Field.remainestimate.name(), TaskI18nEnum.FORM_REMAIN_ESTIMATE);
         generateFieldDisplayHandler(Task.Field.originalestimate.name(), TaskI18nEnum.FORM_ORIGINAL_ESTIMATE);
         generateFieldDisplayHandler(Task.Field.assignuser.name(), GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
-        generateFieldDisplayHandler(Task.Field.milestoneid.name(), TaskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
+        generateFieldDisplayHandler(Task.Field.milestoneid.name(), MilestoneI18nEnum.SINGLE, new MilestoneHistoryFieldFormat());
         generateFieldDisplayHandler(Task.Field.percentagecomplete.name(), TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
         generateFieldDisplayHandler(Task.Field.parenttaskid.name(), TaskI18nEnum.FORM_PARENT_TASK, new TaskHistoryFieldFormat());
         generateFieldDisplayHandler(Task.Field.description.name(), GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);

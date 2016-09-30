@@ -18,6 +18,7 @@ package com.mycollab.module.project.ui.format;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat;
@@ -50,7 +51,7 @@ public final class BugFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("loguserFullName",
                 BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
-        generateFieldDisplayHandler("milestoneid", BugI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
+        generateFieldDisplayHandler("milestoneid", MilestoneI18nEnum.SINGLE, new MilestoneHistoryFieldFormat());
     }
 
     public static BugFieldFormatter instance() {

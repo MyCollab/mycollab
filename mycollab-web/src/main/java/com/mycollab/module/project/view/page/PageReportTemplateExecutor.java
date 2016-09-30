@@ -81,9 +81,7 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
         titleContent = cmp.multiPageList();
         titleContent.add(defaultTitleComponent());
         reportBuilder.setParameters(parameters);
-        reportBuilder
-                .title(titleContent)
-                .setPageFormat(PageType.A4, PageOrientation.PORTRAIT)
+        reportBuilder.title(titleContent).setPageFormat(PageType.A4, PageOrientation.PORTRAIT)
                 .pageFooter(cmp.pageXofY().setStyle(reportStyles.getBoldCenteredStyle()))
                 .setLocale(locale);
     }
@@ -114,7 +112,7 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
         commentCriteria.setType(StringSearchField.and(ProjectTypeConstants.PAGE));
         commentCriteria.setTypeId(StringSearchField.and(bean.getPath()));
         final int commentCount = commentService.getTotalCount(commentCriteria);
-        HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text("History (" + commentCount + ")")
+        HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text("Comments (" + commentCount + ")")
                 .setStyle(reportStyles.getH3Style()));
         titleContent.add(historyHeader, reportStyles.line(), cmp.verticalGap(10));
 

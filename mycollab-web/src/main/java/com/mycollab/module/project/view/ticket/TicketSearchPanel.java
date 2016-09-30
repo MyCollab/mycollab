@@ -57,6 +57,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
     private TicketSavedFilter savedFilterComboBox;
 
     private static Param[] paramFields = new Param[]{
+            ProjectTicketSearchCriteria.p_type,
             ProjectTicketSearchCriteria.p_name, ProjectTicketSearchCriteria.p_priority,
             ProjectTicketSearchCriteria.p_milestones, ProjectTicketSearchCriteria.p_startDate,
             ProjectTicketSearchCriteria.p_endDate, ProjectTicketSearchCriteria.p_dueDate,
@@ -209,6 +210,8 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
                 return new ProjectMemberListSelect(false);
             } else if ("milestone".equals(fieldId)) {
                 return new MilestoneListSelect();
+            } else if ("type".equals(fieldId)) {
+                return new TicketTypeListSelect();
             }
             return null;
         }

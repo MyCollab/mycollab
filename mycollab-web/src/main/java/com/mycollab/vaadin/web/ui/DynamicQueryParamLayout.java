@@ -25,7 +25,9 @@ import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -50,7 +52,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
         initLayout();
     }
 
-    protected void initLayout() {
+    private void initLayout() {
         header = constructHeader();
         buildCriterionComp = new BuildCriterionComponent<S>(this, getParamFields(), getType(), type) {
             private static final long serialVersionUID = 1L;
@@ -88,7 +90,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
         return new MHorizontalLayout(searchBtn, clearBtn, basicSearchBtn).withMargin(new MarginInfo(false, true, false, true));
     }
 
-    protected void clearFields() {
+    private void clearFields() {
         buildCriterionComp.clearAllFields();
     }
 
@@ -106,7 +108,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     protected abstract Class<S> getType();
 
     public final ComponentContainer constructHeader() {
-        return ((DefaultGenericSearchPanel)searchPanel).constructHeader();
+        return ((DefaultGenericSearchPanel) searchPanel).constructHeader();
     }
 
     public abstract Param[] getParamFields();

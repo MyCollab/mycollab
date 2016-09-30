@@ -24,7 +24,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -77,10 +77,10 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(UserUIContext.getMessage
-                    (BugI18nEnum.FORM_PHASE)).build();
+                    (MilestoneI18nEnum.SINGLE)).build();
         } else {
             return new MetaFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE),
-                    bug.getMilestoneName()).withDescription(UserUIContext.getMessage(BugI18nEnum.FORM_PHASE)).build();
+                    bug.getMilestoneName()).withDescription(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
         }
     }
 

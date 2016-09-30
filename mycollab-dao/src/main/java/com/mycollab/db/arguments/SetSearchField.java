@@ -44,6 +44,11 @@ public class SetSearchField<T> extends SearchField {
         this.operation = AND;
     }
 
+    public SetSearchField(String oper, Collection<T> vals) {
+        super(oper);
+        values.addAll(vals);
+    }
+
     public SetSearchField(Collection<T> items) {
         if (CollectionUtils.isNotEmpty(items)) {
             values.addAll(items);

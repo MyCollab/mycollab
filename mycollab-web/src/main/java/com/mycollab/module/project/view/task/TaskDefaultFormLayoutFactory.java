@@ -25,6 +25,7 @@ import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 
 /**
@@ -74,7 +75,7 @@ public class TaskDefaultFormLayoutFactory {
                 .fieldIndex(7).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.milestoneid).required(true)
-                .displayName(TaskI18nEnum.FORM_PHASE)
+                .displayName(MilestoneI18nEnum.SINGLE)
                 .fieldIndex(8).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.percentagecomplete)

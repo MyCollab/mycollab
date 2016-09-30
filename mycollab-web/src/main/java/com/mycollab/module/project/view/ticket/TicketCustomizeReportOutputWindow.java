@@ -47,7 +47,7 @@ public class TicketCustomizeReportOutputWindow extends CustomizeReportOutputWind
     protected Object[] buildSampleData() {
         return new Object[]{"Task A", "Description 1", UserUIContext.formatDate(new LocalDate().minusDays(2).toDate()),
                 UserUIContext.formatDate(new LocalDate().plusDays(1).toDate()), UserUIContext.formatDate(new LocalDate().plusDays(1).toDate()),
-                Priority.High.name(), "Will Smith", "Jonh Adam", "3", "1"};
+                Priority.High.name(), "Will Smith", "Jonh Adam", "MVP", "3", "1"};
     }
 
     @Override
@@ -62,6 +62,7 @@ public class TicketCustomizeReportOutputWindow extends CustomizeReportOutputWind
         return Arrays.asList(TicketTableFieldDef.name(), TicketTableFieldDef.description(), TicketTableFieldDef.startdate(),
                 TicketTableFieldDef.enddate(), TicketTableFieldDef.duedate(),
                 TicketTableFieldDef.priority(), TicketTableFieldDef.logUser(),
-                TicketTableFieldDef.assignee(), TicketTableFieldDef.billableHours(), TicketTableFieldDef.nonBillableHours());
+                TicketTableFieldDef.assignee(), TicketTableFieldDef.milestoneName(),
+                TicketTableFieldDef.billableHours(), TicketTableFieldDef.nonBillableHours());
     }
 }

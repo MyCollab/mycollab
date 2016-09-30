@@ -24,7 +24,7 @@ import com.mycollab.html.{FormatUtils, LinkUtils}
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.domain._
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
-import com.mycollab.module.project.i18n.{OptionI18nEnum, TaskI18nEnum}
+import com.mycollab.module.project.i18n.{MilestoneI18nEnum, OptionI18nEnum, TaskI18nEnum}
 import com.mycollab.module.project.service._
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectResources, ProjectTypeConstants}
 import com.mycollab.module.user.AccountLinkGenerator
@@ -145,7 +145,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
     put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(Task.Field.isestimated, TaskI18nEnum.FORM_IS_ESTIMATED)
     put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE)
-    put(Task.Field.milestoneid, new MilestoneFieldFormat(Task.Field.milestoneid.name, TaskI18nEnum.FORM_PHASE))
+    put(Task.Field.milestoneid, new MilestoneFieldFormat(Task.Field.milestoneid.name, MilestoneI18nEnum.SINGLE))
     put(Task.Field.parenttaskid, new TaskFieldFormat(Task.Field.parenttaskid.name, TaskI18nEnum.FORM_PARENT_TASK))
     put(Task.Field.description, GenericI18Enum.FORM_DESCRIPTION)
     put(Task.Field.status, GenericI18Enum.FORM_STATUS)

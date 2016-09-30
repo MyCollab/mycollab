@@ -324,7 +324,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 
     public void gotoTaskAdd() {
         breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TaskI18nEnum.LIST), new GotoTicketDashboard()));
+        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         breadcrumb.setLinkEnabled(true, 1);
         breadcrumb.addLink(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW)));
         MyCollabUI.addFragment("project/task/add/" + UrlEncodeDecoder.encode(project.getId()),
@@ -368,7 +368,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 
     public void gotoTaskEdit(final SimpleTask task) {
         breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TaskI18nEnum.LIST),
+        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST),
                 new GotoTicketDashboard()));
         breadcrumb.setLinkEnabled(true, 1);
         breadcrumb.addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,

@@ -42,4 +42,9 @@ public class PopupDateFieldExt extends PopupDateField {
         this.setTimeZone(UserUIContext.getUserTimeZone());
         this.setDateFormat(MyCollabUI.getDateFormat());
     }
+
+    public PopupDateFieldExt withWidth(String width) {
+        this.setWidth(width);
+        return this;
+    }
 }

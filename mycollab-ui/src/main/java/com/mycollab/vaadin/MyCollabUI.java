@@ -73,7 +73,7 @@ public abstract class MyCollabUI extends UI {
     protected UserUIContext currentContext;
 
     private String initialSubDomain = "1";
-    private String siteUrl = "";
+    private String siteUrl = null;
     private String currentFragmentUrl = "";
     private SimpleBillingAccount billingAccount;
     private Map<String, Object> attributes = new HashMap<>();

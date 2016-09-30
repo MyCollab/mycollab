@@ -34,29 +34,29 @@ import java.util.List;
  * @since 5.1.1
  */
 public class StartDateOrderComponent extends TicketGroupOrderComponent {
-    private SortedArrayMap<DateTime, DefaultTicketGroupComponent> startDateAvailables = new SortedArrayMap<>();
+    private SortedArrayMap<String, DefaultTicketGroupComponent> startDateAvailables = new SortedArrayMap<>();
     private DefaultTicketGroupComponent unspecifiedTasks;
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat());
         for (ProjectTicket task : tickets) {
             if (task.getStartDate() != null) {
                 Date startDate = task.getStartDate();
                 DateTime jodaTime = new DateTime(startDate, DateTimeZone.UTC);
                 DateTime monDay = jodaTime.dayOfWeek().withMinimumValue();
-                if (startDateAvailables.containsKey(monDay)) {
-                    DefaultTicketGroupComponent groupComponent = startDateAvailables.get(monDay);
+                String monDayStr = formatter.print(monDay);
+                if (startDateAvailables.containsKey(monDayStr)) {
+                    DefaultTicketGroupComponent groupComponent = startDateAvailables.get(monDayStr);
                     groupComponent.insertTicket(task);
                 } else {
                     DateTime maxValue = monDay.dayOfWeek().withMaximumValue();
-                    DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat());
-                    String monDayStr = formatter.print(monDay);
                     String sundayStr = formatter.print(maxValue);
                     String titleValue = String.format("%s - %s", monDayStr, sundayStr);
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(titleValue);
-                    startDateAvailables.put(monDay, groupComponent);
-                    int index = startDateAvailables.getKeyIndex(monDay);
+                    startDateAvailables.put(monDayStr, groupComponent);
+                    int index = startDateAvailables.getKeyIndex(monDayStr);
                     if (index > -1) {
                         addComponent(groupComponent, index);
                     } else {

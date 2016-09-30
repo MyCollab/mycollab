@@ -25,14 +25,6 @@ import ch.qos.cal10n.LocaleData;
 public enum RolePermissionI18nEnum {
     LIST,
 
-    Message,
-    Milestone,
-    Task,
-    Bug,
-    Version,
-    Component,
-    Page,
-    Risk,
     Time,
     Finance,
     Invoice,
