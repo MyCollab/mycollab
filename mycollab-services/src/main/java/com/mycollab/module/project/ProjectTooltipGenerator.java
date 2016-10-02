@@ -453,7 +453,8 @@ public class ProjectTooltipGenerator {
             String startDate = DateTimeUtils.convertToStringWithUserTimeZone(milestone.getStartdate(), dateFormat, locale, timeZone);
             Td cell22 = buildCellValue(startDate);
             Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
-            String assignUserLink = (milestone.getOwner() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(siteURL, milestone.getOwner()) : "";
+            String assignUserLink = (milestone.getAssignuser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink
+                    (siteURL, milestone.getAssignuser()) : "";
             String assignUserAvatarLink = StorageFactory.getAvatarPath(milestone.getOwnerAvatarId(), 16);
             Td cell24 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     milestone.getOwnerFullName());

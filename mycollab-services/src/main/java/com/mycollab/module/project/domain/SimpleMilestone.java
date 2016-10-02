@@ -64,7 +64,7 @@ public class SimpleMilestone extends Milestone {
 
     public String getOwnerFullName() {
         if (StringUtils.isBlank(ownerFullName)) {
-            return StringUtils.extractNameFromEmail(getOwner());
+            return StringUtils.extractNameFromEmail(getAssignuser());
         }
         return ownerFullName;
     }

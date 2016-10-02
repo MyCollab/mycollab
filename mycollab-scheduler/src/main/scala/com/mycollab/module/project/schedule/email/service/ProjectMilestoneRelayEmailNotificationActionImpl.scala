@@ -72,7 +72,7 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
     put(Milestone.Field.name, GenericI18Enum.FORM_NAME, isColSpan = true)
     put(Milestone.Field.status, new I18nFieldFormat(Milestone.Field.status.name, GenericI18Enum.FORM_STATUS,
       classOf[OptionI18nEnum.MilestoneStatus]))
-    put(Milestone.Field.owner, new AssigneeFieldFormat(Milestone.Field.owner.name, GenericI18Enum.FORM_ASSIGNEE))
+    put(Milestone.Field.assignuser, new AssigneeFieldFormat(Milestone.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
     put(Milestone.Field.startdate, new DateFieldFormat(Milestone.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
     put(Milestone.Field.enddate, new DateFieldFormat(Milestone.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
     put(Milestone.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
@@ -82,11 +82,11 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
 
     def formatField(context: MailContext[_]): String = {
       val milestone = context.getWrappedBean.asInstanceOf[SimpleMilestone]
-      if (milestone.getOwner != null) {
+      if (milestone.getAssignuser != null) {
         val userAvatarLink = MailUtils.getAvatarLink(milestone.getOwnerAvatarId, 16)
         val img = FormatUtils.newImg("avatar", userAvatarLink)
         val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(milestone.getSaccountid),
-          milestone.getOwner)
+          milestone.getAssignuser)
         val link = FormatUtils.newA(userLink, milestone.getOwnerFullName)
         FormatUtils.newLink(img, link).write
       }

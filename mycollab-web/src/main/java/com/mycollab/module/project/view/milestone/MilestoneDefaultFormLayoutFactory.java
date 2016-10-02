@@ -47,8 +47,8 @@ public class MilestoneDefaultFormLayoutFactory {
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.enddate).displayName(GenericI18Enum.FORM_END_DATE)
                 .fieldIndex(2).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.owner).displayName(GenericI18Enum.FORM_ASSIGNEE).fieldIndex(3)
-                .build());
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.assignuser).displayName(GenericI18Enum.FORM_ASSIGNEE)
+                .fieldIndex(3).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(GenericI18Enum.FORM_STATUS)
                 .contextHelp(MilestoneI18nEnum.FORM_STATUS_FIELD_HELP).fieldIndex(4).build());

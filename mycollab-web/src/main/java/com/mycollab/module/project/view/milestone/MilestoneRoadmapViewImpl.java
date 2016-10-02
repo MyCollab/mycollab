@@ -295,8 +295,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                                 ProjectTypeConstants.RISK));
                         searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
-                        ProjectTicketService genericTaskService = AppContextUtil.getSpringBean
-                                (ProjectTicketService.class);
+                        ProjectTicketService genericTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
                         List<ProjectTicket> tickets = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
                         for (ProjectTicket ticket : tickets) {
                             ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(ticket);
@@ -321,7 +320,6 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
                             rowComp.with(toggleTicketSummaryField).expand(toggleTicketSummaryField);
                             issueLayout.addComponent(rowComp);
-
                         }
                     } else {
                         viewIssuesBtn.setCaption(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_TICKETS));

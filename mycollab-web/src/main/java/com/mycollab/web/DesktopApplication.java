@@ -133,7 +133,7 @@ public class DesktopApplication extends MyCollabUI {
                 || userAgent.contains("msie 7.0") || userAgent.contains("msie 8.0") || userAgent.contains("msie 9.0");
     }
 
-    private static Class[] systemExceptions = new Class[]{UncategorizedSQLException.class, MyBatisSystemException.class};
+    private static Class[] systemExceptions = new Class[]{UncategorizedSQLException.class};
 
     private String printRequest(VaadinRequest request) {
         StringBuilder requestInfo = new StringBuilder();

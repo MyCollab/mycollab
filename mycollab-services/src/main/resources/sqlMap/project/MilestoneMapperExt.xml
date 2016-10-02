@@ -32,7 +32,7 @@
             #end
             
             #ifnotnull($searchCriteria.assignUser)
-                ${searchCriteria.assignUser.operation} m_prj_milestone.owner = @{searchCriteria.assignUser.value}
+                ${searchCriteria.assignUser.operation} m_prj_milestone.assignUser = @{searchCriteria.assignUser.value}
             #end
             
             #ifnotnull($searchCriteria.statuses)
@@ -70,7 +70,7 @@
             #end
             
             #ifnotnull($searchCriteria.assignUser)
-                ${searchCriteria.assignUser.operation} m_prj_milestone.owner = @{searchCriteria.assignUser.value}
+                ${searchCriteria.assignUser.operation} m_prj_milestone.assignUser = @{searchCriteria.assignUser.value}
             #end
             
             #ifnotnull($searchCriteria.statuses)
@@ -101,10 +101,11 @@
 
     <sql id="selectMilestone">
         <![CDATA[
-            SELECT m_prj_milestone.id, m_prj_milestone.name, m_prj_milestone.description, m_prj_milestone.startdate, m_prj_milestone.enddate, 
-                   m_prj_milestone.owner, m_prj_milestone.status, m_prj_milestone.projectId, m_prj_milestone.status, m_prj_milestone.createdTime,
+            SELECT m_prj_milestone.id, m_prj_milestone.name, m_prj_milestone.description, m_prj_milestone.startDate, m_prj_milestone.endDate,
+                   m_prj_milestone.dueDate,
+                   m_prj_milestone.assignUser, m_prj_milestone.status, m_prj_milestone.projectId, m_prj_milestone.status, m_prj_milestone.createdTime,
                    m_prj_milestone.lastUpdatedTime, m_prj_milestone.orderIndex, m_prj_milestone.color,
-                   m_prj_milestone.sAccountId, m_prj_milestone.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
+                   m_prj_milestone.sAccountId, m_prj_milestone.createdUser, createdUserTbl.avatarId AS createdUserAvatarId,
                    concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
                    s_user.avatarId AS ownerAvatarId,
                    concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerFullName,
@@ -129,7 +130,7 @@
                      AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS totalBugNonBillableHours
                 FROM m_prj_milestone
                     INNER JOIN m_prj_project ON (m_prj_milestone.projectId = m_prj_project.id)
-                    LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)
+                    LEFT OUTER JOIN s_user ON (m_prj_milestone.assignUser = s_user.username)
                     LEFT OUTER JOIN s_user AS createdUserTbl ON (m_prj_milestone.createduser = createdUserTbl.username)
         ]]>
     </sql>

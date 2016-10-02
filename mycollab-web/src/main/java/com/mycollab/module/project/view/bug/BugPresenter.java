@@ -42,7 +42,6 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
         ProjectView projectViewContainer = (ProjectView) container;
         TicketContainer ticketContainer = (TicketContainer) projectViewContainer.gotoSubView(ProjectTypeConstants.TICKET);
         ticketContainer.setContent(view);
-
         view.removeAllComponents();
 
         AbstractPresenter<?> presenter;

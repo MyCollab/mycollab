@@ -102,11 +102,11 @@ import org.springframework.stereotype.Component
 
     val milestone: Milestone = new Milestone()
     milestone.setCreateduser(initialUser)
-    milestone.setDeadline(now.plusDays(14).toLocalDate.toDate)
+    milestone.setDuedate(now.plusDays(14).toLocalDate.toDate)
     milestone.setStartdate(now.toLocalDate.toDate)
     milestone.setEnddate(now.plusDays(14).toLocalDate.toDate)
     milestone.setName("Sample milestone")
-    milestone.setOwner(initialUser)
+    milestone.setAssignuser(initialUser)
     milestone.setProjectid(projectId)
     milestone.setSaccountid(accountId)
     milestone.setStatus(MilestoneStatus.InProgress.name())

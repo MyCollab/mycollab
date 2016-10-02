@@ -41,6 +41,10 @@ public class SimpleRisk extends Risk {
 
     private String milestoneName;
 
+    private Double billableHours;
+
+    private Double nonBillableHours;
+
     public String getProjectName() {
         return projectName;
     }
@@ -114,6 +118,22 @@ public class SimpleRisk extends Risk {
 
     public void setProjectShortName(String projectShortName) {
         this.projectShortName = projectShortName;
+    }
+
+    public Double getBillableHours() {
+        return billableHours;
+    }
+
+    public void setBillableHours(Double billableHours) {
+        this.billableHours = billableHours;
+    }
+
+    public Double getNonBillableHours() {
+        return nonBillableHours;
+    }
+
+    public void setNonBillableHours(Double nonBillableHours) {
+        this.nonBillableHours = nonBillableHours;
     }
 
     public enum Field {

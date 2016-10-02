@@ -69,6 +69,11 @@
             ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Closed')
         #end
 
+        #ifnotnull($searchCriteria.unAssignee)
+            ${searchCriteria.unAssignee.operation} (mainTbl.assignUser IS NULL OR
+            (SELECT COUNT(*) FROM m_prj_member AS tmpMember WHERE mainTbl.assignUser=tmpMember.username AND tmpMember.status='Active') = 0)
+        #end
+
         #ifnotnull($searchCriteria.dateInRange)
             ${searchCriteria.dateInRange.operation} ((mainTbl.dueDate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
               OR (mainTbl.startDate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
@@ -127,6 +132,11 @@
         
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Verified')
+        #end
+
+        #ifnotnull($searchCriteria.unAssignee)
+            ${searchCriteria.unAssignee.operation} (mainTbl.assignUser IS NULL OR
+            (SELECT COUNT(*) FROM m_prj_member AS tmpMember WHERE mainTbl.assignUser=tmpMember.username AND tmpMember.status='Active') = 0)
         #end
 
         #ifnotnull($searchCriteria.dateInRange)
@@ -188,6 +198,11 @@
             ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Closed')
         #end
 
+        #ifnotnull($searchCriteria.unAssignee)
+            ${searchCriteria.unAssignee.operation} (mainTbl.assignUser IS NULL OR
+            (SELECT COUNT(*) FROM m_prj_member AS tmpMember WHERE mainTbl.assignUser=tmpMember.username AND tmpMember.status='Active') = 0)
+        #end
+
         #ifnotnull($searchCriteria.dateInRange)
             ${searchCriteria.dateInRange.operation} ((mainTbl.dueDate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
             OR (mainTbl.startDate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
@@ -240,15 +255,20 @@
         #end
 
         #ifnotnull($searchCriteria.assignUser)
-            ${searchCriteria.assignUser.operation} mainTbl.owner = @{searchCriteria.assignUser.value}
+            ${searchCriteria.assignUser.operation} mainTbl.assignUser = @{searchCriteria.assignUser.value}
         #end
 
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Closed')
         #end
 
+        #ifnotnull($searchCriteria.unAssignee)
+            ${searchCriteria.unAssignee.operation} (mainTbl.assignUser IS NULL OR
+            (SELECT COUNT(*) FROM m_prj_member AS tmpMember WHERE mainTbl.assignUser=tmpMember.username AND tmpMember.status='Active') = 0)
+        #end
+
         #ifnotnull($searchCriteria.dateInRange)
-            ${searchCriteria.dateInRange.operation} ((mainTbl.deadline BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            ${searchCriteria.dateInRange.operation} ((mainTbl.dueDate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
             OR (mainTbl.startdate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
             OR (mainTbl.enddate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to}))
         #end
@@ -282,8 +302,8 @@
     <sql id="selectGenericTaskFromRisk">
     <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
-            s_user.avatarId as assignUserAvatarId,
+            concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+            assignUserTbl.avatarId as assignUserAvatarId,
             createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
             concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
             mainTbl.dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
@@ -292,11 +312,15 @@
             (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Risk' AND m_comment.typeId=mainTbl.id) AS numComments,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
+                     AND m_prj_time_logging.type='Project-Risk' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
+                     AND m_prj_time_logging.type='Project-Risk' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
             (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = mainTbl.id AND m_monitor_item.type = 'Project-Risk') AS numFollowers,
             mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId,
             m_prj_milestone.name AS milestoneName
           FROM m_prj_risk AS mainTbl
-              LEFT OUTER JOIN s_user ON (mainTbl.assignUser=s_user.username)
+              LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
               LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
@@ -305,9 +329,9 @@
 
     <sql id="selectGenericTaskFromMilestone">
         <![CDATA[
-          SELECT mainTbl.name, mainTbl.description, mainTbl.owner AS assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
-            s_user.avatarId as assignUserAvatarId,
+          SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
+            concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+            assignUserTbl.avatarId as assignUserAvatarId,
             createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
             concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
             mainTbl.endDate AS dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
@@ -316,11 +340,13 @@
             (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Milestone' AND m_comment.typeId=mainTbl.id) AS numComments,
+            0 AS billableHours,
+            0 AS nonBillableHours,
             0 AS numFollowers, "" AS priority,
-            mainTbl.sAccountId, mainTbl.startdate AS startDate, mainTbl.enddate AS endDate,
+            mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
             mainTbl.id AS milestoneId, mainTbl.name AS milestoneName
           FROM m_prj_milestone AS mainTbl
-            LEFT OUTER JOIN s_user ON (mainTbl.owner=s_user.username)
+            LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
             LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
@@ -340,6 +366,10 @@
                     FROM m_comment
                     WHERE m_comment.type='Project-Bug' AND m_comment.typeId=mainTbl.id) AS numComments,
                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = mainTbl.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
                 mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
                 mainTbl.milestoneId, m_prj_milestone.name AS milestoneName
           FROM m_tracker_bug AS mainTbl
@@ -364,6 +394,10 @@
             (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Task' AND m_comment.typeId=mainTbl.id) AS numComments,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
             (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = mainTbl.id AND m_monitor_item.type = 'Project-Task') AS numFollowers,
             mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId,
             m_prj_milestone.name AS milestoneName
@@ -574,10 +608,12 @@
 
     <select id="getAssigneeSummary" parameterType="ProjectTicketSearchCriteria"
             resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-        SELECT tmpTbl.assignUser AS groupid, COUNT(tmpTbl.assignUser) AS value, tmpTbl.fullname AS groupname
+        SELECT tmpTbl.assignUser AS groupid, COUNT(tmpTbl.assignUser) AS value, tmpTbl.fullname AS groupname,
+        tmpTbl.avatarId AS extraValue
           FROM
           ((SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Task' AS type,
-              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname
+              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
+              s_user.avatarId AS avatarId
           FROM m_prj_task AS mainTbl
             INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username)
             LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
@@ -588,7 +624,8 @@
           #end)
           UNION
           (SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Bug' AS type,
-              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname
+              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
+              s_user.avatarId AS avatarId
           FROM m_tracker_bug AS mainTbl
             INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username)
             LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
@@ -599,7 +636,8 @@
           #end)
           UNION
           (SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Risk' AS type,
-              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname
+              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
+              s_user.avatarId AS avatarId
           FROM m_prj_risk AS mainTbl
             INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username)
             LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
@@ -615,7 +653,7 @@
             resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT tmpTbl.priority AS groupid, COUNT(tmpTbl.priority) AS value, '' AS groupname
         FROM
-        ((SELECT mainTbl.priority AS priority, mainTbl.id AS typeId
+        ((SELECT mainTbl.priority AS priority, mainTbl.id AS typeId, 'Project-Task' AS type
           FROM m_prj_task AS mainTbl
           #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -623,7 +661,7 @@
             #end
           #end)
         UNION
-        (SELECT mainTbl.priority AS priority, mainTbl.id AS typeId
+        (SELECT mainTbl.priority AS priority, mainTbl.id AS typeId, 'Project-Bug' AS type
           FROM m_tracker_bug AS mainTbl
           #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -631,7 +669,7 @@
             #end
           #end)
         UNION
-        (SELECT mainTbl.priority AS priority, mainTbl.id AS typeId
+        (SELECT mainTbl.priority AS priority, mainTbl.id AS typeId, 'Project-Risk' AS type
           FROM m_prj_risk AS mainTbl
           #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

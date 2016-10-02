@@ -17,10 +17,14 @@
 package com.mycollab.module.project.domain;
 
 import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.tracker.domain.BugWithBLOBs;
+import com.mycollab.module.tracker.domain.SimpleBug;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -236,7 +240,7 @@ public class ProjectTicket extends ValuedBean implements Serializable {
     }
 
     public boolean isClosed() {
-        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) || com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus.Verified.name().equals(getStatus());
+        return StatusI18nEnum.Closed.name().equals(getStatus()) || BugStatus.Verified.name().equals(getStatus());
     }
 
     public String getProjectShortName() {
@@ -362,5 +366,44 @@ public class ProjectTicket extends ValuedBean implements Serializable {
 
     public void setCreatedUserAvatarId(String createdUserAvatarId) {
         this.createdUserAvatarId = createdUserAvatarId;
+    }
+
+    public static Task buildTask(ProjectTicket bean) {
+        Task task = new Task();
+        task.setId(bean.getTypeId());
+        task.setName(bean.getName());
+        task.setStartdate(bean.getStartDate());
+        task.setEnddate(bean.getEndDate());
+        task.setDuedate(bean.getDueDate());
+        task.setStatus(bean.getStatus());
+        task.setSaccountid(bean.getsAccountId());
+        task.setPriority(bean.getPriority());
+        return task;
+    }
+
+    public static BugWithBLOBs buildBug(ProjectTicket bean) {
+        BugWithBLOBs bug = new BugWithBLOBs();
+        bug.setId(bean.getTypeId());
+        bug.setName(bean.getName());
+        bug.setStartdate(bean.getStartDate());
+        bug.setEnddate(bean.getEndDate());
+        bug.setDuedate(bean.getDueDate());
+        bug.setStatus(bean.getStatus());
+        bug.setPriority(bean.getPriority());
+        bug.setSaccountid(bean.getsAccountId());
+        return bug;
+    }
+
+    public static Risk buildRisk(ProjectTicket bean) {
+        Risk risk = new Risk();
+        risk.setId(bean.getTypeId());
+        risk.setName(bean.getName());
+        risk.setStartdate(bean.getStartDate());
+        risk.setEnddate(bean.getEndDate());
+        risk.setDuedate(bean.getDueDate());
+        risk.setStatus(bean.getStatus());
+        risk.setSaccountid(bean.getsAccountId());
+        risk.setPriority(bean.getPriority());
+        return risk;
     }
 }

@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.ticket;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
@@ -96,6 +97,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
 
     private void displayPlainMode() {
         bodyContent.removeAllComponents();
+        int totalAssignTicketCounts = 0;
         if (CollectionUtils.isNotEmpty(groupItems)) {
             for (GroupItem item : groupItems) {
                 MHorizontalLayout assigneeLayout = new MHorizontalLayout().withFullWidth();
@@ -114,7 +116,25 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
                 indicator.setWidth("100%");
                 assigneeLayout.with(indicator).expand(indicator);
                 bodyContent.addComponent(assigneeLayout);
+                totalAssignTicketCounts += item.getValue().intValue();
             }
+        }
+        int totalUnassignTicketsCount = totalCountItems - totalAssignTicketCounts;
+        if (totalUnassignTicketsCount > 0) {
+            MButton unassignLink = new MButton("No assignee").withStyleName(WebUIConstants.BUTTON_LINK)
+                    .withIcon(UserAvatarControlFactory.createAvatarResource(null, 16)).withListener(clickEvent -> {
+                        ProjectTicketSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
+                        criteria.setUnAssignee(new SearchField());
+                        EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(UnresolvedTicketsByAssigneeWidget.this,
+                                criteria));
+                    });
+            MHorizontalLayout assigneeLayout = new MHorizontalLayout().withFullWidth();
+            assigneeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+            assigneeLayout.addComponent(new MCssLayout(unassignLink).withWidth("110px"));
+            ProgressBarIndicator indicator = new ProgressBarIndicator(totalCountItems, totalCountItems - totalUnassignTicketsCount, false);
+            indicator.setWidth("100%");
+            assigneeLayout.with(indicator).expand(indicator);
+            bodyContent.addComponent(assigneeLayout);
         }
     }
 

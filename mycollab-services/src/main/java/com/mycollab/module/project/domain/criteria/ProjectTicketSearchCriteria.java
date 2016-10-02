@@ -92,6 +92,8 @@ public class ProjectTicketSearchCriteria extends SearchCriteria {
 
     private SearchField isOpenned;
 
+    private SearchField unAssignee;
+
     private StringSearchField name;
 
     private DateSearchField dueDate;
@@ -174,5 +176,13 @@ public class ProjectTicketSearchCriteria extends SearchCriteria {
 
     public void setTypeIds(SetSearchField<Integer> typeIds) {
         this.typeIds = typeIds;
+    }
+
+    public SearchField getUnAssignee() {
+        return unAssignee;
+    }
+
+    public void setUnAssignee(SearchField unAssignee) {
+        this.unAssignee = unAssignee;
     }
 }

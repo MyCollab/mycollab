@@ -177,7 +177,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
             metaLayout.addComponent(milestoneDatesInfo);
 
             A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
-                    CurrentProjectVariables.getProjectId(), milestone.getOwner()))
+                    CurrentProjectVariables.getProjectId(), milestone.getAssignuser()))
                     .appendText(StringUtils.trim(milestone.getOwnerFullName(), 30, true));
             Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(milestone
                     .getOwnerAvatarId(), 16))).appendChild(assigneeLink);

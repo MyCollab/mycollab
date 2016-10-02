@@ -58,8 +58,8 @@
         <class>
             <constraint annotation="com.mycollab.validator.constraints.DateComparison">
                 <message>Start date must be less than end date</message>
-                <element name="firstDateField">startdate</element>
-                <element name="lastDateField">enddate</element>
+                <element name="firstDateField">startDate</element>
+                <element name="lastDateField">enddDte</element>
             </constraint>
         </class>
         <field name="name">
@@ -67,7 +67,7 @@
                 <message>Name must not be null</message>
             </constraint>
         </field>
-        <field name="owner">
+        <field name="assignuser">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>Responsible user must not be null</message>
             </constraint>

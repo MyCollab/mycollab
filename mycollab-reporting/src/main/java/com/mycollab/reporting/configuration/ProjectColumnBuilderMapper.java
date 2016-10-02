@@ -147,7 +147,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
-                String assignUser = reportParameters.getFieldValue(Milestone.Field.owner.name());
+                String assignUser = reportParameters.getFieldValue(Milestone.Field.assignuser.name());
                 if (assignUser != null) {
                     String siteUrl = reportParameters.getParameterValue("siteUrl");
                     Integer projectId = reportParameters.getFieldValue(Milestone.Field.projectid.name());

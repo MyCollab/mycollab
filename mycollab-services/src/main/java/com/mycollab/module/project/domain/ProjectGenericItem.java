@@ -39,7 +39,7 @@ public class ProjectGenericItem {
 
     private Date lastUpdatedTime;
 
-    private String summary;
+    private String name;
 
     private String description;
 
@@ -99,12 +99,12 @@ public class ProjectGenericItem {
         this.lastUpdatedTime = lastUpdatedTime;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getName() {
+        return name;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

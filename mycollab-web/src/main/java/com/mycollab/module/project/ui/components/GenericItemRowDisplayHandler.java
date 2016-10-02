@@ -49,10 +49,10 @@ public class GenericItemRowDisplayHandler implements AbstractBeanPagedList.RowDi
         ELabel link = ELabel.h3("");
         if (item.isBug() || item.isTask()) {
             link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
-                    item.getProjectId(), item.getSummary(), item.getType(), item.getExtraTypeId() + ""));
+                    item.getProjectId(), item.getName(), item.getType(), item.getExtraTypeId() + ""));
         } else {
             link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
-                    item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
+                    item.getProjectId(), item.getName(), item.getType(), item.getTypeId()));
         }
 
         String desc = (StringUtils.isBlank(item.getDescription())) ? UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :

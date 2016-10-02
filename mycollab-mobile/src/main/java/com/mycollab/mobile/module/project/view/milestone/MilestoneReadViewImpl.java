@@ -113,7 +113,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private class MilestoneFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
         private static final long serialVersionUID = 1L;
 
-        public MilestoneFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
+        MilestoneFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
             super(form);
         }
 
@@ -124,8 +124,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             } else if (propertyId.equals("enddate")) {
                 return new DateViewField(beanItem.getEnddate());
             } else if (propertyId.equals("owner")) {
-                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
-                        .getProjectId(), beanItem.getOwner(), beanItem.getOwnerFullName(), beanItem.getOwnerAvatarId(), false), ContentMode.HTML);
+                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(),
+                        beanItem.getAssignuser(), beanItem.getOwnerFullName(), beanItem.getOwnerAvatarId(), false), ContentMode.HTML);
             } else if (propertyId.equals("description")) {
                 return new RichTextViewField(beanItem.getDescription());
             } else if (propertyId.equals("status")) {

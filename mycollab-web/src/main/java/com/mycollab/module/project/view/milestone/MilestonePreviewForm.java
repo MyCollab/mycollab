@@ -85,8 +85,8 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 return new DateViewField(milestone.getStartdate());
             } else if (Milestone.Field.enddate.equalTo(propertyId)) {
                 return new DateViewField(milestone.getEnddate());
-            } else if (Milestone.Field.owner.equalTo(propertyId)) {
-                return new ProjectUserFormLinkField(milestone.getOwner(), milestone.getOwnerAvatarId(), milestone.getOwnerFullName());
+            } else if (Milestone.Field.assignuser.equalTo(propertyId)) {
+                return new ProjectUserFormLinkField(milestone.getAssignuser(), milestone.getOwnerAvatarId(), milestone.getOwnerFullName());
             } else if (Milestone.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(milestone.getDescription());
             } else if (Milestone.Field.status.equalTo(propertyId)) {

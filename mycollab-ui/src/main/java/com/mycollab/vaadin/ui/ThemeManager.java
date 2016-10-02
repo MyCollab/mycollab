@@ -55,8 +55,6 @@ public class ThemeManager {
         if (accountTheme.getTopmenutext() != null) {
             extraStyles.append(".v-touchkit-navbar { color: #" + accountTheme.getTopmenutext() + "; }");
             extraStyles.append(".v-touchkit-navbar .v-button { color: #" + accountTheme.getTopmenutext() + "; }");
-            extraStyles.append(".v-touchkit-navbar .v-touchkit-navbutton { color: #" + accountTheme.getTopmenutext() + "; }");
-            extraStyles.append(".v-touchkit-navbar .v-touchkit-navbutton:after { color: #" + accountTheme.getTopmenutext() + "; }");
             extraStyles.append(".v-touchkit-navbar .v-navbar-quickmenu-button { color: #" + accountTheme.getTopmenutext() + "; }");
         }
 
@@ -80,12 +78,6 @@ public class ThemeManager {
                     + accountTheme.getActionbtn() + " !important; }");
 
             extraStyles.append(".v-button.v-button-action-btn, .v-button-action-btn:focus { background-color: #" +
-                    accountTheme.getActionbtn() + "; }");
-
-            extraStyles.append(".section .v-touchkit-navbutton:after { color: #" +
-                    accountTheme.getActionbtn() + "; }");
-
-            extraStyles.append(".v-touchkit-verticalcomponentgroup .v-touchkit-navbutton:after { color: #" +
                     accountTheme.getActionbtn() + "; }");
         }
 
@@ -157,6 +149,8 @@ public class ThemeManager {
                     + accountTheme.getTopmenubgselected() + "; }");
 
             extraStyles.append(".v-button.add-btn-popup:hover { background-color: #" + accountTheme.getTopmenubgselected() + "; }");
+
+            extraStyles.append(".topNavigation .v-button.ad { background-color: #" + accountTheme.getTopmenubgselected() + "; }");
         }
 
         if (accountTheme.getTopmenutext() != null) {
@@ -172,6 +166,10 @@ public class ThemeManager {
             extraStyles.append(".topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button:hover { color: #" + accountTheme.getTopmenutextselected() + "; }");
 
             extraStyles.append(".v-button.add-btn-popup:hover { color: #" + accountTheme.getTopmenutextselected() + "; }");
+
+            extraStyles.append(".topNavigation .v-button.ad { color: #" + accountTheme.getTopmenutextselected() + "; }");
+
+            extraStyles.append(".topNavigation .v-button.ad .v-icon { color: #" + accountTheme.getTopmenutextselected() + "; }");
         }
 
 		/* Vertical Tabsheet */
@@ -185,9 +183,6 @@ public class ThemeManager {
 
             extraStyles.append("div.v-csslayout.rightsidebar-layout .sidebar-wrap { background-color: " + ColorUtils
                     .brighterColor("#" + accountTheme.getVtabsheetbg()) + ";}");
-
-            extraStyles.append(".v-sliderpanel-content, .v-sliderpanel-tab { background-color: " + ColorUtils
-                    .darkerColor("#" + accountTheme.getVtabsheetbg()) + "; }");
         }
 
         if (accountTheme.getVtabsheettext() != null) {
@@ -209,6 +204,9 @@ public class ThemeManager {
 
             extraStyles.append(".vertical-tabsheet .v-button-tab:hover {background-color: #" + accountTheme
                     .getVtabsheetbgselected() + ";}");
+
+            extraStyles.append(".v-sliderpanel-content, .v-sliderpanel-tab { background-color: #" + accountTheme
+                    .getVtabsheetbgselected() + "; }");
         }
 
         if (accountTheme.getVtabsheettextselected() != null) {

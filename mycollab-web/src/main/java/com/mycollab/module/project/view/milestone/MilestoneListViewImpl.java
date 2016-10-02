@@ -136,8 +136,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void initUI() {
-        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, UserUIContext.getMessage
-                (MilestoneI18nEnum.LIST));
+        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE,
+                UserUIContext.getMessage(MilestoneI18nEnum.LIST));
 
         MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
@@ -152,8 +152,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             milestone.setSaccountid(MyCollabUI.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
-        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
         MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new
@@ -162,7 +162,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             protected Object doEval() {
                 return baseCriteria;
             }
-        }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
+                .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         layout.addComponent(printBtn);
 
         MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.SERVER).withWidth("100px");
@@ -223,17 +224,17 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void updateClosedMilestoneNumber(int closeMilestones) {
-        closedHeader.setValue(ProjectAssetsManager.getAsset(MilestoneStatus.Closed.name()).getHtml() + " " +
+        closedHeader.setValue(ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.Closed.name()).getHtml() + " " +
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
     }
 
     private void updateFutureMilestoneNumber(int futureMilestones) {
-        futureHeader.setValue(ProjectAssetsManager.getAsset(MilestoneStatus.Future.name()).getHtml() + " " +
+        futureHeader.setValue(ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.Future.name()).getHtml() + " " +
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
     }
 
     private void updateInProgressMilestoneNumber(int inProgressMilestones) {
-        inProgressHeader.setValue(ProjectAssetsManager.getAsset(MilestoneStatus.InProgress.name()).getHtml() + " " +
+        inProgressHeader.setValue(ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.InProgress.name()).getHtml() + " " +
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
                 ")");
     }

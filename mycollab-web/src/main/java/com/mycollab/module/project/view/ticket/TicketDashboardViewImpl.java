@@ -111,20 +111,20 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
                 }
             };
 
-    private ApplicationEventListener<TaskEvent.NewTaskAdded> newTicketAddedHandler = new
-            ApplicationEventListener<TaskEvent.NewTaskAdded>() {
+    private ApplicationEventListener<TicketEvent.NewTicketAdded> newTicketAddedHandler = new
+            ApplicationEventListener<TicketEvent.NewTicketAdded>() {
                 @Override
                 @Subscribe
-                public void handle(TaskEvent.NewTaskAdded event) {
-                    final ProjectTicketService projectTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
-//                    SimpleTask task = projectTaskService.findById((Integer) event.getData(), MyCollabUI.getAccountId());
-//                    if (task != null && ticketGroupOrderComponent != null) {
-//                        ticketGroupOrderComponent.insertTasks(Collections.singletonList(task));
-//                    }
+                public void handle(TicketEvent.NewTicketAdded event) {
+                    final ProjectTicketService projectTicketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
+                    ProjectTicket ticket = projectTicketService.findTicket(event.getTypeVal(), event.getTypeIdVal());
+                    if (ticket != null && ticketGroupOrderComponent != null) {
+                        ticketGroupOrderComponent.insertTickets(Collections.singletonList(ticket));
+                    }
                     displayTicketsStatistic();
 
-                    int totalTasks = projectTaskService.getTotalAssignmentsCount(baseCriteria);
-                    ticketSearchPanel.setTotalCountNumber(totalTasks);
+                    int totalTickets = projectTicketService.getTotalTicketsCount(baseCriteria);
+                    ticketSearchPanel.setTotalCountNumber(totalTickets);
                 }
             };
 
@@ -301,13 +301,13 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
         }
         wrapBody.addComponent(ticketGroupOrderComponent);
         final ProjectTicketService projectTicketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
-        int totalTasks = projectTicketService.getTotalAssignmentsCount(baseCriteria);
+        int totalTasks = projectTicketService.getTotalTicketsCount(baseCriteria);
         ticketSearchPanel.setTotalCountNumber(totalTasks);
         currentPage = 0;
         int pages = totalTasks / 20;
         if (currentPage < pages) {
             MButton moreBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_MORE), clickEvent -> {
-                int newTotalTickets = projectTicketService.getTotalAssignmentsCount(baseCriteria);
+                int newTotalTickets = projectTicketService.getTotalTicketsCount(baseCriteria);
                 int newNumPages = newTotalTickets / 20;
                 currentPage++;
                 List<ProjectTicket> otherTickets = projectTicketService.findTicketsByCriteria(new

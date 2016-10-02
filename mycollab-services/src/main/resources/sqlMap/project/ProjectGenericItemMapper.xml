@@ -328,8 +328,8 @@
         s_user.avatarId
         AS createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_prj_milestone.createdTime, m_prj_milestone.lastUpdatedTime, m_prj_milestone.name AS name,
-        m_prj_milestone.description AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_milestone.createdTime, m_prj_milestone.lastUpdatedTime, m_prj_milestone.name,
+        m_prj_milestone.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_milestone
         LEFT OUTER JOIN s_user ON (m_prj_milestone.createduser = s_user.username)
@@ -352,8 +352,7 @@
         SELECT 'Project-Component' AS type, m_tracker_component.id AS typeId, s_user.username AS createdUser,
         s_user.avatarId AS createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_tracker_component.createdTime, m_tracker_component.lastUpdatedTime, m_tracker_component.componentname AS
-        name,
+        m_tracker_component.createdTime, m_tracker_component.lastUpdatedTime, m_tracker_component.componentname AS name,
         m_tracker_component.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_tracker_component
@@ -377,11 +376,11 @@
         SELECT 'Project-Risk' AS type, m_prj_risk.id AS typeId, s_user.username AS createdUser, s_user.avatarId AS
         createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_prj_risk.createdTime, m_prj_risk.lastUpdatedTime, m_prj_risk.name AS name,
+        m_prj_risk.createdTime, m_prj_risk.lastUpdatedTime, m_prj_risk.name,
         m_prj_risk.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_risk
-            LEFT OUTER JOIN s_user ON (m_prj_risk.raisedbyuser = s_user.username)
+            LEFT OUTER JOIN s_user ON (m_prj_risk.createdUser = s_user.username)
             INNER JOIN m_prj_project ON (m_prj_risk.projectId = m_prj_project.id)
     </sql>
 

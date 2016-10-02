@@ -126,7 +126,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
                     MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                             .withIcon(ProjectAssetsManager.getPriority(priority.name()))
                             .withStyleName(WebUIConstants.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
-                            .withWidth("100px");
+                            .withWidth("110px");
                     priorityLayout.addComponent(priorityLink);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");

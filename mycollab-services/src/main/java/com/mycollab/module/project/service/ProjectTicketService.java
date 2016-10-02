@@ -41,17 +41,19 @@ public interface ProjectTicketService extends ISearchableService<ProjectTicketSe
 
     void closeSubAssignmentOfMilestone(Integer milestoneId);
 
-    ProjectTicket findAssignment(String type, Integer typeId);
+    ProjectTicket findTicket(String type, Integer typeId);
 
     @Cacheable
     List findTicketsByCriteria(@CacheKey BasicSearchRequest<ProjectTicketSearchCriteria> searchRequest);
 
     @Cacheable
-    Integer getTotalAssignmentsCount(@CacheKey ProjectTicketSearchCriteria criteria);
+    Integer getTotalTicketsCount(@CacheKey ProjectTicketSearchCriteria criteria);
 
     @Cacheable
     List<GroupItem> getAssigneeSummary(@CacheKey ProjectTicketSearchCriteria criteria);
 
     @Cacheable
     List<GroupItem> getPrioritySummary(@CacheKey ProjectTicketSearchCriteria criteria);
+
+    void updateTicket(ProjectTicket ticket, String username);
 }

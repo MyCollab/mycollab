@@ -2172,7 +2172,7 @@ div.v-window {
 
 .block {
 	border-radius: 5px;
-	padding: 3px 5px;
+	padding: 0px 5px;
 	margin-right: 5px;
 	color: #ffffff;
 	background-color: #76B38A;
@@ -2211,6 +2211,52 @@ div.v-window {
 
 .wizard .v-panel .v-panel-deco {
 	display: none;
+}
+
+.v-csscheckbox-label {
+	border: 1px solid #c5c5c5 !important;
+	width: 14px;
+	height: 14px;
+	border-radius: 14px !important;
+}
+
+.v-csscheckbox-label:hover {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #c5c5c5 !important;
+}
+
+.v-csscheckbox-inner::before {
+	background-color: white !important;
+	color: #76B38A !important;
+	height: 16px !important;
+	font-size: 12px !important;
+	line-height: 16px !important;
+}
+
+.v-csscheckbox-inner::after {
+	content: "\f00c";
+	background-color: white !important;
+	color: gray !important;
+	height: 16px !important;
+	font-size: 12px !important;
+	line-height: 16px !important;
+}
+
+.v-csscheckbox-inner:hover::before {
+	background-color: white !important;
+	color: #76B38A !important;
+	height: 20px !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+}
+
+.v-csscheckbox-inner:hover::after {
+	background-color: white !important;
+	color: gray !important;
+	height: 20px !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
 }
 
 .sk-cube-grid > div {
@@ -2535,10 +2581,6 @@ div.v-window {
 	color: white;
 	border: none;
 	transition: all 200ms ease-in;
-}
-
-.v-sliderpanel-tab {
-	font-size: 0.9em !important;
 }
 
 .stylecalendarfield {
@@ -14916,7 +14958,7 @@ div.v-window {
 
 .block {
 	border-radius: 5px;
-	padding: 3px 5px;
+	padding: 0px 5px;
 	margin-right: 5px;
 	color: #ffffff;
 	background-color: #76B38A;
@@ -14955,6 +14997,52 @@ div.v-window {
 
 .wizard .v-panel .v-panel-deco {
 	display: none;
+}
+
+.v-csscheckbox-label {
+	border: 1px solid #c5c5c5 !important;
+	width: 14px;
+	height: 14px;
+	border-radius: 14px !important;
+}
+
+.v-csscheckbox-label:hover {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #c5c5c5 !important;
+}
+
+.v-csscheckbox-inner::before {
+	background-color: white !important;
+	color: #76B38A !important;
+	height: 16px !important;
+	font-size: 12px !important;
+	line-height: 16px !important;
+}
+
+.v-csscheckbox-inner::after {
+	content: "\f00c";
+	background-color: white !important;
+	color: gray !important;
+	height: 16px !important;
+	font-size: 12px !important;
+	line-height: 16px !important;
+}
+
+.v-csscheckbox-inner:hover::before {
+	background-color: white !important;
+	color: #76B38A !important;
+	height: 20px !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+}
+
+.v-csscheckbox-inner:hover::after {
+	background-color: white !important;
+	color: gray !important;
+	height: 20px !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
 }
 
 .sk-cube-grid > div {
@@ -15279,10 +15367,6 @@ div.v-window {
 	color: white;
 	border: none;
 	transition: all 200ms ease-in;
-}
-
-.v-sliderpanel-tab {
-	font-size: 0.9em !important;
 }
 
 .stylecalendarfield {
@@ -16738,15 +16822,6 @@ input.v-textfield-pagedtable-pagefield {
 	opacity: 1;
 }
 
-.topNavigation .accountMenuContainer .v-button.notification-button, .topNavigation .accountMenuContainer .v-button.notification-button.v-pressed {
-	background-color: #ffffff;
-	border-radius: 5px;
-}
-
-.topNavigation .accountMenuContainer .v-button.notification-button .v-button-caption, .topNavigation .accountMenuContainer .v-button.notification-button.v-pressed .v-button-caption {
-	color: #c31616;
-}
-
 .topNavigation .accountMenuContainer .v-button.notification-button .v-popup-indicator, .topNavigation .accountMenuContainer .v-button.notification-button.v-pressed .v-popup-indicator {
 	display: none;
 }
@@ -16758,7 +16833,6 @@ input.v-textfield-pagedtable-pagefield {
 
 .topNavigation .accountMenuContainer .v-button.notification-button .v-button-wrap, .topNavigation .accountMenuContainer .v-button.notification-button .v-button-wrap:hover, .topNavigation .accountMenuContainer .v-button.notification-button.v-pressed .v-button-wrap, .topNavigation .accountMenuContainer .v-button.notification-button.v-pressed .v-button-wrap:hover {
 	padding: 4px 6px;
-	background: none;
 }
 
 .v-popupbutton-popup-notification-button .popupContent {
@@ -18370,12 +18444,4 @@ div.v-csslayout.rightsidebar-layout .content-wrap {
 
 .v-sliderpanel-content .community .desc {
 	font-size: 0.9em;
-}
-
-.v-sliderpanel-tab {
-	color: black !important;
-}
-
-.v-sliderpanel-icon::before {
-	color: black !important;
 }

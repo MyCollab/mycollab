@@ -1,7 +1,7 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
     <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com"/>
-    <s_user username="linhduong" firstname="Duong" lastname="Linh" email="linhduong@esofthead"/>
+    <s_user username="linhduong" firstname="Duong" lastname="Linh" email="linhduong@esofthead" avatarId="linh123"/>
 
     <s_account id="1" status="Active" paymentMethod="Credit" subdomain="a"/>
     <s_account id="2" status="Active" paymentMethod="Credit" subdomain="b"/>
@@ -20,15 +20,17 @@
     <m_prj_member id="2" username="linhduong" projectId="3" joinDate="2013-04-10 00:00:00" isAdmin="0" status="Active"
                   sAccountId="1"/>
 
-    <m_prj_task id="1" name="Task 1" percentagecomplete="10" projectId="1" sAccountId="1"
-                dueDate="2013-04-10 00:00:00"/>
-    <m_prj_task id="2" name="Task 2" percentagecomplete="10" projectId="1" sAccountId="1"
-                dueDate="2013-04-10 00:00:00"/>
-    <m_prj_task id="3" name="Task 3" percentagecomplete="10" projectId="2" sAccountId="1"
-                dueDate="2013-04-10 00:00:00"/>
+    <m_prj_task id="1" name="Task 1" percentagecomplete="10" projectId="1" sAccountId="1" dueDate="2013-04-10 00:00:00"/>
+
+    <m_prj_task id="2" name="Task 2" percentagecomplete="10" projectId="1" sAccountId="1" dueDate="2013-04-10 00:00:00"/>
+
+    <m_prj_task id="3" name="Task 3" percentagecomplete="10" projectId="2" sAccountId="1" dueDate="2013-04-10 00:00:00"/>
+
     <m_prj_task id="4" name="Task 4" percentagecomplete="10" projectId="3" sAccountId="2"
                 dueDate="2013-04-10 00:00:00" status="InProgress" assignUser="linhduong"/>
+
     <m_tracker_bug id="1" name="Bug 1" status="Active" projectId="3" sAccountId="2" bugkey="1"
                    dueDate="2013-04-10 00:00:00" assignUser="hai79"/>
+
     <m_prj_risk id="1" name="Risk 1" projectId="3" sAccountId="2" status="Open" assignUser="hai79"/>
 </dataset>

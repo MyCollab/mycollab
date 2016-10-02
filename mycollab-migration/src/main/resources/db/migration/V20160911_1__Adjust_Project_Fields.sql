@@ -84,9 +84,34 @@ DROP COLUMN `displayBug`,
 DROP COLUMN `displayTask`,
 ADD COLUMN `displayTicket` BIT(1) NULL;
 
-UPDATE `s_account_theme` SET `topMenuBg`='FFFFFF', `topMenuBgSelected`='4C4C4C',
-    `topMenuText`='4C4C4C', `topMenuTextSelected`='FFFFFF', `vTabsheetBg`='F9FFFF', `vTabsheetBgSelected`='4C4C4C'
+UPDATE `s_account_theme` SET `topMenuBg`='FFFFFF', `topMenuBgSelected`='707070',
+    `topMenuText`='707070', `topMenuTextSelected`='FFFFFF', `vTabsheetBg`='F9FFFF', `vTabsheetBgSelected`='707070',
+    `actionBtn`='46ACE8', `dangerBtn`='E3793B'
     WHERE `isDefault`='1';
 
 UPDATE m_prj_task SET priority='Medium' WHERE priority IS NULL AND id > 0;
 UPDATE m_tracker_bug SET priority='Medium' WHERE priority IS NULL AND id > 0;
+
+ALTER TABLE `m_prj_milestone`
+DROP FOREIGN KEY `PK_m_prj_milestone_1`,
+DROP FOREIGN KEY `PK_m_prj_milestone_4`;
+ALTER TABLE `m_prj_milestone`
+CHANGE COLUMN `startdate` `startDate` DATETIME NULL DEFAULT NULL ,
+CHANGE COLUMN `enddate` `endDate` DATETIME NULL DEFAULT NULL ,
+CHANGE COLUMN `owner` `assignUser` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL ,
+CHANGE COLUMN `createduser` `createdUser` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL ,
+CHANGE COLUMN `deadline` `dueDate` DATETIME NULL DEFAULT NULL ;
+ALTER TABLE `m_prj_milestone`
+ADD CONSTRAINT `PK_m_prj_milestone_1`
+  FOREIGN KEY (`assignUser`)
+  REFERENCES `s_user` (`username`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `PK_m_prj_milestone_4`
+  FOREIGN KEY (`createdUser`)
+  REFERENCES `s_user` (`username`)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE;
+
+ALTER TABLE `m_prj_risk`
+  ADD COLUMN `remainEstimate` DOUBLE NULL;

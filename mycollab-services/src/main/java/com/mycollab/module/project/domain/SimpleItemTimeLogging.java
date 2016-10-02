@@ -37,8 +37,6 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 
     private String name;
 
-    private String summary;
-
     private Double percentageComplete;
 
     private String status;
@@ -69,14 +67,6 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 
     public void setProjectShortName(String projectShortName) {
         this.projectShortName = projectShortName;
-    }
-
-    public String getSummary() {
-        return summary == null ? "" : summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
     }
 
     public Double getPercentageComplete() {
