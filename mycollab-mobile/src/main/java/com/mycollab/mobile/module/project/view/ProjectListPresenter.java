@@ -44,12 +44,9 @@ public abstract class ProjectListPresenter<V extends IListView<S, B>, S extends 
         super.postInitView();
         HasSearchHandlers<S> searchHandlers = view.getSearchHandlers();
         if (searchHandlers != null) {
-            searchHandlers.addSearchHandler(new SearchHandler<S>() {
-                @Override
-                public void onSearch(S criteria) {
-                    searchCriteria = criteria;
-                    view.getPagedBeanTable().search(criteria);
-                }
+            searchHandlers.addSearchHandler(criteria -> {
+                searchCriteria = criteria;
+                view.getPagedBeanTable().search(criteria);
             });
         }
     }

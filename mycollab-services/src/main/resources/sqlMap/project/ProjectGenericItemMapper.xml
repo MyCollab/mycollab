@@ -53,6 +53,12 @@
                 #end
                 LIMIT 1)
         #end
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Task" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         ]]>
     </sql>
 
@@ -91,6 +97,12 @@
                 #end
                 LIMIT 1)
         #end
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Message" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         ]]>
     </sql>
     <sql id="queryMilestoneSearchCriteria">
@@ -127,6 +139,12 @@
                     @{tagName}
                 #end
                 LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Milestone" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
         #end
         ]]>
     </sql>
@@ -168,6 +186,12 @@
                 #end
                 LIMIT 1)
         #end
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Bug" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         ]]>
     </sql>
 
@@ -182,7 +206,7 @@
             #end
         #end
         #ifnotnull($searchCriteria.txtValue)
-            ${searchCriteria.txtValue.operation} (m_tracker_component.componentname LIKE '%${searchCriteria.txtValue.value}%'
+            ${searchCriteria.txtValue.operation} (m_tracker_component.name LIKE '%${searchCriteria.txtValue.value}%'
                 OR m_tracker_component.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
         #ifnotnull($searchCriteria.monitorProjectIds)
@@ -207,6 +231,12 @@
                 #end
                 LIMIT 1)
         #end
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Component" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         ]]>
     </sql>
 
@@ -221,7 +251,7 @@
             #end
         #end
         #ifnotnull($searchCriteria.txtValue)
-            ${searchCriteria.txtValue.operation} (m_tracker_version.versionname LIKE '%${searchCriteria.txtValue.value}%'
+            ${searchCriteria.txtValue.operation} (m_tracker_version.name LIKE '%${searchCriteria.txtValue.value}%'
                 OR m_tracker_version.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
         #ifnotnull($searchCriteria.monitorProjectIds)
@@ -245,6 +275,12 @@
                     @{tagName}
                 #end
                 LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Version" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
         #end
         ]]>
     </sql>
@@ -286,6 +322,12 @@
                 #end
                 LIMIT 1)
         #end
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Risk" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         ]]>
     </sql>
 
@@ -300,8 +342,8 @@
     </sql>
 
     <sql id="selectTaskItem">
-        SELECT 'Project-Task' AS type, m_prj_task.id AS typeId, s_user.username AS createdUser, s_user.avatarId AS
-        createdUserAvatarId,
+        SELECT 'Project-Task' AS type, m_prj_task.id AS typeId, s_user.username AS createdUser,
+        s_user.avatarId AS createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
         m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.name, m_prj_task.description
         AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
@@ -312,8 +354,8 @@
     </sql>
 
     <sql id="selectMessageItem">
-        SELECT 'Project-Message' AS type, m_prj_message.id AS typeId, s_user.username AS createdUser, s_user.avatarId
-        AS createdUserAvatarId,
+        SELECT 'Project-Message' AS type, m_prj_message.id AS typeId, s_user.username AS createdUser,
+        s_user.avatarId AS createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
         m_prj_message.createdTime, m_prj_message.lastUpdatedTime, m_prj_message.title AS name,
         m_prj_message.message AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
@@ -325,8 +367,7 @@
 
     <sql id="selectMilestoneItem">
         SELECT 'Project-Milestone' AS type, m_prj_milestone.id AS typeId, s_user.username AS createdUser,
-        s_user.avatarId
-        AS createdUserAvatarId,
+        s_user.avatarId AS createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
         m_prj_milestone.createdTime, m_prj_milestone.lastUpdatedTime, m_prj_milestone.name,
         m_prj_milestone.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
@@ -337,22 +378,24 @@
     </sql>
 
     <sql id="selectBugItem">
-        SELECT 'Project-Bug' AS type, m_tracker_bug.id AS typeId, s_user.username AS createdUser, s_user.avatarId
-        AS createdUserAvatarId,
-        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_tracker_bug.createdTime, m_tracker_bug.lastUpdatedTime, m_tracker_bug.name,
-        m_tracker_bug.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-        m_prj_project.shortname AS projectShortName, m_tracker_bug.bugkey AS extraTypeId
+        SELECT 'Project-Bug' AS type, m_tracker_bug.id AS typeId, s_user.username AS createdUser,
+          s_user.avatarId AS createdUserAvatarId,
+          concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS
+        createdUserDisplayName,
+          m_tracker_bug.createdTime, m_tracker_bug.lastUpdatedTime, m_tracker_bug.name,
+          m_tracker_bug.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+          m_prj_project.shortname AS projectShortName, m_tracker_bug.bugkey AS extraTypeId
         FROM m_tracker_bug
-        LEFT OUTER JOIN s_user ON (m_tracker_bug.createdUser = s_user.username)
-        INNER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
+          LEFT OUTER JOIN s_user ON (m_tracker_bug.createdUser = s_user.username)
+          INNER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectComponentItem">
         SELECT 'Project-Component' AS type, m_tracker_component.id AS typeId, s_user.username AS createdUser,
-        s_user.avatarId AS createdUserAvatarId,
-        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_tracker_component.createdTime, m_tracker_component.lastUpdatedTime, m_tracker_component.componentname AS name,
+          s_user.avatarId AS createdUserAvatarId,
+          concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS
+        createdUserDisplayName,
+          m_tracker_component.createdTime, m_tracker_component.lastUpdatedTime, m_tracker_component.name,
         m_tracker_component.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_tracker_component
@@ -364,7 +407,7 @@
         SELECT 'Project-Version' AS type, m_tracker_version.id AS typeId, s_user.username AS createdUser,
         s_user.avatarId AS createdUserAvatarId,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_tracker_version.createdTime, m_tracker_version.lastUpdatedTime, m_tracker_version.versionname AS name,
+        m_tracker_version.createdTime, m_tracker_version.lastUpdatedTime, m_tracker_version.name,
         m_tracker_version.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_tracker_version

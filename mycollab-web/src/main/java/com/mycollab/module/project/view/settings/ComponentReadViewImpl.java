@@ -85,7 +85,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getComponentname();
+        return beanItem.getName();
     }
 
     @Override

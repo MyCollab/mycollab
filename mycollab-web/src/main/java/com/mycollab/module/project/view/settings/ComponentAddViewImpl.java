@@ -50,7 +50,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component> implem
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? null : beanItem.getComponentname();
+        return (beanItem.getId() == null) ? null : beanItem.getName();
     }
 
     @Override

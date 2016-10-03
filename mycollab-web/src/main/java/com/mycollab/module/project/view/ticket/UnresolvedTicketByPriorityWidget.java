@@ -21,6 +21,7 @@ import com.mycollab.common.domain.GroupItem;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
@@ -144,6 +145,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
         public void buttonClick(final ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
             ProjectTicketSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
+            criteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
             criteria.addExtraField(ProjectTicketSearchCriteria.p_priority.andStringParamInList(Collections.singletonList(key)));
             EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(this, criteria));
         }

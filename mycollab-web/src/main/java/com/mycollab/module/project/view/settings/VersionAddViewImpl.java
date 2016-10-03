@@ -49,7 +49,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? null : beanItem.getVersionname();
+        return (beanItem.getId() == null) ? null : beanItem.getName();
     }
 
     @Override

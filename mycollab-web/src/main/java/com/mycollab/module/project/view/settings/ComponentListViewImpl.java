@@ -79,7 +79,7 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
         tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ComponentService.class),
                 SimpleComponent.class, new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
                 Arrays.asList(
-                        new TableViewField(GenericI18Enum.FORM_NAME, "componentname", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(ComponentI18nEnum.FORM_LEAD, "userLeadFullName", WebUIConstants.TABLE_X_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
@@ -94,9 +94,9 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
             return cb;
         });
 
-        tableItem.addGeneratedColumn("componentname", (source, itemId, columnId) -> {
+        tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
             SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-            LabelLink b = new LabelLink(bugComponent.getComponentname(), ProjectLinkBuilder
+            LabelLink b = new LabelLink(bugComponent.getName(), ProjectLinkBuilder
                     .generateComponentPreviewFullLink(bugComponent.getProjectid(), bugComponent.getId()));
             if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);

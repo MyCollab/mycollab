@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
-    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active" />
-    <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com" />
-    <s_user username="nghiemle" firstname="Nghiem" lastname="Le" email="nghiemle@esofthead.com" />
-    <m_prj_project id="1" name="aaa" sAccountId="1" shortname="aaa" projectStatus="Open" />
+    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
+    <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com"/>
+    <s_user username="nghiemle" firstname="Nghiem" lastname="Le" email="nghiemle@esofthead.com"/>
+    <m_prj_project id="1" name="aaa" sAccountId="1" shortname="aaa" projectStatus="Open"/>
 
     <m_tracker_bug name="name 1" id="1" projectId="1"
-        detail="detail 1" status="Open" resolution="1" assignuser="hai79"
-        logby="hai79" createdTime="2014-10-02 06:45:22" sAccountId="1" />
+                   detail="detail 1" status="Open" resolution="1" assignUser="hai79"
+                   createdUser="hai79" createdTime="2014-10-02 06:45:22" sAccountId="1"/>
     <m_tracker_bug name="name 2" id="2" projectId="1"
-        detail="detail 2" status="InProgress" resolution="1" assignuser="nghiemle"
-        logby="nghiemle" createdTime="2014-10-02 07:45:22" sAccountId="1" />
+                   detail="detail 2" status="InProgress" resolution="1" assignUser="nghiemle"
+                   createdUser="nghiemle" createdTime="2014-10-02 07:45:22" sAccountId="1"/>
     <m_tracker_bug name="name 3" id="3" projectId="1"
-        detail="detail 3" status="Reopenned" resolution="1" logby="hai79"
-        assignuser="hai79" createdTime="2014-10-03 06:45:22" sAccountId="1" />
+                   detail="detail 3" status="Reopenned" resolution="1" createdUser="hai79"
+                   assignUser="hai79" createdTime="2014-10-03 06:45:22" sAccountId="1"/>
     <m_tracker_bug name="name 4" id="4" projectId="1"
-        detail="detail 4" status="Closed" resolution="1" logby="nghiemle"
-        assignuser="nghiemle" createdTime="2014-10-01 06:45:22"
-        sAccountId="1" />
+                   detail="detail 4" status="Closed" resolution="1" createdUser="nghiemle"
+                   assignUser="nghiemle" createdTime="2014-10-01 06:45:22"
+                   sAccountId="1"/>
 
-    <m_tracker_bug_related_item id="1" bugId="1" type="Component" typeId="1" />
-    <m_tracker_bug_related_item id="2" bugId="2" type="Component" typeId="2" />
-    <m_tracker_bug_related_item id="3" bugId="3" type="Component" typeId="3" />
-    <m_tracker_bug_related_item id="4" bugId="4" type="Component" typeId="2" />
+    <m_tracker_bug_related_item id="1" bugId="1" type="Component" typeId="1"/>
+    <m_tracker_bug_related_item id="2" bugId="2" type="Component" typeId="2"/>
+    <m_tracker_bug_related_item id="3" bugId="3" type="Component" typeId="3"/>
+    <m_tracker_bug_related_item id="4" bugId="4" type="Component" typeId="2"/>
 
-    <m_tracker_component id="1" componentname="com 1"
-        projectId="1" sAccountId="1" status="Open" userlead="hai79"
-        createdUser="hai79" description="aaaaaaa" lastUpdatedTime="2014-10-02 06:45:22"
-        createdTime="2014-10-02 06:45:22" prjKey="1" />
-    <m_tracker_component id="2" componentname="com 2"
-        projectId="1" sAccountId="1" status="Closed" userlead="nghiemle"
-        createdUser="nghiemle" description="bbbbbbb" lastUpdatedTime="2014-10-02 07:45:22"
-        createdTime="2014-10-02 07:45:22" prjKey="1" />
-    <m_tracker_component id="3" componentname="com 3"
-        projectId="1" sAccountId="1" status="Closed" userlead="hai79"
-        createdUser="hai79" description="ccccccc" lastUpdatedTime="2014-10-03 06:45:22"
-        createdTime="2014-10-03 06:45:22" prjKey="1" />
-    <m_tracker_component id="4" componentname="com 4"
-        projectId="1" sAccountId="1" status="Open" userlead="nghiemle"
-        createdUser="nghiemle" description="ddddddd" lastUpdatedTime="2014-10-02 06:32:22"
-        createdTime="2014-10-02 06:32:22" prjKey="1" />
+    <m_tracker_component id="1" name="com 1"
+                         projectId="1" sAccountId="1" status="Open" userlead="hai79"
+                         createdUser="hai79" description="aaaaaaa" lastUpdatedTime="2014-10-02 06:45:22"
+                         createdTime="2014-10-02 06:45:22" prjKey="1"/>
+    <m_tracker_component id="2" name="com 2"
+                         projectId="1" sAccountId="1" status="Closed" userlead="nghiemle"
+                         createdUser="nghiemle" description="bbbbbbb" lastUpdatedTime="2014-10-02 07:45:22"
+                         createdTime="2014-10-02 07:45:22" prjKey="1"/>
+    <m_tracker_component id="3" name="com 3"
+                         projectId="1" sAccountId="1" status="Closed" userlead="hai79"
+                         createdUser="hai79" description="ccccccc" lastUpdatedTime="2014-10-03 06:45:22"
+                         createdTime="2014-10-03 06:45:22" prjKey="1"/>
+    <m_tracker_component id="4" name="com 4"
+                         projectId="1" sAccountId="1" status="Open" userlead="nghiemle"
+                         createdUser="nghiemle" description="ddddddd" lastUpdatedTime="2014-10-02 06:32:22"
+                         createdTime="2014-10-02 06:32:22" prjKey="1"/>
 </dataset>

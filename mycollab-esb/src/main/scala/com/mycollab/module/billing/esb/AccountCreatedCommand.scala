@@ -148,7 +148,7 @@ import org.springframework.stereotype.Component
     taskService.saveWithSession(taskD, initialUser)
 
     val component = new com.mycollab.module.tracker.domain.Component()
-    component.setComponentname("Component 1")
+    component.setName("Component 1")
     component.setCreateduser(initialUser)
     component.setDescription("Sample Component 1")
     component.setStatus(StatusI18nEnum.Open.name())
@@ -159,7 +159,7 @@ import org.springframework.stereotype.Component
 
     val version = new Version()
     version.setCreateduser(initialUser)
-    version.setVersionname("Version 1")
+    version.setName("Version 1")
     version.setDescription("Sample version")
     version.setDuedate(now.plusDays(21).toLocalDate.toDate)
     version.setProjectid(projectId)

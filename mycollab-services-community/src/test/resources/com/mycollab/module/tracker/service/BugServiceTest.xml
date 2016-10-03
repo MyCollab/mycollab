@@ -7,10 +7,10 @@
     <m_prj_project id="1" name="aaa" sAccountId="1" shortname="aaa" projectStatus="Open"/>
 
     <m_tracker_component projectId="1"
-                         componentname="component1" id="1" sAccountId="1"
+                         name="component1" id="1" sAccountId="1"
                          createdTime="2009-01-02 00:00:00"/>
     <m_tracker_component projectId="1"
-                         componentname="component2" id="2" sAccountId="1"
+                         name="component2" id="2" sAccountId="1"
                          createdTime="2009-01-02 00:00:00"/>
 
     <m_tracker_bug name="name 1" id="1" projectId="1"
@@ -23,8 +23,8 @@
                    detail="detail 3" status="1" resolution="1" createdUser="user1"
                    assignUser="user1" createdTime="2009-01-03 00:00:00" sAccountId="1"/>
 
-    <m_tracker_version id="1" projectId="1" versionname="version1" sAccountId="1"/>
-    <m_tracker_version id="2" projectId="1" versionname="version2" sAccountId="1"/>
+    <m_tracker_version id="1" projectId="1" name="version1" sAccountId="1"/>
+    <m_tracker_version id="2" projectId="1" name="version2" sAccountId="1"/>
 
     <!--FIXED version -->
     <m_tracker_bug_related_item bugId="1" type="FixVersion" typeId="1" id="1"/>

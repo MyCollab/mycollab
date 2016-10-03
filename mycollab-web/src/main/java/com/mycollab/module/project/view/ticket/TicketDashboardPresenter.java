@@ -54,7 +54,7 @@ public class TicketDashboardPresenter extends ProjectGenericListPresenter<Ticket
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
+        if (CurrentProjectVariables.canReadTicket()) {
             container.removeAllComponents();
             container.addComponent(view);
             String query = (data != null && data.getParams() instanceof String) ? (String) data.getParams() : "";

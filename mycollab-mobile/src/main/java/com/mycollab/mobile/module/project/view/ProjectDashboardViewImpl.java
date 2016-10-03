@@ -148,17 +148,9 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         milestoneBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null)));
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), milestoneBtn));
 
-        NavigationButton taskBtn = new NavigationButton(UserUIContext.getMessage(TaskI18nEnum.LIST));
-        taskBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null)));
-        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), taskBtn));
-
-        NavigationButton bugBtn = new NavigationButton(UserUIContext.getMessage(BugI18nEnum.LIST));
-        bugBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null)));
-        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), bugBtn));
-
-        NavigationButton riskBtn = new NavigationButton(UserUIContext.getMessage(RiskI18nEnum.LIST));
-        riskBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoList(this, null)));
-        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK), riskBtn));
+        NavigationButton taskBtn = new NavigationButton(UserUIContext.getMessage(TicketI18nEnum.LIST));
+        taskBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null)));
+        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET), taskBtn));
 
         NavigationButton userBtn = new NavigationButton(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST));
         userBtn.addClickListener(navigationButtonClickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null)));
@@ -170,7 +162,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
     private static class NavigationButtonWrap extends MHorizontalLayout {
         NavigationButtonWrap(FontAwesome icon, NavigationButton button) {
             this.setStyleName("navigation-button-wrap");
-            ELabel iconLbl = ELabel.fontIcon(icon).withWidthUndefined();
+            ELabel iconLbl = ELabel.fontIcon(icon);
             with(iconLbl, button).withAlign(iconLbl, Alignment.MIDDLE_LEFT).expand(button);
         }
     }

@@ -350,13 +350,15 @@
         UNION
         (
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
-               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_tracker_component.componentname AS nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
-               s_user.avatarId AS createdUserAvatarId,
-               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
-               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
-               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
-               s_activitystream.nameField AS log_changeset
+          s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser,
+          m_tracker_component.name AS nameField, s_activitystream.extraTypeId, s_activitystream.module,
+          concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+          s_user.avatarId AS createdUserAvatarId,
+          s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName,
+          m_prj_project.shortname AS projectShortName,
+          NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser,
+          NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module,
+          s_activitystream.nameField AS log_changeset
         FROM s_activitystream
         LEFT OUTER JOIN m_tracker_component ON (s_activitystream.typeId=m_tracker_component.id)
         LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
@@ -373,24 +375,25 @@
         UNION
         (
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
-               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_tracker_version.versionname AS nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
-               s_user.avatarId AS createdUserAvatarId,
-               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
-               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
-               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
-               s_activitystream.nameField AS log_changeset
+          s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser,
+          m_tracker_version.name AS nameField, s_activitystream.extraTypeId,
+          s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+          s_user.avatarId AS createdUserAvatarId, s_activitystream.extraTypeId AS projectId,
+          m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+          NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser,
+          NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module,
+          s_activitystream.nameField AS log_changeset
         FROM s_activitystream
-        LEFT OUTER JOIN m_tracker_version ON (s_activitystream.typeId=m_tracker_version.id)
-        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
-        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
-        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+          LEFT OUTER JOIN m_tracker_version ON (s_activitystream.typeId=m_tracker_version.id)
+          LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+          LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+          LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
         #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
-                AND s_activitystream.type = 'Project-Version'
-                AND s_activitystream.action = 'comment'
-            #end
+          #trimext("WHERE" "AND|OR")
+            <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+              AND s_activitystream.type = 'Project-Version'
+              AND s_activitystream.action = 'comment'
+          #end
         #end
         )
         UNION

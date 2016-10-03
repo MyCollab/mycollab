@@ -14,41 +14,42 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.view.issue;
+package com.mycollab.mobile.module.project.view.ticket;
 
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
+import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.mycollab.vaadin.ui.BeanList;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.5
  */
-public class IssueNavigatorButton extends NavigationButton {
+public class TicketListDisplayView extends AbstractMobilePageView {
     private Integer milestoneId;
+    private final BeanList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
 
-    public IssueNavigatorButton() {
-        super(UserUIContext.getMessage(TicketI18nEnum.OPT_TICKETS_VALUE, 0));
-        this.addClickListener(navigationButtonClickEvent -> {
-            if (milestoneId != null) {
-                getNavigationManager().navigateTo(new IssueListView(milestoneId));
-            }
-        });
+    public TicketListDisplayView(Integer milestoneId) {
+        this.milestoneId = milestoneId;
+        ticketList = new BeanList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), TicketRowDisplayHandler.class);
+        ticketList.setDisplayEmptyListText(false);
+        this.setContent(ticketList);
+        displayTickets();
     }
 
-    public void displayTotalIssues(Integer milestoneId) {
-        this.milestoneId = milestoneId;
+    private void displayTickets() {
         ProjectTicketSearchCriteria criteria = new ProjectTicketSearchCriteria();
         criteria.setMilestoneId(NumberSearchField.equal(milestoneId));
         criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
-        ProjectTicketService ticketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
-        this.setCaption(UserUIContext.getMessage(TicketI18nEnum.OPT_TICKETS_VALUE, ticketService.getTotalCount(criteria)));
+        int numTickets = ticketList.setSearchCriteria(criteria);
+        this.setCaption(UserUIContext.getMessage(TicketI18nEnum.OPT_TICKETS_VALUE, numTickets));
     }
 }

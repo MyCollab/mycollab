@@ -22,6 +22,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
@@ -147,6 +148,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
             this.withListener(clickEvent -> {
                 ProjectTicketSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
                 criteria.setAssignUser(StringSearchField.and(assignee));
+                criteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
                 EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(UnresolvedTicketsByAssigneeWidget.this,
                         criteria));
             }).withWidth("100%").withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))

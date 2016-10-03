@@ -38,7 +38,7 @@ public class ComponentEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
 
     @Override
     protected Field<?> onCreateField(final Object propertyId) {
-        if (Component.Field.componentname.equalTo(propertyId)) {
+        if (Component.Field.name.equalTo(propertyId)) {
             final TextField tf = new TextField();
             if (isValidateForm) {
                 tf.setNullRepresentation("");

@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
-	<s_account id="1" createdTime="2013-04-10 13:29:23"
-		paymentMethod="Credit Card" status="Active" />
-	<s_user username="hai79" firstname="Nguyen" lastname="Hai"
-		email="hainguyen@esofthead.com" />
-	<s_user username="nghiemle" firstname="Nghiem" lastname="Le"
-		email="nghiemle@esofthead.com" />
-	<m_prj_project id="1" name="aaa" sAccountId="1"
-		shortname="aaa" projectStatus="Open" />
+    <s_account id="1" createdTime="2013-04-10 13:29:23"
+               paymentMethod="Credit Card" status="Active"/>
+    <s_user username="hai79" firstname="Nguyen" lastname="Hai"
+            email="hainguyen@esofthead.com"/>
+    <s_user username="nghiemle" firstname="Nghiem" lastname="Le"
+            email="nghiemle@esofthead.com"/>
+    <m_prj_project id="1" name="aaa" sAccountId="1"
+                   shortname="aaa" projectStatus="Open"/>
 
-	<m_tracker_bug name="name 1" id="1" projectId="1"
-		detail="detail 1" status="Open" resolution="1" assignuser="hai79"
-		logby="hai79" createdTime="2014-10-02 06:45:22" sAccountId="1" />
-	<m_tracker_bug name="name 2" id="2" projectId="1"
-		detail="detail 2" status="InProgress" resolution="1" assignuser="nghiemle"
-		logby="nghiemle" createdTime="2014-10-02 07:45:22" sAccountId="1" />
-	<m_tracker_bug name="name 3" id="3" projectId="1"
-		detail="detail 3" status="Reopenned" resolution="1" logby="hai79"
-		assignuser="hai79" createdTime="2014-10-03 06:45:22" sAccountId="1" />
-	<m_tracker_bug name="name 4" id="4" projectId="1"
-		detail="detail 4" status="Closed" resolution="1" logby="nghiemle"
-		assignuser="nghiemle" createdTime="2014-10-01 06:45:22" sAccountId="1" />
+    <m_tracker_bug name="name 1" id="1" projectId="1"
+                   detail="detail 1" status="Open" resolution="1" assignUser="hai79"
+                   createdUser="hai79" createdTime="2014-10-02 06:45:22" sAccountId="1"/>
+    <m_tracker_bug name="name 2" id="2" projectId="1"
+                   detail="detail 2" status="InProgress" resolution="1" assignUser="nghiemle"
+                   createdUser="nghiemle" createdTime="2014-10-02 07:45:22" sAccountId="1"/>
+    <m_tracker_bug name="name 3" id="3" projectId="1"
+                   detail="detail 3" status="Reopenned" resolution="1" createdUser="hai79"
+                   assignUser="hai79" createdTime="2014-10-03 06:45:22" sAccountId="1"/>
+    <m_tracker_bug name="name 4" id="4" projectId="1"
+                   detail="detail 4" status="Closed" resolution="1" createdUser="nghiemle"
+                   assignUser="nghiemle" createdTime="2014-10-01 06:45:22" sAccountId="1"/>
 
-	<m_tracker_bug_related_item id="1" bugId="1" type="AffVersion" typeId="1" />
-	<m_tracker_bug_related_item id="2" bugId="2" type="Fix Version" typeId="2" />
-	<m_tracker_bug_related_item id="3" bugId="3" type="Fix Version" typeId="3" />
-	<m_tracker_bug_related_item id="4" bugId="4" type="AffVersion" typeId="2" />
+    <m_tracker_bug_related_item id="1" bugId="1" type="AffVersion" typeId="1"/>
+    <m_tracker_bug_related_item id="2" bugId="2" type="Fix Version" typeId="2"/>
+    <m_tracker_bug_related_item id="3" bugId="3" type="Fix Version" typeId="3"/>
+    <m_tracker_bug_related_item id="4" bugId="4" type="AffVersion" typeId="2"/>
 
-	<m_tracker_version id="1" projectId="1" sAccountId="1"
-		versionname="1.0.0" createdTime="2014-06-10 10:10:10" lastUpdatedTime="2014-06-10 10:10:10"
-		duedate="2014-09-10 10:10:10" description="Version 1.0.0" createdUser="hai79"
-		status="Open" prjKey="1" />
-	<m_tracker_version id="2" projectId="1" sAccountId="1"
-		versionname="2.0.0" createdTime="2014-07-10 10:10:10" lastUpdatedTime="2014-07-10 10:10:10"
-		duedate="2014-09-12 10:10:10" description="Version 2.0.0" createdUser="nghiemle"
-		status="Closed" prjKey="1" />
-	<m_tracker_version id="3" projectId="1" sAccountId="1"
-		versionname="3.0.0" createdTime="2014-08-10 10:10:10" lastUpdatedTime="2014-08-10 10:10:10"
-		duedate="2014-09-15 10:10:10" description="Version 3.0.0" createdUser="hai79"
-		status="Closed" prjKey="1" />
-	<m_tracker_version id="4" projectId="1" sAccountId="1"
-		versionname="4.0.0" createdTime="2014-09-10 10:10:10" lastUpdatedTime="2014-09-10 10:10:10"
-		duedate="2014-09-17 10:10:10" description="Version 4.0.0" createdUser="nghiemle"
-		status="Open" prjKey="1" />
+    <m_tracker_version id="1" projectId="1" sAccountId="1"
+                       name="1.0.0" createdTime="2014-06-10 10:10:10" lastUpdatedTime="2014-06-10 10:10:10"
+                       duedate="2014-09-10 10:10:10" description="Version 1.0.0" createdUser="hai79"
+                       status="Open" prjKey="1"/>
+    <m_tracker_version id="2" projectId="1" sAccountId="1"
+                       name="2.0.0" createdTime="2014-07-10 10:10:10" lastUpdatedTime="2014-07-10 10:10:10"
+                       duedate="2014-09-12 10:10:10" description="Version 2.0.0" createdUser="nghiemle"
+                       status="Closed" prjKey="1"/>
+    <m_tracker_version id="3" projectId="1" sAccountId="1"
+                       name="3.0.0" createdTime="2014-08-10 10:10:10" lastUpdatedTime="2014-08-10 10:10:10"
+                       duedate="2014-09-15 10:10:10" description="Version 3.0.0" createdUser="hai79"
+                       status="Closed" prjKey="1"/>
+    <m_tracker_version id="4" projectId="1" sAccountId="1"
+                       name="4.0.0" createdTime="2014-09-10 10:10:10" lastUpdatedTime="2014-09-10 10:10:10"
+                       duedate="2014-09-17 10:10:10" description="Version 4.0.0" createdUser="nghiemle"
+                       status="Open" prjKey="1"/>
 </dataset>

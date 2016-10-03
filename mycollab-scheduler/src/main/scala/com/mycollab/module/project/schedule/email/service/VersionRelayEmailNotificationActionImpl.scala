@@ -46,7 +46,7 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
   protected def buildExtraTemplateVariables(context: MailContext[SimpleVersion]) {
     val emailNotification = context.getEmailNotification
 
-    val summary = bean.getVersionname
+    val summary = bean.getName
     val summaryLink = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
 
     val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
@@ -88,7 +88,7 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
     put(Version.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
     put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name, GenericI18Enum.FORM_STATUS,
       classOf[OptionI18nEnum.StatusI18nEnum]))
-    put(Version.Field.versionname, GenericI18Enum.FORM_NAME)
+    put(Version.Field.name, GenericI18Enum.FORM_NAME)
     put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
   }
 

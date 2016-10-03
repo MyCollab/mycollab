@@ -58,7 +58,7 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
         searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         itemList.search(searchCriteria);
         SimpleCampaign clearCampaign = new SimpleCampaign();
-        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearCampaign, 0));
+        itemList.addComponentAtTop(rowHandler.generateRow(clearCampaign, 0));
     }
 
     private class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {

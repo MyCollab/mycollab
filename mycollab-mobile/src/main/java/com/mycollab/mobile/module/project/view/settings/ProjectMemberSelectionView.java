@@ -38,7 +38,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -54,7 +54,6 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
     private static final long serialVersionUID = 4392390405558243836L;
 
     private ProjectMemberListDisplay memberListDisplay;
-
     private MemberRowDisplayHandler rowDisplayHandler;
 
     public ProjectMemberSelectionView() {
@@ -77,20 +76,21 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         memberListDisplay.search(searchCriteria);
         SimpleProjectMember blankMember = new SimpleProjectMember();
-        memberListDisplay.getListContainer().addComponentAsFirst(rowDisplayHandler.generateRow(blankMember, 0));
+        memberListDisplay.addComponentAtTop(rowDisplayHandler.generateRow(blankMember, 0));
     }
 
     private class MemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
 
         @Override
         public Component generateRow(final SimpleProjectMember member, int rowIndex) {
-            MHorizontalLayout mainLayout = new MHorizontalLayout().withFullWidth();
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).withFullWidth();
             mainLayout.addLayoutClickListener(layoutClickEvent -> {
                 selectionField.fireValueChange(member);
                 getNavigationManager().navigateBack();
             });
             if (member.getId() == null) {
-                mainLayout.addComponent(new Label(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM)));
+                mainLayout.addComponent(new MHorizontalLayout(new Label(UserUIContext.getMessage(GenericI18Enum
+                        .EXT_NO_ITEM))).withMargin(true));
                 return mainLayout;
             }
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
@@ -104,18 +104,17 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
             Label memberLbl = ELabel.html(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
             memberInfoLayout.addComponent(memberLbl);
 
-            Label memberEmailLabel = new Label(member.getUsername());
-            memberEmailLabel.addStyleName(UIConstants.META_INFO);
-            memberInfoLayout.addComponent(memberEmailLabel);
+            if (Boolean.TRUE.equals(MyCollabUI.getBillingAccount().getDisplayemailpublicly())) {
+                ELabel memberEmailLabel = new ELabel(member.getUsername()).withStyleName(UIConstants.META_INFO);
+                memberInfoLayout.addComponent(memberEmailLabel);
+            }
 
-            ELabel memberSinceLabel = new ELabel(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, UserUIContext.formatPrettyTime(member.getJoindate())))
-                    .withDescription(UserUIContext.formatDateTime(member.getJoindate()));
-            memberSinceLabel.addStyleName(UIConstants.META_INFO);
+            ELabel memberSinceLabel = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE,
+                    UserUIContext.formatPrettyTime(member.getJoindate()))).withStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(memberSinceLabel);
 
-            ELabel lastAccessTimeLbl = new ELabel(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, UserUIContext.formatPrettyTime(member.getLastAccessTime())))
-                    .withDescription(UserUIContext.formatDateTime(member.getLastAccessTime()));
-            lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
+            ELabel lastAccessTimeLbl = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN,
+                    UserUIContext.formatPrettyTime(member.getLastAccessTime()))).withStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(lastAccessTimeLbl);
 
             String memberWorksInfo = String.format("%s %s  %s %s  %s %s  %s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(), new Span
@@ -124,13 +123,10 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
                     member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
                     .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
 
-            Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withFullWidth();
-            memberWorkStatus.addStyleName(UIConstants.META_INFO);
+            Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO).withFullWidth();
             memberInfoLayout.addComponent(new MCssLayout(memberWorkStatus).withFullWidth());
 
             return mainLayout;
         }
-
     }
-
 }

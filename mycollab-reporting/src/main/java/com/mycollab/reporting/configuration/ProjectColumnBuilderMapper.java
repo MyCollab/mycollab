@@ -24,6 +24,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.SimpleVersion;
+import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.reporting.ColumnBuilderClassMapper;
 import com.mycollab.reporting.expression.DateExpression;
 import com.mycollab.reporting.expression.HumanTimeExpression;
@@ -445,7 +446,8 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
         LOG.debug("Build report mapper for project::component module");
 
         Map<String, ComponentBuilderGenerator> map = new HashMap<>();
-        DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("componentname");
+        DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>(com.mycollab.module.tracker.domain
+                .Component.Field.name.name());
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
 
@@ -457,7 +459,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, projectId, componentId);
             }
         };
-        map.put("componentname", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
+        map.put("name", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
 
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>("userLeadFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -493,7 +495,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
         LOG.debug("Build report mapper for project::version module");
 
         Map<String, ComponentBuilderGenerator> map = new HashMap<>();
-        DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("versionname");
+        DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>(Version.Field.name.name());
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
 
@@ -505,7 +507,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateBugVersionPreviewFullLink(siteUrl, projectId, versionId);
             }
         };
-        map.put("versionname", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
+        map.put(Version.Field.name.name(), new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
         map.put("duedate", new SimpleExpressionBuilderGenerator(new DateExpression("duedate")));
         AbstractSimpleExpression<Double> progressExpr = new AbstractSimpleExpression<Double>() {
             @Override

@@ -292,8 +292,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         viewIssuesBtn.setCaption(UserUIContext.getMessage(ProjectI18nEnum.ACTION_HIDE_TICKETS));
                         ProjectTicketSearchCriteria searchCriteria = new ProjectTicketSearchCriteria();
                         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                        searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
-                                ProjectTypeConstants.RISK));
+                        searchCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
                         searchCriteria.setMilestoneId(new NumberSearchField(milestone.getId()));
                         ProjectTicketService genericTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
                         List<ProjectTicket> tickets = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));

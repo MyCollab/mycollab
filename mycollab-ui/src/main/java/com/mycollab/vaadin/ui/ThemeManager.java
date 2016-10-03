@@ -44,19 +44,8 @@ public class ThemeManager {
 
         StringBuilder extraStyles = new StringBuilder();
 
-        extraStyles.append(".v-touchkit-navbar-caption { width: " + (UIUtils.getBrowserWidth() - 144) + "px " +
-                "!important; }");
-        extraStyles.append(".v-touchkit-navbar-caption span { width: " + (UIUtils.getBrowserWidth() - 144) + "px " +
-                "!important; }");
-        if (accountTheme.getTopmenubg() != null) {
-            extraStyles.append(".v-touchkit-navbar { background-color: #" + accountTheme.getTopmenubg() + "; }");
-        }
-
-        if (accountTheme.getTopmenutext() != null) {
-            extraStyles.append(".v-touchkit-navbar { color: #" + accountTheme.getTopmenutext() + "; }");
-            extraStyles.append(".v-touchkit-navbar .v-button { color: #" + accountTheme.getTopmenutext() + "; }");
-            extraStyles.append(".v-touchkit-navbar .v-navbar-quickmenu-button { color: #" + accountTheme.getTopmenutext() + "; }");
-        }
+        extraStyles.append(".v-touchkit-navbar-caption { width: " + (UIUtils.getBrowserWidth() - 144) + "px !important; }");
+        extraStyles.append(".v-touchkit-navbar-caption span { width: " + (UIUtils.getBrowserWidth() - 144) + "px !important; }");
 
         if (accountTheme.getVtabsheetbg() != null) {
             extraStyles.append(".section { background-color: #" + accountTheme.getVtabsheetbg() + "; }");

@@ -466,22 +466,22 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         breadcrumb.select(0);
         breadcrumb.addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
         breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(version.getVersionname(),
+        breadcrumb.addLink(generateBreadcrumbLink(version.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId()))));
         breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment("project/version/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + version.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                        UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getVersionname()));
+                        UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getName()));
     }
 
     public void gotoVersionRead(Version version) {
         breadcrumb.select(0);
         breadcrumb.addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
         breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(version.getVersionname()));
+        breadcrumb.addLink(generateBreadcrumbLink(version.getName()));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateBugVersionPreviewLink(project.getId(), version.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                        UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getVersionname()));
+                        UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getName()));
     }
 
     private static class GotoVersionListener implements Button.ClickListener {
@@ -527,21 +527,21 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         breadcrumb.select(0);
         breadcrumb.addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
         breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(component.getComponentname(),
+        breadcrumb.addLink(generateBreadcrumbLink(component.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId()))));
         breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment("project/component/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + component.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                        UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getComponentname()));
+                        UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getName()));
     }
 
     public void gotoComponentRead(Component component) {
         breadcrumb.select(0);
         breadcrumb.addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
-        breadcrumb.addLink(generateBreadcrumbLink(component.getComponentname()));
+        breadcrumb.addLink(generateBreadcrumbLink(component.getName()));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateBugComponentPreviewLink(project.getId(), component.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                        UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getComponentname()));
+                        UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getName()));
     }
 
     public void gotoTimeTrackingList() {

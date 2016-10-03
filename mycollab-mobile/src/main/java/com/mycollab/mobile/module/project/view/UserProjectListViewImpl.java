@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.project.view;
 
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -66,7 +66,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         if (getPagedBeanTable().getSearchRequest() == null) {
             ProjectSearchCriteria criteria = new ProjectSearchCriteria();
             criteria.setInvolvedMember(StringSearchField.and(UserUIContext.getUsername()));
-            criteria.setProjectStatuses(new SetSearchField(OptionI18nEnum.StatusI18nEnum.Open.name()));
+            criteria.setProjectStatuses(new SetSearchField(StatusI18nEnum.Open.name()));
             getPagedBeanTable().setSearchCriteria(criteria);
         }
         getPagedBeanTable().refresh();

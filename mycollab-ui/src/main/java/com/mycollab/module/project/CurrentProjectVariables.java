@@ -17,7 +17,9 @@
 package com.mycollab.module.project;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.core.SecureAccessException;
+import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.file.PathUtils;
 import com.mycollab.module.project.dao.ProjectRolePermissionMapper;
 import com.mycollab.module.project.domain.*;
@@ -28,7 +30,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.MyCollabSession;
-import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -245,5 +246,62 @@ public class CurrentProjectVariables {
     public static String getShortName() {
         SimpleProject project = getProject();
         return (project != null) ? project.getShortname() : "";
+    }
+
+    public static boolean canWriteTicket(ProjectTicket ticket) {
+        if (ticket.isTask()) {
+            return canWrite(ProjectRolePermissionCollections.TASKS);
+        } else if (ticket.isBug()) {
+            return canWrite(ProjectRolePermissionCollections.BUGS);
+        } else if (ticket.isRisk()) {
+            return canWrite(ProjectRolePermissionCollections.RISKS);
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean canReadTicket() {
+        return canRead(ProjectRolePermissionCollections.TASKS) || canRead(ProjectRolePermissionCollections.BUGS)
+                || canRead(ProjectRolePermissionCollections.RISKS);
+    }
+
+    public static SetSearchField<String> getRestrictedItemTypes() {
+        SetSearchField<String> types = new SetSearchField<>();
+        if (canRead(ProjectRolePermissionCollections.MESSAGES)) {
+            types.addValue(ProjectTypeConstants.MESSAGE);
+        }
+        if (canRead(ProjectRolePermissionCollections.MILESTONES)) {
+            types.addValue(ProjectTypeConstants.MILESTONE);
+        }
+        if (canRead(ProjectRolePermissionCollections.TASKS)) {
+            types.addValue(ProjectTypeConstants.TASK);
+        }
+        if (canRead(ProjectRolePermissionCollections.BUGS)) {
+            types.addValue(ProjectTypeConstants.BUG);
+        }
+        if (canRead(ProjectRolePermissionCollections.RISKS)) {
+            types.addValue(ProjectTypeConstants.RISK);
+        }
+        if (canRead(ProjectRolePermissionCollections.COMPONENTS)) {
+            types.addValue(ProjectTypeConstants.BUG_COMPONENT);
+        }
+        if (canRead(ProjectRolePermissionCollections.VERSIONS)) {
+            types.addValue(ProjectTypeConstants.BUG_VERSION);
+        }
+        return types;
+    }
+
+    public static SetSearchField<String> getRestrictedTicketTypes() {
+        SetSearchField<String> types = new SetSearchField<>();
+        if (canRead(ProjectRolePermissionCollections.TASKS)) {
+            types.addValue(ProjectTypeConstants.TASK);
+        }
+        if (canRead(ProjectRolePermissionCollections.BUGS)) {
+            types.addValue(ProjectTypeConstants.BUG);
+        }
+        if (canRead(ProjectRolePermissionCollections.RISKS)) {
+            types.addValue(ProjectTypeConstants.RISK);
+        }
+        return types;
     }
 }

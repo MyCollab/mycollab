@@ -48,7 +48,7 @@ public class VersionListSelect extends IntegerKeyListSelect {
         List<Version> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (Version version : versions) {
             this.addItem(version.getId());
-            this.setItemCaption(version.getId(), version.getVersionname());
+            this.setItemCaption(version.getId(), version.getName());
         }
 
         this.setRows(4);

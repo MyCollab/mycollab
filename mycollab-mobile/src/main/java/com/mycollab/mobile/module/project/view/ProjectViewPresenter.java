@@ -23,7 +23,7 @@ import com.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.mycollab.mobile.module.project.view.milestone.MilestonePresenter;
 import com.mycollab.mobile.module.project.view.parameters.*;
 import com.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
-import com.mycollab.mobile.module.project.view.task.TaskPresenter;
+import com.mycollab.mobile.module.project.view.ticket.TicketPresenter;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.service.ProjectService;
@@ -77,7 +77,7 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
             presenter = PresenterResolver.getPresenter(MessagePresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, TaskScreenData.Search.class, TaskScreenData.Read.class,
                 TaskScreenData.Add.class, TaskScreenData.Edit.class)) {
-            presenter = PresenterResolver.getPresenter(TaskPresenter.class);
+            presenter = PresenterResolver.getPresenter(TicketPresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, MilestoneScreenData.Search.class,
                 MilestoneScreenData.Read.class, MilestoneScreenData.Add.class, MilestoneScreenData.Edit.class)) {
             presenter = PresenterResolver.getPresenter(MilestonePresenter.class);

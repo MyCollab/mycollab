@@ -44,7 +44,7 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
         this.setCaption(UserUIContext.getMessage(LeadI18nEnum.M_VIEW_LEAD_NAME_LOOKUP));
     }
 
-    public void createUI() {
+    private void createUI() {
         itemList = new LeadListDisplay();
         itemList.setWidth("100%");
         itemList.setRowDisplayHandler(rowHandler);
@@ -57,7 +57,7 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
         searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         itemList.search(searchCriteria);
         SimpleLead clearLead = new SimpleLead();
-        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearLead, 0));
+        itemList.addComponentAtTop(rowHandler.generateRow(clearLead, 0));
     }
 
     private class LeadRowDisplayHandler implements RowDisplayHandler<SimpleLead> {

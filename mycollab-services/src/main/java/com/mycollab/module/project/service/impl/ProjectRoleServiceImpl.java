@@ -45,7 +45,8 @@ import org.springframework.stereotype.Service;
 public class ProjectRoleServiceImpl extends DefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria> implements ProjectRoleService {
 
     static {
-        ClassInfoMap.put(ProjectRoleServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.PROJECT_ROLE));
+        ClassInfoMap.put(ProjectRoleServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ,
+                ProjectTypeConstants.PROJECT_ROLE));
     }
 
     @Autowired

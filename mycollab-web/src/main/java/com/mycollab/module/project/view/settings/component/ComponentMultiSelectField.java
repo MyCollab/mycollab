@@ -40,7 +40,7 @@ public class ComponentMultiSelectField extends MultiSelectComp {
     private static final long serialVersionUID = 1L;
 
     public ComponentMultiSelectField() {
-        super("componentname", true);
+        super("name", true);
     }
 
     @Override

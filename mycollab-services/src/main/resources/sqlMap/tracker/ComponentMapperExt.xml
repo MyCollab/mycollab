@@ -27,7 +27,7 @@
         
         
         #ifnotnull($searchCriteria.componentName)
-            ${searchCriteria.componentName.operation} m_tracker_component.componentname like '%${searchCriteria.componentName.value}%'
+            ${searchCriteria.componentName.operation} m_tracker_component.name like '%${searchCriteria.componentName.value}%'
         #end
         
         #ifnotnull($searchCriteria.status)
@@ -41,7 +41,7 @@
     </sql>
     <sql id="selectComponents">
         <![CDATA[
-          SELECT m_tracker_component.id, m_tracker_component.projectId, m_tracker_component.componentname,
+          SELECT m_tracker_component.id, m_tracker_component.projectId, m_tracker_component.name,
                 m_tracker_component.userlead, m_tracker_component.description, 
                 m_tracker_component.sAccountId, m_tracker_component.lastUpdatedTime, m_tracker_component.createdTime, m_tracker_component.status,
                 m_tracker_component.createduser, createdUserTbl.avatarId AS createdUserAvatarId,

@@ -322,7 +322,7 @@ public class ProjectTooltipGenerator {
             return generateToolTipNull(locale);
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.appendTitle(version.getVersionname());
+            tooltipManager.appendTitle(version.getName());
 
             Tr trRow2 = new Tr();
             Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DESCRIPTION));
@@ -353,7 +353,7 @@ public class ProjectTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.appendTitle(component.getComponentname());
+            tooltipManager.appendTitle(component.getName());
 
             Tr trRow2 = new Tr();
             Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DESCRIPTION));

@@ -75,7 +75,7 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
         tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(VersionService.class),
                 SimpleVersion.class,
                 new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
-                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "versionname", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 2 * WebUIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DUE_DATE, "duedate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
@@ -90,9 +90,9 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
             return cb;
         });
 
-        tableItem.addGeneratedColumn("versionname", (source, itemId, columnId) -> {
+        tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
             final Version bugVersion = tableItem.getBeanByIndex(itemId);
-            final LabelLink b = new LabelLink(bugVersion.getVersionname(), ProjectLinkBuilder
+            final LabelLink b = new LabelLink(bugVersion.getName(), ProjectLinkBuilder
                     .generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
             if (bugVersion.getStatus() != null && bugVersion.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 b.addStyleName(WebUIConstants.LINK_COMPLETED);

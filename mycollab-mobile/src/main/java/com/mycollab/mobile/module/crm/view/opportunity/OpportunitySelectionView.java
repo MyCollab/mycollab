@@ -57,7 +57,7 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
         searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         itemList.search(searchCriteria);
         SimpleOpportunity clearOpportunity = new SimpleOpportunity();
-        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearOpportunity, 0));
+        itemList.addComponentAtTop(rowHandler.generateRow(clearOpportunity, 0));
     }
 
     private class OpportunityRowDisplayHandler implements RowDisplayHandler<SimpleOpportunity> {

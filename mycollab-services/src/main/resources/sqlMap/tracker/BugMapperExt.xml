@@ -352,13 +352,13 @@
                  m_prj_project.name as projectname, m_prj_project.shortname AS projectShortName,
                  affectedversion.id as affectedversion_id, affectedversion.projectId as affectedversion_projectid,
                  affectedversion.description as affectedversion_description, affectedversion.duedate as affectedversion_duedate, 
-                 affectedversion.versionname as affectedversion_versionname, affectedversion.createdUser as affectedversion_createdUser, 
+                 affectedversion.name as affectedversion_name, affectedversion.createdUser as affectedversion_createdUser,
                  affectedversion.createdTime as affectedversion_createdTime, affectedversion.lastUpdatedTime as affectedversion_lastUpdatedTime,
                  fixedversion.id as fixedversion_id, fixedversion.projectId as fixedversion_projectid,
                  fixedversion.description as fixedversion_description, fixedversion.duedate as fixedversion_duedate, 
-                 fixedversion.versionname as fixedversion_versionname, fixedversion.createdUser as fixedversion_createdUser, 
+                 fixedversion.name as fixedversion_name, fixedversion.createdUser as fixedversion_createdUser,
                  fixedversion.createdTime as fixedversion_createdTime, fixedversion.lastUpdatedTime as fixedversion_lastUpdatedTime,
-                 component.id as component_id, component.projectId as component_projectid, component.componentname as component_componentname,
+                 component.id as component_id, component.projectId as component_projectid, component.name as component_name,
                  component.userlead as component_userlead, component.description as component_description, component.createdUser as component_createdUser, 
                  component.createdTime as component_createdTime, component.lastUpdatedTime as component_lastUpdatedTime,
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectId
@@ -521,7 +521,7 @@
         <![CDATA[
         SELECT m_tracker_component.id AS groupid,
             COUNT(IFNULL(m_tracker_component.id,'')) AS value,
-            m_tracker_component.componentname as groupname
+            m_tracker_component.name as groupname
         FROM m_tracker_bug
         RIGHT OUTER JOIN m_tracker_bug_related_item ON (m_tracker_bug.id = m_tracker_bug_related_item.bugid) 
         RIGHT OUTER JOIN m_tracker_component ON (m_tracker_bug_related_item.type = 'Component'
@@ -553,7 +553,7 @@
         <![CDATA[
         SELECT m_tracker_version.id AS groupid,
             COUNT(IFNULL(m_tracker_version.id,'')) AS value,
-            m_tracker_version.versionname as groupname
+            m_tracker_version.name as groupname
         FROM m_tracker_bug
         RIGHT OUTER JOIN m_tracker_related_item ON (CONCAT('bug-', m_tracker_bug.id) = m_tracker_related_item.refkey) 
         RIGHT OUTER JOIN m_tracker_version ON ((m_tracker_related_item.type = 0 || m_tracker_related_item.type =1)
@@ -599,7 +599,7 @@
     <select id="getBugStatusGroupItemBaseComponent" parameterType="BugSearchCriteria"
             resultMap="BugStatusGroupItemResult" lang="velocity">
         <![CDATA[
-        SELECT m_tracker_component.componentname AS groupname, 
+        SELECT m_tracker_component.name AS groupname,
             (SELECT COUNT(*) 
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="Open" 

@@ -31,7 +31,7 @@
     </bean>
 
     <bean class="Component" ignore-annotations="false">
-        <field name="componentname">
+        <field name="name">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>Component name must not be null</message>
             </constraint>
@@ -39,7 +39,7 @@
     </bean>
 
     <bean class="Version" ignore-annotations="false">
-        <field name="versionname">
+        <field name="name">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>Version name must not be null</message>
             </constraint>

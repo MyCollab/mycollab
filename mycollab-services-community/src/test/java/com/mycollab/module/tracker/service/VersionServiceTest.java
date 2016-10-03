@@ -61,7 +61,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 
 		assertThat(versions.size()).isEqualTo(4);
 		assertThat(versions).extracting("id", "description", "status",
-				"versionname", "numBugs", "numOpenBugs", "duedate",
+				"name", "numBugs", "numOpenBugs", "duedate",
 				"createdtime").contains(
 				tuple(4, "Version 4.0.0", "Open", "4.0.0", 0, 0, dateformat.parse("2014-09-17 10:10:10"), dateformat.parse("2014-09-10 10:10:10")),
 				tuple(3, "Version 3.0.0", "Closed", "3.0.0", 1, 1, dateformat.parse("2014-09-15 10:10:10"), dateformat.parse("2014-08-10 10:10:10")),
@@ -85,7 +85,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 		List<SimpleVersion> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",
-				"versionname", "numBugs", "numOpenBugs").contains(
+				"name", "numBugs", "numOpenBugs").contains(
 				tuple(1, "Version 1.0.0", "Open", "1.0.0", 1, 1));
 	}
 
@@ -101,7 +101,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 		List<SimpleVersion> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",
-				"versionname", "numBugs", "numOpenBugs").contains(
+				"name", "numBugs", "numOpenBugs").contains(
 				tuple(2, "Version 2.0.0", "Closed", "2.0.0", 2, 1));
 	}
 
@@ -111,7 +111,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 		Version version = new Version();
 		version.setProjectid(1);
 		version.setDuedate(new GregorianCalendar(2014, 10, 6).getTime());
-		version.setVersionname("sss");
+		version.setName("sss");
 		version.setCreateduser("hai79");
 		version.setSaccountid(1);
 		version.setDescription("a");

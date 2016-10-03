@@ -40,7 +40,7 @@ public class VersionEditFormFieldFactory extends AbstractBeanFieldGroupEditField
 
     @Override
     protected Field<?> onCreateField(final Object propertyId) {
-        if (Version.Field.versionname.equalTo(propertyId)) {
+        if (Version.Field.name.equalTo(propertyId)) {
             final TextField tf = new TextField();
             if (isValidateForm) {
                 tf.setNullRepresentation("");

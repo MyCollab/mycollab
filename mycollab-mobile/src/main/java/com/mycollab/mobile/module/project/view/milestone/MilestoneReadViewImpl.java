@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.project.view.milestone;
 
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
-import com.mycollab.mobile.module.project.view.issue.IssueNavigatorButton;
+import com.mycollab.mobile.module.project.view.ticket.TicketNavigatorButton;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.FormSectionBuilder;
@@ -54,7 +54,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private static final long serialVersionUID = -2466318105833801922L;
 
     private CommentNavigationButton relatedComments;
-    private IssueNavigatorButton issueNavigatorButton;
+    private TicketNavigatorButton ticketNavigatorButton;
 
     @Override
     public HasPreviewFormHandlers<SimpleMilestone> getPreviewFormHandlers() {
@@ -64,7 +64,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     @Override
     protected void afterPreviewItem() {
         relatedComments.displayTotalComments(beanItem.getId() + "");
-        issueNavigatorButton.displayTotalIssues(beanItem.getId());
+        ticketNavigatorButton.displayTotalIssues(beanItem.getId());
     }
 
     @Override
@@ -101,8 +101,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     protected ComponentContainer createBottomPanel() {
         MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        issueNavigatorButton = new IssueNavigatorButton();
-        Component issueSection = FormSectionBuilder.build(FontAwesome.TICKET, issueNavigatorButton);
+        ticketNavigatorButton = new TicketNavigatorButton();
+        Component issueSection = FormSectionBuilder.build(FontAwesome.TICKET, ticketNavigatorButton);
         toolbarLayout.addComponent(issueSection);
         relatedComments = new CommentNavigationButton(ProjectTypeConstants.MILESTONE, beanItem.getId() + "");
         Component commentSection = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);

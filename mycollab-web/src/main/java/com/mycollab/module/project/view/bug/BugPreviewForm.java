@@ -160,9 +160,9 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 if (CollectionUtils.isNotEmpty(components)) {
                     ContainerViewField componentContainer = new ContainerViewField();
                     for (final Component component : beanItem.getComponents()) {
-                        MButton componentLink = new MButton(StringUtils.trim(component.getComponentname(), 25, true),
+                        MButton componentLink = new MButton(StringUtils.trim(component.getName(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId())))
-                                .withDescription(component.getComponentname()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(component.getName()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(componentLink);
                     }
                     return componentContainer;
@@ -174,9 +174,9 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 if (CollectionUtils.isNotEmpty(affectedVersions)) {
                     ContainerViewField componentContainer = new ContainerViewField();
                     for (final Version version : beanItem.getAffectedVersions()) {
-                        MButton versionLink = new MButton(StringUtils.trim(version.getVersionname(), 25, true),
+                        MButton versionLink = new MButton(StringUtils.trim(version.getName(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getName()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;
@@ -188,9 +188,9 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 if (CollectionUtils.isNotEmpty(fixedVersions)) {
                     ContainerViewField componentContainer = new ContainerViewField();
                     for (final Version version : beanItem.getFixedVersions()) {
-                        MButton versionLink = new MButton(StringUtils.trim(version.getVersionname(), 25, true),
+                        MButton versionLink = new MButton(StringUtils.trim(version.getName(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getVersionname()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getName()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;

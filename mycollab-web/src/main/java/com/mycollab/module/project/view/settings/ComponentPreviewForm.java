@@ -53,7 +53,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
     @Override
     public void setBean(SimpleComponent bean) {
         setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_COMPONENT, ComponentDefaultFormLayoutFactory.getForm(),
-                Component.Field.componentname.name()));
+                Component.Field.name.name()));
         setBeanFormFieldFactory(new ReadFormFieldFactory(this));
         super.setBean(bean);
     }

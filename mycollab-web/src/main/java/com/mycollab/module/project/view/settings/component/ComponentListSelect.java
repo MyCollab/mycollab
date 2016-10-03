@@ -48,7 +48,7 @@ public class ComponentListSelect extends IntegerKeyListSelect {
         List<Component> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (Component component : components) {
             this.addItem(component.getId());
-            this.setItemCaption(component.getId(), component.getComponentname());
+            this.setItemCaption(component.getId(), component.getName());
         }
 
         this.setRows(4);

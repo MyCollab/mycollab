@@ -58,7 +58,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
 
         assertThat(components.size()).isEqualTo(4);
         assertThat(components).extracting("id", "description", "status",
-                "componentname", "numBugs", "numOpenBugs", "userLeadFullName",
+                "name", "numBugs", "numOpenBugs", "userLeadFullName",
                 "lastupdatedtime").contains(
                 tuple(1, "aaaaaaa", "Open", "com 1", 1, 1, "Nguyen Hai", dateformat.parse("2014-10-02 06:45:22")),
                 tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1, "Nghiem Le", dateformat.parse("2014-10-02 07:45:22")),
@@ -84,7 +84,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
         List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
-                "componentname", "numBugs", "numOpenBugs").contains(
+                "name", "numBugs", "numOpenBugs").contains(
                 tuple(1, "aaaaaaa", "Open", "com 1", 1, 1));
     }
 
@@ -101,7 +101,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
         List<SimpleComponent> components = componentService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
-                "componentname", "numBugs", "numOpenBugs").contains(
+                "name", "numBugs", "numOpenBugs").contains(
                 tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1));
     }
 }

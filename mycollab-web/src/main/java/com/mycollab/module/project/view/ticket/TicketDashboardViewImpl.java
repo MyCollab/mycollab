@@ -104,8 +104,6 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
                 public void handle(TicketEvent.SearchRequest event) {
                     ProjectTicketSearchCriteria criteria = (ProjectTicketSearchCriteria) event.getData();
                     if (criteria != null) {
-                        criteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
-                                ProjectTypeConstants.RISK));
                         queryTickets(criteria);
                     }
                 }
@@ -220,10 +218,11 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
     public void displayView(String query) {
         baseCriteria = new ProjectTicketSearchCriteria();
         baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        baseCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
-                ProjectTypeConstants.RISK));
+        baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
 
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
+        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
+                ProjectTypeConstants.RISK));
 
         if (StringUtils.isNotBlank(query)) {
             try {
@@ -232,8 +231,6 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
                 ticketSearchPanel.displaySearchFieldInfos(searchFieldInfos);
                 ProjectTicketSearchCriteria searchCriteria = SearchFieldInfo.buildSearchCriteria(baseCriteria, searchFieldInfos);
                 searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
-                        ProjectTypeConstants.RISK));
                 queryTickets(searchCriteria);
             } catch (Exception e) {
                 LOG.error("Error", e);
@@ -274,6 +271,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
     @Override
     public void queryTickets(final ProjectTicketSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
+        baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
         queryAndDisplayTickets();
         displayTicketsStatistic();
     }

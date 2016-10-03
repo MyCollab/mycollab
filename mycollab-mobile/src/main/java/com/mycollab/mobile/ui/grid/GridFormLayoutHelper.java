@@ -34,8 +34,8 @@ import java.util.Map;
  */
 public class GridFormLayoutHelper implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final GridLayout layout;
 
+    private final GridLayout layout;
     private final String fieldControlWidth;
     private final String defaultCaptionWidth;
     private final Alignment captionAlignment;
@@ -70,11 +70,11 @@ public class GridFormLayoutHelper implements Serializable {
         return cell;
     }
 
-    public GridCellWrapper buildCell(String caption, int columns, int rows, String width, Alignment alignment) {
+    private GridCellWrapper buildCell(String caption, int columns, int rows, String width, Alignment alignment) {
         if (StringUtils.isNotBlank(caption)) {
             Label captionLbl = new Label(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
-                    .withWidth(this.defaultCaptionWidth).withFullHeight().withStyleName("gridform-caption").with(captionLbl)
+                    .withWidth(defaultCaptionWidth).withFullHeight().withStyleName("gridform-caption").with(captionLbl)
                     .withAlign(captionLbl, alignment);
             layout.addComponent(captionWrapper, 2 * columns, rows);
         }

@@ -57,7 +57,7 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
         itemList.search(searchCriteria);
 
         SimpleContact clearContact = new SimpleContact();
-        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearContact, 0));
+        itemList.addComponentAtTop(rowHandler.generateRow(clearContact, 0));
     }
 
     private class ContactRowDisplayHandler implements RowDisplayHandler<SimpleContact> {

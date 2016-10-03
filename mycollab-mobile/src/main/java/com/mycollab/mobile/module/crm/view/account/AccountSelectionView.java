@@ -59,7 +59,7 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
         itemList.search(searchCriteria);
 
         SimpleAccount clearAccount = new SimpleAccount();
-        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearAccount, 0));
+        itemList.addComponentAtTop(rowHandler.generateRow(clearAccount, 0));
     }
 
     private class AccountRowDisplayHandler implements RowDisplayHandler<SimpleAccount> {

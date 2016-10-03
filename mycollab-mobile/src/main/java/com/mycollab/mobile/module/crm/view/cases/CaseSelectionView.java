@@ -44,7 +44,7 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
         this.setCaption(UserUIContext.getMessage(CaseI18nEnum.M_VIEW_CASE_NAME_LOOKUP));
     }
 
-    public void createUI() {
+    private void createUI() {
         itemList = new CaseListDisplay();
         itemList.setWidth("100%");
         itemList.setRowDisplayHandler(rowHandler);
@@ -57,7 +57,7 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
         searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         itemList.search(searchCriteria);
         SimpleCase clearCase = new SimpleCase();
-        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearCase, 0));
+        itemList.addComponentAtTop(rowHandler.generateRow(clearCase, 0));
     }
 
     private class CaseRowDisplayHandler implements RowDisplayHandler<SimpleCase> {

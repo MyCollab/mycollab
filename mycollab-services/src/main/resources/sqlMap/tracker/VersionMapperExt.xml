@@ -22,7 +22,7 @@
         #end
         
         #ifnotnull($searchCriteria.versionname)
-            ${searchCriteria.versionname.operation} m_tracker_version.versionname like '%${searchCriteria.versionname.value}%'
+            ${searchCriteria.versionname.operation} m_tracker_version.name like '%${searchCriteria.versionname.value}%'
         #end
         
         #ifnotnull($searchCriteria.projectId)
@@ -34,7 +34,7 @@
     <sql id="selectVersion">
     <![CDATA[
         SELECT  m_tracker_version.id, m_tracker_version.projectId, m_tracker_version.description,
-                m_tracker_version.duedate, m_tracker_version.versionname, m_tracker_version.createdUser, 
+                m_tracker_version.duedate, m_tracker_version.name, m_tracker_version.createdUser,
                 m_tracker_version.sAccountId, m_tracker_version.lastUpdatedTime, 
                 m_tracker_version.createdTime,m_tracker_version.status,
                  (SELECT COUNT(*) 

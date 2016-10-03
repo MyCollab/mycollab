@@ -25,6 +25,7 @@ import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.spring.AppContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -41,9 +42,8 @@ public class AccountListDisplay extends DefaultPagedBeanList<AccountService, Acc
 
         @Override
         public Component generateRow(final SimpleAccount account, int rowIndex) {
-            final Button b = new Button(account.getAccountname(), clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, account.getId())));
-            b.setWidth("100%");
-            return b;
+            return new MButton(account.getAccountname(), clickEvent -> EventBusFactory.getInstance().post
+                    (new AccountEvent.GotoRead(this, account.getId()))).withFullWidth();
         }
     }
 }

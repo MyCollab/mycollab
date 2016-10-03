@@ -116,7 +116,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getVersionname();
+        return beanItem.getName();
     }
 
     @Override

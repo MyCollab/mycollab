@@ -43,7 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-@Traceable(nameField = "componentname", extraFieldName = "projectid")
+@Traceable(nameField = "name", extraFieldName = "projectid")
 public class ComponentServiceImpl extends DefaultService<Integer, Component, ComponentSearchCriteria> implements ComponentService {
     static {
         ClassInfoMap.put(ComponentServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT));
@@ -75,11 +75,11 @@ public class ComponentServiceImpl extends DefaultService<Integer, Component, Com
     public Integer saveWithSession(Component record, String username) {
         // check whether there is exiting record
         ComponentExample ex = new ComponentExample();
-        ex.createCriteria().andComponentnameEqualTo(record.getComponentname()).andProjectidEqualTo(record.getProjectid());
+        ex.createCriteria().andNameEqualTo(record.getName()).andProjectidEqualTo(record.getProjectid());
 
         Long count = componentMapper.countByExample(ex);
         if (count > 0) {
-            throw new MyCollabException("There is an existing record has name " + record.getComponentname());
+            throw new MyCollabException("There is an existing record has name " + record.getName());
         } else {
             return super.saveWithSession(record, username);
         }

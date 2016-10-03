@@ -113,5 +113,7 @@ ADD CONSTRAINT `PK_m_prj_milestone_4`
   ON DELETE SET NULL
   ON UPDATE CASCADE;
 
-ALTER TABLE `m_prj_risk`
-  ADD COLUMN `remainEstimate` DOUBLE NULL;
+ALTER TABLE `m_prj_risk` ADD COLUMN `remainEstimate` DOUBLE NULL;
+
+ALTER TABLE `m_tracker_component` CHANGE COLUMN `componentname` `name` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE utf8mb4_unicode_ci NOT NULL ;
+ALTER TABLE `m_tracker_version` CHANGE COLUMN `versionname` `name` VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE utf8mb4_unicode_ci NOT NULL ;

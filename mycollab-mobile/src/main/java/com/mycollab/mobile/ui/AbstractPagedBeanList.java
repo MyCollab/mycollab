@@ -50,7 +50,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         setSizeFull();
         this.rowDisplayHandler = rowDisplayHandler;
         InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
-        scrollLayout.addScrollListener(() -> loadMore());
+        scrollLayout.addScrollListener(this::loadMore);
         listContainer = new CssLayout();
         this.addComponent(listContainer);
     }
@@ -113,7 +113,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         }
     }
 
-    protected void loadMore() {
+    private void loadMore() {
         currentPage += 1;
         searchRequest.setCurrentPage(currentPage);
         List<B> currentData = this.queryCurrentData();
@@ -142,8 +142,9 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         return this.rowDisplayHandler;
     }
 
-    public CssLayout getListContainer() {
-        return this.listContainer;
+    public void addComponentAtTop(Component component) {
+        listContainer.addComponentAsFirst(ELabel.hr());
+        listContainer.addComponentAsFirst(component);
     }
 
     public interface RowDisplayHandler<B> {
