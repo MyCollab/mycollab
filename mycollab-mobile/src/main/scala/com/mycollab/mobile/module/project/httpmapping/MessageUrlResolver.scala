@@ -14,16 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.view.message
+package com.mycollab.mobile.module.project.httpmapping
 
+import com.mycollab.common.UrlTokenizer
+import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.eventmanager.EventBusFactory
-import com.mycollab.mobile.module.project.ProjectUrlResolver
 import com.mycollab.mobile.module.project.events.ProjectEvent
 import com.mycollab.mobile.module.project.view.parameters.{MessageScreenData, ProjectScreenData}
 import com.mycollab.module.project.domain.criteria.MessageSearchCriteria
 import com.mycollab.vaadin.mvp.PageActionChain
-import com.mycollab.common.UrlTokenizer
-import com.mycollab.db.arguments.SetSearchField
 
 /**
   * @author MyCollab Ltd

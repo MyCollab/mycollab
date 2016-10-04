@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.project.view.parameters
 
 import com.mycollab.module.tracker.domain.BugWithBLOBs
-import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**
@@ -25,8 +24,6 @@ import com.mycollab.vaadin.mvp.ScreenData
   * @since 5.2.5
   */
 object BugScreenData {
-
-  class Search(param: BugSearchCriteria) extends ScreenData(param) {}
 
   class Read(param: Integer) extends ScreenData(param) {}
 

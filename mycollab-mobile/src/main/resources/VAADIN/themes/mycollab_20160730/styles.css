@@ -9,13 +9,16 @@
 	font-weight: 500;
 }
 
+.section .v-label {
+	margin-left: 5px;
+}
+
 .v-touchkit-navbutton {
 	width: 100% !important;
-	color: #43423d !important;
 }
 
 .v-touchkit-navbutton::after {
-	color: #43423d !important;
+	color: $my-dark-color !important;
 }
 
 .flex {
@@ -65,13 +68,16 @@
 	font-weight: 500;
 }
 
+.section .v-label {
+	margin-left: 5px;
+}
+
 .v-touchkit-navbutton {
 	width: 100% !important;
-	color: #43423d !important;
 }
 
 .v-touchkit-navbutton::after {
-	color: #43423d !important;
+	color: #000 !important;
 }
 
 .flex {
@@ -216,11 +222,15 @@ a {
 
 .v-touchkit-navbar .v-navbar-quickmenu-button {
 	font-size: 20px !important;
-	color: black !important;
+	color: #000 !important;
 }
 
 .v-touchkit-navbar .v-button {
-	color: black !important;
+	color: #000 !important;
+}
+
+.v-touchkit-navbar .v-touchkit-navbutton {
+	color: #000 !important;
 }
 
 .v-touchkit-navbar-caption {

@@ -75,9 +75,9 @@ public class ProjectLinkBuilder {
         return ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(), projectId, memberName);
     }
 
-    public static String generateProjectMemberHtmlLink(Integer projectId, String username, String displayName, String avarId,
+    public static String generateProjectMemberHtmlLink(Integer projectId, String username, String displayName, String avatarId,
                                                        Boolean isDisplayTooltip) {
-        Img userAvatar = new Img("", StorageFactory.getAvatarPath(avarId, 16));
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(avatarId, 16));
         A link = new A().setId("tag" + TOOLTIP_ID).setHref(generateProjectMemberFullLink(projectId,
                 username)).appendText(StringUtils.trim(displayName, 30, true));
         if (isDisplayTooltip) {
@@ -139,7 +139,7 @@ public class ProjectLinkBuilder {
                 .generateClientPreviewLink(clientId);
     }
 
-    public static final String generatePageFolderFullLink(Integer projectId, String folderPath) {
+    public static String generatePageFolderFullLink(Integer projectId, String folderPath) {
         if (projectId == null || folderPath == null) {
             return "";
         }
@@ -147,7 +147,7 @@ public class ProjectLinkBuilder {
                 + ProjectLinkGenerator.generatePagesLink(projectId, folderPath);
     }
 
-    public static final String generatePageFullLink(Integer projectId, String pagePath) {
+    public static String generatePageFullLink(Integer projectId, String pagePath) {
         return MyCollabUI.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
                 + ProjectLinkGenerator.generatePageRead(projectId, pagePath);
     }
@@ -156,17 +156,17 @@ public class ProjectLinkBuilder {
         return MyCollabUI.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateStandupDashboardLink();
     }
 
-    public static final String generateHoursWeeklyReportLink() {
+    public static String generateHoursWeeklyReportLink() {
         return MyCollabUI.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator
                 .generateHoursWeeklyReportLink();
     }
 
-    public static final String generateTimesheetReportLink() {
+    public static String generateTimesheetReportLink() {
         return MyCollabUI.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator
                 .generateTimesheetReportLink();
     }
 
-    public static final String generateUsersWorkloadReportLink() {
+    public static String generateUsersWorkloadReportLink() {
         return MyCollabUI.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator
                 .generateUsersWorkloadReportLink();
     }

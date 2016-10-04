@@ -22,6 +22,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -41,7 +42,7 @@ public class TicketListPresenter extends ProjectListPresenter<TicketListView, Pr
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         MyCollabUI.addFragment("project/ticket/dashboard/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
-                UserUIContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
+                UserUIContext.getMessage(TicketI18nEnum.LIST));
         super.onGo(container, data);
     }
 }

@@ -14,47 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.view.task
+package com.mycollab.mobile.module.project.httpmapping
 
-import com.mycollab.core.MyCollabException
-import com.mycollab.eventmanager.EventBusFactory
-import com.mycollab.mobile.module.project.ProjectUrlResolver
-import com.mycollab.mobile.module.project.events.ProjectEvent
-import com.mycollab.mobile.module.project.view.parameters.TaskScreenData.Search
-import com.mycollab.mobile.module.project.view.parameters.{ProjectScreenData, TaskScreenData}
-import com.mycollab.module.project.domain.SimpleTask
-import com.mycollab.module.project.domain.criteria.TaskSearchCriteria
-import com.mycollab.module.project.service.ProjectTaskService
-import com.mycollab.vaadin.mvp.PageActionChain
 import com.mycollab.common.UrlTokenizer
 import com.mycollab.core.{MyCollabException, ResourceNotFoundException}
-import com.mycollab.db.arguments.NumberSearchField
+import com.mycollab.eventmanager.EventBusFactory
+import com.mycollab.mobile.module.project.events.ProjectEvent
+import com.mycollab.mobile.module.project.view.parameters.{ProjectScreenData, TaskScreenData}
 import com.mycollab.module.project.ProjectLinkParams
+import com.mycollab.module.project.domain.SimpleTask
+import com.mycollab.module.project.service.ProjectTaskService
 import com.mycollab.spring.AppContextUtil
-import com.mycollab.vaadin.MyCollabUI.getAccountId
-import com.mycollab.vaadin.{MyCollabUI, UserUIContext}
+import com.mycollab.vaadin.MyCollabUI
+import com.mycollab.vaadin.mvp.PageActionChain
 
 /**
   * @author MyCollab Ltd
   * @since 5.0.9
   */
 class TaskUrlResolver extends ProjectUrlResolver {
-  this.addSubResolver("list", new ListUrlResolver)
   this.addSubResolver("preview", new ReadUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
   this.addSubResolver("add", new AddUrlResolver)
-
-  private class ListUrlResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*) {
-      val token = UrlTokenizer(params(0))
-      val projectId = token.getInt
-      val criteria = new TaskSearchCriteria
-      criteria.setProjectId(new NumberSearchField(projectId))
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new Search(criteria))
-      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
-    }
-  }
-
+  
   private class ReadUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       var projectId = 0
@@ -81,7 +63,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       var task: SimpleTask = null
@@ -98,7 +80,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val token = UrlTokenizer(params(0))
@@ -107,5 +89,5 @@ class TaskUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
+  
 }

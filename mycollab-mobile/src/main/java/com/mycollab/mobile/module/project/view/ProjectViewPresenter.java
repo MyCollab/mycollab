@@ -18,7 +18,6 @@ package com.mycollab.mobile.module.project.view;
 
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.utils.ClassUtils;
-import com.mycollab.mobile.module.project.view.bug.BugPresenter;
 import com.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.mycollab.mobile.module.project.view.milestone.MilestonePresenter;
 import com.mycollab.mobile.module.project.view.parameters.*;
@@ -75,15 +74,14 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
         } else if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class, MessageScreenData.Search.class,
                 MessageScreenData.Add.class)) {
             presenter = PresenterResolver.getPresenter(MessagePresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, TaskScreenData.Search.class, TaskScreenData.Read.class,
-                TaskScreenData.Add.class, TaskScreenData.Edit.class)) {
+        } else if (ClassUtils.instanceOf(pageAction, TaskScreenData.Read.class,
+                TaskScreenData.Add.class, TaskScreenData.Edit.class, BugScreenData.Add.class,
+                BugScreenData.Read.class, BugScreenData.Edit.class, TicketScreenData.GotoDashboard.class,
+                RiskScreenData.Add.class, RiskScreenData.Edit.class, RiskScreenData.Read.class)) {
             presenter = PresenterResolver.getPresenter(TicketPresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, MilestoneScreenData.Search.class,
                 MilestoneScreenData.Read.class, MilestoneScreenData.Add.class, MilestoneScreenData.Edit.class)) {
             presenter = PresenterResolver.getPresenter(MilestonePresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, BugScreenData.Search.class, BugScreenData.Add.class,
-                BugScreenData.Read.class, BugScreenData.Edit.class)) {
-            presenter = PresenterResolver.getPresenter(BugPresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, ProjectMemberScreenData.Search.class,
                 ProjectMemberScreenData.InviteProjectMembers.class, ProjectMemberScreenData.Read.class, ProjectMemberScreenData.Edit.class)) {
             presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);

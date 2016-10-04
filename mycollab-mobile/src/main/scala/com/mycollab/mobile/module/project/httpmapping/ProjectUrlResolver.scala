@@ -14,28 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project
+package com.mycollab.mobile.module.project.httpmapping
 
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria
 import com.mycollab.common.{ModuleNameConstants, UrlTokenizer}
 import com.mycollab.db.arguments.{NumberSearchField, SetSearchField}
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.mobile.module.project.events.ProjectEvent
-import com.mycollab.mobile.module.project.view.bug.BugUrlResolver
-import com.mycollab.mobile.module.project.view.message.MessageUrlResolver
-import com.mycollab.mobile.module.project.view.milestone.MilestoneUrlResolver
 import com.mycollab.mobile.module.project.view.parameters.ProjectScreenData
 import com.mycollab.mobile.module.project.view.parameters.ProjectScreenData.AllActivities
-import com.mycollab.mobile.module.project.view.risk.RiskUrlResolver
-import com.mycollab.mobile.module.project.view.settings.UserUrlResolver
-import com.mycollab.mobile.module.project.view.task.TaskUrlResolver
 import com.mycollab.mobile.shell.ModuleHelper
 import com.mycollab.mobile.shell.events.ShellEvent
 import com.mycollab.module.project.service.ProjectService
 import com.mycollab.spring.AppContextUtil
-import com.mycollab.vaadin.MyCollabUI.getAccountId
-import com.mycollab.vaadin.{MyCollabUI, UserUIContext}
 import com.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
+import com.mycollab.vaadin.{MyCollabUI, UserUIContext}
 
 /**
   * @author MyCollab Ltd
@@ -47,11 +40,12 @@ class ProjectUrlResolver extends UrlResolver {
     this.addSubResolver("activities", new ActivityUrlResolver)
     this.addSubResolver("message", new MessageUrlResolver)
     this.addSubResolver("milestone", new MilestoneUrlResolver)
+    this.addSubResolver("ticket", new TicketUrlResolver)
     this.addSubResolver("task", new TaskUrlResolver)
     this.addSubResolver("bug", new BugUrlResolver)
     this.addSubResolver("risk", new RiskUrlResolver)
     this.addSubResolver("user", new UserUrlResolver)
-    return this
+    this
   }
 
   override def handle(params: String*) {

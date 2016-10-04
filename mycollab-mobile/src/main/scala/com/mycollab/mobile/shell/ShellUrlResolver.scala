@@ -17,7 +17,7 @@
 package com.mycollab.mobile.shell
 
 import com.mycollab.mobile.module.crm.CrmUrlResolver
-import com.mycollab.mobile.module.project.ProjectUrlResolver
+import com.mycollab.mobile.module.project.httpmapping.ProjectUrlResolver
 import com.mycollab.vaadin.mvp.UrlResolver
 
 /**

@@ -265,6 +265,11 @@ public class CurrentProjectVariables {
                 || canRead(ProjectRolePermissionCollections.RISKS);
     }
 
+    public static boolean canWriteTicket() {
+        return canWrite(ProjectRolePermissionCollections.TASKS) || canWrite(ProjectRolePermissionCollections.BUGS)
+                || canWrite(ProjectRolePermissionCollections.RISKS);
+    }
+
     public static SetSearchField<String> getRestrictedItemTypes() {
         SetSearchField<String> types = new SetSearchField<>();
         if (canRead(ProjectRolePermissionCollections.MESSAGES)) {

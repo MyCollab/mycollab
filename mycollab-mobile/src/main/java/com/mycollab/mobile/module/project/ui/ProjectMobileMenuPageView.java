@@ -65,17 +65,11 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
         addMenuItem(phaseBtn);
 
-        MButton taskBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.LIST), clickEvent -> {
+        MButton ticketBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.LIST), clickEvent -> {
             closeMenu();
-            EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null));
-        }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
-        addMenuItem(taskBtn);
-
-        MButton bugBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.LIST), clickEvent -> {
-            closeMenu();
-            EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
-        }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-        addMenuItem(bugBtn);
+            EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null));
+        }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET));
+        addMenuItem(ticketBtn);
 
         MButton userBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), clickEvent -> {
             closeMenu();

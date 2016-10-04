@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.project.view.parameters
 
 import com.mycollab.module.project.domain.SimpleTask
-import com.mycollab.module.project.domain.criteria.TaskSearchCriteria
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**
@@ -25,8 +24,6 @@ import com.mycollab.vaadin.mvp.ScreenData
   * @since 5.2.5
   */
 object TaskScreenData {
-
-  class Search(param: TaskSearchCriteria) extends ScreenData(param) {}
 
   class Read(param: Integer) extends ScreenData(param) {}
 

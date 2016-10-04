@@ -40,7 +40,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPresenter.class);
 
-    protected Class<V> viewClass;
+    private Class<V> viewClass;
     protected V view;
 
     public AbstractPresenter(Class<V> viewClass) {

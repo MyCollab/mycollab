@@ -64,7 +64,7 @@ public class ProjectTicketServiceTest extends IntegrationServiceTest {
         List<ProjectTicket> tickets = projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>(criteria));
         assertThat(tickets).hasSize(3);
         assertThat(tickets).extracting("name", "assignUser", "assignUserFullName", "assignUserAvatarId", "type")
-                .contains(tuple("Task 4", "linhduong", "Duong Linh", null, "Project-Task"),
+                .contains(tuple("Task 4", "linhduong", "Duong Linh", "linh123", "Project-Task"),
                         tuple("Bug 1", "hai79", "Nguyen Hai", null, "Project-Bug"),
                         tuple("Risk 1", "hai79", "Nguyen Hai", null, "Project-Risk"));
     }

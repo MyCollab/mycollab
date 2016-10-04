@@ -14,16 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.view.risk
+package com.mycollab.mobile.module.project.httpmapping
 
 import com.mycollab.common.UrlTokenizer
-import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.eventmanager.EventBusFactory
-import com.mycollab.mobile.module.project.ProjectUrlResolver
 import com.mycollab.mobile.module.project.events.ProjectEvent
 import com.mycollab.mobile.module.project.view.parameters.{ProjectScreenData, RiskScreenData}
 import com.mycollab.module.project.domain.SimpleRisk
-import com.mycollab.module.project.domain.criteria.RiskSearchCriteria
 import com.mycollab.module.project.service.RiskService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.MyCollabUI
@@ -34,20 +31,9 @@ import com.mycollab.vaadin.mvp.PageActionChain
   * @since 5.2.7
   */
 class RiskUrlResolver extends ProjectUrlResolver {
-  this.addSubResolver("list", new ListUrlResolver)
   this.addSubResolver("add", new AddUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
   this.addSubResolver("preview", new PreviewUrlResolver)
-  
-  private class ListUrlResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*) {
-      val projectId = UrlTokenizer(params(0)).getInt
-      val searchCriteria = new RiskSearchCriteria
-      searchCriteria.setProjectId(new NumberSearchField(projectId))
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new RiskScreenData.Search(searchCriteria))
-      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
-    }
-  }
   
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {

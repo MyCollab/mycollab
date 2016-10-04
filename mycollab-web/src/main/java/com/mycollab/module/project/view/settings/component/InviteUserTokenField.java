@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.settings.component;
 
+import com.hp.gagawa.java.elements.Img;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
@@ -25,8 +26,6 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.hp.gagawa.java.elements.Img;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -72,24 +71,18 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         addComponent(suggestField);
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
-        suggestField.addBlurListener(new FieldEvents.BlurListener() {
-                                         @Override
-                                         public void blur(FieldEvents.BlurEvent blurEvent) {
-                                             isFocusing = false;
-                                             if (!"".equals(lastQuery) && StringUtils.isValidEmail(lastQuery) && !inviteEmails.contains(lastQuery)) {
-                                                 handleToken(lastQuery);
-                                             }
-                                         }
-                                     }
+        suggestField.addBlurListener(blurEvent -> {
+                    isFocusing = false;
+                    if (!"".equals(lastQuery) && StringUtils.isValidEmail(lastQuery) && !inviteEmails.contains(lastQuery)) {
+                        handleToken(lastQuery);
+                    }
+                }
         );
 
-        suggestField.addFocusListener(new FieldEvents.FocusListener() {
-                                          @Override
-                                          public void focus(FieldEvents.FocusEvent focusEvent) {
-                                              isFocusing = true;
-                                              lastQuery = "";
-                                          }
-                                      }
+        suggestField.addFocusListener(focusEvent -> {
+                    isFocusing = true;
+                    lastQuery = "";
+                }
         );
     }
 
@@ -99,7 +92,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         if (StringUtils.isValidEmail(value) && !inviteEmails.contains(value)) {
             return value;
         } else {
-            NotificationUtil.showNotification("Info", value + " is not a valid email or it is already in the list");
+            NotificationUtil.showWarningNotification(value + " is not a valid email or it is already in the list");
         }
         return null;
     }
@@ -123,7 +116,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
                 result.add(user);
             }
         }
-        return new ArrayList<Object>(result);
+        return new ArrayList<>(result);
     }
 
     @Override
@@ -141,7 +134,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
                     addToken(generateToken(user));
                     inviteEmails.add(user.getEmail());
                 } else {
-                    NotificationUtil.showNotification("Info", "Email " + user.getEmail() + " is already in the list");
+                    NotificationUtil.showWarningNotification("Email " + user.getEmail() + " is already in the list");
                 }
             } else {
                 throw new MyCollabException("Do not support token type " + token);
@@ -178,7 +171,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
     }
 
     private class UserSuggestionConverter extends BeanSuggestionConverter {
-        public UserSuggestionConverter() {
+        private UserSuggestionConverter() {
             super(SimpleUser.class, "email", "displayName", "email");
         }
 

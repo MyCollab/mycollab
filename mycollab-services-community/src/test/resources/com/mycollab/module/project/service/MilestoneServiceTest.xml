@@ -1,54 +1,50 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
 
-	<s_account id="1" createdTime="2013-04-10 13:29:23"
-		paymentMethod="Credit Card" status="Active" />
+    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
 
-	<m_prj_project id="1" name="a" sAccountId="1" shortname="aaa"
-		projectStatus="Open" />
+    <m_prj_project id="1" name="a" sAccountId="1" shortname="aaa" projectStatus="Open"/>
 
-	<s_user firstname="Hai" lastname="Nguyen" username="hai79"
-		email="hainguyen@esofthead.com" />
+    <s_user firstname="Hai" lastname="Nguyen" username="hai79" email="hainguyen@esofthead.com"/>
 
-	<s_user firstname="Nghiem" lastname="Le" username="nghiemle"
-		email="nghiemle@esofthead.com" />
+    <s_user firstname="Nghiem" lastname="Le" username="nghiemle" email="nghiemle@esofthead.com"/>
 
-	<m_prj_milestone id="1" name="milestone 1" status="Open"
-		projectId="1" prjKey="111" sAccountId="1" description="milestone no1"
-		createduser="hai79" createdTime="2014-10-01 00:00:00" lastUpdatedTime="2014-10-01 00:10:00"
-		startdate="2014-10-01 00:00:00" enddate="2014-10-11 00:00:00" owner="hai79"
-		flag="aaaa" />
+    <m_prj_milestone id="1" name="milestone 1" status="Open"
+                     projectId="1" prjKey="111" sAccountId="1" description="milestone no1"
+                     createdUser="hai79" createdTime="2014-10-01 00:00:00" lastUpdatedTime="2014-10-01 00:10:00"
+                     startDate="2014-10-01 00:00:00" endDate="2014-10-11 00:00:00" assignUser="hai79"
+                     flag="aaaa"/>
 
-	<m_prj_milestone id="2" name="milestone 2" status="Closed"
-		projectId="1" prjKey="222" sAccountId="1" description="milestone no2"
-		createduser="hai79" createdTime="2014-10-02 00:00:00" lastUpdatedTime="2014-10-02 00:20:00"
-		startdate="2014-10-02 00:00:00" enddate="2014-10-12 00:00:00" owner="hai79"
-		flag="bbbb" />
+    <m_prj_milestone id="2" name="milestone 2" status="Closed"
+                     projectId="1" prjKey="222" sAccountId="1" description="milestone no2"
+                     createdUser="hai79" createdTime="2014-10-02 00:00:00" lastUpdatedTime="2014-10-02 00:20:00"
+                     startDate="2014-10-02 00:00:00" endDate="2014-10-12 00:00:00" assignUser="hai79"
+                     flag="bbbb"/>
 
-	<m_prj_milestone id="3" name="milestone 3" status="Open"
-		projectId="1" prjKey="333" sAccountId="1" description="milestone no3"
-		createduser="nghiemle" createdTime="2014-10-03 00:00:00"
-		lastUpdatedTime="2014-10-03 00:30:00" startdate="2014-10-03 00:00:00"
-		enddate="2014-10-13 00:00:00" owner="nghiemle" flag="cccc" />
+    <m_prj_milestone id="3" name="milestone 3" status="Open"
+                     projectId="1" prjKey="333" sAccountId="1" description="milestone no3"
+                     createdUser="nghiemle" createdTime="2014-10-03 00:00:00"
+                     lastUpdatedTime="2014-10-03 00:30:00" startDate="2014-10-03 00:00:00"
+                     endDate="2014-10-13 00:00:00" assignUser="nghiemle" flag="cccc"/>
 
-	<m_prj_milestone id="4" name="milestone 4" status="Closed"
-		projectId="1" prjKey="444" sAccountId="1" description="milestone no4"
-		createduser="nghiemle" createdTime="2014-10-04 00:00:00"
-		lastUpdatedTime="2014-10-04 00:40:00" startdate="2014-10-04 00:00:00"
-		enddate="2014-10-14 00:00:00" owner="nghiemle" flag="aaaa" />
+    <m_prj_milestone id="4" name="milestone 4" status="Closed"
+                     projectId="1" prjKey="444" sAccountId="1" description="milestone no4"
+                     createdUser="nghiemle" createdTime="2014-10-04 00:00:00"
+                     lastUpdatedTime="2014-10-04 00:40:00" startDate="2014-10-04 00:00:00"
+                     endDate="2014-10-14 00:00:00" assignUser="nghiemle" flag="aaaa"/>
 
-	<m_prj_task sAccountId="1" projectId="1" id="1" percentagecomplete="10" name="bug 1" milestoneId="2"/>
-	<m_prj_task sAccountId="1" projectId="1" id="2" percentagecomplete="20" name="bug 2"  milestoneId="2"/>
-	<m_prj_task sAccountId="1" projectId="1" id="3" percentagecomplete="30" name="bug 3"  milestoneId="1"/>
-	<m_prj_task sAccountId="1" projectId="1" id="4" percentagecomplete="40" name="bug 4"  />
-	<m_prj_task sAccountId="1" projectId="1" id="5" percentagecomplete="50" name="bug 5" />
-	<m_prj_task sAccountId="1" projectId="1" id="6" percentagecomplete="60" name="bug 6"  />
+    <m_prj_task sAccountId="1" projectId="1" id="1" percentagecomplete="10" name="bug 1" milestoneId="2"/>
+    <m_prj_task sAccountId="1" projectId="1" id="2" percentagecomplete="20" name="bug 2" milestoneId="2"/>
+    <m_prj_task sAccountId="1" projectId="1" id="3" percentagecomplete="30" name="bug 3" milestoneId="1"/>
+    <m_prj_task sAccountId="1" projectId="1" id="4" percentagecomplete="40" name="bug 4"/>
+    <m_prj_task sAccountId="1" projectId="1" id="5" percentagecomplete="50" name="bug 5"/>
+    <m_prj_task sAccountId="1" projectId="1" id="6" percentagecomplete="60" name="bug 6"/>
 
-	<m_tracker_bug status="Open" sAccountId="1" id="1" milestoneId="4" projectId="1" name="sum 1" />
-	<m_tracker_bug status="Open" sAccountId="1" id="2" milestoneId="4" projectId="1" name="sum 2" />
-	<m_tracker_bug status="Open" sAccountId="1" id="3" milestoneId="4" projectId="1" name="sum 3" />
-	<m_tracker_bug status="Open" sAccountId="1" id="4" milestoneId="1" projectId="1" name="sum 4" />
-	<m_tracker_bug status="Open" sAccountId="1" id="5" milestoneId="1" projectId="1" name="sum 5" />
-	<m_tracker_bug status="Open" sAccountId="1" id="6" milestoneId="3" projectId="1" name="sum 6" />
+    <m_tracker_bug status="Open" sAccountId="1" id="1" milestoneId="4" projectId="1" name="sum 1"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="2" milestoneId="4" projectId="1" name="sum 2"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="3" milestoneId="4" projectId="1" name="sum 3"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="4" milestoneId="1" projectId="1" name="sum 4"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="5" milestoneId="1" projectId="1" name="sum 5"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="6" milestoneId="3" projectId="1" name="sum 6"/>
 
 </dataset>

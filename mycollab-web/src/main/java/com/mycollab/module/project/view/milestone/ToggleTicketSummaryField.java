@@ -62,9 +62,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         titleLinkLbl = ELabel.html(buildTicketLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
                 UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
         this.addComponent(titleLinkLbl);
-        if ((ticket.isTask() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) ||
-                (ticket.isBug() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) ||
-                (ticket.isRisk() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS))) {
+        if (CurrentProjectVariables.canWriteTicket(ticket)) {
             this.addStyleName("editable-field");
             buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
             MButton instantEditBtn = new MButton("", clickEvent -> {

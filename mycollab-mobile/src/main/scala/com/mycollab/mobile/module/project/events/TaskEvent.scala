@@ -24,8 +24,6 @@ import com.mycollab.events.ApplicationEvent
   */
 object TaskEvent {
 
-  class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
-
   class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
   class GotoRead(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
