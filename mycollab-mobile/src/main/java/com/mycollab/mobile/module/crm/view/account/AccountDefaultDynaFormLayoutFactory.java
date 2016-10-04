@@ -36,6 +36,7 @@ public class AccountDefaultDynaFormLayoutFactory {
         // Build block account information
         DynaSection accountSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
                 .header(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION).build();
+
         accountSection.fields(new TextDynaFieldBuilder().fieldName("accountname")
                 .displayName(AccountI18nEnum.FORM_ACCOUNT_NAME)
                 .customField(false).fieldIndex(0).mandatory(true)

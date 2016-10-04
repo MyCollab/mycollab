@@ -235,21 +235,21 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
     this.register(new ApplicationEventListener[RiskEvent.GotoRead]() {
       @Subscribe def handle(event: RiskEvent.GotoRead) {
         val data = new RiskScreenData.Read(event.getData.asInstanceOf[Integer])
-        val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
+        val presenter = PresenterOptionUtil.getPresenter(classOf[TicketPresenter])
         presenter.go(navManager, data)
       }
     })
     this.register(new ApplicationEventListener[RiskEvent.GotoAdd]() {
       @Subscribe def handle(event: RiskEvent.GotoAdd) {
         val data = new RiskScreenData.Add(new SimpleRisk)
-        val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
+        val presenter = PresenterOptionUtil.getPresenter(classOf[TicketPresenter])
         presenter.go(navManager, data)
       }
     })
     this.register(new ApplicationEventListener[RiskEvent.GotoEdit]() {
       @Subscribe def handle(event: RiskEvent.GotoEdit) {
         val data = new RiskScreenData.Edit(event.getData.asInstanceOf[SimpleRisk])
-        val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
+        val presenter = PresenterOptionUtil.getPresenter(classOf[TicketPresenter])
         presenter.go(navManager, data)
       }
     })

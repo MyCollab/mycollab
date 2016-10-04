@@ -22,6 +22,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.html.DivLessFormatter;
+import com.mycollab.mobile.form.view.DynaFormLayout;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
@@ -117,7 +118,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new TaskFormLayoutFactory();
+        return new DynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm());
     }
 
     @Override
@@ -189,14 +190,13 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
             if (propertyId.equals("assignuser")) {
-                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
-                        .getProjectId(), beanItem.getAssignuser(), beanItem.getAssignUserFullName(), beanItem
-                        .getAssignUserAvatarId(), false), ContentMode.HTML);
+                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(),
+                        beanItem.getAssignuser(), beanItem.getAssignUserFullName(), beanItem.getAssignUserAvatarId(), false), ContentMode.HTML);
             } else if (propertyId.equals("startdate")) {
                 return new DefaultViewField(UserUIContext.formatDate(beanItem.getStartdate()));
             } else if (propertyId.equals("enddate")) {
                 return new DefaultViewField(UserUIContext.formatDate(beanItem.getEnddate()));
-            } else if (propertyId.equals("deadline")) {
+            } else if (propertyId.equals("duedate")) {
                 return new DefaultViewField(UserUIContext.formatDate(beanItem.getDuedate()));
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {

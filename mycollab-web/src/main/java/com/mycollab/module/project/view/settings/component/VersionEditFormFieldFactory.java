@@ -16,7 +16,8 @@
  */
 package com.mycollab.module.project.view.settings.component;
 
-import com.mycollab.module.project.i18n.VersionI18nEnum;
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -45,7 +46,8 @@ public class VersionEditFormFieldFactory extends AbstractBeanFieldGroupEditField
             if (isValidateForm) {
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError(UserUIContext.getMessage(VersionI18nEnum.FORM_VERSION_ERROR_MSG));
+                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext
+                        .getMessage(GenericI18Enum.FORM_NAME)));
             }
             return tf;
         } else if (Version.Field.description.equalTo(propertyId)) {

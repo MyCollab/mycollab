@@ -20,12 +20,16 @@ import com.mycollab.form.service.MasterFormService;
 import com.mycollab.form.view.builder.type.AbstractDynaField;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
+import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,13 +53,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
         MasterFormService formService = AppContextUtil.getSpringBean(MasterFormService.class);
         DynaForm form = formService.findCustomForm(MyCollabUI.getAccountId(), moduleName);
 
-        if (form != null) {
-            this.dynaForm = form;
-        } else {
-            this.dynaForm = defaultForm;
-        }
-
-        LOG.debug("Fill fields of originSection to map field");
+        this.dynaForm = (form != null) ? form : defaultForm;
 
         int sectionCount = dynaForm.getSectionCount();
         for (int i = 0; i < sectionCount; i++) {
@@ -91,9 +89,8 @@ public class DynaFormLayout implements IFormLayoutFactory {
             if (section.isDeletedSection()) {
                 continue;
             }
-            Label header = new Label(UserUIContext.getMessage(section.getHeader()));
-            header.setStyleName("h2");
-            layout.addComponent(header);
+
+            layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(section.getHeader())));
 
             GridFormLayoutHelper gridLayout;
 

@@ -33,5 +33,4 @@ public class MobileUIConstants {
     public static final String FORM_SECTION = "section";
 
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";
-    public static final String FULL_WIDTH_COMP = "full-width-comp";
 }

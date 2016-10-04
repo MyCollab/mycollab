@@ -22,6 +22,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
+import com.mycollab.mobile.form.view.DynaFormLayout;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
@@ -74,7 +75,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private static final long serialVersionUID = 579279560838174387L;
 
     private CommentNavigationButton relatedComments;
-    private VerticalLayout bugWorkFlowControl;
+    private MVerticalLayout bugWorkFlowControl;
     private BugTimeLogComp bugTimeLogComp;
     private ProjectAttachmentDisplayComp attachmentComp;
 
@@ -148,7 +149,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new BugFormLayoutFactory();
+        return new DynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
     }
 
     @Override
@@ -159,9 +160,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(previewForm);
-        bugWorkFlowControl = new VerticalLayout();
-        bugWorkFlowControl.setWidth("100%");
-        bugWorkFlowControl.setSpacing(true);
+        bugWorkFlowControl = new MVerticalLayout().withMargin(false).withFullWidth();
         formControlsGenerator.insertToControlBlock(bugWorkFlowControl);
         return formControlsGenerator.createButtonControls(ProjectRolePermissionCollections.BUGS);
     }
@@ -198,14 +197,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new DateViewField(beanItem.getEnddate());
             } else if (propertyId.equals("createdtime")) {
                 return new DateViewField(beanItem.getCreatedtime());
-            } else if (propertyId.equals("assignuserFullName")) {
+            } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
                 return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink
                         (CurrentProjectVariables.getProjectId(), beanItem.getAssignuser(), beanItem.getAssignuserFullName(),
                                 beanItem.getAssignUserAvatarId(), false), ContentMode.HTML);
-            } else if (propertyId.equals("loguserFullName")) {
-                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
-                        .getProjectId(), beanItem.getCreateduser(), beanItem.getLoguserFullName(), beanItem
-                        .getLoguserAvatarId(), false), ContentMode.HTML);
             } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
                 if (beanItem.getMilestoneid() != null) {
                     A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink
@@ -223,7 +218,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new RichTextViewField(beanItem.getDescription());
             } else if (propertyId.equals("status")) {
                 return new I18nFormViewField(beanItem.getStatus(), BugStatus.class);
-            } else if (propertyId.equals("priority")) {
+            } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     String priorityLink = ProjectAssetsManager.getPriority(beanItem.getPriority()).getHtml() + " "
                             + UserUIContext.getMessage(OptionI18nEnum.Priority.class, beanItem.getPriority());

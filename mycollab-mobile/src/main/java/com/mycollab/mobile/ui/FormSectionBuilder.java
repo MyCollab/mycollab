@@ -29,13 +29,13 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 5.2.5
  */
 public class FormSectionBuilder {
-    public static final MHorizontalLayout build(FontAwesome icon, Component comp) {
+    public static MHorizontalLayout build(FontAwesome icon, Component comp) {
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName(MobileUIConstants.FORM_SECTION);
         layout.with(new ELabel(icon.getHtml(), ContentMode.HTML).withWidthUndefined(), comp).expand(comp);
         return layout;
     }
 
-    public static final MCssLayout build(String title) {
+    public static MCssLayout build(String title) {
         Label header = new Label(title);
         return new MCssLayout(header).withFullWidth().withStyleName(MobileUIConstants.FORM_SECTION);
     }

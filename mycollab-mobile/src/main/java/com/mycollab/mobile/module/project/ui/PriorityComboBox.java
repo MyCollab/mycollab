@@ -31,8 +31,7 @@ public class PriorityComboBox extends I18nValueComboBox {
     public PriorityComboBox() {
         this.setNullSelectionAllowed(false);
 
-        this.loadData(Arrays.asList(Priority.Urgent, Priority.High,
-                Priority.Medium, Priority.Low, Priority.None));
+        this.loadData(Arrays.asList(Priority.Urgent, Priority.High, Priority.Medium, Priority.Low, Priority.None));
         this.setValue(this.getItemIds().iterator().next());
     }
 }

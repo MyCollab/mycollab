@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.MobileUIConstants;
@@ -25,23 +26,24 @@ import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
+public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
     protected ItemTimeLoggingService itemTimeLoggingService;
 
     protected TimeLogComp() {
         this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
-        this.setWidth("100%");
-        this.setStyleName(MobileUIConstants.FULL_WIDTH_COMP);
+        this.withFullWidth();
     }
 
     public void displayTime(final V bean) {
@@ -50,19 +52,12 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
         Label dateInfoHeader = new Label(UserUIContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
         MHorizontalLayout header = FormSectionBuilder.build(FontAwesome.CLOCK_O, dateInfoHeader);
 
-//        if (hasEditPermission()) {
-//            Button editBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-//                private static final long serialVersionUID = 1L;
-//
-//                @Override
-//                public void buttonClick(ClickEvent event) {
-//                    showEditTimeView(bean);
-//                }
-//            });
-//            editBtn.setStyleName(UIConstants.BUTTON_LINK);
-//            header.addComponent(editBtn);
-//            header.setComponentAlignment(editBtn, Alignment.TOP_RIGHT);
-//        }
+        if (hasEditPermission()) {
+            MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> showEditTimeView(bean))
+                    .withStyleName(MobileUIConstants.BUTTON_LINK);
+            header.addComponent(editBtn);
+            header.setComponentAlignment(editBtn, Alignment.TOP_RIGHT);
+        }
 
         this.addComponent(header);
 
