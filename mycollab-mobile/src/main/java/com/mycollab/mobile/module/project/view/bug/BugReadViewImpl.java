@@ -138,7 +138,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getName();
+        return UserUIContext.getMessage(BugI18nEnum.SINGLE);
     }
 
     @Override

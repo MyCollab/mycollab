@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.bug.components;
+package com.mycollab.module.project.view.bug;
 
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.*;

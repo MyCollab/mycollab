@@ -42,6 +42,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
     protected ItemTimeLoggingService itemTimeLoggingService;
 
     protected TimeLogComp() {
+        this.withMargin(false);
         this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
         this.withFullWidth();
     }

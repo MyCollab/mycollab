@@ -18,7 +18,6 @@ package com.mycollab.module.project.view.ticket;
 
 import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.UrlEncodeDecoder;
-import com.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.QueryAnalyzer;
 import com.mycollab.core.MyCollabException;
@@ -41,10 +40,9 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
-import com.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
+import com.mycollab.module.project.view.task.TaskSavedFilterComboBox;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
@@ -247,8 +245,8 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
 
     private void displayTicketsStatistic() {
         rightColumn.removeAllComponents();
-        final TicketCloseTrendChartWidget taskStatusTrendChartWidget = new TicketCloseTrendChartWidget();
-        rightColumn.addComponent(taskStatusTrendChartWidget);
+//        final TicketCloseTrendChartWidget taskStatusTrendChartWidget = new TicketCloseTrendChartWidget();
+//        rightColumn.addComponent(taskStatusTrendChartWidget);
         UnresolvedTicketsByAssigneeWidget unresolvedTicketsByAssigneeWidget = new UnresolvedTicketsByAssigneeWidget();
         unresolvedTicketsByAssigneeWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTicketsByAssigneeWidget);
@@ -257,14 +255,14 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
         unresolvedTicketByPriorityWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTicketByPriorityWidget);
 
-        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
-            @Override
-            public void run() {
-                TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();
-                timelineTrackingSearchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                taskStatusTrendChartWidget.display(timelineTrackingSearchCriteria);
-            }
-        });
+//        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+//            @Override
+//            public void run() {
+//                TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();
+//                timelineTrackingSearchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+//                taskStatusTrendChartWidget.display(timelineTrackingSearchCriteria);
+//            }
+//        });
     }
 
     @Override

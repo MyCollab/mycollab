@@ -43,18 +43,18 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> {
+class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> {
     private static final long serialVersionUID = 1L;
 
-    public BugTableDisplay(List<TableViewField> displayColumns) {
+    BugTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns);
     }
 
-    public BugTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
+    BugTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(null, requiredColumn, displayColumns);
     }
 
-    public BugTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
+    BugTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(BugService.class), SimpleBug.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("assignuserFullName", (source, itemId, columnId) -> {
@@ -74,7 +74,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
 
             if (StringUtils.isNotBlank(bug.getPriority())) {
                 b.setIconLink(ProjectAssetsManager.getPriority(bug.getPriority()));
-                b.addStyleName("task-" + bug.getPriority().toLowerCase());
+                b.addStyleName("priority-" + bug.getPriority().toLowerCase());
             }
 
             b.setDescription(ProjectTooltipGenerator.generateToolTipBug(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),

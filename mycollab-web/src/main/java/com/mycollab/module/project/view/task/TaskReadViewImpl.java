@@ -16,8 +16,6 @@
  */
 package com.mycollab.module.project.view.task;
 
-import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.BeanUtility;
@@ -30,9 +28,6 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
-import com.mycollab.module.project.view.task.components.TaskTimeLogSheet;
-import com.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
-import com.mycollab.module.project.view.task.components.ToggleTaskSummaryWithChildRelationshipField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -41,16 +36,21 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
+import com.mycollab.vaadin.web.ui.ReadViewLayout;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -69,7 +69,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private DateInfoComp dateInfoComp;
     private TaskTimeLogSheet timeLogComp;
     private PeopleInfoComp peopleInfoComp;
-    private MButton quickActionStatusBtn;
 
     public TaskReadViewImpl() {
         super(UserUIContext.getMessage(TaskI18nEnum.DETAIL),
@@ -105,14 +104,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     protected void onPreviewItem() {
         ((TaskPreviewFormLayout) previewLayout).displayTaskHeader(beanItem);
 
-        if (!beanItem.isCompleted()) {
-            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-            quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
-        } else {
-            quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-            quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
-        }
-
         if (tagViewComponent != null) {
             tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
         }
@@ -140,7 +131,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     @Override
     protected HorizontalLayout createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
-        final HorizontalLayout topPanel = taskPreviewForm.createButtonControls(
+        return taskPreviewForm.createButtonControls(
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
@@ -149,47 +140,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                         | ProjectPreviewFormControlsGenerator.PRINT_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.NAVIGATOR_BTN_PRESENTED,
                 ProjectRolePermissionCollections.TASKS);
-
-        quickActionStatusBtn = new MButton("", clickEvent -> {
-            if (beanItem.isCompleted()) {
-                beanItem.setStatus(StatusI18nEnum.Open.name());
-                beanItem.setPercentagecomplete(0d);
-                removeLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-                quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
-            } else {
-                beanItem.setStatus(StatusI18nEnum.Closed.name());
-                beanItem.setPercentagecomplete(100d);
-                addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-                quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-                quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
-            }
-
-            ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-            projectTaskService.updateWithSession(beanItem, UserUIContext.getUsername());
-
-            if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
-                Integer countOfOpenSubTasks = projectTaskService.getCountOfOpenSubTasks(beanItem.getId());
-                if (countOfOpenSubTasks > 0) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION, MyCollabUI.getSiteName()),
-                            UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_CLOSE_SUB_ASSIGNMENTS),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            confirmDialog -> {
-                                if (confirmDialog.isConfirmed()) {
-                                    projectTaskService.massUpdateTaskStatuses(beanItem.getId(), StatusI18nEnum.Closed.name(),
-                                            MyCollabUI.getAccountId());
-                                }
-                            });
-                }
-            }
-        }).withStyleName(WebUIConstants.BUTTON_ACTION);
-
-        taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
-        quickActionStatusBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-
-        return topPanel;
     }
 
     @Override
@@ -216,7 +166,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         private ToggleTaskSummaryField toggleTaskSummaryField;
 
         void displayTaskHeader(SimpleTask task) {
-            toggleTaskSummaryField = new ToggleTaskSummaryField(task);
+            toggleTaskSummaryField = new ToggleTaskSummaryField(task, true);
             toggleTaskSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleTaskSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
             if (task.getParenttaskid() == null) {

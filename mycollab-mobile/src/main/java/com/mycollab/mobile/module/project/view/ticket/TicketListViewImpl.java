@@ -40,10 +40,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
-import com.mycollab.module.project.i18n.RiskI18nEnum;
-import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -64,6 +61,12 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 @ViewComponent
 public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearchCriteria, ProjectTicket> implements TicketListView {
+
+    public TicketListViewImpl() {
+        super();
+        setCaption(UserUIContext.getMessage(TicketI18nEnum.LIST));
+    }
+
     @Override
     protected AbstractPagedBeanList<ProjectTicketSearchCriteria, ProjectTicket> createBeanList() {
         return new DefaultPagedBeanList<>(AppContextUtil.getSpringBean(ProjectTicketService.class),

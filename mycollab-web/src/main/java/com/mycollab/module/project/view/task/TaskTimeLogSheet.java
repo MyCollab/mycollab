@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.ticket;
+package com.mycollab.module.project.view.task;
 
-import com.mycollab.module.project.domain.SimpleRisk;
+import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.ui.components.TimeLogComp;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 
 /**
  * @author MyCollab Ltd
- * @since 5.4.3
+ * @since 5.1.4
  */
-public abstract class RiskTimeLogSheet extends TimeLogComp<SimpleRisk> implements CacheableComponent {
+public abstract class TaskTimeLogSheet extends TimeLogComp<SimpleTask> implements CacheableComponent {
 }

@@ -27,6 +27,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
@@ -84,7 +85,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                             if (confirmDialog.isConfirmed()) {
                                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                                 bugService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
-                                EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
+                                EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null));
                             }
                         });
             }
@@ -137,7 +138,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
 
             @Override
             public void onCancel() {
-                EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
+                EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null));
             }
         });
     }

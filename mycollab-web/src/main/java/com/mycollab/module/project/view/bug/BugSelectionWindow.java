@@ -14,12 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.bug.components;
+package com.mycollab.module.project.view.bug;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.fielddef.BugTableFieldDef;
+import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.view.bug.BugSearchPanel;
 import com.mycollab.module.project.view.bug.BugTableDisplay;
 import com.mycollab.module.tracker.domain.SimpleBug;
@@ -48,7 +50,7 @@ public class BugSelectionWindow extends MWindow {
     private FieldSelection<SimpleBug> fieldSelection;
 
     public BugSelectionWindow(FieldSelection<SimpleBug> fieldSelection) {
-        super("Bug Selection");
+        super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(BugI18nEnum.SINGLE)));
 
         this.withWidth("900px").withModal(true).withResizable(false).withCenter();
         this.fieldSelection = fieldSelection;

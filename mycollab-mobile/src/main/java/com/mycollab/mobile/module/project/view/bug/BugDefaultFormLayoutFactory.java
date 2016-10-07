@@ -21,10 +21,8 @@ import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
-import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 
 /**
@@ -34,8 +32,7 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 public class BugDefaultFormLayoutFactory {
     public static DynaForm getForm() {
         DynaForm defaultForm = new DynaForm();
-        DynaSection bugSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.ONE_COLUMN).orderIndex(0)
-                .header(BugI18nEnum.SINGLE).build();
+        DynaSection bugSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.ONE_COLUMN).orderIndex(0).build();
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.name.name())
                 .displayName(GenericI18Enum.FORM_NAME)

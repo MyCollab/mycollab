@@ -128,7 +128,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         controlBtns.addComponent(updateRemainTimeBtn);
 
         NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
-        editBtn.setButtonCaption(null);
+        editBtn.setButtonCaption("...");
         editBtn.setContent(controlBtns);
         this.setRightComponent(editBtn);
     }
@@ -174,12 +174,10 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         this.setUpdateTimeValue();
     }
 
-    @SuppressWarnings("unchecked")
     private double getTotalInvest() {
         double total = 0;
         final ItemTimeLoggingSearchCriteria searchCriteria = this.getItemSearchCriteria();
-        final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(
-                searchCriteria, 0, Integer.MAX_VALUE));
+        final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (final SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
             total += simpleItemTimeLogging.getLogvalue();
         }

@@ -222,21 +222,6 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
       }
     })
     
-    this.register(new ApplicationEventListener[BugEvent.GotoKanbanView] {
-      @Subscribe override def handle(event: BugEvent.GotoKanbanView): Unit = {
-        val data = new BugScreenData.GotoKanbanView
-        val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
-        presenter.go(projectView, data)
-      }
-    })
-    
-    this.register(new ApplicationEventListener[BugEvent.GotoList] {
-      @Subscribe def handle(event: BugEvent.GotoList) {
-        val params: Any = event.getData
-        val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
-        presenter.go(projectView, new BugScreenData.GotoList(event.getData))
-      }
-    })
     this.register(new ApplicationEventListener[BugComponentEvent.GotoAdd] {
       @Subscribe def handle(event: BugComponentEvent.GotoAdd) {
         val data = new ComponentScreenData.Add(new Component)

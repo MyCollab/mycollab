@@ -182,7 +182,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
             Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(milestone
                     .getOwnerAvatarId(), 16))).appendChild(assigneeLink);
 
-            ELabel assigneeLbl = new ELabel(assigneeDiv.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO)
+            ELabel assigneeLbl = ELabel.html(assigneeDiv.write()).withStyleName(UIConstants.META_INFO)
                     .withWidthUndefined();
             metaLayout.addComponent(assigneeLbl);
 

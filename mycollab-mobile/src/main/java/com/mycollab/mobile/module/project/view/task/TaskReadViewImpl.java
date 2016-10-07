@@ -40,6 +40,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -108,7 +109,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getName();
+        return UserUIContext.getMessage(TaskI18nEnum.SINGLE);
     }
 
     @Override

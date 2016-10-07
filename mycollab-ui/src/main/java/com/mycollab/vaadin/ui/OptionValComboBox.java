@@ -20,7 +20,6 @@ import com.mycollab.common.domain.OptionVal;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.data.util.converter.Converter;
-import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class OptionValComboBox extends ComboBox {
         super();
         this.setPageLength(20);
         this.setNullSelectionAllowed(false);
-        this.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
         this.enumCls = enumCls;
 
         this.setItemStyleGenerator((source, itemId) -> {

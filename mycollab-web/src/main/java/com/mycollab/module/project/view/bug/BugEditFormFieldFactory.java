@@ -23,7 +23,6 @@ import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.ui.components.PriorityComboBox;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
-import com.mycollab.module.project.view.bug.components.BugSeverityComboBox;
 import com.mycollab.module.project.view.milestone.MilestoneComboBox;
 import com.mycollab.module.project.view.settings.component.ComponentMultiSelectField;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;

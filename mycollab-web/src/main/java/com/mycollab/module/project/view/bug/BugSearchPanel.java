@@ -27,7 +27,6 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.mycollab.module.project.view.settings.component.ComponentListSelect;
 import com.mycollab.module.project.view.settings.component.ProjectMemberListSelect;

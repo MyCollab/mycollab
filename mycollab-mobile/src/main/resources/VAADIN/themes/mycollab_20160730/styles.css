@@ -11,6 +11,7 @@
 
 .section .v-label {
 	margin-left: 5px;
+	font-size: 16px;
 }
 
 .v-touchkit-navbutton {
@@ -70,6 +71,7 @@
 
 .section .v-label {
 	margin-left: 5px;
+	font-size: 16px;
 }
 
 .v-touchkit-navbutton {
@@ -152,6 +154,11 @@ a {
 	text-decoration: none !important;
 }
 
+.v-button-link .v-button-caption {
+	color: #0083ce !important;
+	font-size: 14px !important;
+}
+
 .v-gridlayout.colored-gridlayout {
 	width: 100%;
 }
@@ -183,6 +190,18 @@ a {
 	display: flex;
 }
 
+.v-gridlayout.colored-gridlayout .gridform-field .v-select {
+	width: 100%;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-field .v-select::after {
+	right: 16px;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-field .v-select-select {
+	width: 100%;
+}
+
 .v-gridlayout.colored-gridlayout .gridform-caption {
 	min-height: 43px;
 }
@@ -206,6 +225,7 @@ a {
 .v-navbar-quickmenu-content .v-button {
 	background: transparent !important;
 	box-shadow: none !important;
+	font-size: 14px;
 }
 
 .v-touchkit-navview-wrapper, .v-touchkit-navpanel, .v-scrollable, body {
@@ -218,6 +238,7 @@ a {
 
 .v-touchkit-navbar {
 	background-color: #f9f9f9 !important;
+	border-bottom: 1px solid #e5e5e5 !important;
 }
 
 .v-touchkit-navbar .v-navbar-quickmenu-button {
@@ -268,12 +289,12 @@ a {
 	display: none;
 }
 
-.confirm-dialog .v-window-closebox {
-	background-color: transparent !important;
-}
-
 .confirm-dialog .v-horizontallayout .v-button {
 	font-size: 14px;
+}
+
+.v-window-closebox {
+	background-color: transparent !important;
 }
 
 .attachment-panel {
@@ -296,10 +317,6 @@ a {
 
 .slidemenu .modalcurtain {
 	width: 100% !important;
-}
-
-.full-width-comp {
-	width: 100%;
 }
 
 .comment-input  > div > .v-horizontallayout {

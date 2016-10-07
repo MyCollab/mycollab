@@ -90,7 +90,9 @@ public class DynaFormLayout implements IFormLayoutFactory {
                 continue;
             }
 
-            layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(section.getHeader())));
+            if (section.getHeader() != null) {
+                layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(section.getHeader())));
+            }
 
             GridFormLayoutHelper gridLayout;
 

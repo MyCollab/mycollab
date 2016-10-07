@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.task.components;
+package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.i18n.OptionI18nEnum;

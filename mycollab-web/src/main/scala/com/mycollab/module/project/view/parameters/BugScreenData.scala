@@ -25,14 +25,10 @@ import com.mycollab.vaadin.mvp.ScreenData
  */
 object BugScreenData {
 
-    class GotoList(params: Any) extends ScreenData(params) {}
-
     class Read(params: Integer) extends ScreenData[Integer](params) {}
 
     class Add(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
 
     class Edit(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
-
-    class GotoKanbanView extends ScreenData {}
 
 }

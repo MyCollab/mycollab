@@ -14,15 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.task.components;
 
-import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.module.project.ui.components.TimeLogComp;
-import com.mycollab.vaadin.mvp.CacheableComponent;
+package com.mycollab.module.project.view.bug;
+
+import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 
 /**
- * @author MyCollab Ltd
- * @since 5.1.4
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
-public abstract class TaskTimeLogSheet extends TimeLogComp<SimpleTask> implements CacheableComponent {
+public class BugRelationComboBox extends I18nValueComboBox {
+    private static final long serialVersionUID = 1L;
+
+    public BugRelationComboBox() {
+        super(false, OptionI18nEnum.BugRelation.Block, OptionI18nEnum.BugRelation.Duplicated, OptionI18nEnum.BugRelation.Related);
+    }
+
 }

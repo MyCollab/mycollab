@@ -18,6 +18,7 @@ package com.mycollab.mobile.module.project.view;
 
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -33,11 +34,13 @@ import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
@@ -85,7 +88,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
         activityBtn.setIcon(FontAwesome.INBOX);
         addMenuItem(activityBtn);
 
-        Button prjBtn = new Button("Projects", clickEvent -> {
+        Button prjBtn = new Button(UserUIContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
         });
@@ -94,7 +97,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
 
         addSection("Settings:");
 
-        Button logoutBtn = new Button("Logout", clickEvent -> {
+        Button logoutBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
         });
@@ -165,8 +168,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
                 }
             }
 
-            Label actionLbl = new Label(content.toString(), ContentMode.HTML);
-            layout.addComponent(actionLbl);
+            layout.addComponent(ELabel.html(content.toString()));
             return layout;
         }
 

@@ -106,7 +106,6 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
                     String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), bean.getProjectid(),
                             ProjectTypeConstants.BUG, "" + bugId);
                     uploadField.saveContentsToRepo(attachPath);
-                    EventBusFactory.getInstance().post(new BugEvent.NewBugAdded(BugEditForm.this, bugId));
                     EventBusFactory.getInstance().post(new TicketEvent.NewTicketAdded(BugEditForm.this,
                             ProjectTypeConstants.BUG, bugId));
                     ProjectSubscribersComp subcribersComp = bugEditFormFieldFactory.getSubscribersComp();

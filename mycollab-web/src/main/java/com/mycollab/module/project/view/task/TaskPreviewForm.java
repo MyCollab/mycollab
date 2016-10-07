@@ -42,8 +42,6 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.mycollab.module.project.view.task.components.TaskSearchPanel;
-import com.mycollab.module.project.view.task.components.ToggleTaskSummaryWithParentRelationshipField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;

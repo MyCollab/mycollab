@@ -33,7 +33,6 @@ import com.mycollab.module.project.ui.components.TaskSliderField;
 import com.mycollab.module.project.view.milestone.MilestoneComboBox;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.module.project.ui.components.PriorityComboBox;
-import com.mycollab.module.project.view.task.components.TaskStatusComboBox;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;

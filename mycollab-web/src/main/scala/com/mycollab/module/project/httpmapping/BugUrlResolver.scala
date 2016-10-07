@@ -33,23 +33,9 @@ import com.mycollab.vaadin.mvp.PageActionChain
   * @since 5.0.9
   */
 class BugUrlResolver extends ProjectUrlResolver {
-  this.defaultUrlResolver = new ListUrlResolver
   this.addSubResolver("add", new AddUrlResolver)
-  this.addSubResolver("list", new ListUrlResolver)
-  this.addSubResolver("kanban", new KanbanUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
   this.addSubResolver("preview", new PreviewUrlResolver)
-  
-  private class ListUrlResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*) {
-      val tokenizer = UrlTokenizer(params(0))
-      val projectId = tokenizer.getInt
-      val query = tokenizer.getQuery
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new BugScreenData.GotoList(query))
-      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
-    }
-  }
   
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
@@ -100,14 +86,6 @@ class BugUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Add(new SimpleBug))
-      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
-    }
-  }
-  
-  private class KanbanUrlResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*): Unit = {
-      val projectId = UrlTokenizer(params(0)).getInt
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.GotoKanbanView)
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }

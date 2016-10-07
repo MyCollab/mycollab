@@ -30,8 +30,6 @@ import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
-import com.mycollab.module.project.view.bug.components.BugResolutionComboBox;
-import com.mycollab.module.project.view.bug.components.BugSelectionField;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;

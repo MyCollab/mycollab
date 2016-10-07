@@ -16,41 +16,36 @@
  */
 package com.mycollab.module.project.view.milestone;
 
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.BeanUtility;
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
-import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.mycollab.module.project.service.MilestoneService;
-import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
-import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
+import com.mycollab.vaadin.web.ui.ReadViewLayout;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -135,39 +130,6 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
-
-        if (!beanItem.isClosed() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-            MButton closeBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE)).withIcon
-                    (FontAwesome.ARCHIVE).withStyleName(WebUIConstants.BUTTON_ACTION);
-            closeBtn.addClickListener(clickEvent -> {
-                beanItem.setStatus(MilestoneStatus.Closed.name());
-                MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-                milestoneService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
-                addLayoutStyleName(WebUIConstants.LINK_COMPLETED);
-                ProjectTicketSearchCriteria searchCriteria = new ProjectTicketSearchCriteria();
-                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK,
-                        ProjectTypeConstants.TASK));
-                searchCriteria.setMilestoneId(NumberSearchField.equal(beanItem.getId()));
-                searchCriteria.setIsOpenned(new SearchField());
-                ProjectTicketService genericTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
-                int openAssignmentsCount = genericTaskService.getTotalCount(searchCriteria);
-                if (openAssignmentsCount > 0) {
-                    ConfirmDialogExt.show(UI.getCurrent(),
-                            UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION, MyCollabUI.getSiteName()),
-                            UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_CLOSE_SUB_ASSIGNMENTS),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                            confirmDialog -> {
-                                if (confirmDialog.isConfirmed()) {
-                                    genericTaskService.closeSubAssignmentOfMilestone(beanItem.getId());
-                                }
-                            });
-                }
-                actionControls.removeComponent(closeBtn);
-            });
-            actionControls.addComponent(closeBtn, 0);
-        }
     }
 
     @Override
@@ -184,7 +146,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         private ToggleMilestoneSummaryField toggleMilestoneSummaryField;
 
         void displayHeader(SimpleMilestone milestone) {
-            toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
+            toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, true);
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
             if (OptionI18nEnum.StatusI18nEnum.Closed.name().equals(milestone.getStatus())) {

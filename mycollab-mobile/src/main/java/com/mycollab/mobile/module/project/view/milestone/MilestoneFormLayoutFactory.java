@@ -17,9 +17,7 @@
 package com.mycollab.mobile.module.project.view.milestone;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
-import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.Component;
@@ -59,7 +57,6 @@ public class MilestoneFormLayoutFactory extends AbstractFormLayoutFactory {
         final VerticalLayout layout = new VerticalLayout();
         layout.setWidth("100%");
         layout.setMargin(false);
-        layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE)));
 
         informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8);
         layout.addComponent(informationLayout.getLayout());
