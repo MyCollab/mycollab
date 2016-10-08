@@ -34,4 +34,6 @@ object TicketEvent {
   
   class SearchRequest(source: AnyRef, data: ProjectTicketSearchCriteria) extends ApplicationEvent(source, data) {}
   
+  class HasTicketPropertyChanged(source: AnyRef, data: String) extends ApplicationEvent(source, data) {}
+  
 }

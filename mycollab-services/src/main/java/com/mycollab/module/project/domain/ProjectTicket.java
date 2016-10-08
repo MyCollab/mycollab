@@ -378,6 +378,7 @@ public class ProjectTicket extends ValuedBean implements Serializable {
         task.setStatus(bean.getStatus());
         task.setSaccountid(bean.getsAccountId());
         task.setPriority(bean.getPriority());
+        task.setAssignuser(bean.getAssignUser());
         return task;
     }
 
@@ -391,6 +392,7 @@ public class ProjectTicket extends ValuedBean implements Serializable {
         bug.setStatus(bean.getStatus());
         bug.setPriority(bean.getPriority());
         bug.setSaccountid(bean.getsAccountId());
+        bug.setAssignuser(bean.getAssignUser());
         return bug;
     }
 
@@ -404,6 +406,7 @@ public class ProjectTicket extends ValuedBean implements Serializable {
         risk.setStatus(bean.getStatus());
         risk.setSaccountid(bean.getsAccountId());
         risk.setPriority(bean.getPriority());
+        risk.setAssignuser(bean.getAssignUser());
         return risk;
     }
 }

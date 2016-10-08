@@ -18,6 +18,8 @@ package com.mycollab.mobile.module.project.view.message;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.mobile.module.project.events.MessageEvent;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
@@ -125,6 +127,16 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         mainLayout.addComponent(section);
         mainLayout.addComponent(commentDisplay);
         this.setToolbar(commentDisplay.getCommentBox());
+    }
+
+    @Override
+    protected String getBackTitle() {
+        return UserUIContext.getMessage(MessageI18nEnum.LIST);
+    }
+
+    @Override
+    protected void doBackAction() {
+        EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
     }
 
     @Override

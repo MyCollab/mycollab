@@ -27,8 +27,6 @@ object TaskEvent {
 
   class SearchRequest(source: AnyRef, data: TaskSearchCriteria) extends ApplicationEvent(source, data) {}
 
-  class HasTaskChange(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
-
   class NewTaskAdded(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
 
   class RemoveParentRelationship(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}

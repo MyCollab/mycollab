@@ -24,7 +24,6 @@ import com.mycollab.core.IgnoreException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.Risk;
 import com.mycollab.module.project.domain.Task;
@@ -35,11 +34,12 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -61,6 +61,11 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         this.setWidth("100%");
         titleLinkLbl = ELabel.html(buildTicketLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
                 UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
+        if (ticket.isClosed()) {
+            titleLinkLbl.addStyleName(WebUIConstants.LINK_COMPLETED);
+        } else if (ticket.isOverdue()) {
+            titleLinkLbl.addStyleName(WebUIConstants.LINK_OVERDUE);
+        }
         this.addComponent(titleLinkLbl);
         if (CurrentProjectVariables.canWriteTicket(ticket)) {
             this.addStyleName("editable-field");
@@ -143,13 +148,18 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
 
         issueDiv.appendChild(ticketLink);
 
-        if (ticket.isClosed()) {
-            ticketLink.setCSSClass("completed");
-        } else if (ticket.isOverdue()) {
-            ticketLink.setCSSClass("overdue");
+        if (ticket.isOverdue()) {
             issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
                     .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(ticket.getDueDate()))));
         }
         return issueDiv.write();
+    }
+
+    public void setClosedTicket() {
+        titleLinkLbl.addStyleName(WebUIConstants.LINK_COMPLETED);
+    }
+
+    public void unsetClosedTicket() {
+        titleLinkLbl.removeStyleName(WebUIConstants.LINK_COMPLETED);
     }
 }

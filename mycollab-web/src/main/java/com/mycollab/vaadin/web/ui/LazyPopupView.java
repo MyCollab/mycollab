@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.vaadin.ui.PropertyChangedEvent;
+import com.mycollab.vaadin.ui.PropertyChangedListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.PopupView;
 import org.vaadin.jouni.restrain.Restrain;
@@ -57,6 +59,10 @@ public class LazyPopupView extends PopupView {
     public void setMinimizedValueAsHTML(String valueAsHtml) {
         PopupContent content = (PopupContent) getContent();
         content.setMinimizedValueAsHTML(valueAsHtml);
+    }
+
+    public void addPropertyChangeListener(PropertyChangedListener listener) {
+        addListener("propertyChangeEvent", PropertyChangedEvent.class, listener, PropertyChangedListener.viewInitMethod);
     }
 
     protected void doShow() {

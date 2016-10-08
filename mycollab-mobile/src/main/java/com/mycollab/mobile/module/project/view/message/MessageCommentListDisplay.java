@@ -90,7 +90,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
 
         @Override
         public Component generateRow(SimpleComment comment, int rowIndex) {
-            MHorizontalLayout commentBlock = new MHorizontalLayout().withSpacing(false).withFullWidth();
+            MHorizontalLayout commentBlock = new MHorizontalLayout().withSpacing(true).withFullWidth();
             commentBlock.setStyleName("comment-block");
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(comment.getOwnerAvatarId(), 32);
             userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);

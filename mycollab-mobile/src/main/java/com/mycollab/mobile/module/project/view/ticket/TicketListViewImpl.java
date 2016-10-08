@@ -22,6 +22,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.core.utils.StringUtils;
@@ -96,8 +97,11 @@ public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearch
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TicketListViewImpl.this, null))));
         content.with(new Button(UserUIContext.getMessage(BugI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoAdd(TicketListViewImpl.this, null))));
-        content.with(new Button(UserUIContext.getMessage(RiskI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(TicketListViewImpl.this, null))));
+        if (!SiteConfiguration.isCommunityEdition()) {
+            content.with(new Button(UserUIContext.getMessage(RiskI18nEnum.NEW),
+                    clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(TicketListViewImpl.this, null))));
+        }
+
         menu.setContent(content);
         return menu;
     }
@@ -106,7 +110,7 @@ public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearch
 
         @Override
         public Component generateRow(final ProjectTicket ticket, int rowIndex) {
-            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth();
+            MVerticalLayout rowLayout = new MVerticalLayout().withSpacing(false).withFullWidth();
 
             A ticketLink = new A();
             if (ticket.isBug() || ticket.isTask()) {

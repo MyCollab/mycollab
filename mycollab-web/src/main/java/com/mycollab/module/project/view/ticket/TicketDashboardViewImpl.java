@@ -218,8 +218,7 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
         baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
 
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
-        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
-                ProjectTypeConstants.RISK));
+        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
 
         if (StringUtils.isNotBlank(query)) {
             try {

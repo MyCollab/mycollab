@@ -113,9 +113,6 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         if (record.getPercentagecomplete() == null) {
             record.setPercentagecomplete(0d);
         }
-        if (record.getPercentagecomplete() == 100d) {
-            record.setStatus(StatusI18nEnum.Closed.name());
-        }
 
         if (StringUtils.isBlank(record.getStatus())) {
             record.setStatus(StatusI18nEnum.Open.name());
@@ -160,9 +157,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     }
 
     private void beforeUpdate(Task record) {
-        if ((record.getPercentagecomplete() != null) && (record.getPercentagecomplete() == 100d)) {
-            record.setStatus(StatusI18nEnum.Closed.name());
-        } else if (record.getStatus() == null) {
+        if (record.getStatus() == null) {
             record.setStatus(StatusI18nEnum.Open.name());
         } else if (StatusI18nEnum.Closed.name().equals(record.getStatus())) {
             record.setPercentagecomplete(100d);

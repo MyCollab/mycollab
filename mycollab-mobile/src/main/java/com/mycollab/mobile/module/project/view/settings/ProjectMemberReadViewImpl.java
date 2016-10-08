@@ -18,6 +18,8 @@ package com.mycollab.mobile.module.project.view.settings;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
@@ -70,7 +72,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
 
     @Override
     protected String initFormTitle() {
-        return this.beanItem.getDisplayName();
+        return beanItem.getDisplayName();
     }
 
     @Override
@@ -128,7 +130,17 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         return null;
     }
 
-    class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
+    @Override
+    protected String getBackTitle() {
+        return UserUIContext.getMessage(ProjectMemberI18nEnum.LIST);
+    }
+
+    @Override
+    protected void doBackAction() {
+        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+    }
+
+    private class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 8920529536882351151L;
 
         private GridFormLayoutHelper informationLayout;
@@ -164,7 +176,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
     private class ProjectMemberBeanFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
         private static final long serialVersionUID = 5269043189285551214L;
 
-        public ProjectMemberBeanFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
+        ProjectMemberBeanFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
             super(form);
         }
 

@@ -39,12 +39,25 @@ public abstract class AbstractMobilePageView extends NavigationView implements P
     public AbstractMobilePageView() {
         super();
         if (this.getLeftComponent() != null && this.getLeftComponent() instanceof NavigationButton) {
-            this.getLeftComponent().setCaption(UserUIContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+            this.getLeftComponent().setCaption(getBackTitle());
+            getNavigationManager().addNavigationListener(navigationEvent -> {
+                if (navigationEvent.getDirection() == NavigationManager.NavigationEvent.Direction.BACK) {
+                    doBackAction();
+                }
+            });
         }
 
         if (this.getLeftComponent() == null) {
             this.setLeftComponent(new ELabel("").withWidth("72px"));
         }
+    }
+
+    protected String getBackTitle() {
+        return UserUIContext.getMessage(GenericI18Enum.M_BUTTON_BACK);
+    }
+
+    protected void doBackAction() {
+
     }
 
     @Override

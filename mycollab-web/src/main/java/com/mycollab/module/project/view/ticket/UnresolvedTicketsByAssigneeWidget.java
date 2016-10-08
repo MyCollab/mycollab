@@ -16,11 +16,13 @@
  */
 package com.mycollab.module.project.view.ticket;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
@@ -39,6 +41,7 @@ import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.UI;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -58,15 +61,16 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
     private int totalCountItems;
     private List<GroupItem> groupItems;
 
-//    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new ApplicationEventListener<TaskEvent.HasTaskChange>() {
-//        @Override
-//        @Subscribe
-//        public void handle(TaskEvent.HasTaskChange event) {
-//            if (searchCriteria != null) {
-//                UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
-//            }
-//        }
-//    };
+    private ApplicationEventListener<TicketEvent.HasTicketPropertyChanged> ticketPropertyChangedHandler = new
+            ApplicationEventListener<TicketEvent.HasTicketPropertyChanged>() {
+                @Override
+                @Subscribe
+                public void handle(TicketEvent.HasTicketPropertyChanged event) {
+                    if (searchCriteria != null && "assignUser".equals(event.getData())) {
+                        UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
+                    }
+                }
+            };
 
     public UnresolvedTicketsByAssigneeWidget() {
         super("", new MVerticalLayout());
@@ -75,13 +79,13 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
 
     @Override
     public void attach() {
-//        EventBusFactory.getInstance().register(taskChangeHandler);
+        EventBusFactory.getInstance().register(ticketPropertyChangedHandler);
         super.attach();
     }
 
     @Override
     public void detach() {
-//        EventBusFactory.getInstance().unregister(taskChangeHandler);
+        EventBusFactory.getInstance().unregister(ticketPropertyChangedHandler);
         super.detach();
     }
 

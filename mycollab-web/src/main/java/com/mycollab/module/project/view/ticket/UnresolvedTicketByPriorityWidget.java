@@ -23,7 +23,6 @@ import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
@@ -63,11 +62,12 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
         setContentBorder(true);
     }
 
-    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new ApplicationEventListener<TaskEvent.HasTaskChange>() {
+    private ApplicationEventListener<TicketEvent.HasTicketPropertyChanged> ticketPropertyChangedHandler = new
+            ApplicationEventListener<TicketEvent.HasTicketPropertyChanged>() {
         @Override
         @Subscribe
-        public void handle(TaskEvent.HasTaskChange event) {
-            if (searchCriteria != null) {
+        public void handle(TicketEvent.HasTicketPropertyChanged event) {
+            if (searchCriteria != null && "priority".equals(event.getData())) {
                 UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
             }
         }
@@ -75,13 +75,13 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
 
     @Override
     public void attach() {
-        EventBusFactory.getInstance().register(taskChangeHandler);
+        EventBusFactory.getInstance().register(ticketPropertyChangedHandler);
         super.attach();
     }
 
     @Override
     public void detach() {
-        EventBusFactory.getInstance().unregister(taskChangeHandler);
+        EventBusFactory.getInstance().unregister(ticketPropertyChangedHandler);
         super.detach();
     }
 
