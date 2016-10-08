@@ -117,8 +117,8 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
 
         Label commentTitleLbl = new Label();
         Component section = FormSectionBuilder.build(FontAwesome.COMMENT, commentTitleLbl);
-        MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE, bean
-                .getId() + "", bean.getProjectid(), true);
+        MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE,
+                bean.getId() + "", bean.getProjectid(), true);
         int numComments = commentDisplay.getNumComments();
         commentTitleLbl.setValue(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, numComments));
 

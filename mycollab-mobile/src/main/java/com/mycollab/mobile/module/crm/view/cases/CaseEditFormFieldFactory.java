@@ -43,15 +43,15 @@ class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
 		if (propertyId.equals("priority")) {
-			return new CasePriorityComboBox();
+			return new CasePriorityListSelect();
 		} else if (propertyId.equals("status")) {
-			return new CaseStatusComboBox();
+			return new CaseStatusListSelect();
 		} else if (propertyId.equals("reason")) {
-			return new CaseReasonComboBox();
+			return new CaseReasonListSelect();
 		} else if (propertyId.equals("origin")) {
-			return new CasesOriginComboBox();
+			return new CasesOriginListSelect();
 		} else if (propertyId.equals("type")) {
-			return new CaseTypeComboBox();
+			return new CaseTypeListSelect();
 		} else if (propertyId.equals("description")) {
 			TextArea descArea = new TextArea("", "");
 			descArea.setNullRepresentation("");

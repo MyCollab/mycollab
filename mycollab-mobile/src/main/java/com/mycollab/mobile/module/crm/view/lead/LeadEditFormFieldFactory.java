@@ -18,9 +18,9 @@ package com.mycollab.mobile.module.crm.view.lead;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.mobile.ui.CountryComboBox;
-import com.mycollab.mobile.ui.IndustryComboBox;
-import com.mycollab.mobile.ui.PrefixNameComboBox;
+import com.mycollab.mobile.ui.CountryListSelect;
+import com.mycollab.mobile.ui.IndustryListSelect;
+import com.mycollab.mobile.ui.PrefixNameListSelect;
 import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
@@ -55,15 +55,15 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
         if (propertyId.equals("firstname") || propertyId.equals("prefixname")) {
             return firstNamePrefixField;
         } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
-            return new CountryComboBox();
+            return new CountryListSelect();
         } else if (propertyId.equals("status")) {
-            return new LeadStatusComboBox();
+            return new LeadStatusListSelect();
         } else if (propertyId.equals("industry")) {
-            return new IndustryComboBox();
+            return new IndustryListSelect();
         } else if (propertyId.equals("assignuser")) {
             return new ActiveUserComboBox();
         } else if (propertyId.equals("source")) {
-            return new LeadSourceComboBox();
+            return new LeadSourceListSelect();
         } else if (propertyId.equals("lastname")) {
             TextField tf = new TextField();
             if (isValidateForm) {
@@ -97,7 +97,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
         protected Component initContent() {
             MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
 
-            final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
+            final PrefixNameListSelect prefixSelect = new PrefixNameListSelect();
             prefixSelect.setValue(attachForm.getBean().getPrefixname());
             layout.addComponent(prefixSelect);
 

@@ -17,7 +17,7 @@
 package com.mycollab.module.crm.view.file;
 
 import com.mycollab.module.ecm.domain.Folder;
-import com.mycollab.module.file.view.components.ResourcesDisplayComponent;
+import com.mycollab.module.file.view.ResourcesDisplayComponent;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;

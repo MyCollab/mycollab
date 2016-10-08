@@ -17,10 +17,8 @@
 package com.mycollab.module.project.httpmapping
 
 import com.mycollab.common.UrlTokenizer
-import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.module.project.domain.SimpleRisk
-import com.mycollab.module.project.domain.criteria.RiskSearchCriteria
 import com.mycollab.module.project.event.ProjectEvent
 import com.mycollab.module.project.service.RiskService
 import com.mycollab.module.project.view.parameters.{ProjectScreenData, RiskScreenData}
@@ -33,20 +31,9 @@ import com.mycollab.vaadin.mvp.PageActionChain
   * @since 5.0.9
   */
 class RiskUrlResolver extends ProjectUrlResolver {
-  this.addSubResolver("list", new ListUrlResolver)
   this.addSubResolver("preview", new PreviewUrlResolver)
   this.addSubResolver("add", new AddUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
-  
-  private class ListUrlResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*) {
-      val projectId = UrlTokenizer(params(0)).getInt
-      val riskSearchCriteria = new RiskSearchCriteria
-      riskSearchCriteria.setProjectId(new NumberSearchField(projectId))
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new RiskScreenData.Search(riskSearchCriteria))
-      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
-    }
-  }
   
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {

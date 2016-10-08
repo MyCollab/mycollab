@@ -128,13 +128,13 @@ public class DefaultScheduleConfiguration {
         bean.setJobFactory(factory);
         bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey");
 
-//        bean.setTriggers(
-//                projectSendRelayNotificationEmailTrigger().getObject(),
-//                projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
-//                crmSendRelayNotificationEmailTrigger().getObject(),
-//                cleanUpTimelineCacheDataTrigger().getObject(),
-//                liveInstanceMonitorTrigger().getObject()
-//        );
+        bean.setTriggers(
+                projectSendRelayNotificationEmailTrigger().getObject(),
+                projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
+                crmSendRelayNotificationEmailTrigger().getObject(),
+                cleanUpTimelineCacheDataTrigger().getObject(),
+                liveInstanceMonitorTrigger().getObject()
+        );
         return bean;
     }
 }

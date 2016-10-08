@@ -17,6 +17,8 @@
 package com.mycollab.mobile.module.project.ui;
 
 
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
@@ -31,7 +33,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class ProjectCommentRequestComp extends MHorizontalLayout {
     public ProjectCommentRequestComp(final String typeVal, final String typeIdVal, final Integer extraTypeIdVal) {
         withMargin(true);
-        ELabel hintLbl = ELabel.html(FontAwesome.COMMENT.getHtml() + " Add a comment").withStyleName(UIConstants.META_INFO);
+        ELabel hintLbl = ELabel.html(FontAwesome.COMMENT.getHtml() + " " + UserUIContext.getMessage(GenericI18Enum.ACTION_ADD_COMMENT))
+                .withStyleName(UIConstants.META_INFO);
         this.addComponent(hintLbl);
         this.addLayoutClickListener(layoutClickEvent -> {
             ((NavigationManager) UI.getCurrent().getContent()).navigateTo(new ProjectCommentInputView(typeVal, typeIdVal, extraTypeIdVal));

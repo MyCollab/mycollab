@@ -17,11 +17,11 @@
 package com.mycollab.mobile.module.crm.view.contact;
 
 import com.mycollab.mobile.module.crm.view.account.AccountSelectionField;
-import com.mycollab.mobile.module.crm.view.lead.LeadSourceComboBox;
+import com.mycollab.mobile.module.crm.view.lead.LeadSourceListSelect;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.mobile.ui.BirthdayPickerField;
-import com.mycollab.mobile.ui.CountryComboBox;
-import com.mycollab.mobile.ui.PrefixNameComboBox;
+import com.mycollab.mobile.ui.CountryListSelect;
+import com.mycollab.mobile.ui.PrefixNameListSelect;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
@@ -52,7 +52,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         if (propertyId.equals("firstname") || propertyId.equals("prefix")) {
             return firstNamePrefixField;
         } else if (propertyId.equals("leadsource")) {
-            return new LeadSourceComboBox();
+            return new LeadSourceListSelect();
         } else if (propertyId.equals("accountid")) {
             return new AccountSelectionField();
         } else if (propertyId.equals("lastname")) {
@@ -72,7 +72,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
             userBox.select(attachForm.getBean().getAssignuser());
             return userBox;
         } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
-            return new CountryComboBox();
+            return new CountryListSelect();
         } else if (propertyId.equals("birthday")) {
             return new BirthdayPickerField();
         }
@@ -86,7 +86,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         protected Component initContent() {
             MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
 
-            final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
+            final PrefixNameListSelect prefixSelect = new PrefixNameListSelect();
             prefixSelect.setValue(attachForm.getBean().getPrefix());
             layout.addComponent(prefixSelect);
 

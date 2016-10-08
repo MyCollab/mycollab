@@ -18,8 +18,8 @@ package com.mycollab.mobile.module.crm.view.account;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.mobile.ui.CountryComboBox;
-import com.mycollab.mobile.ui.IndustryComboBox;
+import com.mycollab.mobile.ui.CountryListSelect;
+import com.mycollab.mobile.ui.IndustryListSelect;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
@@ -45,9 +45,9 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
     @Override
     protected Field<?> onCreateField(Object propertyId) {
         if ("type".equals(propertyId)) {
-            return new AccountTypeComboBox();
+            return new AccountTypeListSelect();
         } else if ("industry".equals(propertyId)) {
-            return new IndustryComboBox();
+            return new IndustryListSelect();
         } else if ("assignuser".equals(propertyId)) {
             ActiveUserComboBox userBox = new ActiveUserComboBox();
             userBox.select(attachForm.getBean().getAssignuser());
@@ -57,7 +57,7 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
             textArea.setNullRepresentation("");
             return textArea;
         } else if ("billingcountry".equals(propertyId) || "shippingcountry".equals(propertyId)) {
-            return new CountryComboBox();
+            return new CountryListSelect();
         } else if (propertyId.equals("accountname")) {
             MTextField tf = new MTextField();
             if (isValidateForm) {

@@ -207,6 +207,5 @@ public enum GenericI18Enum {
     OPT_SHARED_TO_ME,
 
     M_BUTTON_BACK,
-    M_BUTTON_SEND,
-    M_NOTE_INPUT_PROMPT
+    M_BUTTON_SEND
 }

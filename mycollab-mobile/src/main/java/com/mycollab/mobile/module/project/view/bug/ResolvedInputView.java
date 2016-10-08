@@ -142,7 +142,7 @@ class ResolvedInputView extends AbstractMobilePageView {
             protected Field<?> onCreateField(final Object propertyId) {
                 if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                     bug.setResolution(BugResolution.Fixed.name());
-                    return BugResolutionComboBox.getInstanceForResolvedBugWindow();
+                    return BugResolutionListSelect.getInstanceForResolvedBugWindow();
                 } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
                     bug.setAssignuser(bug.getCreateduser());
                     return new ProjectMemberSelectionField();

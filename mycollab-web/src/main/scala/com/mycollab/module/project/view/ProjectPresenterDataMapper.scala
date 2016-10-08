@@ -55,8 +55,7 @@ object ProjectPresenterDataMapper {
   val riskMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
     classOf[RiskScreenData.Add] -> classOf[IRiskPresenter],
     classOf[RiskScreenData.Edit] -> classOf[IRiskPresenter],
-    classOf[RiskScreenData.Read] -> classOf[IRiskPresenter],
-    classOf[RiskScreenData.Search] -> classOf[IRiskPresenter])
+    classOf[RiskScreenData.Read] -> classOf[IRiskPresenter])
 
   val taskMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
     classOf[TaskScreenData.Add] -> classOf[TicketPresenter],

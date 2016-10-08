@@ -44,12 +44,7 @@ public class TaskKanbanBoardPresenter extends ProjectGenericPresenter<TaskKanban
 
     @Override
     protected void postInitView() {
-        view.getSearchHandlers().addSearchHandler(new SearchHandler<TaskSearchCriteria>() {
-            @Override
-            public void onSearch(TaskSearchCriteria criteria) {
-                doSearch(criteria);
-            }
-        });
+        view.getSearchHandlers().addSearchHandler(this::doSearch);
     }
 
     @Override

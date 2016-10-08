@@ -17,7 +17,6 @@
 package com.mycollab.module.project.view.parameters
 
 import com.mycollab.module.project.domain.Risk
-import com.mycollab.module.project.domain.criteria.RiskSearchCriteria
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**
@@ -31,7 +30,5 @@ object RiskScreenData {
   class Add(param: Risk) extends ScreenData[Risk](param) {}
 
   class Edit(param: Risk) extends ScreenData[Risk](param) {}
-
-  class Search(param: RiskSearchCriteria) extends ScreenData[RiskSearchCriteria](param) {}
 
 }

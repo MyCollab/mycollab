@@ -189,14 +189,6 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         presenter.go(projectView, data)
       }
     })
-    this.register(new ApplicationEventListener[RiskEvent.GotoList] {
-      @Subscribe def handle(event: RiskEvent.GotoList) {
-        val criteria = new RiskSearchCriteria
-        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
-        val presenter = PresenterResolver.getPresenter(classOf[IRiskPresenter])
-        presenter.go(projectView, new RiskScreenData.Search(criteria))
-      }
-    })
   }
   
   private def bindBugEvents(): Unit = {

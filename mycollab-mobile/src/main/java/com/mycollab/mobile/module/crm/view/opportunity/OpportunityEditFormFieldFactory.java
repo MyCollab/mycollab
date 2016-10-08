@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.crm.view.opportunity;
 
 import com.mycollab.mobile.module.crm.view.account.AccountSelectionField;
 import com.mycollab.mobile.module.crm.view.campaign.CampaignSelectionField;
-import com.mycollab.mobile.module.crm.view.lead.LeadSourceComboBox;
+import com.mycollab.mobile.module.crm.view.lead.LeadSourceListSelect;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.mobile.ui.CurrencyComboBoxField;
 import com.mycollab.module.crm.domain.Opportunity;
@@ -60,11 +60,11 @@ class OpportunityEditFormFieldFactory<B extends Opportunity> extends AbstractBea
         } else if (propertyId.equals("currencyid")) {
             return new CurrencyComboBoxField();
         } else if (propertyId.equals("salesstage")) {
-            return new OpportunitySalesStageComboBox();
+            return new OpportunitySalesStageListSelect();
         } else if (propertyId.equals("opportunitytype")) {
-            return new OpportunityTypeComboBox();
+            return new OpportunityTypeListSelect();
         } else if (propertyId.equals("source")) {
-            return new LeadSourceComboBox();
+            return new LeadSourceListSelect();
         } else if (propertyId.equals("description")) {
             return new MTextArea();
         } else if (propertyId.equals("assignuser")) {

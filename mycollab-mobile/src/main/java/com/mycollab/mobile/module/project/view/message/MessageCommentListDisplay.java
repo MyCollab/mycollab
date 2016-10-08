@@ -69,8 +69,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
         final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));
-        Integer numComments = commentList.setSearchCriteria(searchCriteria);
-        return numComments;
+        return commentList.setSearchCriteria(searchCriteria);
     }
 
     public int getNumComments() {

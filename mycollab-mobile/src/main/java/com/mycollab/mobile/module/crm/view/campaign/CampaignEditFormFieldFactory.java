@@ -41,11 +41,11 @@ class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends Abstract
     protected Field<?> onCreateField(Object propertyId) {
 
         if ("type".equals(propertyId)) {
-            CampaignTypeComboBox typeCombo = new CampaignTypeComboBox();
+            CampaignTypeListSelect typeCombo = new CampaignTypeListSelect();
             typeCombo.setWidth("100%");
             return typeCombo;
         } else if ("status".equals(propertyId)) {
-            CampaignStatusComboBox statusCombo = new CampaignStatusComboBox();
+            CampaignStatusListSelect statusCombo = new CampaignStatusListSelect();
             statusCombo.setWidth("100%");
             return statusCombo;
         } else if ("campaignname".equals(propertyId)) {

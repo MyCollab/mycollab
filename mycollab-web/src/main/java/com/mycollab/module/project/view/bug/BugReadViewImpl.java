@@ -215,7 +215,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             toggleBugSummaryField = new ToggleBugSummaryField(bug);
             toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
-            header.with(toggleBugSummaryField);
+            header.with(toggleBugSummaryField).expand(toggleBugSummaryField);
             this.addHeader(header);
 
             if (bug.isCompleted()) {

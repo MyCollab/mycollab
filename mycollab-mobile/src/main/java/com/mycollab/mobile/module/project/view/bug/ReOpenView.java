@@ -142,7 +142,7 @@ class ReOpenView extends AbstractMobilePageView {
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("resolution")) {
-                    return BugResolutionComboBox.getInstanceForValidBugWindow();
+                    return BugResolutionListSelect.getInstanceForValidBugWindow();
                 } else if (propertyId.equals("assignuser")) {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {

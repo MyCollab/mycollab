@@ -18,8 +18,7 @@ package com.mycollab.mobile.module.crm.view.activity;
 
 import com.mycollab.mobile.module.crm.view.contact.ContactSelectionField;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.mobile.ui.I18nValueComboBox;
-import com.mycollab.mobile.ui.ValueComboBox;
+import com.mycollab.mobile.ui.I18NValueListSelect;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.domain.Task;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -50,9 +49,9 @@ public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFi
         } else if (propertyId.equals("duedate")) {
             return new DatePicker();
         } else if (propertyId.equals("status")) {
-            return new TaskStatusComboBox();
+            return new TaskStatusListSelect();
         } else if (propertyId.equals("priority")) {
-            return new TaskPriorityComboBox();
+            return new TaskPriorityListSelect();
         } else if (propertyId.equals("description")) {
             TextArea descArea = new TextArea();
             descArea.setNullRepresentation("");
@@ -81,20 +80,20 @@ public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFi
         return null;
     }
 
-    static class TaskPriorityComboBox extends I18nValueComboBox {
+    static class TaskPriorityListSelect extends I18NValueListSelect {
         private static final long serialVersionUID = 1L;
 
-        public TaskPriorityComboBox() {
+        public TaskPriorityListSelect() {
             super();
             setCaption(null);
             this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskPriorities()));
         }
     }
 
-    static class TaskStatusComboBox extends I18nValueComboBox {
+    static class TaskStatusListSelect extends I18NValueListSelect {
         private static final long serialVersionUID = 1L;
 
-        public TaskStatusComboBox() {
+        public TaskStatusListSelect() {
             super();
             setCaption(null);
             this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskStatuses()));

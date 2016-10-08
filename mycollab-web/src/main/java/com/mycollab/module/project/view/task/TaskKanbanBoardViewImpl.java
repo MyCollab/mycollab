@@ -97,7 +97,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
     private DDHorizontalLayout kanbanLayout;
     private Map<String, KanbanBlock> kanbanBlocks;
     private ComponentContainer newTaskComp = null;
-    private MButton toggleShowColumsBtn;
+    private MButton toggleShowColumnsBtn;
     private boolean displayHiddenColumns = false;
     private TaskSearchCriteria baseCriteria;
 
@@ -123,12 +123,12 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        toggleShowColumsBtn = new MButton("", clickEvent -> {
+        toggleShowColumnsBtn = new MButton("", clickEvent -> {
             displayHiddenColumns = !displayHiddenColumns;
             reload();
             toggleShowButton();
         }).withStyleName(WebUIConstants.BUTTON_LINK);
-        groupWrapLayout.addComponent(toggleShowColumsBtn);
+        groupWrapLayout.addComponent(toggleShowColumnsBtn);
         toggleShowButton();
 
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
@@ -210,9 +210,9 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
 
     private void toggleShowButton() {
         if (displayHiddenColumns) {
-            toggleShowColumsBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMNS));
+            toggleShowColumnsBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_HIDE_COLUMNS));
         } else {
-            toggleShowColumsBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMNS));
+            toggleShowColumnsBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMNS));
         }
     }
 

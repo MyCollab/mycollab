@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.crm.view.activity;
 import com.mycollab.mobile.form.view.DynaFormLayout;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.mobile.ui.AbstractEditItemComp;
-import com.mycollab.mobile.ui.ValueComboBox;
+import com.mycollab.mobile.ui.ValueListSelect;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CallWithBLOBs;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
@@ -87,7 +87,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
             } else if (propertyId.equals("durationinseconds")) {
                 return new CallDurationField();
             } else if (propertyId.equals("purpose")) {
-                return new CallPurposeComboBox();
+                return new CallPurposeListSelect();
             } else if (propertyId.equals("status")
                     || propertyId.equals("calltype")) {
                 return callStatusField;
@@ -116,12 +116,12 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 layout.setSpacing(true);
                 layout.setWidth("100%");
 
-                CallTypeComboBox typeField = new CallTypeComboBox();
+                CallTypeListSelect typeField = new CallTypeListSelect();
                 typeField.setWidth("100%");
                 layout.addComponent(typeField);
                 typeField.select(beanItem.getCalltype());
 
-                CallStatusComboBox statusField = new CallStatusComboBox();
+                CallStatusListSelect statusField = new CallStatusListSelect();
                 statusField.setWidth("100%");
                 layout.addComponent(statusField);
                 statusField.select(beanItem.getStatus());
@@ -134,10 +134,10 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
         }
     }
 
-    private static class CallPurposeComboBox extends ValueComboBox {
+    private static class CallPurposeListSelect extends ValueListSelect {
         private static final long serialVersionUID = 1L;
 
-        public CallPurposeComboBox() {
+        public CallPurposeListSelect() {
             super();
             setCaption(null);
             this.loadData("Prospecting", "Administrative", "Negotiation", "Project", "Support");
@@ -148,13 +148,13 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
         private static final long serialVersionUID = 1L;
         private TextField hourField;
-        private ValueComboBox minutesField;
+        private ValueListSelect minutesField;
 
         public CallDurationField() {
             hourField = new TextField();
             hourField.setWidth("30px");
 
-            minutesField = new ValueComboBox();
+            minutesField = new ValueListSelect();
             minutesField.setWidth("100%");
             minutesField.loadData("0", "15", "30", "45");
         }
@@ -234,11 +234,11 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
         }
     }
 
-    private class CallTypeComboBox extends ValueComboBox {
+    private class CallTypeListSelect extends ValueListSelect {
 
         private static final long serialVersionUID = 1L;
 
-        public CallTypeComboBox() {
+        public CallTypeListSelect() {
             super();
             setCaption(null);
             this.setWidth("80px");
@@ -249,16 +249,16 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 @Override
                 public void valueChange(
                         com.vaadin.data.Property.ValueChangeEvent event) {
-                    beanItem.setCalltype((String) CallTypeComboBox.this.getValue());
+                    beanItem.setCalltype((String) CallTypeListSelect.this.getValue());
                 }
             });
         }
     }
 
-    private class CallStatusComboBox extends ValueComboBox {
+    private class CallStatusListSelect extends ValueListSelect {
         private static final long serialVersionUID = 1L;
 
-        public CallStatusComboBox() {
+        public CallStatusListSelect() {
             super();
             setCaption(null);
             this.setWidth("100px");
@@ -269,7 +269,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 @Override
                 public void valueChange(
                         com.vaadin.data.Property.ValueChangeEvent event) {
-                    beanItem.setStatus((String) CallStatusComboBox.this.getValue());
+                    beanItem.setStatus((String) CallStatusListSelect.this.getValue());
                 }
             });
         }

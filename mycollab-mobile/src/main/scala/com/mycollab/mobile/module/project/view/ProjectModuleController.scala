@@ -36,7 +36,7 @@ import com.mycollab.mobile.mvp.view.PresenterOptionUtil
 import com.mycollab.module.project.domain._
 import com.mycollab.module.project.domain.criteria._
 import com.mycollab.module.project.service.ProjectService
-import com.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants}
+import com.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants, ProjectTypeConstants}
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.mvp.{AbstractController, PageActionChain, PresenterResolver, ScreenData}
@@ -108,7 +108,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       @Subscribe def handle(event: TicketEvent.GotoDashboard) {
         val searchCriteria = new ProjectTicketSearchCriteria
         searchCriteria.setProjectIds(new SetSearchField[Integer](CurrentProjectVariables.getProjectId))
-        
+        searchCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes)
         val data = new TicketScreenData.GotoDashboard(searchCriteria)
         val presenter = PresenterResolver.getPresenter(classOf[TicketPresenter])
         presenter.go(navManager, data)

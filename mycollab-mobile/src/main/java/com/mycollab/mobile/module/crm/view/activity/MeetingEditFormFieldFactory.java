@@ -49,7 +49,7 @@ public class MeetingEditFormFieldFactory extends AbstractBeanFieldGroupEditField
 
             return tf;
         } else if (propertyId.equals("status")) {
-            return new MeetingStatusComboBox();
+            return new MeetingStatusListSelect();
         } else if (propertyId.equals("startdate")) {
             return new DatePicker();
         } else if (propertyId.equals("enddate")) {
