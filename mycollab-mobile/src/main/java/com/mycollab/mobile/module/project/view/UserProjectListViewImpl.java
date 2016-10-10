@@ -66,7 +66,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
         if (getPagedBeanTable().getSearchRequest() == null) {
             ProjectSearchCriteria criteria = new ProjectSearchCriteria();
             criteria.setInvolvedMember(StringSearchField.and(UserUIContext.getUsername()));
-            criteria.setProjectStatuses(new SetSearchField(StatusI18nEnum.Open.name()));
+            criteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
             getPagedBeanTable().setSearchCriteria(criteria);
         }
         getPagedBeanTable().refresh();

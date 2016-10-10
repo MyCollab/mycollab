@@ -23,7 +23,7 @@ import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.spring.AppContextUtil;
-import com.vaadin.ui.Button;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
 
@@ -38,10 +38,10 @@ public class AccountListDisplay extends DefaultPagedBeanList<AccountService, Acc
         super(AppContextUtil.getSpringBean(AccountService.class), new AccountRowDisplayHandler());
     }
 
-    static public class AccountRowDisplayHandler implements RowDisplayHandler<SimpleAccount> {
+    private static class AccountRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleAccount> {
 
         @Override
-        public Component generateRow(final SimpleAccount account, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleAccount> host, final SimpleAccount account, int rowIndex) {
             return new MButton(account.getAccountname(), clickEvent -> EventBusFactory.getInstance().post
                     (new AccountEvent.GotoRead(this, account.getId()))).withFullWidth();
         }

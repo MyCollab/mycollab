@@ -41,7 +41,7 @@ public class AccountContactSelectionView extends AbstractRelatedItemSelectionVie
     @Override
     protected void initUI() {
         this.itemList = new ContactListDisplay();
-        this.itemList.setRowDisplayHandler((contact, rowIndex) -> {
+        this.itemList.setRowDisplayHandler((host, contact, rowIndex) -> {
             final SelectableButton b = new SelectableButton(contact.getContactName());
             if (selections.contains(contact)) {
                 b.select();

@@ -23,8 +23,9 @@ import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
-import com.vaadin.ui.Button;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -37,16 +38,12 @@ public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityServ
         super(AppContextUtil.getSpringBean(OpportunityService.class), new OpportunityRowDisplayHandler());
     }
 
-    static public class OpportunityRowDisplayHandler implements RowDisplayHandler<SimpleOpportunity> {
+    static public class OpportunityRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleOpportunity> {
 
         @Override
-        public Component generateRow(final SimpleOpportunity opportunity, int rowIndex) {
-            final Button b = new Button(opportunity.getOpportunityname(), clickEvent -> EventBusFactory.getInstance().post(
-                    new OpportunityEvent.GotoRead(this, opportunity.getId())));
-            b.setWidth("100%");
-            return b;
+        public Component generateRow(IBeanList<SimpleOpportunity> host, final SimpleOpportunity opportunity, int rowIndex) {
+            return new MButton(opportunity.getOpportunityname(), clickEvent -> EventBusFactory.getInstance().post(
+                    new OpportunityEvent.GotoRead(this, opportunity.getId()))).withFullWidth();
         }
-
     }
-
 }

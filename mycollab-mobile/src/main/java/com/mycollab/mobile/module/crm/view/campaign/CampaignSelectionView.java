@@ -17,7 +17,6 @@
 package com.mycollab.mobile.module.crm.view.campaign;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.AbstractSelectionView;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
@@ -25,6 +24,7 @@ import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -58,13 +58,13 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
         searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         itemList.search(searchCriteria);
         SimpleCampaign clearCampaign = new SimpleCampaign();
-        itemList.addComponentAtTop(rowHandler.generateRow(clearCampaign, 0));
+        itemList.addComponentAtTop(rowHandler.generateRow(itemList, clearCampaign, 0));
     }
 
-    private class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {
+    private class CampaignRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleCampaign> {
 
         @Override
-        public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleCampaign> host, final SimpleCampaign campaign, int rowIndex) {
             return new Button(campaign.getCampaignname(), clickEvent -> {
                 selectionField.fireValueChange(campaign);
                 CampaignSelectionView.this.getNavigationManager().navigateBack();

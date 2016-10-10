@@ -25,6 +25,7 @@ import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.service.EventService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -41,10 +42,10 @@ public class ActivityListDisplay extends DefaultPagedBeanList<EventService, Acti
         super(AppContextUtil.getSpringBean(EventService.class), new ActivityRowDisplayHandler());
     }
 
-    static public class ActivityRowDisplayHandler implements RowDisplayHandler<SimpleActivity> {
+    static public class ActivityRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleActivity> {
 
         @Override
-        public Component generateRow(final SimpleActivity simpleEvent, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleActivity> host, final SimpleActivity simpleEvent, int rowIndex) {
             Button b = new Button(simpleEvent.getSubject(), clickEvent -> {
                 if (simpleEvent.getEventType().equals(CrmTypeConstants.TASK)) {
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, simpleEvent.getId()));

@@ -16,6 +16,9 @@
  */
 package com.mycollab.mobile.module.project.view;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.configuration.StorageFactory;
@@ -33,10 +36,8 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -80,7 +81,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
                 listContainer.addComponent(FormSectionBuilder.build(UserUIContext.formatDate(item.getCreatedtime())));
                 currentDate = item.getCreatedtime();
             }
-            final Component row = getRowDisplayHandler().generateRow(item, i);
+            final Component row = getRowDisplayHandler().generateRow(this, item, i);
             if (row != null) {
                 listContainer.addComponent(row);
             }
@@ -88,10 +89,10 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
         }
     }
 
-    private static class ActivityStreamRowHandler implements RowDisplayHandler<ProjectActivityStream> {
+    private static class ActivityStreamRowHandler implements IBeanList.RowDisplayHandler<ProjectActivityStream> {
 
         @Override
-        public Component generateRow(final ProjectActivityStream activityStream, int rowIndex) {
+        public Component generateRow(IBeanList<ProjectActivityStream> host, final ProjectActivityStream activityStream, int rowIndex) {
             AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
             CssLayout layout = new CssLayout();
             layout.addStyleName("activity-cell");

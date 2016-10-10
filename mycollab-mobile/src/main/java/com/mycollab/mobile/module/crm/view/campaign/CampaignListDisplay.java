@@ -23,6 +23,7 @@ import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -37,10 +38,10 @@ public class CampaignListDisplay extends DefaultPagedBeanList<CampaignService, C
         super(AppContextUtil.getSpringBean(CampaignService.class), new CampaignRowDisplayHandler());
     }
 
-    private static class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {
+    private static class CampaignRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleCampaign> {
 
         @Override
-        public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleCampaign> host, final SimpleCampaign campaign, int rowIndex) {
             final Button b = new Button(campaign.getCampaignname(), clickEvent -> EventBusFactory.getInstance().post(
                     new CampaignEvent.GotoRead(this, campaign.getId())));
             b.setWidth("100%");

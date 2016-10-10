@@ -57,7 +57,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
             MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> showEditTimeView(bean))
                     .withStyleName(MobileUIConstants.BUTTON_LINK);
             header.addComponent(editBtn);
-            header.setComponentAlignment(editBtn, Alignment.TOP_RIGHT);
+            header.setComponentAlignment(editBtn, Alignment.MIDDLE_RIGHT);
         }
 
         this.addComponent(header);

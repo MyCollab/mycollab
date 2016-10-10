@@ -25,8 +25,8 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -36,9 +36,9 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.3.1
  */
-public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<SimpleBug> {
+public class BugRowRenderer implements IBeanList.RowDisplayHandler<SimpleBug> {
     @Override
-    public Component generateRow(AbstractBeanPagedList host, SimpleBug bug, int rowIndex) {
+    public Component generateRow(IBeanList<SimpleBug> host, SimpleBug bug, int rowIndex) {
         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);

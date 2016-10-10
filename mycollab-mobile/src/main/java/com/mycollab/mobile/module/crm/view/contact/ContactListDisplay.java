@@ -23,8 +23,9 @@ import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.spring.AppContextUtil;
-import com.vaadin.ui.Button;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -37,18 +38,13 @@ public class ContactListDisplay extends DefaultPagedBeanList<ContactService, Con
         super(AppContextUtil.getSpringBean(ContactService.class), new ContactRowDisplayHandler());
     }
 
-    static public class ContactRowDisplayHandler implements RowDisplayHandler<SimpleContact> {
+    private static class ContactRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleContact> {
 
         @Override
-        public Component generateRow(final SimpleContact contact, int rowIndex) {
-            final Button b = new Button(contact.getContactName(), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId()));
-                }
-            });
-            b.setWidth("100%");
-            return b;
+        public Component generateRow(IBeanList<SimpleContact> host, final SimpleContact contact, int rowIndex) {
+            return new MButton(contact.getContactName(),
+                    clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId())
+                    )).withFullWidth();
         }
 
     }

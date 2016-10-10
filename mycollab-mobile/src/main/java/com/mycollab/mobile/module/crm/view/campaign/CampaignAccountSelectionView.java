@@ -32,7 +32,6 @@ import com.mycollab.vaadin.UserUIContext;
  * @since 4.3.1
  */
 public class CampaignAccountSelectionView extends AbstractRelatedItemSelectionView<SimpleAccount, AccountSearchCriteria> {
-
     private static final long serialVersionUID = -801602909364348692L;
 
     public CampaignAccountSelectionView(AbstractRelatedListView<SimpleAccount, AccountSearchCriteria> relatedListView) {
@@ -42,7 +41,7 @@ public class CampaignAccountSelectionView extends AbstractRelatedItemSelectionVi
     @Override
     protected void initUI() {
         this.itemList = new AccountListDisplay();
-        this.itemList.setRowDisplayHandler((account, rowIndex) -> {
+        this.itemList.setRowDisplayHandler((host, account, rowIndex) -> {
             final SelectableButton b = new SelectableButton(account.getAccountname());
             if (selections.contains(account))
                 b.select();

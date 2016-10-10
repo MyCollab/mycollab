@@ -41,7 +41,7 @@ public class CampaignLeadSelectionView extends AbstractRelatedItemSelectionView<
     @Override
     protected void initUI() {
         this.itemList = new LeadListDisplay();
-        this.itemList.setRowDisplayHandler((lead, rowIndex) -> {
+        this.itemList.setRowDisplayHandler((host, lead, rowIndex) -> {
             final SelectableButton b = new SelectableButton(lead.getLeadName());
             if (selections.contains(lead)) b.select();
             b.addClickListener(clickEvent -> {

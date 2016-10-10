@@ -39,49 +39,54 @@ public class BugDefaultFormLayoutFactory {
                 .customField(false).fieldIndex(0).mandatory(true)
                 .required(true).build());
 
+        bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.status.name())
+                .displayName(GenericI18Enum.FORM_STATUS)
+                .customField(false).fieldIndex(1).mandatory(false)
+                .required(false).build());
+
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.priority.name())
                 .displayName(GenericI18Enum.FORM_PRIORITY)
-                .customField(false).fieldIndex(1).mandatory(false)
+                .customField(false).fieldIndex(2).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.assignuser.name())
                 .displayName(GenericI18Enum.FORM_ASSIGNEE)
-                .customField(false).fieldIndex(2).mandatory(false)
+                .customField(false).fieldIndex(3).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.severity.name())
                 .displayName(BugI18nEnum.FORM_SEVERITY)
-                .customField(false).fieldIndex(3).mandatory(false)
+                .customField(false).fieldIndex(4).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.startdate.name())
                 .displayName(GenericI18Enum.FORM_START_DATE)
-                .customField(false).fieldIndex(4).mandatory(false)
+                .customField(false).fieldIndex(5).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.enddate.name())
                 .displayName(GenericI18Enum.FORM_END_DATE)
-                .customField(false).fieldIndex(5).mandatory(false)
+                .customField(false).fieldIndex(6).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.duedate.name())
                 .displayName(GenericI18Enum.FORM_DUE_DATE)
-                .customField(false).fieldIndex(6).mandatory(false)
+                .customField(false).fieldIndex(7).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.milestoneid.name())
                 .displayName(MilestoneI18nEnum.SINGLE)
-                .customField(false).fieldIndex(7).mandatory(false)
+                .customField(false).fieldIndex(8).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.environment.name())
                 .displayName(BugI18nEnum.FORM_ENVIRONMENT)
-                .customField(false).fieldIndex(8).mandatory(false)
+                .customField(false).fieldIndex(9).mandatory(false)
                 .required(false).build());
 
         bugSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.description.name())
                 .displayName(GenericI18Enum.FORM_DESCRIPTION)
-                .customField(false).fieldIndex(9).mandatory(false)
+                .customField(false).fieldIndex(10).mandatory(false)
                 .required(false).build());
 
         defaultForm.sections(bugSection);

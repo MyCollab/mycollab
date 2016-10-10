@@ -22,7 +22,6 @@ import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
-import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.mobile.ui.IconConstants;
 import com.mycollab.module.project.domain.SimpleItemTimeLogging;
@@ -31,6 +30,7 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.Switch;
@@ -105,7 +105,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                         listContainer.addComponent(dateLbl);
                         currentDate = item.getLogforday();
                     }
-                    final Component row = getRowDisplayHandler().generateRow(item, i);
+                    final Component row = getRowDisplayHandler().generateRow(tableItem, item, i);
                     listContainer.addComponent(row);
                     i++;
                 }
@@ -220,10 +220,10 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         }
     }
 
-    private class TimeLogRowHandler implements RowDisplayHandler<SimpleItemTimeLogging> {
+    private class TimeLogRowHandler implements IBeanList.RowDisplayHandler<SimpleItemTimeLogging> {
 
         @Override
-        public Component generateRow(SimpleItemTimeLogging obj, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleItemTimeLogging> host, SimpleItemTimeLogging obj, int rowIndex) {
             HorizontalLayout layout = new HorizontalLayout();
             layout.setWidth("100%");
             layout.addStyleName("time-log-item");

@@ -21,7 +21,6 @@ package com.mycollab.mobile.module.crm.view.contact;
 
 import com.mycollab.mobile.module.crm.ui.AbstractRelatedItemSelectionView;
 import com.mycollab.mobile.module.crm.view.opportunity.OpportunityListDisplay;
-import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.AbstractRelatedListView;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -29,7 +28,6 @@ import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Inc.
@@ -45,28 +43,16 @@ public class ContactOpportunitySelectionView extends AbstractRelatedItemSelectio
     @Override
     protected void initUI() {
         this.itemList = new OpportunityListDisplay();
-        this.itemList.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleOpportunity>() {
-
-            @Override
-            public Component generateRow(final SimpleOpportunity obj,
-                                         int rowIndex) {
-                final SelectableButton b = new SelectableButton(obj.getOpportunityname());
-                if (selections.contains(obj)) b.select();
-                b.addClickListener(new Button.ClickListener() {
-
-                    private static final long serialVersionUID = 2458940518722524446L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        if (b.isSelected())
-                            selections.add(obj);
-                        else
-                            selections.remove(obj);
-                    }
-
-                });
-                return b;
-            }
+        this.itemList.setRowDisplayHandler((host, obj, index) -> {
+            final SelectableButton b = new SelectableButton(obj.getOpportunityname());
+            if (selections.contains(obj)) b.select();
+            b.addClickListener(clickEvent -> {
+                if (b.isSelected())
+                    selections.add(obj);
+                else
+                    selections.remove(obj);
+            });
+            return b;
         });
     }
 

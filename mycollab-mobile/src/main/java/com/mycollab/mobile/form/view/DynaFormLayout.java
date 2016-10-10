@@ -33,9 +33,7 @@ import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
@@ -49,7 +47,14 @@ public class DynaFormLayout implements IFormLayoutFactory {
     private final Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
     private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
-    public DynaFormLayout(String moduleName, DynaForm defaultForm) {
+    private Set<String> excludeFields;
+
+    public DynaFormLayout(String moduleName, DynaForm defaultForm, String... excludeField) {
+        if (excludeField.length > 0) {
+            this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
+        } else {
+            this.excludeFields = new HashSet<>();
+        }
         MasterFormService formService = AppContextUtil.getSpringBean(MasterFormService.class);
         DynaForm form = formService.findCustomForm(MyCollabUI.getAccountId(), moduleName);
 
@@ -64,12 +69,13 @@ public class DynaFormLayout implements IFormLayoutFactory {
             int fieldCount = section.getFieldCount();
             for (int j = 0; j < fieldCount; j++) {
                 AbstractDynaField dynaField = section.getField(j);
-                if (dynaField.isCustom()) {
-                    fieldMappings.put("customfield." + dynaField.getFieldName(), dynaField);
-                } else {
-                    fieldMappings.put(dynaField.getFieldName(), dynaField);
+                if (!excludeFields.contains(dynaField.getFieldName())) {
+                    if (dynaField.isCustom()) {
+                        fieldMappings.put("customfield." + dynaField.getFieldName(), dynaField);
+                    } else {
+                        fieldMappings.put(dynaField.getFieldName(), dynaField);
+                    }
                 }
-
             }
         }
     }

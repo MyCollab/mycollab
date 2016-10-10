@@ -38,12 +38,16 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
+import com.mycollab.vaadin.web.ui.Depot;
+import com.mycollab.vaadin.web.ui.SearchTextField;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -127,10 +131,10 @@ public class ProjectMembersWidget extends Depot {
         this.setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
     }
 
-    public static class MemberRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<SimpleProjectMember> {
+    private static class MemberRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleProjectMember> {
 
         @Override
-        public Component generateRow(AbstractBeanPagedList host, SimpleProjectMember member, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleProjectMember> host, SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("list-row");
             Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
             userAvatar.addStyleName(UIConstants.CIRCLE_BOX);

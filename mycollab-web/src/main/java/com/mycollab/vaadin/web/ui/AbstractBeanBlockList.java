@@ -39,14 +39,14 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
     private static final long serialVersionUID = -1842929843421392806L;
 
     private int defaultNumberSearchItems = 10;
-    protected final CssLayout itemContainer;
-    protected BlockDisplayHandler<T> blockDisplayHandler;
-    protected int currentPage = 1;
-    protected int totalPage = 1;
-    protected int totalCount;
-    protected List<T> currentListData;
-    protected CssLayout controlBarWrapper;
-    protected MHorizontalLayout pageManagement;
+    private final CssLayout itemContainer;
+    private BlockDisplayHandler<T> blockDisplayHandler;
+    private int currentPage = 1;
+    private int totalPage = 1;
+    private int totalCount;
+    private List<T> currentListData;
+    private CssLayout controlBarWrapper;
+    private MHorizontalLayout pageManagement;
 
     private Set<PageableHandler> pageableHandlers;
 

@@ -45,12 +45,8 @@ import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
-import com.mycollab.vaadin.web.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -131,9 +127,9 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
     }
 
-    private class MessageRowDisplayHandler implements RowDisplayHandler<SimpleMessage> {
+    private class MessageRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleMessage> {
         @Override
-        public Component generateRow(AbstractBeanPagedList host, final SimpleMessage message, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleMessage> host, final SimpleMessage message, int rowIndex) {
             final MHorizontalLayout messageLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false,
                     true, false)).withFullWidth();
             if (Boolean.TRUE.equals(message.getIsstick())) {

@@ -17,8 +17,7 @@
 package com.mycollab.mobile.module.project.view.ticket;
 
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
@@ -46,8 +45,7 @@ public class TicketNavigatorButton extends NavigationButton {
         this.milestoneId = milestoneId;
         ProjectTicketSearchCriteria criteria = new ProjectTicketSearchCriteria();
         criteria.setMilestoneId(NumberSearchField.equal(milestoneId));
-        criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
-                ProjectTypeConstants.RISK));
+        criteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
         ProjectTicketService ticketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
         this.setCaption(UserUIContext.getMessage(TicketI18nEnum.OPT_TICKETS_VALUE, ticketService.getTotalCount(criteria)));
     }

@@ -41,7 +41,7 @@ public class CaseContactSelectionView extends AbstractRelatedItemSelectionView<S
     @Override
     protected void initUI() {
         this.itemList = new ContactListDisplay();
-        this.itemList.setRowDisplayHandler((contact, rownIndex) -> {
+        this.itemList.setRowDisplayHandler((host, contact, rownIndex) -> {
             final SelectableButton b = new SelectableButton(contact.getContactName());
             if (selections.contains(contact))
                 b.select();

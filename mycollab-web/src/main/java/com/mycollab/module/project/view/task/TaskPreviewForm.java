@@ -287,9 +287,9 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             setContent(content);
         }
 
-        private class TaskRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<SimpleTask> {
+        private class TaskRowRenderer implements IBeanList.RowDisplayHandler<SimpleTask> {
             @Override
-            public Component generateRow(AbstractBeanPagedList host, final SimpleTask item, int rowIndex) {
+            public Component generateRow(IBeanList<SimpleTask> host, final SimpleTask item, int rowIndex) {
                 MButton taskLink = new MButton(item.getName(), clickEvent -> {
                     if (item.getId().equals(parentTask.getId())) {
                         NotificationUtil.showErrorNotification(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));

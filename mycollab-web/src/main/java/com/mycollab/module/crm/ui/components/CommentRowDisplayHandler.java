@@ -24,10 +24,7 @@ import com.mycollab.module.user.ui.components.UserBlock;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.BeanList;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -46,13 +43,12 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
-public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleComment> {
+public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleComment> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public Component generateRow(final SimpleComment comment, int rowIndex) {
-        final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false))
-                .withFullWidth();
+    public Component generateRow(IBeanList<SimpleComment> host, final SimpleComment comment, int rowIndex) {
+        final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false)).withFullWidth();
 
         UserBlock memberBlock = new UserBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
         layout.addComponent(memberBlock);
@@ -74,8 +70,6 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         messageHeader.with(timePostLbl).expand(timePostLbl);
 
         // Message delete button
-
-
         if (hasDeletePermission(comment)) {
             MButton msgDeleteBtn = new MButton("", clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
@@ -87,7 +81,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                             if (confirmDialog.isConfirmed()) {
                                 CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
                                 commentService.removeWithSession(comment, UserUIContext.getUsername(), MyCollabUI.getAccountId());
-                                owner.removeRow(layout);
+                                ((BeanList) host).removeRow(layout);
                             }
                         });
             }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);

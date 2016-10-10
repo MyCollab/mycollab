@@ -106,7 +106,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
     protected void renderRows() {
         int i = 0;
         for (final B item : currentListData) {
-            final Component row = rowDisplayHandler.generateRow(item, i);
+            final Component row = rowDisplayHandler.generateRow(this, item, i);
             listContainer.addComponent(row);
             listContainer.addComponent(ELabel.hr());
             i++;
@@ -124,7 +124,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 
         int i = currentViewCount + 1;
         for (final B item : currentData) {
-            final Component row = rowDisplayHandler.generateRow(item, i);
+            final Component row = rowDisplayHandler.generateRow(this, item, i);
             if (row != null) {
                 listContainer.addComponent(row);
                 listContainer.addComponent(ELabel.hr());
@@ -145,9 +145,5 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
     public void addComponentAtTop(Component component) {
         listContainer.addComponentAsFirst(ELabel.hr());
         listContainer.addComponentAsFirst(component);
-    }
-
-    public interface RowDisplayHandler<B> {
-        Component generateRow(B obj, int rowIndex);
     }
 }

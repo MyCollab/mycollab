@@ -34,14 +34,13 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -57,14 +56,11 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
         super(AppContextUtil.getSpringBean(ProjectMemberService.class), new ProjectMemberRowDisplayHandler());
     }
 
-    public ProjectMemberListDisplay(RowDisplayHandler<SimpleProjectMember> rowDisplayHandler) {
-        super(AppContextUtil.getSpringBean(ProjectMemberService.class), rowDisplayHandler);
-    }
-
-    private static class ProjectMemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
+    private static class ProjectMemberRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleProjectMember> {
 
         @Override
-        public Component generateRow(final SimpleProjectMember member, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleProjectMember> host, final SimpleProjectMember member, int
+                rowIndex) {
             MHorizontalLayout mainLayout = new MHorizontalLayout().withMargin(true).withFullWidth();
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
             memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);

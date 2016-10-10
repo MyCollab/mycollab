@@ -58,6 +58,7 @@ Version 5.4.3
 * [Premium] Close phase, assignments have option to close the sub-assignments
 * Simplify the views of tasks, bugs, and risks
 * More stable the upgrade process
+* More stable of mobile web application
 * Support Indonesian language (Contributor: farizichwan), Update other languages
 * Other minor improvements
 

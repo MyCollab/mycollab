@@ -17,17 +17,17 @@
 package com.mycollab.module.project.view.user;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.db.arguments.RangeDateSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.module.project.ui.components.GenericTaskRowDisplayHandler;
+import com.mycollab.module.project.view.ticket.TicketRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
@@ -61,7 +61,7 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
             updateSearchResult();
         });
         taskList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
-                new GenericTaskRowDisplayHandler(), 10) {
+                new TicketRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
                 return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET);

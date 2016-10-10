@@ -16,11 +16,11 @@
  */
 package com.mycollab.vaadin.web.ui;
 
-import com.mycollab.db.arguments.SearchRequest;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.db.arguments.SearchRequest;
 import com.mycollab.vaadin.events.HasPagableHandlers;
 import com.mycollab.vaadin.events.PageableHandler;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -34,7 +34,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements HasPagableHandlers {
+public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements HasPagableHandlers, IBeanList<T> {
     private static final long serialVersionUID = 1L;
 
     protected int defaultNumberSearchItems = 10;
@@ -42,17 +42,17 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
     private String[] listControlStyle = {"listControl"};
 
     protected CssLayout listContainer;
-    protected RowDisplayHandler<T> rowDisplayHandler;
+    private IBeanList.RowDisplayHandler<T> rowDisplayHandler;
     protected int currentPage = 1;
     protected int totalPage = 1;
     protected int totalCount;
-    protected List<T> currentListData;
+    private List<T> currentListData;
     protected MHorizontalLayout controlBarWrapper;
-    protected MHorizontalLayout pageManagement;
+    private MHorizontalLayout pageManagement;
     private QueryHandler<T> queryHandler;
     protected SearchRequest searchRequest;
 
-    public AbstractBeanPagedList(RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
+    public AbstractBeanPagedList(IBeanList.RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
         this.defaultNumberSearchItems = defaultNumberSearchItems;
         this.rowDisplayHandler = rowDisplayHandler;
         listContainer = new CssLayout();
@@ -258,10 +258,6 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
             listContainer.getComponent(i).removeStyleName("selected");
         }
         row.addStyleName("selected");
-    }
-
-    public interface RowDisplayHandler<T> {
-        Component generateRow(AbstractBeanPagedList host, T item, int rowIndex);
     }
 
     public interface QueryHandler<T> {

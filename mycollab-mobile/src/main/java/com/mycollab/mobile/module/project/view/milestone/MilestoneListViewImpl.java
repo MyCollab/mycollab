@@ -40,6 +40,7 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -47,10 +48,10 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -153,18 +154,17 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
         return toolbar;
     }
 
-    private static class MilestoneRowDisplayHandler implements AbstractPagedBeanList.RowDisplayHandler<SimpleMilestone> {
+    private static class MilestoneRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleMilestone> {
 
         @Override
-        public Component generateRow(final SimpleMilestone milestone, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleMilestone> host, final SimpleMilestone milestone, int rowIndex) {
             MVerticalLayout milestoneInfoLayout = new MVerticalLayout().withSpacing(false).withFullWidth();
 
             A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink(CurrentProjectVariables
                     .getProjectId(), milestone.getId())).appendChild(new Span().appendText(milestone.getName()));
-            MCssLayout milestoneWrap = new MCssLayout(new ELabel(milestoneLink.write(), ContentMode.HTML));
-            milestoneInfoLayout.addComponent(new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset
-                    (ProjectTypeConstants.MILESTONE).getHtml(), ContentMode.HTML).withWidthUndefined(), milestoneWrap)
-                    .expand(milestoneWrap).withFullWidth());
+            MCssLayout milestoneWrap = new MCssLayout(ELabel.html(milestoneLink.write()));
+            milestoneInfoLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset
+                    (ProjectTypeConstants.MILESTONE)), milestoneWrap).expand(milestoneWrap).withFullWidth());
 
             CssLayout metaLayout = new CssLayout();
             milestoneInfoLayout.addComponent(metaLayout);
@@ -180,11 +180,24 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
                     CurrentProjectVariables.getProjectId(), milestone.getAssignuser()))
                     .appendText(StringUtils.trim(milestone.getOwnerFullName(), 30, true));
             Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(milestone
-                    .getOwnerAvatarId(), 16))).appendChild(assigneeLink);
+                    .getOwnerAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX)).appendChild(assigneeLink);
 
             ELabel assigneeLbl = ELabel.html(assigneeDiv.write()).withStyleName(UIConstants.META_INFO)
                     .withWidthUndefined();
             metaLayout.addComponent(assigneeLbl);
+
+            int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks() + milestone.getNumOpenRisks();
+            int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks() + milestone.getNumRisks();
+            ELabel progressInfoLbl;
+            if (totalAssignments > 0) {
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
+                        (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
+                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
+            } else {
+                progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
+                        .withStyleName(UIConstants.META_INFO);
+            }
+            metaLayout.addComponent(progressInfoLbl);
 
             return milestoneInfoLayout;
         }

@@ -17,9 +17,8 @@
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.core.MyCollabException;
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.*;
@@ -28,9 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
 import java.util.List;
 
 /**
@@ -42,18 +38,19 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class BeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends CustomComponent {
+public class BeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends
+        CustomComponent implements IBeanList<T> {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(BeanList.class);
 
-    protected SearchService searchService;
-    private Class<? extends RowDisplayHandler<T>> rowDisplayHandler;
+    private SearchService searchService;
+    private IBeanList.RowDisplayHandler<T> rowDisplayHandler;
     private Layout contentLayout;
     private boolean isDisplayEmptyListText = true;
 
 
-    public BeanList(SearchService searchService, Class<? extends RowDisplayHandler<T>> rowDisplayHandler) {
+    public BeanList(SearchService searchService, IBeanList.RowDisplayHandler<T> rowDisplayHandler) {
         this.searchService = searchService;
         this.rowDisplayHandler = rowDisplayHandler;
 
@@ -73,22 +70,6 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 
     public void removeRow(Component row) {
         contentLayout.removeComponent(row);
-    }
-
-    private RowDisplayHandler<T> constructRowDisplayHandler() {
-        RowDisplayHandler<T> rowHandler;
-        try {
-            if (rowDisplayHandler.getEnclosingClass() != null && !Modifier.isStatic(rowDisplayHandler.getModifiers())) {
-                Constructor constructor = rowDisplayHandler.getDeclaredConstructor(rowDisplayHandler.getEnclosingClass());
-                rowHandler = (RowDisplayHandler<T>) constructor.newInstance();
-            } else {
-                rowHandler = rowDisplayHandler.newInstance();
-            }
-            rowHandler.setOwner(this);
-            return rowHandler;
-        } catch (Exception e) {
-            throw new MyCollabException(e);
-        }
     }
 
     public int setSearchCriteria(S searchCriteria) {
@@ -119,8 +100,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
             } else {
                 int i = 0;
                 for (T item : currentListData) {
-                    RowDisplayHandler<T> rowHandler = constructRowDisplayHandler();
-                    Component row = rowHandler.generateRow(item, i);
+                    Component row = rowDisplayHandler.generateRow(this, item, i);
                     if (row != null) {
                         row.setWidth("100%");
                         contentLayout.addComponent(row);
@@ -132,26 +112,5 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
         } catch (Exception e) {
             LOG.error("Error while generate column display", e);
         }
-    }
-
-    /**
-     * @param <T>
-     * @author MyCollab Ltd.
-     * @since 1.0
-     */
-    public static abstract class RowDisplayHandler<T> implements Serializable {
-        private static final long serialVersionUID = 1L;
-
-        protected BeanList owner;
-
-        public BeanList getOwner() {
-            return owner;
-        }
-
-        private void setOwner(BeanList owner) {
-            this.owner = owner;
-        }
-
-        public abstract Component generateRow(T obj, int rowIndex);
     }
 }

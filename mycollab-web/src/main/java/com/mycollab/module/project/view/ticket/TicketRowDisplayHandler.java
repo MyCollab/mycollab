@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.user;
+package com.mycollab.module.project.view.ticket;
 
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -33,6 +33,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.vaadin.ui.Alignment;
@@ -45,53 +46,53 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectTicket> {
+public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectTicket> {
     @Override
-    public Component generateRow(AbstractBeanPagedList host, ProjectTicket genericTask, int rowIndex) {
+    public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket ticket, int rowIndex) {
         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
         Div issueDiv = new Div();
-        issueDiv.appendText(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml());
+        issueDiv.appendText(ProjectAssetsManager.getAsset(ticket.getType()).getHtml());
 
         String status = "";
-        if (genericTask.isBug()) {
-            status = UserUIContext.getMessage(BugStatus.class, genericTask.getStatus());
-        } else if (genericTask.isMilestone()) {
-            status = UserUIContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
-        } else if (genericTask.isRisk()) {
+        if (ticket.isBug()) {
+            status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
+        } else if (ticket.isMilestone()) {
+            status = UserUIContext.getMessage(MilestoneStatus.class, ticket.getStatus());
+        } else if (ticket.isRisk()) {
             status = UserUIContext.getMessage(StatusI18nEnum.class,
-                    genericTask.getStatus());
-        } else if (genericTask.isTask()) {
-            status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
+                    ticket.getStatus());
+        } else if (ticket.isTask()) {
+            status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
         }
         issueDiv.appendChild(new Span().appendText(status).setCSSClass(UIConstants.BLOCK));
 
-        String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-        Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
-                .setTitle(genericTask.getAssignUserFullName());
+        String avatarLink = StorageFactory.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
+        Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                .setTitle(ticket.getAssignUserFullName());
         issueDiv.appendChild(img, DivLessFormatter.EMPTY_SPACE());
 
-        A taskLink = new A().setId("tag" + TOOLTIP_ID);
-        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(genericTask.getType(), genericTask.getTypeId() + ""));
-        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-        if (ProjectTypeConstants.BUG.equals(genericTask.getType()) || ProjectTypeConstants.TASK.equals(genericTask.getType())) {
-            taskLink.appendText(String.format("[%s-%d] - %s", genericTask.getProjectShortName(), genericTask.getExtraTypeId(),
-                    genericTask.getName()));
-            taskLink.setHref(ProjectLinkGenerator.generateProjectItemLink(genericTask.getProjectShortName(),
-                    genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
+        A ticketLink = new A().setId("tag" + TOOLTIP_ID);
+        ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));
+        ticketLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+        if (ProjectTypeConstants.BUG.equals(ticket.getType()) || ProjectTypeConstants.TASK.equals(ticket.getType())) {
+            ticketLink.appendText(String.format("[%s-%d] - %s", ticket.getProjectShortName(), ticket.getExtraTypeId(),
+                    ticket.getName()));
+            ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
+                    ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
         } else {
-            taskLink.appendText(genericTask.getName());
-            taskLink.setHref(ProjectLinkGenerator.generateProjectItemLink(genericTask.getProjectShortName(),
-                    genericTask.getProjectId(), genericTask.getType(), genericTask.getTypeId() + ""));
+            ticketLink.appendText(ticket.getName());
+            ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
+                    ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + ""));
         }
 
-        issueDiv.appendChild(taskLink);
-        if (genericTask.isClosed()) {
-            taskLink.setCSSClass("completed");
-        } else if (genericTask.isOverdue()) {
-            taskLink.setCSSClass("overdue");
+        issueDiv.appendChild(ticketLink);
+        if (ticket.isClosed()) {
+            ticketLink.setCSSClass("completed");
+        } else if (ticket.isOverdue()) {
+            ticketLink.setCSSClass("overdue");
             issueDiv.appendChild(new Span().appendText(" - " + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN,
-                    UserUIContext.formatDuration(genericTask.getDueDate()))).setCSSClass(UIConstants.META_INFO));
+                    UserUIContext.formatDuration(ticket.getDueDate()))).setCSSClass(UIConstants.META_INFO));
         }
 
         rowComp.with(ELabel.html(issueDiv.write()));

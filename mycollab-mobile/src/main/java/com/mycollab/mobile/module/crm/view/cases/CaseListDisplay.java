@@ -24,6 +24,7 @@ import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -38,10 +39,10 @@ public class CaseListDisplay extends DefaultPagedBeanList<CaseService, CaseSearc
         super(AppContextUtil.getSpringBean(CaseService.class), new CaseRowDisplayHandler());
     }
 
-    private static class CaseRowDisplayHandler implements RowDisplayHandler<SimpleCase> {
+    private static class CaseRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleCase> {
 
         @Override
-        public Component generateRow(final SimpleCase cases, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleCase> host, final SimpleCase cases, int rowIndex) {
             Button b = new Button(cases.getSubject(), clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this,
                     cases.getId())));
 

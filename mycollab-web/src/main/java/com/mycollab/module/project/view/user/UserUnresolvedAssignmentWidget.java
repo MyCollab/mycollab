@@ -27,6 +27,7 @@ import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.UserDashboardView;
+import com.mycollab.module.project.view.ticket.TicketRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIUtils;
@@ -63,7 +64,7 @@ public class UserUnresolvedAssignmentWidget extends Depot {
             }
         });
         taskList = new DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket>
-                (AppContextUtil.getSpringBean(ProjectTicketService.class), new GenericTaskRowDisplayHandler(), 10) {
+                (AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
                 return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET);

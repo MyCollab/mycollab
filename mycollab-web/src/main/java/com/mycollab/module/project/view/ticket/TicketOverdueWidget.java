@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.user;
+package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.DateTimeUtils;
@@ -40,13 +40,13 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskStatusComponent extends Depot {
+public class TicketOverdueWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
-    private TaskStatusPagedList taskComponents;
+    private TicketOverduePagedList taskComponents;
     private ProjectTicketSearchCriteria searchCriteria;
 
-    public TaskStatusComponent() {
+    public TicketOverdueWidget() {
         super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
 
         final CheckBox myItemsOnly = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
@@ -64,7 +64,7 @@ public class TaskStatusComponent extends Depot {
 
         this.addHeaderElement(myItemsOnly);
 
-        taskComponents = new TaskStatusPagedList();
+        taskComponents = new TicketOverduePagedList();
         bodyContent.addComponent(taskComponents);
     }
 
@@ -81,11 +81,10 @@ public class TaskStatusComponent extends Depot {
         setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskComponents.getTotalCount()));
     }
 
-    private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectTicketService,
-            ProjectTicketSearchCriteria, ProjectTicket> {
+    private static class TicketOverduePagedList extends DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> {
 
-        TaskStatusPagedList() {
-            super(AppContextUtil.getSpringBean(ProjectTicketService.class), new GenericTaskRowDisplayHandler(), 10);
+        TicketOverduePagedList() {
+            super(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler(), 10);
         }
 
         @Override

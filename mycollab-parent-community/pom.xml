@@ -447,10 +447,6 @@
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
         <repository>
-            <id>scalaz-repo</id>
-            <url>http://dl.bintray.com/scalaz/releases/</url>
-        </repository>
-        <repository>
             <id>report.repo</id>
             <url>http://jasperreports.sourceforge.net/maven2</url>
         </repository>

@@ -42,8 +42,8 @@ import com.mycollab.module.project.view.user.ProjectActivityStreamPagedList;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -303,10 +303,10 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
     }
 
-    public static class TaskRowDisplayHandler implements DefaultBeanPagedList.RowDisplayHandler<ProjectTicket> {
+    private static class TaskRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectTicket> {
 
         @Override
-        public Component generateRow(AbstractBeanPagedList host, ProjectTicket genericTask, int rowIndex) {
+        public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket genericTask, int rowIndex) {
             MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
@@ -322,7 +322,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 taskLink.setHref(ProjectLinkGenerator.generateProjectItemLink(genericTask.getProjectShortName(),
                         genericTask.getProjectId(), genericTask.getType(), genericTask.getTypeId() + ""));
             }
-            Label issueLbl = new Label(taskLink.write(), ContentMode.HTML);
+            Label issueLbl = ELabel.html(taskLink.write());
             if (genericTask.isClosed()) {
                 issueLbl.addStyleName("completed");
             } else if (genericTask.isOverdue()) {

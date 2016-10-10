@@ -55,7 +55,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
             commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
         }
 
-        commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
+        commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), new CommentRowDisplayHandler());
         commentList.setDisplayEmptyListText(false);
         this.addComponent(commentList);
         displayCommentList();
@@ -85,11 +85,11 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
         displayCommentList();
     }
 
-    public static class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleComment> {
+    private static class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleComment> {
         private static final long serialVersionUID = 7604097872938029830L;
 
         @Override
-        public Component generateRow(SimpleComment comment, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleComment> host, SimpleComment comment, int rowIndex) {
             MHorizontalLayout commentBlock = new MHorizontalLayout().withSpacing(true).withFullWidth();
             commentBlock.setStyleName("comment-block");
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(comment.getOwnerAvatarId(), 32);

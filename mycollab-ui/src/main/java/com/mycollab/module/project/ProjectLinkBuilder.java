@@ -31,6 +31,7 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
+import com.mycollab.vaadin.ui.UIConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +78,7 @@ public class ProjectLinkBuilder {
 
     public static String generateProjectMemberHtmlLink(Integer projectId, String username, String displayName, String avatarId,
                                                        Boolean isDisplayTooltip) {
-        Img userAvatar = new Img("", StorageFactory.getAvatarPath(avatarId, 16));
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(avatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX);
         A link = new A().setId("tag" + TOOLTIP_ID).setHref(generateProjectMemberFullLink(projectId,
                 username)).appendText(StringUtils.trim(displayName, 30, true));
         if (isDisplayTooltip) {

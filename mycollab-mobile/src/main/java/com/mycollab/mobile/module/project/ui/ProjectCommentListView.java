@@ -49,7 +49,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         this.type = type;
         this.typeId = typeId;
 
-        commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
+        commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), new CommentRowDisplayHandler());
         this.setContent(commentList);
         if (isDisplayCommentInput) {
             ProjectCommentRequestComp commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
@@ -81,11 +81,10 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         displayCommentList();
     }
 
-    public static class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleComment> {
-        private static final long serialVersionUID = 7604097872938029830L;
+    private static class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleComment> {
 
         @Override
-        public Component generateRow(SimpleComment comment, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleComment> host, SimpleComment comment, int rowIndex) {
             MHorizontalLayout commentBlock = new MHorizontalLayout().withFullWidth().withStyleName("comment-block");
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(comment.getOwnerAvatarId(), 32);
             userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);

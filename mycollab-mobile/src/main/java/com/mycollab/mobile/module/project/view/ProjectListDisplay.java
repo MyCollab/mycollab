@@ -35,6 +35,7 @@ import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
@@ -53,10 +54,10 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
         super(AppContextUtil.getSpringBean(ProjectService.class), new ProjectRowDisplayHandler());
     }
 
-    public static class ProjectRowDisplayHandler implements RowDisplayHandler<SimpleProject> {
+    private static class ProjectRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleProject> {
 
         @Override
-        public Component generateRow(final SimpleProject project, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleProject> host, final SimpleProject project, int rowIndex) {
             MVerticalLayout layout = new MVerticalLayout();
             A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(String.format
                     ("[%s] %s", project.getShortname(), project.getName()));

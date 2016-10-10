@@ -38,7 +38,7 @@ public class TicketListDisplayView extends AbstractMobilePageView {
 
     public TicketListDisplayView(Integer milestoneId) {
         this.milestoneId = milestoneId;
-        ticketList = new BeanList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), TicketRowDisplayHandler.class);
+        ticketList = new BeanList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler());
         ticketList.setDisplayEmptyListText(false);
         this.setContent(ticketList);
         displayTickets();

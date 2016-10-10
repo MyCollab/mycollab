@@ -16,6 +16,9 @@
  */
 package com.mycollab.mobile.module.project.view;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -27,7 +30,6 @@ import com.mycollab.mobile.module.project.events.ProjectEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
-import com.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
@@ -41,16 +43,12 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 
 /**
  * @author MyCollab Ltd.
@@ -110,10 +108,10 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
         return null;
     }
 
-    private static class ActivityStreamRowHandler implements RowDisplayHandler<ProjectActivityStream> {
+    private static class ActivityStreamRowHandler implements IBeanList.RowDisplayHandler<ProjectActivityStream> {
 
         @Override
-        public Component generateRow(final ProjectActivityStream activityStream, int rowIndex) {
+        public Component generateRow(IBeanList<ProjectActivityStream> host, final ProjectActivityStream activityStream, int rowIndex) {
             CssLayout layout = new CssLayout();
             layout.addStyleName("activity-cell");
             StringBuilder content = new StringBuilder();

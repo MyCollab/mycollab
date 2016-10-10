@@ -24,7 +24,10 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.MessageEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
-import com.mycollab.mobile.ui.*;
+import com.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.mycollab.mobile.ui.MobileAttachmentUtils;
+import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
@@ -40,6 +43,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.*;
@@ -92,10 +96,10 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
         return menu;
     }
 
-    public static class MessageRowDisplayHandler implements AbstractPagedBeanList.RowDisplayHandler<SimpleMessage> {
+    private static class MessageRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleMessage> {
 
         @Override
-        public Component generateRow(final SimpleMessage message, int rowIndex) {
+        public Component generateRow(IBeanList<SimpleMessage> host, final SimpleMessage message, int rowIndex) {
             MHorizontalLayout mainLayout = new MHorizontalLayout().withStyleName("message-block").withFullWidth();
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(message.getPostedUserAvatarId(), 32);
             userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);

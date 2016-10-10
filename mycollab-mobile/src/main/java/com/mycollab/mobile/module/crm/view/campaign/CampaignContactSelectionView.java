@@ -32,7 +32,6 @@ import com.mycollab.vaadin.UserUIContext;
  * @since 4.3.1
  */
 public class CampaignContactSelectionView extends AbstractRelatedItemSelectionView<SimpleContact, ContactSearchCriteria> {
-
     private static final long serialVersionUID = -4814745879533635783L;
 
     public CampaignContactSelectionView(AbstractRelatedListView<SimpleContact, ContactSearchCriteria> relatedListView) {
@@ -42,7 +41,7 @@ public class CampaignContactSelectionView extends AbstractRelatedItemSelectionVi
     @Override
     protected void initUI() {
         this.itemList = new ContactListDisplay();
-        this.itemList.setRowDisplayHandler((contact, rowIndex) -> {
+        this.itemList.setRowDisplayHandler((host, contact, rowIndex) -> {
             final SelectableButton b = new SelectableButton(contact.getContactName());
             if (selections.contains(contact))
                 b.select();

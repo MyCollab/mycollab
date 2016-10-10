@@ -47,7 +47,7 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
         commentBox = new ProjectCommentInput(this, type, extraTypeId);
         this.addComponent(commentBox);
 
-        commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
+        commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), new CommentRowDisplayHandler());
         commentList.setDisplayEmptyListText(false);
         this.addComponent(commentList);
 

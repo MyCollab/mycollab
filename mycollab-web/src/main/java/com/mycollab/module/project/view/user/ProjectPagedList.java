@@ -39,8 +39,8 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -74,10 +74,10 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
         return pageControls;
     }
 
-    public static class ProjectRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<SimpleProject> {
+    private static class ProjectRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleProject> {
 
         @Override
-        public Component generateRow(AbstractBeanPagedList host, final SimpleProject project, final int rowIndex) {
+        public Component generateRow(IBeanList<SimpleProject> host, final SimpleProject project, final int rowIndex) {
             final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("projectblock");
             layout.addComponent(ProjectAssetsUtil.buildProjectLogo(project.getShortname(), project.getId(), project.getAvatarid(), 64));
             if (project.isArchived()) {

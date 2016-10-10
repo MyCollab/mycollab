@@ -56,6 +56,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DateViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
@@ -227,7 +228,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             } else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getDescription());
             } else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), BugStatus.class);
+                return new I18nFormViewField(beanItem.getStatus(), BugStatus.class).withStyleName(UIConstants.FIELD_NOTE);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     String priorityLink = ProjectAssetsManager.getPriority(beanItem.getPriority()).getHtml() + " "
