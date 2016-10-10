@@ -50,6 +50,7 @@ import com.mycollab.vaadin.mvp.AbstractPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
@@ -519,7 +520,7 @@ public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKan
                 if (Boolean.FALSE.equals(optionVal.getIsshow())) {
                     hideColumnBtn.setCaption(UserUIContext.getMessage(TaskI18nEnum.ACTION_SHOW_COLUMN));
                     hideColumnBtn.setIcon(FontAwesome.TOGGLE_UP);
-                    ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(WebUIConstants.FIELD_NOTE)
+                    ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(UIConstants.FIELD_NOTE)
                             .withDescription(UserUIContext.getMessage(TaskI18nEnum.OPT_INVISIBLE_COLUMN_DESCRIPTION));
                     buttonControls.addComponent(invisibleLbl, 0);
                     buttonControls.withAlign(invisibleLbl, Alignment.MIDDLE_LEFT);

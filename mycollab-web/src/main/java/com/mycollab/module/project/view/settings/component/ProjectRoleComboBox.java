@@ -21,9 +21,11 @@ import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
+import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.ui.ComboBox;
 
@@ -53,7 +55,7 @@ public class ProjectRoleComboBox extends ComboBox {
 
         SimpleProjectRole ownerRole = new SimpleProjectRole();
         ownerRole.setId(-1);
-        ownerRole.setRolename("Project Owner");
+        ownerRole.setRolename(UserUIContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY));
         beanItem.addBean(ownerRole);
 
 

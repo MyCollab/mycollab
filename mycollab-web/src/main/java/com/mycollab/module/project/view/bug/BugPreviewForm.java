@@ -39,12 +39,12 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DateTimeOptionViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -162,7 +162,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Component component : beanItem.getComponents()) {
                         MButton componentLink = new MButton(StringUtils.trim(component.getName(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId())))
-                                .withDescription(component.getName()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(component.getName()).withStyleName(UIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(componentLink);
                     }
                     return componentContainer;
@@ -176,7 +176,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Version version : beanItem.getAffectedVersions()) {
                         MButton versionLink = new MButton(StringUtils.trim(version.getName(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getName()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getName()).withStyleName(UIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;
@@ -190,7 +190,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     for (final Version version : beanItem.getFixedVersions()) {
                         MButton versionLink = new MButton(StringUtils.trim(version.getName(), 25, true),
                                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                                .withDescription(version.getName()).withStyleName(WebUIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                                .withDescription(version.getName()).withStyleName(UIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
                         componentContainer.addComponentField(versionLink);
                     }
                     return componentContainer;
@@ -207,7 +207,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 return new RichTextViewField(beanItem.getDescription());
             } else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
                 return new I18nFormViewField(beanItem.getStatus(), OptionI18nEnum.BugStatus.class).withStyleName
-                        (WebUIConstants.FIELD_NOTE);
+                        (UIConstants.FIELD_NOTE);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     String priorityLink = ProjectAssetsManager.getPriority(beanItem.getPriority()).getHtml() + " "

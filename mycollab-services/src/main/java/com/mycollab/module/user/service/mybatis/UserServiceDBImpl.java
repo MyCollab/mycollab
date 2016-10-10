@@ -275,7 +275,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             criteria.setSubdomain(StringSearchField.and(subDomain));
         }
 
-        List<SimpleUser> users = findPageableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleUser> users = findPageableListByCriteria(new BasicSearchRequest<>(criteria));
         if (CollectionUtils.isEmpty(users)) {
             throw new UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain));
         } else {

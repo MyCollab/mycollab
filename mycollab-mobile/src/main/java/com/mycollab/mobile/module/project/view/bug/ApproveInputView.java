@@ -21,7 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
+import com.mycollab.mobile.module.project.view.settings.ProjectMemberListSelect;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
@@ -36,9 +36,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
@@ -135,8 +135,8 @@ class ApproveInputView extends AbstractMobilePageView {
 
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
-                if (propertyId.equals("assignuser")) {
-                    return new ProjectMemberSelectionField();
+                if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
+                    return new ProjectMemberListSelect();
                 } else if (propertyId.equals("comment")) {
                     commentArea = new TextArea();
                     commentArea.setNullRepresentation("");

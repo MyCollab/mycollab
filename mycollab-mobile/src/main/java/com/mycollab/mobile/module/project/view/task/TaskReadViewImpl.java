@@ -54,7 +54,9 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -144,8 +146,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         final VerticalLayout topPanel = taskPreviewForm.createButtonControls(
-                ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
-                        | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
                 ProjectRolePermissionCollections.TASKS);
@@ -203,16 +204,16 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-            if (propertyId.equals("assignuser")) {
+            if (Task.Field.assignuser.equalTo(propertyId)) {
                 return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(),
                         beanItem.getAssignuser(), beanItem.getAssignUserFullName(), beanItem.getAssignUserAvatarId(), false), ContentMode.HTML);
-            } else if (propertyId.equals("startdate")) {
+            } else if (Task.Field.startdate.equalTo(propertyId)) {
                 return new DefaultViewField(UserUIContext.formatDate(beanItem.getStartdate()));
-            } else if (propertyId.equals("enddate")) {
+            } else if (Task.Field.enddate.equalTo(propertyId)) {
                 return new DefaultViewField(UserUIContext.formatDate(beanItem.getEnddate()));
-            } else if (propertyId.equals("duedate")) {
+            } else if (Task.Field.duedate.equalTo(propertyId)) {
                 return new DefaultViewField(UserUIContext.formatDate(beanItem.getDuedate()));
-            } else if (propertyId.equals("priority")) {
+            } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     FontAwesome fontPriority = ProjectAssetsManager.getPriority(beanItem.getPriority());
                     String priorityLbl = fontPriority.getHtml() + " " + UserUIContext.getMessage(Priority.class, beanItem.getPriority());
@@ -228,8 +229,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                             .MILESTONE).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), milestoneLink);
                     return new DefaultViewField(milestoneDiv.write(), ContentMode.HTML);
                 }
-            } else if (propertyId.equals(Task.Field.description.equalTo(propertyId))) {
+            } else if (Task.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getDescription());
+            } else if (Task.Field.status.equalTo(propertyId)) {
+                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
             }
             return null;
         }

@@ -17,6 +17,7 @@
 package com.mycollab.module.ecm.service.impl;
 
 import com.mycollab.core.cache.CacheKey;
+import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.service.DefaultCrudService;
 import com.mycollab.lock.DistributionLockUtil;
@@ -63,7 +64,7 @@ public class DriveInfoServiceImpl extends DefaultCrudService<Integer, DriveInfo>
                 }
             }
         } catch (Exception e) {
-            LOG.error("Error while save drive info", e);
+            LOG.error("Error while save drive info " + BeanUtility.printBeanObj(driveInfo), e);
         } finally {
             DistributionLockUtil.removeLock("ecm-service" + sAccountId);
             lock.unlock();
@@ -90,5 +91,4 @@ public class DriveInfoServiceImpl extends DefaultCrudService<Integer, DriveInfo>
         DriveInfo driveInfo = getDriveInfo(sAccountId);
         return (driveInfo.getUsedvolume() == null) ? Long.valueOf(0L) : driveInfo.getUsedvolume();
     }
-
 }

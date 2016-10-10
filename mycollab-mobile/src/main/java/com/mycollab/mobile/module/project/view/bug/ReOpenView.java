@@ -20,7 +20,7 @@ import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
+import com.mycollab.mobile.module.project.view.settings.ProjectMemberListSelect;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
@@ -141,10 +141,10 @@ class ReOpenView extends AbstractMobilePageView {
 
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
-                if (propertyId.equals("resolution")) {
+                if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                     return BugResolutionListSelect.getInstanceForValidBugWindow();
-                } else if (propertyId.equals("assignuser")) {
-                    return new ProjectMemberSelectionField();
+                } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
+                    return new ProjectMemberListSelect();
                 } else if (propertyId.equals("comment")) {
                     commentArea = new TextArea();
                     commentArea.setNullRepresentation("");

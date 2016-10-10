@@ -128,7 +128,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 }
 
                 accountDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
-                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(WebUIConstants.BLOCK)
+                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());

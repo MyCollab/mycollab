@@ -35,9 +35,8 @@ public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T> 
     protected B beanItem;
 
     public AbstractSelectionCustomField(Class<? extends AbstractSelectionView<B>> targetSelectionView) {
-        Class<? extends AbstractSelectionView<B>> targetSelectionViewCls = targetSelectionView;
         try {
-            final AbstractSelectionView<B> selectionView = targetSelectionViewCls.newInstance();
+            final AbstractSelectionView<B> selectionView = targetSelectionView.newInstance();
             selectionView.setSelectionField(this);
             navButton = new NavigationButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), selectionView);
             navButton.setTargetView(selectionView);

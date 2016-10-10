@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin;
 
+import com.google.common.base.MoreObjects;
 import com.mycollab.common.SessionIdGenerator;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
@@ -116,7 +117,7 @@ public abstract class MyCollabUI extends UI {
 
     public static String getSiteName() {
         try {
-            return getInstance().billingAccount.getSitename();
+            return MoreObjects.firstNonNull(getInstance().billingAccount.getSitename(), SiteConfiguration.getDefaultSiteName());
         } catch (Exception e) {
             return SiteConfiguration.getDefaultSiteName();
         }

@@ -16,10 +16,32 @@
 
 .v-touchkit-navbutton {
 	width: 100% !important;
+	color: $my-dark-color !important;
 }
 
 .v-touchkit-navbutton::after {
 	color: $my-dark-color !important;
+}
+
+.field-note {
+	border-radius: 5px;
+	padding: 3px 5px;
+	margin-right: 5px;
+	color: $my-white-color;
+	background-color: $my-note-color;
+}
+
+.block {
+	border-radius: 5px;
+	padding: 2px 5px;
+	margin-right: 5px;
+	color: $my-white-color;
+	background-color: $my-note-color;
+	font-size: $my-font-small !important;
+}
+
+.block a {
+	color: $my-white-color;
 }
 
 .flex {
@@ -76,10 +98,32 @@
 
 .v-touchkit-navbutton {
 	width: 100% !important;
+	color: #000 !important;
 }
 
 .v-touchkit-navbutton::after {
 	color: #000 !important;
+}
+
+.field-note {
+	border-radius: 5px;
+	padding: 3px 5px;
+	margin-right: 5px;
+	color: #f7f7f7;
+	background-color: #76B38A;
+}
+
+.block {
+	border-radius: 5px;
+	padding: 2px 5px;
+	margin-right: 5px;
+	color: #f7f7f7;
+	background-color: #76B38A;
+	font-size: 12px !important;
+}
+
+.block a {
+	color: #f7f7f7;
 }
 
 .flex {
@@ -250,10 +294,6 @@ a {
 	color: #000 !important;
 }
 
-.v-touchkit-navbar .v-touchkit-navbutton {
-	color: #000 !important;
-}
-
 .v-touchkit-navbar-caption {
 	font-size: smaller;
 }
@@ -387,6 +427,26 @@ input.searchinputfield:-moz-placeholder::before {
 	color: #999;
 }
 
+.priority-urgent .v-icon, .priority-urgent.v-icon, .v-filterselect-item-priority-urgent .v-icon, .v-filterselect-item-priority-urgent.v-icon {
+	color: #d32d1a;
+}
+
+.priority-high .v-icon, .priority-high.v-icon, .v-filterselect-item-priority-high .v-icon, .v-filterselect-item-priority-high.v-icon {
+	color: #e95948;
+}
+
+.priority-medium .v-icon, .priority-medium.v-icon, .v-filterselect-item-priority-medium .v-icon, .v-filterselect-item-priority-medium.v-icon {
+	color: #f09085;
+}
+
+.priority-low-color .v-icon, .priority-low-color.v-icon, .v-filterselect-item-priority-low-color .v-icon, .v-filterselect-item-priority-low-color.v-icon {
+	color: $priority-low-color-color;
+}
+
+.priority-none .v-icon, .priority-none.v-icon, .v-filterselect-item-priority-none .v-icon, .v-filterselect-item-priority-none.v-icon {
+	color: #b7b9b0;
+}
+
 * {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-tap-highlight-color: transparent;
@@ -408,6 +468,10 @@ body {
 	border-bottom: 1px solid #e5e5e5 !important;
 	box-shadow: none !important;
 	margin-bottom: 0 !important;
+}
+
+.v-touchkit-verticalcomponentgroup .v-touchkit-navbutton:active {
+	background-color: transparent !important;
 }
 
 .v-touchkit-componentgroup-row:before {
@@ -544,46 +608,6 @@ body {
 	padding: 5px;
 }
 
-.bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {
-	color: #d32d1a;
-}
-
-.bug-blocker.v-icon {
-	color: #d32d1a;
-}
-
-.bug-critical .v-icon, .v-filterselect-item-bug-critical .v-icon {
-	color: #e95948;
-}
-
-.bug-critical.v-icon {
-	color: #e95948;
-}
-
-.bug-major .v-icon, .v-filterselect-item-bug-major .v-icon {
-	color: #f09085;
-}
-
-.bug-major.v-icon {
-	color: #f09085;
-}
-
-.bug-minor .v-icon, .v-filterselect-item-bug-minor .v-icon {
-	color: #f7c7c1;
-}
-
-.bug-minor.v-icon {
-	color: #f7c7c1;
-}
-
-.bug-trivial .v-icon, .v-filterselect-item-bug-trivial .v-icon {
-	color: #b7b9b0;
-}
-
-.bug-trivial.v-icon {
-	color: #b7b9b0;
-}
-
 .bug-severity-critical .v-icon, .v-filterselect-item-bug-severity-critical .v-icon {
 	color: #d32d1a;
 }
@@ -713,46 +737,6 @@ body {
 
 .message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap .attachment-row .v-button {
 	display: inline-block;
-}
-
-.bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {
-	color: #d32d1a;
-}
-
-.bug-blocker.v-icon {
-	color: #d32d1a;
-}
-
-.bug-critical .v-icon, .v-filterselect-item-bug-critical .v-icon {
-	color: #e95948;
-}
-
-.bug-critical.v-icon {
-	color: #e95948;
-}
-
-.bug-major .v-icon, .v-filterselect-item-bug-major .v-icon {
-	color: #f09085;
-}
-
-.bug-major.v-icon {
-	color: #f09085;
-}
-
-.bug-minor .v-icon, .v-filterselect-item-bug-minor .v-icon {
-	color: #f7c7c1;
-}
-
-.bug-minor.v-icon {
-	color: #f7c7c1;
-}
-
-.bug-trivial .v-icon, .v-filterselect-item-bug-trivial .v-icon {
-	color: #b7b9b0;
-}
-
-.bug-trivial.v-icon {
-	color: #b7b9b0;
 }
 
 .bug-severity-critical .v-icon, .v-filterselect-item-bug-severity-critical .v-icon {

@@ -123,7 +123,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             } else if (Task.Field.parenttaskid.equalTo(propertyId)) {
                 return new SubTasksComp(beanItem);
             } else if (Task.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(WebUIConstants.FIELD_NOTE);
+                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
             }
             return null;
         }
@@ -224,7 +224,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             layout.with(ELabel.html(priorityLink.write()).withWidthUndefined());
 
             String taskStatus = UserUIContext.getMessage(StatusI18nEnum.class, subTask.getStatus());
-            final ELabel statusLbl = new ELabel(taskStatus).withStyleName(WebUIConstants.FIELD_NOTE).withWidthUndefined();
+            final ELabel statusLbl = new ELabel(taskStatus).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined();
             layout.with(statusLbl);
 
             String avatarLink = StorageFactory.getAvatarPath(subTask.getAssignUserAvatarId(), 16);

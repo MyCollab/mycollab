@@ -32,6 +32,7 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -208,9 +209,10 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                 ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()));
         ELabel memberRole = new ELabel("", ContentMode.HTML).withFullWidth().withStyleName(UIConstants.TEXT_ELLIPSIS);
         if (member.isProjectOwner()) {
-            memberRole.setValue(roleLink + "style=\"color: #B00000;\">" + "Project Owner" + "</a>");
+            memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", roleLink, UserUIContext.getMessage
+                    (ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY)));
         } else {
-            memberRole.setValue(roleLink + "style=\"color:gray;font-size:12px;\">" + member.getRoleName() + "</a>");
+            memberRole.setValue(String.format("%sstyle=\"color:gray;font-size:12px;\">%s</a>", roleLink, member.getRoleName()));
         }
         blockTop.addComponent(memberRole);
 

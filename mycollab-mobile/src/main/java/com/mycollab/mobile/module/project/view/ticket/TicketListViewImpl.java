@@ -22,6 +22,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.IgnoreException;
@@ -41,7 +42,11 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.i18n.*;
+import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.project.i18n.RiskI18nEnum;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -125,10 +130,12 @@ public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearch
             ticketLink.appendText(ticket.getName());
 
             CssLayout ticketLbl = new CssLayout(ELabel.html(ticketLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS));
-            rowLayout.with(new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())), ticketLbl)
-                    .expand(ticketLbl).withFullWidth());
+            String priorityValue = ProjectAssetsManager.getPriority(ticket.getPriority()).getHtml();
+            ELabel priorityLbl = ELabel.html(priorityValue).withWidthUndefined().withStyleName("priority-" + ticket.getPriority().toLowerCase());
+            rowLayout.with(new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())), priorityLbl,
+                    ticketLbl).expand(ticketLbl).withFullWidth());
 
-            CssLayout metaInfoLayout = new CssLayout();
+            MVerticalLayout metaInfoLayout = new MVerticalLayout().withMargin(false);
             rowLayout.with(metaInfoLayout);
 
             ELabel lastUpdatedTimeLbl = new ELabel(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, UserUIContext
@@ -146,8 +153,14 @@ public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearch
             ELabel assigneeLbl = ELabel.html(assigneeDiv.write()).withStyleName(UIConstants.META_INFO).withWidthUndefined();
             metaInfoLayout.addComponent(assigneeLbl);
 
-            ELabel statusLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + UserUIContext
-                    .getMessage(OptionI18nEnum.BugStatus.class, ticket.getStatus())).withStyleName(UIConstants.META_INFO);
+            String status = "";
+            if (ticket.isBug()) {
+                status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
+            } else {
+                status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
+            }
+            MHorizontalLayout statusLbl = new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).withStyleName
+                    (UIConstants.META_INFO), new ELabel(status).withStyleName(UIConstants.BLOCK));
             metaInfoLayout.addComponent(statusLbl);
 
             return rowLayout;

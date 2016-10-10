@@ -241,7 +241,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("roadmap-block");
 
             ELabel statusLbl = new ELabel(UserUIContext.getMessage(MilestoneStatus.class, milestone.getStatus()))
-                    .withStyleName(WebUIConstants.BLOCK).withWidthUndefined();
+                    .withStyleName(UIConstants.BLOCK).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, false);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
                     (toggleMilestoneSummaryField).withFullWidth();
@@ -311,7 +311,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             } else if (ticket.isTask()) {
                                 status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
                             }
-                            rowComp.with(new ELabel(status).withStyleName(WebUIConstants.BLOCK).withWidthUndefined());
+                            rowComp.with(new ELabel(status).withStyleName(UIConstants.BLOCK).withWidthUndefined());
                             String avatarLink = StorageFactory.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
                             Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                                     .setTitle(ticket.getAssignUserFullName());

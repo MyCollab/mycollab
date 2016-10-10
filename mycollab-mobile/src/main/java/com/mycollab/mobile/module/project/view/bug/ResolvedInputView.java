@@ -21,7 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
+import com.mycollab.mobile.module.project.view.settings.ProjectMemberListSelect;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
@@ -145,7 +145,7 @@ class ResolvedInputView extends AbstractMobilePageView {
                     return BugResolutionListSelect.getInstanceForResolvedBugWindow();
                 } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
                     bug.setAssignuser(bug.getCreateduser());
-                    return new ProjectMemberSelectionField();
+                    return new ProjectMemberListSelect();
                 } else if (propertyId.equals("comment")) {
                     commentArea = new TextArea();
                     commentArea.setNullRepresentation("");

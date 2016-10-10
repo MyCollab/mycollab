@@ -31,13 +31,13 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DateViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -77,7 +77,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
                 containerField.addComponentField(new BugsComp(beanItem));
                 return containerField;
             } else if (Version.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(WebUIConstants.FIELD_NOTE);
+                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
             } else if (Version.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getDescription());
             }

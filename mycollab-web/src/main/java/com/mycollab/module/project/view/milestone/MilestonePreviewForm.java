@@ -93,7 +93,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 String milestoneStatus = UserUIContext.getMessage(OptionI18nEnum.MilestoneStatus.class, beanItem.getStatus());
                 FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(beanItem.getStatus());
                 return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML)
-                        .withStyleName(WebUIConstants.FIELD_NOTE);
+                        .withStyleName(UIConstants.FIELD_NOTE);
             } else if (Milestone.Field.id.equalTo(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new AssignmentsComp(beanItem));
@@ -200,7 +200,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             } else if (genericTask.isTask()) {
                 status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             }
-            rowComp.with(new ELabel(status).withStyleName(WebUIConstants.BLOCK).withWidthUndefined());
+            rowComp.with(new ELabel(status).withStyleName(UIConstants.BLOCK).withWidthUndefined());
             String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
             Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                     .setTitle(genericTask.getAssignUserFullName());

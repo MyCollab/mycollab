@@ -32,6 +32,7 @@ import com.mycollab.shell.view.components.UpgradeConfirmWindow;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -176,7 +177,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 MButton upgradeBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE), clickEvent -> {
                     UI.getCurrent().addWindow(new UpgradeConfirmWindow(notification.getVersion(), notification.getManualDownloadLink(), notification.getInstallerFile()));
                     NotificationComponent.this.setPopupVisible(false);
-                }).withStyleName(WebUIConstants.BLOCK);
+                }).withStyleName(UIConstants.BLOCK);
                 wrapper.addComponent(upgradeBtn);
             }
         } else if (item instanceof RequestUploadAvatarNotification) {
@@ -185,13 +186,13 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             MButton uploadAvatarBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
                 NotificationComponent.this.setPopupVisible(false);
-            }).withStyleName(WebUIConstants.BLOCK);
+            }).withStyleName(UIConstants.BLOCK);
             wrapper.add(uploadAvatarBtn);
         } else if (item instanceof SmtpSetupNotification) {
             MButton smtpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SETUP), clickEvent -> {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
                 NotificationComponent.this.setPopupVisible(false);
-            }).withStyleName(WebUIConstants.BLOCK);
+            }).withStyleName(UIConstants.BLOCK);
             Label lbl = ELabel.html(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " " + UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING));
             MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);

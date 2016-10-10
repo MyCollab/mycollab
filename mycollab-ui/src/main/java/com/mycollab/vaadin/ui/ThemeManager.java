@@ -295,8 +295,6 @@ public class ThemeManager {
 
             extraStyles.append("div.v-button.token-field { color: #" + accountTheme.getActionbtntext() + "; }");
 
-            extraStyles.append(".block {color:#" + accountTheme.getActionbtntext() + ";}");
-
             extraStyles.append(".v-context-menu-container .v-context-menu .v-context-submenu:hover " +
                     "{color:#" + accountTheme.getActionbtntext() + ";}");
         }

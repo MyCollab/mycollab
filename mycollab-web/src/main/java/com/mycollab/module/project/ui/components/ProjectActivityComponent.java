@@ -264,7 +264,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                 DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
                 if (fieldDisplayHandler != null) {
                     Span fieldBlock = new Span().appendText(UserUIContext.getMessage(fieldDisplayHandler.getDisplayName()))
-                            .setCSSClass(WebUIConstants.BLOCK);
+                            .setCSSClass(UIConstants.BLOCK);
                     Div historyDiv = new Div().appendChild(fieldBlock).appendText(fieldDisplayHandler.getFormat()
                             .toString(item.getOldvalue())).appendText(" " + FontAwesome.LONG_ARROW_RIGHT.getHtml() +
                             " ").appendText(fieldDisplayHandler.getFormat().toString(item.getNewvalue()));

@@ -100,7 +100,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
         this.setTitle(UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
 
         if (!groupItems.isEmpty()) {
-            for (Priority priority : OptionI18nEnum.task_priorities) {
+            for (Priority priority : OptionI18nEnum.priorities) {
                 boolean isFound = false;
                 for (GroupItem item : groupItems) {
                     if (priority.name().equals(item.getGroupid())) {

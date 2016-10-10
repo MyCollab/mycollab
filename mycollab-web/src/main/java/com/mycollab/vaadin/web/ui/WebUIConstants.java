@@ -30,7 +30,6 @@ public class WebUIConstants {
     public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
     public static final String POPUP_WITHOUT_INDICATOR = "nonPopupIndicator";
     public static final String TABLE_ACTION_CONTROLS = "table-actionctls";
-    public static final String BLOCK = "block";
     public static final String BUTTON_ACTION = "greenbtn";
     public static final String BUTTON_OPTION = "graybtn";
     public static final String BUTTON_DANGER = "redbtn";
@@ -60,7 +59,6 @@ public class WebUIConstants {
 
     public static final String FORM = "form";
     public static final String FORM_SECTION = "section";
-    public static final String FIELD_NOTE = "field-note";
     public static final String ARROW_BTN = "arrow-btn";
 
     public static final String CURSOR_POINTER = "cursor_pointer";

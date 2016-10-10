@@ -34,7 +34,6 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -67,7 +66,7 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
         } else if (genericTask.isTask()) {
             status = UserUIContext.getMessage(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
         }
-        issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebUIConstants.BLOCK));
+        issueDiv.appendChild(new Span().appendText(status).setCSSClass(UIConstants.BLOCK));
 
         String avatarLink = StorageFactory.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
         Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
