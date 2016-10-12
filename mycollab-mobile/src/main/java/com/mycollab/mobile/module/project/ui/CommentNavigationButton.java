@@ -33,13 +33,17 @@ public class CommentNavigationButton extends NavigationButton {
     private String type;
     private String typeId;
 
+    private ProjectCommentListView commentListView;
+
     public CommentNavigationButton(String typeVal, String typeIdVal) {
         super(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS_VALUE, 0));
         this.type = typeVal;
         this.typeId = typeIdVal;
+        commentListView = new ProjectCommentListView(type, typeId, CurrentProjectVariables.getProjectId(), true);
         this.addClickListener(navigationButtonClickEvent -> {
             if (typeId != null) {
-                getNavigationManager().navigateTo(new ProjectCommentListView(type, typeId, CurrentProjectVariables.getProjectId(), true));
+                getNavigationManager().navigateTo(commentListView);
+                commentListView.displayCommentList();
             }
         });
     }

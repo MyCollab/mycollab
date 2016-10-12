@@ -16,9 +16,7 @@
  */
 package com.mycollab.mobile.module.project.view.milestone;
 
-import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.form.view.DynaFormLayout;
-import com.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.mobile.module.project.view.ticket.TicketNavigatorButton;
@@ -115,16 +113,6 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         Component commentSection = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
         toolbarLayout.addComponent(commentSection);
         return toolbarLayout;
-    }
-
-    @Override
-    protected String getBackTitle() {
-        return UserUIContext.getMessage(MilestoneI18nEnum.LIST);
-    }
-
-    @Override
-    protected void doBackAction() {
-        EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
     }
 
     private class MilestoneFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {

@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.view.settings;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
@@ -27,6 +26,7 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;

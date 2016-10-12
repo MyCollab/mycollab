@@ -131,9 +131,9 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
         if (project.getLead() != null) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getAvatarPath
-                    (project.getLeadAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(), new A(ProjectLinkBuilder
-                    .generateProjectMemberFullLink(project.getId(),
-                            project.getLead())).appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
+                            (project.getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE(),
+                    new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
+                            .appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
             ELabel leadLbl = ELabel.html(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER) + ": " + leadAvatar.write()).withWidthUndefined();
             footer.addComponents(leadLbl);

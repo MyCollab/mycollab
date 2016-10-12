@@ -37,6 +37,7 @@ import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.IBeanList;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
@@ -127,7 +128,8 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
     }
 
     private static String buildAssigneeValue(ProjectActivityStream activity) {
-        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activity.getCreatedUserAvatarId(), 16));
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activity.getCreatedUserAvatarId(), 16)).setCSSClass
+                (UIConstants.CIRCLE_BOX);
         A userLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(activity.getExtratypeid(), activity
                 .getCreateduser())).appendText(StringUtils.trim(activity.getCreatedUserFullName(), 30, true));
         return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink).write();

@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.view.milestone;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -47,6 +46,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -112,22 +112,20 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
     @Override
     public void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption(UserUIContext.getMessage(MilestoneI18nEnum.LIST));
         updateTabStatus();
     }
 
     private void updateTabStatus() {
         if (status == MilestoneStatus.Closed) {
-            this.setCaption(UserUIContext.getMessage(MilestoneStatus.Closed));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
         } else if (status == MilestoneStatus.Future) {
-            this.setCaption(UserUIContext.getMessage(MilestoneStatus.Future));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
         } else {
-            this.setCaption(UserUIContext.getMessage(MilestoneStatus.InProgress));
             closedMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);
             inProgressMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_ACTION);
             futureMilestoneBtn.setStyleName(MobileUIConstants.BUTTON_OPTION);

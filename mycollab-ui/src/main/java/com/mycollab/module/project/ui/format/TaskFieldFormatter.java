@@ -17,11 +17,13 @@
 package com.mycollab.module.project.ui.format;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.core.utils.HumanTime;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
@@ -44,9 +46,9 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler(Task.Field.enddate.name(), GenericI18Enum.FORM_END_DATE, DATETIME_FIELD);
         generateFieldDisplayHandler(Task.Field.duedate.name(), GenericI18Enum.FORM_DUE_DATE, DATETIME_FIELD);
         generateFieldDisplayHandler(Task.Field.priority.name(), GenericI18Enum.FORM_PRIORITY,
-                new I18nHistoryFieldFormat(OptionI18nEnum.Priority.class));
+                new I18nHistoryFieldFormat(Priority.class));
         generateFieldDisplayHandler(Task.Field.status.name(), GenericI18Enum.FORM_STATUS,
-                new I18nHistoryFieldFormat(com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class));
+                new I18nHistoryFieldFormat(StatusI18nEnum.class));
         generateFieldDisplayHandler(Task.Field.isestimated.name(), TaskI18nEnum.FORM_IS_ESTIMATED);
         generateFieldDisplayHandler(Task.Field.remainestimate.name(), TaskI18nEnum.FORM_REMAIN_ESTIMATE);
         generateFieldDisplayHandler(Task.Field.originalestimate.name(), TaskI18nEnum.FORM_ORIGINAL_ESTIMATE);

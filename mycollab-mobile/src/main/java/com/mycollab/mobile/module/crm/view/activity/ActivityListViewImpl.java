@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.mycollab.mobile.module.crm.ui.AbstractListViewComp;

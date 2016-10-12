@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.view;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -29,6 +28,7 @@ import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.addon.touchkit.ui.NavigationButton;

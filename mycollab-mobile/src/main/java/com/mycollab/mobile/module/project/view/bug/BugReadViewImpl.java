@@ -24,7 +24,6 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.form.view.DynaFormLayout;
-import com.mycollab.mobile.module.project.events.TicketEvent;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
@@ -44,7 +43,6 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
-import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
@@ -137,16 +135,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 previewForm.removeComponent(attachmentComp);
             }
         }
-    }
-
-    @Override
-    protected String getBackTitle() {
-        return UserUIContext.getMessage(TicketI18nEnum.LIST);
-    }
-
-    @Override
-    protected void doBackAction() {
-        EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null));
     }
 
     @Override

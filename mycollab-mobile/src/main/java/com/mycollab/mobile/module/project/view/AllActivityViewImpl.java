@@ -44,6 +44,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -174,7 +175,8 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
 
     private static String buildAssigneeValue(ProjectActivityStream activityStream) {
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
+        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
+                .setCSSClass(UIConstants.CIRCLE_BOX);
         A userLink = new A().setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
         userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));

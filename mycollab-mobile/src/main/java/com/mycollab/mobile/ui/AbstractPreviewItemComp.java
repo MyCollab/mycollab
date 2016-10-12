@@ -17,9 +17,9 @@
 package com.mycollab.mobile.ui;
 
 import com.mycollab.vaadin.mvp.IPreviewView;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 

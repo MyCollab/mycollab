@@ -54,7 +54,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
     private static final long serialVersionUID = 1L;
 
     private ProjectTicketSearchCriteria searchCriteria;
-    private TicketSavedFilter savedFilterComboBox;
+    private TicketSavedFilterComboBox savedFilterComboBox;
 
     private static Param[] paramFields = new Param[]{
             ProjectTicketSearchCriteria.p_type,
@@ -74,7 +74,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
     @Override
     protected ComponentContainer buildSearchTitle() {
         if (canSwitchToAdvanceLayout) {
-            savedFilterComboBox = new TicketSavedFilter();
+            savedFilterComboBox = new TicketSavedFilterComboBox();
             savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
                 @Override
                 public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {

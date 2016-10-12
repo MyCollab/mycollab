@@ -22,7 +22,7 @@ import com.mycollab.mobile.ui.IListView;
 import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.CssLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -39,14 +39,17 @@ public abstract class AbstractListPageView<S extends SearchCriteria, B> extends 
         searchInputField = createSearchField();
 
         if (searchInputField != null) {
-            VerticalLayout content = new VerticalLayout();
+            CssLayout content = new CssLayout();
             content.addComponent(searchInputField);
             content.addComponent(itemList);
-            content.setExpandRatio(itemList, 1.0f);
             setContent(content);
         } else {
             setContent(itemList);
         }
+    }
+
+    private void loadMore() {
+        System.out.println("More: ");
     }
 
     @Override

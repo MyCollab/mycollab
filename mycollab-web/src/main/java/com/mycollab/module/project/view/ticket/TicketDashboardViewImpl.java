@@ -40,7 +40,6 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
-import com.mycollab.module.project.view.task.TaskSavedFilterComboBox;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
@@ -230,10 +229,10 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
                 queryTickets(searchCriteria);
             } catch (Exception e) {
                 LOG.error("Error", e);
-                ticketSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
+                ticketSearchPanel.selectQueryInfo(TicketSavedFilterComboBox.OPEN_TICKETS);
             }
         } else {
-            ticketSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
+            ticketSearchPanel.selectQueryInfo(TicketSavedFilterComboBox.OPEN_TICKETS);
         }
     }
 

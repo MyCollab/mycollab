@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.view.ticket;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -53,6 +52,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -70,14 +70,12 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearchCriteria, ProjectTicket> implements TicketListView {
 
     public TicketListViewImpl() {
-        super();
         setCaption(UserUIContext.getMessage(TicketI18nEnum.LIST));
     }
 
     @Override
     protected AbstractPagedBeanList<ProjectTicketSearchCriteria, ProjectTicket> createBeanList() {
-        return new DefaultPagedBeanList<>(AppContextUtil.getSpringBean(ProjectTicketService.class),
-                new TicketRowDisplayHandler());
+        return new DefaultPagedBeanList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler());
     }
 
     @Override
@@ -154,7 +152,7 @@ public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearch
             ELabel assigneeLbl = ELabel.html(assigneeDiv.write()).withStyleName(UIConstants.META_INFO).withWidthUndefined();
             metaInfoLayout.addComponent(assigneeLbl);
 
-            String status = "";
+            String status;
             if (ticket.isBug()) {
                 status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
             } else {

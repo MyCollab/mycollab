@@ -98,11 +98,11 @@
 
 .v-touchkit-navbutton {
 	width: 100% !important;
-	color: #000 !important;
+	color: #5e5d55 !important;
 }
 
 .v-touchkit-navbutton::after {
-	color: #000 !important;
+	color: #5e5d55 !important;
 }
 
 .field-note {
@@ -280,6 +280,11 @@ a {
 	background-color: white;
 }
 
+.v-touchkit-navpanel-wrapper .v-touchkit-navpanel-placeholder > div {
+	background-color: #f9f9f9 !important;
+	color: #5e5d55 !important;
+}
+
 .v-touchkit-navbar {
 	background-color: #f9f9f9 !important;
 	border-bottom: 1px solid #e5e5e5 !important;
@@ -287,11 +292,11 @@ a {
 
 .v-touchkit-navbar .v-navbar-quickmenu-button {
 	font-size: 20px !important;
-	color: #000 !important;
+	color: #5e5d55 !important;
 }
 
 .v-touchkit-navbar .v-button {
-	color: #000 !important;
+	color: #5e5d55 !important;
 }
 
 .v-touchkit-navbar-caption {
@@ -322,7 +327,7 @@ a {
 }
 
 .v-touchkit-datepicker:after, .v-select:after {
-	color: #000 !important;
+	color: #5e5d55 !important;
 }
 
 .confirm-dialog .v-window-outerheader {
@@ -462,6 +467,11 @@ body {
 
 .v-touchkit-navbar, .v-touchkit-tabbar-toolbar .v-touchkit-toolbar, .v-touchkit-navview-toolbar, .v-mobilecomponent .v-touchkit-navpanel {
 	box-shadow: none !important;
+}
+
+.v-touchkit-navview-toolbar {
+	border-top: 1px solid #e5e5e5 !important;
+	background-color: white;
 }
 
 .v-touchkit-verticalcomponentgroup {

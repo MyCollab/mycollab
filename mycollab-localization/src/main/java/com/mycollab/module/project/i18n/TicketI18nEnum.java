@@ -29,6 +29,8 @@ import ch.qos.cal10n.LocaleData;
 public enum TicketI18nEnum {
     LIST,
     NEW,
+    SINGLE,
+    EDIT,
 
     OPT_TICKETS_VALUE,
     OPT_SELECT_TICKET,

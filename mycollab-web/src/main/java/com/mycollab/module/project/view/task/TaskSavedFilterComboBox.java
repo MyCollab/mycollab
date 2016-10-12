@@ -42,15 +42,15 @@ import java.util.List;
  * @since 5.2.1
  */
 public class TaskSavedFilterComboBox extends SavedFilterComboBox {
-    public static final String ALL_TASKS = "ALL_TASKS";
-    public static final String OPEN_TASKS = "OPEN_TASKS";
-    public static final String OVERDUE_TASKS = "OVERDUE_TASKS";
-    public static final String MY_TASKS = "MY_TASKS";
-    public static final String TASKS_CREATED_BY_ME = "TASKS_CREATED_BY_ME";
-    public static final String NEW_TASKS_THIS_WEEK = "NEW_TASKS_THIS_WEEK";
-    public static final String UPDATE_TASKS_THIS_WEEK = "UPDATE_TASKS_THIS_WEEK";
-    public static final String NEW_TASKS_LAST_WEEK = "NEW_TASKS_LAST_WEEK";
-    public static final String UPDATE_TASKS_LAST_WEEK = "UPDATE_TASKS_LAST_WEEK";
+    public static final String ALL_TASKS = "ALL_TICKETS";
+    public static final String OPEN_TASKS = "OPEN_TICKETS";
+    public static final String OVERDUE_TASKS = "OVERDUE_TICKETS";
+    public static final String MY_TASKS = "MY_TICKETS";
+    public static final String TASKS_CREATED_BY_ME = "TICKETS_CREATED_BY_ME";
+    public static final String NEW_TASKS_THIS_WEEK = "NEW_TICKETS_THIS_WEEK";
+    public static final String UPDATE_TASKS_THIS_WEEK = "UPDATE_TICKETS_THIS_WEEK";
+    public static final String NEW_TASKS_LAST_WEEK = "NEW_TICKETS_LAST_WEEK";
+    public static final String UPDATE_TASKS_LAST_WEEK = "UPDATE_TICKETS_LAST_WEEK";
 
     public TaskSavedFilterComboBox() {
         super(ProjectTypeConstants.TASK);

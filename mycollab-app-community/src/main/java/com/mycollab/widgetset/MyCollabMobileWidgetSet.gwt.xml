@@ -11,9 +11,7 @@
 
     <inherits name="org.vaadin.thomas.slidemenu.SlidemenuWidgetset" />
 
-    <inherits name="com.esofthead.vaadin.mobilecomponent.WidgetSet" />
-
-    <inherits name="com.esofthead.vaadin.navigationbarquickmenu.WidgetSet"/>
+    <inherits name="com.mycollab.vaadin.touchkit.WidgetSet" />
 
     <inherits name="org.vaadin.easyuploads.Widgetset"/>
 

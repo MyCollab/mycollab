@@ -16,12 +16,13 @@
  */
 package com.mycollab.mobile.ui;
 
-import com.esofthead.vaadin.mobilecomponent.InfiniteScrollLayout;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.vaadin.touchkit.InfiniteScrollLayout;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.VerticalLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
     protected List<B> currentListData;
     private RowDisplayHandler<B> rowDisplayHandler;
 
-    protected CssLayout listContainer;
+    protected VerticalLayout listContainer;
 
     protected BasicSearchRequest<S> searchRequest;
     protected int currentPage = 1;
@@ -49,10 +50,10 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         super();
         setSizeFull();
         this.rowDisplayHandler = rowDisplayHandler;
+        listContainer = new VerticalLayout();
+        this.addComponent(listContainer);
         InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
         scrollLayout.addScrollListener(this::loadMore);
-        listContainer = new CssLayout();
-        this.addComponent(listContainer);
     }
 
     public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler, int defaultNumberSearchItems) {
@@ -99,7 +100,6 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         currentViewCount = currentListData.size();
 
         listContainer.removeAllComponents();
-
         renderRows();
     }
 

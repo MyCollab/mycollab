@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.file.view;
 
-import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.collect.Collections2;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.FileI18nEnum;
@@ -41,6 +40,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.addon.webcomponents.FloatingComponent;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;

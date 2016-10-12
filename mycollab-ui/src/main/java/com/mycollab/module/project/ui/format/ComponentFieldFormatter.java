@@ -17,7 +17,7 @@
 package com.mycollab.module.project.ui.format;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
@@ -36,7 +36,7 @@ public final class ComponentFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler(Component.Field.userlead.name(), ComponentI18nEnum.FORM_LEAD,
                 new ProjectMemberHistoryFieldFormat());
         generateFieldDisplayHandler(Component.Field.status.name(), GenericI18Enum.FORM_STATUS,
-                new I18nHistoryFieldFormat(OptionI18nEnum.StatusI18nEnum.class));
+                new I18nHistoryFieldFormat(StatusI18nEnum.class));
     }
 
     public static ComponentFieldFormatter instance() {

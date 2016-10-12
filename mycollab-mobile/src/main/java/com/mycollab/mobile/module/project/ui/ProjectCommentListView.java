@@ -40,27 +40,30 @@ import java.util.List;
 public class ProjectCommentListView extends AbstractMobilePageView implements ReloadableComponent {
     private static final long serialVersionUID = 1L;
 
-    private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
+    private BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
     private String type;
     private String typeId;
+    private Integer extraTypeId;
+    private boolean isDisplayCommentInput;
 
     public ProjectCommentListView(String type, String typeId, Integer extraTypeId, boolean isDisplayCommentInput) {
         this.addStyleName("comment-list");
         this.type = type;
         this.typeId = typeId;
+        this.isDisplayCommentInput = isDisplayCommentInput;
+        this.extraTypeId = extraTypeId;
+    }
+
+    public void displayCommentList() {
+        if (type == null || typeId == null) {
+            return;
+        }
 
         commentList = new BeanList<>(AppContextUtil.getSpringBean(CommentService.class), new CommentRowDisplayHandler());
         this.setContent(commentList);
         if (isDisplayCommentInput) {
             ProjectCommentRequestComp commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
             this.setToolbar(commentBox);
-        }
-        displayCommentList();
-    }
-
-    private void displayCommentList() {
-        if (type == null || typeId == null) {
-            return;
         }
 
         CommentSearchCriteria searchCriteria = new CommentSearchCriteria();

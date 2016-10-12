@@ -86,7 +86,6 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
     }
 
     private static class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleComment> {
-        private static final long serialVersionUID = 7604097872938029830L;
 
         @Override
         public Component generateRow(IBeanList<SimpleComment> host, SimpleComment comment, int rowIndex) {

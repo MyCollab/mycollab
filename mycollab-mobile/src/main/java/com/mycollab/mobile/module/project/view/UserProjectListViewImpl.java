@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.view;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.SetSearchField;
@@ -33,6 +32,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -48,7 +48,7 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
     private static final long serialVersionUID = 664947871255886622L;
 
     public UserProjectListViewImpl() {
-        this.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
+        this.setCaption(UserUIContext.getMessage(ProjectI18nEnum.LIST));
     }
 
     @Override

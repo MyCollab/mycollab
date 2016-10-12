@@ -152,11 +152,12 @@ public class MobileApplication extends MyCollabUI {
         currentContext = new UserUIContext();
         postSetupApp(request);
 
-        this.getLoadingIndicatorConfiguration().setFirstDelay(0);
-        this.getLoadingIndicatorConfiguration().setSecondDelay(300);
-        this.getLoadingIndicatorConfiguration().setThirdDelay(500);
-
         final NavigationManager manager = new NavigationManager();
+        manager.addNavigationListener(navigationEvent -> {
+            if (navigationEvent.getDirection() == NavigationManager.NavigationEvent.Direction.BACK) {
+                System.out.println("A: " + ((NavigationManager)navigationEvent.getSource()).getCurrentComponent());
+            }
+        });
         setContent(manager);
 
         registerControllers(manager);
@@ -217,7 +218,6 @@ public class MobileApplication extends MyCollabUI {
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
             SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(MyCollabUI.getAccountId());
-            LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
             UserUIContext.getInstance().setSessionVariables(user, billingAccount);
 
             UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);

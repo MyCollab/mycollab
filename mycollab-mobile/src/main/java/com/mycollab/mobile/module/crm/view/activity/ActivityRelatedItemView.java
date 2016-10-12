@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.mobile.ui.AbstractRelatedListView;

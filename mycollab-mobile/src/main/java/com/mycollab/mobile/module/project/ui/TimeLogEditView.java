@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.ui;
 
-import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.db.arguments.BasicSearchRequest;
@@ -30,6 +29,7 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.addon.touchkit.ui.DatePicker;
