@@ -71,7 +71,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         return beanItem.getSubject();
     }
 

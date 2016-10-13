@@ -71,7 +71,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         return beanItem.getLeadName();
     }
 

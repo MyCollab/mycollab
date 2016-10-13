@@ -60,7 +60,6 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
 
     private Component buildRightComponent() {
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
-        menu.setButtonCaption("...");
 
         MVerticalLayout content = new MVerticalLayout();
         content.with(new Button(UserUIContext.getMessage(MessageI18nEnum.NEW),

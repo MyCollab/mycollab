@@ -48,7 +48,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         return beanItem.getSubject();
     }
 

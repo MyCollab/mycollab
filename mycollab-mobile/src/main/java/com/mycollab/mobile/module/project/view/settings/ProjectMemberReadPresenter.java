@@ -17,11 +17,7 @@
 package com.mycollab.mobile.module.project.view.settings;
 
 import com.mycollab.common.UrlEncodeDecoder;
-import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.mycollab.mobile.module.project.view.AbstractProjectPresenter;
-import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectMember;
@@ -29,11 +25,9 @@ import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
@@ -44,32 +38,6 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
 
     public ProjectMemberReadPresenter() {
         super(ProjectMemberReadView.class);
-    }
-
-    @Override
-    protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleProjectMember>() {
-            @Override
-            public void onEdit(SimpleProjectMember data) {
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, data));
-            }
-
-            @Override
-            public void onDelete(final SimpleProjectMember data) {
-                ConfirmDialog.show(UI.getCurrent(),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        dialog -> {
-                            if (dialog.isConfirmed()) {
-                                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-                                projectMemberService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
-                                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-                            }
-                        });
-            }
-
-        });
     }
 
     @Override

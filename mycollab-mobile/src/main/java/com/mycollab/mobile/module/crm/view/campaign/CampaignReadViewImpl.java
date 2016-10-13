@@ -78,7 +78,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         return beanItem.getCampaignname();
     }
 

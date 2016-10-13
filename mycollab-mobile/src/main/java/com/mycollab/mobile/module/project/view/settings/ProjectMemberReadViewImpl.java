@@ -18,19 +18,21 @@ package com.mycollab.mobile.module.project.view.settings;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
-import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
+import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.RolePermissionI18nEnum;
+import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
@@ -38,15 +40,14 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
-import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.EmailViewField;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -69,7 +70,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         return beanItem.getDisplayName();
     }
 
@@ -94,9 +95,25 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new ProjectPreviewFormControlsGenerator<>(this.previewForm).createButtonControls(
-                ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
-                ProjectRolePermissionCollections.USERS);
+        MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, beanItem)))
+                .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
+
+        MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialog.show(UI.getCurrent(),
+                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                dialog -> {
+                    if (dialog.isConfirmed()) {
+                        ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+                        projectMemberService.removeWithSession(beanItem, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                    }
+                }))
+                .withIcon(FontAwesome.TRASH).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.USERS));
+
+        return new MHorizontalLayout(editBtn, deleteBtn);
     }
 
     private void displayRolePermission(Integer roleId) {
@@ -137,9 +154,8 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         public ComponentContainer getLayout() {
             VerticalLayout layout = new VerticalLayout();
             layout.setMargin(false);
-            layout.addComponent(FormSectionBuilder.build(UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION)));
 
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
             layout.addComponent(informationLayout.getLayout());
             layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
 
@@ -150,12 +166,10 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
 
         @Override
         public Component onAttachField(Object propertyId, Field<?> field) {
-            if (propertyId.equals("memberFullName")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
-            } else if (propertyId.equals("email")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
+            if (propertyId.equals("email")) {
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 0);
             } else if (propertyId.equals("roleName")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 2);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
             }
             return null;
         }
@@ -170,11 +184,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
 
         @Override
         protected Field<?> onCreateField(Object propertyId) {
-            if (propertyId.equals("memberFullName")) {
-                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
-                        .getProjectId(), beanItem.getUsername(), beanItem.getDisplayName(), beanItem
-                        .getMemberAvatarId(), false), ContentMode.HTML);
-            } else if (propertyId.equals("roleName")) {
+            if (propertyId.equals("roleName")) {
                 String memberRole;
                 if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
                     memberRole = UserUIContext.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);

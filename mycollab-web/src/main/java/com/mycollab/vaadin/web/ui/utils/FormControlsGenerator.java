@@ -30,11 +30,11 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 5.3.2
  */
 public class FormControlsGenerator {
-    public static final <T> ComponentContainer generateEditFormControls(final AdvancedEditBeanForm<T> editForm) {
+    public static <T> ComponentContainer generateEditFormControls(final AdvancedEditBeanForm<T> editForm) {
         return generateEditFormControls(editForm, true, true, true);
     }
 
-    public static final <T> ComponentContainer generateEditFormControls(final AdvancedEditBeanForm<T> editForm, boolean
+    public static <T> ComponentContainer generateEditFormControls(final AdvancedEditBeanForm<T> editForm, boolean
             isSaveBtnVisible, boolean isSaveAndNewBtnVisible, boolean isCancelBtnVisible) {
         MHorizontalLayout layout = new MHorizontalLayout();
 

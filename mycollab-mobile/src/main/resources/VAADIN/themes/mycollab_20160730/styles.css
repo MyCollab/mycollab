@@ -177,6 +177,16 @@
 	text-align: center;
 }
 
+.v-button-circle-box {
+	line-height: 1.5 !important;
+	border-radius: 50% !important;
+	border: 1px solid #999999 !important;
+}
+
+.v-button-circle-box .v-button-wrap {
+	padding: 0 5px !important;
+}
+
 .meta-info {
 	color: #999;
 	font-size: smaller !important;
@@ -191,6 +201,15 @@ hr {
 	font-weight: 600 !important;
 	font-size: 20px !important;
 	text-align: center !important;
+}
+
+.h2 {
+	font-weight: 600 !important;
+	font-size: 18px !important;
+}
+
+.border-bottom {
+	border-bottom: 1px solid #e5e5e5;
 }
 
 a {
@@ -291,8 +310,15 @@ a {
 }
 
 .v-touchkit-navbar .v-navbar-quickmenu-button {
-	font-size: 20px !important;
 	color: #5e5d55 !important;
+	min-height: 30px;
+	padding: 0 7px;
+}
+
+.v-touchkit-navbar .v-navbar-quickmenu-button.circle-box {
+	border-radius: 50%;
+	border: 1px solid #999999;
+	background-color: transparent;
 }
 
 .v-touchkit-navbar .v-button {

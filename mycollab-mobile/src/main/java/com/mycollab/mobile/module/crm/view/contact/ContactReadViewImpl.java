@@ -58,8 +58,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> implements ContactReadView {
     private static final long serialVersionUID = 1L;
 
-    protected ContactRelatedOpportunityView associateOpportunityList;
-    protected ActivityRelatedItemView associateActivityList;
+    private ContactRelatedOpportunityView associateOpportunityList;
+    private ActivityRelatedItemView associateActivityList;
 
     @Override
     protected ComponentContainer createBottomPanel() {
@@ -121,7 +121,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         // check if there is converted lead associates with this contact
         LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
         SimpleLead lead = leadService.findConvertedLeadOfContact(

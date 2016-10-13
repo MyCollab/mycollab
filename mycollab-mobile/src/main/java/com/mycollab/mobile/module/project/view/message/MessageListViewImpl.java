@@ -32,6 +32,7 @@ import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMessage;
 import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
@@ -41,15 +42,15 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -87,13 +88,9 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
     @Override
     protected Component buildRightComponent() {
-        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
-        menu.setButtonCaption("...");
-        MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(UserUIContext.getMessage(MessageI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null))));
-        menu.setContent(content);
-        return menu;
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
     }
 
     private static class MessageRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleMessage> {

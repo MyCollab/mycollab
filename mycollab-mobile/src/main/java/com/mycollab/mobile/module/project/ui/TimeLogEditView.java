@@ -128,7 +128,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         controlBtns.addComponent(updateRemainTimeBtn);
 
         NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
-        editBtn.setButtonCaption("...");
         editBtn.setContent(controlBtns);
         this.setRightComponent(editBtn);
     }

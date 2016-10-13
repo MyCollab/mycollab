@@ -76,7 +76,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         return beanItem.getAccountname();
     }
 

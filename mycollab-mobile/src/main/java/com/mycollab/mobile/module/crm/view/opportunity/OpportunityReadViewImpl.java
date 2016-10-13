@@ -76,7 +76,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
     }
 
     @Override
-    protected String initFormTitle() {
+    protected String initFormHeader() {
         return this.beanItem.getOpportunityname();
     }
 

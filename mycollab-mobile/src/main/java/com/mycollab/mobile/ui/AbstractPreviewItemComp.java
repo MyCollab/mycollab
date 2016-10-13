@@ -19,9 +19,12 @@ package com.mycollab.mobile.ui;
 import com.mycollab.vaadin.mvp.IPreviewView;
 import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @param <B>
@@ -40,15 +43,19 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
     public void previewItem(final B item) {
         this.beanItem = item;
-        this.setCaption(initFormTitle());
 
         CssLayout content = new CssLayout();
+        content.addComponent(new MHorizontalLayout(ELabel.h2(initFormHeader())).withMargin(true).withStyleName("border-bottom").withFullWidth());
         content.addComponent(previewForm);
 
-        NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
-        editBtn.setButtonCaption("...");
-        editBtn.setContent(createButtonControls());
-        this.setRightComponent(editBtn);
+        ComponentContainer buttonControls = createButtonControls();
+        if (buttonControls instanceof VerticalLayout) {
+            NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
+            editBtn.setContent(buttonControls);
+            this.setRightComponent(editBtn);
+        } else {
+            this.setRightComponent(buttonControls);
+        }
 
         initRelatedComponents();
 
@@ -80,7 +87,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
     abstract protected void afterPreviewItem();
 
-    abstract protected String initFormTitle();
+    abstract protected String initFormHeader();
 
     abstract protected AdvancedPreviewBeanForm<B> initPreviewForm();
 

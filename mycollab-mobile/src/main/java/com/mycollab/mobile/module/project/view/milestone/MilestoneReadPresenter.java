@@ -50,10 +50,6 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
     @Override
     protected void postInitView() {
         view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleMilestone>() {
-            @Override
-            public void onEdit(SimpleMilestone data) {
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(this, data));
-            }
 
             @Override
             public void onAdd(SimpleMilestone data) {
@@ -89,8 +85,7 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
             if (data.getParams() instanceof Integer) {
                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-                SimpleMilestone milestone = milestoneService.findById(
-                        (Integer) data.getParams(), MyCollabUI.getAccountId());
+                SimpleMilestone milestone = milestoneService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (milestone != null) {
                     view.previewItem(milestone);
                     super.onGo(container, data);

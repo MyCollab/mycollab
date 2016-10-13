@@ -101,7 +101,6 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
     @Override
     protected Component buildRightComponent() {
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
-        menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
         content.with(new Button(UserUIContext.getMessage(ProjectI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoAdd(this, null))));

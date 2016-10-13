@@ -50,10 +50,6 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
     @Override
     protected void postInitView() {
         view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleBug>() {
-            @Override
-            public void onEdit(SimpleBug data) {
-                EventBusFactory.getInstance().post(new BugEvent.GotoEdit(this, data));
-            }
 
             @Override
             public void onAdd(SimpleBug data) {

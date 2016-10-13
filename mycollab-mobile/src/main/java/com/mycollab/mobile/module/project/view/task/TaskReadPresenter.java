@@ -53,11 +53,6 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
         this.view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleTask>() {
 
             @Override
-            public void onEdit(final SimpleTask data) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, data));
-            }
-
-            @Override
             public void onDelete(final SimpleTask data) {
                 ConfirmDialog.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),

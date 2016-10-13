@@ -31,10 +31,7 @@ import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.mobile.ui.SearchInputField;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
-import com.mycollab.module.project.ProjectLinkGenerator;
-import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
@@ -46,7 +43,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -55,6 +51,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -90,13 +87,9 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
 
     @Override
     protected Component buildRightComponent() {
-        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
-        menu.setButtonCaption("...");
-        MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null))));
-        menu.setContent(content);
-        return menu;
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
     }
 
     @Override

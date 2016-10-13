@@ -57,7 +57,6 @@ public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMembe
     @Override
     protected Component buildRightComponent() {
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
-        menu.setButtonCaption("...");
         MVerticalLayout content = new MVerticalLayout();
         content.with(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null))));

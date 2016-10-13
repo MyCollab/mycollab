@@ -22,8 +22,10 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.form.view.DynaFormLayout;
+import com.mycollab.mobile.module.project.events.TaskEvent;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
@@ -49,6 +51,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -60,6 +63,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
@@ -110,8 +115,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     }
 
     @Override
-    protected String initFormTitle() {
-        return UserUIContext.getMessage(TaskI18nEnum.SINGLE);
+    protected String initFormHeader() {
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + beanItem.getName();
     }
 
     @Override
@@ -121,7 +126,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm());
+        return new DynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(), Task.Field.name.name());
     }
 
     @Override
@@ -132,10 +137,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
-        final VerticalLayout topPanel = taskPreviewForm.createButtonControls(
+        final VerticalLayout formControls = taskPreviewForm.createButtonControls(
                 ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
-                        | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-                        | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+                        | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
                 ProjectRolePermissionCollections.TASKS);
 
         quickActionStatusBtn = new Button("", clickEvent -> {
@@ -162,7 +166,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             quickActionStatusBtn.setEnabled(false);
         }
 
-        return topPanel;
+        MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, beanItem)))
+                .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+        return new MHorizontalLayout(editBtn, new NavigationBarQuickMenu(formControls));
     }
 
     @Override

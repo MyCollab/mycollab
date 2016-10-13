@@ -16,7 +16,9 @@
  */
 package com.mycollab.mobile.module.project.view.milestone;
 
+import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.form.view.DynaFormLayout;
+import com.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.mobile.module.project.view.ticket.TicketNavigatorButton;
@@ -29,11 +31,11 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
-import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
-import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -44,10 +46,9 @@ import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
+import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -73,8 +74,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     }
 
     @Override
-    protected String initFormTitle() {
-        return UserUIContext.getMessage(MilestoneI18nEnum.SINGLE);
+    protected String initFormHeader() {
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " " + beanItem.getName();
     }
 
     @Override
@@ -89,7 +90,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm());
+        return new DynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(),
+                Milestone.Field.name.name());
     }
 
     @Override
@@ -99,7 +101,15 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new ProjectPreviewFormControlsGenerator<>(previewForm).createButtonControls(ProjectRolePermissionCollections.MILESTONES);
+        ProjectPreviewFormControlsGenerator<SimpleMilestone> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(previewForm);
+        final VerticalLayout formControls = formControlsGenerator.createButtonControls(
+                ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
+                ProjectRolePermissionCollections.MILESTONES);
+        MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(this, beanItem)))
+                .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
+        return new MHorizontalLayout(editBtn, new NavigationBarQuickMenu(formControls));
     }
 
     @Override

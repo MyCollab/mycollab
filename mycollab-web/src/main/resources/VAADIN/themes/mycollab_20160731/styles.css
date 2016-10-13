@@ -17473,33 +17473,6 @@ div.v-stylecalendar .weekdays TD {
 	background: none no-repeat left top #ffffff;
 }
 
-div.v-ratingstars-wrapper {
-	border: 0px;
-	padding: 0px;
-	background-color: transparent;
-}
-
-div.v-ratingstars {
-	background-color: transparent;
-}
-
-.v-ratingstars-wrapper-tiny div.v-ratingstars-star {
-	background-image: url("icons/star_12x11.png");
-}
-
-div.v-ratingstars-star {
-	background-image: url("icons/star_19x18.png");
-}
-
-.v-ratingstars-wrapper-tiny div.v-ratingstars-bar {
-	background-image: url("icons/star_bg_12x11.gif");
-}
-
-div.v-ratingstars-bar {
-	background-image: url("icons/star_bg_19x18.gif");
-	border-right: none;
-}
-
 .esofthead-progessbar {
 	position: relative;
 	z-index: 0;

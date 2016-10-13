@@ -56,9 +56,12 @@ import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -80,22 +83,12 @@ public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearch
 
     @Override
     protected SearchInputField<ProjectTicketSearchCriteria> createSearchField() {
-        return new SearchInputField<ProjectTicketSearchCriteria>() {
-            @Override
-            protected ProjectTicketSearchCriteria fillUpSearchCriteria(String value) {
-                ProjectTicketSearchCriteria searchCriteria = new ProjectTicketSearchCriteria();
-                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setName(StringSearchField.and(value));
-                searchCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
-                return searchCriteria;
-            }
-        };
+        return null;
     }
 
     @Override
     protected Component buildRightComponent() {
-        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
-        menu.setButtonCaption("...");
+        NavigationBarQuickMenu actionMenu = new NavigationBarQuickMenu();
         MVerticalLayout content = new MVerticalLayout();
         content.with(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TicketListViewImpl.this, null))));
@@ -106,8 +99,22 @@ public class TicketListViewImpl extends AbstractListPageView<ProjectTicketSearch
                     clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(TicketListViewImpl.this, null))));
         }
 
-        menu.setContent(content);
-        return menu;
+        actionMenu.setContent(content);
+
+        MButton searchBtn = new MButton("").withIcon(FontAwesome.SEARCH).withStyleName(UIConstants.CIRCLE_BOX);
+
+        MVerticalLayout searchContent = new MVerticalLayout();
+        searchContent.with(new SearchInputField<ProjectTicketSearchCriteria>() {
+            @Override
+            protected ProjectTicketSearchCriteria fillUpSearchCriteria(String value) {
+                ProjectTicketSearchCriteria searchCriteria = new ProjectTicketSearchCriteria();
+                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setName(StringSearchField.and(value));
+                searchCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
+                return searchCriteria;
+            }
+        });
+        return new MHorizontalLayout(searchBtn, actionMenu).alignAll(Alignment.TOP_RIGHT);
     }
 
     private static class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectTicket> {
