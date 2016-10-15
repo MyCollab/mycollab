@@ -23,10 +23,11 @@ import com.hp.gagawa.java.elements.Span;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
+import com.mycollab.mobile.module.project.ui.SearchInputView;
+import com.mycollab.mobile.module.project.ui.SearchNavigationButton;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.mobile.ui.MobileUIConstants;
@@ -48,6 +49,7 @@ import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -74,22 +76,21 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
 
     @Override
     protected SearchInputField<MilestoneSearchCriteria> createSearchField() {
-        return new SearchInputField<MilestoneSearchCriteria>() {
-            @Override
-            protected MilestoneSearchCriteria fillUpSearchCriteria(String value) {
-                MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setMilestoneName(StringSearchField.and(value));
-                return searchCriteria;
-            }
-        };
+        return null;
     }
 
     @Override
     protected Component buildRightComponent() {
-        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null)))
+        SearchNavigationButton searchBtn = new SearchNavigationButton() {
+            @Override
+            protected SearchInputView getSearchInputView() {
+                return new MilestoneSearchInputView();
+            }
+        };
+        MButton newMilestoneBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
+        return new MHorizontalLayout(searchBtn, newMilestoneBtn).alignAll(Alignment.TOP_RIGHT);
     }
 
     @Override

@@ -16,14 +16,26 @@
  */
 package com.mycollab.mobile.ui;
 
+import com.mycollab.common.domain.FavoriteItem;
+import com.mycollab.common.service.FavoriteItemService;
+import com.mycollab.core.MyCollabException;
+import com.mycollab.core.utils.StringUtils;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.IPreviewView;
 import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -33,9 +45,11 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  */
 public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView implements IPreviewView<B> {
     private static final long serialVersionUID = 1L;
+    private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
     protected B beanItem;
     protected AdvancedPreviewBeanForm<B> previewForm;
+    private Button favoriteBtn;
 
     public AbstractPreviewItemComp() {
         previewForm = initPreviewForm();
@@ -53,8 +67,23 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
             NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
             editBtn.setContent(buttonControls);
             this.setRightComponent(editBtn);
-        } else {
+        } else if (buttonControls instanceof HorizontalLayout) {
+            if (StringUtils.isNotBlank(getType())) {
+                favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(FontAwesome.HEART).withStyleName
+                        (UIConstants.CIRCLE_BOX);
+                ((HorizontalLayout)buttonControls).addComponent(favoriteBtn, 0);
+            }
             this.setRightComponent(buttonControls);
+        } else {
+            throw new MyCollabException("Not support controls " + buttonControls);
+        }
+
+        if (favoriteBtn != null) {
+            if (isFavorite()) {
+                favoriteBtn.addStyleName("favorite-btn-selected");
+            } else {
+                favoriteBtn.addStyleName("favorite-btn");
+            }
         }
 
         initRelatedComponents();
@@ -94,6 +123,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
     protected void initRelatedComponents() {
     }
 
+    abstract protected String getType();
+
     abstract protected IFormLayoutFactory initFormLayoutFactory();
 
     abstract protected AbstractBeanFieldGroupViewFieldFactory<B> initBeanFormFieldFactory();
@@ -101,5 +132,38 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
     abstract protected ComponentContainer createButtonControls();
 
     abstract protected ComponentContainer createBottomPanel();
+
+    private void toggleFavorite() {
+        try {
+            if (isFavorite()) {
+                favoriteBtn.removeStyleName("favorite-btn-selected");
+                favoriteBtn.addStyleName("favorite-btn");
+            } else {
+                favoriteBtn.addStyleName("favorite-btn-selected");
+                favoriteBtn.removeStyleName("favorite-btn");
+            }
+            FavoriteItem favoriteItem = new FavoriteItem();
+            favoriteItem.setExtratypeid(CurrentProjectVariables.getProjectId());
+            favoriteItem.setType(getType());
+            favoriteItem.setTypeid(PropertyUtils.getProperty(beanItem, "id").toString());
+            favoriteItem.setSaccountid(MyCollabUI.getAccountId());
+            favoriteItem.setCreateduser(UserUIContext.getUsername());
+            FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
+            favoriteItemService.saveOrDelete(favoriteItem);
+        } catch (Exception e) {
+            LOG.error("Error while set favorite flag to bean", e);
+        }
+    }
+
+    private boolean isFavorite() {
+        try {
+            FavoriteItemService favoriteItemService = AppContextUtil.getSpringBean(FavoriteItemService.class);
+            return favoriteItemService.isUserFavorite(UserUIContext.getUsername(), getType(),
+                    PropertyUtils.getProperty(beanItem, "id").toString());
+        } catch (Exception e) {
+            LOG.error("Error while check favorite", e);
+            return false;
+        }
+    }
 
 }

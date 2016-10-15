@@ -2416,6 +2416,11 @@ div.v-window {
 
 .editable-field:hover .toggle .v-button-wrap {
 	padding: 0px;
+	color: #999;
+}
+
+.editable-field:hover .toggle .v-button-wrap:hover {
+	color: black;
 }
 
 .editable-field .toggle {
@@ -15181,6 +15186,11 @@ div.v-window {
 
 .editable-field:hover .toggle .v-button-wrap {
 	padding: 0px;
+	color: #999;
+}
+
+.editable-field:hover .toggle .v-button-wrap:hover {
+	color: black;
 }
 
 .editable-field .toggle {
@@ -16693,7 +16703,7 @@ input.v-textfield-pagedtable-pagefield {
 	width: 169px;
 	height: 100%;
 	margin: 0;
-	padding: 4px 15px 0px 15px;
+	padding: 0px 15px;
 	display: block;
 	border-right: 1px solid #e9e9e9;
 }
@@ -16770,6 +16780,7 @@ input.v-textfield-pagedtable-pagefield {
 .topNavigation .accountMenuContainer .v-button.v-popupbutton .v-button-wrap, .topNavigation .accountMenuContainer .v-button.v-popupbutton.v-pressed .v-button-wrap {
 	background: none;
 	border: none;
+	width: 100%;
 }
 
 .topNavigation .accountMenuContainer .v-button.v-popupbutton .v-button-wrap .v-button-caption, .topNavigation .accountMenuContainer .v-button.v-popupbutton.v-pressed .v-button-wrap .v-button-caption {

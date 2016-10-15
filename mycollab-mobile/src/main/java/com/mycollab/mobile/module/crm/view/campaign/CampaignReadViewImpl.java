@@ -174,4 +174,8 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         return associateLeads;
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.CAMPAIGN;
+    }
 }

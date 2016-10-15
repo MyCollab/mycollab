@@ -32,12 +32,10 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -100,12 +98,8 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
 
     @Override
     protected Component buildRightComponent() {
-        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
-        MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(UserUIContext.getMessage(ProjectI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoAdd(this, null))));
-        menu.setContent(content);
-        return menu;
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX);
     }
 
 

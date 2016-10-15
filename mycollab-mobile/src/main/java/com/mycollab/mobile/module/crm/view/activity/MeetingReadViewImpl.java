@@ -81,4 +81,8 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting> 
         return new MHorizontalLayout();
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.MEETING;
+    }
 }

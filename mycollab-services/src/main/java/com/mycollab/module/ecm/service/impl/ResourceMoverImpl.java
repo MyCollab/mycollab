@@ -154,7 +154,7 @@ public class ResourceMoverImpl implements ResourceMover {
                 ExternalResourceService srcService = ResourceUtils.getExternalResourceService(ResourceUtils.getType(srcRes));
                 srcService.deleteResource(ResourceUtils.getExternalDrive(srcRes), srcRes.getPath());
             } else {
-                resourceService.removeResource(srcRes.getPath(), userMove, sAccountId);
+                resourceService.removeResource(srcRes.getPath(), userMove, true, sAccountId);
             }
         }
     }

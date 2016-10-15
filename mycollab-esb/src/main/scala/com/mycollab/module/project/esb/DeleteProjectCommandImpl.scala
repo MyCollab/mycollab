@@ -63,7 +63,7 @@ import org.springframework.stereotype.Component
 
   private def deleteProjectFiles(accountid: Integer, projectId: Integer) {
     val rootPath = String.format("%d/project/%d", accountid, projectId)
-    resourceService.removeResource(rootPath, "", accountid)
+    resourceService.removeResource(rootPath, "", true, accountid)
   }
 
   private def deleteProjectPages(accountid: Integer, projectId: Integer) {

@@ -59,7 +59,7 @@ public class EntityUploaderServiceImpl implements EntityUploaderService {
             for (int preferSize : preferSizes) {
                 try {
                     resourceService.removeResource(String.format("%s/%s_%d.png", basePath, oldId, preferSize),
-                            uploadedUser, sAccountId);
+                            uploadedUser, true, sAccountId);
                 } catch (Exception e) {
                     LOG.error("Error while delete old logo", e);
                 }

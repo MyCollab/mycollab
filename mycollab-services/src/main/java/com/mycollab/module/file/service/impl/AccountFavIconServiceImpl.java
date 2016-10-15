@@ -75,7 +75,7 @@ public class AccountFavIconServiceImpl implements AccountFavIconService {
 
         //remove the old favicon
         resourceService.removeResource(PathUtils.buildFavIconPath(sAccountId, account.getFaviconpath()),
-                uploadedUser, sAccountId);
+                uploadedUser, true, sAccountId);
 
         account.setFaviconpath(newLogoId);
         billingAccountService.updateSelectiveWithSession(account, uploadedUser);

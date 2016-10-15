@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.ui;
 
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -34,6 +35,10 @@ public class FormSectionBuilder {
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName(MobileUIConstants.FORM_SECTION);
         layout.with(ELabel.fontIcon(icon), comp).expand(comp).alignAll(Alignment.MIDDLE_LEFT);
         return layout;
+    }
+
+    public static MHorizontalLayout build(FontAwesome icon, Enum messageEnum) {
+        return build(icon, new Label(UserUIContext.getMessage(messageEnum)));
     }
 
     public static MCssLayout build(String title) {

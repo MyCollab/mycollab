@@ -50,8 +50,9 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 @ViewComponent
 public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implements CaseReadView {
     private static final long serialVersionUID = -983883973494397334L;
-    protected ActivityRelatedItemView associateActivities;
-    protected CaseRelatedContactView associateContacts;
+
+    private ActivityRelatedItemView associateActivities;
+    private CaseRelatedContactView associateContacts;
 
     @Override
     public HasPreviewFormHandlers<SimpleCase> getPreviewFormHandlers() {
@@ -135,4 +136,8 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         return associateContacts;
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.CASE;
+    }
 }

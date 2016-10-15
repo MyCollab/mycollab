@@ -48,7 +48,7 @@ class DeleteProjectRiskCommand extends GenericCommand {
   private def removeRelatedFiles(accountId: Integer, projectId: Integer, riskId: Integer) {
     val attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
       ProjectTypeConstants.RISK, "" + riskId)
-    resourceService.removeResource(attachmentPath, "", accountId)
+    resourceService.removeResource(attachmentPath, "", true, accountId)
   }
 
   private def removeRelatedComments(riskId: Integer) {

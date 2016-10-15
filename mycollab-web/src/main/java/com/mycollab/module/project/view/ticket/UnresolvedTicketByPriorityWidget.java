@@ -67,7 +67,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
         @Override
         @Subscribe
         public void handle(TicketEvent.HasTicketPropertyChanged event) {
-            if (searchCriteria != null && "priority".equals(event.getData())) {
+            if (searchCriteria != null && ("priority".equals(event.getData()) || "all".equals(event.getData()))) {
                 UI.getCurrent().access(() -> setSearchCriteria(searchCriteria));
             }
         }

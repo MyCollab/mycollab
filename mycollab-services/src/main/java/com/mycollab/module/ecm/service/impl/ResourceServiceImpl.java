@@ -151,7 +151,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public void removeResource(String path, String deleteUser, Integer sAccountId) {
+    public void removeResource(String path, String deleteUser, Boolean isUpdateDriveInfo, Integer sAccountId) {
         Resource res = contentJcrDao.getResource(path);
         if (res == null) {
             return;
@@ -159,9 +159,9 @@ public class ResourceServiceImpl implements ResourceService {
 
         DeleteResourcesEvent event;
         if (res instanceof Folder) {
-            event = new DeleteResourcesEvent(new String[]{path}, deleteUser, sAccountId);
+            event = new DeleteResourcesEvent(new String[]{path}, deleteUser, isUpdateDriveInfo, sAccountId);
         } else {
-            event = new DeleteResourcesEvent(new String[]{path, ((Content) res).getThumbnail()}, deleteUser, sAccountId);
+            event = new DeleteResourcesEvent(new String[]{path, ((Content) res).getThumbnail()}, deleteUser, isUpdateDriveInfo, sAccountId);
         }
         asyncEventBus.post(event);
         contentJcrDao.removeResource(path);

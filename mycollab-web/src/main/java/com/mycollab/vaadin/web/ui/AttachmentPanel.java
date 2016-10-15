@@ -85,7 +85,6 @@ public class AttachmentPanel extends MVerticalLayout {
     }
 
     private void removeAllAttachmentsDisplay() {
-
         if (fileStores != null) {
             fileStores.clear();
         }
@@ -135,7 +134,7 @@ public class AttachmentPanel extends MVerticalLayout {
         return listFile;
     }
 
-    void receiveFile(File file, String fileName, String mimeType, long length) {
+    private void receiveFile(File file, String fileName, String mimeType, long length) {
         if (fileStores == null) {
             fileStores = new HashMap<>();
         }

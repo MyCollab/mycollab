@@ -77,4 +77,8 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
         return null;
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.CALL;
+    }
 }

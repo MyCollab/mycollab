@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.ui.components.IGroupComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -29,12 +30,11 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd
  * @since 5.3.5
  */
-class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupComponent {
+class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupComponent, IBlockContainer {
     private Label headerLbl;
     private CssLayout wrapBody;
 
     private String titleValue;
-    private int numElements = 0;
 
     DefaultTicketGroupComponent(String titleValue) {
         this.titleValue = titleValue;
@@ -49,16 +49,16 @@ class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupCompo
         headerLbl = ELabel.h3("");
         this.addComponent(headerLbl);
         this.addComponent(wrapBody);
-        updateHeader();
+        updateTitle();
     }
 
-    private void updateHeader() {
-        headerLbl.setValue(String.format("%s (%d)", titleValue, numElements));
+    @Override
+    public void updateTitle() {
+        headerLbl.setValue(String.format("%s (%d)", titleValue, wrapBody.getComponentCount()));
     }
 
     void insertTicket(ProjectTicket ticket) {
         wrapBody.addComponent(new TicketRowRenderer(ticket));
-        numElements++;
-        updateHeader();
+        updateTitle();
     }
 }

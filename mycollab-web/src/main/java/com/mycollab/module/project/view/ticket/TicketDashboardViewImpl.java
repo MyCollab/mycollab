@@ -38,6 +38,7 @@ import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
+import com.mycollab.module.project.query.TicketQueryInfo;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.shell.events.ShellEvent;
@@ -229,10 +230,10 @@ public class TicketDashboardViewImpl extends AbstractPageView implements TicketD
                 queryTickets(searchCriteria);
             } catch (Exception e) {
                 LOG.error("Error", e);
-                ticketSearchPanel.selectQueryInfo(TicketSavedFilterComboBox.OPEN_TICKETS);
+                ticketSearchPanel.selectQueryInfo(TicketQueryInfo.OPEN_TICKETS);
             }
         } else {
-            ticketSearchPanel.selectQueryInfo(TicketSavedFilterComboBox.OPEN_TICKETS);
+            ticketSearchPanel.selectQueryInfo(TicketQueryInfo.OPEN_TICKETS);
         }
     }
 

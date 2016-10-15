@@ -23,7 +23,7 @@ import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.view.milestone.ToggleTicketSummaryField;
+import com.mycollab.module.project.ui.components.BlockRowRender;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.ELabel;
@@ -38,13 +38,12 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class TicketRowRenderer extends MVerticalLayout implements PropertyChangedListener {
+public class TicketRowRenderer extends BlockRowRender implements PropertyChangedListener {
     private static Logger LOG = LoggerFactory.getLogger(TicketRowRenderer.class);
 
     private ToggleTicketSummaryField toggleTicketField;

@@ -85,7 +85,7 @@ public interface ResourceService extends IService {
      * @param userDelete
      * @param sAccountId
      */
-    void removeResource(String path, String userDelete, Integer sAccountId);
+    void removeResource(String path, String userDelete, Boolean isUpdateDriveInfo, Integer sAccountId);
 
     /**
      * @param path

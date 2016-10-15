@@ -190,6 +190,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         return toolbarLayout;
     }
 
+    @Override
+    protected String getType() {
+        return ProjectTypeConstants.BUG;
+    }
+
     private class BugPreviewBeanFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleBug> {
         private static final long serialVersionUID = -288972730658409446L;
 

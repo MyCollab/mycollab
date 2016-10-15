@@ -118,4 +118,18 @@ public abstract class AbstractProjectTicketServiceImpl extends DefaultSearchServ
             AppContextUtil.getSpringBean(RiskService.class).updateSelectiveWithSession(risk, username);
         }
     }
+
+    @Override
+    public void removeTicket(ProjectTicket ticket, String username) {
+        if (ticket.isTask()) {
+            Task task = ProjectTicket.buildTask(ticket);
+            AppContextUtil.getSpringBean(ProjectTaskService.class).removeWithSession(task, username, ticket.getsAccountId());
+        } else if (ticket.isBug()) {
+            BugWithBLOBs bug = ProjectTicket.buildBug(ticket);
+            AppContextUtil.getSpringBean(BugService.class).removeWithSession(bug, username, ticket.getsAccountId());
+        } else if (ticket.isRisk()) {
+            Risk risk = ProjectTicket.buildRisk(ticket);
+            AppContextUtil.getSpringBean(RiskService.class).removeWithSession(risk, username, ticket.getsAccountId());
+        }
+    }
 }

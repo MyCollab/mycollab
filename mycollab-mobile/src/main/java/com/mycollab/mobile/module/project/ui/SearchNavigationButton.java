@@ -14,18 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.ui;
+package com.mycollab.mobile.module.project.ui;
 
-import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.vaadin.mvp.PageView;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.server.FontAwesome;
 
 /**
- * @param <S>
- * @param <B>
- * @author MyCollab Ltd.
- * @since 4.0
+ * @author MyCollab Ltd
+ * @since 5.4.3
  */
-public interface IListView<S extends SearchCriteria, B> extends PageView {
+public abstract class SearchNavigationButton extends NavigationButton {
+    public SearchNavigationButton() {
+        super();
+        setIcon(FontAwesome.SEARCH);
+        addStyleName(UIConstants.CIRCLE_BOX);
+        this.addClickListener(navigationButtonClickEvent -> getNavigationManager().navigateTo(getSearchInputView()));
+    }
 
-    AbstractPagedBeanList<S, B> getPagedBeanTable();
+    abstract protected SearchInputView getSearchInputView();
 }

@@ -18,175 +18,77 @@ package com.mycollab.mobile.module.project.ui.form.field;
 
 import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.FileUtils;
+import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.mycollab.mobile.ui.TempFileFactory;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.resources.file.FileAssetsUtil;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.server.StreamVariable;
-import com.vaadin.ui.*;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.easyuploads.*;
+import org.vaadin.easyuploads.FileBuffer;
+import org.vaadin.easyuploads.MultiFileUpload;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.io.File;
-import java.io.OutputStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class ProjectFormAttachmentUploadField extends CustomField {
+public class ProjectFormAttachmentUploadField extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
-    protected MultiUpload attachmentBtn;
-    private Map<String, File> fileStores;
-    private FileBuffer receiver;
 
-    protected VerticalLayout content;
-    protected VerticalLayout rowWrap;
+    private Map<String, File> fileStores;
+    private MultiFileUpload multiFileUpload;
+
+    private VerticalLayout rowWrap;
     private ResourceService resourceService;
-    private int currentPollInterval;
     private String attachmentPath;
 
     public ProjectFormAttachmentUploadField() {
+        withMargin(false);
         resourceService = AppContextUtil.getSpringBean(ResourceService.class);
-        currentPollInterval = UI.getCurrent().getPollInterval();
-
-        receiver = createReceiver();
-
-        attachmentBtn = new MultiUpload();
-        attachmentBtn.setButtonCaption("Select File(s)");
-        attachmentBtn.setImmediate(true);
-
-        MultiUploadHandler handler = new MultiUploadHandler() {
-            private LinkedList<ProgressBar> indicators;
-
-            @Override
-            public void streamingStarted(
-                    StreamVariable.StreamingStartEvent event) {
-            }
-
-            @Override
-            public void streamingFinished(StreamVariable.StreamingEndEvent event) {
-                String tempName = event.getFileName();
-                final String fileName;
-                int index = tempName.lastIndexOf(".");
-                if (index > 0) {
-                    String fileExt = tempName.substring(index + 1, tempName.length());
-                    fileName = String.format("%s%d.%s", MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX, System.currentTimeMillis(), fileExt);
-                } else {
-                    fileName = String.format("%s%d", MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX, System.currentTimeMillis());
-                }
-                if (!indicators.isEmpty()) {
-                    rowWrap.replaceComponent(indicators.remove(0),
-                            MobileAttachmentUtils.renderAttachmentFieldRow(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                    clickEvent -> fileStores.remove(fileName)));
-                }
-
-                if (indicators.size() == 0) {
-                    UI.getCurrent().setPollInterval(currentPollInterval);
-                }
-
-                File file = receiver.getFile();
-
-                receiveFile(file, fileName, event.getMimeType(), event.getBytesReceived());
-                receiver.setValue(null);
-
-            }
-
-            @Override
-            public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
-                if (!indicators.isEmpty()) {
-                    Label uploadResult = new Label("Upload failed! File: " + event.getFileName());
-                    uploadResult.setStyleName("upload-status");
-                    rowWrap.replaceComponent(indicators.remove(0), uploadResult);
-                }
-            }
-
-            @Override
-            public void onProgress(StreamVariable.StreamingProgressEvent event) {
-                long readBytes = event.getBytesReceived();
-                long contentLength = event.getContentLength();
-                float f = (float) readBytes / (float) contentLength;
-                indicators.get(0).setValue(f);
-            }
-
-            @Override
-            public OutputStream getOutputStream() {
-                MultiUpload.FileDetail next = attachmentBtn.getPendingFileNames().iterator().next();
-                return receiver.receiveUpload(next.getFileName(), next.getMimeType());
-            }
-
-            @Override
-            public void filesQueued(
-                    Collection<MultiUpload.FileDetail> pendingFileNames) {
-                UI.getCurrent().setPollInterval(500);
-                if (indicators == null) {
-                    indicators = new LinkedList<>();
-                }
-                for (MultiUpload.FileDetail f : pendingFileNames) {
-                    ProgressBar pi = new ProgressBar();
-                    pi.setValue(0f);
-                    pi.setStyleName("upload-progress");
-                    pi.setWidth("100%");
-                    rowWrap.addComponentAsFirst(pi);
-                    pi.setEnabled(true);
-                    pi.setVisible(true);
-                    indicators.add(pi);
-                }
-            }
-
-            @Override
-            public boolean isInterrupted() {
-                return false;
-            }
-        };
-        attachmentBtn.setHandler(handler);
         fileStores = new HashMap<>();
-        constructUI();
-    }
 
-    protected void constructUI() {
-        content = new VerticalLayout();
-        content.setStyleName("attachment-field");
+        multiFileUpload = new MultiFileUploadExt();
+        multiFileUpload.setWidth("100%");
+        this.setStyleName("attachment-field");
 
         rowWrap = new VerticalLayout();
         rowWrap.setWidth("100%");
         rowWrap.setStyleName("attachment-row-wrap");
 
-        Label compHeader = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
-        compHeader.setStyleName("h2");
-
-        content.addComponent(compHeader);
-
-        CssLayout btnWrap = new CssLayout();
-        btnWrap.setWidth("100%");
-        btnWrap.setStyleName("attachment-row");
-        btnWrap.addComponent(attachmentBtn);
-
-        content.addComponent(btnWrap);
-
-        content.addComponent(rowWrap);
+        this.addComponent(FormSectionBuilder.build(FontAwesome.FILE, GenericI18Enum.FORM_ATTACHMENTS));
+        MCssLayout btnWrap = new MCssLayout(multiFileUpload).withFullWidth();
+        this.addComponent(btnWrap);
+        this.addComponent(rowWrap);
     }
 
-    public void getAttachments(int projectId, String type, int typeId) {
+    public void getAttachments(Integer projectId, String type, Integer typeId) {
         attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(MyCollabUI.getAccountId(), projectId, type, "" + typeId);
         List<Content> attachments = resourceService.getContents(attachmentPath);
         rowWrap.removeAllComponents();
         if (CollectionUtils.isNotEmpty(attachments)) {
-            for (final Content attachment : attachments) {
+            for (Content attachment : attachments) {
                 rowWrap.addComponent(MobileAttachmentUtils.renderAttachmentFieldRow(attachment));
             }
         }
-    }
-
-    @Override
-    public Class<?> getType() {
-        return Object.class;
     }
 
     public void saveContentsToRepo() {
@@ -198,34 +100,25 @@ public class ProjectFormAttachmentUploadField extends CustomField {
         MobileAttachmentUtils.saveContentsToRepo(attachmentPath, fileStores);
     }
 
-    @Override
-    protected Component initContent() {
-        return content;
+    private void displayFileName(File file, final String fileName) {
+        final MHorizontalLayout fileAttachmentLayout = new MHorizontalLayout().withFullWidth();
+        MButton removeBtn = new MButton("", clickEvent -> {
+            File tmpFile = fileStores.get(fileName);
+            if (tmpFile != null) {
+                tmpFile.delete();
+            }
+            fileStores.remove(fileName);
+            rowWrap.removeComponent(fileAttachmentLayout);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(MobileUIConstants.BUTTON_LINK);
+
+        ELabel fileLbl = ELabel.html(fileName).withDescription(fileName).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        fileAttachmentLayout.with(ELabel.fontIcon(FileAssetsUtil.getFileIconResource(fileName)).withWidthUndefined(),
+                fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length()))
+                        .withStyleName(UIConstants.META_INFO).withWidthUndefined(), removeBtn).expand(fileLbl);
+        rowWrap.addComponent(fileAttachmentLayout);
     }
 
-    protected FileBuffer createReceiver() {
-        FileBuffer receiver = new FileBuffer(UploadField.FieldType.FILE) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public FileFactory getFileFactory() {
-                return new TempFileFactory();
-            }
-
-            @Override
-            public void setLastMimeType(String s) {
-            }
-
-            @Override
-            public void setLastFileName(String s) {
-
-            }
-        };
-        receiver.setDeleteFiles(false);
-        return receiver;
-    }
-
-    public void receiveFile(File file, String fileName, String mimeType, long length) {
+    private void receiveFile(File file, String fileName, String mimeType, long length) {
         if (fileStores == null) {
             fileStores = new HashMap<>();
         }
@@ -233,6 +126,27 @@ public class ProjectFormAttachmentUploadField extends CustomField {
             NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.ERROR_FILE_IS_EXISTED, fileName));
         } else {
             fileStores.put(fileName, file);
+            displayFileName(file, fileName);
+        }
+    }
+
+    private class MultiFileUploadExt extends MultiFileUpload {
+        private static final long serialVersionUID = 1L;
+
+        protected FileBuffer createReceiver() {
+            FileBuffer receiver = super.createReceiver();
+            receiver.setDeleteFiles(false);
+            return receiver;
+        }
+
+        @Override
+        protected String getAreaText() {
+            return "Select File(s)";
+        }
+
+        @Override
+        protected void handleFile(File file, String fileName, String mimeType, long length) {
+            receiveFile(file, fileName, mimeType, length);
         }
     }
 }

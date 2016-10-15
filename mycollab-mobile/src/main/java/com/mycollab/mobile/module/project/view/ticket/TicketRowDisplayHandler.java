@@ -64,11 +64,17 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
         }
         ticketLink.appendText(ticket.getName());
 
-        CssLayout ticketLbl = new CssLayout(ELabel.html(ticketLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS));
+        ELabel ticketLbl = ELabel.html(ticketLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        if (ticket.isClosed()) {
+            ticketLbl.addStyleName(MobileUIConstants.LINK_COMPLETED);
+        } else if (ticket.isOverdue()) {
+            ticketLbl.addStyleName(MobileUIConstants.LINK_OVERDUE);
+        }
+        CssLayout ticketLayout = new CssLayout(ticketLbl);
         String priorityValue = ProjectAssetsManager.getPriority(ticket.getPriority()).getHtml();
         ELabel priorityLbl = ELabel.html(priorityValue).withWidthUndefined().withStyleName("priority-" + ticket.getPriority().toLowerCase());
         rowLayout.with(new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())), priorityLbl,
-                ticketLbl).expand(ticketLbl).withFullWidth());
+                ticketLayout).expand(ticketLayout).withFullWidth());
 
         MVerticalLayout metaInfoLayout = new MVerticalLayout().withMargin(false);
         rowLayout.with(metaInfoLayout);
@@ -88,7 +94,7 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
         ELabel assigneeLbl = ELabel.html(assigneeDiv.write()).withStyleName(UIConstants.META_INFO).withWidthUndefined();
         metaInfoLayout.addComponent(assigneeLbl);
 
-        String status = "";
+        String status;
         if (ticket.isBug()) {
             status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
         } else {

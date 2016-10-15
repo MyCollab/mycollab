@@ -38,34 +38,34 @@ import org.springframework.stereotype.Component
   @AllowConcurrentEvents
   @Subscribe
   def execute(event: TimelineTrackingAdjustIfEntityDeleteEvent): Unit = {
-    val lock = DistributionLockUtil.getLock("timeline-" + event.accountId)
-    try {
-      if (lock.tryLock(120, TimeUnit.SECONDS)) {
-        for (groupVal <- event.groupVals) {
-          val ex = new TimelineTrackingExample
-          ex.setOrderByClause("forDay DESC, id DESC")
-          val criteria = ex.createCriteria()
-          criteria.andSaccountidEqualTo(event.accountId).andTypeidEqualTo(event.typeId).
-            andFieldgroupEqualTo(groupVal).andExtratypeidEqualTo(event.extratypeid).andTypeEqualTo(event.typevar)
-          val items = timelineMapper.selectByExample(ex)
-          if (items.size() > 0) {
-            val item = items.get(0)
-            val minusTimeline = new TimelineTracking
-            minusTimeline.setType(event.typevar)
-            minusTimeline.setTypeid(event.typeId)
-            minusTimeline.setFieldgroup(groupVal)
-            minusTimeline.setFieldval(item.getFieldval)
-            minusTimeline.setExtratypeid(event.extratypeid)
-            minusTimeline.setSaccountid(event.accountId)
-            minusTimeline.setForday(new LocalDate().toDate)
-            minusTimeline.setFlag(Byte.box(-1))
-            timelineMapper.insert(minusTimeline)
-          }
-        }
-      }
-    } finally {
-      DistributionLockUtil.removeLock("timeline-" + event.accountId)
-      lock.unlock()
-    }
+//    val lock = DistributionLockUtil.getLock("timeline-" + event.accountId)
+//    try {
+//      if (lock.tryLock(120, TimeUnit.SECONDS)) {
+//        for (groupVal <- event.groupVals) {
+//          val ex = new TimelineTrackingExample
+//          ex.setOrderByClause("forDay DESC, id DESC")
+//          val criteria = ex.createCriteria()
+//          criteria.andSaccountidEqualTo(event.accountId).andTypeidEqualTo(event.typeId).
+//            andFieldgroupEqualTo(groupVal).andExtratypeidEqualTo(event.extratypeid).andTypeEqualTo(event.typevar)
+//          val items = timelineMapper.selectByExample(ex)
+//          if (items.size() > 0) {
+//            val item = items.get(0)
+//            val minusTimeline = new TimelineTracking
+//            minusTimeline.setType(event.typevar)
+//            minusTimeline.setTypeid(event.typeId)
+//            minusTimeline.setFieldgroup(groupVal)
+//            minusTimeline.setFieldval(item.getFieldval)
+//            minusTimeline.setExtratypeid(event.extratypeid)
+//            minusTimeline.setSaccountid(event.accountId)
+//            minusTimeline.setForday(new LocalDate().toDate)
+//            minusTimeline.setFlag(Byte.box(-1))
+//            timelineMapper.insert(minusTimeline)
+//          }
+//        }
+//      }
+//    } finally {
+//      DistributionLockUtil.removeLock("timeline-" + event.accountId)
+//      lock.unlock()
+//    }
   }
 }

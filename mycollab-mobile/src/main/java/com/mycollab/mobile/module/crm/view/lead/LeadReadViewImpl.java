@@ -50,6 +50,7 @@ import com.vaadin.ui.HorizontalLayout;
 @ViewComponent
 public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements LeadReadView {
     private static final long serialVersionUID = 5288751461504873888L;
+
     private ActivityRelatedItemView associateActivities;
     private LeadRelatedCampaignView associateCampaigns;
 
@@ -136,4 +137,8 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         return associateCampaigns;
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.LEAD;
+    }
 }

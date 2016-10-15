@@ -56,4 +56,6 @@ public interface ProjectTicketService extends ISearchableService<ProjectTicketSe
     List<GroupItem> getPrioritySummary(@CacheKey ProjectTicketSearchCriteria criteria);
 
     void updateTicket(ProjectTicket ticket, String username);
+
+    void removeTicket(ProjectTicket ticket, String username);
 }

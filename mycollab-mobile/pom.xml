@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.2</version>
+        <version>5.4.3</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -15,31 +15,31 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.4.2</version>
+            <version>5.4.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.4.2</version>
+            <version>5.4.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.4.2</version>
+            <version>5.4.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
-            <version>5.4.2</version>
+            <version>5.4.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-ui</artifactId>
-            <version>5.4.2</version>
+            <version>5.4.3</version>
         </dependency>
 
         <dependency>
@@ -52,6 +52,7 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-sass-compiler</artifactId>
             <version>0.9.13</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -70,12 +71,6 @@
             <groupId>org.vaadin.addon</groupId>
             <artifactId>easyuploads</artifactId>
             <version>7.4.10</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>viritin</artifactId>
-            <version>1.57</version>
         </dependency>
 
         <dependency>

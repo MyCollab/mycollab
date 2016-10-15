@@ -39,7 +39,7 @@ object DeleteResourcesCommandImpl {
 @Component class DeleteResourcesCommandImpl extends GenericCommand {
   @Autowired private val rawContentService: RawContentService = null
   @Autowired private val driveInfoService: DriveInfoService = null
-
+  
   @AllowConcurrentEvents
   @Subscribe
   def removeResource(event: DeleteResourcesEvent): Unit = {
@@ -51,30 +51,32 @@ object DeleteResourcesCommandImpl {
       }
       return
     }
-    val lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
-    try {
-      if (lock.tryLock(1, TimeUnit.HOURS)) {
-        var totalSize = 0L
-        val driveInfo = driveInfoService.getDriveInfo(event.sAccountId)
-        for (path <- event.paths) {
-          if (StringUtils.isNotBlank(path)) {
-            totalSize += rawContentService.getSize(path)
-            rawContentService.removePath(path)
+    if (event.isUpdateDriveInfo) {
+      val lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
+      try {
+        if (lock.tryLock(1, TimeUnit.HOURS)) {
+          var totalSize = 0L
+          val driveInfo = driveInfoService.getDriveInfo(event.sAccountId)
+          for (path <- event.paths) {
+            if (StringUtils.isNotBlank(path)) {
+              totalSize += rawContentService.getSize(path)
+              rawContentService.removePath(path)
+            }
           }
+          if (driveInfo.getUsedvolume == null || (driveInfo.getUsedvolume < totalSize)) {
+            driveInfo.setUsedvolume(0L)
+          } else {
+            driveInfo.setUsedvolume(driveInfo.getUsedvolume - totalSize)
+          }
+          driveInfoService.saveOrUpdateDriveInfo(driveInfo)
         }
-        if (driveInfo.getUsedvolume == null || (driveInfo.getUsedvolume < totalSize)) {
-          driveInfo.setUsedvolume(0L)
-        } else {
-          driveInfo.setUsedvolume(driveInfo.getUsedvolume - totalSize)
-        }
-        driveInfoService.saveOrUpdateDriveInfo(driveInfo)
       }
-    }
-    catch {
-      case e: Exception => DeleteResourcesCommandImpl.LOG.error("Error while delete content " + event.paths.mkString, e)
-    } finally {
-      DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
-      lock.unlock()
+      catch {
+        case e: Exception => DeleteResourcesCommandImpl.LOG.error("Error while delete content " + event.paths.mkString, e)
+      } finally {
+        DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
+        lock.unlock()
+      }
     }
   }
 }

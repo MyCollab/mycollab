@@ -24,7 +24,6 @@ import com.mycollab.core.IgnoreException;
 import com.mycollab.core.MyCollabVersion;
 import com.mycollab.core.SessionExpireException;
 import com.mycollab.core.UserInvalidInputException;
-import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.i18n.LocalizationHelper;
@@ -42,8 +41,8 @@ import com.mycollab.module.user.domain.UserAccountExample;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -128,8 +127,8 @@ public class MobileApplication extends MyCollabUI {
                                     UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                                     dialog -> {
                                         if (dialog.isConfirmed()) {
-                                            Collection<Window> windowsList = UI.getCurrent().getWindows();
-                                            for (Window window : windowsList) {
+                                            Collection<Window> windows = UI.getCurrent().getWindows();
+                                            for (Window window : windows) {
                                                 window.close();
                                             }
                                             EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
@@ -153,11 +152,6 @@ public class MobileApplication extends MyCollabUI {
         postSetupApp(request);
 
         final NavigationManager manager = new NavigationManager();
-        manager.addNavigationListener(navigationEvent -> {
-            if (navigationEvent.getDirection() == NavigationManager.NavigationEvent.Direction.BACK) {
-                System.out.println("A: " + ((NavigationManager)navigationEvent.getSource()).getCurrentComponent());
-            }
-        });
         setContent(manager);
 
         registerControllers(manager);

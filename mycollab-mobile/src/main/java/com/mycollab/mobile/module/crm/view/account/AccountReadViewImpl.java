@@ -51,11 +51,11 @@ import com.vaadin.ui.HorizontalLayout;
 public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccount> implements AccountReadView {
     private static final long serialVersionUID = -5987636662071328512L;
 
-    protected AccountRelatedContactView associateContacts;
-    protected AccountRelatedCaseView associateCases;
-    protected ActivityRelatedItemView associateActivities;
-    protected AccountRelatedLeadView associateLeads;
-    protected AccountRelatedOpportunityView associateOpportunities;
+    private AccountRelatedContactView associateContacts;
+    private AccountRelatedCaseView associateCases;
+    private ActivityRelatedItemView associateActivities;
+    private AccountRelatedLeadView associateLeads;
+    private AccountRelatedOpportunityView associateOpportunities;
 
     @Override
     protected void afterPreviewItem() {
@@ -183,4 +183,8 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
         return associateActivities;
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.ACCOUNT;
+    }
 }

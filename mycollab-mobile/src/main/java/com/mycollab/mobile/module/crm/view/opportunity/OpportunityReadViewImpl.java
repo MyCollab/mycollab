@@ -156,4 +156,8 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         return associateLeads;
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.OPPORTUNITY;
+    }
 }

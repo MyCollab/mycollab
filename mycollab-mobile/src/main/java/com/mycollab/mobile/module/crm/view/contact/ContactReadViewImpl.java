@@ -148,6 +148,11 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
     }
 
     @Override
+    protected String getType() {
+        return CrmTypeConstants.CONTACT;
+    }
+
+    @Override
     public HasPreviewFormHandlers<SimpleContact> getPreviewFormHandlers() {
         return previewForm;
     }

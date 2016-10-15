@@ -25,7 +25,7 @@ import com.vaadin.ui.Component;
  * @since 4.3.1
  */
 public interface IPagedBeanList<S extends SearchCriteria, T> extends Component, IBeanList<T> {
-    void search(S searchCriteria);
+    Integer search(S searchCriteria);
 
     void setSearchCriteria(S searchCriteria);
 

@@ -130,7 +130,8 @@ public class MobileAttachmentUtils {
                     dialog -> {
                         if (dialog.isConfirmed()) {
                             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                            attachmentService.removeResource(attachment.getPath(), UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                            attachmentService.removeResource(attachment.getPath(), UserUIContext.getUsername(), true,
+                                    MyCollabUI.getAccountId());
                             ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });

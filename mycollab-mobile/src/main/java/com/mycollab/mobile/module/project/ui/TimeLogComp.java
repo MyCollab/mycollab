@@ -50,8 +50,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
     public void displayTime(final V bean) {
         this.removeAllComponents();
 
-        Label dateInfoHeader = new Label(UserUIContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
-        MHorizontalLayout header = FormSectionBuilder.build(FontAwesome.CLOCK_O, dateInfoHeader);
+        MHorizontalLayout header = FormSectionBuilder.build(FontAwesome.CLOCK_O, TimeTrackingI18nEnum.SUB_INFO_TIME);
 
         if (hasEditPermission()) {
             MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> showEditTimeView(bean))

@@ -80,4 +80,8 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> 
         return toolbarLayout;
     }
 
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.TASK;
+    }
 }

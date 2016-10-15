@@ -70,7 +70,7 @@ public class AccountLogoServiceImpl implements AccountLogoService {
             for (int SUPPORT_SIZE : SUPPORT_SIZES) {
                 try {
                     resourceService.removeResource(PathUtils.buildLogoPath(sAccountId, account.getLogopath(), SUPPORT_SIZE),
-                            uploadedUser, sAccountId);
+                            uploadedUser, true, sAccountId);
                 } catch (Exception e) {
                     LOG.error("Error while delete old logo", e);
                 }

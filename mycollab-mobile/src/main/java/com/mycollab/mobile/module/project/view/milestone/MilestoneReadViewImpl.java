@@ -89,6 +89,11 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     }
 
     @Override
+    protected String getType() {
+        return ProjectTypeConstants.MILESTONE;
+    }
+
+    @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
         return new DynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(),
                 Milestone.Field.name.name());

@@ -113,8 +113,7 @@ public class AttachmentDisplayComponent extends CssLayout {
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                            attachmentService.removeResource(attachment.getPath(),
-                                    UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                            attachmentService.removeResource(attachment.getPath(), UserUIContext.getUsername(), true, MyCollabUI.getAccountId());
                             ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });

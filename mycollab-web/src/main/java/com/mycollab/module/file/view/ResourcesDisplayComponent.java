@@ -164,8 +164,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                     EventBusFactory.getInstance().post(new FileEvent.ResourceRemovedEvent
                                             (ResourcesDisplayComponent.this, res));
                                 }
-                                resourceService.removeResource(res.getPath(), UserUIContext.getUsername(),
-                                        MyCollabUI.getAccountId());
+                                resourceService.removeResource(res.getPath(), UserUIContext.getUsername(), true, MyCollabUI.getAccountId());
                             }
                         }
 

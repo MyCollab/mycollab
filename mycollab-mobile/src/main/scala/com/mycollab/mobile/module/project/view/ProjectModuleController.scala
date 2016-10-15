@@ -22,7 +22,7 @@ import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.BeanUtility
-import com.mycollab.db.arguments.{NumberSearchField, SetSearchField, StringSearchField}
+import com.mycollab.db.arguments.{NumberSearchField, SearchField, SetSearchField, StringSearchField}
 import com.mycollab.eventmanager.ApplicationEventListener
 import com.mycollab.mobile.module.project.events._
 import com.mycollab.mobile.module.project.view.message.MessagePresenter
@@ -109,6 +109,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
         val searchCriteria = new ProjectTicketSearchCriteria
         searchCriteria.setProjectIds(new SetSearchField[Integer](CurrentProjectVariables.getProjectId))
         searchCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes)
+        searchCriteria.setIsOpenned(new SearchField())
         val data = new TicketScreenData.GotoDashboard(searchCriteria)
         val presenter = PresenterResolver.getPresenter(classOf[TicketPresenter])
         presenter.go(navManager, data)

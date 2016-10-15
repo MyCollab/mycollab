@@ -32,34 +32,15 @@ public abstract class AbstractListPageView<S extends SearchCriteria, B> extends 
     private static final long serialVersionUID = 3603608419228750094L;
 
     protected AbstractPagedBeanList<S, B> itemList;
-    protected SearchInputField searchInputField;
 
     public AbstractListPageView() {
         itemList = createBeanList();
-        searchInputField = createSearchField();
-
-        if (searchInputField != null) {
-            CssLayout content = new CssLayout();
-            content.addComponent(searchInputField);
-            content.addComponent(itemList);
-            setContent(content);
-        } else {
-            setContent(itemList);
-        }
-    }
-
-    private void loadMore() {
-        System.out.println("More: ");
+        setContent(itemList);
     }
 
     @Override
     public AbstractPagedBeanList<S, B> getPagedBeanTable() {
         return itemList;
-    }
-
-    @Override
-    public HasSearchHandlers<S> getSearchHandlers() {
-        return searchInputField;
     }
 
     protected void doSearch() {

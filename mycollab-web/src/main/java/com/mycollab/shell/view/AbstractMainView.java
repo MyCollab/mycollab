@@ -106,9 +106,9 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
         headerLayout.setWidth("100%");
 
         final PopupButton modulePopup = new PopupButton("");
+        modulePopup.setIcon(AccountAssetsResolver.createLogoResource(MyCollabUI.getBillingAccount().getLogopath(), 150));
         modulePopup.setHeightUndefined();
         modulePopup.setDirection(Alignment.BOTTOM_LEFT);
-        modulePopup.setIcon(AccountAssetsResolver.createLogoResource(MyCollabUI.getBillingAccount().getLogopath(), 150));
         OptionPopupContent modulePopupContent = new OptionPopupContent();
         modulePopup.setContent(modulePopupContent);
 
@@ -136,7 +136,8 @@ public abstract class AbstractMainView extends AbstractPageView implements MainV
         }).withIcon(VaadinIcons.USERS);
         modulePopupContent.addOption(peopleBtn);
 
-        headerLayout.addComponent(new MHorizontalLayout().with(modulePopup).withAlign(modulePopup, Alignment.MIDDLE_LEFT), "mainLogo");
+
+        headerLayout.addComponent(new MHorizontalLayout(modulePopup).alignAll(Alignment.MIDDLE_LEFT).withFullHeight(), "mainLogo");
 
         accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false)).withHeight("45px");
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);

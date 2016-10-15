@@ -17,10 +17,10 @@
 package com.mycollab.mobile.module.project.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.mycollab.module.ecm.domain.Content;
-import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.ELabel;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -43,8 +43,7 @@ public class ProjectAttachmentDisplayComp extends CssLayout {
 
     private void constructUI() {
         this.setStyleName("attachment-display-comp");
-        ELabel compHeader = ELabel.h2(UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
-        this.addComponent(compHeader);
+        this.addComponent(FormSectionBuilder.build(FontAwesome.FILE, GenericI18Enum.FORM_ATTACHMENTS));
         VerticalLayout comp = new VerticalLayout();
         comp.setStyleName("attachment-view-panel");
         comp.setWidth("100%");

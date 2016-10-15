@@ -135,6 +135,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     }
 
     @Override
+    protected String getType() {
+        return ProjectTypeConstants.TASK;
+    }
+
+    @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         final VerticalLayout formControls = taskPreviewForm.createButtonControls(

@@ -38,17 +38,15 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class BeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends
-        CustomComponent implements IBeanList<T> {
+public class BeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends CustomComponent
+        implements IBeanList<T> {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(BeanList.class);
 
     private SearchService searchService;
     private IBeanList.RowDisplayHandler<T> rowDisplayHandler;
     private Layout contentLayout;
     private boolean isDisplayEmptyListText = true;
-
 
     public BeanList(SearchService searchService, IBeanList.RowDisplayHandler<T> rowDisplayHandler) {
         this.searchService = searchService;

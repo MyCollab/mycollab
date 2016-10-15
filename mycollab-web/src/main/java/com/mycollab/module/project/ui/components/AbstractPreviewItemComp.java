@@ -32,6 +32,7 @@ import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -53,7 +54,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     protected HorizontalLayout actionControls;
     private MVerticalLayout sidebarContent;
     private MVerticalLayout bodyContent;
-    private Button favoriteBtn;
+    private MButton favoriteBtn;
 
     public AbstractPreviewItemComp(String headerText, FontAwesome iconResource) {
         this(headerText, iconResource, null);
@@ -84,8 +85,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         if (SiteConfiguration.isCommunityEdition()) {
             header.with(headerLbl).expand(headerLbl);
         } else {
-            favoriteBtn = new Button(FontAwesome.STAR);
-            favoriteBtn.addClickListener(clickEvent -> toggleFavorite());
+            favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(FontAwesome.HEART);
 
             Label spaceLbl = new Label();
             header.with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);
@@ -141,7 +141,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
     abstract protected String getType();
 
-    protected void toggleFavorite() {
+    private void toggleFavorite() {
         try {
             if (isFavorite()) {
                 favoriteBtn.removeStyleName("favorite-btn-selected");

@@ -27,6 +27,7 @@ import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -84,6 +85,11 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
     }
 
     @Override
+    protected String getType() {
+        return null;
+    }
+
+    @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
         return new ProjectMemberFormLayoutFactory();
     }
@@ -109,8 +115,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
                         projectMemberService.removeWithSession(beanItem, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                         EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                     }
-                }))
-                .withIcon(FontAwesome.TRASH).withStyleName(UIConstants.CIRCLE_BOX)
+                })).withIcon(FontAwesome.TRASH).withStyleName(UIConstants.CIRCLE_BOX)
                 .withVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.USERS));
 
         return new MHorizontalLayout(editBtn, deleteBtn);

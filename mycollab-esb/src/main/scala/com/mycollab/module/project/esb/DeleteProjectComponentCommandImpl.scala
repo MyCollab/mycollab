@@ -44,7 +44,7 @@ import org.springframework.stereotype.Component
   private def removeRelatedFiles(accountId: Integer, projectId: Integer, componentId: Integer) {
     val attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
       ProjectTypeConstants.BUG_COMPONENT, "" + componentId)
-    resourceService.removeResource(attachmentPath, "", accountId)
+    resourceService.removeResource(attachmentPath, "", true, accountId)
   }
 
   private def removeRelatedComments(bugId: Integer) {
