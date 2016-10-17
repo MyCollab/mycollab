@@ -22,10 +22,13 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.*;
 import com.mycollab.mobile.module.project.ui.ProjectMobileMenuPageView;
 import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectLinkGenerator;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
@@ -62,23 +65,37 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
 
         MVerticalLayout content = new MVerticalLayout();
-        content.with(new Button(UserUIContext.getMessage(MessageI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null))));
 
-        content.with(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null))));
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES)) {
+            content.with(new Button(UserUIContext.getMessage(MessageI18nEnum.NEW),
+                    clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null))));
+        }
 
-        content.with(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null))));
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
+            content.with(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW),
+                    clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null))));
+        }
 
-        content.with(new Button(UserUIContext.getMessage(BugI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null))));
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+            content.with(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW),
+                    clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null))));
+        }
 
-        content.with(new Button(UserUIContext.getMessage(RiskI18nEnum.NEW),
-                clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null))));
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
+            content.with(new Button(UserUIContext.getMessage(BugI18nEnum.NEW),
+                    clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null))));
+        }
 
-        menu.setContent(content);
-        return menu;
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS)) {
+            content.with(new Button(UserUIContext.getMessage(RiskI18nEnum.NEW),
+                    clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null))));
+        }
+
+        if (content.getComponentCount() > 0) {
+            menu.setContent(content);
+            return menu;
+        }
+        return null;
     }
 
     @Override
@@ -117,7 +134,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         metaInfo.addComponent(nonBillableHoursLbl);
         projectInfo.addComponent(metaInfo);
 
-        int openAssignments = currentProject.getNumOpenBugs() + currentProject.getNumOpenTasks() + currentProject.getNumOpenRisks() + currentProject.getNumOpenRisks();
+        int openAssignments = currentProject.getNumOpenBugs() + currentProject.getNumOpenTasks() + currentProject.getNumOpenRisks();
         int totalAssignments = currentProject.getNumBugs() + currentProject.getNumTasks() + currentProject.getNumRisks();
         ELabel progressInfoLbl;
         if (totalAssignments > 0) {
@@ -156,6 +173,13 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.USERS, userBtn));
 
         mainLayout.addComponent(btnGroup);
+    }
+
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment(ProjectLinkGenerator.generateProjectLink(CurrentProjectVariables
+                .getProject().getId()), UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
     }
 
     private static class NavigationButtonWrap extends MHorizontalLayout {

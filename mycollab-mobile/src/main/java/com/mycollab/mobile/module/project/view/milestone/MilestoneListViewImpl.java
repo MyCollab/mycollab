@@ -20,6 +20,8 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
+import com.mycollab.common.GenericLinkUtils;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.SetSearchField;
@@ -108,6 +110,8 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
         super.onBecomingVisible();
         setCaption(UserUIContext.getMessage(MilestoneI18nEnum.LIST));
         updateTabStatus();
+        MyCollabUI.addFragment("project/milestone/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
+                UserUIContext.getMessage(MilestoneI18nEnum.LIST));
     }
 
     private void updateTabStatus() {
@@ -154,19 +158,29 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
 
             A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink(CurrentProjectVariables
                     .getProjectId(), milestone.getId())).appendChild(new Span().appendText(milestone.getName()));
+            if (milestone.isCompleted()) {
+                milestoneLink.setCSSClass(MobileUIConstants.LINK_COMPLETED);
+            } else if (milestone.isOverdue()) {
+                milestoneLink.setCSSClass(MobileUIConstants.LINK_OVERDUE);
+            }
             MCssLayout milestoneWrap = new MCssLayout(ELabel.html(milestoneLink.write()));
             milestoneInfoLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset
                     (ProjectTypeConstants.MILESTONE)), milestoneWrap).expand(milestoneWrap).withFullWidth());
 
-            CssLayout metaLayout = new CssLayout();
+            MCssLayout metaLayout = new MCssLayout();
             milestoneInfoLayout.addComponent(metaLayout);
 
-            ELabel milestoneDatesInfo = new ELabel().withWidthUndefined();
-            milestoneDatesInfo.setValue(UserUIContext.getMessage(MilestoneI18nEnum.M_LIST_DATE_INFO,
-                    UserUIContext.formatDate(milestone.getStartdate(), " N/A "),
-                    UserUIContext.formatDate(milestone.getEnddate(), " N/A ")));
-            milestoneDatesInfo.addStyleName(UIConstants.META_INFO);
-            metaLayout.addComponent(milestoneDatesInfo);
+            ELabel startDateInfo = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE) + ": " +
+                    UserUIContext.formatDate(milestone.getStartdate(), UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)))
+                    .withWidthUndefined().withStyleName(UIConstants.META_INFO);
+            metaLayout.addComponent(startDateInfo);
+            metaLayout.addComponent(ELabel.EMPTY_SPACE());
+
+            ELabel endDateInfo = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE) + ": " +
+                    UserUIContext.formatDate(milestone.getEnddate(), UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)))
+                    .withWidthUndefined().withStyleName(UIConstants.META_INFO);
+            metaLayout.addComponent(endDateInfo);
+            metaLayout.addComponent(ELabel.EMPTY_SPACE());
 
             A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
                     CurrentProjectVariables.getProjectId(), milestone.getAssignuser()))
@@ -194,4 +208,6 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
             return milestoneInfoLayout;
         }
     }
+
+
 }

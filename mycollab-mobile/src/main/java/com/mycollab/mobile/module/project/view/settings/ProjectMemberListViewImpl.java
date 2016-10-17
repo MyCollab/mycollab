@@ -16,14 +16,18 @@
  */
 package com.mycollab.mobile.module.project.view.settings;
 
+import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.SearchInputField;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -56,7 +60,17 @@ public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMembe
 
     @Override
     protected Component buildRightComponent() {
-        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX);
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
+            return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
+                    .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX);
+        }
+        return null;
+    }
+
+    @Override
+    public void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment("project/user/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
+                UserUIContext.getMessage(ProjectMemberI18nEnum.LIST));
     }
 }

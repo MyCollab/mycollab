@@ -22,7 +22,6 @@ import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.fielddef.OpportunityTableFieldDef;
 import com.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
-import com.mycollab.module.crm.view.campaign.CampaignImportWindow;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -48,11 +47,6 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
                 clickEvent -> UI.getCurrent().addWindow(new OpportunityListCustomizeWindow(tableItem))
         );
         this.addExtraButton(customizeViewBtn);
-
-        MButton importBtn = ComponentUtils.createImportEntitiesButton()
-                .withListener(clickEvent -> UI.getCurrent().addWindow(new CampaignImportWindow()))
-                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-        this.addExtraButton(importBtn);
     }
 
     @Override

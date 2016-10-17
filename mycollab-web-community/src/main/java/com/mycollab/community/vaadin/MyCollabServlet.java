@@ -16,7 +16,7 @@
  */
 package com.mycollab.community.vaadin;
 
-import com.mycollab.core.MyCollabVersion;
+import com.mycollab.core.Version;
 import com.mycollab.vaadin.MyCollabBootstrapListener;
 import com.mycollab.vaadin.MyCollabUIProvider;
 import com.vaadin.addon.touchkit.annotations.CacheManifestEnabled;
@@ -48,8 +48,8 @@ public class MyCollabServlet extends TouchKitServlet {
         TouchKitSettings s = getTouchKitSettings();
         s.getWebAppSettings().setWebAppCapable(true);
         String contextPath = getServletConfig().getServletContext().getContextPath();
-        s.getApplicationIcons().addApplicationIcon(contextPath + "VAADIN/themes/" + MyCollabVersion.THEME_MOBILE_VERSION + "/icons/icon.png");
-        s.getWebAppSettings().setStartupImage(contextPath + "VAADIN/themes/" + MyCollabVersion.THEME_MOBILE_VERSION + "/icons/icon.png");
+        s.getApplicationIcons().addApplicationIcon(contextPath + "VAADIN/themes/" + Version.THEME_MOBILE_VERSION + "/icons/icon.png");
+        s.getWebAppSettings().setStartupImage(contextPath + "VAADIN/themes/" + Version.THEME_MOBILE_VERSION + "/icons/icon.png");
 
         getService().addSessionInitListener(sessionInitEvent -> {
             sessionInitEvent.getSession().addBootstrapListener(new MyCollabBootstrapListener());

@@ -20,32 +20,37 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
+import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
+import com.mycollab.module.project.event.MilestoneEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
+import com.mycollab.module.project.ui.components.BlockRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
@@ -71,16 +76,17 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         this.milestone = milestone;
         this.maxLength = maxLength;
         this.setWidth("100%");
+        this.addStyleName("editable-field");
         if (toggleStatusSupport && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             toggleStatusSelect = new CssCheckBox();
             toggleStatusSelect.setSimpleMode(true);
-            toggleStatusSelect.setValue(milestone.isClosed());
+            toggleStatusSelect.setValue(milestone.isCompleted());
             this.addComponent(toggleStatusSelect);
             this.addComponent(ELabel.EMPTY_SPACE());
             displayTooltip();
 
             toggleStatusSelect.addValueChangeListener(valueChangeEvent -> {
-                if (milestone.isClosed()) {
+                if (milestone.isCompleted()) {
                     milestone.setStatus(MilestoneStatus.InProgress.name());
                     titleLinkLbl.removeStyleName(WebUIConstants.LINK_COMPLETED);
                 } else {
@@ -115,9 +121,8 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
 
         titleLinkLbl = ELabel.h3(buildMilestoneLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
         this.addComponent(titleLinkLbl);
-        buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
+        buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true)).withStyleName("toggle");
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-            this.addStyleName("editable-field");
             MButton instantEditBtn = new MButton("", clickEvent -> {
                 if (isRead) {
                     ToggleMilestoneSummaryField.this.removeComponent(titleLinkLbl);
@@ -133,14 +138,37 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                     isRead = !isRead;
                 }
             }).withDescription(UserUIContext.getMessage(MilestoneI18nEnum.OPT_EDIT_PHASE_NAME))
-                    .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
+                    .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(instantEditBtn);
+        }
+        if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES)) {
+            MButton removeBtn = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                AppContextUtil.getSpringBean(MilestoneService.class).removeWithSession(milestone,
+                                        UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                BlockRowRender rowRenderer = UIUtils.getRoot(ToggleMilestoneSummaryField.this, BlockRowRender.class);
+                                if (rowRenderer != null) {
+                                    rowRenderer.selfRemoved();
+                                }
+                                EventBusFactory.getInstance().post(new MilestoneEvent.MilestoneDeleted(this, milestone.getId()));
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            buttonControls.with(removeBtn);
+        }
+        if (buttonControls.getComponentCount() > 0) {
             this.addComponent(buttonControls);
         }
     }
 
     private void displayTooltip() {
-        if (milestone.isClosed()) {
+        if (milestone.isCompleted()) {
             toggleStatusSelect.setDescription(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_MARK_INCOMPLETE));
         } else {
             toggleStatusSelect.setDescription(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_MARK_COMPLETE));

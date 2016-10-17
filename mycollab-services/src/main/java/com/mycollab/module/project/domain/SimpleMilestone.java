@@ -197,7 +197,7 @@ public class SimpleMilestone extends Milestone {
         return false;
     }
 
-    public boolean isClosed() {
+    public boolean isCompleted() {
         return MilestoneStatus.Closed.name().equals(getStatus());
     }
 

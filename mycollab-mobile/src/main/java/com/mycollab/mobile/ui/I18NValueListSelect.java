@@ -16,7 +16,9 @@
  */
 package com.mycollab.mobile.ui;
 
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
+import com.vaadin.data.Property;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,8 +48,17 @@ public class I18NValueListSelect extends ValueListSelect {
             this.setItemCaption(entry.name(), UserUIContext.getMessage(entry));
         }
 
-        if (!this.isNullSelectionAllowed()) {
+        if (!this.isNullSelectionAllowed() && getItemIds().size() > 0) {
             this.select(this.getItemIds().iterator().next());
         }
+    }
+
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value == null) {
+            newDataSource.setValue(StatusI18nEnum.Open.name());
+        }
+        super.setPropertyDataSource(newDataSource);
     }
 }

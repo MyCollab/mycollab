@@ -99,6 +99,10 @@ public class SimpleRisk extends Risk {
         this.assignToUserAvatarId = assignToUserAvatarId;
     }
 
+    public boolean isCompleted() {
+        return StatusI18nEnum.Closed.name().equals(getStatus());
+    }
+
     public boolean isOverdue() {
         Date now = DateTimeUtils.getCurrentDateWithoutMS();
         return StatusI18nEnum.Open.name().equals(getStatus()) && (getDuedate() != null) && getDuedate().before(now);

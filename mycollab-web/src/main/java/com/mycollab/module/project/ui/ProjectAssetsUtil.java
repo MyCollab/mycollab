@@ -31,6 +31,7 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author MyCollab Ltd.
@@ -55,7 +56,7 @@ public class ProjectAssetsUtil {
                     (String.format("%s/%s_%d.png", PathUtils.getProjectLogoPath(MyCollabUI.getAccountId(), projectId),
                             projectAvatarId, size))));
         } else {
-            ELabel projectIcon = new ELabel(projectShortname).withStyleName(UIConstants.TEXT_ELLIPSIS, "center");
+            ELabel projectIcon = new ELabel(projectShortname).withStyleName(UIConstants.TEXT_ELLIPSIS, ValoTheme.LABEL_LARGE, "center");
             wrapper = new VerticalLayout();
             ((VerticalLayout) wrapper).addComponent(projectIcon);
             ((VerticalLayout) wrapper).setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);

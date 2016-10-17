@@ -16,10 +16,14 @@
  */
 package com.mycollab.mobile.module.user.view;
 
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.mobile.module.user.events.UserEvent;
 import com.mycollab.mobile.ui.AbstractMobileMainView;
 import com.mycollab.mobile.ui.MobileUIConstants;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -27,6 +31,7 @@ import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 import org.vaadin.jouni.dom.Dom;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -52,41 +57,36 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
         Image mainLogo = new Image(null, new ThemeResource("icons/logo_m.png"));
         contentLayout.addComponent(mainLogo);
 
-        Label introText = new Label("MyCollab helps you do all your office jobs on the computers, phones and tablets you use");
-        introText.setStyleName("intro-text");
-        contentLayout.addComponent(introText);
-
         CssLayout welcomeTextWrapper = new CssLayout();
-        ELabel welcomeText = new ELabel("Welcome Back!").withStyleName("h1");
+        ELabel welcomeText = new ELabel(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.BUTTON_LOG_IN))
+                .withStyleName("h1");
         welcomeTextWrapper.addComponent(welcomeText);
         contentLayout.addComponent(welcomeText);
 
         final EmailField emailField = new EmailField();
+        new Dom(emailField).setAttribute("placeholder", LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(),
+                GenericI18Enum.FORM_EMAIL));
         emailField.setWidth("100%");
-        new Dom(emailField).setAttribute("placeholder", "Email address");
         contentLayout.addComponent(emailField);
 
         final PasswordField pwdField = new PasswordField();
         pwdField.setWidth("100%");
-        new Dom(pwdField).setAttribute("placeholder", "Password");
+        new Dom(pwdField).setAttribute("placeholder", LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.FORM_PASSWORD));
         contentLayout.addComponent(pwdField);
 
-        final CheckBox rememberPassword = new CheckBox();
+        final CheckBox rememberPassword = new CheckBox(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(),
+                ShellI18nEnum.OPT_REMEMBER_PASSWORD), true);
         rememberPassword.setWidth("100%");
-        rememberPassword.setCaption("Remember password");
-        rememberPassword.setValue(true);
         contentLayout.addComponent(rememberPassword);
 
-        Button signInBtn = new Button("Sign In", clickEvent -> {
+        MButton signInBtn = new MButton(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.BUTTON_LOG_IN), clickEvent -> {
             try {
                 LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new UserEvent.PlainLogin(
                         emailField.getValue(), pwdField.getValue(), rememberPassword.getValue())));
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        });
-        signInBtn.setWidth("100%");
-        signInBtn.addStyleName(MobileUIConstants.BUTTON_ACTION);
+        }).withStyleName(MobileUIConstants.BUTTON_ACTION);
         contentLayout.addComponent(signInBtn);
 
         this.addComponent(contentLayout);

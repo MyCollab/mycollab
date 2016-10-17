@@ -173,13 +173,13 @@
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreesvg</artifactId>
-            <version>3.1</version>
+            <version>3.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.14</version>
+            <version>3.15</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-codec</groupId>
@@ -188,10 +188,11 @@
             </exclusions>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>com.googlecode.ez-vcard</groupId>
             <artifactId>ez-vcard</artifactId>
-            <version>0.9.11</version>
+            <version>0.10.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.freemarker</groupId>
@@ -199,12 +200,15 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        -->
 
+        <!--
         <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
         </dependency>
+        -->
 
         <dependency>
             <groupId>org.vaadin.addons</groupId>

@@ -16,7 +16,9 @@
  */
 package com.mycollab.mobile.mvp.view;
 
+import com.mycollab.common.i18n.LicenseI18nEnum;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
@@ -31,6 +33,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class NotPresenterView extends AbstractMobilePageView {
     void display() {
         setContent(new MVerticalLayout().withFullWidth().with(new MVerticalLayout(ELabel.fontIcon(FontAwesome.WARNING),
-                new ELabel("This feature is currently not available in your MyCollab instance")).alignAll(Alignment.MIDDLE_CENTER)));
+                new ELabel(UserUIContext.getMessage(LicenseI18nEnum.FEATURE_NOT_AVAILABLE))).alignAll(Alignment.MIDDLE_CENTER)));
     }
 }

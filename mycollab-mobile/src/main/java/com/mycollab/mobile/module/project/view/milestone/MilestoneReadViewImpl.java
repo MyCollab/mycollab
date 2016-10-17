@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.view.milestone;
 
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.form.view.DynaFormLayout;
 import com.mycollab.mobile.module.project.events.MilestoneEvent;
@@ -25,6 +26,7 @@ import com.mycollab.mobile.module.project.view.ticket.TicketNavigatorButton;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.FormSectionBuilder;
+import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -75,7 +77,13 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected String initFormHeader() {
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " " + beanItem.getName();
+        Span beanTitle = new Span().appendText(beanItem.getName());
+        if (beanItem.isCompleted()) {
+            beanTitle.setCSSClass(MobileUIConstants.LINK_COMPLETED);
+        } else if (beanItem.isOverdue()) {
+            beanTitle.setCSSClass(MobileUIConstants.LINK_OVERDUE);
+        }
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " " + beanTitle.write();
     }
 
     @Override

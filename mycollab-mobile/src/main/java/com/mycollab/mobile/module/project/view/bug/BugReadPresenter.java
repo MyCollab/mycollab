@@ -23,7 +23,6 @@ import com.mycollab.mobile.module.project.events.TicketEvent;
 import com.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
@@ -89,9 +88,6 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
                 if (bug != null) {
                     view.previewItem(bug);
                     super.onGo(container, data);
-
-                    MyCollabUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(),
-                            bug.getProjectShortName()), bug.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

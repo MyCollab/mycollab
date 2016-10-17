@@ -37,5 +37,7 @@ object MilestoneEvent {
   class GotoKanban(source: AnyRef) extends ApplicationEvent(source, null) {}
 
   class NewMilestoneAdded(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
+  
+  class MilestoneDeleted(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
 
 }

@@ -23,7 +23,6 @@ import com.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
@@ -84,11 +83,8 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
                 SimpleTask task = taskService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
 
                 if (task != null) {
-                    this.view.previewItem(task);
+                    view.previewItem(task);
                     super.onGo(container, data);
-
-                    MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(),
-                            task.getProjectShortname()), task.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

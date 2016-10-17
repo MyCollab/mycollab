@@ -18,6 +18,7 @@ package com.mycollab.mobile.module.project.view.task;
 
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
@@ -36,14 +37,10 @@ import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
-import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
@@ -109,14 +106,20 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         if (CollectionUtils.isNotEmpty(attachments)) {
             attachmentComp = new ProjectAttachmentDisplayComp(attachments);
             previewForm.addComponent(attachmentComp);
-        } else if (attachmentComp != null && attachmentComp.getParent().equals(previewForm)) {
+        } else if (attachmentComp != null) {
             previewForm.removeComponent(attachmentComp);
         }
     }
 
     @Override
     protected String initFormHeader() {
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + beanItem.getName();
+        Span beanTitle = new Span().appendText(beanItem.getName());
+        if (beanItem.isCompleted()) {
+            beanTitle.setCSSClass(MobileUIConstants.LINK_COMPLETED);
+        } else if (beanItem.isOverdue()) {
+            beanTitle.setCSSClass(MobileUIConstants.LINK_OVERDUE);
+        }
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + beanTitle.write();
     }
 
     @Override
@@ -192,6 +195,13 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
 
         return toolbarLayout;
+    }
+
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(beanItem.getTaskkey(),
+                beanItem.getProjectShortname()), beanItem.getName());
     }
 
     private class ReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {

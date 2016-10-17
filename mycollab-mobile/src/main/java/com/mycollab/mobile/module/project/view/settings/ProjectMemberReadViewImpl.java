@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.view.settings;
 
+import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -27,7 +28,6 @@ import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -148,6 +148,13 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
     @Override
     protected ComponentContainer createBottomPanel() {
         return null;
+    }
+
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
+                .getProjectId() + "/" + beanItem.getUsername()), beanItem.getDisplayName());
     }
 
     private class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {

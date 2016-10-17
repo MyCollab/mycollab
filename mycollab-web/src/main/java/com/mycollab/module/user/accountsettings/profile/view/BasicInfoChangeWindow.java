@@ -31,6 +31,7 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -93,7 +94,7 @@ class BasicInfoChangeWindow extends MWindow {
                 .withStyleName(WebUIConstants.BUTTON_OPTION);
 
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
-                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
+                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);

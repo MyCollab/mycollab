@@ -75,20 +75,20 @@
 	word-wrap: break-word;
 }
 
-.v-label.overdue {
+.v-label.overdue, .v-label .overdue {
 	color: $my-alert-color !important;
 }
 
-.v-label.overdue a {
+.v-label.overdue a, .v-label .overdue a {
 	color: $my-alert-color !important;
 }
 
-.v-label.completed {
+.v-label.completed, .v-label .completed {
 	text-decoration: line-through !important;
 	color: $my-black-color !important;
 }
 
-.v-label.completed a {
+.v-label.completed a, .v-label .completed a {
 	text-decoration: line-through !important;
 	color: $my-black-color !important;
 }
@@ -212,20 +212,20 @@
 	word-wrap: break-word;
 }
 
-.v-label.overdue {
+.v-label.overdue, .v-label .overdue {
 	color: #B0470B !important;
 }
 
-.v-label.overdue a {
+.v-label.overdue a, .v-label .overdue a {
 	color: #B0470B !important;
 }
 
-.v-label.completed {
+.v-label.completed, .v-label .completed {
 	text-decoration: line-through !important;
 	color: #5e5d55 !important;
 }
 
-.v-label.completed a {
+.v-label.completed a, .v-label .completed a {
 	text-decoration: line-through !important;
 	color: #5e5d55 !important;
 }
@@ -324,7 +324,7 @@ hr {
 
 .h1 {
 	font-weight: 600 !important;
-	font-size: 20px !important;
+	font-size: 38px !important;
 	text-align: center !important;
 }
 
@@ -702,16 +702,20 @@ body {
 }
 
 .attachment-preview-view {
-	background-color: black;
+	background-color: #ffffff;
 }
 
 .attachment-preview-view .v-touchkit-navbutton-back-btn {
 	background-color: rgba(0, 0, 0, 0.4);
 	background-image: none;
 	padding: 0.4rem 1rem;
-	border: 0.1rem solid white;
+	border: 0.1rem solid #e5e5e5;
 	border-radius: 0.3rem;
-	color: white;
+	color: #fff !important;
+}
+
+.attachment-preview-view .v-touchkit-navbutton-back-btn::after {
+	content: "";
 }
 
 .attachment-preview-view .image-wrap {
@@ -907,32 +911,6 @@ body {
 	padding: 0.3rem 0.5rem 0.4rem;
 }
 
-.message-add-view .content-layout .bottom-row {
-	margin: 1.2rem auto 0rem;
-	box-shadow: none;
-}
-
-.message-add-view .content-layout .bottom-row .v-caption {
-	font-size: 1.4rem;
-}
-
-.message-add-view .content-layout .bottom-row .attachment-field .attachment-field-header {
-	padding-bottom: 0.5rem;
-}
-
-.message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap {
-	display: block;
-}
-
-.message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap .attachment-row {
-	border-top: 0.1rem solid #dddddd;
-	border-bottom: none;
-}
-
-.message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap .attachment-row .v-button {
-	display: inline-block;
-}
-
 .bug-severity-critical .v-icon, .v-filterselect-item-bug-severity-critical .v-icon {
 	color: #d32d1a;
 }
@@ -965,67 +943,6 @@ body {
 	color: #f7c7c1;
 }
 
-.timelog-edit-view div.v-vertical > .v-expand > .v-spacing {
-	display: block;
-	height: 1.2rem;
-}
-
-.timelog-edit-view .name-info-panel {
-	background-color: white;
-	border-bottom: 0.1rem solid #dddddd;
-}
-
-.timelog-edit-view .name-info-panel .total-time {
-	border-right: 0.1rem solid #dddddd;
-}
-
-.timelog-edit-view .name-info-panel .name-block .block-label {
-	color: #959595;
-}
-
-.timelog-edit-view .name-info-panel .name-block .block-value {
-	color: #414141;
-	font-size: 1.5rem;
-	font-weight: bold;
-}
-
-.timelog-edit-view .data-list-view {
-	border-top: 0.1rem solid #dddddd;
-}
-
-.timelog-edit-view .data-list-view .log-day {
-	border-bottom: 2px solid #f59330;
-	padding: 1rem 0.5rem 0.5rem;
-	font-size: 1.1rem;
-	font-weight: bold;
-	color: #959595;
-}
-
-.timelog-edit-view .data-list-view .time-log-item {
-	padding: 0.5rem 2.5rem 0.8rem 1.4rem;
-	border-bottom: 0.1rem solid #dddddd;
-	color: #959595;
-}
-
-.timelog-edit-view .data-list-view .time-log-item .log-value {
-	font-size: 1.4rem;
-	font-weight: bold;
-	color: #414141;
-}
-
-.timelog-edit-view .data-list-view .time-log-item .v-caption-on-top > .v-caption {
-	display: inline-block;
-}
-
-.timelog-edit-view .data-list-view .time-log-item .log-user {
-	font-size: 1.1rem;
-}
-
-.timelog-edit-view .data-list-view .time-log-item .is-billable {
-	text-align: center;
-	color: #49a3e1;
-}
-
 .time-log-window .v-window-outerheader {
 	height: inherit;
 }
@@ -1033,61 +950,4 @@ body {
 .time-log-window .v-window-outerheader .v-window-header {
 	text-align: center;
 	padding-bottom: 0.5rem;
-}
-
-.time-log-window.new-time-entry-window .input-wrapper {
-	margin: 0px;
-	border-bottom: none;
-	box-shadow: none;
-	border-color: #dddddd;
-	font-size: 1.4rem;
-}
-
-.time-log-window.new-time-entry-window .input-wrapper .v-textfield {
-	border: none;
-}
-
-.time-log-window.new-time-entry-window .input-wrapper .v-textfield:focus {
-	box-shadow: none;
-}
-
-.time-log-window.new-time-entry-window .input-wrapper .v-touchkit-componentgroup-row > .v-caption {
-	font-size: 1.4rem;
-}
-
-.time-log-window.new-time-entry-window .input-wrapper .v-select-select {
-	font-size: inherit;
-}
-
-.time-log-window.update-remain-time-window .input-wrapper {
-	padding: 0.5rem 1rem;
-}
-
-.time-log-window.update-remain-time-window .input-wrapper .v-textfield {
-	font-size: 1.5rem;
-	color: #959595;
-	line-height: 2rem;
-	border-radius: 0px;
-	border-color: #dddddd;
-}
-
-.time-log-window .button-layout {
-	border-top: 0.1rem solid #dddddd;
-}
-
-.time-log-window .button-layout .v-button {
-	background-color: transparent;
-}
-
-.time-log-window .button-layout .v-button .v-button-wrap {
-	padding: 1rem;
-}
-
-.time-log-window .button-layout .v-button .v-button-wrap .v-button-caption {
-	color: #49a3e1;
-	font-size: 1.4rem;
-}
-
-.time-log-window .button-layout .v-button.add-btn {
-	border-left: 0.1rem solid #dddddd;
 }

@@ -29,14 +29,13 @@ import com.mycollab.mobile.module.project.view.message.MessagePresenter
 import com.mycollab.mobile.module.project.view.milestone.MilestonePresenter
 import com.mycollab.mobile.module.project.view.parameters.ProjectScreenData.{Add, ProjectActivities}
 import com.mycollab.mobile.module.project.view.parameters._
-import com.mycollab.mobile.module.project.view.risk.IRiskPresenter
 import com.mycollab.mobile.module.project.view.settings.ProjectUserPresenter
 import com.mycollab.mobile.module.project.view.ticket.TicketPresenter
 import com.mycollab.mobile.mvp.view.PresenterOptionUtil
 import com.mycollab.module.project.domain._
 import com.mycollab.module.project.domain.criteria._
 import com.mycollab.module.project.service.ProjectService
-import com.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants, ProjectTypeConstants}
+import com.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants}
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.mvp.{AbstractController, PageActionChain, PresenterResolver, ScreenData}

@@ -18,11 +18,11 @@
         <slf4jVersion>1.7.21</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.7.3</vaadinVersion>
-        <jettyVersion>9.3.11.v20160721</jettyVersion>
-        <mysqlVersion>5.1.39</mysqlVersion>
+        <jettyVersion>9.3.12.v20160915</jettyVersion>
+        <mysqlVersion>5.1.40</mysqlVersion>
         <junitVersion>4.12</junitVersion>
-        <jackrabbitVersion>2.13.3</jackrabbitVersion>
-        <jacksonVersion>2.8.3</jacksonVersion>
+        <jackrabbitVersion>2.13.4</jackrabbitVersion>
+        <jacksonVersion>2.8.4</jacksonVersion>
         <jodaVersion>2.9.4</jodaVersion>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.8</scala.version>

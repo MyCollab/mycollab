@@ -46,13 +46,6 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
                 .withListener(clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem)));
         this.addExtraButton(customizeViewBtn);
-
-        MButton importBtn = ComponentUtils.createImportEntitiesButton()
-                .withListener(clickEvent -> UI.getCurrent().addWindow(new LeadImportWindow()));
-        importBtn.setVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD));
-
-        this.addExtraButton(importBtn);
-
     }
 
     @Override

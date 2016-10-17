@@ -62,9 +62,6 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
             if (prjMember != null) {
                 this.view.previewItem(prjMember);
                 super.onGo(container, data);
-
-                MyCollabUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
-                        .getProjectId() + "/" + prjMember.getUsername()), prjMember.getDisplayName());
             } else {
                 NotificationUtil.showRecordNotExistNotification();
             }

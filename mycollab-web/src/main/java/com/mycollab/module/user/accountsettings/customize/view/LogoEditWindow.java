@@ -34,6 +34,8 @@ import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -114,7 +116,7 @@ public class LogoEditWindow extends MWindow {
                     throw new MyCollabException("Error when saving account logo", e);
                 }
             }
-        }).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
         previewBoxRight.with(controlBtns).withAlign(controlBtns, Alignment.TOP_LEFT);

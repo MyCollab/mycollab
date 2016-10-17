@@ -119,6 +119,8 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
             NotificationUtil.showRecordNotExistNotification();
         } else if (getExceptionType(throwable, SecureAccessException.class) != null) {
             NotificationUtil.showMessagePermissionAlert();
+        } else if (getExceptionType(throwable, PresenterNotFoundException.class) != null) {
+            NotificationUtil.showFeatureNotPresentInSubscription();
         } else {
             LOG.error("Exception", throwable);
         }

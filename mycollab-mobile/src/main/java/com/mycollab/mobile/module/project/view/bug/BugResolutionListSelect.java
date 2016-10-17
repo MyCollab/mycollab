@@ -34,10 +34,6 @@ public class BugResolutionListSelect extends I18NValueListSelect {
         return new BugResolutionListSelect(false, BugResolution.CannotReproduce, BugResolution.Duplicate, BugResolution.Invalid);
     }
 
-    public static BugResolutionListSelect getInstanceForValidBugWindow() {
-        return new BugResolutionListSelect(false);
-    }
-
     public static BugResolutionListSelect getInstanceForResolvedBugWindow() {
         return new BugResolutionListSelect(false, BugResolution.Fixed);
     }

@@ -23,25 +23,30 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
+import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.ui.components.BlockRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
@@ -62,10 +67,10 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
     private CssCheckBox toggleStatusSelect;
 
     public ToggleTaskSummaryField(final SimpleTask task, boolean toggleStatusSupport) {
-        this(task, Integer.MAX_VALUE, toggleStatusSupport);
+        this(task, Integer.MAX_VALUE, toggleStatusSupport, false);
     }
 
-    public ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean toggleStatusSupport) {
+    public ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean toggleStatusSupport, boolean canRemove) {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;
@@ -112,7 +117,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         }
 
         this.addComponent(titleLinkLbl);
-        buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
+        buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true)).withStyleName("toggle");
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             this.addStyleName("editable-field");
 
@@ -130,9 +135,33 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             instantEditBtn.setDescription(UserUIContext.getMessage(TaskI18nEnum.OPT_EDIT_TASK_NAME));
             buttonControls.with(instantEditBtn);
+        }
+
+        if (canRemove && CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS)) {
+            MButton removeBtn = new MButton("", clickEvent -> {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        confirmDialog -> {
+                            if (confirmDialog.isConfirmed()) {
+                                AppContextUtil.getSpringBean(ProjectTaskService.class).removeWithSession(task,
+                                        UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                BlockRowRender rowRenderer = UIUtils.getRoot(ToggleTaskSummaryField.this, BlockRowRender.class);
+                                if (rowRenderer != null) {
+                                    rowRenderer.selfRemoved();
+                                }
+                                EventBusFactory.getInstance().post(new TaskEvent.TaskDeleted(this, task.getId()));
+                            }
+                        });
+            }).withIcon(FontAwesome.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            buttonControls.with(removeBtn);
+        }
+        if (buttonControls.getComponentCount() > 0) {
             this.addComponent(buttonControls);
         }
     }

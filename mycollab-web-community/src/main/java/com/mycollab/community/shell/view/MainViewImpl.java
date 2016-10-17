@@ -22,7 +22,6 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.mycollab.community.shell.view.components.AdRequestWindow;
-import com.mycollab.community.shell.view.components.CommunitySliderPanel;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
@@ -51,7 +50,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.sliderpanel.SliderPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -66,8 +64,8 @@ import java.util.GregorianCalendar;
 public class MainViewImpl extends AbstractMainView {
     @Override
     protected void postAddModule(IDesktopModule module) {
-        SliderPanel sliderPanel = CommunitySliderPanel.buildCommunitySliderPanel();
-        bodyLayout.with(sliderPanel);
+//        SliderPanel sliderPanel = CommunitySliderPanel.buildCommunitySliderPanel();
+//        bodyLayout.with(sliderPanel);
     }
 
     @Override

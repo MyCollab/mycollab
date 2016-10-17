@@ -47,7 +47,6 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
                 Arrays.asList(AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),
                         AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email(),
                         AccountTableFieldDef.assignUser()));
-
     }
 
     @Override
@@ -80,12 +79,6 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
                 .withListener(clickEvent -> UI.getCurrent().addWindow(new AccountListCustomizeWindow((AccountTableDisplay) tableItem)));
         this.addExtraButton(customizeViewBtn);
-
-        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(clickEvent -> {
-            AccountImportWindow accountImportWindow = new AccountImportWindow();
-            UI.getCurrent().addWindow(accountImportWindow);
-        }).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
-        this.addExtraButton(importBtn);
     }
 
     @Override

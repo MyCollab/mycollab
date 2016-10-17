@@ -45,17 +45,14 @@ import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -67,13 +64,13 @@ import java.util.List;
 public class MilestoneListViewImpl extends AbstractLazyPageView implements MilestoneListView {
     private static final long serialVersionUID = 1L;
 
-    private CssLayout inProgressContainer;
+    private MVerticalLayout inProgressContainer;
     private Label inProgressHeader;
 
-    private CssLayout futureContainer;
+    private MVerticalLayout futureContainer;
     private Label futureHeader;
 
-    private CssLayout closeContainer;
+    private MVerticalLayout closeContainer;
     private Label closedHeader;
 
     private MilestoneSearchCriteria baseCriteria;
@@ -87,15 +84,26 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                 }
             };
 
+    private ApplicationEventListener<MilestoneEvent.MilestoneDeleted> deletedMilestoneHandler = new
+            ApplicationEventListener<MilestoneEvent.MilestoneDeleted>() {
+                @Override
+                @Subscribe
+                public void handle(MilestoneEvent.MilestoneDeleted event) {
+                    displayMilestones();
+                }
+            };
+
     @Override
     public void attach() {
         EventBusFactory.getInstance().register(newMilestoneHandler);
+        EventBusFactory.getInstance().register(deletedMilestoneHandler);
         super.attach();
     }
 
     @Override
     public void detach() {
         EventBusFactory.getInstance().unregister(newMilestoneHandler);
+        EventBusFactory.getInstance().unregister(deletedMilestoneHandler);
         super.detach();
     }
 
@@ -117,7 +125,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
 
         for (SimpleMilestone milestone : milestones) {
-            ComponentContainer componentContainer = constructMilestoneBox(milestone);
+            ComponentContainer componentContainer = new MilestoneBox(milestone);
             if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
                 inProgressContainer.addComponent(componentContainer);
                 totalInprogressMilestones++;
@@ -199,7 +207,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         closedHeaderLayout.with(closedHeader).withAlign(closedHeader, Alignment.MIDDLE_CENTER);
 
         bodyContent.addComponent(closedHeaderLayout, "closed-header");
-        closeContainer = new MCssLayout().withStyleName("milestone-col").withFullWidth();
+        closeContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
         bodyContent.addComponent(closeContainer, "closed-milestones");
 
         MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
@@ -208,7 +216,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         inProgressHeaderLayout.setComponentAlignment(inProgressHeader, Alignment.MIDDLE_CENTER);
 
         bodyContent.addComponent(inProgressHeaderLayout, "in-progress-header");
-        inProgressContainer = new MCssLayout().withStyleName("milestone-col").withFullWidth();
+        inProgressContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
         bodyContent.addComponent(this.inProgressContainer, "in-progress-milestones");
 
         MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
@@ -217,7 +225,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         futureHeaderLayout.setComponentAlignment(futureHeader, Alignment.MIDDLE_CENTER);
 
         bodyContent.addComponent(futureHeaderLayout, "future-header");
-        futureContainer = new MCssLayout().withStyleName("milestone-col").withFullWidth();
+        futureContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
         bodyContent.addComponent(this.futureContainer, "future-milestones");
 
         this.addComponent(bodyContent);
@@ -239,10 +247,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                 ")");
     }
 
-    private ComponentContainer constructMilestoneBox(final SimpleMilestone milestone) {
-        return new MilestoneBox(milestone);
-    }
-
     private class MilestoneBox extends CssLayout {
         MilestoneBox(final SimpleMilestone milestone) {
             this.addStyleName(WebUIConstants.MILESTONE_BOX);
@@ -253,40 +257,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             MHorizontalLayout milestoneHeader = new MHorizontalLayout().withFullWidth()
                     .with(toggleMilestoneSummaryField).expand(toggleMilestoneSummaryField);
 
-            PopupButton taskSettingPopupBtn = new PopupButton();
-            taskSettingPopupBtn.setWidth("15px");
-            OptionPopupContent filterBtnLayout = new OptionPopupContent();
-
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-                MButton editButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                        clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(MilestoneBox.this, milestone)))
-                        .withIcon(FontAwesome.EDIT);
-                filterBtnLayout.addOption(editButton);
-            }
-
-            if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES)) {
-                MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent ->
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
-                                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                confirmDialog -> {
-                                    if (confirmDialog.isConfirmed()) {
-                                        MilestoneService projectTaskService = AppContextUtil.getSpringBean(MilestoneService.class);
-                                        projectTaskService.removeWithSession(milestone, UserUIContext.getUsername(), MyCollabUI.getAccountId());
-                                        displayMilestones();
-                                    }
-                                })
-                ).withIcon(FontAwesome.TRASH_O);
-                filterBtnLayout.addDangerOption(deleteBtn);
-            }
-
-            taskSettingPopupBtn.setIcon(FontAwesome.COG);
-            taskSettingPopupBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
-            taskSettingPopupBtn.setContent(filterBtnLayout);
-
-            milestoneHeader.addComponent(taskSettingPopupBtn);
             this.addComponent(milestoneHeader);
 
             int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks() + milestone.getNumOpenRisks();

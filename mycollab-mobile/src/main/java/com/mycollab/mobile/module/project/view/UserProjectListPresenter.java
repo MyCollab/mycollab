@@ -36,6 +36,5 @@ public class UserProjectListPresenter extends ProjectListPresenter<UserProjectLi
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         super.onGo(container, data);
-        MyCollabUI.addFragment("project", "Projects");
     }
 }

@@ -16,7 +16,7 @@
  */
 package com.mycollab.configuration;
 
-import com.mycollab.core.MyCollabVersion;
+import com.mycollab.core.Version;
 import com.mycollab.core.utils.FileUtils;
 
 import java.io.File;
@@ -64,6 +64,6 @@ public final class FileStorage implements Storage {
 
     @Override
     public String generateAssetLink(String resourceId) {
-        return String.format("%s%s?v=%s", SiteConfiguration.getCdnUrl(), resourceId, MyCollabVersion.getVersion());
+        return String.format("%s%s?v=%s", SiteConfiguration.getCdnUrl(), resourceId, Version.getVersion());
     }
 }

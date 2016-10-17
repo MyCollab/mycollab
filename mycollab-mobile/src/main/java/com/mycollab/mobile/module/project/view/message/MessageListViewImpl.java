@@ -30,10 +30,7 @@ import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleMessage;
 import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.mycollab.module.project.i18n.MessageI18nEnum;
@@ -90,6 +87,13 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
                 .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
         return new MHorizontalLayout(searchBtn, newMessageBtn).alignAll(Alignment.TOP_RIGHT);
+    }
+
+    @Override
+    public void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment(ProjectLinkGenerator.generateMessagesLink(CurrentProjectVariables.getProjectId()),
+                UserUIContext.getMessage(MessageI18nEnum.LIST));
     }
 
     private static class MessageRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleMessage> {

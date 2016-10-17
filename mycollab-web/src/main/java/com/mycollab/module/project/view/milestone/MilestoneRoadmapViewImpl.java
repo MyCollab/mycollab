@@ -47,6 +47,8 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.module.project.view.ticket.ToggleTicketSummaryField;
 import com.mycollab.spring.AppContextUtil;
@@ -75,8 +77,7 @@ import java.util.List;
  * @since 5.2.0
  */
 @ViewComponent
-public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements MilestoneRoadmapView {
-    private MButton createBtn;
+public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements MilestoneRoadmapView, IBlockContainer {
 
     private MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
 
@@ -90,20 +91,32 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 }
             };
 
+    private ApplicationEventListener<MilestoneEvent.MilestoneDeleted> deletedMilestoneHandler = new
+            ApplicationEventListener<MilestoneEvent.MilestoneDeleted>() {
+                @Override
+                @Subscribe
+                public void handle(MilestoneEvent.MilestoneDeleted event) {
+                    displayWidget();
+                }
+            };
+
     private MVerticalLayout roadMapView;
-    private VerticalLayout filterPanel;
+    private MVerticalLayout filterPanel;
     private ELabel headerText;
+    private CheckBox closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection;
     private MilestoneSearchCriteria baseCriteria;
 
     @Override
     public void attach() {
         EventBusFactory.getInstance().register(newMilestoneHandler);
+        EventBusFactory.getInstance().register(deletedMilestoneHandler);
         super.attach();
     }
 
     @Override
     public void detach() {
         EventBusFactory.getInstance().unregister(newMilestoneHandler);
+        EventBusFactory.getInstance().unregister(deletedMilestoneHandler);
         super.detach();
     }
 
@@ -117,38 +130,46 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 SearchCriteria.DESC), new SearchCriteria.OrderField("enddate", SearchCriteria.DESC)));
         displayMilestones();
 
+        closeMilestoneSelection = new CheckBox("", true);
+        inProgressMilestoneSelection = new CheckBox("", true);
+        futureMilestoneSelection = new CheckBox("", true);
+
+        closeMilestoneSelection.addValueChangeListener(valueChangeEvent ->
+                displayMilestones(baseCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
+                        futureMilestoneSelection.getValue())
+        );
+        inProgressMilestoneSelection.addValueChangeListener(valueChangeEvent ->
+                displayMilestones(baseCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
+                        futureMilestoneSelection.getValue()));
+        futureMilestoneSelection.addValueChangeListener(valueChangeEvent ->
+                displayMilestones(baseCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
+                        futureMilestoneSelection.getValue()));
+        futureMilestoneSelection.setIcon(FontAwesome.CLOCK_O);
+
+        filterPanel.with(closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection);
+        displayWidget();
+    }
+
+    private void displayWidget() {
         final MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Closed.name()));
         int totalCloseCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox closeMilestoneSelection = new CheckBox(String.format("%s (%d)",
-                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), totalCloseCount), true);
+        closeMilestoneSelection.setCaption(String.format("%s (%d)",
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), totalCloseCount));
         closeMilestoneSelection.setIcon(FontAwesome.MINUS_CIRCLE);
         filterPanel.addComponent(closeMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.InProgress.name()));
         int totalInProgressCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox inProgressMilestoneSelection = new CheckBox(String.format("%s (%d)",
-                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), totalInProgressCount), true);
+        inProgressMilestoneSelection.setCaption(String.format("%s (%d)",
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), totalInProgressCount));
         inProgressMilestoneSelection.setIcon(FontAwesome.SPINNER);
         filterPanel.addComponent(inProgressMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Future.name()));
         int totalFutureCount = milestoneService.getTotalCount(tmpCriteria);
-        final CheckBox futureMilestoneSelection = new CheckBox(String.format("%s (%d)",
-                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE), totalFutureCount), true);
-
-        closeMilestoneSelection.addValueChangeListener(valueChangeEvent ->
-                displayMilestones(tmpCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
-                        futureMilestoneSelection.getValue())
-        );
-        inProgressMilestoneSelection.addValueChangeListener(valueChangeEvent ->
-                displayMilestones(tmpCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
-                        futureMilestoneSelection.getValue()));
-        futureMilestoneSelection.addValueChangeListener(valueChangeEvent ->
-                displayMilestones(tmpCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
-                        futureMilestoneSelection.getValue()));
-        futureMilestoneSelection.setIcon(FontAwesome.CLOCK_O);
-        filterPanel.addComponent(futureMilestoneSelection);
+        futureMilestoneSelection.setCaption(String.format("%s (%d)",
+                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE), totalFutureCount));
     }
 
     private void displayMilestones(MilestoneSearchCriteria milestoneSearchCriteria, boolean closeSelection, boolean
@@ -183,6 +204,12 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 UserUIContext.getMessage(MilestoneI18nEnum.OPT_ROADMAP_VALUE, milestones.size())));
     }
 
+    @Override
+    public void updateTitle() {
+        headerText.setValue(String.format("%s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml(),
+                UserUIContext.getMessage(MilestoneI18nEnum.OPT_ROADMAP_VALUE, roadMapView.getComponentCount())));
+    }
+
     private void initUI() {
         headerText = ELabel.h2("");
 
@@ -197,7 +224,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     }
 
     private HorizontalLayout createHeaderRight() {
-        createBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
+        MButton createBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
             SimpleMilestone milestone = new SimpleMilestone();
             milestone.setSaccountid(MyCollabUI.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
@@ -235,7 +262,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         return new MHorizontalLayout(createBtn, printBtn, viewButtons);
     }
 
-    private static class MilestoneBlock extends MVerticalLayout {
+    private static class MilestoneBlock extends BlockRowRender {
         private boolean showIssues = false;
 
         MilestoneBlock(final SimpleMilestone milestone) {
@@ -258,7 +285,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 metaBlock.addComponent(popupFieldFactory.createNonBillableHoursPopupField(milestone));
             }
 
-            this.add(metaBlock);
+            this.with(metaBlock);
 
             if (StringUtils.isNotBlank(milestone.getDescription())) {
                 this.addComponent(ELabel.html(StringUtils.formatRichText(milestone.getDescription())));

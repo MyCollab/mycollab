@@ -46,10 +46,6 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(clickEvent -> UI.getCurrent().addWindow(
                 new CaseListCustomizeWindow(tableItem)));
         this.addExtraButton(customizeViewBtn);
-
-        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(clickEvent -> UI.getCurrent().addWindow(new CaseImportWindow()));
-        importBtn.setVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CASE));
-        this.addExtraButton(importBtn);
     }
 
     @Override

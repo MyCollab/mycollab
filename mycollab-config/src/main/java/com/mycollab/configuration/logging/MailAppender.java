@@ -21,7 +21,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Layout;
 import com.mycollab.configuration.EmailConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.core.MyCollabVersion;
+import com.mycollab.core.Version;
 import com.mycollab.core.utils.StringUtils;
 
 /**
@@ -34,7 +34,7 @@ public class MailAppender extends SMTPAppender {
     protected Layout<ILoggingEvent> makeSubjectLayout(String subjectStr) {
         if (subjectStr == null) {
             String version;
-            version = "MyCollab " + MyCollabVersion.getVersion();
+            version = "MyCollab " + Version.getVersion();
             subjectStr = version + " - Error: %logger{20} - %m";
         }
 

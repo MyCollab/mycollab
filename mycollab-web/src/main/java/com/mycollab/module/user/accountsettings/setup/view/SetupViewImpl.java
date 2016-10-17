@@ -153,17 +153,23 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         @Override
         protected Component onAttachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("host")) {
-                return informationLayout.addComponent(field, "Host", 0, 0);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_HOST),
+                        UserUIContext.getMessage(ShellI18nEnum.FORM_HOST_HELP), 0, 0);
             } else if (propertyId.equals("user")) {
-                return informationLayout.addComponent(field, "User Name", 0, 1);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_MAIL_USER_NAME),
+                        UserUIContext.getMessage(ShellI18nEnum.FORM_MAIL_USER_NAME_HELP), 0, 1);
             } else if (propertyId.equals("password")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 2);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD),
+                        UserUIContext.getMessage(ShellI18nEnum.FORM_MAIL_PASSWORD_HELP), 0, 2);
             } else if (propertyId.equals("port")) {
-                return informationLayout.addComponent(field, "Port", 0, 3);
+                return informationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_PORT),
+                        UserUIContext.getMessage(ShellI18nEnum.FORM_PORT_HELP), 0, 3);
             } else if (propertyId.equals("isStartTls")) {
-                return informationLayout.addComponent(field, "StartTls", 0, 4);
+                return informationLayout.addComponent(field, "StartTls",
+                        UserUIContext.getMessage(ShellI18nEnum.FORM_MAIL_SECURITY_HELP), 0, 4);
             } else if (propertyId.equals("isSsl")) {
-                return informationLayout.addComponent(field, "Tls/Ssl", 0, 5);
+                return informationLayout.addComponent(field, "Tls/Ssl",
+                        UserUIContext.getMessage(ShellI18nEnum.FORM_MAIL_SECURITY_HELP), 0, 5);
             }
             return null;
         }

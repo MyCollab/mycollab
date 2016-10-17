@@ -83,7 +83,7 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
             if (project.getLead() != null) {
                 Div leadDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(project.getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX),
                         new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
-                        .appendText(project.getLeadFullName())).setTitle(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
+                                .appendText(project.getLeadFullName())).setTitle(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
@@ -91,7 +91,7 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
             metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(UIConstants.META_INFO));
             layout.addComponent(metaInfo);
 
-            int openAssignments = project.getNumOpenBugs() + project.getNumOpenTasks() + project.getNumOpenRisks() + project.getNumOpenRisks();
+            int openAssignments = project.getNumOpenBugs() + project.getNumOpenTasks() + project.getNumOpenRisks();
             int totalAssignments = project.getNumBugs() + project.getNumTasks() + project.getNumRisks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {

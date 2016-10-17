@@ -58,7 +58,6 @@ import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.eclipse.jetty.io.EofException;
-import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.UncategorizedSQLException;
@@ -73,7 +72,7 @@ import static com.mycollab.core.utils.ExceptionUtils.getExceptionType;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@Theme(MyCollabVersion.THEME_VERSION)
+@Theme(Version.THEME_VERSION)
 @Widgetset("com.mycollab.widgetset.MyCollabWidgetSet")
 public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;

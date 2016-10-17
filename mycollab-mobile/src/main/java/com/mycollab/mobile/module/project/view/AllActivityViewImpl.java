@@ -40,6 +40,7 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -107,6 +108,12 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
     @Override
     protected Component buildRightComponent() {
         return null;
+    }
+
+    @Override
+    public void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment("project/activities/", UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
     }
 
     private static class ActivityStreamRowHandler implements IBeanList.RowDisplayHandler<ProjectActivityStream> {

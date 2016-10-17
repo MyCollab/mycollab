@@ -57,22 +57,19 @@ public class NotificationUtil {
     }
 
     public static void showGotoLastRecordNotification() {
-        showNotification(
-                UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
+        showNotification(UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
                 UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_GOTO_LAST_RECORD),
                 Type.HUMANIZED_MESSAGE);
     }
 
     public static void showGotoFirstRecordNotification() {
-        showNotification(
-                UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
+        showNotification(UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
                 UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_GOTO_FIRST_RECORD),
                 Type.HUMANIZED_MESSAGE);
     }
 
     public static void showRecordNotExistNotification() {
-        showNotification(
-                UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
+        showNotification(UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE),
                 UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_RECORD_IS_NOT_EXISTED),
                 Type.HUMANIZED_MESSAGE);
     }
@@ -85,8 +82,7 @@ public class NotificationUtil {
     }
 
     public static void showFeatureNotPresentInSubscription() {
-        showNotification(
-                UserUIContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
+        showNotification(UserUIContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
                 UserUIContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_SUBSCRIPTION),
                 Type.WARNING_MESSAGE);
     }

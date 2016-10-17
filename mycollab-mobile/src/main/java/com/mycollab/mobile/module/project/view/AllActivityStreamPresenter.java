@@ -18,9 +18,6 @@ package com.mycollab.mobile.module.project.view;
 
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.module.project.domain.ProjectActivityStream;
-import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
@@ -38,7 +35,5 @@ public class AllActivityStreamPresenter extends ProjectListPresenter<AllActivity
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         super.onGo(navigator, data);
-        MyCollabUI.addFragment("project/activities/", UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
     }
-
 }

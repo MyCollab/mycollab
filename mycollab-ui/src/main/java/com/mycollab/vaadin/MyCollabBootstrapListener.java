@@ -18,7 +18,7 @@ package com.mycollab.vaadin;
 
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
-import com.mycollab.core.MyCollabVersion;
+import com.mycollab.core.Version;
 import com.mycollab.module.user.domain.BillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.spring.AppContextUtil;
@@ -59,7 +59,7 @@ public class MyCollabBootstrapListener implements BootstrapListener {
                         SiteConfiguration.getCdnUrl()));
         response.getDocument().head()
                 .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip-1.0.2.js?v=%s\"></script>",
-                        SiteConfiguration.getCdnUrl(), MyCollabVersion.getVersion()));
+                        SiteConfiguration.getCdnUrl(), Version.getVersion()));
 
         Element div1 = response.getDocument().body().appendElement("div");
         div1.attr("id", "div1" + TOOLTIP_ID);

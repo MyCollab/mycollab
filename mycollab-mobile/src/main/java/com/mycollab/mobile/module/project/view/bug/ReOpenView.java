@@ -52,7 +52,7 @@ class ReOpenView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ReOpenView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption(UserUIContext.getMessage(BugI18nEnum.OPT_REOPEN_BUG, bug.getName()));
+        this.setCaption(bug.getName());
         this.bug = bug;
         this.callbackForm = callbackForm;
 
@@ -69,11 +69,11 @@ class ReOpenView extends AbstractMobilePageView {
 
         final Button reOpenBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
             if (editForm.validateForm()) {
-                ReOpenView.this.bug.setStatus(BugStatus.ReOpen.name());
+                bug.setStatus(BugStatus.ReOpen.name());
 
                 // Save bug status and assignee
                 final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                bugService.updateSelectiveWithSession(ReOpenView.this.bug, UserUIContext.getUsername());
+                bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
 
                 // Save comment
                 final String commentValue = editForm.commentArea.getValue();
@@ -141,9 +141,7 @@ class ReOpenView extends AbstractMobilePageView {
 
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
-                if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
-                    return BugResolutionListSelect.getInstanceForValidBugWindow();
-                } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
+                if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
                     return new ProjectMemberListSelect();
                 } else if (propertyId.equals("comment")) {
                     commentArea = new TextArea();

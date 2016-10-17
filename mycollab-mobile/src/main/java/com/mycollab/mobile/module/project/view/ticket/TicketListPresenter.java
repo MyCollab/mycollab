@@ -16,15 +16,11 @@
  */
 package com.mycollab.mobile.module.project.view.ticket;
 
-import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.mobile.module.project.view.ProjectListPresenter;
 import com.mycollab.mobile.module.project.view.parameters.TicketScreenData;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.i18n.TicketI18nEnum;
-import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
@@ -41,8 +37,6 @@ public class TicketListPresenter extends ProjectListPresenter<TicketListView, Pr
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        MyCollabUI.addFragment("project/ticket/dashboard/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
-                UserUIContext.getMessage(TicketI18nEnum.LIST));
         if (data instanceof TicketScreenData.GotoDashboard) {
             ProjectTicketSearchCriteria searchCriteria = (ProjectTicketSearchCriteria) ((TicketScreenData.GotoDashboard) data).getParams();
             searchCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());

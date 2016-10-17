@@ -115,8 +115,7 @@ public class AssignTaskWindow extends MWindow {
                         close();
                         EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
                     }
-                }).withIcon(FontAwesome.SHARE).withStyleName(WebUIConstants.BUTTON_ACTION);
-                approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+                }).withIcon(FontAwesome.SHARE).withStyleName(WebUIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
                 layout.addComponent(controlsBtn);

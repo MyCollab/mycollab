@@ -18,6 +18,7 @@ package com.mycollab.mobile.ui;
 
 import com.mycollab.common.domain.FavoriteItem;
 import com.mycollab.common.service.FavoriteItemService;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -68,7 +69,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
             editBtn.setContent(buttonControls);
             this.setRightComponent(editBtn);
         } else if (buttonControls instanceof HorizontalLayout) {
-            if (StringUtils.isNotBlank(getType())) {
+            if (StringUtils.isNotBlank(getType()) && !SiteConfiguration.isCommunityEdition()) {
                 favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(FontAwesome.HEART).withStyleName
                         (UIConstants.CIRCLE_BOX);
                 ((HorizontalLayout)buttonControls).addComponent(favoriteBtn, 0);
