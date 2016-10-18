@@ -60,7 +60,6 @@ Version 5.4.3
 * [Premium] Close phase, assignments have option to close the sub-assignments
 * Fix UI issues on Firefox, Safari
 * Simplify the views of tasks, bugs, and risks
-* More stable the upgrade process
 * More stable of mobile web application
 * Support Indonesian language (Contributor: farizichwan), Update other languages
 * Other minor improvements
@@ -69,6 +68,8 @@ Version 5.4.3
 
 * [Premium] Can not mass update project risks
 * [Community] Can not preview bug, task on mobile web page because of lacking time service
+* Update the localization updates of Crm module
+* Minor issues are fixed on Crm module
 * Update the mail settings is not effect immediately
 
 Version 5.4.2

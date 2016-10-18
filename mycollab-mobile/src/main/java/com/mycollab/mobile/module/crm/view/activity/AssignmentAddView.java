@@ -16,14 +16,12 @@
  */
 package com.mycollab.mobile.module.crm.view.activity;
 
-import com.mycollab.module.crm.domain.Task;
+import com.mycollab.module.crm.domain.CrmTask;
 import com.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public interface AssignmentAddView extends IFormAddView<Task> {
+public interface AssignmentAddView extends IFormAddView<CrmTask> {
 }

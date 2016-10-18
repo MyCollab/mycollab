@@ -210,7 +210,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
             @Override
             public void createNewRelatedItem(String itemId) {
                 if (itemId.equals(CrmTypeConstants.TASK)) {
-                    final SimpleTask task = new SimpleTask();
+                    final SimpleCrmTask task = new SimpleCrmTask();
                     task.setType(CrmTypeConstants.ACCOUNT);
                     task.setTypeid(view.getItem().getId());
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(AccountReadPresenter.this, task));

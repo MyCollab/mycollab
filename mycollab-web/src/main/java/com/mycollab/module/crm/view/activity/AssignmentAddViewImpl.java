@@ -18,7 +18,7 @@ package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.Task;
+import com.mycollab.module.crm.domain.CrmTask;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
@@ -46,7 +46,7 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @since 2.0
  */
 @ViewComponent
-public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements AssignmentAddView {
+public class AssignmentAddViewImpl extends AbstractEditItemComp<CrmTask> implements AssignmentAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -65,7 +65,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
     }
 
     @Override
-    protected AdvancedEditBeanForm<Task> initPreviewForm() {
+    protected AdvancedEditBeanForm<CrmTask> initPreviewForm() {
         return new AdvancedEditBeanForm<>();
     }
 
@@ -75,32 +75,32 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
     }
 
     @Override
-    protected AbstractBeanFieldGroupEditFieldFactory<Task> initBeanFormFieldFactory() {
+    protected AbstractBeanFieldGroupEditFieldFactory<CrmTask> initBeanFormFieldFactory() {
         return new AssignmentEditFormFieldFactory(editForm);
     }
 
-    private static class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
+    private static class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<CrmTask> {
         private static final long serialVersionUID = 1L;
 
-        AssignmentEditFormFieldFactory(GenericBeanForm<Task> form) {
+        AssignmentEditFormFieldFactory(GenericBeanForm<CrmTask> form) {
             super(form);
         }
 
         @Override
         protected Field<?> onCreateField(Object propertyId) {
-            if (Task.Field.startdate.equalTo(propertyId)) {
+            if (CrmTask.Field.startdate.equalTo(propertyId)) {
                 return new DateTimeOptionField();
-            } else if (Task.Field.duedate.equalTo(propertyId)) {
+            } else if (CrmTask.Field.duedate.equalTo(propertyId)) {
                 return new DateTimeOptionField();
-            } else if (Task.Field.status.equalTo(propertyId)) {
+            } else if (CrmTask.Field.status.equalTo(propertyId)) {
                 return new TaskStatusComboBox();
-            } else if (Task.Field.priority.equalTo(propertyId)) {
+            } else if (CrmTask.Field.priority.equalTo(propertyId)) {
                 return new TaskPriorityComboBox();
-            } else if (Task.Field.description.equalTo(propertyId)) {
+            } else if (CrmTask.Field.description.equalTo(propertyId)) {
                 return new RichTextArea();
-            } else if (Task.Field.contactid.equalTo(propertyId)) {
+            } else if (CrmTask.Field.contactid.equalTo(propertyId)) {
                 return new ContactSelectionField();
-            } else if (Task.Field.subject.equalTo(propertyId)) {
+            } else if (CrmTask.Field.subject.equalTo(propertyId)) {
                 TextField tf = new TextField();
                 if (isValidateForm) {
                     tf.setRequired(true);
@@ -108,11 +108,11 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
                     tf.setNullRepresentation("");
                 }
                 return tf;
-            } else if (Task.Field.type.equalTo(propertyId)) {
+            } else if (CrmTask.Field.type.equalTo(propertyId)) {
                 return new RelatedEditItemField(attachForm.getBean());
-            } else if (Task.Field.typeid.equalTo(propertyId)) {
+            } else if (CrmTask.Field.typeid.equalTo(propertyId)) {
                 return new DummyCustomField<Integer>();
-            } else if (Task.Field.assignuser.equalTo(propertyId)) {
+            } else if (CrmTask.Field.assignuser.equalTo(propertyId)) {
                 ActiveUserComboBox userBox = new ActiveUserComboBox();
                 userBox.select(attachForm.getBean().getAssignuser());
                 return userBox;

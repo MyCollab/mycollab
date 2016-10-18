@@ -22,6 +22,7 @@ import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignStatus;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignType;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.CurrencyViewField;
 import com.mycollab.vaadin.ui.field.DateViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
@@ -58,7 +59,7 @@ class CampaignReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactor
         } else if (CampaignWithBLOBs.Field.type.equalTo(propertyId)) {
             return new I18nFormViewField(campaign.getType(), CampaignType.class);
         } else if (CampaignWithBLOBs.Field.status.equalTo(propertyId)) {
-            return new I18nFormViewField(campaign.getStatus(), CampaignStatus.class);
+            return new I18nFormViewField(campaign.getStatus(), CampaignStatus.class).withStyleName(UIConstants.FIELD_NOTE);
         }
 
         return null;

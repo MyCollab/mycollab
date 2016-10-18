@@ -96,7 +96,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         this.associateActivityList.setSearchCriteria(criteria);
     }
 
-    protected void displayAssociateOpportunityList() {
+    private void displayAssociateOpportunityList() {
         OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setContactId(new NumberSearchField(beanItem.getId()));

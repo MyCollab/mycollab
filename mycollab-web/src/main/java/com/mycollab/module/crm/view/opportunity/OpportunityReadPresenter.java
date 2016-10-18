@@ -146,7 +146,7 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
             @Override
             public void createNewRelatedItem(String itemId) {
                 if (itemId.equals("task")) {
-                    SimpleTask task = new SimpleTask();
+                    SimpleCrmTask task = new SimpleCrmTask();
                     task.setType(CrmTypeConstants.OPPORTUNITY);
                     task.setTypeid(view.getItem().getId());
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(OpportunityReadPresenter.this, task));

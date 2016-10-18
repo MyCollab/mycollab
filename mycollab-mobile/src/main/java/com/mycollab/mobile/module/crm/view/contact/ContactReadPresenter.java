@@ -163,7 +163,7 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
             @Override
             public void createNewRelatedItem(String itemId) {
                 if (itemId.equals(CrmTypeConstants.TASK)) {
-                    SimpleTask task = new SimpleTask();
+                    SimpleCrmTask task = new SimpleCrmTask();
                     task.setType(CrmTypeConstants.ACCOUNT);
                     task.setTypeid(view.getItem().getId());
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(ContactReadPresenter.this, task));

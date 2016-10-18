@@ -25,7 +25,7 @@ import com.mycollab.db.arguments.StringSearchField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TodoSearchCriteria extends SearchCriteria {
+public class CrmTaskSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
     private NumberSearchField contactId;

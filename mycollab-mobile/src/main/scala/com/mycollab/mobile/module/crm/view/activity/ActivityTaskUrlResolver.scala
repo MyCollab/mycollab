@@ -20,7 +20,7 @@ import com.mycollab.common.UrlTokenizer
 import com.mycollab.eventmanager.EventBusFactory
 import com.mycollab.mobile.module.crm.CrmUrlResolver
 import com.mycollab.mobile.module.crm.events.ActivityEvent
-import com.mycollab.module.crm.domain.Task
+import com.mycollab.module.crm.domain.CrmTask
 
 /**
   * @author MyCollab Ltd
@@ -33,7 +33,7 @@ class ActivityTaskUrlResolver extends CrmUrlResolver {
   
   class TaskAddUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, new Task))
+      EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, new CrmTask))
     }
   }
   

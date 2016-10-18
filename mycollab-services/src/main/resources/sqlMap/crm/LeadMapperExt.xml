@@ -2,25 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycollab.module.crm.dao.LeadMapperExt">
 
-    <resultMap
-        extends="com.mycollab.module.crm.dao.LeadMapper.ResultMapWithBLOBs"
+    <resultMap extends="com.mycollab.module.crm.dao.LeadMapper.ResultMapWithBLOBs"
         id="SimpleLeadResult" type="com.mycollab.module.crm.domain.SimpleLead">
-
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-            
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
-            
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
-
-        <result column="assignUserFullName" jdbcType="VARCHAR"
-            property="assignUserFullName" />
-
-        <result column="campaignName" jdbcType="VARCHAR"
-            property="campaignName" />
-
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
+        <result column="campaignName" jdbcType="VARCHAR" property="campaignName" />
         <result column="leadName" jdbcType="VARCHAR" property="leadName" />
     </resultMap>
 
@@ -158,7 +146,7 @@
                m_crm_lead.primState, m_crm_lead.primCity, m_crm_lead.primPostalCode, m_crm_lead.primCountry, m_crm_lead.description,
                m_crm_lead.otherAddress, m_crm_lead.otherState, m_crm_lead.otherCity, m_crm_lead.otherPostalCode, m_crm_lead.otherCountry,
                m_crm_lead.email, m_crm_lead.createdTime, m_crm_lead.createdUser, m_crm_lead.sAccountId, m_crm_lead.assignUser, m_crm_lead.status, 
-               m_crm_lead.source,
+               m_crm_lead.source, m_crm_lead.industry,
                s_user.avatarId AS assignUserAvatarId, 
                LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) AS assignUserFullName, 
                LTRIM(concat (IFNULL(m_crm_lead.firstname,''), ' ', m_crm_lead.lastname)) AS leadName,
@@ -173,23 +161,21 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="LeadSearchCriteria"
-        lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="LeadSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="LeadSearchCriteria"
-        lang="velocity">
+    <delete id="removeByCriteria" parameterType="LeadSearchCriteria" lang="velocity">
         DELETE FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
         #end
     </delete>
 
@@ -207,78 +193,66 @@
         parameterType="LeadSearchCriteria" lang="velocity">
         <include refid="selectSimpleLead" />
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
         <include refid="orderStatement" />
     </select>
 
-    <select id="findById" parameterType="int" resultMap="SimpleLeadResult"
-        lang="velocity">
+    <select id="findById" parameterType="int" resultMap="SimpleLeadResult" lang="velocity">
         <include refid="selectSimpleLead" />
-
         WHERE m_crm_lead.id = @{leadId,jdbcType=NUMERIC}
     </select>
 
-    <select id="findConvertedLeadOfAccount" parameterType="int"
-        resultMap="SimpleLeadResult" lang="velocity">
+    <select id="findConvertedLeadOfAccount" parameterType="int" resultMap="SimpleLeadResult" lang="velocity">
         <include refid="selectSimpleLead" />
-
         INNER JOIN m_crm_accounts_leads ON
         (m_crm_accounts_leads.leadId=m_crm_lead.id AND
-        m_crm_accounts_leads.isConvertRel=1 AND
-        m_crm_accounts_leads.accountId=@{accountId,jdbcType=NUMERIC})
+            m_crm_accounts_leads.isConvertRel=1 AND
+            m_crm_accounts_leads.accountId=@{accountId,jdbcType=NUMERIC})
     </select>
 
-    <select id="findConvertedLeadOfContact" parameterType="int"
-        resultMap="SimpleLeadResult" lang="velocity">
+    <select id="findConvertedLeadOfContact" parameterType="int" resultMap="SimpleLeadResult" lang="velocity">
         <include refid="selectSimpleLead" />
 
         INNER JOIN m_crm_contacts_leads ON
         (m_crm_contacts_leads.leadId=m_crm_lead.id AND
-        m_crm_contacts_leads.isConvertRel=1 AND
-        m_crm_contacts_leads.contactId=@{contactId,jdbcType=NUMERIC})
+            m_crm_contacts_leads.isConvertRel=1 AND
+            m_crm_contacts_leads.contactId=@{contactId,jdbcType=NUMERIC})
     </select>
 
-    <select id="findConvertedLeadOfOpportunity" parameterType="int"
-        resultMap="SimpleLeadResult" lang="velocity">
+    <select id="findConvertedLeadOfOpportunity" parameterType="int" resultMap="SimpleLeadResult" lang="velocity">
         <include refid="selectSimpleLead" />
 
         INNER JOIN m_crm_opportunities_leads ON
         (m_crm_opportunities_leads.leadId=m_crm_lead.id AND
-        m_crm_opportunities_leads.isConvertRel=1 AND
-        m_crm_opportunities_leads.opportunityId=@{opportunityId,jdbcType=NUMERIC})
+            m_crm_opportunities_leads.isConvertRel=1 AND
+            m_crm_opportunities_leads.opportunityId=@{opportunityId,jdbcType=NUMERIC})
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
-        lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_lead
-
         #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_lead
 
         #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
     <!-- Here for Mass Update -->
     <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
-        <include
-            refid="com.mycollab.module.crm.dao.LeadMapper.massUpdateWithSessionSql" />
-
+        <include refid="com.mycollab.module.crm.dao.LeadMapper.massUpdateWithSessionSql" />
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
         #end
     </update>
-
 </mapper>

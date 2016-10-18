@@ -120,7 +120,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
     this.register(new ApplicationEventListener[ActivityEvent.TaskAdd]() {
       @Subscribe def handle(event: ActivityEvent.TaskAdd) {
         val presenter = PresenterResolver.getPresenter(classOf[AssignmentAddPresenter])
-        presenter.go(container, new AssignmentScreenData.Add(new SimpleTask))
+        presenter.go(container, new AssignmentScreenData.Add(new SimpleCrmTask))
       }
     })
 

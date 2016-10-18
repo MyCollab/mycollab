@@ -16,16 +16,14 @@
  */
 package com.mycollab.module.crm.view.activity;
 
-import com.mycollab.module.crm.domain.Task;
+import com.mycollab.module.crm.domain.CrmTask;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
-public interface AssignmentAddView extends IFormAddView<Task> {
-	HasEditFormHandlers<Task> getEditFormHandlers();
+public interface AssignmentAddView extends IFormAddView<CrmTask> {
+    HasEditFormHandlers<CrmTask> getEditFormHandlers();
 }

@@ -1962,116 +1962,6 @@ a.pending {
 	box-shadow: none;
 }
 
-.feed-block-wrap.v-margin-bottom {
-	padding-bottom: 18px;
-}
-
-.feed-block-wrap .date-lbl {
-	padding: 6px;
-	position: static;
-	width: 55px;
-	text-align: center;
-	border-radius: 3px;
-}
-
-.feed-block-wrap .date-lbl::after {
-	left: 100%;
-	top: 50%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-width: 8px;
-	margin-top: -8px;
-}
-
-.feed-block-wrap .v-slot-feed-block {
-	padding-left: 20px;
-}
-
-.feed-block-wrap .v-slot-feed-block::before {
-	content: "";
-	position: absolute;
-	top: -5px;
-	bottom: -7px;
-	left: 8px;
-	border-left: 1px solid #e9e9e9;
-}
-
-.feed-block-wrap .feed-block {
-	background-color: #ffffff;
-	padding: 3px 10px;
-	border: 1px solid #e9e9e9;
-	border-radius: 3px;
-	position: relative;
-	overflow: visible;
-}
-
-.feed-block-wrap .feed-block:hover {
-	background-color: #f5f5f5;
-}
-
-.feed-block-wrap .feed-block:hover::after {
-	border-color: transparent #f5f5f5;
-}
-
-.feed-block-wrap .feed-block::before {
-	content: "";
-	position: absolute;
-	border-style: solid;
-	display: block;
-	width: 0;
-	top: 4px;
-	left: -12px;
-	border-width: 11px 11px 11px 0;
-	border-color: transparent #e9e9e9;
-	border-radius: 0px;
-}
-
-.feed-block-wrap .feed-block::after {
-	content: "";
-	position: absolute;
-	border-style: solid;
-	display: block;
-	width: 0;
-	top: 4px;
-	left: -10px;
-	border-width: 11px 11px 11px 0;
-	border-color: transparent #ffffff;
-	border-radius: 0px;
-}
-
-.feed-block-wrap .feed-block .stream-wrapper {
-	border-width: 1px 0px 0px;
-	border-color: #e9e9e9;
-	padding-bottom: 8px;
-}
-
-.feed-block-wrap .feed-block .stream-wrapper:first-child {
-	border-width: 0px;
-}
-
-.v-label.year-lbl {
-	height: 40px;
-	width: 40px;
-	left: 35px;
-	position: relative;
-	margin: 10px;
-	border-radius: 50%;
-}
-
-.v-label.year-lbl div {
-	float: left;
-	width: 100%;
-	padding-top: 50%;
-	line-height: 1em;
-	margin-top: -0.5em;
-	text-align: center;
-	color: black;
-}
-
 div.v-popupbutton-popup {
 	border: 1px solid #e9e9e9;
 	border-radius: 0px;
@@ -14736,116 +14626,6 @@ a.pending {
 	box-shadow: none;
 }
 
-.feed-block-wrap.v-margin-bottom {
-	padding-bottom: 18px;
-}
-
-.feed-block-wrap .date-lbl {
-	padding: 6px;
-	position: static;
-	width: 55px;
-	text-align: center;
-	border-radius: 3px;
-}
-
-.feed-block-wrap .date-lbl::after {
-	left: 100%;
-	top: 50%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-width: 8px;
-	margin-top: -8px;
-}
-
-.feed-block-wrap .v-slot-feed-block {
-	padding-left: 20px;
-}
-
-.feed-block-wrap .v-slot-feed-block::before {
-	content: "";
-	position: absolute;
-	top: -5px;
-	bottom: -7px;
-	left: 8px;
-	border-left: 1px solid #e9e9e9;
-}
-
-.feed-block-wrap .feed-block {
-	background-color: #ffffff;
-	padding: 3px 10px;
-	border: 1px solid #e9e9e9;
-	border-radius: 3px;
-	position: relative;
-	overflow: visible;
-}
-
-.feed-block-wrap .feed-block:hover {
-	background-color: #f5f5f5;
-}
-
-.feed-block-wrap .feed-block:hover::after {
-	border-color: transparent #f5f5f5;
-}
-
-.feed-block-wrap .feed-block::before {
-	content: "";
-	position: absolute;
-	border-style: solid;
-	display: block;
-	width: 0;
-	top: 4px;
-	left: -12px;
-	border-width: 11px 11px 11px 0;
-	border-color: transparent #e9e9e9;
-	border-radius: 0px;
-}
-
-.feed-block-wrap .feed-block::after {
-	content: "";
-	position: absolute;
-	border-style: solid;
-	display: block;
-	width: 0;
-	top: 4px;
-	left: -10px;
-	border-width: 11px 11px 11px 0;
-	border-color: transparent #ffffff;
-	border-radius: 0px;
-}
-
-.feed-block-wrap .feed-block .stream-wrapper {
-	border-width: 1px 0px 0px;
-	border-color: #e9e9e9;
-	padding-bottom: 8px;
-}
-
-.feed-block-wrap .feed-block .stream-wrapper:first-child {
-	border-width: 0px;
-}
-
-.v-label.year-lbl {
-	height: 40px;
-	width: 40px;
-	left: 35px;
-	position: relative;
-	margin: 10px;
-	border-radius: 50%;
-}
-
-.v-label.year-lbl div {
-	float: left;
-	width: 100%;
-	padding-top: 50%;
-	line-height: 1em;
-	margin-top: -0.5em;
-	text-align: center;
-	color: black;
-}
-
 div.v-popupbutton-popup {
 	border: 1px solid #e9e9e9;
 	border-radius: 0px;
@@ -18032,9 +17812,119 @@ img.icon-btn {
 	width: 100%;
 }
 
-.crm-activity-list, .project-activity-list {
+.activity-list {
 	padding-top: 5px;
 	padding-right: 20px;
+}
+
+.activity-list .feed-block-wrap.v-margin-bottom {
+	padding-bottom: 18px;
+}
+
+.activity-list .feed-block-wrap .date-lbl {
+	padding: 6px;
+	position: static;
+	width: 55px;
+	text-align: center;
+	border-radius: 3px;
+}
+
+.activity-list .feed-block-wrap .date-lbl::after {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-width: 8px;
+	margin-top: -8px;
+}
+
+.activity-list .feed-block-wrap .v-slot-feed-block {
+	padding-left: 20px;
+}
+
+.activity-list .feed-block-wrap .v-slot-feed-block::before {
+	content: "";
+	position: absolute;
+	top: -5px;
+	bottom: -7px;
+	left: 8px;
+	border-left: 1px solid #e9e9e9;
+}
+
+.activity-list .feed-block-wrap .feed-block {
+	background-color: #ffffff;
+	padding: 3px 10px;
+	border: 1px solid #e9e9e9;
+	border-radius: 3px;
+	position: relative;
+	overflow: visible;
+}
+
+.activity-list .feed-block-wrap .feed-block:hover {
+	background-color: #f5f5f5;
+}
+
+.activity-list .feed-block-wrap .feed-block:hover::after {
+	border-color: transparent #f5f5f5;
+}
+
+.activity-list .feed-block-wrap .feed-block::before {
+	content: "";
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	top: 4px;
+	left: -12px;
+	border-width: 11px 11px 11px 0;
+	border-color: transparent #e9e9e9;
+	border-radius: 0px;
+}
+
+.activity-list .feed-block-wrap .feed-block::after {
+	content: "";
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	top: 4px;
+	left: -10px;
+	border-width: 11px 11px 11px 0;
+	border-color: transparent #ffffff;
+	border-radius: 0px;
+}
+
+.activity-list .feed-block-wrap .feed-block .stream-wrapper {
+	border-width: 1px 0px 0px;
+	border-color: #e9e9e9;
+	padding-bottom: 8px;
+}
+
+.activity-list .feed-block-wrap .feed-block .stream-wrapper:first-child {
+	border-width: 0px;
+}
+
+.activity-list .v-label.year-lbl {
+	height: 40px;
+	width: 40px;
+	left: 35px;
+	position: relative;
+	margin: 10px;
+	border-radius: 50%;
+}
+
+.activity-list .v-label.year-lbl div {
+	float: left;
+	width: 100%;
+	padding-top: 50%;
+	line-height: 1em;
+	margin-top: -0.5em;
+	text-align: center;
+	color: black;
 }
 
 .page-controls {

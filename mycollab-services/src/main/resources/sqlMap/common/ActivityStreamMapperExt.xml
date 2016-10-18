@@ -33,6 +33,14 @@
                 @{module}
             #end
         #end
+
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation}
+            s_activitystream.type IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         
         #ifnotnull($searchCriteria.extraTypeIds)
             ${searchCriteria.extraTypeIds.operation}
@@ -73,6 +81,14 @@
             s_activitystream.extraTypeId IN
             #repeat(${searchCriteria.extraTypeIds.values} $extraTypeId "," "(" ")")
                 @{extraTypeId}
+            #end
+        #end
+
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation}
+            s_activitystream.type IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
             #end
         #end
         

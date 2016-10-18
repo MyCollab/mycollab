@@ -39,7 +39,7 @@ public class SimpleActivity extends ValuedBean implements Serializable {
 
     private String type;
 
-    private int typeid;
+    private Integer typeId;
 
     private String typeName;
 
@@ -103,12 +103,12 @@ public class SimpleActivity extends ValuedBean implements Serializable {
         this.type = type;
     }
 
-    public int getTypeid() {
-        return typeid;
+    public Integer getTypeId() {
+        return typeId;
     }
 
-    public void setTypeid(int typeid) {
-        this.typeid = typeid;
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public String getTypeName() {
@@ -270,6 +270,6 @@ public class SimpleActivity extends ValuedBean implements Serializable {
     public boolean isOverdue() {
         return (!isCompleted() && (getEndDate() != null)
                 && (getEndDate()
-                .before(DateTimeUtils.getCurrentDateWithoutMS()))) ;
+                .before(DateTimeUtils.getCurrentDateWithoutMS())));
     }
 }

@@ -244,15 +244,15 @@ public class ThemeManager {
             extraStyles.append(".v-label.year-lbl { box-shadow: 0 0 0 5px #" + accountTheme.getActionbtn() + ";}");
 
             //Date label of activity stream
-            extraStyles.append(".feed-block-wrap .date-lbl { background-color:#" + accountTheme.getActionbtn() + ";}");
+            extraStyles.append(".activity-list .feed-block-wrap .date-lbl { background-color:#" + accountTheme.getActionbtn() + ";}");
 
-            extraStyles.append(".feed-block-wrap .date-lbl::after{ border-left-color:#" + accountTheme.getActionbtn() + ";}");
+            extraStyles.append(".activity-list .feed-block-wrap .date-lbl::after{ border-left-color:#" + accountTheme.getActionbtn() + ";}");
 
-            extraStyles.append(".feed-block-wrap:hover .date-lbl { background-color:" + ColorUtils.darkerColor("#" +
+            extraStyles.append(".activity-list .feed-block-wrap:hover .date-lbl { background-color:" + ColorUtils.darkerColor("#" +
                     accountTheme.getActionbtn()) + ";}");
 
-            extraStyles.append(".feed-block-wrap:hover .date-lbl::after{ border-left-color:" + ColorUtils.darkerColor
-                    ("#" + accountTheme.getActionbtn()) + ";}");
+            extraStyles.append(".activity-list .feed-block-wrap:hover .date-lbl::after{ border-left-color:" +
+                    ColorUtils.darkerColor("#" + accountTheme.getActionbtn()) + ";}");
 
             // Button group default button
             extraStyles.append(".v-buttongroup.toggle-btn-group .v-button.btn-group-default {background-color:#" + accountTheme
@@ -289,7 +289,7 @@ public class ThemeManager {
                     accountTheme.getActionbtntext() + "; }");
 
             //Date label of activity stream
-            extraStyles.append(".feed-block-wrap .date-lbl { color:#" + accountTheme.getActionbtntext() + ";}");
+            extraStyles.append(".activity-list .feed-block-wrap .date-lbl { color:#" + accountTheme.getActionbtntext() + ";}");
 
             extraStyles.append(".v-button.v-button-block {color:#" + accountTheme.getActionbtntext() + ";}");
 

@@ -16,15 +16,20 @@
  */
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.module.crm.domain.CallWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCall;
 import com.mycollab.module.crm.ui.components.RelatedReadItemField;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DateTimeViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
+import org.joda.time.Duration;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 /**
  * @author MyCollab Ltd.
@@ -45,7 +50,7 @@ class CallReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
             return new UserLinkViewField(call.getAssignuser(), call.getAssignUserAvatarId(), call.getAssignUserFullName());
         } else if (propertyId.equals("type")) {
             return new RelatedReadItemField(call);
-        } else if (propertyId.equals("status")) {
+        } else if (CallWithBLOBs.Field.status.equalTo(propertyId)) {
             StringBuilder value = new StringBuilder();
             if (call.getStatus() != null) {
                 value.append(call.getStatus()).append(" ");
@@ -54,30 +59,26 @@ class CallReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
             if (call.getCalltype() != null) {
                 value.append(call.getCalltype());
             }
-            return new DefaultViewField(value.toString());
-        } else if (propertyId.equals("durationinseconds")) {
-            final Integer duration = call.getDurationinseconds();
-            if (duration != null) {
-                final int hours = duration / 3600;
-                final int minutes = (duration % 3600) / 60;
-                final StringBuffer value = new StringBuffer();
-                if (hours == 1) {
-                    value.append("1 hour ");
-                } else if (hours >= 2) {
-                    value.append(hours + " hours ");
-                }
+            return new DefaultViewField(value.toString()).withStyleName(UIConstants.FIELD_NOTE);
+        } else if (CallWithBLOBs.Field.durationinseconds.equalTo(propertyId)) {
+            try {
+                final long duration = Long.parseLong("" + call.getDurationinseconds() * 1000);
 
-                if (minutes > 0) {
-                    value.append(minutes + " minutes");
-                }
-
-                return new DefaultViewField(value.toString());
-            } else {
+                Duration dur = new Duration(duration);
+                PeriodFormatter formatter = new PeriodFormatterBuilder().appendDays()
+                        .appendSuffix("d").appendHours()
+                        .appendSuffix("h").appendMinutes()
+                        .appendSuffix("m").appendSeconds()
+                        .appendSuffix("s").toFormatter();
+                String formatted = formatter.print(dur.toPeriod());
+                return new DefaultViewField(formatted);
+            } catch (NumberFormatException e) {
                 return new DefaultViewField("");
             }
-        } else if (propertyId.equals("startdate")) {
+
+        } else if (CallWithBLOBs.Field.startdate.equalTo(propertyId)) {
             return new DateTimeViewField(call.getStartdate());
-        } else if (propertyId.equals("description")) {
+        } else if (CallWithBLOBs.Field.description.equalTo(propertyId)) {
             return new RichTextViewField(call.getDescription());
         }
 

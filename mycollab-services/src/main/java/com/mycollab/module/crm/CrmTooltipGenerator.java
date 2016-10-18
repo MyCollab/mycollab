@@ -593,7 +593,7 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateToolTipCrmTask(Locale locale, String dateFormat, SimpleTask task, String siteURL,
+    public static String generateToolTipCrmTask(Locale locale, String dateFormat, SimpleCrmTask task, String siteURL,
                                                 TimeZone userTimeZone) {
         if (task == null)
             return generateTolltipNull(locale);

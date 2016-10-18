@@ -19,18 +19,15 @@ package com.mycollab.mobile.module.crm.view.activity;
 import com.mycollab.mobile.ui.ValueListSelect;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class MeetingStatusListSelect extends ValueListSelect {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-
-	public MeetingStatusListSelect() {
-		super();
-		setCaption(null);
-		this.loadData("Planned", "Held", "Not Held");
-	}
+    public MeetingStatusListSelect() {
+        super();
+        setCaption(null);
+        this.loadData("Planned", "Held", "Not Held");
+    }
 }

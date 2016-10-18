@@ -16,28 +16,28 @@
  */
 package com.mycollab.module.crm.view.parameters;
 
-import com.mycollab.module.crm.domain.Task;
+import com.mycollab.module.crm.domain.CrmTask;
 import com.mycollab.vaadin.mvp.ScreenData;
 
 public class AssignmentScreenData {
-	public static class Add extends ScreenData<Task> {
+    public static class Add extends ScreenData<CrmTask> {
 
-		public Add(Task task) {
-			super(task);
-		}
-	}
+        public Add(CrmTask task) {
+            super(task);
+        }
+    }
 
-	public static class Edit extends ScreenData<Task> {
+    public static class Edit extends ScreenData<CrmTask> {
 
-		public Edit(Task task) {
-			super(task);
-		}
-	}
-	
-	public static class Read extends ScreenData<Integer> {
+        public Edit(CrmTask task) {
+            super(task);
+        }
+    }
 
-		public Read(Integer params) {
-			super(params);
-		}
-	}
+    public static class Read extends ScreenData<Integer> {
+
+        public Read(Integer params) {
+            super(params);
+        }
+    }
 }

@@ -93,20 +93,23 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
             } else {
                 relatedItemComboBox.focus();
             }
-        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebUIConstants.BUTTON_OPTION);
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
 
         clearBtn = new MButton("", clickEvent -> {
             try {
                 PropertyUtils.setProperty(bean, "typeid", null);
+                PropertyUtils.setProperty(bean, "type", null);
+                relatedItemComboBox.setValue(null);
+                itemField.setValue("");
             } catch (Exception e) {
                 LOG.error("Error while saving type", e);
             }
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_OPTION);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
     }
 
     @Override
     protected Component initContent() {
-        return new MHorizontalLayout().with(relatedItemComboBox, itemField, browseBtn, clearBtn).alignAll(Alignment.MIDDLE_LEFT);
+        return new MHorizontalLayout(relatedItemComboBox, itemField, browseBtn, clearBtn).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override
@@ -133,7 +136,6 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
     }
 
     public void setType(String type) {
-        LOG.debug("Set type: " + type);
         relatedItemComboBox.select(type);
         try {
             Integer typeid = (Integer) PropertyUtils.getProperty(bean, "typeid");
@@ -163,10 +165,8 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
                         itemField.setValue(lead.getLeadName());
                     }
                 } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
-                    OpportunityService opportunityService = AppContextUtil
-                            .getSpringBean(OpportunityService.class);
-                    SimpleOpportunity opportunity = opportunityService
-                            .findById(typeid, MyCollabUI.getAccountId());
+                    OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
+                    SimpleOpportunity opportunity = opportunityService.findById(typeid, MyCollabUI.getAccountId());
                     if (opportunity != null) {
                         itemField.setValue(opportunity.getOpportunityname());
                     }
@@ -214,7 +214,7 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
     private static class RelatedItemComboBox extends KeyCaptionComboBox {
         private static final long serialVersionUID = 1L;
 
-        public RelatedItemComboBox() {
+        private RelatedItemComboBox() {
             super(true);
             setCaption(null);
             this.setWidth("100px");

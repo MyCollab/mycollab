@@ -190,7 +190,7 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
             @Override
             public void createNewRelatedItem(String itemId) {
                 if (itemId.equals(CrmTypeConstants.TASK)) {
-                    final SimpleTask task = new SimpleTask();
+                    final SimpleCrmTask task = new SimpleCrmTask();
                     task.setType(CrmTypeConstants.ACCOUNT);
                     task.setTypeid(view.getItem().getId());
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(OpportunityReadPresenter.this, task));

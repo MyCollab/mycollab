@@ -180,8 +180,8 @@ public class CrmModuleController extends AbstractController {
             public void handle(ActivityEvent.TaskAdd event) {
                 AssignmentAddPresenter presenter = PresenterResolver
                         .getPresenter(AssignmentAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Add<SimpleTask>(
-                        new SimpleTask()));
+                presenter.go(crmViewNavigation, new ScreenData.Add<SimpleCrmTask>(
+                        new SimpleCrmTask()));
             }
         });
 

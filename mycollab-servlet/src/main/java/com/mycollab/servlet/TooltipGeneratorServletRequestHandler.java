@@ -151,7 +151,7 @@ public class TooltipGeneratorServletRequestHandler extends GenericHttpServlet {
                 html = CrmTooltipGenerator.generateToolTipCall(locale, dateFormat, call, siteURL, timeZone);
             } else if (CrmTypeConstants.TASK.equals(type)) {
                 TaskService service = AppContextUtil.getSpringBean(TaskService.class);
-                com.mycollab.module.crm.domain.SimpleTask crmTask = service.findById(Integer.parseInt(typeId), sAccountId);
+                SimpleCrmTask crmTask = service.findById(Integer.parseInt(typeId), sAccountId);
                 html = CrmTooltipGenerator.generateToolTipCrmTask(locale, dateFormat,
                         crmTask, siteURL, timeZone);
             } else if (AdminTypeConstants.USER.equals(type)) {

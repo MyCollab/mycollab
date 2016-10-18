@@ -149,7 +149,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
             @Override
             public void createNewRelatedItem(String itemId) {
                 if (itemId.equals("task")) {
-                    SimpleTask task = new SimpleTask();
+                    SimpleCrmTask task = new SimpleCrmTask();
                     task.setType(CrmTypeConstants.LEAD);
                     task.setTypeid(view.getItem().getId());
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(LeadReadPresenter.this, task));

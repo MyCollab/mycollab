@@ -215,13 +215,15 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
+        private PeopleInfoComp() {
+            this.withMargin(false);
+        }
+
         void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
-            this.withMargin(false);
 
-            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
-            peopleInfoHeader.setStyleName("info-hdr");
+            ELabel peopleInfoHeader = ELabel.html(FontAwesome.USER.getHtml() + " " +
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE)).withStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
             GridLayout layout = new GridLayout(2, 2);

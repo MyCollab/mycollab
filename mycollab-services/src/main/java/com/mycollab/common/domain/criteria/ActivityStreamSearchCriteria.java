@@ -30,6 +30,7 @@ public class ActivityStreamSearchCriteria extends SearchCriteria {
     private SetSearchField<String> moduleSet;
     private SetSearchField<Integer> extraTypeIds;
     private StringSearchField createdUser;
+    private SetSearchField<String> types;
 
     public StringSearchField getCreatedUser() {
         return createdUser;
@@ -53,5 +54,13 @@ public class ActivityStreamSearchCriteria extends SearchCriteria {
 
     public void setExtraTypeIds(SetSearchField<Integer> extraTypeIds) {
         this.extraTypeIds = extraTypeIds;
+    }
+
+    public SetSearchField<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(SetSearchField<String> types) {
+        this.types = types;
     }
 }

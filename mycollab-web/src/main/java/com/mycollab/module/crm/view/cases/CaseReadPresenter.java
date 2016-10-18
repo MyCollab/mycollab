@@ -146,7 +146,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
             @Override
             public void createNewRelatedItem(String itemId) {
                 if (itemId.equals("task")) {
-                    SimpleTask task = new SimpleTask();
+                    SimpleCrmTask task = new SimpleCrmTask();
                     task.setType(CrmTypeConstants.CASE);
                     task.setTypeid(view.getItem().getId());
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(CaseReadPresenter.this, task));

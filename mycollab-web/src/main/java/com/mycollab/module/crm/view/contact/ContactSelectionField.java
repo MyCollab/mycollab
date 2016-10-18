@@ -48,6 +48,7 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
         browseBtn = new MButton("", clickEvent -> {
             ContactSelectionWindow contactWindow = new ContactSelectionWindow(ContactSelectionField.this);
             UI.getCurrent().addWindow(contactWindow);
+            contactWindow.show();
         }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
 
         clearBtn = new MButton("", clickEvent -> {
@@ -63,7 +64,6 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
             contactName.setValue(contact.getContactName());
             setInternalValue(contact.getId());
         }
-
     }
 
     @Override
@@ -96,16 +96,19 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
         contactName.setValue(contact.getContactName());
     }
 
+    @Override
+    public Integer getValue() {
+        return super.getValue();
+    }
+
     public SimpleContact getContact() {
         return this.contact;
     }
 
     @Override
     protected Component initContent() {
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
-        layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        layout.with(contactName, browseBtn, clearBtn).expand(contactName);
-        return layout;
+        return new MHorizontalLayout(contactName, browseBtn, clearBtn).expand(contactName)
+                .alignAll(Alignment.MIDDLE_LEFT).withFullWidth();
     }
 
     @Override

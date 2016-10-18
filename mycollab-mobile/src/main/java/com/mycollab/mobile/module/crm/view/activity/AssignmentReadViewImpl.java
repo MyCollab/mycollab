@@ -21,7 +21,7 @@ import com.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.SimpleTask;
+import com.mycollab.module.crm.domain.SimpleCrmTask;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -36,11 +36,11 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 4.1
  */
 @ViewComponent
-public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implements AssignmentReadView {
+public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleCrmTask> implements AssignmentReadView {
     private static final long serialVersionUID = 5248815234910784599L;
 
     @Override
-    public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
+    public HasPreviewFormHandlers<SimpleCrmTask> getPreviewFormHandlers() {
         return this.previewForm;
     }
 
@@ -54,7 +54,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> 
     }
 
     @Override
-    protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
+    protected AdvancedPreviewBeanForm<SimpleCrmTask> initPreviewForm() {
         return new AdvancedPreviewBeanForm<>();
     }
 
@@ -64,7 +64,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> 
     }
 
     @Override
-    protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleCrmTask> initBeanFormFieldFactory() {
         return new AssignmentReadFormFieldFactory(previewForm);
     }
 

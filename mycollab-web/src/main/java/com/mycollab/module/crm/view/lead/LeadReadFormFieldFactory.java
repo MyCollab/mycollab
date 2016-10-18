@@ -23,6 +23,7 @@ import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.*;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
@@ -65,7 +66,7 @@ class LeadReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(lead.getDescription());
         } else if (Lead.Field.status.equalTo(propertyId)) {
-            return new I18nFormViewField(lead.getStatus(), LeadStatus.class);
+            return new I18nFormViewField(lead.getStatus(), LeadStatus.class).withStyleName(UIConstants.FIELD_NOTE);
         } else if (Lead.Field.industry.equalTo(propertyId)) {
             return new I18nFormViewField(lead.getIndustry(), AccountIndustry.class);
         } else if (Lead.Field.source.equalTo(propertyId)) {

@@ -24,9 +24,9 @@ import com.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
-import com.mycollab.module.crm.domain.SimpleTask;
-import com.mycollab.module.crm.domain.Task;
-import com.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
+import com.mycollab.module.crm.domain.CrmTask;
+import com.mycollab.module.crm.domain.SimpleCrmTask;
+import com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.service.TaskService;
 import com.mycollab.security.RolePermissionCollections;
@@ -52,19 +52,19 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleTask>() {
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleCrmTask>() {
             @Override
-            public void onEdit(SimpleTask data) {
+            public void onEdit(SimpleCrmTask data) {
                 EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(this, data));
             }
 
             @Override
-            public void onAdd(SimpleTask data) {
+            public void onAdd(SimpleCrmTask data) {
                 EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
             }
 
             @Override
-            public void onDelete(final SimpleTask data) {
+            public void onDelete(final SimpleCrmTask data) {
                 ConfirmDialog.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
@@ -79,8 +79,8 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             }
 
             @Override
-            public void onClone(SimpleTask data) {
-                Task cloneData = (Task) data.copy();
+            public void onClone(SimpleCrmTask data) {
+                CrmTask cloneData = (CrmTask) data.copy();
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(this, cloneData));
             }
@@ -91,9 +91,9 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             }
 
             @Override
-            public void gotoNext(SimpleTask data) {
+            public void gotoNext(SimpleCrmTask data) {
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-                TodoSearchCriteria criteria = new TodoSearchCriteria();
+                CrmTaskSearchCriteria criteria = new CrmTaskSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
                 Integer nextId = taskService.getNextItemKey(criteria);
@@ -106,9 +106,9 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             }
 
             @Override
-            public void gotoPrevious(SimpleTask data) {
+            public void gotoPrevious(SimpleCrmTask data) {
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-                TodoSearchCriteria criteria = new TodoSearchCriteria();
+                CrmTaskSearchCriteria criteria = new CrmTaskSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
                 Integer nextId = taskService.getPreviousItemKey(criteria);
@@ -125,7 +125,7 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_TASK)) {
 
-            SimpleTask task;
+            SimpleCrmTask task;
             if (data.getParams() instanceof Integer) {
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 task = taskService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());

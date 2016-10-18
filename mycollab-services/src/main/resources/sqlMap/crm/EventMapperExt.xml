@@ -164,8 +164,7 @@
         lastUpdatedTime DESC
 	</sql>
 
-	<select id="getTotalCountFromTask" parameterType="map"
-		resultType="java.lang.Integer" lang="velocity">
+	<select id="getTotalCountFromTask" parameterType="map" resultType="java.lang.Integer" lang="velocity">
 		SELECT count(*) as totalCount FROM
 		m_crm_task
 		#ifnotnull($_parameter.searchCriteria)
@@ -175,8 +174,7 @@
 		#end
 	</select>
 
-	<select id="getTotalCountFromCall" parameterType="map"
-		resultType="java.lang.Integer" lang="velocity">
+	<select id="getTotalCountFromCall" parameterType="map" resultType="java.lang.Integer" lang="velocity">
 		SELECT count(*) as totalCount FROM
 		m_crm_call
 		#ifnotnull($_parameter.searchCriteria)
@@ -186,8 +184,7 @@
 		#end
 	</select>
 
-	<select id="getTotalCountFromMeeting" parameterType="map"
-		resultType="java.lang.Integer" lang="velocity">
+	<select id="getTotalCountFromMeeting" parameterType="map" resultType="java.lang.Integer" lang="velocity">
 		SELECT count(*) as totalCount FROM
 		m_crm_meeting
 		#ifnotnull($_parameter.searchCriteria)
@@ -197,11 +194,9 @@
 		#end
 	</select>
 
-	<select id="findPageableListByCriteria" parameterType="map"
-		resultMap="SimpleEventResult" lang="velocity">
+	<select id="findPageableListByCriteria" parameterType="map" resultMap="SimpleEventResult" lang="velocity">
 		(
-		<include
-			refid="selectSimpleEventFromTask" />
+		<include refid="selectSimpleEventFromTask" />
 		#ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
 				<include refid="queryTaskSearchCriteria" />
@@ -212,8 +207,7 @@
 		UNION
 
 		(
-		<include
-			refid="selectSimpleEventFromCall" />
+		<include refid="selectSimpleEventFromCall" />
 		#ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
 				<include refid="queryCallSearchCriteria" />

@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EventServiceImpl extends DefaultSearchService<ActivitySearchCriteria> implements EventService {
 
     @Autowired
-    protected EventMapperExt eventMapperExt;
+    private EventMapperExt eventMapperExt;
 
     @Override
     public ISearchableDAO<ActivitySearchCriteria> getSearchMapper() {

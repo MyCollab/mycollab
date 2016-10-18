@@ -127,15 +127,15 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         associateActivityList.setSearchCriteria(criteria);
     }
 
-    protected void displayAccounts() {
+    private void displayAccounts() {
         associateAccountList.displayAccounts(beanItem);
     }
 
-    protected void displayContacts() {
+    private void displayContacts() {
         associateContactList.displayContacts(beanItem);
     }
 
-    protected void displayLeads() {
+    private void displayLeads() {
         associateLeadList.displayLeads(beanItem);
     }
 

@@ -70,11 +70,11 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<ProjectActivityStream> {
     private static final long serialVersionUID = 1L;
 
-    protected final ProjectActivityStreamService projectActivityStreamService;
+    protected ProjectActivityStreamService projectActivityStreamService;
 
     public ProjectActivityStreamPagedList() {
         super(null, 20);
-        this.setStyleName("project-activity-list");
+        this.setStyleName("activity-list");
         projectActivityStreamService = AppContextUtil.getSpringBean(ProjectActivityStreamService.class);
     }
 

@@ -22,7 +22,7 @@ import com.mycollab.core.utils.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class SimpleTask extends Task {
+public class SimpleCrmTask extends CrmTask {
     private static final long serialVersionUID = 1L;
 
     private String createdUserAvatarId;

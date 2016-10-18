@@ -19,15 +19,15 @@ package com.mycollab.module.crm.service;
 import com.mycollab.core.cache.CacheKey;
 import com.mycollab.core.cache.Cacheable;
 import com.mycollab.db.persistence.service.IDefaultService;
-import com.mycollab.module.crm.domain.SimpleTask;
-import com.mycollab.module.crm.domain.Task;
-import com.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
+import com.mycollab.module.crm.domain.CrmTask;
+import com.mycollab.module.crm.domain.SimpleCrmTask;
+import com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface TaskService extends IDefaultService<Integer, Task, TodoSearchCriteria> {
+public interface TaskService extends IDefaultService<Integer, CrmTask, CrmTaskSearchCriteria> {
     @Cacheable
-    SimpleTask findById(Integer taskId, @CacheKey Integer sAccountId);
+    SimpleCrmTask findById(Integer taskId, @CacheKey Integer sAccountId);
 }

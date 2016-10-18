@@ -17,8 +17,8 @@
 package com.mycollab.mobile.module.crm.view.activity;
 
 import com.mycollab.mobile.module.crm.ui.RelatedReadItemField;
+import com.mycollab.module.crm.domain.SimpleCrmTask;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.mycollab.module.crm.domain.SimpleTask;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.DateTimeViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
@@ -28,10 +28,10 @@ import com.vaadin.ui.Field;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-class AssignmentReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
+class AssignmentReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCrmTask> {
     private static final long serialVersionUID = 1L;
 
-    public AssignmentReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
+    public AssignmentReadFormFieldFactory(GenericBeanForm<SimpleCrmTask> form) {
         super(form);
     }
 

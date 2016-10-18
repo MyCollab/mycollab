@@ -22,7 +22,7 @@ import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.{FormatUtils, LinkUtils}
-import com.mycollab.module.crm.domain.{SimpleTask, Task}
+import com.mycollab.module.crm.domain.{SimpleCrmTask, CrmTask}
 import com.mycollab.module.crm.i18n.TaskI18nEnum
 import com.mycollab.module.crm.service.{ContactService, TaskService}
 import com.mycollab.module.crm.{CrmLinkGenerator, CrmResources, CrmTypeConstants}
@@ -44,13 +44,13 @@ import org.springframework.stereotype.Component
   * @since 4.6.0
   */
 @Component
-@Scope(BeanDefinition.SCOPE_PROTOTYPE) class TaskRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAction[SimpleTask] with TaskRelayEmailNotificationAction {
+@Scope(BeanDefinition.SCOPE_PROTOTYPE) class TaskRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAction[SimpleCrmTask] with TaskRelayEmailNotificationAction {
   private val LOG = LoggerFactory.getLogger(classOf[TaskRelayEmailNotificationActionImpl])
   
   @Autowired var taskService: TaskService = _
   private val mapper = new TaskFieldNameMapper
   
-  protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
+  protected def buildExtraTemplateVariables(context: MailContext[SimpleCrmTask]) {
     val summary = bean.getSubject
     val summaryLink = CrmLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getId)
     val emailNotification = context.getEmailNotification
@@ -80,24 +80,24 @@ import org.springframework.stereotype.Component
   
   protected def getItemFieldMapper: ItemFieldMapper = mapper
   
-  protected def getBeanInContext(notification: SimpleRelayEmailNotification): SimpleTask =
+  protected def getBeanInContext(notification: SimpleRelayEmailNotification): SimpleCrmTask =
     taskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
   
   class TaskFieldNameMapper extends ItemFieldMapper {
-    put(Task.Field.subject, TaskI18nEnum.FORM_SUBJECT, isColSpan = true)
-    put(Task.Field.status, GenericI18Enum.FORM_STATUS)
-    put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
-    put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
-    put(Task.Field.duedate, new DateFieldFormat(Task.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
-    put(Task.Field.contactid, new ContactFieldFormat(Task.Field.contactid.name, TaskI18nEnum.FORM_CONTACT))
-    put(Task.Field.priority, TaskI18nEnum.FORM_PRIORITY)
-    put(Task.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+    put(CrmTask.Field.subject, TaskI18nEnum.FORM_SUBJECT, isColSpan = true)
+    put(CrmTask.Field.status, GenericI18Enum.FORM_STATUS)
+    put(CrmTask.Field.startdate, new DateFieldFormat(CrmTask.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
+    put(CrmTask.Field.assignuser, new AssigneeFieldFormat(CrmTask.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
+    put(CrmTask.Field.duedate, new DateFieldFormat(CrmTask.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
+    put(CrmTask.Field.contactid, new ContactFieldFormat(CrmTask.Field.contactid.name, TaskI18nEnum.FORM_CONTACT))
+    put(CrmTask.Field.priority, TaskI18nEnum.FORM_PRIORITY)
+    put(CrmTask.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
   
   class ContactFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
     
     def formatField(context: MailContext[_]): String = {
-      val task = context.getWrappedBean.asInstanceOf[SimpleTask]
+      val task = context.getWrappedBean.asInstanceOf[SimpleCrmTask]
       if (task.getContactid != null) {
         val img = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
         val contactLink = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, task.getContactid)
@@ -133,7 +133,7 @@ import org.springframework.stereotype.Component
   
   class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
     def formatField(context: MailContext[_]): String = {
-      val task = context.getWrappedBean.asInstanceOf[SimpleTask]
+      val task = context.getWrappedBean.asInstanceOf[SimpleCrmTask]
       if (task.getAssignuser != null) {
         val userAvatarLink = MailUtils.getAvatarLink(task.getAssignUserAvatarId, 16)
         val img = FormatUtils.newImg("avatar", userAvatarLink)

@@ -143,7 +143,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
             @Override
             public void createNewRelatedItem(String itemId) {
                 if (itemId.equals("task")) {
-                    SimpleTask task = new SimpleTask();
+                    SimpleCrmTask task = new SimpleCrmTask();
                     task.setType(CrmTypeConstants.CAMPAIGN);
                     task.setTypeid(view.getItem().getId());
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(CampaignReadPresenter.this, task));

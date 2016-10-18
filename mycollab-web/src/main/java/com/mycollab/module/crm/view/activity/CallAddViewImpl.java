@@ -32,6 +32,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.mycollab.vaadin.web.ui.IntegerField;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.data.Property;
@@ -161,16 +162,16 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
     private static class CallDurationField extends CustomField<Integer> {
         private static final long serialVersionUID = 1L;
-        private TextField hourField;
+        private IntegerField hourField;
         private ValueComboBox minutesField;
 
         CallDurationField() {
-            hourField = new TextField();
-            hourField.setWidth("30px");
+            hourField = new IntegerField();
+            hourField.setWidth("50px");
 
             minutesField = new ValueComboBox();
             minutesField.loadData("0", "15", "30", "45");
-            minutesField.setWidth("40px");
+            minutesField.setWidth("70px");
         }
 
         @Override
@@ -181,15 +182,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
         }
 
         private Integer calculateDurationInSeconds() {
-            String hourValue = hourField.getValue();
+            Integer hourValue = hourField.getValue();
             String minuteValue = (String) minutesField.getValue();
-            int hourVal, minutesVal;
-            try {
-                hourVal = Integer.parseInt(hourValue);
-            } catch (NumberFormatException e) {
-                hourField.setValue("");
-                hourVal = 0;
-            }
+            int minutesVal;
 
             try {
                 minutesVal = Integer.parseInt(minuteValue);
@@ -198,8 +193,8 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 minutesVal = 0;
             }
 
-            if (hourVal != 0 || minutesVal != 0) {
-                return (minutesVal * 60 + hourVal * 3600);
+            if (minutesVal != 0 || hourValue != 0) {
+                return (minutesVal * 60 + hourValue * 3600);
             }
 
             return 0;
@@ -212,7 +207,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 Integer duration = (Integer) value;
                 int hours = duration / 3600;
                 int minutes = (duration % 3600) / 60;
-                hourField.setValue("" + hours);
+                hourField.setValue(hours);
                 minutesField.select("" + minutes);
             }
             super.setPropertyDataSource(newDataSource);

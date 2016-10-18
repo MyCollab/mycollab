@@ -29,6 +29,7 @@ import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.*;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.field.*;
@@ -98,7 +99,7 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(contact.getDescription());
         } else if (Contact.Field.leadsource.equalTo(propertyId)) {
-            return new I18nFormViewField(contact.getLeadsource(), OpportunityLeadSource.class);
+            return new I18nFormViewField(contact.getLeadsource(), OpportunityLeadSource.class).withStyleName(UIConstants.FIELD_NOTE);
         } else if (Contact.Field.primcountry.equalTo(propertyId)) {
             return new CountryViewField(contact.getPrimcountry());
         } else if (Contact.Field.othercountry.equalTo(propertyId)) {

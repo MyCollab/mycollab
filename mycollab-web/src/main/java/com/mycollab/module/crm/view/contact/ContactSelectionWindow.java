@@ -30,6 +30,7 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
 
@@ -37,7 +38,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ContactSelectionWindow extends Window {
+public class ContactSelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private ContactTableDisplay tableItem;
@@ -45,10 +46,8 @@ public class ContactSelectionWindow extends Window {
 
     public ContactSelectionWindow(FieldSelection<Contact> fieldSelection) {
         super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(ContactI18nEnum.SINGLE)));
-        this.setWidth("900px");
+        this.withWidth("900px").withModal(true).withResizable(false);
         this.fieldSelection = fieldSelection;
-        this.setModal(true);
-        this.setResizable(false);
     }
 
     public void show() {

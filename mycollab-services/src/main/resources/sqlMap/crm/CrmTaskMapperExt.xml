@@ -2,18 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycollab.module.crm.dao.CrmTaskMapperExt">
     
-    <resultMap
-        extends="com.mycollab.module.crm.dao.CrmTaskMapper.ResultMapWithBLOBs"
-        id="SimpleTaskResult" type="com.mycollab.module.crm.domain.SimpleTask">
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
+    <resultMap extends="com.mycollab.module.crm.dao.CrmTaskMapper.ResultMapWithBLOBs"
+        id="SimpleTaskResult" type="com.mycollab.module.crm.domain.SimpleCrmTask">
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <result column="contactName" jdbcType="VARCHAR" property="contactName" />
-        <result column="assignUserFullName" jdbcType="VARCHAR"
-            property="assignUserFullName" />
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -279,8 +274,7 @@
         lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" parameterType="TodoSearchCriteria"
-        resultType="int" lang="velocity">
+    <select id="getTotalCount" parameterType="CrmTaskSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_task
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -289,7 +283,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="TodoSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="CrmTaskSearchCriteria" lang="velocity">
         DELETE FROM m_crm_task
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -304,8 +298,7 @@
         WHERE m_crm_task.id=@{taskId,jdbcType=NUMERIC}
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="TodoSearchCriteria"
-        resultMap="SimpleTaskResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="CrmTaskSearchCriteria" resultMap="SimpleTaskResult" lang="velocity">
         <![CDATA[
         SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 

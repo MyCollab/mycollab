@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.module.crm.view.activity;
 
-import com.mycollab.module.crm.domain.SimpleTask;
+import com.mycollab.module.crm.domain.SimpleCrmTask;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.IPreviewView;
 
@@ -26,6 +26,6 @@ import com.mycollab.vaadin.mvp.IPreviewView;
  * @since 4.1
  * 
  */
-public interface AssignmentReadView extends IPreviewView<SimpleTask> {
-	HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers();
+public interface AssignmentReadView extends IPreviewView<SimpleCrmTask> {
+	HasPreviewFormHandlers<SimpleCrmTask> getPreviewFormHandlers();
 }

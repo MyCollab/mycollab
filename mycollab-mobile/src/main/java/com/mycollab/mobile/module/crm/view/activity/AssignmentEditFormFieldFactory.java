@@ -20,7 +20,7 @@ import com.mycollab.mobile.module.crm.view.contact.ContactSelectionField;
 import com.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.mobile.ui.I18NValueListSelect;
 import com.mycollab.module.crm.CrmDataTypeFactory;
-import com.mycollab.module.crm.domain.Task;
+import com.mycollab.module.crm.domain.CrmTask;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.DummyCustomField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -35,10 +35,10 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
+public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<CrmTask> {
     private static final long serialVersionUID = 1L;
 
-    public AssignmentEditFormFieldFactory(GenericBeanForm<Task> form) {
+    public AssignmentEditFormFieldFactory(GenericBeanForm<CrmTask> form) {
         super(form);
     }
 
@@ -83,7 +83,7 @@ public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFi
     static class TaskPriorityListSelect extends I18NValueListSelect {
         private static final long serialVersionUID = 1L;
 
-        public TaskPriorityListSelect() {
+        private TaskPriorityListSelect() {
             super();
             setCaption(null);
             this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskPriorities()));
@@ -93,7 +93,7 @@ public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFi
     static class TaskStatusListSelect extends I18NValueListSelect {
         private static final long serialVersionUID = 1L;
 
-        public TaskStatusListSelect() {
+        private TaskStatusListSelect() {
             super();
             setCaption(null);
             this.loadData(Arrays.asList(CrmDataTypeFactory.getTaskStatuses()));
