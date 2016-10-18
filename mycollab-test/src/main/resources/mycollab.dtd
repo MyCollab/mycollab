@@ -1,5 +1,4 @@
 <!ELEMENT dataset (
-    JGROUPSPING*,
     m_audit_log*,
     m_comment*,
     m_crm_account*,
@@ -61,22 +60,15 @@
     s_account_theme*,
     s_activitystream*,
     s_billing_plan*,
-    s_billing_subscription*,
-    s_billing_subscription_history*,
     s_country*,
     s_customer_feedback*,
-    s_customer_lead*,
-    s_email_preference*,
     s_favorite*,
-    s_live_instances*,
-    s_pro_edition_info*,
     s_relay_email_notification*,
     s_role_permission*,
     s_roles*,
     s_save_search_result*,
     s_table_customize_view*,
     s_tag*,
-    s_testimonial*,
     s_timeline_tracking*,
     s_timeline_tracking_cache*,
     s_user*,
@@ -85,13 +77,6 @@
     s_user_tracking*,
     s_widgets*,
     schema_version*)>
-
-<!ELEMENT JGROUPSPING EMPTY>
-<!ATTLIST JGROUPSPING
-    own_addr CDATA #REQUIRED
-    cluster_name CDATA #REQUIRED
-    ping_data CDATA #IMPLIED
->
 
 <!ELEMENT m_audit_log EMPTY>
 <!ATTLIST m_audit_log
@@ -960,7 +945,7 @@
     milestoneId CDATA #IMPLIED
     ganttIndex CDATA #IMPLIED
     percentagecomplete CDATA #IMPLIED
-    priority CDATA #IMPLIED
+    priority CDATA #REQUIRED
     remainEstimate CDATA #IMPLIED
 >
 
@@ -1003,7 +988,7 @@
     percentagecomplete CDATA #REQUIRED
     startDate CDATA #IMPLIED
     endDate CDATA #IMPLIED
-    priority CDATA #IMPLIED
+    priority CDATA #REQUIRED
     duration CDATA #IMPLIED
     isestimated CDATA #IMPLIED
     projectId CDATA #REQUIRED
@@ -1051,7 +1036,7 @@
     createdTime CDATA #IMPLIED
     createdUser CDATA #IMPLIED
     severity CDATA #IMPLIED
-    priority CDATA #IMPLIED
+    priority CDATA #REQUIRED
     lastUpdatedTime CDATA #IMPLIED
     status CDATA #REQUIRED
     dueDate CDATA #IMPLIED
@@ -1215,39 +1200,6 @@
     yearlyShoppingUrl CDATA #IMPLIED
 >
 
-<!ELEMENT s_billing_subscription EMPTY>
-<!ATTLIST s_billing_subscription
-    id CDATA #REQUIRED
-    company CDATA #IMPLIED
-    email CDATA #REQUIRED
-    billingId CDATA #REQUIRED
-    name CDATA #REQUIRED
-    subReference CDATA #REQUIRED
-    accountId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    status CDATA #REQUIRED
-    country CDATA #IMPLIED
-    city CDATA #IMPLIED
-    address CDATA #IMPLIED
-    state CDATA #IMPLIED
-    zipcode CDATA #IMPLIED
-    phone CDATA #IMPLIED
-    contactName CDATA #IMPLIED
-    subscriptionCustomerUrl CDATA #IMPLIED
->
-
-<!ELEMENT s_billing_subscription_history EMPTY>
-<!ATTLIST s_billing_subscription_history
-    id CDATA #REQUIRED
-    orderId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    subscriptionId CDATA #REQUIRED
-    status CDATA #REQUIRED
-    expiredDate CDATA #REQUIRED
-    totalPrice CDATA #REQUIRED
-    productName CDATA #REQUIRED
->
-
 <!ELEMENT s_country EMPTY>
 <!ATTLIST s_country
     id CDATA #REQUIRED
@@ -1265,29 +1217,6 @@
     reasonToBack CDATA #IMPLIED
 >
 
-<!ELEMENT s_customer_lead EMPTY>
-<!ATTLIST s_customer_lead
-    id CDATA #REQUIRED
-    firstname CDATA #REQUIRED
-    lastname CDATA #REQUIRED
-    company CDATA #REQUIRED
-    role CDATA #REQUIRED
-    phone CDATA #REQUIRED
-    country CDATA #REQUIRED
-    email CDATA #REQUIRED
-    registerDate CDATA #IMPLIED
-    edition CDATA #IMPLIED
-    version CDATA #IMPLIED
-    valid CDATA #IMPLIED
->
-
-<!ELEMENT s_email_preference EMPTY>
-<!ATTLIST s_email_preference
-    email CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    subscribe CDATA #REQUIRED
->
-
 <!ELEMENT s_favorite EMPTY>
 <!ATTLIST s_favorite
     id CDATA #REQUIRED
@@ -1298,39 +1227,6 @@
     extraTypeId CDATA #IMPLIED
     createdUser CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
->
-
-<!ELEMENT s_live_instances EMPTY>
-<!ATTLIST s_live_instances
-    id CDATA #REQUIRED
-    appVersion CDATA #REQUIRED
-    javaVersion CDATA #REQUIRED
-    installedDate CDATA #REQUIRED
-    sysId CDATA #REQUIRED
-    sysProperties CDATA #REQUIRED
-    lastUpdatedDate CDATA #REQUIRED
-    numProjects CDATA #IMPLIED
-    numUsers CDATA #IMPLIED
-    edition CDATA #IMPLIED
->
-
-<!ELEMENT s_pro_edition_info EMPTY>
-<!ATTLIST s_pro_edition_info
-    id CDATA #REQUIRED
-    company CDATA #IMPLIED
-    email CDATA #REQUIRED
-    internalProductName CDATA #IMPLIED
-    name CDATA #IMPLIED
-    quantity CDATA #IMPLIED
-    issueDate CDATA #REQUIRED
-    type CDATA #REQUIRED
-    cost CDATA #IMPLIED
-    orderId CDATA #REQUIRED
-    country CDATA #IMPLIED
-    phone CDATA #IMPLIED
-    address1 CDATA #IMPLIED
-    address2 CDATA #IMPLIED
-    city CDATA #IMPLIED
 >
 
 <!ELEMENT s_relay_email_notification EMPTY>
@@ -1394,17 +1290,6 @@
     extraTypeId CDATA #IMPLIED
     createdTime CDATA #IMPLIED
     createdUser CDATA #IMPLIED
->
-
-<!ELEMENT s_testimonial EMPTY>
-<!ATTLIST s_testimonial
-    id CDATA #REQUIRED
-    displayName CDATA #REQUIRED
-    jobRole CDATA #REQUIRED
-    company CDATA #IMPLIED
-    testimonial CDATA #REQUIRED
-    website CDATA #IMPLIED
-    email CDATA #IMPLIED
 >
 
 <!ELEMENT s_timeline_tracking EMPTY>

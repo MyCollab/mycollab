@@ -2,44 +2,44 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
     <s_account id="1" createdTime="2013-04-10 13:29:23"
-        paymentMethod="Credit Card" status="Active" />
+               paymentMethod="Credit Card" status="Active"/>
 
     <s_account id="2" createdTime="2013-04-10 13:29:23"
-        paymentMethod="Credit Card" status="Active" />
+               paymentMethod="Credit Card" status="Active"/>
 
     <s_user firstname="a1" lastname="b1" username="hainguyen@esofthead.com"
-        email="hainguyen@esofthead.com" />
+            email="hainguyen@esofthead.com"/>
 
     <s_user firstname="a2" lastname="b2" username="linhduong@esofthead.com"
-        email="linhduong@esofthead.com" />
+            email="linhduong@esofthead.com"/>
 
     <s_user_account id="1" isAccountOwner="1"
-        registerStatus="Active" username="hainguyen@esofthead.com"
-        accountId="1" registeredTime="2013-04-10 13:29:23" />
+                    registerStatus="Active" username="hainguyen@esofthead.com"
+                    accountId="1" registeredTime="2013-04-10 13:29:23"/>
 
     <s_user_account id="2" isAccountOwner="0"
-        registerStatus="Active" username="linhduong@esofthead.com"
-        accountId="1" registeredTime="2013-04-10 13:29:23" />
+                    registerStatus="Active" username="linhduong@esofthead.com"
+                    accountId="1" registeredTime="2013-04-10 13:29:23"/>
 
     <m_prj_project id="1" name="a" sAccountId="1"
-        shortname="aaa" projectStatus="Open" />
+                   shortname="aaa" projectStatus="Open"/>
 
     <m_prj_project id="4" name="addd" sAccountId="1"
-        shortname="aaa" projectStatus="Open" />
+                   shortname="aaa" projectStatus="Open"/>
 
     <m_prj_project id="2" name="b" sAccountId="1"
-        shortname="bbb" projectStatus="Open" />
+                   shortname="bbb" projectStatus="Open"/>
 
     <m_prj_project id="3" name="a" sAccountId="2"
-        shortname="aaa" projectStatus="Open" />
+                   shortname="aaa" projectStatus="Open"/>
 
-    <m_prj_task sAccountId="1" projectId="1" id="1"
-        percentagecomplete="40" name="task1" taskkey="1" />
+    <m_prj_task sAccountId="1" projectId="1" id="1" priority="Medium"
+                percentagecomplete="40" name="task1" taskkey="1"/>
 
-    <m_prj_task sAccountId="1" projectId="1" id="2"
-        percentagecomplete="0" name="task2" taskkey="2" />
+    <m_prj_task sAccountId="1" projectId="1" id="2" priority="Medium"
+                percentagecomplete="0" name="task2" taskkey="2"/>
 
-    <m_prj_task sAccountId="2" projectId="3" id="3"
-        percentagecomplete="0" name="task1" taskkey="1" />
+    <m_prj_task sAccountId="2" projectId="3" id="3" priority="Medium"
+                percentagecomplete="0" name="task1" taskkey="1"/>
 
 </dataset>

@@ -41,7 +41,7 @@ public class ComponentServiceTest extends IntegrationServiceTest {
     private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Autowired
-    protected ComponentService componentService;
+    private ComponentService componentService;
 
     private ComponentSearchCriteria getCriteria() {
         ComponentSearchCriteria criteria = new ComponentSearchCriteria();

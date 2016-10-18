@@ -20,17 +20,20 @@
     <m_prj_member id="2" username="linhduong" projectId="3" joinDate="2013-04-10 00:00:00" isAdmin="0" status="Active"
                   sAccountId="1"/>
 
-    <m_prj_task id="1" name="Task 1" percentagecomplete="10" projectId="1" sAccountId="1" dueDate="2013-04-10 00:00:00"/>
+    <m_prj_task id="1" name="Task 1" percentagecomplete="10" projectId="1" sAccountId="1" dueDate="2013-04-10 00:00:00"
+                priority="Medium"/>
 
-    <m_prj_task id="2" name="Task 2" percentagecomplete="10" projectId="1" sAccountId="1" dueDate="2013-04-10 00:00:00"/>
+    <m_prj_task id="2" name="Task 2" percentagecomplete="10" projectId="1" sAccountId="1" dueDate="2013-04-10 00:00:00"
+                priority="Medium"/>
 
-    <m_prj_task id="3" name="Task 3" percentagecomplete="10" projectId="2" sAccountId="1" dueDate="2013-04-10 00:00:00"/>
+    <m_prj_task id="3" name="Task 3" percentagecomplete="10" projectId="2" sAccountId="1" dueDate="2013-04-10 00:00:00"
+                priority="Medium"/>
 
-    <m_prj_task id="4" name="Task 4" percentagecomplete="10" projectId="3" sAccountId="2"
+    <m_prj_task id="4" name="Task 4" percentagecomplete="10" projectId="3" sAccountId="2" priority="Medium"
                 dueDate="2013-04-10 00:00:00" status="InProgress" assignUser="linhduong"/>
 
-    <m_tracker_bug id="1" name="Bug 1" status="Active" projectId="3" sAccountId="2" bugkey="1"
+    <m_tracker_bug id="1" name="Bug 1" status="Active" projectId="3" sAccountId="2" bugkey="1" priority="Medium"
                    dueDate="2013-04-10 00:00:00" assignUser="hai79"/>
 
-    <m_prj_risk id="1" name="Risk 1" projectId="3" sAccountId="2" status="Open" assignUser="hai79"/>
+    <m_prj_risk id="1" name="Risk 1" projectId="3" sAccountId="2" status="Open" assignUser="hai79" priority="Medium"/>
 </dataset>

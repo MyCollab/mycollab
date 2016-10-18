@@ -43,13 +43,13 @@
                   id="2"/>
 
 
-    <m_prj_task id="1" projectId="4" taskindex="1" taskkey="10"
+    <m_prj_task id="1" projectId="4" taskindex="1" taskkey="10" priority="Medium"
                 name="taskname" sAccountId="1" percentagecomplete="20"/>
 
-    <m_tracker_bug status="Open" sAccountId="1" id="1"
+    <m_tracker_bug status="Open" sAccountId="1" id="1" priority="Medium"
                    projectId="4" name="AAA" bugkey="20"/>
 
-    <m_prj_risk name="risk1" sAccountId="1" projectId="4"
+    <m_prj_risk name="risk1" sAccountId="1" projectId="4" priority="Medium"
                 id="1"/>
 
     <s_activitystream typeId="1" id="2" type="Project-Task" module="Project"

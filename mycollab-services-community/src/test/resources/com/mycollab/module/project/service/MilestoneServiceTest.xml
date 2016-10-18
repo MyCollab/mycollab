@@ -33,18 +33,18 @@
                      lastUpdatedTime="2014-10-04 00:40:00" startDate="2014-10-04 00:00:00"
                      endDate="2014-10-14 00:00:00" assignUser="nghiemle" flag="aaaa"/>
 
-    <m_prj_task sAccountId="1" projectId="1" id="1" percentagecomplete="10" name="bug 1" milestoneId="2"/>
-    <m_prj_task sAccountId="1" projectId="1" id="2" percentagecomplete="20" name="bug 2" milestoneId="2"/>
-    <m_prj_task sAccountId="1" projectId="1" id="3" percentagecomplete="30" name="bug 3" milestoneId="1"/>
-    <m_prj_task sAccountId="1" projectId="1" id="4" percentagecomplete="40" name="bug 4"/>
-    <m_prj_task sAccountId="1" projectId="1" id="5" percentagecomplete="50" name="bug 5"/>
-    <m_prj_task sAccountId="1" projectId="1" id="6" percentagecomplete="60" name="bug 6"/>
+    <m_prj_task sAccountId="1" projectId="1" id="1" percentagecomplete="10" name="bug 1" milestoneId="2" priority="Medium"/>
+    <m_prj_task sAccountId="1" projectId="1" id="2" percentagecomplete="20" name="bug 2" milestoneId="2" priority="Medium"/>
+    <m_prj_task sAccountId="1" projectId="1" id="3" percentagecomplete="30" name="bug 3" milestoneId="1" priority="Medium"/>
+    <m_prj_task sAccountId="1" projectId="1" id="4" percentagecomplete="40" name="bug 4" priority="Medium"/>
+    <m_prj_task sAccountId="1" projectId="1" id="5" percentagecomplete="50" name="bug 5" priority="Medium"/>
+    <m_prj_task sAccountId="1" projectId="1" id="6" percentagecomplete="60" name="bug 6" priority="Medium"/>
 
-    <m_tracker_bug status="Open" sAccountId="1" id="1" milestoneId="4" projectId="1" name="sum 1"/>
-    <m_tracker_bug status="Open" sAccountId="1" id="2" milestoneId="4" projectId="1" name="sum 2"/>
-    <m_tracker_bug status="Open" sAccountId="1" id="3" milestoneId="4" projectId="1" name="sum 3"/>
-    <m_tracker_bug status="Open" sAccountId="1" id="4" milestoneId="1" projectId="1" name="sum 4"/>
-    <m_tracker_bug status="Open" sAccountId="1" id="5" milestoneId="1" projectId="1" name="sum 5"/>
-    <m_tracker_bug status="Open" sAccountId="1" id="6" milestoneId="3" projectId="1" name="sum 6"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="1" milestoneId="4" projectId="1" name="sum 1" priority="Medium"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="2" milestoneId="4" projectId="1" name="sum 2" priority="Medium"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="3" milestoneId="4" projectId="1" name="sum 3" priority="Medium"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="4" milestoneId="1" projectId="1" name="sum 4" priority="Medium"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="5" milestoneId="1" projectId="1" name="sum 5" priority="Medium"/>
+    <m_tracker_bug status="Open" sAccountId="1" id="6" milestoneId="3" projectId="1" name="sum 6" priority="Medium"/>
 
 </dataset>

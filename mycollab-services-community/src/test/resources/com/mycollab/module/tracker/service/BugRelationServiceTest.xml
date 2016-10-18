@@ -6,15 +6,15 @@
     <s_user username="user1" firstname="first1" lastname="last1" email="linhduong@esofthead.com" />
     <m_prj_project id="1" name="aaa" sAccountId="1" shortname="aaa" projectStatus="Open" />
 
-    <m_tracker_bug name="name 1" id="1" projectId="1"
-                   detail="detail 1" status="1" resolution="1" assignuser="admin"
-                   logby="admin" createdTime="2009-01-01 00:00:00" sAccountId="1" />
-    <m_tracker_bug name="name 2" projectId="1" id="2"
-                   detail="detail 2" status="1" resolution="1" assignuser="user1"
-                   logby="admin" createdTime="2009-01-02 00:00:00" sAccountId="1" />
-    <m_tracker_bug name="name 3" id="3" projectId="1"
-                   detail="detail 3" status="1" resolution="1" logby="user1"
-                   assignuser="user1" createdTime="2009-01-03 00:00:00" sAccountId="1" />
+    <m_tracker_bug name="name 1" id="1" projectId="1" priority="Medium"
+                   detail="detail 1" status="1" resolution="1" assignUser="admin"
+                   createdUser="admin" createdTime="2009-01-01 00:00:00" sAccountId="1" />
+    <m_tracker_bug name="name 2" projectId="1" id="2" priority="Medium"
+                   detail="detail 2" status="1" resolution="1" assignUser="user1"
+                   createdUser="admin" createdTime="2009-01-02 00:00:00" sAccountId="1" />
+    <m_tracker_bug name="name 3" id="3" projectId="1" priority="Medium"
+                   detail="detail 3" status="1" resolution="1" createdUser="user1"
+                   assignUser="user1" createdTime="2009-01-03 00:00:00" sAccountId="1" />
 
     <m_tracker_related_bug id="1" bugid="1" relatedid="2" relatetype="Duplicated"/>
     <m_tracker_related_bug id="2" bugid="1" relatedid="3" relatetype="Duplicated"/>

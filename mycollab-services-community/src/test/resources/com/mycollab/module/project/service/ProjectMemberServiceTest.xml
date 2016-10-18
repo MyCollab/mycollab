@@ -1,56 +1,42 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
     <s_account id="1" createdTime="2013-04-10 13:29:23"
-        paymentMethod="Credit Card" status="Active" />
+               paymentMethod="Credit Card" status="Active"/>
 
-    <m_prj_project id="1" name="a" sAccountId="1"
-        shortname="aaa" projectStatus="Open" />
+    <m_prj_project id="1" name="a" sAccountId="1" shortname="aaa" projectStatus="Open"/>
 
-    <m_prj_project id="2" name="b" sAccountId="1"
-        shortname="bbb" projectStatus="Open" />
+    <m_prj_project id="2" name="b" sAccountId="1" shortname="bbb" projectStatus="Open"/>
 
-    <s_user firstname="a1" lastname="b1" username="user1"
-        email="hainguyen@esofthead.com" />
+    <s_user firstname="a1" lastname="b1" username="user1" email="hainguyen@esofthead.com"/>
 
-    <s_user firstname="a2" lastname="b2" username="user2"
-        email="linhduong@esofthead.com" />
+    <s_user firstname="a2" lastname="b2" username="user2" email="linhduong@esofthead.com"/>
 
-    <s_user firstname="a3" lastname="b3" username="user3"
-        email="baohan@esofthead.com" />
+    <s_user firstname="a3" lastname="b3" username="user3" email="baohan@esofthead.com"/>
 
-    <s_user firstname="a4" lastname="b4" username="user4"
-        email="test@esofthead.com" />
+    <s_user firstname="a4" lastname="b4" username="user4" email="test@esofthead.com"/>
 
-    <s_user_account id="1" isAccountOwner="1"
-        registerStatus="Active" username="user1" accountId="1"
-        registeredTime="2013-04-10 13:29:23" />
+    <s_user_account id="1" isAccountOwner="1" registerStatus="Active" username="user1" accountId="1"
+                    registeredTime="2013-04-10 13:29:23"/>
 
-    <s_user_account id="2" isAccountOwner="1"
-        registerStatus="Active" username="user2" accountId="1"
-        registeredTime="2013-04-10 13:29:23" />
+    <s_user_account id="2" isAccountOwner="1" registerStatus="Active" username="user2" accountId="1"
+                    registeredTime="2013-04-10 13:29:23"/>
 
-    <s_user_account id="3" isAccountOwner="1"
-        registerStatus="Active" username="user3" accountId="1"
-        registeredTime="2013-04-10 13:29:23" />
+    <s_user_account id="3" isAccountOwner="1" registerStatus="Active" username="user3" accountId="1"
+                    registeredTime="2013-04-10 13:29:23"/>
 
-    <s_roles rolename="Guest" sAccountId="1" id="1" />
+    <s_roles rolename="Guest" sAccountId="1" id="1"/>
 
-    <m_prj_role projectId="1" rolename="test" sAccountId="1"
-        id="1" />
+    <m_prj_role projectId="1" rolename="test" sAccountId="1" id="1"/>
 
-    <m_prj_member status="Active" isAdmin="1" projectId="1"
-        sAccountId="1" joinDate="2013-04-10 13:29:23" username="user1"
-        id="1" />
+    <m_prj_member status="Active" isAdmin="1" projectId="1" sAccountId="1" joinDate="2013-04-10 13:29:23"
+                  username="user1" id="1"/>
 
-    <m_prj_member status="InActive" isAdmin="1" projectId="1"
-        sAccountId="1" joinDate="2013-04-10 13:29:23" username="user2"
-        id="2" />
+    <m_prj_member status="InActive" isAdmin="1" projectId="1" sAccountId="1" joinDate="2013-04-10 13:29:23"
+                  username="user2" id="2"/>
 
-    <m_prj_member status="Active" isAdmin="1" projectId="2"
-        sAccountId="1" joinDate="2013-04-10 13:29:23" username="user2"
-        id="3" />
+    <m_prj_member status="Active" isAdmin="1" projectId="2" sAccountId="1" joinDate="2013-04-10 13:29:23"
+                  username="user2" id="3"/>
 
-    <m_prj_member status="Active" isAdmin="1" projectId="2"
-        sAccountId="1" joinDate="2013-04-10 13:29:23" username="user3"
-        id="4" />
+    <m_prj_member status="Active" isAdmin="1" projectId="2" sAccountId="1" joinDate="2013-04-10 13:29:23"
+                  username="user3" id="4"/>
 </dataset>

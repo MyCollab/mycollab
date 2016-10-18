@@ -44,7 +44,7 @@ public class VersionServiceTest extends IntegrationServiceTest {
 	private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 	@Autowired
-	protected VersionService versionService;
+	private VersionService versionService;
 
 	private VersionSearchCriteria getCriteria() {
 		VersionSearchCriteria criteria = new VersionSearchCriteria();
