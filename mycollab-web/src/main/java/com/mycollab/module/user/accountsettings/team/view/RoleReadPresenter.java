@@ -66,7 +66,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 
             @Override
             public void onDelete(final Role role) {
-                if (Boolean.TRUE.equals(role.getIssystemrole())) {
+                if (Boolean.TRUE.equals(role.getIssystemrole()) || Boolean.TRUE.equals(role.getIsdefault())) {
                     NotificationUtil.showErrorNotification(UserUIContext.getMessage(RoleI18nEnum.ERROR_CAN_NOT_DELETE_SYSTEM_ROLE, role.getRolename()));
                 } else {
                     ConfirmDialogExt.show(UI.getCurrent(),

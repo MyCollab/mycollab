@@ -64,7 +64,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
         loadAccounts();
     }
 
-    public void displayAccounts(CampaignWithBLOBs campaign) {
+    void displayAccounts(CampaignWithBLOBs campaign) {
         this.campaign = campaign;
         loadAccounts();
     }
@@ -169,6 +169,5 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
             beanBlock.addComponent(blockContent);
             return beanBlock;
         }
-
     }
 }

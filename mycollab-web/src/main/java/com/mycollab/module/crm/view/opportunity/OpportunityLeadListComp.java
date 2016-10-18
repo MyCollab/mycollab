@@ -27,6 +27,7 @@ import com.mycollab.module.crm.domain.OpportunityLead;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -107,7 +108,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
         loadLeads();
     }
 
-    public class OpportunityLeadBlockDisplay implements BlockDisplayHandler<SimpleLead> {
+    private class OpportunityLeadBlockDisplay implements BlockDisplayHandler<SimpleLead> {
 
         @Override
         public Component generateBlock(final SimpleLead lead, int blockIndex) {
@@ -153,7 +154,8 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
 
             leadInfo.addComponent(leadName);
 
-            Label leadStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(lead.getStatus(), ""));
+            Label leadStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
+                    UserUIContext.getMessage(LeadStatus.class, lead.getStatus()));
             leadInfo.addComponent(leadStatus);
 
             String email = MoreObjects.firstNonNull(lead.getEmail(), "");

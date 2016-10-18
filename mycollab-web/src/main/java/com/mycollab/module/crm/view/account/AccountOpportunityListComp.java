@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.crm.view.account;
 
-import com.google.common.base.MoreObjects;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
@@ -105,7 +104,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         return controlsBtnWrap;
     }
 
-    public void displayOpportunities(final Account account) {
+    void displayOpportunities(final Account account) {
         this.account = account;
         loadOpportunities();
     }
@@ -140,21 +139,21 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             VerticalLayout opportunityInfo = new VerticalLayout();
             opportunityInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton("", clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {
-                            if (confirmDialog.isConfirmed()) {
-                                OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                                opportunityService.removeWithSession(opportunity,
-                                        UserUIContext.getUsername(), MyCollabUI.getAccountId());
-                                AccountOpportunityListComp.this.refresh();
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            MButton btnDelete = new MButton("", clickEvent ->
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
+                                    opportunityService.removeWithSession(opportunity,
+                                            UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                    AccountOpportunityListComp.this.refresh();
+                                }
+                            })
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             VerticalLayout blockContent = new VerticalLayout();
             blockContent.addComponent(btnDelete);
@@ -172,7 +171,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             opportunityInfo.addComponent(opportunityAmount);
 
             Label opportunitySaleStage = new Label(UserUIContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
-                    MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
+                    UserUIContext.getMessage(OpportunitySalesStage.class, opportunity.getSalesstage()));
             opportunityInfo.addComponent(opportunitySaleStage);
 
             if (opportunity.getSalesstage() != null) {
@@ -192,5 +191,4 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             return beanBlock;
         }
     }
-
 }

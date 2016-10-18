@@ -140,7 +140,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         associateActivityList.setSearchCriteria(criteria);
     }
 
-    protected void displayContacts() {
+    private void displayContacts() {
         associateContactList.displayContacts(beanItem);
     }
 

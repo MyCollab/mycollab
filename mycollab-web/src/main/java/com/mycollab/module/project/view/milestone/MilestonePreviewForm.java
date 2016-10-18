@@ -31,7 +31,8 @@ import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
@@ -91,7 +92,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             } else if (Milestone.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(milestone.getDescription());
             } else if (Milestone.Field.status.equalTo(propertyId)) {
-                String milestoneStatus = UserUIContext.getMessage(OptionI18nEnum.MilestoneStatus.class, beanItem.getStatus());
+                String milestoneStatus = UserUIContext.getMessage(MilestoneStatus.class, beanItem.getStatus());
                 FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(beanItem.getStatus());
                 return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML)
                         .withStyleName(UIConstants.FIELD_NOTE);
@@ -141,13 +142,16 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             Label spacingLbl2 = new Label("");
 
             final CheckBox taskSelection = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.LIST), true);
-            taskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(taskSelection.getValue(), ProjectTypeConstants.TASK));
+            taskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(taskSelection.getValue(),
+                    ProjectTypeConstants.TASK));
 
             final CheckBox bugSelection = new CheckBox(UserUIContext.getMessage(BugI18nEnum.LIST), true);
-            bugSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(bugSelection.getValue(), ProjectTypeConstants.BUG));
+            bugSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(bugSelection.getValue(),
+                    ProjectTypeConstants.BUG));
 
             final CheckBox riskSelection = new CheckBox(UserUIContext.getMessage(RiskI18nEnum.LIST), true);
-            riskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(riskSelection.getValue(), ProjectTypeConstants.RISK));
+            riskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(riskSelection.getValue(),
+                    ProjectTypeConstants.RISK));
 
             header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, riskSelection, spacingLbl2)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)
@@ -187,15 +191,14 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
     private static class GenericTaskRowRenderer implements IBeanList.RowDisplayHandler<ProjectTicket> {
         @Override
         public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket genericTask, int rowIndex) {
-            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);
-            rowComp.addStyleName("margin-bottom");
+            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX, "margin-bottom");
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
             String status = "";
             if (genericTask.isBug()) {
-                status = UserUIContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
+                status = UserUIContext.getMessage(BugStatus.class, genericTask.getStatus());
             } else if (genericTask.isMilestone()) {
-                status = UserUIContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
+                status = UserUIContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
             } else if (genericTask.isRisk()) {
                 status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             } else if (genericTask.isTask()) {
@@ -207,8 +210,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                     .setTitle(genericTask.getAssignUserFullName());
 
             ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(genericTask);
-            rowComp.with(ELabel.html(img.write()).withWidthUndefined(),
-                    toggleTicketSummaryField).expand(toggleTicketSummaryField);
+            rowComp.with(ELabel.html(img.write()).withWidthUndefined(), toggleTicketSummaryField).expand(toggleTicketSummaryField);
             return rowComp;
         }
     }

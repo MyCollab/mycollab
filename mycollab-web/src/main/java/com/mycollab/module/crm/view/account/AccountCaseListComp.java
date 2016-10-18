@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.crm.view.account;
 
-import com.google.common.base.MoreObjects;
 import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
@@ -28,6 +28,7 @@ import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CasePriority;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
@@ -59,7 +60,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
     private static final long serialVersionUID = -8763667647686473453L;
     private Account account;
 
-    final static Map<String, String> colorsMap;
+    private final static Map<String, String> colorsMap;
 
     static {
         Map<String, String> tmpMap = new HashMap<>();
@@ -107,7 +108,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         return controlsBtnWrap;
     }
 
-    public void displayCases(final Account account) {
+    void displayCases(final Account account) {
         this.account = account;
         loadCases();
     }
@@ -123,7 +124,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         loadCases();
     }
 
-    class AccountCaseBlockDisplay implements BlockDisplayHandler<SimpleCase> {
+    private class AccountCaseBlockDisplay implements BlockDisplayHandler<SimpleCase> {
 
         @Override
         public Component generateBlock(final SimpleCase oneCase, int blockIndex) {
@@ -142,20 +143,20 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             VerticalLayout caseInfo = new VerticalLayout();
             caseInfo.setSpacing(true);
 
-            MButton deleteBtn = new MButton("", clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {
-                            if (confirmDialog.isConfirmed()) {
-                                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                                caseService.removeWithSession(oneCase, UserUIContext.getUsername(), MyCollabUI.getAccountId());
-                                AccountCaseListComp.this.refresh();
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            MButton deleteBtn = new MButton("", clickEvent ->
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
+                                    caseService.removeWithSession(oneCase, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                    AccountCaseListComp.this.refresh();
+                                }
+                            })
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(deleteBtn);
             blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);
@@ -164,20 +165,23 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             ELabel caseSubject = ELabel.h3(caseLink.write());
             caseInfo.addComponent(caseSubject);
 
-            Label casePriority = new Label(UserUIContext.getMessage(CaseI18nEnum.FORM_PRIORITY) + ": " + MoreObjects.firstNonNull(oneCase.getPriority(), ""));
+            Label casePriority = new Label(UserUIContext.getMessage(CaseI18nEnum.FORM_PRIORITY) + ": " +
+                    UserUIContext.getMessage(CasePriority.class, oneCase.getPriority()));
             caseInfo.addComponent(casePriority);
 
-            Label caseStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(oneCase.getStatus(), ""));
+            Label caseStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
+                    UserUIContext.getMessage(CaseStatus.class, oneCase.getStatus()));
             caseInfo.addComponent(caseStatus);
 
             if (oneCase.getStatus() != null) {
                 beanBlock.addStyleName(colorsMap.get(oneCase.getStatus()));
             }
 
-            String assigneeValue = (oneCase.getAssignuser() == null) ? new A().write() : new A(AccountLinkGenerator.generatePreviewFullUserLink(
+            String assigneeValue = (oneCase.getAssignuser() == null) ? new Span().appendText(UserUIContext.getMessage
+                    (GenericI18Enum.OPT_UNDEFINED)).write() : new A(AccountLinkGenerator.generatePreviewFullUserLink(
                     SiteConfiguration.getSiteUrl(UserUIContext.getUser().getSubdomain()), oneCase.getAssignuser()))
                     .appendText(oneCase.getAssignUserFullName()).write();
-            Label caseAssignUser = ELabel.html(assigneeValue);
+            Label caseAssignUser = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": " + assigneeValue);
             caseInfo.addComponent(caseAssignUser);
 
             ELabel caseCreatedTime = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME) + ": "

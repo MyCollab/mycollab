@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.milestone;
 
-import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.BeanUtility;
@@ -31,6 +31,7 @@ import com.mycollab.module.project.ui.components.*;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
@@ -149,7 +150,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, true);
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
-            if (OptionI18nEnum.StatusI18nEnum.Closed.name().equals(milestone.getStatus())) {
+            if (StatusI18nEnum.Closed.name().equals(milestone.getStatus())) {
                 toggleMilestoneSummaryField.addLabelStyleName(WebUIConstants.LINK_COMPLETED);
             } else {
                 toggleMilestoneSummaryField.removeLabelStyleName(WebUIConstants.LINK_COMPLETED);
@@ -175,9 +176,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             this.removeAllComponents();
             this.withMargin(false);
 
-            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
-            peopleInfoHeader.setStyleName("info-hdr");
+            ELabel peopleInfoHeader = ELabel.html(FontAwesome.USER.getHtml() + " " +
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE)).withStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
             GridLayout layout = new GridLayout(2, 2);
@@ -193,13 +193,12 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                 String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "createdUserAvatarId");
                 String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "createdUserFullName");
 
-                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
-                        createdUserAvatarId, createdUserDisplayName);
+                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
-                assigneeLbl.setSizeUndefined();
+                ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE))
+                        .withWidthUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
                 String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "ownerAvatarId");

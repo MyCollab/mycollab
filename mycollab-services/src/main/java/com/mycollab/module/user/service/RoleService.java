@@ -36,6 +36,5 @@ public interface RoleService extends IDefaultService<Integer, Role, RoleSearchCr
     @Cacheable
     SimpleRole findById(Integer roleId, @CacheKey Integer sAccountId);
 
-    @Cacheable
-    Integer getSystemRoleId(String systemRoleName, @CacheKey Integer sAccountId);
+    Integer getDefaultRoleId(Integer sAccountId);
 }

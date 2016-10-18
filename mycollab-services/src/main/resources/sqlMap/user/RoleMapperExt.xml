@@ -2,11 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycollab.module.user.dao.RoleMapperExt">
 
-    <resultMap
-        extends="com.mycollab.module.user.dao.RoleMapper.BaseResultMap"
+    <resultMap extends="com.mycollab.module.user.dao.RoleMapper.BaseResultMap"
         id="SimpleRoleUser" type="com.mycollab.module.user.domain.SimpleRole">
-        <result column="permissionVal" jdbcType="LONGVARCHAR"
-            property="permissionVal" />
+        <result column="permissionVal" jdbcType="LONGVARCHAR" property="permissionVal" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -34,7 +32,8 @@
 
     <sql id="selectSimpleRole">
         <![CDATA[
-            SELECT s_roles.id, s_roles.rolename, s_roles.description, s_roles.sAccountId, s_roles.isSystemRole, s_role_permission.roleVal AS permissionVal
+            SELECT s_roles.id, s_roles.rolename, s_roles.description, s_roles.sAccountId, s_roles.isSystemRole,
+                s_roles.isDefault, s_role_permission.roleVal AS permissionVal
             FROM s_roles
                 LEFT OUTER JOIN s_role_permission ON (s_role_permission.roleid = s_roles.id)
         ]]>
@@ -49,8 +48,7 @@
         #end
     </select>
 
-    <select id="findById" parameterType="java.lang.Integer"
-        resultMap="SimpleRoleUser" lang="velocity">
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SimpleRoleUser" lang="velocity">
         <include refid="selectSimpleRole" />
 
         WHERE s_roles.id=@{roleId, jdbcType=NUMERIC}

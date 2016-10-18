@@ -106,7 +106,8 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
 
     @Override
     public AbstractComponent createPriorityPopupField(ProjectTicket assignment) {
-        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(assignment.getPriority()))
+        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(assignment.getPriority()) + " " +
+                UserUIContext.getMessage(OptionI18nEnum.Priority.class, assignment.getPriority()))
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY_HELP)).build();
     }
 

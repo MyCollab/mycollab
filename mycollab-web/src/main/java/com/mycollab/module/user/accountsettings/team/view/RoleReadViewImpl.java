@@ -17,6 +17,7 @@
 package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.Role;
 import com.mycollab.module.user.domain.SimpleRole;
@@ -32,6 +33,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
+import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -56,8 +58,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         super();
         this.setMargin(new MarginInfo(false, true, true, true));
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withFullWidth();
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " " + UserUIContext.getMessage(RoleI18nEnum.DETAIL));
@@ -87,6 +88,10 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
             @Override
             protected Field<?> onCreateField(Object propertyId) {
+                if (Role.Field.isdefault.equalTo(propertyId)) {
+                    Enum localizeYesNo = LocalizationHelper.localizeYesNo(role.getIsdefault());
+                    return new DefaultViewField(UserUIContext.getMessage(localizeYesNo));
+                }
                 return null;
             }
         });
@@ -99,7 +104,8 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
     }
 
 
-    protected ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap, List<PermissionDefItem> defItems) {
+    private ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
+                                                        List<PermissionDefItem> defItems) {
         GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
         FormContainer permissionsPanel = new FormContainer();
 
@@ -123,7 +129,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         private static final long serialVersionUID = 1L;
 
         public FormLayoutFactory() {
-            super(RoleReadViewImpl.this.role.getRolename());
+            super(role.getRolename());
         }
 
         @Override

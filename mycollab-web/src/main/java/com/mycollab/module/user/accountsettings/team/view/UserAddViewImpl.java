@@ -53,6 +53,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MPasswordField;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -108,13 +109,13 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         private static final long serialVersionUID = 1L;
 
 
-        public void displayBasicForm(SimpleUser newDataSource) {
+        private void displayBasicForm(SimpleUser newDataSource) {
             this.setFormLayoutFactory(new BasicFormLayoutFactory());
             this.setBeanFormFieldFactory(new BasicEditFormFieldFactory(editUserForm));
             super.setBean(newDataSource);
         }
 
-        public void displayAdvancedForm(SimpleUser newDataSource) {
+        private void displayAdvancedForm(SimpleUser newDataSource) {
             this.setFormLayoutFactory(new AdvancedFormLayoutFactory());
             this.setBeanFormFieldFactory(new AdvancedEditFormFieldFactory(editUserForm));
             super.setBean(newDataSource);
@@ -196,11 +197,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     return new AdminRoleSelectionField();
                 } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
                         User.Field.lastname.equalTo(propertyId)) {
-                    TextField tf = new TextField();
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError("This field must be not null");
-                    return tf;
+                    return new MTextField().withNullRepresentation("").withRequired(true)
+                            .withRequiredError("This field must be not null");
                 } else if (User.Field.password.equalTo(propertyId)) {
                     return new MPasswordField();
                 }
@@ -295,14 +293,10 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             protected Field<?> onCreateField(Object propertyId) {
                 if (SimpleUser.Field.roleid.equalTo(propertyId)) {
                     return new AdminRoleSelectionField();
-                } else if (User.Field.email.equalTo(propertyId) ||
-                        User.Field.firstname.equalTo(propertyId) ||
+                } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
                         User.Field.lastname.equalTo(propertyId)) {
-                    TextField tf = new TextField();
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError("This field must be not null");
-                    return tf;
+                    return new MTextField().withNullRepresentation("").withRequired(true)
+                            .withRequiredError("This field must be not null");
                 } else if (propertyId.equals("dateofbirth")) {
                     return new DateSelectionField();
                 } else if (propertyId.equals("timezone")) {
@@ -337,10 +331,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         @Override
         public void setPropertyDataSource(Property newDataSource) {
             Object value = newDataSource.getValue();
-            if (value == null) {
-                Object itemId = roleBox.getItemIds().iterator().next();
-                roleBox.setValue(itemId);
-            } else if (value instanceof Integer) {
+            if (value instanceof Integer) {
                 roleBox.setValue(value);
             }
             super.setPropertyDataSource(newDataSource);

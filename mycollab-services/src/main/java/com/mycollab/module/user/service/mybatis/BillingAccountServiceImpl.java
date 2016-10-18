@@ -191,6 +191,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
         role.setDescription("");
         role.setSaccountid(accountId);
         role.setIssystemrole(true);
+        role.setIsdefault(Boolean.FALSE);
         Integer roleId = roleService.saveWithSession(role, "");
         roleService.savePermission(roleId, PermissionMap.buildEmployeePermissionCollection(), accountId);
         return roleId;
@@ -203,6 +204,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
         role.setDescription("");
         role.setSaccountid(accountId);
         role.setIssystemrole(true);
+        role.setIsdefault(Boolean.FALSE);
         Integer roleId = roleService.saveWithSession(role, "");
         roleService.savePermission(roleId, PermissionMap.buildAdminPermissionCollection(), accountId);
         return roleId;
@@ -215,6 +217,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
         role.setDescription("");
         role.setSaccountid(accountId);
         role.setIssystemrole(true);
+        role.setIsdefault(Boolean.TRUE);
         final Integer roleId = roleService.saveWithSession(role, "");
         roleService.savePermission(roleId, PermissionMap.buildGuestPermissionCollection(), accountId);
         return roleId;

@@ -19,14 +19,17 @@ package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.TableViewField;
+import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.domain.SimpleRole;
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.service.RoleService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.vaadin.ui.Label;
 
 import java.util.List;
 
@@ -47,6 +50,12 @@ public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSea
             cb.addValueChangeListener(valueChangeEvent -> RoleTableDisplay.this.fireSelectItemEvent(role));
             role.setExtraData(cb);
             return cb;
+        });
+
+        this.addGeneratedColumn("isdefault", (source, itemId, columnId) -> {
+            SimpleRole role = getBeanByIndex(itemId);
+            Enum yesNo = LocalizationHelper.localizeYesNo(role.getIsdefault());
+            return new Label(UserUIContext.getMessage(yesNo));
         });
 
         this.addGeneratedColumn("rolename", (source, itemId, columnId) -> {

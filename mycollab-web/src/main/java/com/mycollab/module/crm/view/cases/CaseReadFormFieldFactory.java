@@ -25,6 +25,7 @@ import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.EmailViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
@@ -67,7 +68,7 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         } else if (CaseWithBLOBs.Field.reason.equalTo(propertyId)) {
             return new I18nFormViewField(cases.getReason(), CaseReason.class);
         } else if (CaseWithBLOBs.Field.type.equalTo(propertyId)) {
-            return new I18nFormViewField(cases.getType(), CaseType.class);
+            return new I18nFormViewField(cases.getType(), CaseType.class).withStyleName(UIConstants.FIELD_NOTE);
         }
         return null;
     }

@@ -48,6 +48,8 @@ public class RoleComboBox extends ComboBox {
 
         BeanContainer<String, SimpleRole> beanItem = new BeanContainer<>(SimpleRole.class);
         beanItem.setBeanIdProperty("id");
+        this.setContainerDataSource(beanItem);
+        this.setItemCaptionPropertyId("rolename");
 
         SimpleRole ownerRole = new SimpleRole();
         ownerRole.setId(-1);
@@ -56,15 +58,14 @@ public class RoleComboBox extends ComboBox {
 
         for (SimpleRole role : roleList) {
             beanItem.addBean(role);
+            if (Boolean.TRUE.equals(role.getIsdefault())) {
+                this.setValue(role.getId());
+            }
         }
 
-        this.setContainerDataSource(beanItem);
-        this.setItemCaptionPropertyId("rolename");
-        if (roleList.size() > 0) {
-            SimpleRole role = roleList.get(0);
+        if (getValue() == null) {
+            SimpleRole role = beanItem.getItem(-1).getBean();
             this.setValue(role.getId());
-        } else {
-            this.setValue(-1);
         }
     }
 }

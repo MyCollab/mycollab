@@ -16745,14 +16745,14 @@ input.v-textfield-errorField {
 }
 
 #loginFormContainer #form-header {
-	font-size: 38px;
-	padding: 20px 0px;
+	font-size: 28px;
+	padding: 20px 0px 0px 0px;
 	text-transform: uppercase;
 	text-align: center;
 }
 
 .forgotPwdForm #loginFormContainer #form-header {
-	font-size: 38px;
+	font-size: 28px;
 	line-height: normal;
 	padding: 0px 0px 5px;
 	border-bottom: 1px solid #e9e9e9;

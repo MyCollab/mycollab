@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.user.service.mybatis;
 
-import com.mycollab.core.cache.CacheKey;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
@@ -59,6 +58,30 @@ public class RoleServiceDBImpl extends DefaultService<Integer, Role, RoleSearchC
     }
 
     @Override
+    public Integer saveWithSession(Role record, String username) {
+        if (Boolean.TRUE.equals(record.getIsdefault())) {
+            setAllRoleNotDefault(record.getSaccountid());
+        }
+        return super.saveWithSession(record, username);
+    }
+
+    private void setAllRoleNotDefault(Integer sAccountId) {
+        Role updateRecord = new Role();
+        updateRecord.setIsdefault(Boolean.FALSE);
+        RoleExample ex = new RoleExample();
+        ex.createCriteria().andSaccountidEqualTo(sAccountId);
+        roleMapper.updateByExampleSelective(updateRecord, ex);
+    }
+
+    @Override
+    public Integer updateWithSession(Role record, String username) {
+        if (Boolean.TRUE.equals(record.getIsdefault())) {
+            setAllRoleNotDefault(record.getSaccountid());
+        }
+        return super.updateWithSession(record, username);
+    }
+
+    @Override
     public void savePermission(Integer roleId, PermissionMap permissionMap, Integer accountid) {
         String perVal = permissionMap.toJsonString();
 
@@ -83,14 +106,17 @@ public class RoleServiceDBImpl extends DefaultService<Integer, Role, RoleSearchC
     }
 
     @Override
-    public Integer getSystemRoleId(String systemRoleName, @CacheKey Integer sAccountId) {
+    public Integer getDefaultRoleId(Integer sAccountId) {
         RoleExample ex = new RoleExample();
-        ex.createCriteria().andRolenameEqualTo(systemRoleName).andIssystemroleEqualTo(Boolean.TRUE);
+        ex.createCriteria().andIsdefaultEqualTo(Boolean.TRUE).andSaccountidEqualTo(sAccountId);
         List<Role> roles = roleMapper.selectByExample(ex);
         if (CollectionUtils.isNotEmpty(roles)) {
             return roles.get(0).getId();
         } else {
-            return null;
+            ex = new RoleExample();
+            ex.createCriteria().andRolenameEqualTo(SimpleRole.GUEST).andSaccountidEqualTo(sAccountId);
+            roles = roleMapper.selectByExample(ex);
+            return CollectionUtils.isNotEmpty(roles) ? roles.get(0).getId() : null;
         }
     }
 }

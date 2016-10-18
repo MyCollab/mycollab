@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mycollab.security.RolePermissionCollections.CREATE_NEW_PROJECT;
+
 /**
  * Map contains all permissions in MyCollab, it is used to all permissions if
  * logged in user.
@@ -168,7 +170,11 @@ public class PermissionMap extends ValuedBean {
         }
 
         for (PermissionDefItem element : RolePermissionCollections.PROJECT_PERMISSION_ARR) {
-            permissionMap.addPath(element.getKey(), BooleanPermissionFlag.FALSE);
+            if (CREATE_NEW_PROJECT.equals(element.getKey())) {
+                permissionMap.addPath(element.getKey(), BooleanPermissionFlag.TRUE);
+            } else {
+                permissionMap.addPath(element.getKey(), BooleanPermissionFlag.FALSE);
+            }
         }
 
         for (PermissionDefItem element : RolePermissionCollections.DOCUMENT_PERMISSION_ARR) {

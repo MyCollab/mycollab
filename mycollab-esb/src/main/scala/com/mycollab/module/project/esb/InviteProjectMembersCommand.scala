@@ -69,7 +69,7 @@ import org.springframework.stereotype.Component
           userService.updateUserAccountStatus(inviteeEmail, event.sAccountId, RegisterStatusConstants.ACTIVE)
         }
       } else {
-        val systemGuestRoleId = roleService.getSystemRoleId(SimpleRole.GUEST, event.sAccountId)
+        val systemGuestRoleId = roleService.getDefaultRoleId(event.sAccountId)
         if (systemGuestRoleId == null) {
           LOG.error("Can not find the guess role of account ", event.sAccountId)
         }

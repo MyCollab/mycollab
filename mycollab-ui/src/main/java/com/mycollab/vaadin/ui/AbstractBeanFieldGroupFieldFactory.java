@@ -148,8 +148,8 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                     ((DateField) formField).setTimeZone(UserUIContext.getUserTimeZone());
                     ((DateField) formField).setDateFormat(MyCollabUI.getDateFormat());
                 } else if (formField instanceof DatePicker) {
-                    ((DatePicker)formField).setResolution(DatePickerState.Resolution.DAY);
-                    ((DatePicker)formField).setWidth("100px");
+                    ((DatePicker) formField).setResolution(DatePickerState.Resolution.DAY);
+                    formField.setWidth("100px");
                 }
                 postCreateField(field.getName(), formField);
                 attachForm.attachField(field.getName(), formField);

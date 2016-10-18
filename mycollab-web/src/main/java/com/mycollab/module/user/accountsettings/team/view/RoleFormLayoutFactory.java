@@ -18,6 +18,7 @@ package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
+import com.mycollab.module.user.domain.Role;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.FormContainer;
@@ -62,7 +63,7 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
     protected abstract Layout createBottomPanel();
 
 
-    public static class RoleInformationLayout extends AbstractFormLayoutFactory {
+    static class RoleInformationLayout extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
         private GridFormLayoutHelper informationLayout;
 
@@ -70,7 +71,7 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
         public ComponentContainer getLayout() {
             FormContainer layout = new FormContainer();
 
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(6, 2);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
             layout.addSection(UserUIContext.getMessage(RoleI18nEnum.SECTION_INFORMATION), informationLayout.getLayout());
             return layout;
         }
@@ -78,9 +79,12 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
         @Override
         protected Component onAttachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("rolename")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
+            } else if (Role.Field.isdefault.equalTo(propertyId)) {
+                return informationLayout.addComponent(field, UserUIContext.getMessage(RoleI18nEnum.FORM_IS_DEFAULT),
+                        UserUIContext.getMessage(RoleI18nEnum.FORM_IS_DEFAULT_HELP), 0, 1);
             } else if (propertyId.equals("description")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 2);
             }
             return null;
         }

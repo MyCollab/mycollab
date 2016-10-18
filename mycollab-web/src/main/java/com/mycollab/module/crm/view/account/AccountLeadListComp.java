@@ -27,6 +27,8 @@ import com.mycollab.module.crm.domain.AccountLead;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -89,7 +91,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
         return controlsBtnWrap;
     }
 
-    public void displayLeads(final Account account) {
+    void displayLeads(final Account account) {
         this.account = account;
         loadLeads();
     }
@@ -106,7 +108,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
         loadLeads();
     }
 
-    public class AccountLeadBlockDisplay implements BlockDisplayHandler<SimpleLead> {
+    private class AccountLeadBlockDisplay implements BlockDisplayHandler<SimpleLead> {
 
         @Override
         public Component generateBlock(final SimpleLead lead, int blockIndex) {
@@ -150,7 +152,8 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
 
             leadInfo.addComponent(leadName);
 
-            Label leadStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(lead.getStatus(), ""));
+            Label leadStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
+                    UserUIContext.getMessage(LeadStatus.class, lead.getStatus()));
             leadInfo.addComponent(leadStatus);
 
             String email = MoreObjects.firstNonNull(lead.getEmail(), "");

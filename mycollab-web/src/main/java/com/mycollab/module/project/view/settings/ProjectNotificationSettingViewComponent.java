@@ -45,10 +45,8 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
     public ProjectNotificationSettingViewComponent(final ProjectNotificationSetting bean) {
         super(UserUIContext.getMessage(ProjectSettingI18nEnum.VIEW_TITLE));
 
-        MVerticalLayout bodyWrapper = new MVerticalLayout().withFullWidth();
-        bodyWrapper.setSizeFull();
-
         MVerticalLayout body = new MVerticalLayout().withMargin(new MarginInfo(true, false, false, false));
+        body.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         final OptionGroup optionGroup = new OptionGroup(null);
         optionGroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
@@ -70,8 +68,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
                 .getMessage(ProjectSettingI18nEnum.OPT_MAXIMUM_SETTING));
 
         optionGroup.setWidth("100%");
-
-        body.with(optionGroup).withAlign(optionGroup, Alignment.MIDDLE_LEFT);
+        body.with(optionGroup);
 
         String levelVal = bean.getLevel();
         if (levelVal == null) {
@@ -80,7 +77,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             optionGroup.select(levelVal);
         }
 
-        MButton updateBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent -> {
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             try {
                 bean.setLevel((String) optionGroup.getValue());
                 ProjectNotificationSettingService projectNotificationSettingService = AppContextUtil.getSpringBean(ProjectNotificationSettingService.class);
@@ -95,11 +92,9 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        }).withIcon(FontAwesome.REFRESH).withStyleName(WebUIConstants.BUTTON_ACTION);
-        body.addComponent(updateBtn);
-        body.setComponentAlignment(updateBtn, Alignment.BOTTOM_LEFT);
+        }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+        body.addComponent(saveBtn);
 
-        bodyWrapper.addComponent(body);
-        this.addComponent(bodyWrapper);
+        this.addComponent(body);
     }
 }

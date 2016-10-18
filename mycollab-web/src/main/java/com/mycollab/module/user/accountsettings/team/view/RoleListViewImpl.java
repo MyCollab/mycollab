@@ -34,6 +34,7 @@ import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
@@ -64,9 +65,9 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 
     private void generateDisplayTable() {
         tableItem = new RoleTableDisplay(RoleTableFieldDef.selected(), Arrays.asList(
-                RoleTableFieldDef.rolename(), RoleTableFieldDef.description()));
-        listLayout.addComponent(this.constructTableActionControls());
-        listLayout.addComponent(this.tableItem);
+                RoleTableFieldDef.rolename(), RoleTableFieldDef.isDefault(), RoleTableFieldDef.description()));
+        listLayout.addComponent(constructTableActionControls());
+        listLayout.addComponent(tableItem);
     }
 
     @Override
@@ -75,11 +76,8 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
     }
 
     private ComponentContainer constructTableActionControls() {
-        CssLayout layoutWrapper = new CssLayout();
-        layoutWrapper.setWidth("100%");
         MHorizontalLayout layout = new MHorizontalLayout();
-        layoutWrapper.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
-        layoutWrapper.addComponent(layout);
+        MCssLayout layoutWrapper = new MCssLayout(layout).withFullWidth().withStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         layout.addComponent(selectOptionButton);
@@ -99,7 +97,7 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
     @Override
     public void enableActionControls(final int numOfSelectedItems) {
         tableActionControls.setVisible(true);
-        this.selectedItemsNumberLabel.setValue(UserUIContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+        selectedItemsNumberLabel.setValue(UserUIContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     @Override

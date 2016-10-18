@@ -27,6 +27,8 @@ import com.mycollab.module.crm.domain.ContactOpportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -90,7 +92,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
         return controlsBtnWrap;
     }
 
-    public void displayOpportunities(final Contact contact) {
+    void displayOpportunities(final Contact contact) {
         this.contact = contact;
         loadOpportunities();
     }
@@ -107,7 +109,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
         loadOpportunities();
     }
 
-    public class ContactOpportunityBlockDisplay implements BlockDisplayHandler<SimpleOpportunity> {
+    private class ContactOpportunityBlockDisplay implements BlockDisplayHandler<SimpleOpportunity> {
 
         @Override
         public Component generateBlock(final SimpleOpportunity opportunity, int blockIndex) {
@@ -126,23 +128,23 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
             VerticalLayout opportunityInfo = new VerticalLayout();
             opportunityInfo.setSpacing(true);
 
-            MButton btnDelete = new MButton("", clickEvent -> {
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        confirmDialog -> {
-                            if (confirmDialog.isConfirmed()) {
-                                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                                ContactOpportunity associateOpportunity = new ContactOpportunity();
-                                associateOpportunity.setContactid(contact.getId());
-                                associateOpportunity.setOpportunityid(opportunity.getId());
-                                contactService.removeContactOpportunityRelationship(associateOpportunity, MyCollabUI.getAccountId());
-                                ContactOpportunityListComp.this.refresh();
-                            }
-                        });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
+            MButton btnDelete = new MButton("", clickEvent ->
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
+                                    ContactOpportunity associateOpportunity = new ContactOpportunity();
+                                    associateOpportunity.setContactid(contact.getId());
+                                    associateOpportunity.setOpportunityid(opportunity.getId());
+                                    contactService.removeContactOpportunityRelationship(associateOpportunity, MyCollabUI.getAccountId());
+                                    ContactOpportunityListComp.this.refresh();
+                                }
+                            })
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
                     .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT));
 
             blockContent.addComponent(btnDelete);
@@ -158,7 +160,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
             opportunityInfo.addComponent(opportunityAmount);
 
             Label opportunitySaleStage = new Label(UserUIContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE) + ": " +
-                    MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
+                    UserUIContext.getMessage(OpportunitySalesStage.class, opportunity.getSalesstage()));
             opportunityInfo.addComponent(opportunitySaleStage);
 
             ELabel opportunityExpectedCloseDate = new ELabel(UserUIContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE) + ": " +

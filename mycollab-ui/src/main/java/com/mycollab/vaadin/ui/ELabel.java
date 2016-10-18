@@ -115,7 +115,7 @@ public class ELabel extends Label {
     }
 
     public static ELabel EMPTY_SPACE() {
-        return new ELabel("&nbsp;", ContentMode.HTML).withWidthUndefined();
+        return ELabel.html("&nbsp;").withWidthUndefined();
     }
 
     public static ELabel hr() {

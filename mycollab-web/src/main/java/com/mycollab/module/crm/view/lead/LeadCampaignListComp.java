@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.crm.view.lead;
 
-import com.google.common.base.MoreObjects;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
@@ -27,6 +26,8 @@ import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignStatus;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignType;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
@@ -57,7 +58,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
         this.setBlockDisplayHandler(new LeadCampaignBlockDisplay());
     }
 
-    public void displayCampaigns(Lead lead) {
+    void displayCampaigns(Lead lead) {
         this.lead = lead;
         loadCampaigns();
     }
@@ -106,7 +107,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
         return controlBtnWrap;
     }
 
-    protected class LeadCampaignBlockDisplay implements BlockDisplayHandler<SimpleCampaign> {
+    private class LeadCampaignBlockDisplay implements BlockDisplayHandler<SimpleCampaign> {
 
         @Override
         public Component generateBlock(final SimpleCampaign campaign, int blockIndex) {
@@ -152,11 +153,11 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
             campaignInfo.addComponent(contactName);
 
             Label campaignStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
-                    MoreObjects.firstNonNull(campaign.getStatus(), ""));
+                    UserUIContext.getMessage(CampaignStatus.class, campaign.getStatus()));
             campaignInfo.addComponent(campaignStatus);
 
-            Label campaignType = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_TYPE) + ": " + MoreObjects
-                    .firstNonNull(campaign.getType(), ""));
+            Label campaignType = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_TYPE) + ": " +
+                    UserUIContext.getMessage(CampaignType.class, campaign.getType()));
             campaignInfo.addComponent(campaignType);
 
             ELabel campaignEndDate = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE) + ": " +
@@ -172,7 +173,5 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
             beanBlock.addComponent(blockContent);
             return beanBlock;
         }
-
     }
-
 }

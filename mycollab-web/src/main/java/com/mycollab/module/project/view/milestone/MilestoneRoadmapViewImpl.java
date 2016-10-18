@@ -47,6 +47,7 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.ui.components.BlockRowRender;
 import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
@@ -268,8 +269,9 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         MilestoneBlock(final SimpleMilestone milestone) {
             this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("roadmap-block");
 
-            ELabel statusLbl = new ELabel(UserUIContext.getMessage(MilestoneStatus.class, milestone.getStatus()))
-                    .withStyleName(UIConstants.BLOCK).withWidthUndefined();
+            FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
+            ELabel statusLbl = ELabel.html(statusIcon.getHtml() + " " + UserUIContext.getMessage(MilestoneStatus.class,
+                    milestone.getStatus())).withStyleName(UIConstants.BLOCK).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, false);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
                     (toggleMilestoneSummaryField).withFullWidth();
@@ -326,7 +328,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         List<ProjectTicket> tickets = genericTaskService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
                         for (ProjectTicket ticket : tickets) {
                             ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(ticket);
-                            MHorizontalLayout rowComp = new MHorizontalLayout();
+                            MHorizontalLayout rowComp = new MHorizontalLayout(ELabel.EMPTY_SPACE());
                             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
                             rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())).withWidthUndefined());
                             String status = "";

@@ -27,6 +27,7 @@ import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -90,7 +91,7 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
         return controlsBtnWrap;
     }
 
-    public void displayLeads(final CampaignWithBLOBs campaign) {
+    void displayLeads(final CampaignWithBLOBs campaign) {
         this.campaign = campaign;
         loadLeads();
     }
@@ -116,7 +117,7 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            MHorizontalLayout blockTop = new MHorizontalLayout();
+            MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel leadAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
@@ -135,8 +136,8 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
-                                final CampaignService accountService = AppContextUtil.getSpringBean(CampaignService.class);
-                                final CampaignLead associateLead = new CampaignLead();
+                                CampaignService accountService = AppContextUtil.getSpringBean(CampaignService.class);
+                                CampaignLead associateLead = new CampaignLead();
                                 associateLead.setCampaignid(campaign.getId());
                                 associateLead.setLeadid(lead.getId());
                                 accountService.removeCampaignLeadRelationship(associateLead, MyCollabUI.getAccountId());
@@ -153,7 +154,8 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
 
             leadInfo.addComponent(leadName);
 
-            Label leadStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " + MoreObjects.firstNonNull(lead.getStatus(), ""));
+            Label leadStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
+                    UserUIContext.getMessage(LeadStatus.class, lead.getStatus()));
             leadInfo.addComponent(leadStatus);
 
             String email = MoreObjects.firstNonNull(lead.getEmail(), "");
@@ -163,9 +165,7 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
             Label leadOfficePhone = new Label(UserUIContext.getMessage(LeadI18nEnum.FORM_OFFICE_PHONE) + ": " + MoreObjects.firstNonNull(lead.getOfficephone(), ""));
             leadInfo.addComponent(leadOfficePhone);
 
-            blockTop.addComponent(leadInfo);
-            blockTop.setExpandRatio(leadInfo, 1.0f);
-            blockTop.setWidth("100%");
+            blockTop.with(leadInfo).expand(leadInfo);
             blockContent.addComponent(blockTop);
 
             blockContent.setWidth("100%");
