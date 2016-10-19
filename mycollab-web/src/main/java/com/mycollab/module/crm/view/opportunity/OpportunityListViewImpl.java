@@ -51,7 +51,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
 
     @Override
     protected DefaultGenericSearchPanel<OpportunitySearchCriteria> createSearchPanel() {
-        return new OpportunitySearchPanel();
+        return new OpportunitySearchPanel(true);
     }
 
     @Override

@@ -48,6 +48,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
+    private boolean canCreateCampaign;
+
     private static Param[] paramFields = new Param[]{
             CampaignSearchCriteria.p_campaignName,
             CampaignSearchCriteria.p_startDate,
@@ -57,6 +59,10 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
             CampaignSearchCriteria.p_types, CampaignSearchCriteria.p_statuses,
             CampaignSearchCriteria.p_assignee};
 
+    public CampaignSearchPanel(boolean canCreateCampaign) {
+        this.canCreateCampaign = canCreateCampaign;
+    }
+
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
         return ComponentUtils.header(CrmTypeConstants.CAMPAIGN, UserUIContext.getMessage(CampaignI18nEnum.LIST));
@@ -64,11 +70,10 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
 
     @Override
     protected Component buildExtraControls() {
-        MButton newBtn = new MButton(UserUIContext.getMessage(CampaignI18nEnum.NEW),
+        return (canCreateCampaign) ? new MButton(UserUIContext.getMessage(CampaignI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
-        return newBtn;
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) : null;
     }
 
     @Override

@@ -39,11 +39,11 @@ import java.util.List;
  * @since 2.0
  */
 @ViewComponent
-public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunitySearchCriteria> implements IOpportunitySalesStageDashboard {
+public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunitySearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     public OpportunitySalesStageDashboard() {
-        super(400, 265);
+        super(OpportunitySalesStage.class, 400, 265);
     }
 
     @Override
@@ -62,14 +62,14 @@ public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunityS
             boolean isFound = false;
             for (final GroupItem item : groupItems) {
                 if (status.name().equals(item.getGroupid())) {
-                    dataset.setValue(UserUIContext.getMessage(status), item.getValue());
+                    dataset.setValue(status, item.getValue());
                     isFound = true;
                     break;
                 }
             }
 
             if (!isFound) {
-                dataset.setValue(UserUIContext.getMessage(status), 0);
+                dataset.setValue(status, 0);
             }
         }
 

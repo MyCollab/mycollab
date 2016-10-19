@@ -50,7 +50,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
 
     @Override
     protected DefaultGenericSearchPanel<CampaignSearchCriteria> createSearchPanel() {
-        return new CampaignSearchPanel();
+        return new CampaignSearchPanel(true);
     }
 
     @Override

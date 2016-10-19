@@ -46,19 +46,16 @@ public class AccountSelectionWindow extends MWindow {
     public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
         super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(AccountI18nEnum.SINGLE)));
         this.fieldSelection = fieldSelection;
-        this.withModal(true).withResizable(false).withWidth("900px");
+        this.withModal(true).withResizable(false).withWidth("900px").withCenter();
     }
 
     public void show() {
         createAccountList();
 
-        AccountSearchPanel accountSimpleSearchPanel = new AccountSearchPanel();
-        accountSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
-        MVerticalLayout layout = new MVerticalLayout(accountSimpleSearchPanel, tableItem);
-        this.setContent(layout);
-
+        AccountSearchPanel searchPanel = new AccountSearchPanel(false);
+        searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
+        this.setContent(new MVerticalLayout(searchPanel, tableItem));
         tableItem.setSearchCriteria(new AccountSearchCriteria());
-        center();
     }
 
     private void createAccountList() {

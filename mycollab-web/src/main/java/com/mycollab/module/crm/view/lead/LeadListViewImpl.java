@@ -50,7 +50,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
 
     @Override
     protected DefaultGenericSearchPanel<LeadSearchCriteria> createSearchPanel() {
-        return new LeadSearchPanel();
+        return new LeadSearchPanel(true);
     }
 
     @Override

@@ -43,17 +43,16 @@ public class CaseSelectionWindow extends MWindow {
 
     public CaseSelectionWindow(FieldSelection fieldSelection) {
         super(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_VALUE, UserUIContext.getMessage(CaseI18nEnum.SINGLE)));
-        this.withModal(true).withResizable(false).withWidth("1000px");
+        this.withModal(true).withResizable(false).withWidth("1000px").withCenter();
         this.fieldSelection = fieldSelection;
     }
 
     public void show() {
         createCaseList();
-        CaseSearchPanel searchPanel = new CaseSearchPanel();
+        CaseSearchPanel searchPanel = new CaseSearchPanel(false);
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         this.setContent(new MVerticalLayout(searchPanel, tableItem));
         tableItem.setSearchCriteria(new CaseSearchCriteria());
-        center();
     }
 
     private void createCaseList() {

@@ -51,7 +51,7 @@ public class OpportunitySelectionWindow extends MWindow {
 
     public void show() {
         createOpportunityList();
-        OpportunitySearchPanel searchPanel = new OpportunitySearchPanel();
+        OpportunitySearchPanel searchPanel = new OpportunitySearchPanel(false);
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         this.setContent(new MVerticalLayout(searchPanel, tableItem));
 

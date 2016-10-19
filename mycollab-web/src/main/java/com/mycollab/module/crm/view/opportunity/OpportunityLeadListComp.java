@@ -71,15 +71,15 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
             controlsBtn.setCaption(UserUIContext.getMessage(LeadI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
-            final Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
+            MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 final OpportunityLeadSelectionWindow leadsWindow = new OpportunityLeadSelectionWindow(OpportunityLeadListComp.this);
                 final LeadSearchCriteria criteria = new LeadSearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
                 UI.getCurrent().addWindow(leadsWindow);
                 leadsWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
-            });
-            selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+            }).withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+
             OptionPopupContent buttonControlLayout = new OptionPopupContent();
             buttonControlLayout.addOption(selectBtn);
             controlsBtn.setContent(buttonControlLayout);
@@ -91,7 +91,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
         return controlsBtnWrap;
     }
 
-    public void displayLeads(final Opportunity opportunity) {
+    void displayLeads(final Opportunity opportunity) {
         this.opportunity = opportunity;
         loadLeads();
     }

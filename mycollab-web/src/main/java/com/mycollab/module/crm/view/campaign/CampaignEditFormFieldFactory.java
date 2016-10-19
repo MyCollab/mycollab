@@ -47,7 +47,6 @@ class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends Abstract
 
     @Override
     protected Field<?> onCreateField(Object propertyId) {
-
         if ("type".equals(propertyId)) {
             return new CampaignTypeComboBox();
         } else if ("status".equals(propertyId)) {
@@ -64,9 +63,7 @@ class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends Abstract
         } else if ("description".equals(propertyId)) {
             return new RichTextArea();
         } else if ("assignuser".equals(propertyId)) {
-            ActiveUserComboBox userBox = new ActiveUserComboBox();
-            userBox.select(attachForm.getBean().getAssignuser());
-            return userBox;
+            return new ActiveUserComboBox();
         } else if (propertyId.equals("currencyid")) {
             return new CurrencyComboBoxField();
         } else if (CampaignWithBLOBs.Field.budget.equalTo(propertyId) || CampaignWithBLOBs.Field.actualcost.equalTo(propertyId) ||

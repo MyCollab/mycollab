@@ -17,16 +17,20 @@
 package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.module.crm.CrmTooltipGenerator;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.fielddef.OpportunityTableFieldDef;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.opportunity.OpportunitySearchPanel;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableDisplay;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.ui.Button;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
 
@@ -48,12 +52,30 @@ public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindo
                 OpportunityTableFieldDef.opportunityName(), OpportunityTableFieldDef.saleStage(),
                 OpportunityTableFieldDef.expectedCloseDate()));
 
-        Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
-        selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+        tableItem.addGeneratedColumn("opportunityname", (source, itemId, columnId) -> {
+            final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
 
-        OpportunitySearchPanel searchPanel = new OpportunitySearchPanel();
+            ELabel b = new ELabel(opportunity.getOpportunityname()).withStyleName(WebUIConstants.BUTTON_LINK)
+                    .withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(),
+                            MyCollabUI.getDateFormat(), opportunity, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+            if (OpportunitySalesStage.Closed_Won.name().equals(opportunity.getSalesstage()) ||
+                    OpportunitySalesStage.Closed_Lost.name().equals(opportunity.getSalesstage())) {
+                b.addStyleName(WebUIConstants.LINK_COMPLETED);
+            } else {
+                if (opportunity.isOverdue()) {
+                    b.addStyleName(WebUIConstants.LINK_OVERDUE);
+                }
+            }
+
+            return b;
+        });
+
+        MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
+                .withStyleName(WebUIConstants.BUTTON_ACTION);
+
+        OpportunitySearchPanel searchPanel = new OpportunitySearchPanel(false);
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
-        this.bodyContent.with(searchPanel, selectBtn, tableItem);
+        bodyContent.with(searchPanel, selectBtn, tableItem);
     }
 }

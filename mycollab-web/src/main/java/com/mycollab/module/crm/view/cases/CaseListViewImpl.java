@@ -50,7 +50,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
 
     @Override
     protected DefaultGenericSearchPanel<CaseSearchCriteria> createSearchPanel() {
-        return new CaseSearchPanel();
+        return new CaseSearchPanel(true);
     }
 
     @Override

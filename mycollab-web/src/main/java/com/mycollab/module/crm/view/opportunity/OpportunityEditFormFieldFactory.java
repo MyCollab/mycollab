@@ -28,6 +28,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.DoubleField;
+import com.mycollab.vaadin.web.ui.IntegerField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import org.vaadin.viritin.fields.MTextField;
@@ -78,6 +79,8 @@ class OpportunityEditFormFieldFactory<B extends Opportunity> extends AbstractBea
             return new ActiveUserComboBox();
         } else if (Opportunity.Field.amount.equalTo(propertyId)) {
             return new DoubleField();
+        } else if (Opportunity.Field.probability.equalTo(propertyId)) {
+            return new IntegerField();
         }
 
         return null;

@@ -110,7 +110,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
             } else if (propertyId.equals("result")) {
                 return new RichTextArea();
             } else if (propertyId.equals("durationinseconds")) {
-                return new CallDurationField();
+                CallDurationField callDurationField = new CallDurationField();
+                callDurationField.setRequired(true);
+                return callDurationField;
             } else if (propertyId.equals("purpose")) {
                 return new CallPurposeComboBox();
             } else if (propertyId.equals("status") || propertyId.equals("calltype")) {

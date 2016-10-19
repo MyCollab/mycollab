@@ -27,6 +27,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -51,7 +52,7 @@ public class LeadSelectionWindow extends MWindow {
     public void show() {
         createLeadList();
 
-        LeadSearchPanel searchPanel = new LeadSearchPanel();
+        LeadSearchPanel searchPanel = new LeadSearchPanel(false);
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
 
         this.setContent(new MVerticalLayout(searchPanel, tableItem));
@@ -65,12 +66,12 @@ public class LeadSelectionWindow extends MWindow {
 
         tableItem.addGeneratedColumn("leadName", (source, itemId, columnId) -> {
             final SimpleLead lead = tableItem.getBeanByIndex(itemId);
-
             return new MButton(lead.getLeadName(), clickEvent -> {
                 fieldSelection.fireValueChange(lead);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipLead(UserUIContext.getUserLocale(),
-                    lead, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+            }).withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING)
+                    .withDescription(CrmTooltipGenerator.generateTooltipLead(UserUIContext.getUserLocale(), lead,
+                            MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
         tableItem.setSearchCriteria(new LeadSearchCriteria());
     }

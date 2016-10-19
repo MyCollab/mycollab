@@ -16,12 +16,12 @@
  */
 package com.mycollab.module.crm.service.impl;
 
-import com.mycollab.common.ModuleNameConstants;
-import com.mycollab.common.domain.GroupItem;
 import com.mycollab.aspect.ClassInfo;
 import com.mycollab.aspect.ClassInfoMap;
 import com.mycollab.aspect.Traceable;
 import com.mycollab.aspect.Watchable;
+import com.mycollab.common.ModuleNameConstants;
+import com.mycollab.common.domain.GroupItem;
 import com.mycollab.core.cache.CacheKey;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
@@ -30,10 +30,10 @@ import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.dao.OpportunityLeadMapper;
 import com.mycollab.module.crm.dao.OpportunityMapper;
 import com.mycollab.module.crm.dao.OpportunityMapperExt;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.service.OpportunityService;
-import com.mycollab.module.crm.domain.*;
 import com.mycollab.spring.AppContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +59,10 @@ public class OpportunityServiceImpl extends DefaultService<Integer, Opportunity,
 
     @Autowired
     private OpportunityMapper opportunityMapper;
+
     @Autowired
     private OpportunityMapperExt opportunityMapperExt;
+
     @Autowired
     private OpportunityLeadMapper opportunityLeadMapper;
 
@@ -85,14 +87,10 @@ public class OpportunityServiceImpl extends DefaultService<Integer, Opportunity,
         if ((opportunity.getExtraData() != null) && (opportunity.getExtraData() instanceof SimpleContact)) {
             ContactOpportunity associateOpportunity = new ContactOpportunity();
             associateOpportunity.setOpportunityid(opportunity.getId());
-            associateOpportunity.setContactid(((SimpleContact) opportunity
-                    .getExtraData()).getId());
-            associateOpportunity.setCreatedtime(new GregorianCalendar()
-                    .getTime());
-            ContactService contactService = AppContextUtil
-                    .getSpringBean(ContactService.class);
-            contactService.saveContactOpportunityRelationship(
-                    Collections.singletonList(associateOpportunity),
+            associateOpportunity.setContactid(((SimpleContact) opportunity.getExtraData()).getId());
+            associateOpportunity.setCreatedtime(new GregorianCalendar().getTime());
+            ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
+            contactService.saveContactOpportunityRelationship(Collections.singletonList(associateOpportunity),
                     opportunity.getSaccountid());
         }
         return result;
@@ -114,8 +112,7 @@ public class OpportunityServiceImpl extends DefaultService<Integer, Opportunity,
     }
 
     @Override
-    public void saveOpportunityLeadRelationship(
-            List<OpportunityLead> associateLeads, Integer sAccountId) {
+    public void saveOpportunityLeadRelationship(List<OpportunityLead> associateLeads, Integer sAccountId) {
         for (OpportunityLead associateLead : associateLeads) {
             OpportunityLeadExample ex = new OpportunityLeadExample();
             ex.createCriteria().andOpportunityidEqualTo(associateLead.getOpportunityid())

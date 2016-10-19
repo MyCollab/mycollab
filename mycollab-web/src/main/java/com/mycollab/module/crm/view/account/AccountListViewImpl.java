@@ -51,7 +51,7 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
 
     @Override
     protected DefaultGenericSearchPanel<AccountSearchCriteria> createSearchPanel() {
-        return new AccountSearchPanel();
+        return new AccountSearchPanel(true);
     }
 
     @Override

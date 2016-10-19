@@ -64,11 +64,10 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
     @Override
     protected Component buildExtraControls() {
-        MButton createBtn = new MButton(UserUIContext.getMessage(ComponentI18nEnum.NEW),
+        return new MButton(UserUIContext.getMessage(ComponentI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
-        createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
-        return createBtn;
+                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
     }
 
     private class ComponentBasicSearchLayout extends BasicSearchLayout<ComponentSearchCriteria> {
@@ -112,7 +111,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentName(StringSearchField.and(this.nameField.getValue().trim()));
 
-            if (this.myItemCheckbox.getValue()) {
+            if (myItemCheckbox.getValue()) {
                 searchCriteria.setUserlead(StringSearchField.and(UserUIContext.getUsername()));
             } else {
                 searchCriteria.setUserlead(null);
@@ -121,5 +120,4 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             return searchCriteria;
         }
     }
-
 }

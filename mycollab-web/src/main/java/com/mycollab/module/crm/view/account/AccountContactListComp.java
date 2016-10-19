@@ -88,7 +88,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
         return controlsBtnWrap;
     }
 
-    public void displayContacts(final Account account) {
+    void displayContacts(final Account account) {
         this.account = account;
         loadContacts();
     }

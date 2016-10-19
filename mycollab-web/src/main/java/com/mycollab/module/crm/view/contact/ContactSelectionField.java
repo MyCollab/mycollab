@@ -24,6 +24,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.data.Property;
+import com.vaadin.data.Validator;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -62,7 +63,6 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
         contact = (SimpleContact) data;
         if (contact != null) {
             contactName.setValue(contact.getContactName());
-            setInternalValue(contact.getId());
         }
     }
 
@@ -71,34 +71,27 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
         final Object value = newDataSource.getValue();
         if (value instanceof Integer) {
             setContactByVal((Integer) value);
-            super.setPropertyDataSource(newDataSource);
-        } else {
-            super.setPropertyDataSource(newDataSource);
         }
+        super.setPropertyDataSource(newDataSource);
     }
 
     @Override
-    public void setValue(Integer value) {
-        this.setContactByVal(value);
-        super.setValue(value);
+    public void commit() throws SourceException, Validator.InvalidValueException {
+        if (contact != null) {
+            setInternalValue(contact.getId());
+        } else {
+            setInternalValue(null);
+        }
+        super.commit();
     }
 
     private void setContactByVal(Integer contactId) {
         ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
         SimpleContact contactVal = contactService.findById(contactId, MyCollabUI.getAccountId());
         if (contactVal != null) {
-            setInternalContact(contactVal);
+            this.contact = contact;
+            contactName.setValue(contact.getContactName());
         }
-    }
-
-    private void setInternalContact(SimpleContact contact) {
-        this.contact = contact;
-        contactName.setValue(contact.getContactName());
-    }
-
-    @Override
-    public Integer getValue() {
-        return super.getValue();
     }
 
     public SimpleContact getContact() {

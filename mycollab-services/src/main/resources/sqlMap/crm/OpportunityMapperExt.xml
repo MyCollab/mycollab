@@ -249,8 +249,7 @@
     <select id="getSalesStageSummary" parameterType="OpportunitySearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_crm_opportunity.salesStage AS groupid,
-        COUNT(m_crm_opportunity.salesStage) AS
-        value, '' as groupname
+            COUNT(m_crm_opportunity.salesStage) AS value, '' as groupname
         FROM m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -264,7 +263,7 @@
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_crm_opportunity.source AS groupid,
             SUM((SELECT  m_crm_opportunity.amount FROM m_crm_opportunity n WHERE n.id = m_crm_opportunity.id 
-                AND n.salesStage = 'Closed Won'))AS value,
+                AND n.salesStage = 'Closed Won')) AS value,
                 (SELECT count(*) FROM m_crm_opportunity mm WHERE m_crm_opportunity.source = mm.source) AS countNum, '' AS groupname
         FROM
         m_crm_opportunity

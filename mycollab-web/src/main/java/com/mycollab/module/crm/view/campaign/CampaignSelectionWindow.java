@@ -50,7 +50,7 @@ public class CampaignSelectionWindow extends MWindow {
 
     public void show() {
         createCampaignList();
-        CampaignSearchPanel campaignSimpleSearchPanel = new CampaignSearchPanel();
+        CampaignSearchPanel campaignSimpleSearchPanel = new CampaignSearchPanel(false);
         campaignSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));
         this.setContent(new MVerticalLayout(campaignSimpleSearchPanel, tableItem));
         tableItem.setSearchCriteria(new CampaignSearchCriteria());

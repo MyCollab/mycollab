@@ -57,7 +57,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
         this.setBlockDisplayHandler(new CaseContactBlockDisplay());
     }
 
-    public void displayContacts(CaseWithBLOBs cases) {
+    void displayContacts(CaseWithBLOBs cases) {
         this.cases = cases;
         loadContacts();
     }
@@ -153,7 +153,8 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
             Label contactTitle = new Label(UserUIContext.getMessage(ContactI18nEnum.FORM_TITLE) + ": " + MoreObjects.firstNonNull(contact.getTitle(), ""));
             contactInfo.addComponent(contactTitle);
 
-            Label contactEmail = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A("mailto:" + contact.getEmail()).appendText(contact.getEmail()));
+            Label contactEmail = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": " + new A
+                    ("mailto:" + contact.getEmail()).appendText(MoreObjects.firstNonNull(contact.getEmail(), "")));
             contactInfo.addComponent(contactEmail);
 
             Label contactOfficePhone = new Label(UserUIContext.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE) + ": " + MoreObjects.firstNonNull(contact.getOfficephone(), ""));

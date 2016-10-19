@@ -160,7 +160,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
     
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
-        new Span().write
+        return new Span().write
       }
       try {
         val campaignId = value.toInt

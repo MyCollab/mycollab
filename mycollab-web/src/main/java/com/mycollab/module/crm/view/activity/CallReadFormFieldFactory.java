@@ -18,7 +18,11 @@ package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.module.crm.domain.CallWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCall;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallStatus;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CallType;
 import com.mycollab.module.crm.ui.components.RelatedReadItemField;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -53,11 +57,11 @@ class CallReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         } else if (CallWithBLOBs.Field.status.equalTo(propertyId)) {
             StringBuilder value = new StringBuilder();
             if (call.getStatus() != null) {
-                value.append(call.getStatus()).append(" ");
+                value.append(UserUIContext.getMessage(CallStatus.class, call.getStatus())).append(" ");
             }
 
             if (call.getCalltype() != null) {
-                value.append(call.getCalltype());
+                value.append(UserUIContext.getMessage(CallType.class, call.getCalltype()));
             }
             return new DefaultViewField(value.toString()).withStyleName(UIConstants.FIELD_NOTE);
         } else if (CallWithBLOBs.Field.durationinseconds.equalTo(propertyId)) {

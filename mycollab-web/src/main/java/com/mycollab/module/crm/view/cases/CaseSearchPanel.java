@@ -48,6 +48,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
+    private boolean canCreateCase;
+
     private static Param[] paramFields = new Param[]{
             CaseSearchCriteria.p_account, CaseSearchCriteria.p_priority,
             CaseSearchCriteria.p_status, CaseSearchCriteria.p_email,
@@ -56,6 +58,10 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
             CaseSearchCriteria.p_createdtime,
             CaseSearchCriteria.p_lastupdatedtime};
 
+    public CaseSearchPanel(boolean canCreateCase) {
+        this.canCreateCase = canCreateCase;
+    }
+
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
         return ComponentUtils.header(CrmTypeConstants.CASE, UserUIContext.getMessage(CaseI18nEnum.LIST));
@@ -63,10 +69,10 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
 
     @Override
     protected Component buildExtraControls() {
-        return new MButton(UserUIContext.getMessage(CaseI18nEnum.NEW),
+        return (canCreateCase) ? new MButton(UserUIContext.getMessage(CaseI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CASE));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CASE)) : null;
     }
 
     @SuppressWarnings("unchecked")

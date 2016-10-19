@@ -48,6 +48,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 1.0
  */
 public class OpportunitySearchPanel extends DefaultGenericSearchPanel<OpportunitySearchCriteria> {
+    private boolean canCreateOpportunity;
 
     private static Param[] paramFields = new Param[]{
             OpportunitySearchCriteria.p_opportunityName,
@@ -61,6 +62,10 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
             OpportunitySearchCriteria.p_createdtime,
             OpportunitySearchCriteria.p_lastupdatedtime};
 
+    public OpportunitySearchPanel(boolean canCreateOpportunity) {
+        this.canCreateOpportunity = canCreateOpportunity;
+    }
+
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
         return ComponentUtils.header(CrmTypeConstants.OPPORTUNITY, UserUIContext.getMessage(OpportunityI18nEnum.LIST));
@@ -68,10 +73,10 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
     @Override
     protected Component buildExtraControls() {
-        return new MButton(UserUIContext.getMessage(OpportunityI18nEnum.NEW),
+        return (canCreateOpportunity) ? new MButton(UserUIContext.getMessage(OpportunityI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) : null;
     }
 
     @Override

@@ -46,12 +46,18 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  */
 public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchCriteria> {
 
+    private boolean canCreateAccount;
+
     private static Param[] paramFields = new Param[]{
             AccountSearchCriteria.p_accountName, AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
             AccountSearchCriteria.p_numemployees, AccountSearchCriteria.p_assignee, AccountSearchCriteria.p_industries,
             AccountSearchCriteria.p_types, AccountSearchCriteria.p_assignee, AccountSearchCriteria.p_billingCountry,
             AccountSearchCriteria.p_shippingCountry, AccountSearchCriteria.p_anyCity, AccountSearchCriteria.p_createdtime,
             AccountSearchCriteria.p_lastupdatedtime};
+
+    public AccountSearchPanel(boolean canCreateAccount) {
+        this.canCreateAccount = canCreateAccount;
+    }
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
@@ -60,10 +66,10 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected Component buildExtraControls() {
-        return new MButton(UserUIContext.getMessage(AccountI18nEnum.NEW),
+        return (canCreateAccount) ? new MButton(UserUIContext.getMessage(AccountI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) : null;
     }
 
     @Override

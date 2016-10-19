@@ -48,6 +48,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
+    private boolean canCreateLead;
+
     private static Param[] paramFields = new Param[]{
             LeadSearchCriteria.p_leadContactName,
             LeadSearchCriteria.p_accountName, LeadSearchCriteria.p_website,
@@ -58,6 +60,10 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             LeadSearchCriteria.p_statuses, LeadSearchCriteria.p_sources,
             LeadSearchCriteria.p_assignee};
 
+    public LeadSearchPanel(boolean canCreateLead) {
+        this.canCreateLead = canCreateLead;
+    }
+
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
         return ComponentUtils.header(CrmTypeConstants.LEAD, UserUIContext.getMessage(LeadI18nEnum.LIST));
@@ -65,11 +71,10 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
     @Override
     protected Component buildExtraControls() {
-        MButton newBtn = new MButton(UserUIContext.getMessage(LeadI18nEnum.NEW),
+        return (canCreateLead) ? new MButton(UserUIContext.getMessage(LeadI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null)))
                 .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
-                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD));
-        return newBtn;
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD)) : null;
     }
 
     @Override

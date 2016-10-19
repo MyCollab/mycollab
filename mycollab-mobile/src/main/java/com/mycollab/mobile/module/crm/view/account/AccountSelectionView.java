@@ -68,7 +68,7 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
         public Component generateRow(IBeanList<SimpleAccount> host, final SimpleAccount account, int rowIndex) {
             Button b = new Button(account.getAccountname(), clickEvent -> {
                 selectionField.fireValueChange(account);
-                AccountSelectionView.this.getNavigationManager().navigateBack();
+                getNavigationManager().navigateBack();
             });
             if (account.getId() == null)
                 b.addStyleName("blank-item");
