@@ -49,7 +49,7 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
     @Override
     protected void viewAttached() {
         if (view.getSearchHandlers() != null) {
-            view.getSearchHandlers().addSearchHandler(criteria -> doSearch(criteria));
+            view.getSearchHandlers().addSearchHandler(this::doSearch);
         }
 
         if (view.getPagedBeanTable() != null) {
@@ -103,13 +103,10 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
         }
 
         if (view.getSelectableItemHandlers() != null) {
-            view.getSelectableItemHandlers().addSelectableItemHandler(new SelectableItemHandler<B>() {
-                @Override
-                public void onSelect(B item) {
-                    isSelectAll = false;
-                    item.setSelected(!item.isSelected());
-                    checkWhetherEnableTableActionControl();
-                }
+            view.getSelectableItemHandlers().addSelectableItemHandler(item -> {
+                isSelectAll = false;
+                item.setSelected(!item.isSelected());
+                checkWhetherEnableTableActionControl();
             });
         }
     }

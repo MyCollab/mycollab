@@ -69,6 +69,9 @@ Version 5.4.3
 * [Premium] Can not mass update project risks
 * [Community] Can not preview bug, task on mobile web page because of lacking time service
 * Update the localization updates of Crm module
+* Lead source chart throws error
+* Can not display the opportunity when user click chart legend
+* Can not send the opportunity in several special cases
 * Minor issues are fixed on Crm module
 * Update the mail settings is not effect immediately
 

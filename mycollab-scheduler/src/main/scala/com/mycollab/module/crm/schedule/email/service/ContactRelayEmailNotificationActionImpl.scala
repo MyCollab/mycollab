@@ -172,7 +172,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     
     def formatField(context: MailContext[_], value: String): String = {
       if (StringUtils.isBlank(value)) {
-        new Span().write
+        return new Span().write
       }
       try {
         val accountId = value.toInt

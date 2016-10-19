@@ -107,14 +107,11 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
                 handler.onSelectAll();
             }
         }
-
     }
 
     private void fireSelectCurrentPage() {
         if (handlers != null) {
-            for (SelectionOptionHandler handler : handlers) {
-                handler.onSelectCurrentPage();
-            }
+            handlers.forEach(SelectionOptionHandler::onSelectCurrentPage);
         }
     }
 

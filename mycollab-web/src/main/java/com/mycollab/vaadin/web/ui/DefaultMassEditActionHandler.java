@@ -61,9 +61,9 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
         IPagedBeanTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanTable();
-        final Map<String, Object> parameters = new HashMap<>();
-        parameters.put("siteUrl", MyCollabUI.getSiteUrl());
-        parameters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
+        final Map<String, Object> addtionalParamters = new HashMap<>();
+        addtionalParamters.put("siteUrl", MyCollabUI.getSiteUrl());
+        addtionalParamters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
         ReportTemplateExecutor reportTemplateExecutor;
         if (presenter.isSelectAll) {
             reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems(getReportTitle(),
@@ -77,6 +77,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
         return new StreamResource(new ReportStreamSource(reportTemplateExecutor) {
             @Override
             protected void initReportParameters(Map<String, Object> parameters) {
+                parameters.putAll(addtionalParamters);
             }
         }, exportType.getDefaultFileName());
     }

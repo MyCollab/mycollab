@@ -35,7 +35,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout
   * @since 5.0.9
   */
 class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMassItemActionHandler {
-  private var actionHandler: MassItemActionHandler = null
+  private var actionHandler: MassItemActionHandler = _
   private val groupMap: scala.collection.mutable.Map[String, ButtonGroup] = scala.collection.mutable.Map().withDefaultValue(null)
 
   /**
@@ -136,7 +136,7 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
 
   @SerialVersionUID(1L)
   private class DownloadStreamSource extends StreamSource {
-    private var exportType: ReportExportType = null
+    private var exportType: ReportExportType = _
 
     def this(exportType: ReportExportType) {
       this()

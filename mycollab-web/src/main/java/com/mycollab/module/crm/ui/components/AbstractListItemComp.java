@@ -71,8 +71,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
     }
 
     private ComponentContainer buildControlsLayout() {
-        MHorizontalLayout viewControlsLayout = new MHorizontalLayout().withFullWidth();
-        viewControlsLayout.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
+        MHorizontalLayout viewControlsLayout = new MHorizontalLayout().withStyleName(WebUIConstants.TABLE_ACTION_CONTROLS).withFullWidth();
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         selectOptionButton.setSizeUndefined();

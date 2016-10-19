@@ -43,7 +43,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.mycollab.vaadin.addon</groupId>
+            <groupId>org.vaadin.addons</groupId>
             <artifactId>mobile-components</artifactId>
             <version>1.0.1</version>
         </dependency>
