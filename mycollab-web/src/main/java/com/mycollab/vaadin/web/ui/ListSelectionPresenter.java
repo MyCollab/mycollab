@@ -111,7 +111,7 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
         }
     }
 
-    protected void selectAllItemsInCurrentPage() {
+    private void selectAllItemsInCurrentPage() {
         Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
         for (B item : currentDataList) {
             item.setSelected(true);

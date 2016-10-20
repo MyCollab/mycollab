@@ -48,7 +48,7 @@ public class SystemUIChecker {
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
-                                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(null, new String[]{"setup"}));
+                                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(UI.getCurrent(), new String[]{"setup"}));
                                 }
                             });
 

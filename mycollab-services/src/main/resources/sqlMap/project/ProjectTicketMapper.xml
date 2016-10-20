@@ -608,7 +608,7 @@
         SELECT tmpTbl.assignUser AS groupid, COUNT(tmpTbl.assignUser) AS value, tmpTbl.fullname AS groupname,
         tmpTbl.avatarId AS extraValue
           FROM
-          ((SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Task' AS type,
+          ((SELECT mainTbl.assignUser, mainTbl.id AS typeId, 'Project-Task' AS type,
               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
               s_user.avatarId AS avatarId
           FROM m_prj_task AS mainTbl
@@ -620,7 +620,7 @@
             #end
           #end)
           UNION
-          (SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Bug' AS type,
+          (SELECT mainTbl.assignUser, mainTbl.id AS typeId, 'Project-Bug' AS type,
               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
               s_user.avatarId AS avatarId
           FROM m_tracker_bug AS mainTbl
@@ -632,7 +632,7 @@
             #end
           #end)
           UNION
-          (SELECT mainTbl.assignUser AS assignUser, mainTbl.id AS typeId, 'Project-Risk' AS type,
+          (SELECT mainTbl.assignUser, mainTbl.id AS typeId, 'Project-Risk' AS type,
               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
               s_user.avatarId AS avatarId
           FROM m_prj_risk AS mainTbl
@@ -643,7 +643,7 @@
               <include refid="queryRiskSearchCriteria"/>
             #end
           #end)) AS tmpTbl
-        GROUP BY tmpTbl.assignUser
+        GROUP BY tmpTbl.assignUser, tmpTbl.fullname, tmpTbl.avatarId
     </select>
 
     <select id="getPrioritySummary" parameterType="ProjectTicketSearchCriteria"
