@@ -21,6 +21,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.NumberUtils;
@@ -56,20 +57,23 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
         String avatarLink = StorageFactory.getAvatarPath(task.getAssignUserAvatarId(), 16);
         Img img = new Img(task.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                 .setTitle(task.getAssignUserFullName());
-        return new MetaFieldBuilder().withCaption(img.write()).withDescription(UserUIContext.getMessage(GenericI18Enum
-                .FORM_ASSIGNEE)).build();
+        return new MetaFieldBuilder().withCaption(img.write())
+                .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))).build();
     }
 
     @Override
     public AbstractComponent createCommentsPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
-                .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
+                .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS))).build();
     }
 
     @Override
     public AbstractComponent createStatusPopupField(SimpleTask task) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, task.getStatus()).withDescription
-                (UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
+                (UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_STATUS))).build();
     }
 
     @Override
@@ -77,13 +81,15 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
         if (task.getPercentagecomplete() != null && task.getPercentagecomplete() > 0) {
             return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.CALENDAR_CLOCK,
                     String.format(" %s%%", task.getPercentagecomplete()))
-                    .withDescription(UserUIContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE))).build();
         } else {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.CALENDAR_CLOCK.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE))).build();
         }
     }
 
@@ -94,10 +100,12 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(MilestoneI18nEnum.SINGLE))).build();
         } else {
             return new MetaFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), task
-                    .getMilestoneName()).withDescription(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE)).build();
+                    .getMilestoneName()).withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                    UserUIContext.getMessage(MilestoneI18nEnum.SINGLE))).build();
         }
     }
 
@@ -108,11 +116,13 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
                     UserUIContext.formatPrettyTime(task.getDeadlineRoundPlusOne())))
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE))).build();
         }
     }
 
@@ -123,11 +133,13 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
                     UserUIContext.formatDate(task.getStartdate())))
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE))).build();
         }
     }
 
@@ -137,11 +149,14 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
+            return new MetaFieldBuilder().withCaption(divHint.write())
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
-                    UserUIContext.formatDate(task.getEnddate()))).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)
-            ).build();
+                    UserUIContext.formatDate(task.getEnddate())))
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE))).build();
         }
     }
 

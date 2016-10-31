@@ -34,6 +34,7 @@ public class ProductServiceImpl extends DefaultService<Integer, Product, Product
 
     @Autowired
     private ProductMapper productMapper;
+
     @Autowired
     private ProductMapperExt productMapperExt;
 

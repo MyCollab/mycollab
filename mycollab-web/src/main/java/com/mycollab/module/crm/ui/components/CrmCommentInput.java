@@ -52,7 +52,7 @@ class CrmCommentInput extends MHorizontalLayout {
 
     CrmCommentInput(final ReloadableComponent component, final String typeVal) {
         super();
-        this.withMargin(new MarginInfo(true, true, false, true)).withFullWidth();
+        this.withMargin(new MarginInfo(true, true, false, false)).withFullWidth();
 
         SimpleUser currentUser = UserUIContext.getUser();
         UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());

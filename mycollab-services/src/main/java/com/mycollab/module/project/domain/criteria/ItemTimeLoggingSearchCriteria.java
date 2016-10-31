@@ -16,10 +16,14 @@
  */
 package com.mycollab.module.project.domain.criteria;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.*;
 import com.mycollab.db.query.CacheParamMapper;
 import com.mycollab.db.query.DateParam;
+import com.mycollab.db.query.PropertyListParam;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
+import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -34,8 +38,11 @@ public class ItemTimeLoggingSearchCriteria extends SearchCriteria {
     private NumberSearchField typeId;
     private BooleanSearchField isBillable;
 
-    public static final DateParam p_logDates = CacheParamMapper.register(ProjectTypeConstants.TIME, null,
-            new DateParam("logdate", "m_prj_time_logging", "logForDay"));
+    public static final DateParam p_logDates = CacheParamMapper.register(ProjectTypeConstants.TIME,
+            TimeTrackingI18nEnum.LOG_FOR_DATE, new DateParam("logdate", "m_prj_time_logging", "logForDay"));
+
+    public static final PropertyListParam<String> p_logUsers = CacheParamMapper.register(ProjectTypeConstants.TIME,
+            UserI18nEnum.LIST, new PropertyListParam<String>("loguser", "m_prj_time_logging", "loguser"));
 
     public SetSearchField<Integer> getProjectIds() {
         return projectIds;

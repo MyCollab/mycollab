@@ -32,13 +32,9 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
-import com.mycollab.vaadin.web.ui.ReadViewLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -147,7 +143,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         private ToggleMilestoneSummaryField toggleMilestoneSummaryField;
 
         void displayHeader(SimpleMilestone milestone) {
-            toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, true);
+            toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, true, false);
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
             if (StatusI18nEnum.Closed.name().equals(milestone.getStatus())) {

@@ -26,7 +26,7 @@ import com.mycollab.module.project.service.ProjectGenericItemService;
 import com.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
@@ -37,7 +37,7 @@ import com.vaadin.server.FontAwesome;
  * @since 5.0.3
  */
 @ViewComponent
-public class ProjectSearchItemsViewImpl extends AbstractPageView implements ProjectSearchItemsView {
+public class ProjectSearchItemsViewImpl extends AbstractVerticalPageView implements ProjectSearchItemsView {
 
     public ProjectSearchItemsViewImpl() {
         this.withMargin(true);

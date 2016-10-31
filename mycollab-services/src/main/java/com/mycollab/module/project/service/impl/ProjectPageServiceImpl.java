@@ -39,8 +39,7 @@ public class ProjectPageServiceImpl implements ProjectPageService {
 	private ActivityStreamService activityStreamService;
 
 	@Override
-	public void savePage(Page page, String createdUser, Integer projectId,
-			Integer accountId) {
+	public void savePage(Page page, String createdUser, Integer projectId, Integer accountId) {
 		pageService.savePage(page, createdUser);
 
 		ActivityStreamWithBLOBs activityStream = new ActivityStreamWithBLOBs();

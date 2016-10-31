@@ -20,13 +20,13 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.mycollab.module.crm.i18n.*;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.*;
 import com.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
-import com.mycollab.module.crm.domain.*;
-import com.mycollab.module.crm.i18n.*;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
@@ -39,8 +39,6 @@ import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -128,24 +126,24 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         associateCaseList = new AccountCaseListComp();
         activityComponent = new CrmActivityComponent(CrmTypeConstants.ACCOUNT);
 
-        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
-
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         compFollowers = new CrmFollowersComp<>(CrmTypeConstants.ACCOUNT, RolePermissionCollections.CRM_ACCOUNT);
+        addToSideBar(dateInfoComp, peopleInfoComp, compFollowers);
 
-        basicInfo.with(dateInfoComp, peopleInfoComp, compFollowers);
-        navigatorWrapper.addComponentAsFirst(basicInfo);
-
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, UserUIContext.getMessage(ContactI18nEnum.LIST));
-        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD, UserUIContext.getMessage(LeadI18nEnum.LIST));
-        previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
-                UserUIContext.getMessage(OpportunityI18nEnum.LIST.LIST));
-        previewItemContainer.addTab(associateCaseList, CrmTypeConstants.CASE, UserUIContext.getMessage(CaseI18nEnum.LIST));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
-        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        tabSheet.addTab(previewLayout, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT),
+                CrmAssetsManager.getAsset(CrmTypeConstants.DETAIL));
+        tabSheet.addTab(associateContactList, CrmTypeConstants.CONTACT, UserUIContext.getMessage(ContactI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+        tabSheet.addTab(associateLeadList, CrmTypeConstants.LEAD, UserUIContext.getMessage(LeadI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+        tabSheet.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
+                UserUIContext.getMessage(OpportunityI18nEnum.LIST), CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
+        tabSheet.addTab(associateCaseList, CrmTypeConstants.CASE, UserUIContext.getMessage(CaseI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
+        tabSheet.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY),
+                CrmAssetsManager.getAsset(CrmTypeConstants.ACTIVITY));
+        tabSheet.selectTab(CrmTypeConstants.DETAIL);
     }
 
     @Override
@@ -171,7 +169,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         dateInfoComp.displayEntryDateTime(beanItem);
         compFollowers.displayFollowers(beanItem);
 
-        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        tabSheet.selectTab(CrmTypeConstants.DETAIL);
     }
 
     @Override
@@ -207,5 +205,10 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
     @Override
     public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
         return associateActivityList;
+    }
+
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.ACCOUNT;
     }
 }

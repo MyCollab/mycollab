@@ -38,7 +38,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -61,7 +61,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class UserListViewImpl extends AbstractPageView implements UserListView {
+public class UserListViewImpl extends AbstractVerticalPageView implements UserListView {
     private static final long serialVersionUID = 1L;
 
     private CssLayout contentLayout;

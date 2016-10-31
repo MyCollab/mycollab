@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -30,7 +30,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class AbstractProjectPageView extends AbstractPageView {
+public class AbstractProjectPageView extends AbstractVerticalPageView {
     private static final long serialVersionUID = 1L;
 
     protected ELabel headerText;

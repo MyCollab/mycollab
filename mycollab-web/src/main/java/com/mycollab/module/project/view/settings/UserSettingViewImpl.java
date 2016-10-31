@@ -27,7 +27,7 @@ import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.parameters.ProjectRoleScreenData;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -44,7 +44,7 @@ import com.vaadin.ui.TabSheet.Tab;
  * @since 1.0
  */
 @ViewComponent
-public class UserSettingViewImpl extends AbstractPageView implements UserSettingView {
+public class UserSettingViewImpl extends AbstractVerticalPageView implements UserSettingView {
     private static final long serialVersionUID = 1L;
 
     private ProjectUserPresenter userPresenter;
@@ -56,7 +56,6 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
     private final TabSheetDecorator myProjectTab;
 
     public UserSettingViewImpl() {
-        this.setWidth("100%");
         this.myProjectTab = new TabSheetDecorator();
         this.addComponent(myProjectTab);
         this.buildComponents();

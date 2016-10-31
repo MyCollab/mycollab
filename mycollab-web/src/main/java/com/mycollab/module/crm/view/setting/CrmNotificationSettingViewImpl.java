@@ -24,7 +24,7 @@ import com.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.mycollab.module.project.i18n.ProjectSettingI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -42,7 +42,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class CrmNotificationSettingViewImpl extends AbstractPageView implements CrmNotificationSettingView {
+public class CrmNotificationSettingViewImpl extends AbstractVerticalPageView implements CrmNotificationSettingView {
     private static final long serialVersionUID = 1L;
 
     @Override

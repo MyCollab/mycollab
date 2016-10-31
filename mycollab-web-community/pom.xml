@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.3</version>
+        <version>5.4.4</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -15,25 +15,13 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-ui</artifactId>
-            <version>5.4.3</version>
+            <version>5.4.4</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-web</artifactId>
-            <version>5.4.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>vaadin-sliderpanel</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.rometools</groupId>
-            <artifactId>rome</artifactId>
-            <version>1.6.1</version>
+            <version>5.4.4</version>
         </dependency>
     </dependencies>
 </project>

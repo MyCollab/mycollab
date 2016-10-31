@@ -33,8 +33,7 @@ import java.io.Serializable;
  * @author MyCollab Ltd
  * @since 5.2.5
  */
-public abstract class AbstractMobilePageView extends NavigationView implements PageView, Serializable {
-    private static final long serialVersionUID = 1L;
+public abstract class AbstractMobilePageView extends NavigationView implements PageView {
 
     public AbstractMobilePageView() {
         super();

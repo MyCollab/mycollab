@@ -57,6 +57,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
 
     public OpportunityLeadListComp() {
         super(AppContextUtil.getSpringBean(LeadService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new OpportunityLeadBlockDisplay());
     }
 

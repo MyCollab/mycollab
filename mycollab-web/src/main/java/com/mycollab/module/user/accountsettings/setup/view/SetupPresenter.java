@@ -47,6 +47,5 @@ public class SetupPresenter extends AbstractPresenter<SetupView> {
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
-
     }
 }

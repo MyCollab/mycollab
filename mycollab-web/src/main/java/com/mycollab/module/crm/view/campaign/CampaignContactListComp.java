@@ -56,6 +56,7 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
 
     public CampaignContactListComp() {
         super(AppContextUtil.getSpringBean(ContactService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new CampaignContactBlockDisplay());
     }
 

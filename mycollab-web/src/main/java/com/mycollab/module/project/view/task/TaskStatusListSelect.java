@@ -17,7 +17,7 @@
 package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.domain.OptionVal;
-import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -47,7 +47,7 @@ public class TaskStatusListSelect extends ListSelect {
                 CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
         for (OptionVal option : options) {
             this.addItem(option.getTypeval());
-            this.setItemCaption(option.getTypeval(), UserUIContext.getMessage(OptionI18nEnum.StatusI18nEnum.class,
+            this.setItemCaption(option.getTypeval(), UserUIContext.getMessage(StatusI18nEnum.class,
                     option.getTypeval()));
         }
         super.attach();

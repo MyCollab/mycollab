@@ -58,6 +58,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
 
     public AccountLeadListComp() {
         super(AppContextUtil.getSpringBean(LeadService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new AccountLeadBlockDisplay());
     }
 

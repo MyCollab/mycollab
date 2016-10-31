@@ -40,7 +40,7 @@ public class CreatedDateOrderComponent extends TicketGroupOrderComponent {
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat());
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat()).withLocale(UserUIContext.getUserLocale());
         for (ProjectTicket ticket : tickets) {
             if (ticket.getCreatedTime() != null) {
                 Date createdDate = ticket.getCreatedTime();

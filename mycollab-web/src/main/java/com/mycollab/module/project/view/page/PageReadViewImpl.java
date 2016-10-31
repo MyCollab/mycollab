@@ -32,7 +32,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
-import com.mycollab.module.project.ui.components.AbstractPreviewItemComp;
+import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.mycollab.spring.AppContextUtil;

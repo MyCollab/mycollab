@@ -19,7 +19,7 @@ package com.mycollab.community.module.project.view.settings;
 import com.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.mycollab.module.project.view.settings.ProjectNotificationSettingViewComponent;
 import com.mycollab.module.project.view.settings.ProjectSettingView;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -28,7 +28,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 2.0
  */
 @ViewComponent
-public class ProjectSettingViewImpl extends AbstractPageView implements ProjectSettingView {
+public class ProjectSettingViewImpl extends AbstractVerticalPageView implements ProjectSettingView {
     private static final long serialVersionUID = 1L;
 
     private final MHorizontalLayout mainBody;

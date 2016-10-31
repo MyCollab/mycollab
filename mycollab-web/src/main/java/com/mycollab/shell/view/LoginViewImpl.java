@@ -28,7 +28,7 @@ import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.events.UserEvent;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -44,7 +44,7 @@ import org.vaadin.viritin.button.MButton;
  * @since 1.0
  */
 @ViewComponent
-public class LoginViewImpl extends AbstractPageView implements LoginView {
+public class LoginViewImpl extends AbstractVerticalPageView implements LoginView {
     private static final long serialVersionUID = 1L;
 
     public LoginViewImpl() {

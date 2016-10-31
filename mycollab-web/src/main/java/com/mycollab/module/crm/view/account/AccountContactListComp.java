@@ -54,6 +54,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
 
     public AccountContactListComp() {
         super(AppContextUtil.getSpringBean(ContactService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new AccountContactBlockDisplay());
     }
 
@@ -88,7 +89,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
         return controlsBtnWrap;
     }
 
-    void displayContacts(final Account account) {
+    void displayContacts(Account account) {
         this.account = account;
         loadContacts();
     }

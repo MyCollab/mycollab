@@ -62,10 +62,5 @@ public class RoleComboBox extends ComboBox {
                 this.setValue(role.getId());
             }
         }
-
-        if (getValue() == null) {
-            SimpleRole role = beanItem.getItem(-1).getBean();
-            this.setValue(role.getId());
-        }
     }
 }

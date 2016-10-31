@@ -33,7 +33,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -60,7 +60,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class UserDashboardViewImpl extends AbstractPageView implements UserDashboardView {
+public class UserDashboardViewImpl extends AbstractVerticalPageView implements UserDashboardView {
     private static final long serialVersionUID = 1L;
 
     private ProjectService prjService;

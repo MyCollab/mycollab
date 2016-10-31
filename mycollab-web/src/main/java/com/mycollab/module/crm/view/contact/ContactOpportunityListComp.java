@@ -58,6 +58,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     public ContactOpportunityListComp() {
         super(AppContextUtil.getSpringBean(OpportunityService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new ContactOpportunityBlockDisplay());
     }
 

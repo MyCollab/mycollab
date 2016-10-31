@@ -56,6 +56,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
 
     public CampaignAccountListComp() {
         super(AppContextUtil.getSpringBean(AccountService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new CampaignAccountBlockDisplay());
     }
 

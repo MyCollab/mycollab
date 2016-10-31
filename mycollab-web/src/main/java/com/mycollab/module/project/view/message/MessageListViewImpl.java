@@ -43,7 +43,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.IEditFormHandler;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
@@ -67,7 +67,7 @@ import java.util.Set;
  * @since 1.0
  */
 @ViewComponent
-public class MessageListViewImpl extends AbstractPageView implements MessageListView, HasEditFormHandlers<Message> {
+public class MessageListViewImpl extends AbstractVerticalPageView implements MessageListView, HasEditFormHandlers<Message> {
     private static final long serialVersionUID = 8433776359091397422L;
 
     private DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;

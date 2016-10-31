@@ -42,9 +42,7 @@ import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -101,7 +99,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         peopleInfoComp.displayEntryPeople(beanItem);
         compFollowers.displayFollowers(beanItem);
 
-        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        tabSheet.selectTab(CrmTypeConstants.DETAIL);
     }
 
     @Override
@@ -116,26 +114,17 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         associateCampaignList = new LeadCampaignListComp();
         associateActivityList = new ActivityRelatedItemListComp(true);
 
-        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
-
         dateInfoComp = new DateInfoComp();
-        basicInfo.addComponent(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        basicInfo.addComponent(peopleInfoComp);
-
         compFollowers = new CrmFollowersComp<>(CrmTypeConstants.LEAD, RolePermissionCollections.CRM_LEAD);
-        basicInfo.addComponent(compFollowers);
+        addToSideBar(dateInfoComp, peopleInfoComp, compFollowers);
 
-        navigatorWrapper.addComponentAsFirst(basicInfo);
-
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateCampaignList, CrmTypeConstants.CAMPAIGN,
-                UserUIContext.getMessage(CampaignI18nEnum.LIST));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+        tabSheet.addTab(previewLayout, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT),
+                CrmAssetsManager.getAsset(CrmTypeConstants.DETAIL));
+        tabSheet.addTab(associateCampaignList, CrmTypeConstants.CAMPAIGN, UserUIContext.getMessage(CampaignI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
+        tabSheet.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY),
+                CrmAssetsManager.getAsset(CrmTypeConstants.ACTIVITY));
     }
 
     @Override
@@ -178,5 +167,10 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
     @Override
     public IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers() {
         return associateCampaignList;
+    }
+
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.LEAD;
     }
 }

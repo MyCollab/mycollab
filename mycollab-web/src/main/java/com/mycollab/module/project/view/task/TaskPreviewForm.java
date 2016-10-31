@@ -301,7 +301,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     }
 
                     close();
-                }).withStyleName(WebUIConstants.BUTTON_LINK);
+                }).withStyleName(WebUIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS).withFullWidth();
                 return new MCssLayout(taskLink).withStyleName("list-row").withFullWidth();
             }
         }

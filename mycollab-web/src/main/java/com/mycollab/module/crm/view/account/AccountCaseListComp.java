@@ -75,6 +75,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
     public AccountCaseListComp() {
         super(AppContextUtil.getSpringBean(CaseService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new AccountCaseBlockDisplay());
     }
 

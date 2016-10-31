@@ -17,13 +17,14 @@
 package com.mycollab.module.project.ui.components;
 
 import com.mycollab.vaadin.events.HasEditFormHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.IFormAddView;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -32,7 +33,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractEditItemComp<B> extends AbstractPageView implements IFormAddView<B> {
+public abstract class AbstractEditItemComp<B> extends AbstractVerticalPageView implements IFormAddView<B> {
     private static final long serialVersionUID = 1L;
 
     protected B beanItem;
@@ -58,15 +59,14 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView implement
     }
 
     private class FormLayoutFactory extends WrappedFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
 
         @Override
         public ComponentContainer getLayout() {
             final AddViewLayout formAddLayout = new AddViewLayout(initFormHeader(), initFormIconResource());
 
-            final ComponentContainer topLayout = createButtonControls();
-            if (topLayout != null) {
-                formAddLayout.addHeaderRight(topLayout);
+            final ComponentContainer buttonControls = createButtonControls();
+            if (buttonControls != null) {
+                formAddLayout.addHeaderRight(buttonControls);
             }
 
             formAddLayout.setTitle(initFormTitle());
@@ -90,7 +90,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView implement
 
     abstract protected String initFormTitle();
 
-    abstract protected Resource initFormIconResource();
+    abstract protected FontAwesome initFormIconResource();
 
     abstract protected ComponentContainer createButtonControls();
 

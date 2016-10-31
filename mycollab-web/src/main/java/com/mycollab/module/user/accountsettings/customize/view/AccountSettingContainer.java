@@ -19,7 +19,7 @@ package com.mycollab.module.user.accountsettings.customize.view;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.TabSheetDecorator;
@@ -31,7 +31,7 @@ import com.vaadin.ui.TabSheet;
  * @since 4.1
  */
 @ViewComponent
-public class AccountSettingContainer extends AbstractPageView {
+public class AccountSettingContainer extends AbstractVerticalPageView {
     private static final long serialVersionUID = -1923841035522809056L;
 
     private GeneralSettingPresenter generalSettingPresenter;

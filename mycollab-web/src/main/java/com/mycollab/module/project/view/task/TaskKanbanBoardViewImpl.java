@@ -48,7 +48,7 @@ import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasSearchHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -92,7 +92,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 5.1.1
  */
 @ViewComponent
-public class TaskKanbanBoardViewImpl extends AbstractPageView implements TaskKanbanBoardView {
+public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements TaskKanbanBoardView {
 
     private ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
     private OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);

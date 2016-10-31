@@ -55,12 +55,16 @@ public class ContactServiceImpl extends DefaultService<Integer, Contact, Contact
 
     @Autowired
     private ContactMapper contactMapper;
+
     @Autowired
     private ContactMapperExt contactMapperExt;
+
     @Autowired
     private ContactOpportunityMapper contactOpportunityMapper;
+
     @Autowired
     private ContactCaseMapper contactCaseMapper;
+
     @Autowired
     private ContactLeadMapper contactLeadMapper;
 

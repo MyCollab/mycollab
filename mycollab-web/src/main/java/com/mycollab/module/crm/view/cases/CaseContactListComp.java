@@ -54,6 +54,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
 
     public CaseContactListComp() {
         super(AppContextUtil.getSpringBean(ContactService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new CaseContactBlockDisplay());
     }
 

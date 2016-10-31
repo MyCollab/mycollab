@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.common.view;
 
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 
 /**
@@ -26,7 +26,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
  *
  */
 @ViewComponent
-public class SomeViewImpl extends AbstractPageView implements SomeView {
+public class SomeViewImpl extends AbstractVerticalPageView implements SomeView {
 	private static final long serialVersionUID = 1L;
 
 }

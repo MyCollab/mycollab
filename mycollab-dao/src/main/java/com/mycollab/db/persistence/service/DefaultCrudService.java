@@ -70,10 +70,6 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
         }
     }
 
-    protected void postSave(Integer sAccountId) {
-
-    }
-
     @Override
     public Integer updateWithSession(T record, String username) {
         try {
@@ -90,10 +86,6 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new MyCollabException(e);
         }
-    }
-
-    protected void postUpdate(Integer sAccountId) {
-
     }
 
     private void findCacheUpdateMethod() {

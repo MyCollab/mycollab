@@ -55,6 +55,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
 
     public LeadCampaignListComp() {
         super(AppContextUtil.getSpringBean(CampaignService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new LeadCampaignBlockDisplay());
     }
 

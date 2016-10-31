@@ -20,6 +20,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
@@ -46,10 +47,12 @@ public class MilestoneComponentFactoryImpl implements MilestoneComponentFactory 
                 .setTitle(milestone.getOwnerFullName());
         if (isDisplayName) {
             return new MetaFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(img.write())
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))).build();
         }
 
     }
@@ -61,11 +64,13 @@ public class MilestoneComponentFactoryImpl implements MilestoneComponentFactory 
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
                     UserUIContext.formatDate(milestone.getStartdate())))
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE))).build();
         }
     }
 
@@ -76,11 +81,13 @@ public class MilestoneComponentFactoryImpl implements MilestoneComponentFactory 
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
                     UserUIContext.formatDate(milestone.getEnddate())))
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE))).build();
         }
     }
 

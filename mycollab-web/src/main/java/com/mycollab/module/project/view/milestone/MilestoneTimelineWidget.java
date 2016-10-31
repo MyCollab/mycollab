@@ -64,7 +64,7 @@ public class MilestoneTimelineWidget extends DDVerticalLayout {
         this.setMargin(true);
 
         MHorizontalLayout headerLayout = new MHorizontalLayout();
-        ELabel titleLbl = ELabel.h2(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
+        ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
         final CheckBox noDateSetMilestone = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         noDateSetMilestone.setValue(false);

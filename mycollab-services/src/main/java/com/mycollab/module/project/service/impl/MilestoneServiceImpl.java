@@ -16,12 +16,14 @@
  */
 package com.mycollab.module.project.service.impl;
 
-import com.mycollab.cache.CleanCacheEvent;
-import com.mycollab.common.ModuleNameConstants;
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.aspect.ClassInfo;
 import com.mycollab.aspect.ClassInfoMap;
 import com.mycollab.aspect.Traceable;
+import com.mycollab.cache.CleanCacheEvent;
+import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.core.cache.CacheKey;
+import com.mycollab.core.cache.CleanCache;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
@@ -31,12 +33,8 @@ import com.mycollab.module.project.dao.MilestoneMapperExt;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
-import com.mycollab.module.project.service.GanttAssignmentService;
-import com.mycollab.module.project.service.MilestoneService;
-import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.module.project.service.ProjectService;
-import com.google.common.eventbus.AsyncEventBus;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.mycollab.module.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -91,20 +89,15 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
     @Override
     public Integer saveWithSession(Milestone record, String username) {
         if (record.getStatus() == null) {
-            record.setStatus(OptionI18nEnum.MilestoneStatus.InProgress.name());
+            record.setStatus(MilestoneStatus.InProgress.name());
         }
-        Integer recordId = super.saveWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                GanttAssignmentService.class, ProjectTicketService.class}));
-        return recordId;
+        return super.saveWithSession(record, username);
     }
 
-    @Override
-    public Integer updateWithSession(Milestone record, String username) {
-        int result = super.updateWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                GanttAssignmentService.class, ProjectTicketService.class}));
-        return result;
+    @CleanCache
+    public void postDirtyUpdate(Integer sAccountId) {
+        asyncEventBus.post(new CleanCacheEvent(sAccountId, new Class[]{ProjectService.class,
+                GanttAssignmentService.class, ProjectTicketService.class, ProjectActivityStreamService.class}));
     }
 
     @Override

@@ -38,7 +38,7 @@ import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.ui.ELabel;
@@ -61,7 +61,7 @@ import java.util.Arrays;
  * @since 5.2.12
  */
 @ViewComponent
-public class ProjectListViewImpl extends AbstractPageView implements ProjectListView {
+public class ProjectListViewImpl extends AbstractVerticalPageView implements ProjectListView {
     private ProjectSearchPanel projectSearchPanel;
     private SelectionOptionButton selectOptionButton;
     private DefaultPagedBeanTable<ProjectService, ProjectSearchCriteria, SimpleProject> tableItem;

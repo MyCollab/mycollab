@@ -34,7 +34,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DateViewField;
@@ -59,7 +59,7 @@ import static com.mycollab.module.user.ui.components.PreviewFormControlsGenerato
  * @since 1.0
  */
 @ViewComponent
-public class UserReadViewImpl extends AbstractPageView implements UserReadView {
+public class UserReadViewImpl extends AbstractVerticalPageView implements UserReadView {
     private static final long serialVersionUID = 1L;
 
     private AdvancedPreviewBeanForm<User> previewForm;

@@ -19,8 +19,8 @@ package com.mycollab.module.crm.view.campaign;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -40,8 +40,6 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -75,8 +73,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(RolePermissionCollections.CRM_CAMPAIGN);
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_CAMPAIGN);
     }
 
     @Override
@@ -92,31 +89,21 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         associateActivityList = new ActivityRelatedItemListComp(true);
         activityComponent = new CrmActivityComponent(CrmTypeConstants.CAMPAIGN);
 
-        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
-
-        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-
         dateInfoComp = new DateInfoComp();
-        basicInfo.addComponent(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        basicInfo.addComponent(peopleInfoComp);
-
         compFollowers = new CrmFollowersComp<>(CrmTypeConstants.CAMPAIGN, RolePermissionCollections.CRM_CAMPAIGN);
-        basicInfo.addComponent(compFollowers);
+        addToSideBar(dateInfoComp, peopleInfoComp, compFollowers);
 
-        navigatorWrapper.addComponentAsFirst(basicInfo);
-
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateAccountList, CrmTypeConstants.ACCOUNT,
-                UserUIContext.getMessage(AccountI18nEnum.LIST));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-                UserUIContext.getMessage(ContactI18nEnum.LIST));
-        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
-                UserUIContext.getMessage(LeadI18nEnum.LIST));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+        tabSheet.addTab(previewLayout, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT),
+                CrmAssetsManager.getAsset(CrmTypeConstants.DETAIL));
+        tabSheet.addTab(associateAccountList, CrmTypeConstants.ACCOUNT, UserUIContext.getMessage(AccountI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
+        tabSheet.addTab(associateContactList, CrmTypeConstants.CONTACT, UserUIContext.getMessage(ContactI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+        tabSheet.addTab(associateLeadList, CrmTypeConstants.LEAD, UserUIContext.getMessage(LeadI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+        tabSheet.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY),
+                CrmAssetsManager.getAsset(CrmTypeConstants.ACTIVITY));
     }
 
     protected void displayActivities() {
@@ -156,7 +143,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         peopleInfoComp.displayEntryPeople(beanItem);
         compFollowers.displayFollowers(beanItem);
 
-        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        tabSheet.selectTab(CrmTypeConstants.DETAIL);
 
         Date now = new GregorianCalendar().getTime();
         String status = this.beanItem.getStatus();
@@ -208,5 +195,10 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
     @Override
     public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
         return associateLeadList;
+    }
+
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.CAMPAIGN;
     }
 }

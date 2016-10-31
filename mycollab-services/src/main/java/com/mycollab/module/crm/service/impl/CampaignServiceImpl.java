@@ -16,19 +16,19 @@
  */
 package com.mycollab.module.crm.service.impl;
 
-import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.aspect.ClassInfo;
 import com.mycollab.aspect.ClassInfoMap;
 import com.mycollab.aspect.Traceable;
 import com.mycollab.aspect.Watchable;
+import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
-import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.dao.*;
 import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.mycollab.module.crm.service.CampaignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,12 +53,16 @@ public class CampaignServiceImpl extends DefaultService<Integer, CampaignWithBLO
 
     @Autowired
     private CampaignMapper campaignMapper;
+
     @Autowired
     private CampaignMapperExt campaignMapperExt;
+
     @Autowired
     private CampaignAccountMapper campaignAccountMapper;
+
     @Autowired
     private CampaignContactMapper campaignContactMapper;
+
     @Autowired
     private CampaignLeadMapper campaignLeadMapper;
 

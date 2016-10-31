@@ -38,12 +38,12 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
-import com.mycollab.vaadin.web.ui.DoubleField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.web.ui.DoubleField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.server.Resource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
@@ -70,7 +70,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
     }
 
     @Override
-    protected Resource initFormIconResource() {
+    protected FontAwesome initFormIconResource() {
         return ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER);
     }
 

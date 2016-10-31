@@ -26,7 +26,7 @@ import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
@@ -44,7 +44,7 @@ import java.util.Arrays;
  * @since 1.0
  */
 @ViewComponent
-public class RoleListViewImpl extends AbstractPageView implements RoleListView {
+public class RoleListViewImpl extends AbstractVerticalPageView implements RoleListView {
     private static final long serialVersionUID = 1L;
 
     private RoleSearchPanel searchPanel;

@@ -35,7 +35,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
@@ -70,7 +70,7 @@ import java.util.GregorianCalendar;
  * @since 5.1.0
  */
 @ViewComponent
-public class GeneralSettingViewImpl extends AbstractPageView implements GeneralSettingView {
+public class GeneralSettingViewImpl extends AbstractVerticalPageView implements GeneralSettingView {
     private SimpleBillingAccount billingAccount;
 
     public GeneralSettingViewImpl() {

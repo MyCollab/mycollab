@@ -19,9 +19,11 @@ package com.mycollab.vaadin.web.ui;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -31,11 +33,11 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class AddViewLayout extends CustomLayoutExt {
     private static final long serialVersionUID = 1L;
 
-    private Resource viewIcon;
+    private FontAwesome viewIcon;
     private Label titleLbl;
     private final MHorizontalLayout header;
 
-    public AddViewLayout(String viewTitle, Resource viewIcon) {
+    public AddViewLayout(String viewTitle, FontAwesome viewIcon) {
         super("addView");
 
         this.viewIcon = viewIcon;
@@ -44,13 +46,6 @@ public class AddViewLayout extends CustomLayoutExt {
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         titleLbl = ELabel.h2("");
-
-        if (!(viewIcon instanceof FontAwesome)) {
-            Image icon = new Image(null);
-            icon.setIcon(viewIcon);
-            icon.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
-            header.with(icon);
-        }
         header.with(titleLbl).expand(titleLbl);
         setHeader(viewTitle);
         addComponent(header, "addViewHeader");
@@ -72,22 +67,16 @@ public class AddViewLayout extends CustomLayoutExt {
 
     public void addHeaderTitle(ComponentContainer headerContainer) {
         header.addComponent(headerContainer, 0);
-        header.setComponentAlignment(headerContainer, Alignment.TOP_LEFT);
-        header.setExpandRatio(headerContainer, 1.0f);
+        header.withAlign(headerContainer, Alignment.TOP_LEFT).expand(headerContainer);
     }
 
     public void addHeaderRight(final ComponentContainer headerRight) {
-        header.addComponent(headerRight);
-        header.setComponentAlignment(headerRight, Alignment.TOP_RIGHT);
+        header.with(headerRight).withAlign(headerRight, Alignment.TOP_RIGHT);
     }
 
-    public void setHeader(final String viewTitle) {
-        if (viewIcon instanceof FontAwesome) {
-            String title = ((FontAwesome) viewIcon).getHtml() + " " + viewTitle;
-            titleLbl.setValue(title);
-        } else {
-            titleLbl.setValue(viewTitle);
-        }
+    public void setHeader(String viewTitle) {
+        String title = viewIcon.getHtml() + " " + viewTitle;
+        titleLbl.setValue(title);
     }
 
     public void setTitle(final String title) {

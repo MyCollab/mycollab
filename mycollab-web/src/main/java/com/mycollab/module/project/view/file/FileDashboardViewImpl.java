@@ -20,7 +20,7 @@ import com.mycollab.module.ecm.domain.Folder;
 import com.mycollab.module.file.view.ResourcesDisplayComponent;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
 
@@ -29,7 +29,7 @@ import com.vaadin.shared.ui.MarginInfo;
  * @since 1.0
  */
 @ViewComponent
-public class FileDashboardViewImpl extends AbstractPageView implements FileDashboardView {
+public class FileDashboardViewImpl extends AbstractVerticalPageView implements FileDashboardView {
     private static final long serialVersionUID = 1L;
 
     @Override

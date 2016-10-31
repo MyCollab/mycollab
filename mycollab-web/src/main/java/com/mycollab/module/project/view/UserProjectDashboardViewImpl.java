@@ -21,7 +21,7 @@ import com.mycollab.module.project.view.user.ActivityStreamComponent;
 import com.mycollab.module.project.view.user.MyProjectListComponent;
 import com.mycollab.module.project.view.ticket.TicketOverdueWidget;
 import com.mycollab.module.project.view.user.UserUnresolvedAssignmentWidget;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
@@ -38,7 +38,7 @@ import java.util.List;
  * @since 5.2.4
  */
 @ViewComponent
-public class UserProjectDashboardViewImpl extends AbstractPageView implements UserProjectDashboardView {
+public class UserProjectDashboardViewImpl extends AbstractVerticalPageView implements UserProjectDashboardView {
     @Override
     public void display() {
         removeAllComponents();

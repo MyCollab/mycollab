@@ -27,7 +27,7 @@ import java.util.Set;
  * @author MyCollab Ltd
  * @since 5.3.2
  */
-public interface IFormLayoutFactory extends Serializable {
+public interface IFormLayoutFactory {
     ComponentContainer getLayout();
 
     Component attachField(Object propertyId, Field<?> field);

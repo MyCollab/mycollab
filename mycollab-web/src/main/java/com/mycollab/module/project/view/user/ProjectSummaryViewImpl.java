@@ -44,30 +44,14 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
 
     @Override
     protected void displayView() {
-        withMargin(new MarginInfo(true, true, false, true));
+        withMargin(true);
 
-        MCssLayout descLayout = new MCssLayout(ELabel.html(CurrentProjectVariables.getProject().getDescription()))
-                .withStyleName(WebUIConstants.BOX).withFullWidth();
-//        with(descLayout);
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
         this.with(layout);
 
         DDVerticalLayout leftPanel = new DDVerticalLayout();
         leftPanel.setSpacing(true);
         leftPanel.setMargin(new MarginInfo(false, true, false, false));
-
-        MilestoneTimelineWidget milestoneTimelineWidget = new MilestoneTimelineWidget();
-        ProjectOverdueTicketsWidget taskOverdueWidget = new ProjectOverdueTicketsWidget();
-        ProjectUnresolvedTicketsWidget unresolvedAssignmentThisWeekWidget = new ProjectUnresolvedTicketsWidget();
-
-        ProjectUnresolvedTicketsWidget unresolvedAssignmentNextWeekWidget = new ProjectUnresolvedTicketsWidget();
-
-        leftPanel.addComponent(milestoneTimelineWidget);
-        leftPanel.addComponent(unresolvedAssignmentThisWeekWidget);
-        leftPanel.addComponent(unresolvedAssignmentNextWeekWidget);
-        leftPanel.addComponent(taskOverdueWidget);
-
-        leftPanel.setMargin(new MarginInfo(true, false, true, false));
         leftPanel.setComponentVerticalDropRatio(0.3f);
         leftPanel.setDragMode(LayoutDragMode.CLONE_OTHER);
         leftPanel.setDropHandler(new DropHandler() {
@@ -86,10 +70,22 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
             }
         });
 
+        MilestoneTimelineWidget milestoneTimelineWidget = new MilestoneTimelineWidget();
+        ProjectOverdueTicketsWidget taskOverdueWidget = new ProjectOverdueTicketsWidget();
+        ProjectUnresolvedTicketsWidget unresolvedAssignmentThisWeekWidget = new ProjectUnresolvedTicketsWidget();
+
+        ProjectUnresolvedTicketsWidget unresolvedAssignmentNextWeekWidget = new ProjectUnresolvedTicketsWidget();
+
+        leftPanel.addComponent(milestoneTimelineWidget);
+        leftPanel.addComponent(unresolvedAssignmentThisWeekWidget);
+        leftPanel.addComponent(unresolvedAssignmentNextWeekWidget);
+        leftPanel.addComponent(taskOverdueWidget);
+
+
         DDVerticalLayout rightPanel = new DDVerticalLayout();
         rightPanel.setWidth("500px");
         rightPanel.setSpacing(true);
-        rightPanel.setMargin(new MarginInfo(true, false, true, false));
+        rightPanel.setMargin(new MarginInfo(false, false, true, false));
         rightPanel.setComponentVerticalDropRatio(0.3f);
         rightPanel.setDragMode(LayoutDragMode.CLONE_OTHER);
         rightPanel.setDropHandler(new DropHandler() {

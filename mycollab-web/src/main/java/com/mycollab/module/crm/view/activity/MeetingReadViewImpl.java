@@ -30,8 +30,6 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -80,19 +78,13 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting> 
     protected void initRelatedComponents() {
         activityComponent = new CrmActivityComponent(CrmTypeConstants.MEETING);
 
-        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
-        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-
         dateInfoComp = new DateInfoComp();
-        basicInfo.addComponent(dateInfoComp);
-
         followersComp = new CrmFollowersComp<>(CrmTypeConstants.MEETING, RolePermissionCollections.CRM_MEETING);
-        basicInfo.addComponent(followersComp);
+        addToSideBar(dateInfoComp, followersComp);
 
-        navigatorWrapper.addComponentAsFirst(basicInfo);
-
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        tabSheet.addTab(previewLayout, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT),
+                CrmAssetsManager.getAsset(CrmTypeConstants.DETAIL));
+        tabSheet.selectTab(CrmTypeConstants.DETAIL);
     }
 
     @Override
@@ -113,5 +105,10 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting> 
     @Override
     public HasPreviewFormHandlers<SimpleMeeting> getPreviewFormHandlers() {
         return previewForm;
+    }
+
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.MEETING;
     }
 }

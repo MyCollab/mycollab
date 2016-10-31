@@ -21,6 +21,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.SecureAccessException;
@@ -66,11 +67,13 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
                     UserUIContext.formatDate(assignment.getStartDate())))
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE))).build();
         }
     }
 
@@ -80,12 +83,13 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
-            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).build();
+            return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                    UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
-                    UserUIContext.formatDate(assignment.getEndDate()))).withDescription(UserUIContext.getMessage
-                    (GenericI18Enum.FORM_END_DATE)
-            ).build();
+                    UserUIContext.formatDate(assignment.getEndDate())))
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE))).build();
         }
     }
 
@@ -96,11 +100,13 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE))).build();
         } else {
             return new MetaFieldBuilder().withCaption(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
                     UserUIContext.formatPrettyTime(assignment.getDueDatePlusOne())))
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).build();
+                    .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                            UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE))).build();
         }
     }
 
@@ -108,7 +114,8 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     public AbstractComponent createPriorityPopupField(ProjectTicket assignment) {
         return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(assignment.getPriority()) + " " +
                 UserUIContext.getMessage(OptionI18nEnum.Priority.class, assignment.getPriority()))
-                .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY_HELP)).build();
+                .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY))).build();
     }
 
     @Override
@@ -124,19 +131,22 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     @Override
     public AbstractComponent createFollowersPopupField(ProjectTicket assignment) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + NumberUtils.zeroIfNull(assignment.getNumFollowers()))
-                .withDescription(UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)).build();
+                .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))).build();
     }
 
     @Override
     public AbstractComponent createCommentsPopupField(ProjectTicket assignment) {
         return new MetaFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(assignment.getNumComments()))
-                .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
+                .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS))).build();
     }
 
     @Override
     public AbstractComponent createStatusPopupField(ProjectTicket assignment) {
         return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, assignment.getStatus()).withDescription
-                (UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
+                (UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_STATUS))).build();
     }
 
     @Override
@@ -144,7 +154,9 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
         String avatarLink = StorageFactory.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
         Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                 .setTitle(ticket.getAssignUserFullName());
-        return new MetaFieldBuilder().withCaption(img.write()).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+        return new MetaFieldBuilder().withCaption(img.write())
+                .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
+                        UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))).build();
     }
 
     @Override

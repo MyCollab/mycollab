@@ -48,8 +48,4 @@ public class CrmAssetsManager {
     public static FontAwesome getAsset(String resId) {
         return resources.get(resId);
     }
-
-    public static String toHexString(String resId) {
-        return "&#x" + Integer.toHexString(resources.get(resId).getCodepoint());
-    }
 }

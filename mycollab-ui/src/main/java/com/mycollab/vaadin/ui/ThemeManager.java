@@ -55,9 +55,16 @@ public class ThemeManager {
         }
 
         if (accountTheme.getVtabsheettext() != null) {
+            extraStyles.append(".project-dashboard .project-info-layout .v-icon { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".project-dashboard .project-info-layout .project-name { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".project-dashboard .project-info-layout .meta-info { color: " + ColorUtils
+                    .darkerColor("#" + accountTheme.getVtabsheettext()) + "; }");
             extraStyles.append(".v-navbar-quickmenu-content .v-button { color: #" + accountTheme.getVtabsheettext() + "; }");
             extraStyles.append(".slidemenu .v-window-contents .v-button { color: #" + accountTheme.getVtabsheettext() + " !important; }");
             extraStyles.append(".section { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".section .v-touchkit-navbutton { color: #" + accountTheme.getVtabsheettext() + " !important; }");
+            extraStyles.append(".section .v-touchkit-navbutton::after { color: #" + accountTheme.getVtabsheettext() + " !important; }");
+            extraStyles.append(".slidemenu .v-window-contents .menulabel { color: " + ColorUtils.brighterColor("#" + accountTheme.getVtabsheettext()) + "; }");
         }
 
         /* Action Buttons */
@@ -165,22 +172,19 @@ public class ThemeManager {
 
         if (accountTheme.getVtabsheetbg() != null) {
             extraStyles.append(".vertical-tabsheet .navigator-wrap { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
-
-            extraStyles.append(".projectfeed-hdr-wrapper { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
-
-            extraStyles.append(".project-info { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
-
-            extraStyles.append("div.v-csslayout.rightsidebar-layout .sidebar-wrap { background-color: " + ColorUtils
-                    .brighterColor("#" + accountTheme.getVtabsheetbg()) + ";}");
         }
 
         if (accountTheme.getVtabsheettext() != null) {
             extraStyles.append(".vertical-tabsheet .v-button-tab > .v-button-wrap { color: #"
                     + accountTheme.getVtabsheettext() + "; }");
 
-            extraStyles.append(".project-info .header { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".closed-button .v-button-wrap .v-icon { color: #"
+                    + accountTheme.getVtabsheettext() + "; }");
 
-            extraStyles.append("div.v-csslayout.rightsidebar-layout .sidebar-wrap { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".expand-button .v-button-wrap .v-icon { color: #"
+                    + accountTheme.getVtabsheettext() + "; }");
+
+            extraStyles.append(".project-info .header { color: #" + accountTheme.getVtabsheettext() + "; }");
 
             extraStyles.append(".crmContainer .navigator-wrap .basic-info { color: #" + accountTheme.getVtabsheettext() + "; }");
 
@@ -193,9 +197,6 @@ public class ThemeManager {
 
             extraStyles.append(".vertical-tabsheet .v-button-tab:hover {background-color: #" + accountTheme
                     .getVtabsheetbgselected() + ";}");
-
-            extraStyles.append(".v-sliderpanel-content, .v-sliderpanel-tab { background-color: #" + accountTheme
-                    .getVtabsheetbgselected() + "; }");
         }
 
         if (accountTheme.getVtabsheettextselected() != null) {

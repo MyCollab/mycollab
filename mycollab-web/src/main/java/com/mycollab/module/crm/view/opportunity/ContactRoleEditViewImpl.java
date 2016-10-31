@@ -40,7 +40,7 @@ import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AddViewLayout2;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
@@ -62,7 +62,7 @@ import java.util.List;
  * @since 3.0
  */
 @ViewComponent
-public class ContactRoleEditViewImpl extends AbstractPageView implements ContactRoleEditView {
+public class ContactRoleEditViewImpl extends AbstractVerticalPageView implements ContactRoleEditView {
     private static final long serialVersionUID = 1L;
 
     private ContactOpportunityList contactRoleList;

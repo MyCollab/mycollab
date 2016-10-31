@@ -32,7 +32,7 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.view.user.ProjectPagedList;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -59,7 +59,7 @@ import java.util.Collections;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectModule extends AbstractPageView implements IDesktopModule {
+public class ProjectModule extends AbstractVerticalPageView implements IDesktopModule {
     private static final long serialVersionUID = 1L;
 
     private MHorizontalLayout serviceMenuContainer;

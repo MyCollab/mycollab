@@ -33,6 +33,7 @@ import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectService;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.file.FilePresenter;
 import com.mycollab.module.project.view.message.MessagePresenter;
 import com.mycollab.module.project.view.milestone.MilestonePresenter;
@@ -47,11 +48,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
+import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.server.BrowserWindowOpener;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.Tab;
@@ -65,7 +64,7 @@ import org.vaadin.viritin.layouts.MWindow;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectViewImpl extends AbstractPageView implements ProjectView {
+public class ProjectViewImpl extends AbstractVerticalPageView implements ProjectView {
     private ProjectViewWrap viewWrap;
 
     @Override
@@ -74,8 +73,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
         this.removeAllComponents();
         viewWrap = new ProjectViewWrap(project);
         ControllerRegistry.addController(new ProjectController(this));
-        ProjectInfoComponent infoComp = new ProjectInfoComponent(project);
-        this.with(infoComp, viewWrap).expand(viewWrap);
+        this.with(viewWrap).expand(viewWrap);
     }
 
     @Override
@@ -99,7 +97,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
     }
 
     private class ProjectViewWrap extends AbstractCssPageView {
-        private ProjectVerticalTabsheet myProjectTab;
+        private VerticalTabsheet myProjectTab;
 
         private ProjectDashboardPresenter dashboardPresenter;
         private MessagePresenter messagePresenter;
@@ -110,19 +108,18 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
         private IFinancePresenter financePresenter;
         private UserSettingPresenter userPresenter;
 
-        ProjectViewWrap(final SimpleProject project) {
+        ProjectViewWrap(SimpleProject project) {
             super();
             this.setWidth("100%");
             this.addStyleName("projectDashboardView");
 
-            myProjectTab = new ProjectVerticalTabsheet();
+            myProjectTab = new VerticalTabsheet();
             myProjectTab.setSizeFull();
             myProjectTab.setNavigatorWidth("100%");
             myProjectTab.setNavigatorStyleName("sidebar-menu");
-            myProjectTab.setContainerStyleName("tab-content");
 
             myProjectTab.addSelectedTabChangeListener(selectedTabChangeEvent -> {
-                Tab tab = ((ProjectVerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
+                Tab tab = ((VerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
                 String caption = ((TabImpl) tab).getTabId();
                 if (ProjectTypeConstants.MESSAGE.equals(caption)) {
                     messagePresenter.go(ProjectViewImpl.this, null);
@@ -149,8 +146,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
             contentWrapper.addStyleName("main-content");
-            MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, true))
-                    .withFullWidth().withStyleName("top-panel");
+            MVerticalLayout topPanel = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true))
+                    .withFullWidth().withStyleName("top-panel").withHeightUndefined().withFullWidth();
             contentWrapper.addComponentAsFirst(topPanel);
 
             CssLayout navigatorWrapper = myProjectTab.getNavigatorWrapper();
@@ -161,13 +158,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.setProject(project);
-
-            MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP)).withIcon(FontAwesome.MORTAR_BOARD)
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
-            ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/project-management/");
-            BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
-            helpOpener.extend(helpBtn);
-            topPanel.with(breadCrumb, helpBtn).alignAll(Alignment.MIDDLE_LEFT).expand(breadCrumb);
+            topPanel.with(new ProjectInfoComponent(project), breadCrumb).alignAll(Alignment.MIDDLE_LEFT);
 
             if (project.getContextask() == null || project.getContextask()) {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
@@ -198,12 +189,14 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             myProjectTab.addTab(constructProjectDashboardComponent(), ProjectTypeConstants.DASHBOARD, 1,
                     UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
-                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
+                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId),
+                    ProjectAssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
 
             if (CurrentProjectVariables.hasMessageFeature()) {
                 myProjectTab.addTab(constructProjectMessageComponent(), ProjectTypeConstants.MESSAGE, 2,
                         UserUIContext.getMessage(MessageI18nEnum.LIST),
-                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMessagesLink(prjId));
+                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMessagesLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.MESSAGE);
             }
@@ -211,7 +204,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             if (CurrentProjectVariables.hasPhaseFeature()) {
                 myProjectTab.addTab(constructProjectMilestoneComponent(), ProjectTypeConstants.MILESTONE, 3,
                         UserUIContext.getMessage(MilestoneI18nEnum.LIST),
-                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMilestonesLink(prjId));
+                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMilestonesLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
             }
@@ -219,15 +213,17 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             if (CurrentProjectVariables.hasTicketFeature()) {
                 myProjectTab.addTab(constructTaskDashboardComponent(),
                         ProjectTypeConstants.TICKET, 4, UserUIContext.getMessage(TicketI18nEnum.LIST),
-                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTicketDashboardLink(prjId));
+                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTicketDashboardLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET));
             } else {
-                myProjectTab.removeTab(ProjectTypeConstants.TASK);
+                myProjectTab.removeTab(ProjectTypeConstants.TICKET);
             }
 
             if (CurrentProjectVariables.hasPageFeature()) {
                 myProjectTab.addTab(constructProjectPageComponent(), ProjectTypeConstants.PAGE, 6,
                         UserUIContext.getMessage(PageI18nEnum.LIST),
-                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
+                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.PAGE);
             }
@@ -235,7 +231,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             if (CurrentProjectVariables.hasFileFeature()) {
                 myProjectTab.addTab(constructProjectFileComponent(), ProjectTypeConstants.FILE, 7,
                         UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
-                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateFileDashboardLink(prjId));
+                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateFileDashboardLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.FILE);
             }
@@ -244,14 +241,16 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     && !SiteConfiguration.isCommunityEdition()) {
                 myProjectTab.addTab(constructTimeTrackingComponent(), ProjectTypeConstants.FINANCE, 10,
                         UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FINANCE),
-                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTimeReportLink(prjId));
+                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTimeReportLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.FINANCE));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.FINANCE);
             }
 
             myProjectTab.addTab(constructProjectUsers(), ProjectTypeConstants.MEMBER, 13,
                     UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
-                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateUsersLink(prjId));
+                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateUsersLink(prjId),
+                    ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
 
             myProjectTab.addToggleNavigatorControl();
         }

@@ -55,12 +55,13 @@ public class AccountServiceImpl extends DefaultService<Integer, Account, Account
     }
 
     @Autowired
-    protected AccountMapper accountMapper;
-    @Autowired
-    protected AccountMapperExt accountMapperExt;
+    private AccountMapper accountMapper;
 
     @Autowired
-    protected AccountLeadMapper accountLeadMapper;
+    private AccountMapperExt accountMapperExt;
+
+    @Autowired
+    private AccountLeadMapper accountLeadMapper;
 
     @Override
     public ICrudGenericDAO<Integer, Account> getCrudMapper() {

@@ -71,6 +71,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     public AccountOpportunityListComp() {
         super(AppContextUtil.getSpringBean(OpportunityService.class), 20);
+        setMargin(true);
         this.setBlockDisplayHandler(new AccountOpportunityBlockDisplay());
     }
 

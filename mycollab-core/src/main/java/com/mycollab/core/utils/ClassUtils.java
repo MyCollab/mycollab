@@ -16,7 +16,9 @@
  */
 package com.mycollab.core.utils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,5 +95,12 @@ public class ClassUtils {
 
             populateFields(type.getSuperclass(), fields);
         }
+    }
+
+    public static Method findAnnotatedMethod(Class<?> clazz, Class<? extends Annotation> annotationClass) {
+        for (Method method : clazz.getMethods())
+            if (method.isAnnotationPresent(annotationClass))
+                return method;
+        return null;
     }
 }

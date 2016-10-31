@@ -34,7 +34,7 @@ abstract public class SearchLayout<S extends SearchCriteria> extends CustomLayou
 
     public void callSearchAction() {
         final S searchCriteria = this.fillUpSearchCriteria();
-        this.searchPanel.notifySearchHandler(searchCriteria);
+        searchPanel.notifySearchHandler(searchCriteria);
     }
 
     abstract protected S fillUpSearchCriteria();

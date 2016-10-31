@@ -23,7 +23,7 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.web.ui.ModuleHelper;
@@ -42,11 +42,11 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class AbstractMainView extends AbstractPageView implements MainView {
+public abstract class AbstractMainView extends AbstractVerticalPageView implements MainView {
     private static final long serialVersionUID = 1L;
 
     protected CustomLayout headerLayout;
-    protected MHorizontalLayout bodyLayout;
+    private MHorizontalLayout bodyLayout;
     protected MHorizontalLayout accountLayout;
 
     private ApplicationEventListener<ShellEvent.RefreshPage> pageRefreshHandler = new ApplicationEventListener<ShellEvent.RefreshPage>() {

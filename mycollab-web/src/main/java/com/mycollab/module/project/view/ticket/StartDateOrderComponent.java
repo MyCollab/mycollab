@@ -40,7 +40,7 @@ public class StartDateOrderComponent extends TicketGroupOrderComponent {
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat());
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(MyCollabUI.getLongDateFormat()).withLocale(UserUIContext.getUserLocale());
         for (ProjectTicket task : tickets) {
             if (task.getStartDate() != null) {
                 Date startDate = task.getStartDate();

@@ -29,7 +29,7 @@ import com.mycollab.security.PermissionMap;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -54,7 +54,7 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @since 1.0
  */
 @ViewComponent
-public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
+public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAddView {
     private static final long serialVersionUID = 1L;
 
     private EditForm editForm;

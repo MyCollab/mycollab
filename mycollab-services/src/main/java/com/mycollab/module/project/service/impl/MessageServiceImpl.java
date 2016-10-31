@@ -16,11 +16,13 @@
  */
 package com.mycollab.module.project.service.impl;
 
-import com.mycollab.cache.CleanCacheEvent;
-import com.mycollab.common.ModuleNameConstants;
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.aspect.ClassInfo;
 import com.mycollab.aspect.ClassInfoMap;
 import com.mycollab.aspect.Traceable;
+import com.mycollab.cache.CleanCacheEvent;
+import com.mycollab.common.ModuleNameConstants;
+import com.mycollab.core.cache.CleanCache;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
@@ -33,7 +35,6 @@ import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.mycollab.module.project.esb.DeleteProjectMessageEvent;
 import com.mycollab.module.project.service.MessageService;
 import com.mycollab.module.project.service.ProjectActivityStreamService;
-import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,24 +68,14 @@ public class MessageServiceImpl extends DefaultService<Integer, Message, Message
         return messageMapper;
     }
 
-    @Override
-    public Integer saveWithSession(Message record, String username) {
-        Integer recordId = super.saveWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectActivityStreamService.class}));
-        return recordId;
-    }
-
-    @Override
-    public Integer updateWithSession(Message record, String username) {
-        int result = super.updateWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectActivityStreamService.class}));
-        return result;
+    @CleanCache
+    public void postDirtyUpdate(Integer sAccountId) {
+        asyncEventBus.post(new CleanCacheEvent(sAccountId, new Class[]{ProjectActivityStreamService.class}));
     }
 
     @Override
     public void massRemoveWithSession(List<Message> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectActivityStreamService.class}));
         DeleteProjectMessageEvent event = new DeleteProjectMessageEvent(items.toArray(new Message[items.size()]),
                 username, accountId);
         asyncEventBus.post(event);

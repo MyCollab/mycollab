@@ -34,7 +34,7 @@ import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -57,7 +57,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectMemberInviteViewImpl extends AbstractPageView implements ProjectMemberInviteView {
+public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implements ProjectMemberInviteView {
     private static final long serialVersionUID = 1L;
 
     private Integer roleId = 0;

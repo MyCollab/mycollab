@@ -35,6 +35,7 @@ public class ContractServiceImpl extends DefaultService<Integer, Contract, Contr
 
     @Autowired
     private ContractMapper contractMapper;
+
     @Autowired
     private ContractMapperExt contractMapperExt;
 

@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.crm.ui.components;
 
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
@@ -30,7 +30,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public abstract class CrmListNoItemView extends AbstractPageView {
+public abstract class CrmListNoItemView extends AbstractVerticalPageView {
     public CrmListNoItemView() {
         ELabel image = ELabel.h2(titleIcon().getHtml()).withWidthUndefined();
         ELabel title = ELabel.h2(titleMessage()).withWidthUndefined();

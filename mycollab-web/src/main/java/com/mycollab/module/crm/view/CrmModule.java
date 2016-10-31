@@ -40,7 +40,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class CrmModule extends AbstractPageView implements IDesktopModule {
+public class CrmModule extends AbstractVerticalPageView implements IDesktopModule {
     private static final long serialVersionUID = 1L;
 
     private PopupButton addPopupMenu;

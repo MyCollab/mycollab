@@ -55,9 +55,11 @@ public class Depot extends DDVerticalLayout {
             if (isOpened) {
                 bodyContent.setVisible(true);
                 removeStyleName("collapsed");
+                header.removeStyleName("border-bottom");
             } else {
                 bodyContent.setVisible(false);
                 addStyleName("collapsed");
+                header.addStyleName("border-bottom");
             }
         });
         header.with(headerLeft, headerContent).withAlign(headerLeft, Alignment.MIDDLE_LEFT).withAlign(headerContent,

@@ -28,7 +28,7 @@ import com.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasSearchHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.ui.ELabel;
@@ -50,7 +50,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class FollowingTicketViewImpl extends AbstractPageView implements FollowingTicketView {
+public class FollowingTicketViewImpl extends AbstractVerticalPageView implements FollowingTicketView {
     private static final long serialVersionUID = 1L;
 
     private SplitButton exportButtonControl;

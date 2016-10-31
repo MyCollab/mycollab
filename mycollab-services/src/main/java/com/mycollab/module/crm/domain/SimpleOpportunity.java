@@ -16,10 +16,11 @@
  */
 package com.mycollab.module.crm.domain;
 
-import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
@@ -95,10 +96,10 @@ public class SimpleOpportunity extends Opportunity {
     }
 
     public boolean isOverdue() {
-        if (getExpectedcloseddate() != null) {
-            Date now = DateTimeUtils.getCurrentDateWithoutMS();
-            return (getExpectedcloseddate().before(now));
-        }
-        return false;
+        String saleState = getSalesstage();
+        Date closeDate = getExpectedcloseddate();
+        return (!OpportunitySalesStage.Closed_Won.name().equals(saleState) &&
+                !OpportunitySalesStage.Closed_Lost.name().equals(saleState))
+                && closeDate != null && (closeDate.before(new GregorianCalendar().getTime()));
     }
 }

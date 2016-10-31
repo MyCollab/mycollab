@@ -72,7 +72,6 @@ public class TicketRowRenderer extends BlockRowRender implements PropertyChanged
             footer.addComponent(popupFieldFactory.createBillableHoursPopupField(ticket));
             footer.addComponent(popupFieldFactory.createNonBillableHoursPopupField(ticket));
         }
-
         this.with(headerLayout, footer);
     }
 

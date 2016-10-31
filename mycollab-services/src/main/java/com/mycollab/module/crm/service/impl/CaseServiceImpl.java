@@ -49,9 +49,10 @@ public class CaseServiceImpl extends DefaultService<Integer, CaseWithBLOBs, Case
     }
 
     @Autowired
-    protected CaseMapper caseMapper;
+    private CaseMapper caseMapper;
+
     @Autowired
-    protected CaseMapperExt caseMapperExt;
+    private CaseMapperExt caseMapperExt;
 
     @Override
     public ICrudGenericDAO<Integer, CaseWithBLOBs> getCrudMapper() {

@@ -28,7 +28,6 @@ import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.LeadService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.*;
@@ -46,11 +45,6 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
@@ -100,13 +94,9 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         peopleInfoComp.displayEntryPeople(beanItem);
         followersComp.displayFollowers(beanItem);
 
-        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        tabSheet.selectTab(CrmTypeConstants.DETAIL);
 
-        String saleState = this.beanItem.getSalesstage();
-        Date closeDate = this.beanItem.getExpectedcloseddate();
-        if ((!OpportunitySalesStage.Closed_Won.name().equals(saleState) &&
-                !OpportunitySalesStage.Closed_Lost.name().equals(saleState))
-                && closeDate != null && (closeDate.before(new GregorianCalendar().getTime()))) {
+        if (beanItem.isOverdue()) {
             previewLayout.addTitleStyleName(WebUIConstants.LABEL_OVERDUE);
         }
     }
@@ -133,28 +123,19 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
         activityComponent = new CrmActivityComponent(CrmTypeConstants.OPPORTUNITY);
 
-        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
-
         dateInfoComp = new DateInfoComp();
-        basicInfo.addComponent(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        basicInfo.addComponent(peopleInfoComp);
-
         followersComp = new CrmFollowersComp<>(CrmTypeConstants.OPPORTUNITY, RolePermissionCollections.CRM_OPPORTUNITY);
-        basicInfo.addComponent(followersComp);
+        addToSideBar(dateInfoComp, peopleInfoComp, followersComp);
 
-        navigatorWrapper.addComponentAsFirst(basicInfo);
-
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-                UserUIContext.getMessage(ContactI18nEnum.LIST));
-        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
-                UserUIContext.getMessage(LeadI18nEnum.LIST));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+        tabSheet.addTab(previewLayout, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT),
+                CrmAssetsManager.getAsset(CrmTypeConstants.DETAIL));
+        tabSheet.addTab(associateContactList, CrmTypeConstants.CONTACT, UserUIContext.getMessage(ContactI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+        tabSheet.addTab(associateLeadList, CrmTypeConstants.LEAD, UserUIContext.getMessage(LeadI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+        tabSheet.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY),
+                CrmAssetsManager.getAsset(CrmTypeConstants.ACTIVITY));
     }
 
     @Override
@@ -171,7 +152,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         return beanItem;
     }
 
-    protected void displayActivities() {
+    private void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.OPPORTUNITY));
@@ -210,5 +191,10 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
     @Override
     public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
         return associateLeadList;
+    }
+
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.OPPORTUNITY;
     }
 }

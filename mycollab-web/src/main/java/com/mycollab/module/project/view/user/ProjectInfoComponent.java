@@ -33,14 +33,21 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
-import com.mycollab.module.project.*;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
+import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
-import com.mycollab.module.project.event.*;
-import com.mycollab.module.project.i18n.*;
+import com.mycollab.module.project.event.ProjectEvent;
+import com.mycollab.module.project.event.ProjectMemberEvent;
+import com.mycollab.module.project.event.ProjectNotificationEvent;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.module.project.service.ProjectService;
-import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -99,20 +106,18 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         }
     };
 
-    public ProjectInfoComponent(final SimpleProject project) {
-        this.withMargin(true).withStyleName("project-info").withFullWidth();
+    public ProjectInfoComponent(SimpleProject project) {
+        this.withMargin(false).withFullWidth();
         Component projectIcon = ProjectAssetsUtil.buildProjectLogo(project.getShortname(), project.getId(), project.getAvatarid(), 64);
         this.with(projectIcon).withAlign(projectIcon, Alignment.TOP_LEFT);
         ELabel headerLbl = ELabel.h2(project.getName());
         headerLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                 project, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         headerLbl.addStyleName(UIConstants.TEXT_ELLIPSIS);
-        MVerticalLayout headerLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MVerticalLayout headerLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true));
 
-        MHorizontalLayout footer = new MHorizontalLayout();
+        MHorizontalLayout footer = new MHorizontalLayout().withStyleName(UIConstants.META_INFO, WebUIConstants.FLEX_DISPLAY);
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        footer.addStyleName(UIConstants.META_INFO);
-        footer.addStyleName(WebUIConstants.FLEX_DISPLAY);
 
         ELabel createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext.formatPrettyTime(project
                 .getCreatedtime())).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
@@ -225,56 +230,6 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             controlsBtn.setIcon(FontAwesome.ELLIPSIS_H);
 
             OptionPopupContent popupButtonsControl = new OptionPopupContent();
-
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-                MButton createPhaseBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(ProjectInfoComponent.this, null));
-                }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
-                popupButtonsControl.addOption(createPhaseBtn);
-            }
-
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                MButton createTaskBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.NEW), clickEvent -> {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(ProjectInfoComponent.this, null));
-                }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
-                popupButtonsControl.addOption(createTaskBtn);
-            }
-
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-                MButton createBugBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.NEW), clickEvent -> {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
-                }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-                popupButtonsControl.addOption(createBugBtn);
-            }
-
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS)) {
-                MButton createComponentBtn = new MButton(UserUIContext.getMessage(ComponentI18nEnum.NEW), clickEvent -> {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
-                }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
-                popupButtonsControl.addOption(createComponentBtn);
-            }
-
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS)) {
-                MButton createVersionBtn = new MButton(UserUIContext.getMessage(VersionI18nEnum.NEW), clickEvent -> {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(this, null));
-                }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
-                popupButtonsControl.addOption(createVersionBtn);
-            }
-
-            if (!SiteConfiguration.isCommunityEdition() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS)) {
-                MButton createRiskBtn = new MButton(UserUIContext.getMessage(RiskI18nEnum.NEW), clickEvent -> {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null));
-                }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
-                popupButtonsControl.addOption(createRiskBtn);
-            }
-
-            popupButtonsControl.addSeparator();
 
             if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
                 MButton inviteMemberBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), clickEvent -> {

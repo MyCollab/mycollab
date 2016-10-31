@@ -28,7 +28,7 @@ import com.mycollab.security.PermissionMap;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.ELabel;
@@ -48,7 +48,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
+public class RoleReadViewImpl extends AbstractVerticalPageView implements RoleReadView {
     private static final long serialVersionUID = 1L;
 
     private AdvancedPreviewBeanForm<Role> previewForm;

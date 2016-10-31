@@ -115,7 +115,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new CrmCommentInput(this, type);
-        activityBox = new MVerticalLayout();
+        activityBox = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
         this.with(headerPanel, commentBox, activityBox);
 
         commentService = AppContextUtil.getSpringBean(CommentService.class);

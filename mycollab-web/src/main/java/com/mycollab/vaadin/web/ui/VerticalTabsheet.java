@@ -16,9 +16,12 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.ErrorMessage;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -47,13 +50,15 @@ public class VerticalTabsheet extends CustomComponent {
     protected VerticalLayout navigatorContainer;
     protected CssLayout navigatorWrapper;
 
-    protected CssLayout tabContainer;
+    protected VerticalLayout tabContainer;
     protected VerticalLayout contentWrapper;
 
     private Map<String, Tab> compMap = new HashMap<>();
 
     private Component selectedButton = null;
     private Tab selectedComp = null;
+    private Button toggleBtn;
+    private Boolean retainVisibility = true;
 
     public VerticalTabsheet() {
         this(true);
@@ -70,11 +75,11 @@ public class VerticalTabsheet extends CustomComponent {
 
         contentWrapper = new VerticalLayout();
         contentWrapper.setStyleName("container-wrap");
-        contentWrapper.setWidth("100%");
+        new Restrain(contentWrapper).setMinHeight("100%");
 
-        tabContainer = new CssLayout();
-        tabContainer.setWidth("100%");
+        tabContainer = new VerticalLayout();
         contentWrapper.addComponent(tabContainer);
+        new Restrain(tabContainer).setMinHeight("100%");
 
         if (isLeft) {
             contentLayout.addComponent(navigatorWrapper);
@@ -101,11 +106,6 @@ public class VerticalTabsheet extends CustomComponent {
             ButtonTabImpl comp = (ButtonTabImpl) aNavigatorContainer;
             comp.showCaption();
         }
-    }
-
-    public void setNavigatorVisibility(boolean visibility) {
-        navigatorContainer.setVisible(visibility);
-        navigatorWrapper.setVisible(visibility);
     }
 
     public void addTab(Component component, String id, String caption) {
@@ -138,11 +138,7 @@ public class VerticalTabsheet extends CustomComponent {
                 }
             });
 
-            if (resource == null) {
-                setDefaultButtonIcon(button, false);
-            } else {
-                button.setIcon(resource);
-            }
+            button.setIcon(resource);
             button.withStyleName(TAB_STYLENAME, UIConstants.TEXT_ELLIPSIS).withWidth("90%");
 
             if (button.getLevel() > 0) {
@@ -167,17 +163,6 @@ public class VerticalTabsheet extends CustomComponent {
         }
     }
 
-    public Button addButtonOnNavigatorContainer(String id, String caption, Resource icon) {
-        if (getButtonById(id) == null) {
-            final ButtonTabImpl button = new ButtonTabImpl(id, 0, caption, "");
-            button.withStyleName(TAB_STYLENAME, UIConstants.TEXT_ELLIPSIS).withWidth("90%").withIcon(icon);
-            navigatorContainer.addComponent(button);
-            navigatorContainer.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
-            return button;
-        }
-        return null;
-    }
-
     public boolean hasTab(String viewId) {
         return compMap.containsKey(viewId);
     }
@@ -193,7 +178,7 @@ public class VerticalTabsheet extends CustomComponent {
         }
     }
 
-    private ButtonTabImpl getButtonById(String viewId) {
+    public ButtonTabImpl getButtonById(String viewId) {
         for (int i = 0; i < navigatorContainer.getComponentCount(); i++) {
             ButtonTabImpl button = (ButtonTabImpl) navigatorContainer.getComponent(i);
             if (viewId.equals(button.getTabId())) {
@@ -202,6 +187,44 @@ public class VerticalTabsheet extends CustomComponent {
         }
 
         return null;
+    }
+
+    public void setNavigatorVisibility(boolean visibility) {
+        if (!visibility) {
+            navigatorWrapper.setWidth("65px");
+            navigatorContainer.setWidth("65px");
+            this.hideTabsCaption();
+
+            navigatorContainer.setComponentAlignment(toggleBtn, Alignment.MIDDLE_CENTER);
+            toggleBtn.setIcon(FontAwesome.ANGLE_DOUBLE_RIGHT);
+            toggleBtn.setStyleName(WebUIConstants.BUTTON_ICON_ONLY + " expand-button");
+            toggleBtn.setDescription(UserUIContext.getMessage(ShellI18nEnum.ACTION_EXPAND_MENU));
+            toggleBtn.setCaption("");
+        } else {
+            navigatorWrapper.setWidth("200px");
+            navigatorContainer.setWidth("200px");
+            this.showTabsCaption();
+
+            toggleBtn.setStyleName(WebUIConstants.BUTTON_ICON_ONLY + " closed-button");
+            navigatorContainer.setComponentAlignment(toggleBtn, Alignment.TOP_RIGHT);
+            toggleBtn.setIcon(FontAwesome.TIMES);
+            toggleBtn.setDescription(UserUIContext.getMessage(ShellI18nEnum.ACTION_COLLAPSE_MENU));
+        }
+    }
+
+    public void addToggleNavigatorControl() {
+        if (getButtonById("button") == null) {
+            toggleBtn = new ButtonTabImpl("button", 0, "", "");
+            toggleBtn.setStyleName(WebUIConstants.BUTTON_ICON_ONLY + " closed-button");
+            toggleBtn.addClickListener(clickEvent -> {
+                retainVisibility = !retainVisibility;
+                setNavigatorVisibility(retainVisibility);
+            });
+            navigatorContainer.addComponent(toggleBtn, 0);
+            navigatorContainer.setComponentAlignment(toggleBtn, Alignment.TOP_RIGHT);
+        }
+
+        setNavigatorVisibility(retainVisibility);
     }
 
     private void fireTabChangeEvent(SelectedTabChangeEvent event) {
@@ -230,11 +253,12 @@ public class VerticalTabsheet extends CustomComponent {
             selectedButton = btn;
             clearTabSelection(true);
             selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
-            setDefaultButtonIcon(selectedButton, true);
             selectedComp = tab;
             tabContainer.removeAllComponents();
-            tabContainer.addComponent(tab.getComponent());
-            return tab.getComponent();
+            Component tabComponent = tab.getComponent();
+            tabContainer.addComponent(tabComponent);
+            tabContainer.setExpandRatio(tabComponent, 1.0f);
+            return tabComponent;
         } else {
             return null;
         }
@@ -274,7 +298,6 @@ public class VerticalTabsheet extends CustomComponent {
                 Component btn = iterator.next();
                 if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
                     btn.removeStyleName(TAB_SELECTED_STYLENAME);
-                    setDefaultButtonIcon(btn, false);
                 }
             }
         } else {
@@ -295,21 +318,6 @@ public class VerticalTabsheet extends CustomComponent {
         return this.navigatorWrapper;
     }
 
-    protected void setDefaultButtonIcon(Component btn, Boolean selected) {
-
-    }
-
-    public void replaceContainer(ComponentContainer newContainer, ComponentContainer newPosition) {
-        ComponentContainer containerParent = (ComponentContainer) tabContainer.getParent();
-        if (containerParent != null) {
-            containerParent.removeComponent(tabContainer);
-        }
-        if (newPosition == null)
-            newPosition = newContainer;
-        newPosition.addComponent(tabContainer);
-        contentWrapper.addComponent(newContainer);
-    }
-
     public static class ButtonTabImpl extends MButton {
         private static final long serialVersionUID = 1L;
 
@@ -318,7 +326,7 @@ public class VerticalTabsheet extends CustomComponent {
         String link;
         private String caption;
 
-        ButtonTabImpl(String id, int level, String caption, String link) {
+        public ButtonTabImpl(String id, int level, String caption, String link) {
             super(caption);
             this.tabId = id;
             this.link = link;

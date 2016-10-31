@@ -252,7 +252,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             this.addStyleName(WebUIConstants.MILESTONE_BOX);
             this.setWidth("100%");
 
-            ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, 50, false);
+            ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, 50, false, true);
 
             MHorizontalLayout milestoneHeader = new MHorizontalLayout().withFullWidth()
                     .with(toggleMilestoneSummaryField).expand(toggleMilestoneSummaryField);

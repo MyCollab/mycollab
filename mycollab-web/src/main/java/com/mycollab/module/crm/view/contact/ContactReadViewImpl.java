@@ -45,8 +45,6 @@ import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -88,7 +86,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         return this.previewForm;
     }
 
-    protected void displayActivities() {
+    private void displayActivities() {
         final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.CONTACT));
@@ -113,7 +111,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         dateInfoComp.displayEntryDateTime(beanItem);
         compFollowers.displayFollowers(beanItem);
 
-        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        tabSheet.selectTab(CrmTypeConstants.DETAIL);
     }
 
     @Override
@@ -138,26 +136,17 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         this.associateActivityList = new ActivityRelatedItemListComp(true);
         activityComponent = new CrmActivityComponent(CrmTypeConstants.CONTACT);
 
-        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-        MVerticalLayout basicInfo = new MVerticalLayout().withFullWidth().withStyleName("basic-info");
-
         dateInfoComp = new DateInfoComp();
-        basicInfo.addComponent(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        basicInfo.addComponent(peopleInfoComp);
-
         compFollowers = new CrmFollowersComp<>(CrmTypeConstants.CONTACT, RolePermissionCollections.CRM_CONTACT);
-        basicInfo.addComponent(compFollowers);
+        addToSideBar(dateInfoComp, peopleInfoComp, compFollowers);
 
-        navigatorWrapper.addComponentAsFirst(basicInfo);
-
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
-                UserUIContext.getMessage(OpportunityI18nEnum.LIST));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+        tabSheet.addTab(previewLayout, CrmTypeConstants.DETAIL, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT),
+                CrmAssetsManager.getAsset(CrmTypeConstants.DETAIL));
+        tabSheet.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY, UserUIContext.getMessage(OpportunityI18nEnum.LIST),
+                CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
+        tabSheet.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY),
+                CrmAssetsManager.getAsset(CrmTypeConstants.ACTIVITY));
     }
 
     @Override
@@ -188,5 +177,10 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
     @Override
     public IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers() {
         return associateOpportunityList;
+    }
+
+    @Override
+    protected String getType() {
+        return CrmTypeConstants.CONTACT;
     }
 }

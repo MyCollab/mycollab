@@ -68,11 +68,11 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
     private int maxLength;
     private CssCheckBox toggleStatusSelect;
 
-    ToggleMilestoneSummaryField(final SimpleMilestone milestone, boolean toggleStatusSupport) {
-        this(milestone, Integer.MAX_VALUE, toggleStatusSupport);
+    ToggleMilestoneSummaryField(final SimpleMilestone milestone, boolean toggleStatusSupport, boolean isDeleteSupport) {
+        this(milestone, Integer.MAX_VALUE, toggleStatusSupport, isDeleteSupport);
     }
 
-    ToggleMilestoneSummaryField(final SimpleMilestone milestone, int maxLength, boolean toggleStatusSupport) {
+    ToggleMilestoneSummaryField(final SimpleMilestone milestone, int maxLength, boolean toggleStatusSupport, boolean isDeleteSupport) {
         this.milestone = milestone;
         this.maxLength = maxLength;
         this.setWidth("100%");

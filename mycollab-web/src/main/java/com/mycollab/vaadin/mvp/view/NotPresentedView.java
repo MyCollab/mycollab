@@ -21,7 +21,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
@@ -36,7 +36,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class NotPresentedView extends AbstractPageView {
+public class NotPresentedView extends AbstractVerticalPageView {
     private static final long serialVersionUID = 1L;
 
     public NotPresentedView() {

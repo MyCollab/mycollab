@@ -40,7 +40,6 @@ import java.util.*;
  * @since 2.0
  */
 public class DynaFormLayout implements IFormLayoutFactory {
-    private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
 
     private DynaForm dynaForm;

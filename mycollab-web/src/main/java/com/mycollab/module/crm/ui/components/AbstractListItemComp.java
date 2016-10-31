@@ -24,7 +24,7 @@ import com.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.mycollab.vaadin.events.HasSearchHandlers;
 import com.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
@@ -43,7 +43,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends AbstractPageView implements IListView<S, B> {
+public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends AbstractVerticalPageView implements IListView<S, B> {
     private static final long serialVersionUID = 1L;
 
     protected MVerticalLayout contentLayout;

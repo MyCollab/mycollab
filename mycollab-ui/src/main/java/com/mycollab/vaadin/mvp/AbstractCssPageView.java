@@ -26,11 +26,9 @@ import java.io.Serializable;
  */
 public abstract class AbstractCssPageView extends VerticalLayout implements PageView, Serializable {
     public AbstractCssPageView() {
-        this.setStyleName("page-view");
         this.setSizeFull();
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public void addViewListener(ViewListener listener) {
         addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener, ViewListener.viewInitMethod);

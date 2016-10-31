@@ -19,7 +19,7 @@ package com.mycollab.vaadin.mvp.view;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.vaadin.AsyncInvoker;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.LazyPageView;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
@@ -29,7 +29,7 @@ import org.vaadin.viritin.layouts.MWindow;
  * @author MyCollab Ltd.
  * @since 4.1.2
  */
-public abstract class AbstractLazyPageView extends AbstractPageView implements LazyPageView {
+public abstract class AbstractLazyPageView extends AbstractVerticalPageView implements LazyPageView {
     private static final long serialVersionUID = 1L;
 
     private boolean isRunning = false;
@@ -70,7 +70,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
     private static class ProgressIndicator extends MWindow {
         private static final long serialVersionUID = -6157950150738214354L;
 
-        public ProgressIndicator() {
+        ProgressIndicator() {
             super();
             this.withDraggable(false).withClosable(false).withModal(true).withCenter().withStyleName("lazyload-progress");
 

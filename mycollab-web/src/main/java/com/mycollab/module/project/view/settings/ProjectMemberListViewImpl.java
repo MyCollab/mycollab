@@ -41,7 +41,7 @@ import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
@@ -67,7 +67,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectMemberListViewImpl extends AbstractPageView implements ProjectMemberListView {
+public class ProjectMemberListViewImpl extends AbstractVerticalPageView implements ProjectMemberListView {
     private static final long serialVersionUID = 1L;
     private CssLayout contentLayout;
     private HeaderWithFontAwesome headerText;

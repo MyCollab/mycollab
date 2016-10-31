@@ -72,7 +72,7 @@ public class ProjectMembersWidget extends Depot {
 
     public ProjectMembersWidget() {
         super("", new CssLayout());
-        final Button sortBtn = new Button();
+        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
@@ -86,8 +86,6 @@ public class ProjectMembersWidget extends Depot {
             memberList.setSearchCriteria(searchCriteria);
             setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
         });
-        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-        sortBtn.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
         addHeaderElement(sortBtn);
 
         final SearchTextField searchTextField = new SearchTextField() {
@@ -108,7 +106,7 @@ public class ProjectMembersWidget extends Depot {
 
         MButton inviteMemberBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent ->
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         addHeaderElement(inviteMemberBtn);
 

@@ -63,7 +63,7 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
         this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("tm-container").withFullWidth();
 
         MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
-        ELabel titleLbl = ELabel.h2(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
+        ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
         final CheckBox includeNoDateSet = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         includeNoDateSet.setValue(false);

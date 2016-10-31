@@ -16,18 +16,20 @@
  */
 package com.mycollab.module.tracker.service.impl;
 
-import com.mycollab.cache.CleanCacheEvent;
-import com.mycollab.common.ModuleNameConstants;
-import com.mycollab.common.domain.GroupItem;
-import com.mycollab.common.event.TimelineTrackingUpdateEvent;
+import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.aspect.ClassInfo;
 import com.mycollab.aspect.ClassInfoMap;
 import com.mycollab.aspect.Traceable;
 import com.mycollab.aspect.Watchable;
+import com.mycollab.cache.CleanCacheEvent;
+import com.mycollab.common.ModuleNameConstants;
+import com.mycollab.common.domain.GroupItem;
+import com.mycollab.common.event.TimelineTrackingUpdateEvent;
 import com.mycollab.common.service.TagService;
 import com.mycollab.common.service.TimelineTrackingService;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.cache.CacheKey;
+import com.mycollab.core.cache.CleanCache;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultService;
@@ -43,7 +45,6 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
-import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -111,9 +112,6 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
                     record.setStatus(OptionI18nEnum.BugStatus.Open.name());
                 }
                 Integer bugId = super.saveWithSession(record, username);
-                asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                        ProjectTicketService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
-                        TimelineTrackingService.class}));
 
                 asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, bugId, "status", record.getStatus(),
                         record.getProjectid(), record.getSaccountid()));
@@ -131,29 +129,28 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
 
     @Override
     public Integer updateWithSession(BugWithBLOBs record, String username) {
-        cleanAfterUpdate(record);
+        asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.getId(), "status", record.getStatus(),
+                record.getProjectid(), record.getSaccountid()));
         return super.updateWithSession(record, username);
     }
 
-    private void cleanAfterUpdate(BugWithBLOBs record) {
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+    @CleanCache
+    public void postDirtyUpdate(Integer sAccountId) {
+        asyncEventBus.post(new CleanCacheEvent(sAccountId, new Class[]{ProjectService.class,
                 ProjectTicketService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
-                ItemTimeLoggingService.class, TimelineTrackingService.class, ProjectTicketService.class}));
-        asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.getId(), "status", record.getStatus(),
-                record.getProjectid(), record.getSaccountid()));
+                ItemTimeLoggingService.class, TagService.class, TimelineTrackingService.class, ProjectTicketService.class}));
     }
 
     @Override
     public Integer updateSelectiveWithSession(BugWithBLOBs record, String username) {
-        cleanAfterUpdate(record);
+        asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.getId(), "status", record.getStatus(),
+                record.getProjectid(), record.getSaccountid()));
         return super.updateSelectiveWithSession(record, username);
     }
 
     @Override
     public void massRemoveWithSession(List<BugWithBLOBs> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectService.class, ItemTimeLoggingService
-                .class, TagService.class, ProjectTicketService.class}));
         DeleteProjectBugEvent event = new DeleteProjectBugEvent(items.toArray(new BugWithBLOBs[items.size()]),
                 username, accountId);
         asyncEventBus.post(event);

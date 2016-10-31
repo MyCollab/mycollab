@@ -48,23 +48,20 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class BuildCriterionComponent<S extends SearchCriteria> extends MVerticalLayout {
+public class BuildCriterionComponent<S extends SearchCriteria> extends MVerticalLayout implements CriteriaBuilderComponent<S> {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(BuildCriterionComponent.class);
 
     private SearchLayout<S> hostSearchLayout;
     private Param[] paramFields;
     private String searchCategory;
-    private Class<S> type;
 
     private MHorizontalLayout filterBox;
     private MVerticalLayout searchContainer;
 
-    public BuildCriterionComponent(SearchLayout<S> searchLayout, Param[] paramFields, Class<S> type, String searchCategory) {
+    public BuildCriterionComponent(SearchLayout<S> searchLayout, Param[] paramFields, String searchCategory) {
         this.hostSearchLayout = searchLayout;
         this.paramFields = paramFields;
-        this.type = type;
         this.searchCategory = searchCategory;
 
         MHorizontalLayout headerBox = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, true));
@@ -136,7 +133,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         buildFilterBox(queryText);
     }
 
-    List<SearchFieldInfo> buildSearchFieldInfos() {
+    @Override
+    public List<SearchFieldInfo> buildSearchFieldInfos() {
         Iterator<Component> iterator = searchContainer.iterator();
         List<SearchFieldInfo> fieldInfos = new ArrayList<>();
         while (iterator.hasNext()) {

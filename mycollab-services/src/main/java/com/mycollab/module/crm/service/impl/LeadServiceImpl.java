@@ -54,6 +54,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
 
     @Autowired
     private LeadMapper leadMapper;
+
     @Autowired
     private LeadMapperExt leadMapperExt;
 

@@ -28,7 +28,7 @@ import com.mycollab.module.user.ui.components.ImagePreviewCropWindow;
 import com.mycollab.module.user.ui.components.UploadImageField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.CountryViewField;
@@ -51,7 +51,7 @@ import java.awt.image.BufferedImage;
  * @since 2.0
  */
 @ViewComponent
-public class ProfileReadViewImpl extends AbstractPageView implements ProfileReadView, ImagePreviewCropWindow.ImageSelectionCommand {
+public class ProfileReadViewImpl extends AbstractVerticalPageView implements ProfileReadView, ImagePreviewCropWindow.ImageSelectionCommand {
     private static final long serialVersionUID = 1L;
 
     private final PreviewForm formItem;

@@ -29,9 +29,8 @@ abstract public class BasicSearchLayout<S extends SearchCriteria> extends Search
     protected ComponentContainer header;
     protected ComponentContainer body;
 
-    public BasicSearchLayout(final DefaultGenericSearchPanel<S> parent) {
+    public BasicSearchLayout(DefaultGenericSearchPanel<S> parent) {
         super(parent, "basicSearch");
-        this.setStyleName("basicSearchLayout");
         this.initLayout();
     }
 
@@ -53,7 +52,7 @@ abstract public class BasicSearchLayout<S extends SearchCriteria> extends Search
         header.addComponent(c);
     }
 
-    public final ComponentContainer constructHeader() {
+    private ComponentContainer constructHeader() {
         return ((DefaultGenericSearchPanel)searchPanel).constructHeader();
     }
 

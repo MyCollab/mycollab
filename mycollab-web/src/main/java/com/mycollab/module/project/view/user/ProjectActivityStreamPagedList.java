@@ -204,6 +204,10 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));
 
+        if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
+            itemLink.setCSSClass(WebUIConstants.LINK_COMPLETED);
+        }
+
         div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink);
         return div.write();
     }

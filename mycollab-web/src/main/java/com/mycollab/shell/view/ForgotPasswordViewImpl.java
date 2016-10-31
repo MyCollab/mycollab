@@ -27,7 +27,7 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.shell.events.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.mvp.AbstractPageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -44,7 +44,7 @@ import org.vaadin.viritin.button.MButton;
  * @since 1.0
  */
 @ViewComponent
-public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPasswordView {
+public class ForgotPasswordViewImpl extends AbstractVerticalPageView implements ForgotPasswordView {
     private static final long serialVersionUID = 1L;
 
     public ForgotPasswordViewImpl() {

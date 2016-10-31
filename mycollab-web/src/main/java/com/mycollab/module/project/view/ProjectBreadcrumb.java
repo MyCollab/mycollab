@@ -18,7 +18,6 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.file.PathUtils;
@@ -39,15 +38,13 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.mycollab.vaadin.web.ui.utils.LabelStringGenerator;
 import com.vaadin.breadcrumb.Breadcrumb;
 import com.vaadin.breadcrumb.BreadcrumbLayout;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -60,7 +57,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     private static LabelStringGenerator menuLinkGenerator = new BreadcrumbLabelStringGenerator();
 
     private Breadcrumb breadcrumb;
-    private MHorizontalLayout controlsLayout;
     private SimpleProject project;
 
     private Button homeBtn;
@@ -82,7 +78,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
             public void select(int id) {
                 if (id == 0) {
                     homeBtn.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
-                    controlsLayout.removeAllComponents();
                 } else {
                     homeBtn.setCaption(null);
                 }
@@ -103,13 +98,11 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         breadcrumb.setUseDefaultClickBehaviour(false);
         breadcrumb.addLink(homeBtn);
 
-        controlsLayout = new MHorizontalLayout();
-        with(breadcrumb, controlsLayout).expand(breadcrumb).alignAll(Alignment.MIDDLE_RIGHT);
+        withMargin(new MarginInfo(true, false, false, false)).with(breadcrumb).expand(breadcrumb).alignAll(Alignment.MIDDLE_RIGHT);
     }
 
     public void setProject(SimpleProject project) {
         this.project = project;
-        breadcrumb.select(0);
     }
 
     public void gotoSearchProjectItems() {
@@ -685,30 +678,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 //        if (CurrentProjectVariables.isAdmin() && !SiteConfiguration.isCommunityEdition()) {
 //            buildCustomizeDashboardView();
 //        }
-    }
-
-    private void buildCustomizeDashboardView() {
-        controlsLayout.removeAllComponents();
-        if (CurrentProjectVariables.isAdmin() && !SiteConfiguration.isCommunityEdition()) {
-            MButton customizeBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.OPT_CUSTOMIZE_VIEW))
-                    .withIcon(FontAwesome.BRIEFCASE).withStyleName(WebUIConstants.BUTTON_LINK);
-            customizeBtn.addClickListener(clickEvent -> {
-                buildCustomizeActionDashboardView();
-            });
-            controlsLayout.with(customizeBtn);
-        }
-    }
-
-    private void buildCustomizeActionDashboardView() {
-        controlsLayout.removeAllComponents();
-        MButton addWidgetBtn = new MButton("Add widget").withIcon(FontAwesome.PLUS).withStyleName
-                (WebUIConstants.BUTTON_ACTION);
-        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> {
-            buildCustomizeDashboardView();
-        }).withStyleName(WebUIConstants.BUTTON_OPTION);
-        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE)).withStyleName
-                (WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
-        controlsLayout.with(addWidgetBtn, cancelBtn, saveBtn);
     }
 
     public void gotoProjectEdit() {

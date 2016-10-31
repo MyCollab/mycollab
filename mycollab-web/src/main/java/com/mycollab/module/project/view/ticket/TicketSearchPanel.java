@@ -63,14 +63,6 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
             ProjectTicketSearchCriteria.p_endDate, ProjectTicketSearchCriteria.p_dueDate,
             ProjectTicketSearchCriteria.p_assignee, ProjectTicketSearchCriteria.p_createdUser};
 
-    public TicketSearchPanel(boolean canSwitchToAdvanceLayout) {
-        super(canSwitchToAdvanceLayout);
-    }
-
-    public TicketSearchPanel() {
-        super();
-    }
-
     @Override
     protected ComponentContainer buildSearchTitle() {
         if (canSwitchToAdvanceLayout) {
@@ -100,23 +92,23 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
 
     @Override
     protected SearchLayout<ProjectTicketSearchCriteria> createBasicSearchLayout() {
-        return new AssignmentBasicSearchLayout();
+        return new TicketBasicSearchLayout();
     }
 
     @Override
     protected SearchLayout<ProjectTicketSearchCriteria> createAdvancedSearchLayout() {
-        return new AssignmentAdvancedSearchLayout();
+        return new TicketAdvancedSearchLayout();
     }
 
     public void setTextField(String name) {
-        if (getCompositionRoot() instanceof AssignmentBasicSearchLayout) {
-            ((AssignmentBasicSearchLayout) getCompositionRoot()).setNameField(name);
+        if (getCompositionRoot() instanceof TicketBasicSearchLayout) {
+            ((TicketBasicSearchLayout) getCompositionRoot()).setNameField(name);
         }
     }
 
     public void displaySearchFieldInfos(List<SearchFieldInfo> searchFieldInfos) {
         if (canSwitchToAdvanceLayout) {
-            AssignmentAdvancedSearchLayout advancedSearchLayout = (AssignmentAdvancedSearchLayout) moveToAdvancedSearchLayout();
+            TicketAdvancedSearchLayout advancedSearchLayout = (TicketAdvancedSearchLayout) moveToAdvancedSearchLayout();
             advancedSearchLayout.displaySearchFieldInfos(searchFieldInfos);
         }
     }
@@ -125,12 +117,12 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
         savedFilterComboBox.selectQueryInfo(queryId);
     }
 
-    private class AssignmentBasicSearchLayout extends BasicSearchLayout<ProjectTicketSearchCriteria> {
+    private class TicketBasicSearchLayout extends BasicSearchLayout<ProjectTicketSearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        private AssignmentBasicSearchLayout() {
+        private TicketBasicSearchLayout() {
             super(TicketSearchPanel.this);
         }
 
@@ -187,10 +179,10 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
         }
     }
 
-    private class AssignmentAdvancedSearchLayout extends DynamicQueryParamLayout<ProjectTicketSearchCriteria> {
+    private class TicketAdvancedSearchLayout extends DynamicQueryParamLayout<ProjectTicketSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
-        private AssignmentAdvancedSearchLayout() {
+        private TicketAdvancedSearchLayout() {
             super(TicketSearchPanel.this, ProjectTypeConstants.TICKET);
         }
 

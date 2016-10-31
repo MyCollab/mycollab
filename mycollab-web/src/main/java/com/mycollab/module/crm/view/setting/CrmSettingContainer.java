@@ -18,7 +18,6 @@ package com.mycollab.module.crm.view.setting;
 
 import com.mycollab.module.crm.data.CustomViewScreenData;
 import com.mycollab.module.crm.data.NotificationSettingScreenData;
-import com.mycollab.module.crm.view.CrmVerticalTabsheet;
 import com.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
@@ -40,7 +39,7 @@ import com.vaadin.ui.TabSheet.Tab;
 public class CrmSettingContainer extends AbstractCssPageView implements PageView {
     private static final long serialVersionUID = 1L;
 
-    private final CrmVerticalTabsheet settingTab;
+    private final VerticalTabsheet settingTab;
 
     private ICrmCustomViewPresenter customViewPresenter;
     private CrmNotificationSettingPresenter notificationPresenter;
@@ -52,11 +51,10 @@ public class CrmSettingContainer extends AbstractCssPageView implements PageView
         contentWrapper.setWidth("100%");
         this.addComponent(contentWrapper);
 
-        settingTab = new CrmVerticalTabsheet(false);
+        settingTab = new VerticalTabsheet(false);
         settingTab.setSizeFull();
         settingTab.setNavigatorWidth("250px");
         settingTab.setNavigatorStyleName("sidebar-menu");
-        settingTab.setContainerStyleName("tab-content");
         settingTab.setHeight(null);
 
         buildComponents();
@@ -80,21 +78,21 @@ public class CrmSettingContainer extends AbstractCssPageView implements PageView
                 "Custom Layouts");
 
         settingTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-                    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void selectedTabChange(SelectedTabChangeEvent event) {
-                        Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
-                        String tabId = ((TabImpl) tab).getTabId();
+            @Override
+            public void selectedTabChange(SelectedTabChangeEvent event) {
+                Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
+                String tabId = ((TabImpl) tab).getTabId();
 
-                        if ("notification".equals(tabId)) {
-                            notificationPresenter.go(CrmSettingContainer.this, new NotificationSettingScreenData.Read());
-                        } else if ("customlayout".equals(tabId)) {
-                            customViewPresenter.go(CrmSettingContainer.this, new CustomViewScreenData.Read());
-                        }
+                if ("notification".equals(tabId)) {
+                    notificationPresenter.go(CrmSettingContainer.this, new NotificationSettingScreenData.Read());
+                } else if ("customlayout".equals(tabId)) {
+                    customViewPresenter.go(CrmSettingContainer.this, new CustomViewScreenData.Read());
+                }
 
-                    }
-                });
+            }
+        });
     }
 
     private Component constructNotificationSettingView() {
