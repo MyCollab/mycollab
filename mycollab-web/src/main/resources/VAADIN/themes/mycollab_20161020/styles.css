@@ -15528,6 +15528,8 @@ div.v-csslayout.followers-container .v-checkbox {
 
 div.v-csslayout.member-token {
 	cursor: text;
+	border: 1px solid #ededed;
+	border-radius: 6px;
 }
 
 div.v-csslayout.member-token .v-textfield {
@@ -15552,6 +15554,9 @@ div.v-csslayout.member-token .v-button-small {
 
 div.v-button.token-field {
 	margin-bottom: 5px;
+	margin-right: 5px;
+	color: #fff;
+	background-color: #76B38A;
 }
 
 div.v-button.token-field .v-button-wrap {

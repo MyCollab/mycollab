@@ -20,10 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.core.IgnoreException;
-import com.mycollab.core.SessionExpireException;
-import com.mycollab.core.UserInvalidInputException;
-import com.mycollab.core.Version;
+import com.mycollab.core.*;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.i18n.LocalizationHelper;
@@ -201,25 +198,37 @@ public class MobileApplication extends MyCollabUI {
     }
 
     public void doLogin(String username, String password, boolean isRememberPassword) {
-        UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        SimpleUser user = userService.authentication(username, password, MyCollabUI.getSubDomain(), false);
+        try {
+            UserService userService = AppContextUtil.getSpringBean(UserService.class);
+            SimpleUser user = userService.authentication(username, password, MyCollabUI.getSubDomain(), false);
 
-        if (isRememberPassword) {
-            rememberPassword(username, password);
+            if (isRememberPassword) {
+                rememberPassword(username, password);
+            }
+
+            BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
+
+            SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(MyCollabUI.getAccountId());
+            UserUIContext.getInstance().setSessionVariables(user, billingAccount);
+
+            UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
+            UserAccount userAccount = new UserAccount();
+            userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+            UserAccountExample ex = new UserAccountExample();
+            ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
+            userAccountMapper.updateByExampleSelective(userAccount, ex);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
+        } catch (Exception e) {
+            UserInvalidInputException userInvalidInputException = (UserInvalidInputException) getExceptionType(e,
+                    UserInvalidInputException.class);
+            if (userInvalidInputException != null) {
+                NotificationUtil.showWarningNotification(UserUIContext.getMessage(GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
+                        userInvalidInputException.getMessage()));
+                EventBusFactory.getInstance().post(new ShellEvent.GotoLoginView(this));
+            } else {
+                throw e;
+            }
         }
-
-        BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
-
-        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(MyCollabUI.getAccountId());
-        UserUIContext.getInstance().setSessionVariables(user, billingAccount);
-
-        UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
-        UserAccount userAccount = new UserAccount();
-        userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-        UserAccountExample ex = new UserAccountExample();
-        ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
-        userAccountMapper.updateByExampleSelective(userAccount, ex);
-        EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
     }
 
     private void rememberPassword(String username, String password) {

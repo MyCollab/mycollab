@@ -108,6 +108,12 @@
             <groupId>org.vaadin.addons</groupId>
             <artifactId>vaadin-combobox-multiselect</artifactId>
             <version>1.1.14</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiled</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -239,6 +245,7 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-sass-compiler</artifactId>
             <version>0.9.13</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

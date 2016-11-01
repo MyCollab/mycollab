@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.project.domain.criteria;
 
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.*;
 import com.mycollab.db.query.CacheParamMapper;
 import com.mycollab.db.query.DateParam;

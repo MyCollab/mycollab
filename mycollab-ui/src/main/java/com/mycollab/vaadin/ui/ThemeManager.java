@@ -262,11 +262,6 @@ public class ThemeManager {
             extraStyles.append(".v-buttongroup.toggle-btn-group .v-button.btn-group-default:hover {background-color:"
                     + ColorUtils.darkerColor("#" + accountTheme.getActionbtn()) + ";}");
 
-            extraStyles.append("div.v-button.token-field { background-color: " + ColorUtils.brighterColor("#" + accountTheme.getActionbtn()) + "; }");
-
-//            extraStyles.append(".block {background-color: #" + accountTheme.getActionbtn() + ";}");
-//            extraStyles.append(".block:hover {background-color: " + ColorUtils.darkerColor("#" + accountTheme.getActionbtn()) + ";}");
-
             extraStyles.append(".v-context-menu-container .v-context-menu .v-context-submenu:hover " +
                     "{background-color:#" + accountTheme.getActionbtn() + ";}");
         }
@@ -293,8 +288,6 @@ public class ThemeManager {
             extraStyles.append(".activity-list .feed-block-wrap .date-lbl { color:#" + accountTheme.getActionbtntext() + ";}");
 
             extraStyles.append(".v-button.v-button-block {color:#" + accountTheme.getActionbtntext() + ";}");
-
-            extraStyles.append("div.v-button.token-field { color: #" + accountTheme.getActionbtntext() + "; }");
 
             extraStyles.append(".v-context-menu-container .v-context-menu .v-context-submenu:hover " +
                     "{color:#" + accountTheme.getActionbtntext() + ";}");

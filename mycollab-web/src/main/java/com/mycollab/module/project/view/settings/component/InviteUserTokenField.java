@@ -30,6 +30,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
@@ -55,11 +56,13 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         inviteEmails = new HashSet<>();
         this.setWidth("100%");
         this.addStyleName("member-token");
+        new Restrain(this).setMinHeight("50px");
         suggestField = new SuggestField();
         suggestField.setHeight("25px");
         suggestField.setWidth("300px");
         suggestField.setNewItemsAllowed(true);
         suggestField.setNewItemsHandler(this);
+        suggestField.focus();
         suggestField.setImmediate(true);
         suggestField.setTokenMode(true);
         suggestField.setSuggestionHandler(this);
@@ -84,6 +87,11 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
                     lastQuery = "";
                 }
         );
+        this.addLayoutClickListener(layoutClickEvent -> {
+            if (layoutClickEvent.getClickedComponent() == null) {
+                suggestField.focus();
+            }
+        });
     }
 
     @Override
