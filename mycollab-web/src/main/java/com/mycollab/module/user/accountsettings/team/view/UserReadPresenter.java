@@ -36,7 +36,7 @@ import com.mycollab.vaadin.mvp.ViewPermission;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -95,7 +95,7 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.ACCOUNT_USER)) {
             String username = (String) data.getParams();
 

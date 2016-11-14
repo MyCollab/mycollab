@@ -29,7 +29,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.DateSelectionField;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -91,10 +91,10 @@ class BasicInfoChangeWindow extends MWindow {
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
-                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);

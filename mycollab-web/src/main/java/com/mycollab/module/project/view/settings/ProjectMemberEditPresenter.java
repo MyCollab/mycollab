@@ -32,7 +32,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -69,11 +69,10 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
             ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
-            userGroupContainer.removeAllComponents();
-            userGroupContainer.addComponent(view);
+            userGroupContainer.setContent(view);
 
             SimpleProjectMember member = (SimpleProjectMember) data.getParams();
             view.editItem(member);

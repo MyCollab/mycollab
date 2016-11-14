@@ -31,11 +31,13 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
+import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 
@@ -67,7 +69,9 @@ public class LoginViewImpl extends AbstractVerticalPageView implements LoginView
         @Override
         protected Component createContent(TextField usernameField, PasswordField passwordField, Button loginBtn) {
             custom = CustomLayoutExt.createLayout("loginForm");
-            custom.addComponent(ELabel.h2(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.BUTTON_LOG_IN))
+            Resource logoResource = AccountAssetsResolver.createLogoResource(MyCollabUI.getBillingAccount().getLogopath(), 150);
+            custom.addComponent(new Image(null, logoResource), "logo-here");
+            custom.addComponent(ELabel.h1(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.BUTTON_LOG_IN))
                     .withWidthUndefined(), "form-header");
             custom.addStyleName("customLoginForm");
             custom.addComponent(usernameField, "usernameField");
@@ -80,13 +84,13 @@ public class LoginViewImpl extends AbstractVerticalPageView implements LoginView
                     false);
             custom.addComponent(rememberMe, "rememberMe");
 
-            loginBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+            loginBtn.setStyleName(WebThemes.BUTTON_ACTION);
             loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             custom.addComponent(loginBtn, "loginButton");
 
             MButton forgotPasswordBtn = new MButton(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(),
                     ShellI18nEnum.BUTTON_FORGOT_PASSWORD), clickEvent -> EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null)))
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withStyleName(WebThemes.BUTTON_LINK);
             custom.addComponent(forgotPasswordBtn, "forgotLink");
 
             custom.addComponent(ELabel.html(LocalizationHelper.getMessage(MyCollabUI.getDefaultLocale(), ShellI18nEnum.OPT_REMEMBER_PASSWORD,

@@ -43,7 +43,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.*;
 
-import static com.mycollab.vaadin.web.ui.WebUIConstants.SCROLLABLE_CONTAINER;
+import static com.mycollab.vaadin.web.ui.WebThemes.SCROLLABLE_CONTAINER;
 
 /**
  * @param <S>

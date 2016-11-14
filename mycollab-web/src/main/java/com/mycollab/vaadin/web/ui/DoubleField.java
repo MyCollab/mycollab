@@ -28,7 +28,7 @@ public class DoubleField extends AbstractNumberField<Double> {
     @Override
     protected void userInputToValue(String str) {
         try {
-            this.setValue(Double.valueOf(Double.parseDouble(str)));
+            this.setValue(Double.parseDouble(str));
         } catch (Exception e) {
             this.setValue(0d);
         }

@@ -28,7 +28,7 @@ import com.mycollab.module.project.view.reports.IReportPresenter;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -42,10 +42,9 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         ProjectView projectViewContainer = (ProjectView) container;
         projectViewContainer.gotoSubView(ProjectTypeConstants.DASHBOARD);
-        view.removeAllComponents();
 
         ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 
@@ -88,7 +87,7 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
     }
 
     @Override
-    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
+    protected void onHandleChain(HasComponents container, PageActionChain pageActionChain) {
         ScreenData<?> pageAction = pageActionChain.peek();
 
         Class<? extends IPresenter> presenterCls = ProjectPresenterDataMapper.presenter(pageAction);

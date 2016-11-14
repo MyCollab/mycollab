@@ -23,6 +23,7 @@ import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.mycollab.module.user.domain.BillingAccount;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public interface ProjectService extends IDefaultService<Integer, Project, Projec
     @Cacheable
     Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId);
 
-    String getSubdomainOfProject(Integer projectId);
+    BillingAccount getAccountInfoOfProject(Integer projectId);
 
     List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
 

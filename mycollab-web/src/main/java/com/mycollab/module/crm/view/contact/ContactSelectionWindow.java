@@ -26,8 +26,7 @@ import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.ui.Window;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -72,7 +71,7 @@ public class ContactSelectionWindow extends MWindow {
             return new MButton(contact.getContactName(), clickEvent -> {
                 fieldSelection.fireValueChange(contact);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipContact(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipContact(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                     contact, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }

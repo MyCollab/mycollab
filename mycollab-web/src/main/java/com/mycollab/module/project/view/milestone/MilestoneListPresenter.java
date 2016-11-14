@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.mycollab.module.project.view.milestone;
 
 import com.mycollab.core.SecureAccessException;
@@ -27,7 +26,7 @@ import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -42,12 +41,11 @@ public class MilestoneListPresenter extends ProjectGenericPresenter<MilestoneLis
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
-            milestoneContainer.removeAllComponents();
-            milestoneContainer.addComponent(view);
+            milestoneContainer.setContent(view);
 
             view.lazyLoadView();
 

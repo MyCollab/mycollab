@@ -179,11 +179,11 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     task.setProjectid(beanItem.getProjectid());
                     task.setSaccountid(beanItem.getSaccountid());
                     UI.getCurrent().addWindow(new TaskAddWindow(task));
-                }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
+                }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
 
                 final SplitButton splitButton = new SplitButton(addNewTaskBtn);
                 splitButton.setWidthUndefined();
-                splitButton.addStyleName(WebUIConstants.BUTTON_ACTION);
+                splitButton.addStyleName(WebThemes.BUTTON_ACTION);
 
                 OptionPopupContent popupButtonsControl = new OptionPopupContent();
                 Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
@@ -212,7 +212,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         }
 
         private HorizontalLayout generateSubTaskContent(final SimpleTask subTask) {
-            MHorizontalLayout layout = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);
+            MHorizontalLayout layout = new MHorizontalLayout().withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX);
             layout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
@@ -301,7 +301,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     }
 
                     close();
-                }).withStyleName(WebUIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS).withFullWidth();
+                }).withStyleName(WebThemes.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS).withFullWidth();
                 return new MCssLayout(taskLink).withStyleName("list-row").withFullWidth();
             }
         }

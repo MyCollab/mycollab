@@ -16,8 +16,6 @@
  */
 package com.mycollab.vaadin.web.ui;
 
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
-import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.*;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -40,11 +38,7 @@ public class Depot extends DDVerticalLayout {
         header = new MHorizontalLayout().withHeight("40px").withStyleName("depotHeader");
         bodyContent = content;
         bodyContent.setWidth("100%");
-        headerContent = new MHorizontalLayout().withMargin(true).withFullHeight();
-        headerContent.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        headerContent.setVisible(false);
-        headerContent.setStyleName("header-elements");
-        headerContent.setWidthUndefined();
+        headerContent = new MHorizontalLayout().withFullHeight().withWidthUndefined().withVisible(false);
         this.addComponent(header);
 
         headerLbl = new Label(title);
@@ -65,12 +59,8 @@ public class Depot extends DDVerticalLayout {
         header.with(headerLeft, headerContent).withAlign(headerLeft, Alignment.MIDDLE_LEFT).withAlign(headerContent,
                 Alignment.MIDDLE_RIGHT).expand(headerLeft);
 
-        final CustomComponent customComp = new CustomComponent(bodyContent);
-        customComp.setWidth("100%");
         bodyContent.addStyleName("depotContent");
-
-        this.addComponent(customComp);
-        this.setComponentAlignment(customComp, Alignment.TOP_CENTER);
+        this.addComponent(bodyContent);
     }
 
     public void addHeaderElement(final Component component) {

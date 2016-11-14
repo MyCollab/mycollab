@@ -16,7 +16,7 @@
  */
 package com.mycollab.vaadin.mvp;
 
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 import java.io.Serializable;
 
@@ -31,13 +31,13 @@ public interface IPresenter<V extends PageView> extends Serializable {
      * @param container
      * @param pageActionChain
      */
-    void handleChain(ComponentContainer container, PageActionChain pageActionChain);
+    void handleChain(HasComponents container, PageActionChain pageActionChain);
 
     /**
      * @param container
      * @param data
      */
-    boolean go(ComponentContainer container, ScreenData<?> data);
+    boolean go(HasComponents container, ScreenData<?> data);
 
     /**
      * @return

@@ -39,7 +39,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -83,7 +83,7 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
             MButton updateAllBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
                 EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugEditForm.this, bean));
                 postExecution();
-            }).withStyleName(WebUIConstants.BUTTON_LINK);
+            }).withStyleName(WebThemes.BUTTON_LINK);
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (validateForm()) {
                     BugService bugService = AppContextUtil.getSpringBean(BugService.class);
@@ -128,16 +128,16 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
                     }
                     postExecution();
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> postExecution())
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
 
             MHorizontalLayout buttonControls = new MHorizontalLayout(updateAllBtn, cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
 
             layout.addComponent(buttonControls);
             layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
-            layout.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
+            layout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             new Restrain(layout).setMaxHeight("600px");
             return layout;
         }

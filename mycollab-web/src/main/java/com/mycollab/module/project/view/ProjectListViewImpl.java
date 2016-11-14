@@ -42,10 +42,7 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.CheckBoxDecor;
-import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.SelectionOptionButton;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 import com.vaadin.server.FontAwesome;
@@ -166,7 +163,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
 
     private ComponentContainer constructTableActionControls() {
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
-        layout.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
+        layout.addStyleName(WebThemes.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         selectOptionButton.setWidthUndefined();
@@ -186,7 +183,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
         layout.with(selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel, Alignment.MIDDLE_CENTER).expand(selectedItemsNumberLabel);
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new ProjectListCustomizeWindow(tableItem)))
-                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.ADJUST);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.ADJUST);
         customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         layout.with(customizeViewBtn).withAlign(customizeViewBtn, Alignment.MIDDLE_RIGHT);
 

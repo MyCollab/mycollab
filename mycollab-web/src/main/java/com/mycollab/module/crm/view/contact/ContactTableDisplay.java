@@ -28,7 +28,6 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
-import com.mycollab.vaadin.web.ui.EmailLink;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -82,7 +81,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
 
         addGeneratedColumn("email", (source, itemId, columnId) -> {
             final SimpleContact contact = getBeanByIndex(itemId);
-            return new EmailLink(contact.getEmail());
+            return ELabel.email(contact.getEmail());
         });
 
         addGeneratedColumn("leadsource", (source, itemId, columnId) -> {

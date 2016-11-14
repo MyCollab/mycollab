@@ -23,7 +23,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -37,7 +37,7 @@ public class RolePresenter extends AbstractPresenter<RoleContainer> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         UserPermissionManagementView groupContainer = (UserPermissionManagementView) container;
         groupContainer.gotoSubView(UserUIContext.getMessage(RoleI18nEnum.LIST));
 

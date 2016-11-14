@@ -28,7 +28,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.CheckBoxDecor;
+import com.mycollab.vaadin.web.ui.LabelLink;
+import com.mycollab.vaadin.web.ui.UrlLink;
+import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
@@ -66,7 +69,7 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
 
         addGeneratedColumn("email", (source, itemId, columnId) -> {
             SimpleAccount account = getBeanByIndex(itemId);
-            return new EmailLink(account.getEmail());
+            return ELabel.email(account.getEmail());
         });
 
         addGeneratedColumn("accountname", (source, itemId, columnId) -> {

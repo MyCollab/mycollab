@@ -36,7 +36,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -81,7 +81,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
         ELabel noteLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE))
-                .withWidthUndefined().withStyleName("list-note-lbl");
+                .withWidthUndefined();
         notesWrap.addComponent(noteLbl);
 
         CssLayout noteBlock = new CssLayout();
@@ -97,7 +97,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
             MButton createBtn = new MButton(UserUIContext.getMessage(OpportunityI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
-                    .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
+                    .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
 
             controlsBtnWrap.with(createBtn).withAlign(createBtn, Alignment.TOP_RIGHT);
         }
@@ -154,7 +154,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
                                     AccountOpportunityListComp.this.refresh();
                                 }
                             })
-            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             VerticalLayout blockContent = new VerticalLayout();
             blockContent.addComponent(btnDelete);

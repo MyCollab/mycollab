@@ -28,10 +28,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.CheckBoxDecor;
-import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.UserLink;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
@@ -73,13 +70,13 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
             b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                     campaign, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
-            b.setStyleName(WebUIConstants.BUTTON_LINK);
+            b.setStyleName(WebThemes.BUTTON_LINK);
 
             if (Completed.name().equals(campaign.getStatus())) {
-                b.addStyleName(WebUIConstants.LINK_COMPLETED);
+                b.addStyleName(WebThemes.LINK_COMPLETED);
             } else {
                 if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
-                    b.addStyleName(WebUIConstants.LINK_OVERDUE);
+                    b.addStyleName(WebThemes.LINK_OVERDUE);
                 }
             }
             return b;

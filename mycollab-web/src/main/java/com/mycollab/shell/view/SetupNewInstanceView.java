@@ -32,7 +32,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.DesktopApplication;
@@ -41,7 +41,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -59,7 +58,7 @@ class SetupNewInstanceView extends MVerticalLayout {
         MHorizontalLayout content = new MHorizontalLayout().withFullHeight();
         this.with(content);
         content.with(new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
-                .withStyleName(WebUIConstants.META_COLOR)).withMargin(true).withWidth("400px").withStyleName
+                .withStyleName(WebThemes.META_COLOR)).withMargin(true).withWidth("400px").withStyleName
                 ("separator"));
         MVerticalLayout formLayout = new MVerticalLayout().withWidth("600px");
         content.with(formLayout).withAlign(formLayout, Alignment.TOP_LEFT);
@@ -133,7 +132,7 @@ class SetupNewInstanceView extends MVerticalLayout {
                     createSampleDataSelection.getValue(), MyCollabUI.getAccountId());
 
             ((DesktopApplication) UI.getCurrent()).doLogin(adminName, password, false);
-        }).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(createSampleDataSelection, installBtn).alignAll(Alignment.MIDDLE_RIGHT);
         formLayout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

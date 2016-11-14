@@ -42,7 +42,7 @@ import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.EmailViewField;
 import com.mycollab.vaadin.ui.field.UrlLinkViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.shared.ui.MarginInfo;
@@ -99,7 +99,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         } else {
             userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
         }
-        userFormLayout.getLayout().addStyleName(WebUIConstants.GRIDFORM_BORDERLESS);
+        userFormLayout.getLayout().addStyleName(WebThemes.GRIDFORM_BORDERLESS);
         basicLayout.addComponent(userFormLayout.getLayout());
 
         Node roleDiv;
@@ -128,7 +128,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         if (UserUIContext.isAdmin()) {
             MButton btnChangePassword = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                     clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(user)))
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withStyleName(WebThemes.BUTTON_LINK);
             userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
                     UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 5);
         }

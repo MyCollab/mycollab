@@ -44,7 +44,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.TextField;
@@ -85,11 +85,11 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                 if (task.isCompleted()) {
                     task.setStatus(StatusI18nEnum.Open.name());
                     task.setPercentagecomplete(0d);
-                    titleLinkLbl.removeStyleName(WebUIConstants.LINK_COMPLETED);
+                    titleLinkLbl.removeStyleName(WebThemes.LINK_COMPLETED);
                 } else {
                     task.setStatus(StatusI18nEnum.Closed.name());
                     task.setPercentagecomplete(100d);
-                    titleLinkLbl.addStyleName(WebUIConstants.LINK_COMPLETED);
+                    titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
                 }
                 displayTooltip();
                 ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);

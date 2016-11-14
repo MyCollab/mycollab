@@ -42,7 +42,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -92,18 +92,18 @@ public class AdRequestWindow extends MWindow {
                     close();
                     turnOffAdd(user);
                     UI.getCurrent().addWindow(new TestimonialWindow());
-                }).withIcon(FontAwesome.KEYBOARD_O).withStyleName(WebUIConstants.BUTTON_LINK);
+                }).withIcon(FontAwesome.KEYBOARD_O).withStyleName(WebThemes.BUTTON_LINK);
 
         MButton ignoreBtn = new MButton("No, thanks", clickEvent -> {
             close();
             turnOffAdd(user);
-        }).withStyleName(WebUIConstants.BUTTON_OPTION);
+        }).withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton loveBtn = new MButton("I did", clickEvent -> {
             close();
             NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
             turnOffAdd(user);
-        }).withIcon(FontAwesome.HEART).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.HEART).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout btnControls = new MHorizontalLayout(ignoreBtn, loveBtn);
         content.with(message, rateSourceforge, tweetUs, linkedIn, testimonialAd, rateSourceforge, new

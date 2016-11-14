@@ -24,7 +24,7 @@ import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -38,7 +38,7 @@ public class VersionPresenter extends AbstractPresenter<VersionContainer> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         view.removeAllComponents();
         AbstractPresenter<?> presenter;
 

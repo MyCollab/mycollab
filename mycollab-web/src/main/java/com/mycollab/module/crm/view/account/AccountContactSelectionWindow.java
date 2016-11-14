@@ -28,7 +28,7 @@ import com.mycollab.module.crm.view.contact.ContactTableDisplay;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Button;
 
 import java.util.Arrays;
@@ -52,14 +52,14 @@ public class AccountContactSelectionWindow extends RelatedItemSelectionWindow<Si
         tableItem.addGeneratedColumn("contactName", (source, itemId, columnId) -> {
             final SimpleContact contact = tableItem.getBeanByIndex(itemId);
 
-            return new ELabel(contact.getContactName()).withStyleName(WebUIConstants.BUTTON_LINK)
+            return new ELabel(contact.getContactName()).withStyleName(WebThemes.BUTTON_LINK)
                     .withDescription(CrmTooltipGenerator.generateToolTipContact
                             (UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                                     contact, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
 
         Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
-        selectBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+        selectBtn.setStyleName(WebThemes.BUTTON_ACTION);
 
         ContactSearchPanel contactSimpleSearchPanel = new ContactSearchPanel();
         contactSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

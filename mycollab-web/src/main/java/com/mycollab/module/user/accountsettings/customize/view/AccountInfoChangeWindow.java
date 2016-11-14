@@ -33,7 +33,7 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
@@ -134,10 +134,10 @@ class AccountInfoChangeWindow extends MWindow {
                 String assignExec = String.format("window.location.assign(\'%s\');", siteUrl);
                 Page.getCurrent().getJavaScript().execute(assignExec);
             }
-        }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+        }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
         buttonControls.with(cancelBtn, saveBtn);
 
         content.with(editForm, buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

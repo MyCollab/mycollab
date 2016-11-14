@@ -48,10 +48,7 @@ import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.AttachmentPanel;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.UserLink;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
@@ -113,8 +110,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
 
             if (selectedFolder == null) {
-                throw new DebugException(String.format("Can not find folder with path %s--%s", criteria.getBaseFolder(),
-                        criteria.getRootFolder()));
+                throw new DebugException(String.format("Can not find folder with path %s--%s in account", criteria.getBaseFolder(),
+                        criteria.getRootFolder(), MyCollabUI.getAccountId()));
             } else if (!(selectedFolder instanceof Folder)) {
                 LOG.error(String.format("Expect folder but the result is file %s--%s", criteria.getBaseFolder(),
                         criteria.getRootFolder()));
@@ -129,13 +126,13 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         MButton createBtn = new MButton(UserUIContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER), clickEvent -> UI.getCurrent().addWindow
                 (new AddNewFolderWindow()))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
         MButton uploadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
             MultiUploadContentWindow multiUploadWindow = new MultiUploadContentWindow();
             UI.getCurrent().addWindow(multiUploadWindow);
-        }).withIcon(FontAwesome.UPLOAD).withStyleName(WebUIConstants.BUTTON_ACTION)
+        }).withIcon(FontAwesome.UPLOAD).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
         MHorizontalLayout headerLayout = new MHorizontalLayout(headerLbl, new MHorizontalLayout(createBtn, uploadBtn)).expand(headerLbl);
@@ -247,15 +244,15 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 selectedResourceControlLayout.removeAllComponents();
                 ELabel resourceHeaderLbl = ELabel.h3(selectedResource.getName()).withStyleName(UIConstants.TEXT_ELLIPSIS);
                 MHorizontalLayout headerLayout = new MHorizontalLayout(resourceHeaderLbl).withMargin(new MarginInfo
-                        (false, true, false, true)).withStyleName(WebUIConstants.PANEL_HEADER).withFullWidth().alignAll(Alignment.MIDDLE_LEFT);
+                        (false, true, false, true)).withStyleName(WebThemes.PANEL_HEADER).withFullWidth().alignAll(Alignment.MIDDLE_LEFT);
                 selectedResourceControlLayout.with(headerLayout);
 
                 MButton renameBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_RENAME), clickEvent -> UI.getCurrent()
                         .addWindow(new RenameResourceWindow(selectedResource)))
-                        .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK);
+                        .withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_LINK);
 
                 MButton downloadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
-                        .withStyleName(WebUIConstants.BUTTON_LINK).withIcon(FontAwesome.DOWNLOAD);
+                        .withStyleName(WebThemes.BUTTON_LINK).withIcon(FontAwesome.DOWNLOAD);
 
                 LazyStreamSource streamSource = new LazyStreamSource() {
                     private static final long serialVersionUID = 1L;
@@ -278,17 +275,17 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                 MButton moveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_MOVE) + "...", clickEvent ->
                         UI.getCurrent().addWindow(new MoveResourceWindow(selectedResource)))
-                        .withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_LINK);
+                        .withIcon(FontAwesome.ARROWS).withStyleName(WebThemes.BUTTON_LINK);
 
                 MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                         clickEvent -> deleteResourceAction(Collections.singletonList(selectedResource)))
-                        .withStyleName(WebUIConstants.BUTTON_LINK).withIcon(FontAwesome.TRASH_O);
+                        .withStyleName(WebThemes.BUTTON_LINK).withIcon(FontAwesome.TRASH_O);
 
                 selectedResourceControlLayout.with(new MVerticalLayout(renameBtn, downloadBtn, moveBtn, deleteBtn)
                         .withStyleName("panel-body"));
             } else {
                 selectedResourceControlLayout.removeAllComponents();
-                selectedResourceControlLayout.removeStyleName(WebUIConstants.BOX);
+                selectedResourceControlLayout.removeStyleName(WebThemes.BOX);
             }
         }
 
@@ -297,7 +294,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 return null;
             }
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                    .withFullWidth().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
+                    .withFullWidth().withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX, "border-bottom");
             layout.addLayoutClickListener(layoutClickEvent -> {
                 selectedResource = resource;
                 displaySelectedResourceControls();
@@ -448,10 +445,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
                 resourcesContainer.constructBody(baseFolder);
                 close();
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
             final MHorizontalLayout controlButtons = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(true);
             contentLayout.addComponent(controlButtons);
             contentLayout.setComponentAlignment(controlButtons, Alignment.MIDDLE_RIGHT);
@@ -496,11 +493,11 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
                             UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
-            MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(true);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
+            MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, saveBtn);
             contentLayout.with(controlsLayout).withAlign(controlsLayout, Alignment.MIDDLE_RIGHT);
         }
     }
@@ -512,11 +509,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         MultiUploadContentWindow() {
             super(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPLOAD));
-            this.withWidth("600px").withResizable(false).withModal(true).withCenter();
-
-            VerticalLayout contentLayout = new VerticalLayout();
-            contentLayout.setMargin(new MarginInfo(false, false, true, false));
-            this.setContent(contentLayout);
+            MVerticalLayout contentLayout = new MVerticalLayout();
+            this.withWidth("600px").withResizable(false).withModal(true).withContent(contentLayout).withCenter();
 
             layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
 
@@ -555,13 +549,12 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 } else {
                     NotificationUtil.showWarningNotification(UserUIContext.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
                 }
-            }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.UPLOAD);
+            }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.UPLOAD);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
-            MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, uploadBtn).withMargin(true);
-            contentLayout.addComponent(controlsLayout);
-            contentLayout.setComponentAlignment(controlsLayout, Alignment.MIDDLE_RIGHT);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
+            MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, uploadBtn);
+            contentLayout.with(controlsLayout).withAlign(controlsLayout, Alignment.MIDDLE_RIGHT);
         }
     }
 

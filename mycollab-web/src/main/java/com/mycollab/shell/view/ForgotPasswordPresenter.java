@@ -24,7 +24,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -38,10 +38,9 @@ public class ForgotPasswordPresenter extends AbstractPresenter<ForgotPasswordVie
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         MainWindowContainer windowContainer = (MainWindowContainer) container;
-        windowContainer.removeAllComponents();
-        windowContainer.addComponent(view);
+        windowContainer.setContent(view);
 
         ExtMailService extMailService = AppContextUtil.getSpringBean(ExtMailService.class);
         if (!extMailService.isMailSetupValid()) {

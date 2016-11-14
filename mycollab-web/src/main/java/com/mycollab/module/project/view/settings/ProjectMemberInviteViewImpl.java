@@ -41,7 +41,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
@@ -108,11 +108,11 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
             String roleName = (item != null) ? item.getBean().getRolename() : "";
             ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
                     new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
-        }).withIcon(FontAwesome.SEND).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null)))
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
         return new MHorizontalLayout(cancelBtn, inviteBtn);
     }
 

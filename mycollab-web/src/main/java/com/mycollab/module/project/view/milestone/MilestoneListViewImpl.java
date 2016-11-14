@@ -46,7 +46,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -55,6 +55,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -160,7 +161,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             milestone.setSaccountid(MyCollabUI.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
@@ -170,7 +171,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             protected Object doEval() {
                 return baseCriteria;
             }
-        }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
+        }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         layout.addComponent(printBtn);
 
@@ -249,8 +250,12 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private class MilestoneBox extends CssLayout {
         MilestoneBox(final SimpleMilestone milestone) {
-            this.addStyleName(WebUIConstants.MILESTONE_BOX);
+            this.addStyleName(WebThemes.MILESTONE_BOX);
             this.setWidth("100%");
+
+            String valId = UUID.randomUUID().toString() + "-" + milestone.hashCode();
+            this.setId(valId);
+            JavaScript.getCurrent().execute("$('#" + valId + "').css({'background-color':'#" + milestone.getColor() + "'});");
 
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, 50, false, true);
 

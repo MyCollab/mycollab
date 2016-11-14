@@ -50,7 +50,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.Tab;
@@ -69,10 +69,10 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
 
     @Override
     public void initView(final SimpleProject project) {
-        this.setSizeFull();
-        this.removeAllComponents();
+        removeAllComponents();
         viewWrap = new ProjectViewWrap(project);
         ControllerRegistry.addController(new ProjectController(this));
+
         this.with(viewWrap).expand(viewWrap);
     }
 
@@ -111,7 +111,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
         ProjectViewWrap(SimpleProject project) {
             super();
             this.setWidth("100%");
-            this.addStyleName("projectDashboardView");
+            this.addStyleName("project-view");
 
             myProjectTab = new VerticalTabsheet();
             myProjectTab.setSizeFull();
@@ -310,12 +310,12 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
                 project.setContextask(false);
                 projectService.updateSelectiveWithSession(project, UserUIContext.getUsername());
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_OPTION);
+            }).withStyleName(WebThemes.BUTTON_OPTION);
 
             MButton addNewMembersBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_ADD_MEMBERS), clickEvent -> {
                 close();
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
-            }).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, addNewMembersBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);

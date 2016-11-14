@@ -23,7 +23,10 @@ import com.mycollab.module.crm.i18n.*;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.*;
+import com.mycollab.vaadin.mvp.AbstractSingleContainerPageView;
+import com.mycollab.vaadin.mvp.ControllerRegistry;
+import com.mycollab.vaadin.mvp.IModule;
+import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.ModuleHelper;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
@@ -40,7 +43,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class CrmModule extends AbstractVerticalPageView implements IDesktopModule {
+public class CrmModule extends AbstractSingleContainerPageView implements IDesktopModule {
     private static final long serialVersionUID = 1L;
 
     private PopupButton addPopupMenu;
@@ -48,18 +51,12 @@ public class CrmModule extends AbstractVerticalPageView implements IDesktopModul
     private ServiceMenu serviceMenu;
 
     public CrmModule() {
-        this.setStyleName("crm-module");
-        this.addStyleName("crmContainer");
+        addStyleName("module");
         ControllerRegistry.addController(new CrmController(this));
     }
 
     public void gotoCrmDashboard() {
         EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null));
-    }
-
-    public void addView(PageView view) {
-        this.removeAllComponents();
-        this.with(view).expand(view);
     }
 
     @Override

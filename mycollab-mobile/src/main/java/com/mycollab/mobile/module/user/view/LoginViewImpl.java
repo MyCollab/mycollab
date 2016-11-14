@@ -26,9 +26,9 @@ import com.mycollab.mobile.ui.MobileUIConstants;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewEvent;
+import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.addon.touchkit.ui.EmailField;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 import org.vaadin.jouni.dom.Dom;
 import org.vaadin.viritin.button.MButton;
@@ -44,17 +44,16 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
 
     public LoginViewImpl() {
         super();
+        this.setStyleName("login-view");
+        this.setSizeFull();
         initUI();
     }
 
     private void initUI() {
-        this.setStyleName("login-view");
-        this.setSizeFull();
-
         MVerticalLayout contentLayout = new MVerticalLayout().withStyleName("content-wrapper").withFullWidth();
         contentLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-        Image mainLogo = new Image(null, new ThemeResource("icons/logo_m.png"));
+        Image mainLogo = new Image(null, AccountAssetsResolver.createLogoResource(MyCollabUI.getBillingAccount().getLogopath(), 150));
         contentLayout.addComponent(mainLogo);
 
         CssLayout welcomeTextWrapper = new CssLayout();

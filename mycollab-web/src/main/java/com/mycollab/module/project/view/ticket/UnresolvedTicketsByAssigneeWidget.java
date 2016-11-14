@@ -39,7 +39,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
 import org.apache.commons.collections.CollectionUtils;
@@ -126,7 +126,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
         }
         int totalUnassignTicketsCount = totalCountItems - totalAssignTicketCounts;
         if (totalUnassignTicketsCount > 0) {
-            MButton unassignLink = new MButton("No assignee").withStyleName(WebUIConstants.BUTTON_LINK)
+            MButton unassignLink = new MButton("No assignee").withStyleName(WebThemes.BUTTON_LINK)
                     .withIcon(UserAvatarControlFactory.createAvatarResource(null, 16)).withListener(clickEvent -> {
                         ProjectTicketSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
                         criteria.setUnAssignee(new SearchField());
@@ -156,7 +156,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
                 EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(UnresolvedTicketsByAssigneeWidget.this,
                         criteria));
             }).withWidth("100%").withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))
-                    .withStyleName(WebUIConstants.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
+                    .withStyleName(WebThemes.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
             UserService service = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, MyCollabUI.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(UserUIContext.getUserLocale(), user,

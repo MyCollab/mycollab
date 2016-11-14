@@ -26,7 +26,7 @@ import com.vaadin.ui.*;
 public class OptionPopupContent extends CustomComponent {
     public OptionPopupContent() {
         VerticalLayout root = new VerticalLayout();
-        root.setStyleName(WebUIConstants.OPTION_POPUP_CONTENT);
+        root.setStyleName(WebThemes.OPTION_POPUP_CONTENT);
         this.setCompositionRoot(root);
     }
 

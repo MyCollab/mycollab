@@ -23,9 +23,9 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.event.*;
-import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.module.crm.service.ContactService;
@@ -42,7 +42,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.AbstractRelatedListHandler;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -232,7 +232,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.ACCOUNT);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             if (data.getParams() instanceof Integer) {

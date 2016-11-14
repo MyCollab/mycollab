@@ -22,7 +22,7 @@ import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
 import com.vaadin.server.FontAwesome;
@@ -76,12 +76,12 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
             CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(CampaignSelectionField.this);
             UI.getCurrent().addWindow(campaignWindow);
             campaignWindow.show();
-        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebThemes.BUTTON_OPTION, WebThemes.BUTTON_SMALL_PADDING);
 
         MButton clearBtn = new MButton("", clickEvent -> {
             campaignName.setValue("");
             internalValue = null;
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_OPTION, WebThemes.BUTTON_SMALL_PADDING);
 
         layout.with(campaignName, browseBtn, clearBtn).expand(campaignName);
         return layout;

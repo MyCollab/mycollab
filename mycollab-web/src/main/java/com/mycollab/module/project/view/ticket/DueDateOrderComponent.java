@@ -58,13 +58,7 @@ public class DueDateOrderComponent extends TicketGroupOrderComponent {
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(titleValue);
                     dueDateAvailables.put(time, groupComponent);
-                    int index = dueDateAvailables.getKeyIndex(time);
-                    if (index > -1) {
-                        addComponent(groupComponent, index);
-                    } else {
-                        addComponent(groupComponent);
-                    }
-
+                    addComponent(groupComponent);
                     groupComponent.insertTicket(ticket);
                 }
             } else {

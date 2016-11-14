@@ -28,7 +28,7 @@ import com.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
@@ -52,13 +52,13 @@ public class OpportunityLeadSelectionWindow extends RelatedItemSelectionWindow<S
 
         tableItem.addGeneratedColumn("leadName", (source, itemId, columnId) -> {
             final SimpleLead lead = tableItem.getBeanByIndex(itemId);
-            return new ELabel(lead.getLeadName()).withStyleName(WebUIConstants.BUTTON_LINK)
+            return new ELabel(lead.getLeadName()).withStyleName(WebThemes.BUTTON_LINK)
                     .withDescription(CrmTooltipGenerator.generateTooltipLead(UserUIContext.getUserLocale(), lead,
                             MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
 
         MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_ACTION);
+                .withStyleName(WebThemes.BUTTON_ACTION);
 
         LeadSearchPanel searchPanel = new LeadSearchPanel(false);
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

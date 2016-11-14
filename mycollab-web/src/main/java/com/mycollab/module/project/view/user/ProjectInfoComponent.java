@@ -60,10 +60,7 @@ import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -116,7 +113,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         headerLbl.addStyleName(UIConstants.TEXT_ELLIPSIS);
         MVerticalLayout headerLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true));
 
-        MHorizontalLayout footer = new MHorizontalLayout().withStyleName(UIConstants.META_INFO, WebUIConstants.FLEX_DISPLAY);
+        MHorizontalLayout footer = new MHorizontalLayout().withStyleName(UIConstants.META_INFO, WebThemes.FLEX_DISPLAY);
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext.formatPrettyTime(project
@@ -168,30 +165,30 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             }
             clientDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
                     .appendText(project.getClientName()));
-            ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(WebUIConstants.BUTTON_LINK)
+            ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(WebThemes.BUTTON_LINK)
                     .withWidthUndefined();
             footer.addComponents(accountBtn);
         }
 
         if (!SiteConfiguration.isCommunityEdition()) {
             MButton tagBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG), clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null)))
-                    .withIcon(FontAwesome.TAGS).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_LINK);
+                    .withIcon(FontAwesome.TAGS).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
             footer.addComponents(tagBtn);
 
             MButton favoriteBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoFavoriteView(this, null)))
-                    .withIcon(FontAwesome.STAR).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_LINK);
+                    .withIcon(FontAwesome.STAR).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
             footer.addComponents(favoriteBtn);
 
             MButton eventBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoCalendarView(this)))
-                    .withIcon(FontAwesome.CALENDAR).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING, WebUIConstants.BUTTON_LINK);
+                    .withIcon(FontAwesome.CALENDAR).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
             footer.addComponents(eventBtn);
 
             MButton ganttChartBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoGanttChart(this, null)))
-                    .withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebUIConstants.BUTTON_SMALL_PADDING,
-                            WebUIConstants.BUTTON_LINK);
+                    .withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebThemes.BUTTON_SMALL_PADDING,
+                            WebThemes.BUTTON_LINK);
             footer.addComponents(ganttChartBtn);
         }
 
@@ -208,7 +205,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
                 PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-            }).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withStyleName(WebThemes.BUTTON_ACTION);
             topPanel.with(activeProjectBtn).withAlign(activeProjectBtn, Alignment.MIDDLE_RIGHT);
         } else {
             SearchTextField searchField = new SearchTextField() {
@@ -226,7 +223,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             };
 
             final PopupButton controlsBtn = new PopupButton();
-            controlsBtn.addStyleName(WebUIConstants.BOX);
+            controlsBtn.addStyleName(WebThemes.BOX);
             controlsBtn.setIcon(FontAwesome.ELLIPSIS_H);
 
             OptionPopupContent popupButtonsControl = new OptionPopupContent();

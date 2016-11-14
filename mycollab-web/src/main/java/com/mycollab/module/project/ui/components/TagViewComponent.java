@@ -29,7 +29,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -79,7 +79,7 @@ public class TagViewComponent extends CssLayout {
 
     private Button createAddTagBtn() {
         final MButton addTagBtn = new MButton(UserUIContext.getMessage(TagI18nEnum.ACTION_ADD))
-                .withIcon(FontAwesome.PLUS_CIRCLE).withStyleName(WebUIConstants.BUTTON_LINK);
+                .withIcon(FontAwesome.PLUS_CIRCLE).withStyleName(WebThemes.BUTTON_LINK);
         addTagBtn.addClickListener(clickEvent -> {
             removeComponent(addTagBtn);
             addComponent(createSaveTagComp());
@@ -120,7 +120,7 @@ public class TagViewComponent extends CssLayout {
                 NotificationUtil.showWarningNotification(UserUIContext.getMessage(TagI18nEnum.ERROR_TAG_NAME_HAS_MORE_2_CHARACTERS));
             }
             tagQuery = "";
-        }).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withStyleName(WebThemes.BUTTON_ACTION);
         layout.with(field, addBtn);
         return layout;
     }
@@ -160,7 +160,7 @@ public class TagViewComponent extends CssLayout {
             this.setStyleName("tag-block");
             MButton tagLink = new MButton(tag.getName(),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, tag)))
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withStyleName(WebThemes.BUTTON_LINK);
             this.addComponent(tagLink);
             if (canAddNewTag) {
                 MButton deleteBtn = new MButton(FontAwesome.TIMES, clickEvent -> {

@@ -27,7 +27,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.RichTextArea;
@@ -57,7 +57,7 @@ class CrmCommentInput extends MHorizontalLayout {
         SimpleUser currentUser = UserUIContext.getUser();
         UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());
 
-        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
+        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
         this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
         type = typeVal;
@@ -69,7 +69,7 @@ class CrmCommentInput extends MHorizontalLayout {
         final AttachmentPanel attachments = new AttachmentPanel();
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton newCommentBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
             CommentWithBLOBs comment = new CommentWithBLOBs();
@@ -94,7 +94,7 @@ class CrmCommentInput extends MHorizontalLayout {
             // comments again
             commentArea.setValue("");
             component.reload();
-        }).withIcon(FontAwesome.SEND).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
         final MHorizontalLayout controlsLayout = new MHorizontalLayout(attachments, cancelBtn, newCommentBtn)
                 .expand(attachments).withFullWidth();
         textAreaWrap.with(commentArea, controlsLayout);

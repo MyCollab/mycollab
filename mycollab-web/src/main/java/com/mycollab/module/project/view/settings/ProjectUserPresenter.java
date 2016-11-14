@@ -21,7 +21,7 @@ import com.mycollab.module.project.view.parameters.ProjectMemberScreenData;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -35,9 +35,7 @@ public class ProjectUserPresenter extends AbstractPresenter<ProjectUserContainer
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        view.removeAllComponents();
-
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         AbstractPresenter<?> presenter;
 
         if (data instanceof ProjectMemberScreenData.Add) {

@@ -20,10 +20,10 @@ import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.mobile.MobileApplication;
 import com.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.mycollab.mobile.shell.ModuleHelper;
+import com.mycollab.module.crm.i18n.*;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.module.crm.i18n.*;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView
     }
 
     @Override
-    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
         ModuleHelper.setCurrentModule(view);
         super.onGo(navigator, data);
         UserUIContext.updateLastModuleVisit(ModuleNameConstants.CRM);

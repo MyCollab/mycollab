@@ -23,7 +23,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -37,7 +37,7 @@ public class CrmNotificationSettingPresenter extends CrmGenericPresenter<CrmNoti
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmSettingContainer settingContainer = (CrmSettingContainer) container;
         settingContainer.gotoSubView("notification");
 
@@ -45,7 +45,6 @@ public class CrmNotificationSettingPresenter extends CrmGenericPresenter<CrmNoti
         CrmNotificationSetting setting = service.findNotification(UserUIContext.getUsername(), MyCollabUI.getAccountId());
         view.showNotificationSettings(setting);
 
-        MyCollabUI.addFragment("crm/setting/notification",
-                "Notification Settings");
+        MyCollabUI.addFragment("crm/setting/notification", "Notification Settings");
     }
 }

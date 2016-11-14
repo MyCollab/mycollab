@@ -30,7 +30,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import org.vaadin.viritin.button.MButton;
 
@@ -70,7 +70,7 @@ public class TicketTableDisplay extends DefaultPagedBeanTable<ProjectTicketServi
 
             MButton assignmentLink = new MButton(div.write(),
                     clickEvent -> fireTableEvent(new TableClickEvent(TicketTableDisplay.this, task, "name")))
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withStyleName(WebThemes.BUTTON_LINK);
             assignmentLink.setCaptionAsHtml(true);
             return assignmentLink;
         });

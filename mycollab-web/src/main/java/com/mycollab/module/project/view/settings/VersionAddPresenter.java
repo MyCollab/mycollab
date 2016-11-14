@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -35,7 +34,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -86,7 +85,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS)) {
             VersionContainer versionContainer = (VersionContainer) container;
             versionContainer.addComponent(view);

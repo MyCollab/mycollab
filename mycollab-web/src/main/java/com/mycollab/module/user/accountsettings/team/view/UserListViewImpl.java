@@ -43,7 +43,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -76,13 +76,13 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                 .withFullWidth();
         MButton createBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
         headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
                 UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
 
-        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
@@ -116,7 +116,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                     protected Object doEval() {
                         return searchCriteria;
                     }
-                }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
+                }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
@@ -177,12 +177,12 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                 asyncEventBus.post(invitationEvent);
                 NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_SUCCESS), UserUIContext
                         .getMessage(UserI18nEnum.OPT_SEND_INVITATION_SUCCESSFULLY, member.getDisplayName()));
-            }).withStyleName(WebUIConstants.BUTTON_LINK);
+            }).withStyleName(WebThemes.BUTTON_LINK);
             buttonControls.with(resendBtn);
         }
 
         MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member)))
-                .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK);
+                .withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_LINK);
         buttonControls.with(editBtn);
 
         MButton deleteBtn = new MButton("", clickEvent ->
@@ -198,7 +198,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                                 EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                             }
                         })
-        ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK);
+        ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK);
         buttonControls.with(deleteBtn);
 
         memberInfo.addComponent(buttonControls);

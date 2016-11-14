@@ -24,7 +24,7 @@ import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -36,12 +36,11 @@ public class MilestoneRoadmapPresenter extends ProjectGenericPresenter<Milestone
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
-            milestoneContainer.removeAllComponents();
-            milestoneContainer.addComponent(view);
+            milestoneContainer.setContent(view);
 
             view.lazyLoadView();
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

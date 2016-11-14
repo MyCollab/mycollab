@@ -48,7 +48,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -216,15 +216,15 @@ public class ActivityStreamPanel extends CssLayout {
         protected MHorizontalLayout createPageControls() {
             this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
             ButtonGroup controlBtns = new ButtonGroup();
-            controlBtns.setStyleName(WebUIConstants.BUTTON_ACTION);
+            controlBtns.setStyleName(WebThemes.BUTTON_ACTION);
             MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
-                    .withWidth("64px").withStyleName(WebUIConstants.BUTTON_ACTION);
+                    .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
             if (currentPage == 1) {
                 prevBtn.setEnabled(false);
             }
 
             MButton nextBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
-                    .withWidth("64px").withStyleName(WebUIConstants.BUTTON_ACTION);
+                    .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
             if (currentPage == totalPage) {
                 nextBtn.setEnabled(false);
             }

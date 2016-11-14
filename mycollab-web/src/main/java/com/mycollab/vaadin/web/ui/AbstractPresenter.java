@@ -29,8 +29,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.mvp.service.ComponentScannerService;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.server.ClientConnector;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +44,8 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPresenter.class);
 
-    protected Class<V> viewClass;
-    protected Class<V> implClass;
+    private Class<V> viewClass;
+    private Class<V> implClass;
     protected V view;
 
     public AbstractPresenter(Class<V> viewClass) {
@@ -93,7 +92,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     }
 
     @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data) {
+    public boolean go(HasComponents container, ScreenData<?> data) {
         if (!UserUIContext.getInstance().getIsValidAccount() && (!(this instanceof AccountModulePresenter)
                 && ModuleHelper.getCurrentModule() != null && !ModuleHelper.isCurrentAccountModule())) {
             EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
@@ -120,7 +119,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         }
     }
 
-    protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
+    protected abstract void onGo(HasComponents container, ScreenData<?> data);
 
     private boolean checkPermissionAccessIfAny() {
         ViewPermission viewPermission = this.getClass().getAnnotation(ViewPermission.class);
@@ -144,9 +143,8 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         }
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
-    public final void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
+    public final void handleChain(HasComponents container, PageActionChain pageActionChain) {
         ScreenData pageAction = pageActionChain.pop();
         boolean isSuccess = go(container, pageAction);
 
@@ -163,7 +161,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     }
 
-    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
+    protected void onHandleChain(HasComponents container, PageActionChain pageActionChain) {
         throw new UnsupportedOperationException("You need override this method");
     }
 

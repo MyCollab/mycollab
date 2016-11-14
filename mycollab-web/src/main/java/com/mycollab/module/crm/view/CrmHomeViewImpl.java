@@ -35,6 +35,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 @ViewComponent
 public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView {
+
     private AccountListDashlet accountDashlet;
     private MeetingListDashlet meetingDashlet;
     private CallListDashlet callDashlet;
@@ -43,16 +44,11 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView
     private ActivityStreamPanel activityStreamPanel;
     private SalesDashboardView salesDashboard;
 
-    public CrmHomeViewImpl() {
-        this.withSpacing(true).withMargin(new MarginInfo(false, true, true, true));
-    }
-
     @Override
     protected void displayView() {
-        this.removeAllComponents();
-        MHorizontalLayout contentLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
+        MHorizontalLayout contentLayout = new MHorizontalLayout().withMargin(true).withFullWidth();
 
-        MVerticalLayout myAssignmentsLayout = new MVerticalLayout().withMargin(new MarginInfo(true, true, true, false));
+        MVerticalLayout myAssignmentsLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
 
         if (UserUIContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             accountDashlet = new AccountListDashlet();

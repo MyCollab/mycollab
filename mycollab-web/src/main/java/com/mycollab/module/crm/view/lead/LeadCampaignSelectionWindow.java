@@ -28,7 +28,7 @@ import com.mycollab.module.crm.view.campaign.CampaignTableDisplay;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
@@ -56,22 +56,22 @@ class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampa
         tableItem.addGeneratedColumn("campaignname", (source, itemId, columnId) -> {
             final SimpleCampaign campaign = tableItem.getBeanByIndex(itemId);
 
-            ELabel b = new ELabel(campaign.getCampaignname()).withStyleName(WebUIConstants.BUTTON_LINK)
+            ELabel b = new ELabel(campaign.getCampaignname()).withStyleName(WebThemes.BUTTON_LINK)
                     .withDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                             campaign, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
 
             if (CampaignStatus.Completed.name().equals(campaign.getStatus())) {
-                b.addStyleName(WebUIConstants.LINK_COMPLETED);
+                b.addStyleName(WebThemes.LINK_COMPLETED);
             } else {
                 if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
-                    b.addStyleName(WebUIConstants.LINK_OVERDUE);
+                    b.addStyleName(WebThemes.LINK_OVERDUE);
                 }
             }
             return b;
         });
 
         MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_ACTION);
+                .withStyleName(WebThemes.BUTTON_ACTION);
 
         CampaignSearchPanel searchPanel = new CampaignSearchPanel(false);
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

@@ -25,6 +25,7 @@ import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -38,7 +39,7 @@ public class ComponentPresenter extends AbstractPresenter<BugComponentContainer>
     }
 
     @Override
-    protected void onGo(com.vaadin.ui.ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         view.removeAllComponents();
         AbstractPresenter<?> presenter;
 

@@ -24,7 +24,7 @@ import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -38,7 +38,7 @@ public class MilestoneListPresenter extends ProjectListPresenter<MilestoneListVi
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
             super.onGo(container, data);
             view.displayStatus(MilestoneStatus.InProgress);

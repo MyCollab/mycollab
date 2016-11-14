@@ -20,7 +20,7 @@ import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -33,11 +33,10 @@ public class ProjectSearchItemPresenter extends AbstractPresenter<ProjectSearchI
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
-        projectViewContainer.removeAllComponents();
-        projectViewContainer.addComponent(view);
-        String params = (String)data.getParams();
+        projectViewContainer.setContent(view);
+        String params = (String) data.getParams();
         view.displayResults(params);
 
         ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

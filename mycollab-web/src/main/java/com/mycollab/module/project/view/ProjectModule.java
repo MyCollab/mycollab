@@ -32,14 +32,14 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.view.user.ProjectPagedList;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
+import com.mycollab.vaadin.mvp.AbstractSingleContainerPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.web.IDesktopModule;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -59,13 +59,13 @@ import java.util.Collections;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectModule extends AbstractVerticalPageView implements IDesktopModule {
+public class ProjectModule extends AbstractSingleContainerPageView implements IDesktopModule {
     private static final long serialVersionUID = 1L;
 
     private MHorizontalLayout serviceMenuContainer;
 
     public ProjectModule() {
-        setStyleName("project-module");
+        addStyleName("module");
         setSizeFull();
         ControllerRegistry.addController(new ProjectModuleController(this));
     }
@@ -143,7 +143,7 @@ public class ProjectModule extends AbstractVerticalPageView implements IDesktopM
                     }
                     displayResults();
                 }
-            }).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            }).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             final TextField searchField = new TextField();
             searchField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
@@ -151,12 +151,11 @@ public class ProjectModule extends AbstractVerticalPageView implements IDesktopM
             MButton searchBtn = new MButton("", clickEvent -> {
                 searchCriteria.setProjectName(StringSearchField.and(searchField.getValue()));
                 displayResults();
-            }).withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout popupHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                     .withFullWidth().withStyleName("border-bottom");
-            MHorizontalLayout searchPanel = new MHorizontalLayout().withMargin(true);
-            searchPanel.with(searchField, searchBtn);
+            MHorizontalLayout searchPanel = new MHorizontalLayout(searchField, searchBtn).withMargin(true);
             popupHeader.with(titleLbl, sortBtn, searchPanel).expand(titleLbl).alignAll(Alignment.MIDDLE_LEFT);
             contentLayout.addBlankOption(popupHeader);
             contentLayout.addBlankOption(projectList);

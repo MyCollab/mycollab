@@ -111,7 +111,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         componentsText.addStyleName("noBorderRight");
         componentsText.setWidth("100%");
         componentPopupSelection = new PopupButton();
-        componentPopupSelection.addStyleName(WebUIConstants.MULTI_SELECT_BG);
+        componentPopupSelection.addStyleName(WebThemes.MULTI_SELECT_BG);
         componentPopupSelection.setDirection(Alignment.TOP_LEFT);
         componentPopupSelection.addClickListener(clickEvent -> initContentPopup());
 

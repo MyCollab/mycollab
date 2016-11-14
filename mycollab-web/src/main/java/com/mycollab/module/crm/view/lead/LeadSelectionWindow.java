@@ -26,8 +26,7 @@ import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.vaadin.ui.themes.ValoTheme;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -69,7 +68,7 @@ public class LeadSelectionWindow extends MWindow {
             return new MButton(lead.getLeadName(), clickEvent -> {
                 fieldSelection.fireValueChange(lead);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK, WebUIConstants.BUTTON_SMALL_PADDING)
+            }).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING)
                     .withDescription(CrmTooltipGenerator.generateTooltipLead(UserUIContext.getUserLocale(), lead,
                             MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });

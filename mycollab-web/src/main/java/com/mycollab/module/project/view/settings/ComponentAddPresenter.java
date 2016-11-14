@@ -35,7 +35,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -90,7 +90,7 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS)) {
             BugComponentContainer componentContainer = (BugComponentContainer) container;
             componentContainer.removeAllComponents();

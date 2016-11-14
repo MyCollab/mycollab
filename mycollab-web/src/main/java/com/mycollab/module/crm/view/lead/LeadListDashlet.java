@@ -26,7 +26,7 @@ import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.UI;
@@ -52,7 +52,7 @@ public class LeadListDashlet extends Depot {
         bodyContent.addComponent(tableItem);
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem)))
-                .withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+                .withIcon(FontAwesome.ADJUST).withStyleName(WebThemes.BUTTON_SMALL_PADDING);
         customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         this.addHeaderElement(customizeViewBtn);
     }

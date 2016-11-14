@@ -33,7 +33,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewPermission;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -85,7 +85,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleContainer roleContainer = (RoleContainer) container;
             roleContainer.removeAllComponents();

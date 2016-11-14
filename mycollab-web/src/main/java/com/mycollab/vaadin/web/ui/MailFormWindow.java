@@ -73,12 +73,12 @@ public class MailFormWindow extends MWindow {
 
     private void initButtonLinkCcBcc() {
         btnLinkCc = new Button("Add Cc");
-        btnLinkCc.setStyleName(WebUIConstants.BUTTON_LINK);
+        btnLinkCc.setStyleName(WebThemes.BUTTON_LINK);
         inputLayout.addComponent(btnLinkCc, 1, 0);
         inputLayout.setComponentAlignment(btnLinkCc, Alignment.MIDDLE_CENTER);
 
         btnLinkBcc = new Button("Add Bcc");
-        btnLinkBcc.setStyleName(WebUIConstants.BUTTON_LINK);
+        btnLinkBcc.setStyleName(WebThemes.BUTTON_LINK);
         inputLayout.addComponent(btnLinkBcc, 2, 0);
         inputLayout.setComponentAlignment(btnLinkBcc, Alignment.MIDDLE_CENTER);
 
@@ -159,7 +159,7 @@ public class MailFormWindow extends MWindow {
         attachments.setWidth("500px");
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton sendBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), clickEvent -> {
             if (tokenFieldMailTo.getListRecipient().size() <= 0 || subject.getValue().equals("")) {
@@ -186,7 +186,7 @@ public class MailFormWindow extends MWindow {
             } else {
                 NotificationUtil.showErrorNotification("Your email is empty value, please fulfil it before sending email!");
             }
-        }).withIcon(FontAwesome.SEND).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout controlsLayout = new MHorizontalLayout(attachments, cancelBtn, sendBtn).expand(attachments).withFullWidth();
         mainLayout.addComponent(controlsLayout, 0, 2);

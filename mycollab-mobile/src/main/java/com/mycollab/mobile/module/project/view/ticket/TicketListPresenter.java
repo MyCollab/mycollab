@@ -22,7 +22,7 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -36,7 +36,7 @@ public class TicketListPresenter extends ProjectListPresenter<TicketListView, Pr
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (data instanceof TicketScreenData.GotoDashboard) {
             ProjectTicketSearchCriteria searchCriteria = (ProjectTicketSearchCriteria) ((TicketScreenData.GotoDashboard) data).getParams();
             searchCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());

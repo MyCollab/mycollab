@@ -21,8 +21,8 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
-import com.mycollab.module.crm.domain.SimpleCrmTask;
 import com.mycollab.module.crm.domain.CrmTask;
+import com.mycollab.module.crm.domain.SimpleCrmTask;
 import com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria;
 import com.mycollab.module.crm.event.ActivityEvent;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
@@ -34,9 +34,9 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -124,7 +124,7 @@ public class AssignmentReadPresenter extends CrmGenericPresenter<AssignmentReadV
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_TASK)) {
             SimpleCrmTask task;
             if (data.getParams() instanceof Integer) {

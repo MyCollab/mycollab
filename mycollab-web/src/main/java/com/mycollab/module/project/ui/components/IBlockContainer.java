@@ -21,5 +21,5 @@ package com.mycollab.module.project.ui.components;
  * @since 5.4.3
  */
 public interface IBlockContainer {
-    void updateTitle();
+    void refresh();
 }

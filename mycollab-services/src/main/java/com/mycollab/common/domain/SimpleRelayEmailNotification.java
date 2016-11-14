@@ -28,6 +28,7 @@ import java.util.List;
 public class SimpleRelayEmailNotification extends RelayEmailNotificationWithBLOBs {
     private static final long serialVersionUID = 1L;
 
+    private String accountLogo;
     private String changeByUserFullName;
     private List<SimpleUser> notifyUsers;
 
@@ -48,5 +49,13 @@ public class SimpleRelayEmailNotification extends RelayEmailNotificationWithBLOB
 
     public void setNotifyUsers(List<SimpleUser> notifyUsers) {
         this.notifyUsers = notifyUsers;
+    }
+
+    public String getAccountLogo() {
+        return accountLogo;
+    }
+
+    public void setAccountLogo(String accountLogo) {
+        this.accountLogo = accountLogo;
     }
 }

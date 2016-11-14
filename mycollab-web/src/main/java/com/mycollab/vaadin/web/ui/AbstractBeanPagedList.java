@@ -59,7 +59,7 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
         listContainer.setWidth("100%");
         this.addComponent(listContainer);
         this.setExpandRatio(listContainer, 1.0f);
-        this.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
+        this.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
         queryHandler = buildQueryHandler();
     }
 

@@ -18,7 +18,7 @@ package com.mycollab.module.project.ui.components;
 
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -45,9 +45,9 @@ public abstract class ProjectListNoItemView extends VerticalLayout {
     }
 
     protected MHorizontalLayout createControlButtons() {
-        MButton createItemBtn = new MButton(actionMessage(), actionListener()).withStyleName(WebUIConstants.BUTTON_ACTION)
+        MButton createItemBtn = new MButton(actionMessage(), actionListener()).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(hasPermission());
-        return new MHorizontalLayout().with(createItemBtn);
+        return new MHorizontalLayout(createItemBtn);
     }
 
     abstract protected FontAwesome viewIcon();

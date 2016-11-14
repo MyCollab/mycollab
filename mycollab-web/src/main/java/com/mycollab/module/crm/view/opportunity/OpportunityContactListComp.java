@@ -56,9 +56,6 @@ import java.util.Map;
  */
 public class OpportunityContactListComp extends RelatedListComp2<ContactOpportunityService, ContactSearchCriteria, SimpleContactOpportunityRel> {
     private static final long serialVersionUID = 5717208523696358616L;
-
-    private Opportunity opportunity;
-
     static final Map<String, String> colormap;
 
     static {
@@ -72,6 +69,8 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         colormap = Collections.unmodifiableMap(tmpMap);
     }
 
+    private Opportunity opportunity;
+
     public OpportunityContactListComp() {
         super(AppContextUtil.getSpringBean(ContactOpportunityService.class), 20);
         setMargin(true);
@@ -82,20 +81,15 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
     protected Component generateTopControls() {
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withSpacing(false).withFullWidth();
 
-        MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        Label noteLbl = new Label(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE));
-        noteLbl.setSizeUndefined();
-        noteLbl.setStyleName("list-note-lbl");
-        notesWrap.addComponent(noteLbl);
+        MHorizontalLayout notesWrap = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE))
+                .withWidthUndefined()).withFullWidth();
 
         CssLayout noteBlock = new CssLayout();
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (OptionI18nEnum.OpportunityContactRole role : CrmDataTypeFactory.getOpportunityContactRoleList()) {
-            Label note = new Label(UserUIContext.getMessage(role));
-            note.setStyleName("note-label");
-            note.addStyleName(colormap.get(role.name()));
-            note.setSizeUndefined();
+            ELabel note = new ELabel(UserUIContext.getMessage(role)).withStyleName("note-label", colormap.get(role.name()))
+                    .withWidthUndefined().withHeightUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
@@ -104,7 +98,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.setSizeUndefined();
-            controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+            controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(ContactI18nEnum.OPT_ADD_EDIT_CONTACT_ROLES));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoContactRoleEdit(this, opportunity)));
@@ -179,7 +173,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
                                 OpportunityContactListComp.this.refresh();
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

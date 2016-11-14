@@ -27,7 +27,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -35,6 +35,7 @@ import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -44,7 +45,7 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectCommentInput extends MHorizontalLayout {
+class ProjectCommentInput extends MHorizontalLayout {
     private static final long serialVersionUID = 1L;
 
     private RichTextArea commentArea;
@@ -60,7 +61,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
         ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(),
                 currentUser.getDisplayName());
 
-        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
+        MVerticalLayout textAreaWrap = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
         this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
         type = typeVal;
@@ -69,14 +70,10 @@ public class ProjectCommentInput extends MHorizontalLayout {
         commentArea = new RichTextArea();
         commentArea.setWidth("100%");
         commentArea.setHeight("200px");
+        commentArea.addStyleName("comment-attachment");
 
         final AttachmentPanel attachments = new AttachmentPanel();
-
-        final MHorizontalLayout controlsLayout = new MHorizontalLayout().withFullWidth();
-        controlsLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
-
-        final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> commentArea.setValue(""))
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+        attachments.setWidth("100%");
 
         final MButton newCommentBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
             CommentWithBLOBs comment = new CommentWithBLOBs();
@@ -102,11 +99,9 @@ public class ProjectCommentInput extends MHorizontalLayout {
             // comments again
             commentArea.setValue("");
             component.reload();
-        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEND);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SEND);
 
-        controlsLayout.with(attachments, new MHorizontalLayout(cancelBtn, newCommentBtn)).expand(attachments)
-                .withAlign(attachments, Alignment.TOP_LEFT);
-        textAreaWrap.with(commentArea, controlsLayout);
+        textAreaWrap.with(new MCssLayout(commentArea, attachments), newCommentBtn).withAlign(newCommentBtn, Alignment.TOP_RIGHT);
     }
 
     void setTypeAndId(final String typeId) {

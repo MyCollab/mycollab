@@ -23,9 +23,9 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.event.*;
-import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.view.CrmGenericPresenter;
@@ -41,7 +41,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.AbstractRelatedListHandler;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -254,7 +254,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
             if (data.getParams() instanceof Integer) {

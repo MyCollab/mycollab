@@ -42,7 +42,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -67,7 +67,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
         if (pageControls != null) {
             Button browseProjectsBtn = new Button(UserUIContext.getMessage(ProjectI18nEnum.ACTION_BROWSE),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoList(this, null)));
-            browseProjectsBtn.addStyleName(WebUIConstants.BUTTON_LINK);
+            browseProjectsBtn.addStyleName(WebThemes.BUTTON_LINK);
             pageControls.addComponent(browseProjectsBtn, 0);
             pageControls.setComponentAlignment(browseProjectsBtn, Alignment.MIDDLE_LEFT);
         }
@@ -133,7 +133,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 metaDiv.appendChild(0, accountDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
-            metaDiv.setCSSClass(WebUIConstants.FLEX_DISPLAY);
+            metaDiv.setCSSClass(WebThemes.FLEX_DISPLAY);
             metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(UIConstants.META_INFO).withWidthUndefined());
 
             linkIconFix.addComponent(metaInfo);

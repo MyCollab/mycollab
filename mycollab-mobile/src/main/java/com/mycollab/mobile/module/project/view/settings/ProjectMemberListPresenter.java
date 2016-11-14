@@ -23,7 +23,7 @@ import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -37,7 +37,7 @@ public class ProjectMemberListPresenter extends ProjectListPresenter<ProjectMemb
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS)) {
             super.onGo(container, data);
         } else {

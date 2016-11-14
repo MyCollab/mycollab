@@ -1761,8 +1761,8 @@ a.pending {
 	border-color: transparent transparent transparent #76B38A;
 }
 
-.attachment-panel .v-verticallayout {
-	display: block;
+.comment-attachment {
+	border-radius: 4px 4px 0px 0px;
 }
 
 .v-multifileupload-uploads .v-upload .v-button:before {
@@ -13891,23 +13891,6 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	overflow: hidden;
 }
 
-.accountViewContainer {
-	min-height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: block;
-	background-color: white;
-}
-
-.accountViewContainer .addview-layout-body {
-	border: 1px solid #ededed;
-}
-
-.accountViewContainer .vertical-tabsheet {
-	background-color: #fff;
-}
-
 .xbreadcrumbs {
 	background-color: transparent !important;
 }
@@ -14061,6 +14044,10 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 
 div.v-button-nonPopupIndicator div.v-popup-indicator {
 	display: none;
+}
+
+.v-button.small-padding {
+	background: transparent;
 }
 
 .v-button.small-padding.v-pressed .v-button-wrap, .v-button.small-padding .v-button-wrap {
@@ -14436,8 +14423,8 @@ a.pending {
 	border-color: transparent transparent transparent #76B38A;
 }
 
-.attachment-panel .v-verticallayout {
-	display: block;
+.comment-attachment {
+	border-radius: 4px 4px 0px 0px;
 }
 
 .v-multifileupload-uploads .v-upload .v-button:before {
@@ -15217,26 +15204,6 @@ div.v-window {
 	color: black;
 }
 
-.crm-module {
-	position: absolute;
-	top: 0;
-	left: 0;
-	min-height: 100%;
-}
-
-.crmContainer {
-	width: 100%;
-}
-
-.crmContainer .main-view {
-	background-color: #FFF;
-	min-height: 100%;
-}
-
-.crmContainer.preview-comp {
-	min-height: 100%;
-}
-
 .readViewLayout {
 	border-radius: 0px;
 }
@@ -15256,7 +15223,6 @@ div.v-window {
 }
 
 .addview-layout {
-	background-color: #FFFFFF;
 	padding: 0px;
 	border-radius: 0;
 }
@@ -15285,37 +15251,26 @@ div .addview-layout-body {
 	text-align: center;
 }
 
-.v-csslayout.project-module {
-	position: absolute;
-	top: 0;
-	left: 0;
-	min-height: 100%;
-}
-
-.projectDashboardView {
+.project-view {
 	display: block;
 }
 
-.projectDashboardView .container-wrap.main-content .top-panel {
+.project-view .main-content .top-panel {
 	border-bottom: 1px solid #ededed;
 	padding: 12px 24px;
 	background-color: #efefef;
 }
 
-.projectDashboardView .sidebar-menu {
+.project-view .sidebar-menu {
 	padding: 0px;
 }
 
-.projectDashboardView .sidebar-menu .v-button-wrap .v-icon {
+.project-view .sidebar-menu .v-button-wrap .v-icon {
 	font-size: 18px;
 }
 
-.projectDashboardView .addViewLayout {
+.project-view .addViewLayout {
 	padding: 0px 30px 10px;
-}
-
-.v-popupbutton-popup-myprojectlist, .myprojectlist {
-	background-color: white;
 }
 
 .v-popupbutton-popup-myprojectlist .contentWrapper, .myprojectlist .contentWrapper {
@@ -15324,7 +15279,6 @@ div .addview-layout-body {
 
 .v-popupbutton-popup-myprojectlist .projectblock, .myprojectlist .projectblock {
 	padding: 10px;
-	background-color: #FFF;
 	border-bottom: 1px solid #ededed;
 	border-right: 1px solid #ededed;
 	border-left: 1px solid #ededed;
@@ -15586,11 +15540,6 @@ div.v-button.token-field .v-button-wrap {
 	padding: 0px 0px 30px;
 }
 
-.milestone-view-table {
-	width: 100%;
-	height: 100%;
-}
-
 .milestone-view-header {
 	text-align: center;
 	height: 30px;
@@ -15640,22 +15589,21 @@ div.v-button.token-field .v-button-wrap {
 	background-color: #f5f5f5;
 }
 
-.tasklist {
+.border-list {
 	border: 1px solid #ededed;
-	background-color: #FFF;
 	width: 100%;
 }
 
-.tasklist .taskrow {
-	padding: 10px;
+.border-list .row {
+	padding: 12px;
 	border-bottom: 1px solid #ededed;
 }
 
-.tasklist .taskrow:last-child {
+.border-list .row:last-child {
 	border-style: none;
 }
 
-.tasklist .taskrow:hover {
+.border-list .row:hover {
 	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
 	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
 	box-shadow: inset 5px 0px 0px 0px #0083ce;
@@ -16651,14 +16599,6 @@ input.v-textfield-pagedtable-pagefield {
 	padding: 0px;
 }
 
-.basicSearch .basicSearchBody .v-label {
-	line-height: 24px;
-}
-
-.basicSearch .basicSearchBody .v-label.separator {
-	line-height: 16px;
-}
-
 input.v-textfield-errorField {
 	border-color: red;
 }
@@ -16688,7 +16628,6 @@ input.v-textfield-errorField {
 }
 
 #login-header #logo-here {
-	background: url('icons/logo.png') no-repeat 0 0 transparent;
 	margin: 15px 0px 5px 100px;
 	height: 50px;
 	width: 218px;
@@ -16727,9 +16666,7 @@ input.v-textfield-errorField {
 }
 
 #loginFormContainer #form-header {
-	font-size: 28px;
-	padding: 20px 0px 0px 0px;
-	text-transform: uppercase;
+	margin-top: 12px;
 	text-align: center;
 }
 
@@ -16743,26 +16680,13 @@ input.v-textfield-errorField {
 
 .forgotPwdForm #loginFormContainer #form-intro-text {
 	float: left;
-}
-
-#loginFormContainer #form-intro-text #intro-text {
-	float: left;
-	padding-top: 10px;
-	color: #9696b0;
-	text-align: center;
+	margin-top: 12px;
 }
 
 .forgotPwdForm #loginFormContainer #form-intro-text #intro-text {
 	text-align: left;
 	color: #6d767a;
 	font-size: 15px;
-}
-
-#loginFormContainer #form-intro-text #intro-image {
-	width: 356px;
-	height: 331px;
-	float: left;
-	background: url('icons/image.png') no-repeat 0 0 transparent;
 }
 
 .forgotPwdForm #loginFormContainer #intro-image {
@@ -16953,10 +16877,6 @@ input.v-textfield-errorField {
 	border-bottom: 1px solid #ededed;
 }
 
-.depotComp.v-margin-top {
-	padding-top: 20px;
-}
-
 .depotComp .depotHeader {
 	cursor: pointer;
 	width: 100%;
@@ -16964,6 +16884,7 @@ input.v-textfield-errorField {
 	border-style: solid;
 	border-color: #ededed;
 	border-radius: 0px;
+	padding-right: 12px;
 }
 
 .depotComp .depotHeader .depot-title {
@@ -16972,42 +16893,11 @@ input.v-textfield-errorField {
 	font-size: 16px;
 }
 
-.depot-title::before {
+.depotComp .depotHeader .depot-title::before {
 	content: "\f0d7";
 	font-family: FontAwesome;
 	font-size: 16px;
 	padding-right: 5px;
-}
-
-.collapsed .depot-title::before {
-	content: "\f0da";
-	font-family: FontAwesome;
-	font-size: 16px;
-	padding-right: 5px;
-}
-
-.depotComp .header-elements.v-margin-top {
-	padding-top: 3px;
-}
-
-.depotComp .header-elements.v-margin-right {
-	padding-right: 8px;
-}
-
-.depotComp .header-elements.v-margin-bottom {
-	padding-bottom: 3px;
-}
-
-.depotComp .header-elements.v-margin-left {
-	padding-left: 8px;
-}
-
-.depotComp .v-customcomponent, .depotComp .v-verticallayout {
-	display: block;
-}
-
-.depotComp.collapsed .depotContent {
-	padding: 0px;
 }
 
 .depotComp .depotContent {
@@ -17042,6 +16932,17 @@ input.v-textfield-errorField {
 
 .depotComp .depotContent.bordered.v-margin-left {
 	padding-left: 5px;
+}
+
+.collapsed .depot-title::before {
+	content: "\f0da";
+	font-family: FontAwesome;
+	font-size: 16px;
+	padding-right: 5px;
+}
+
+.depotComp.collapsed .depotContent {
+	padding: 0px;
 }
 
 .activityTabs {
@@ -17096,7 +16997,6 @@ input.v-textfield-errorField {
 .main-view {
 	overflow-y: auto;
 	overflow-x: hidden;
-	background-color: #FFF;
 	position: relative;
 	border-top: 1px solid #ededed;
 }
@@ -17260,10 +17160,6 @@ div.v-stylecalendar .weekdays TD {
 
 .custom-dialog div.v-panel-content-light, .custom-dialog .v-panel-nocaption, .custom-dialog .v-panel-deco {
 	border: none;
-}
-
-.separator {
-	border-right: 1px solid #ededed;
 }
 
 .v-label-hr {
@@ -17935,84 +17831,6 @@ div.v-csslayout.bean-block .icon-wrap .v-icon {
 	font-size: 48px;
 }
 
-.activityCalendar .switcher-wrap {
-	padding-bottom: 20px;
-}
-
-.activityCalendar .calendar-view-switcher.v-button {
-	background: none no-repeat left top #e9e9e9;
-}
-
-.activityCalendar .calendar-view-switcher.v-button:active, .activityCalendar .calendar-view-switcher.v-button:focus {
-	background: none no-repeat left top #e9e9e9;
-}
-
-.activityCalendar .calendar-view-switcher .v-button-wrap {
-	text-align: left;
-	position: relative;
-}
-
-.activityCalendar .calendar-view-switcher .v-popup-indicator {
-	position: absolute;
-	right: 10px;
-}
-
-.activityCalendar .stylecalendar-ext {
-	border-top: 1px solid #ededed;
-}
-
-.activityCalendar .stylecalendar-ext.v-margin-top {
-	padding-top: 10px;
-}
-
-.activityCalendar .calendarHeader {
-	background-color: transparent;
-}
-
-.activityCalendar .calendarHeader .calendarDateLabel {
-	font-size: 15px;
-	font-weight: 600;
-	text-align: center;
-}
-
-.activityCalendar .stylecalendar {
-	border: none;
-	background-color: transparent;
-}
-
-.activityCalendar .stylecalendar .week {
-	background-color: transparent;
-}
-
-.activityCalendar .stylecalendar .weekdays {
-	border: none;
-}
-
-.activityCalendar .stylecalendar .weekdays TD {
-	color: #FFF;
-}
-
-.activityCalendar .stylecalendar .day {
-	color: #FFF;
-}
-
-.activityCalendar .stylecalendar .day.othermonth {
-	color: #adadad;
-}
-
-.activityCalendar .stylecalendar .day.today {
-	color: #525252;
-}
-
-.activityCalendar .stylecalendar .day.selected, .activityCalendar .stylecalendar .day.selected-ext {
-	background-color: #c6c6c6;
-	color: #525252;
-}
-
-.activityCalendar .stylecalendar .week .selected .gwt-Label {
-	border: none;
-}
-
 .oppcontact-role-edit .addview-layout-body {
 	border: 1px solid #ededed;
 }
@@ -18084,10 +17902,6 @@ div.v-csslayout.bean-block.olive-block {
 
 .list-note-block .note-label.olive-block {
 	background-color: #808000;
-}
-
-.list-note-lbl {
-	padding: 3px 8px 3px 0px;
 }
 
 .v-colorpicker {
@@ -18236,15 +18050,4 @@ div.v-csslayout.rightsidebar-layout .content-wrap {
 	-ms-flex: 1;
 	flex: 1;
 	display: inline-block;
-}
-
-.v-sliderpanel-navigator {
-	display: none;
-}
-
-.v-sliderpanel-content {
-	background-color: white !important;
-	border-left: 1px solid #ededed;
-	border-bottom: 1px solid #ededed;
-	border-top: 1px solid #ededed;
 }

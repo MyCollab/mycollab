@@ -44,7 +44,7 @@ public class LazyPopupView extends PopupView {
     }
 
     protected String getConstraintWidth() {
-        return "600px";
+        return "700px";
     }
 
     protected String getConstraintHeight() {

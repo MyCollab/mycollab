@@ -49,7 +49,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -83,7 +83,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER, UserUIContext.getMessage(ProjectMemberI18nEnum.LIST));
         viewHeader.with(headerText).expand(headerText);
 
-        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
@@ -119,12 +119,12 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
                     return searchCriteria;
                 }
             }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        }).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         viewHeader.addComponent(printBtn);
 
         MButton createBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
-                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEND);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SEND);
         createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         viewHeader.addComponent(createBtn);
 
@@ -174,7 +174,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         MVerticalLayout blockTop = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withFullWidth();
 
         MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, member)))
-                .withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_LINK)
+                .withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         editBtn.setDescription("Edit user '" + member.getDisplayName() + "' information");
 
@@ -191,7 +191,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
                             EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
                         }
                     });
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_LINK)
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         deleteBtn.setDescription("Remove user '" + member.getDisplayName() + "' out of this project");
 

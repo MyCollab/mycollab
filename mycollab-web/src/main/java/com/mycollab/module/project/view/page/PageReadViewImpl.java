@@ -32,7 +32,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
-import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.mycollab.spring.AppContextUtil;
@@ -46,10 +46,6 @@ import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
-import com.mycollab.vaadin.web.ui.ReadViewLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -136,7 +132,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
                 ProjectRolePermissionCollections.PAGES);
 
-        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(WebUIConstants
+        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(WebThemes
                 .BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
         OnDemandFileDownloader fileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {

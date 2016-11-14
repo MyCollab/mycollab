@@ -24,7 +24,7 @@ import com.mycollab.common.service.CustomViewStoreService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
@@ -95,7 +95,7 @@ public abstract class CustomizedTableWindow extends MWindow {
 
                 listBuilder.setValue(selectedColumns);
             }
-        }).withStyleName(WebUIConstants.BUTTON_LINK);
+        }).withStyleName(WebThemes.BUTTON_LINK);
         contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 
         final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
@@ -109,10 +109,10 @@ public abstract class CustomizedTableWindow extends MWindow {
             viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(selectedColumns)));
             customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
             close();
-        }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
 
         final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);
         contentLayout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);

@@ -23,6 +23,7 @@ import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -34,7 +35,7 @@ public abstract class AbstractProjectPresenter<V extends PageView> extends Abstr
     }
 
     @Override
-    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
         if (navigator instanceof NavigationManager) {
             NavigationManager navManager = ((NavigationManager) navigator);
             navManager.navigateTo(view);

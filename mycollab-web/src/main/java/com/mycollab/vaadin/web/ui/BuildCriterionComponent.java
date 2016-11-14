@@ -82,7 +82,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         MButton addCriteriaBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA), clickEvent -> {
             CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
             searchContainer.addComponent(newCriteriaBar);
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
 
         this.with(searchContainer, new MHorizontalLayout(addCriteriaBtn).withMargin(true));
     }
@@ -94,7 +94,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         filterBox.addComponent(filterComboBox);
 
         MButton saveSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NEW_FILTER), clickEvent -> buildSaveFilterBox())
-                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
         filterBox.addComponent(saveSearchBtn);
     }
 
@@ -107,11 +107,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             String queryText = queryTextField.getValue();
             saveSearchCriteria(queryText);
-        }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
         filterBox.addComponent(saveBtn);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> buildFilterBox(null))
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
         filterBox.addComponent(cancelBtn);
     }
 
@@ -208,7 +208,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     CriteriaSelectionLayout searchCriteriaLayout = (CriteriaSelectionLayout) searchContainer.getComponent(i);
                     searchCriteriaLayout.updateIndex();
                 }
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             this.addComponent(fieldSelectionBox, 2, 0);
             this.addComponent(compareSelectionBox, 3, 0);
@@ -466,7 +466,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                             data.setSaccountid(MyCollabUI.getAccountId());
                             data.setQuerytext(QueryAnalyzer.toQueryParams(fieldInfos));
                             saveSearchResultService.updateWithSession(data, UserUIContext.getUsername());
-                        }).withIcon(FontAwesome.REFRESH).withStyleName(WebUIConstants.BUTTON_ACTION);
+                        }).withIcon(FontAwesome.REFRESH).withStyleName(WebThemes.BUTTON_ACTION);
 
                         MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                             SaveSearchResultService saveSearchResultService = AppContextUtil.getSpringBean(SaveSearchResultService.class);
@@ -476,7 +476,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                                 filterBox.removeComponent(filterBox.getComponent(1));
                             }
                             buildQuerySelectComponent();
-                        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER);
+                        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_DANGER);
 
                         filterBox.addComponent(deleteBtn, 1);
                         filterBox.addComponent(updateBtn, 1);

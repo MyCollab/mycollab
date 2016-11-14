@@ -22,7 +22,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +36,7 @@ public class ProjectActivityStreamPresenter extends ProjectListPresenter<Project
     }
 
     @Override
-    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PROJECT)) {
             super.onGo(navigator, data);
         } else {

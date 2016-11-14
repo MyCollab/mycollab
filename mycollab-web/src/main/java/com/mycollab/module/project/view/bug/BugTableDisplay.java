@@ -32,7 +32,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Label;
@@ -81,9 +81,9 @@ class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearchCriteri
                     bug, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone(), false));
 
             if (bug.isCompleted()) {
-                b.addStyleName(WebUIConstants.LINK_COMPLETED);
+                b.addStyleName(WebThemes.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
-                b.addStyleName(WebUIConstants.LINK_OVERDUE);
+                b.addStyleName(WebThemes.LINK_OVERDUE);
             }
             return b;
         });

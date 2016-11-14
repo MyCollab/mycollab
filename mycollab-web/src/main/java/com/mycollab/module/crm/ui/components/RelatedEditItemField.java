@@ -31,7 +31,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.KeyCaptionComboBox;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.server.FontAwesome;
@@ -93,7 +93,7 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
             } else {
                 relatedItemComboBox.focus();
             }
-        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
+        }).withIcon(FontAwesome.ELLIPSIS_H).withStyleName(WebThemes.BUTTON_OPTION, WebThemes.BUTTON_SMALL_PADDING);
 
         clearBtn = new MButton("", clickEvent -> {
             try {
@@ -104,7 +104,7 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
             } catch (Exception e) {
                 LOG.error("Error while saving type", e);
             }
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_OPTION, WebThemes.BUTTON_SMALL_PADDING);
     }
 
     @Override

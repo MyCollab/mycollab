@@ -20,7 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.viritin.button.MButton;
 
@@ -35,14 +35,14 @@ public class ComponentUtils {
 
     public static final MButton createCustomizeViewButton() {
         MButton customizeViewBtn = new MButton("").withIcon(FontAwesome.ADJUST)
-                .withStyleName(WebUIConstants.BUTTON_ACTION, WebUIConstants.BUTTON_SMALL_PADDING);
+                .withStyleName(WebThemes.BUTTON_ACTION, WebThemes.BUTTON_SMALL_PADDING);
         customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         return customizeViewBtn;
     }
 
     public static final MButton createImportEntitiesButton() {
         MButton importBtn = new MButton("").withIcon(FontAwesome.CLOUD_UPLOAD)
-                .withStyleName(WebUIConstants.BUTTON_ACTION, WebUIConstants.BUTTON_SMALL_PADDING);
+                .withStyleName(WebThemes.BUTTON_ACTION, WebThemes.BUTTON_SMALL_PADDING);
         importBtn.setDescription("Import");
         return importBtn;
     }

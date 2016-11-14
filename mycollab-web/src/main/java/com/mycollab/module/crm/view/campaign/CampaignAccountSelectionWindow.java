@@ -28,7 +28,7 @@ import com.mycollab.module.crm.view.account.AccountTableDisplay;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
@@ -54,13 +54,13 @@ public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<S
 
         tableItem.addGeneratedColumn("accountname", (source, itemId, columnId) -> {
             SimpleAccount account = tableItem.getBeanByIndex(itemId);
-            return new ELabel(account.getAccountname()).withStyleName(WebUIConstants.BUTTON_LINK)
+            return new ELabel(account.getAccountname()).withStyleName(WebThemes.BUTTON_LINK)
                     .withDescription(CrmTooltipGenerator.generateToolTipAccount(UserUIContext.getUserLocale(), account,
                             MyCollabUI.getSiteUrl()));
         });
 
         MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_ACTION);
+                .withStyleName(WebThemes.BUTTON_ACTION);
 
         AccountSearchPanel accountSimpleSearchPanel = new AccountSearchPanel(false);
         accountSimpleSearchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

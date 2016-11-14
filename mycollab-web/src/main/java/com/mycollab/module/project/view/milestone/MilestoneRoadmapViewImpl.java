@@ -61,7 +61,7 @@ import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -206,7 +206,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     }
 
     @Override
-    public void updateTitle() {
+    public void refresh() {
         headerText.setValue(String.format("%s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml(),
                 UserUIContext.getMessage(MilestoneI18nEnum.OPT_ROADMAP_VALUE, roadMapView.getComponentCount())));
     }
@@ -218,7 +218,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
         roadMapView = new MVerticalLayout().withSpacing(false);
-        filterPanel = new MVerticalLayout().withWidth("250px").withStyleName(WebUIConstants.BOX);
+        filterPanel = new MVerticalLayout().withWidth("250px").withStyleName(WebThemes.BOX);
         FloatingComponent floatingComponent = FloatingComponent.floatThis(filterPanel);
         floatingComponent.setContainerId("main-body");
         this.addComponent(new MHorizontalLayout().withFullWidth().with(roadMapView, filterPanel).expand(roadMapView));
@@ -230,7 +230,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             milestone.setSaccountid(MyCollabUI.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
         MButton printBtn = new MButton("", clickEvent ->
@@ -240,7 +240,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         return baseCriteria;
                     }
                 }))
-        ).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
+        ).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent ->
@@ -314,7 +314,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
             if (totalAssignments > 0) {
                 final MButton viewIssuesBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_TICKETS))
-                        .withStyleName(WebUIConstants.BUTTON_LINK);
+                        .withStyleName(WebThemes.BUTTON_LINK);
                 viewIssuesBtn.addClickListener(clickEvent -> {
                     showIssues = !showIssues;
                     if (showIssues) {

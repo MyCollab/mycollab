@@ -35,7 +35,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -116,15 +116,13 @@ public class MeetingReadPresenter extends AbstractCrmPresenter<MeetingReadView> 
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_MEETING)) {
 
             SimpleMeeting meeting;
             if (data.getParams() instanceof Integer) {
-                MeetingService meetingService = AppContextUtil
-                        .getSpringBean(MeetingService.class);
-                meeting = meetingService.findById((Integer) data.getParams(),
-                        MyCollabUI.getAccountId());
+                MeetingService meetingService = AppContextUtil.getSpringBean(MeetingService.class);
+                meeting = meetingService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (meeting == null) {
                     NotificationUtil.showRecordNotExistNotification();
                     return;
@@ -135,8 +133,7 @@ public class MeetingReadPresenter extends AbstractCrmPresenter<MeetingReadView> 
             view.previewItem(meeting);
             super.onGo(container, data);
 
-            MyCollabUI.addFragment(CrmLinkGenerator
-                    .generateMeetingPreviewLink(meeting.getId()), UserUIContext
+            MyCollabUI.addFragment(CrmLinkGenerator.generateMeetingPreviewLink(meeting.getId()), UserUIContext
                     .getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                             "Meeting", meeting.getSubject()));
         } else {

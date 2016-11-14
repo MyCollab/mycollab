@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.crm.view;
 
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.arguments.ValuedBean;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.event.CrmEvent;
 import com.mycollab.vaadin.mvp.PageView;
@@ -25,7 +25,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.IListView;
 import com.mycollab.vaadin.web.ui.ListSelectionPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @param <V>
@@ -58,19 +58,19 @@ public abstract class CrmGenericListPresenter<V extends IListView<S, B>, S exten
         return view;
     }
 
-    public void displayListView(ComponentContainer container, ScreenData<?> data) {
+    public void displayListView(HasComponents container, ScreenData<?> data) {
         this.candidateView = view;
         displayView(container);
     }
 
-    public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
+    public void displayNoExistItems(HasComponents container, ScreenData<?> data) {
         this.candidateView = ViewManager.getCacheComponent(noItemFallbackViewClass);
         displayView(container);
     }
 
-    private void displayView(ComponentContainer container) {
+    private void displayView(HasComponents container) {
         CrmModule crmModule = (CrmModule) container;
-        crmModule.addView(candidateView);
+        crmModule.setContent(candidateView);
     }
 
     @Override

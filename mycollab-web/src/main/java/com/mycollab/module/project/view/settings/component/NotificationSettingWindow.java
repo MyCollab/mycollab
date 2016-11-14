@@ -27,7 +27,7 @@ import com.mycollab.module.project.service.ProjectNotificationSettingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Alignment;
@@ -82,7 +82,7 @@ public class NotificationSettingWindow extends MWindow {
         }
 
         MButton closeBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             try {
                 notification.setLevel((String) optionGroup.getValue());
@@ -99,7 +99,7 @@ public class NotificationSettingWindow extends MWindow {
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SAVE);
         MHorizontalLayout btnControls = new MHorizontalLayout(closeBtn, saveBtn);
         body.with(btnControls).withAlign(btnControls, Alignment.TOP_RIGHT);
 

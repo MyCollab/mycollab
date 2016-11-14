@@ -33,7 +33,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -66,7 +66,7 @@ public class ContactAddPresenter extends AbstractCrmPresenter<ContactAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
             SimpleContact contact = null;
             if (data.getParams() instanceof SimpleContact) {

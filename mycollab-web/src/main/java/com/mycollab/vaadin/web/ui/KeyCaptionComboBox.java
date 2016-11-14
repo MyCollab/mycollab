@@ -35,5 +35,4 @@ public class KeyCaptionComboBox extends ComboBox {
         this.addItem(itemId);
         this.setItemCaption(itemId, caption);
     }
-
 }

@@ -31,7 +31,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -66,7 +66,7 @@ public class MilestoneAddWindow extends MWindow {
         MButton updateAllBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
             EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneAddWindow.this, milestone));
             close();
-        }).withStyleName(WebUIConstants.BUTTON_LINK);
+        }).withStyleName(WebThemes.BUTTON_LINK);
 
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (editForm.validateForm()) {
@@ -89,11 +89,11 @@ public class MilestoneAddWindow extends MWindow {
                         ProjectTypeConstants.MILESTONE, milestoneId));
                 close();
             }
-        }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
         saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
         MHorizontalLayout buttonControls = new MHorizontalLayout(updateAllBtn, cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
         content.addComponent(buttonControls);
         content.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);

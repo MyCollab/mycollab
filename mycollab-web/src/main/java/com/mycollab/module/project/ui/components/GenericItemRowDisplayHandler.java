@@ -31,7 +31,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -45,7 +45,7 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 public class GenericItemRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectGenericItem> {
     @Override
     public Component generateRow(IBeanList<ProjectGenericItem> host, ProjectGenericItem item, int rowIndex) {
-        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", WebUIConstants.HOVER_EFFECT_NOT_BOX);
+        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", WebThemes.HOVER_EFFECT_NOT_BOX);
         ELabel link = ELabel.h3("");
         if (item.isBug() || item.isTask()) {
             link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),

@@ -21,7 +21,7 @@ import com.mycollab.module.file.view.IFileModulePresenter;
 import com.mycollab.shell.view.MainView;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -35,7 +35,7 @@ public class FileModulePresenter extends AbstractPresenter<IFileModule> implemen
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         MainView mainView = (MainView) container;
         mainView.addModule(view);
     }

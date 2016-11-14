@@ -29,7 +29,7 @@ import com.mycollab.module.crm.view.opportunity.OpportunityTableDisplay;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
@@ -55,15 +55,15 @@ public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindo
         tableItem.addGeneratedColumn("opportunityname", (source, itemId, columnId) -> {
             final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
 
-            ELabel b = new ELabel(opportunity.getOpportunityname()).withStyleName(WebUIConstants.BUTTON_LINK)
+            ELabel b = new ELabel(opportunity.getOpportunityname()).withStyleName(WebThemes.BUTTON_LINK)
                     .withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(),
                             MyCollabUI.getDateFormat(), opportunity, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             if (OpportunitySalesStage.Closed_Won.name().equals(opportunity.getSalesstage()) ||
                     OpportunitySalesStage.Closed_Lost.name().equals(opportunity.getSalesstage())) {
-                b.addStyleName(WebUIConstants.LINK_COMPLETED);
+                b.addStyleName(WebThemes.LINK_COMPLETED);
             } else {
                 if (opportunity.isOverdue()) {
-                    b.addStyleName(WebUIConstants.LINK_OVERDUE);
+                    b.addStyleName(WebThemes.LINK_OVERDUE);
                 }
             }
 
@@ -71,7 +71,7 @@ public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindo
         });
 
         MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_ACTION);
+                .withStyleName(WebThemes.BUTTON_ACTION);
 
         OpportunitySearchPanel searchPanel = new OpportunitySearchPanel(false);
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

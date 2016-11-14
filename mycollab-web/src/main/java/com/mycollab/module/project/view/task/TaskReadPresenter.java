@@ -45,7 +45,7 @@ import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -139,7 +139,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                 criteria.setProjectId(new NumberSearchField(task.getProjectid()));
                 criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, NumberI18nEnum.LESS_THAN.name(),
                         task.getTaskkey()));
-                Integer nextId = taskService.getNextItemKey(criteria);
+                Integer nextId = taskService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
                 } else {
@@ -150,12 +150,10 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
     }
 
     @Override
-    protected void onGo(final ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
             TicketContainer ticketContainer = (TicketContainer) container;
-            ticketContainer.removeAllComponents();
-
-            ticketContainer.addComponent(view);
+            ticketContainer.setContent(view);
             if (data.getParams() instanceof Integer) {
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = taskService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());

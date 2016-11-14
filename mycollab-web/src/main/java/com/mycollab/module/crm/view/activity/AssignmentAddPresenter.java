@@ -32,7 +32,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -70,7 +70,7 @@ public class AssignmentAddPresenter extends CrmGenericPresenter<AssignmentAddVie
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_TASK)) {
             CrmTask task;
             if (data.getParams() instanceof CrmTask) {

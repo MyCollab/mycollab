@@ -21,7 +21,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewScope;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +36,7 @@ public class CrmHomePresenter extends CrmGenericPresenter<CrmHomeView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         super.onGo(container, data);
         CrmModule.navigateItem(CrmTypeConstants.DASHBOARD);
         view.lazyLoadView();

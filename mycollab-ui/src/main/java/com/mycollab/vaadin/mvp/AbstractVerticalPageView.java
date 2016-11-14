@@ -18,13 +18,11 @@ package com.mycollab.vaadin.mvp;
 
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.io.Serializable;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class AbstractVerticalPageView extends MVerticalLayout implements PageView, Serializable {
+public abstract class AbstractVerticalPageView extends MVerticalLayout implements PageView {
 
     public AbstractVerticalPageView() {
         this.withSpacing(false).withMargin(false);

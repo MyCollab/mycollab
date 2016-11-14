@@ -26,7 +26,7 @@ import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -72,18 +72,16 @@ public class PageListNoItemView extends ProjectListNoItemView {
 
     protected MHorizontalLayout createControlButtons() {
         if (hasPermission()) {
-            MButton createPageBtn = new MButton(actionMessage(), actionListener()).withStyleName(WebUIConstants.BUTTON_ACTION);
+            MButton createPageBtn = new MButton(actionMessage(), actionListener()).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton createPageGroupBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP), clickEvent -> {
                 UI.getCurrent().addWindow(new GroupPageAddWindow());
-            }).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withStyleName(WebThemes.BUTTON_ACTION);
 
-            MHorizontalLayout links = new MHorizontalLayout();
-            links.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-            links.with(createPageBtn, new Label(" or "), createPageGroupBtn);
-            return links;
+            return new MHorizontalLayout(createPageBtn, new Label(" or "), createPageGroupBtn)
+                    .alignAll(Alignment.MIDDLE_CENTER);
         } else {
-            return null;
+            return new MHorizontalLayout();
         }
     }
 

@@ -27,14 +27,14 @@ import com.mycollab.configuration.{SiteConfiguration, StorageFactory}
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.{BeanUtility, DateTimeUtils}
 import com.mycollab.db.arguments.{NumberSearchField, RangeDateSearchField, SearchField, SetSearchField}
-import com.mycollab.html.DivLessFormatter
+import com.mycollab.html.{DivLessFormatter, LinkUtils}
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
 import com.mycollab.module.project.domain.{ProjectNotificationSetting, ProjectTicket}
-import com.mycollab.module.project.i18n.ProjectCommonI18nEnum
+import com.mycollab.module.project.i18n.{ProjectCommonI18nEnum, TicketI18nEnum}
 import com.mycollab.module.project.schedule.email.service.OverdueProjectTicketsNotificationJob.OverdueAssignmentFormatter
-import com.mycollab.module.project.service.{ProjectTicketService, ProjectMemberService, ProjectNotificationSettingService}
+import com.mycollab.module.project.service.{ProjectMemberService, ProjectNotificationSettingService, ProjectTicketService}
 import com.mycollab.module.project.{ProjectLinkGenerator, ProjectTypeConstants}
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.domain.SimpleUser
@@ -118,6 +118,7 @@ class OverdueProjectTicketsNotificationJob extends GenericQuartzJobBean {
     if (accounts != null) {
       for (account <- accounts) {
         searchCriteria.setSaccountid(new NumberSearchField(account.getId))
+        contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.getId, account.getLogopath))
         import scala.collection.JavaConverters._
         val projectIds = projectAssignmentService.getProjectsHasOverdueAssignments(searchCriteria).asScala.toList
         for (projectId <- projectIds) {
@@ -142,8 +143,7 @@ class OverdueProjectTicketsNotificationJob extends GenericQuartzJobBean {
               val projectFooter = LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Footer, projectName, projectSettingUrl)
               contentGenerator.putVariable("Project_Footer", projectFooter)
               val content = contentGenerator.parseFile("mailProjectOverdueAssignmentsNotifier.ftl", Locale.US)
-              val overdueAssignments = LocalizationHelper.getMessage(userLocale, ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE,
-                String.valueOf(assignments.length))
+              val overdueAssignments = LocalizationHelper.getMessage(userLocale, TicketI18nEnum.VAL_OVERDUE_TICKETS) + "(" + assignments.length + ")"
               contentGenerator.putVariable("overdueAssignments", overdueAssignments)
               extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                 "[%s] %s".format(projectName, overdueAssignments), content)

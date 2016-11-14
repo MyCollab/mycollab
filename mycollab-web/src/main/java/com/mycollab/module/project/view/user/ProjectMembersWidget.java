@@ -44,10 +44,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.mycollab.vaadin.web.ui.Depot;
-import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -72,7 +69,7 @@ public class ProjectMembersWidget extends Depot {
 
     public ProjectMembersWidget() {
         super("", new CssLayout());
-        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
@@ -106,7 +103,7 @@ public class ProjectMembersWidget extends Depot {
 
         MButton inviteMemberBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent ->
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         addHeaderElement(inviteMemberBtn);
 

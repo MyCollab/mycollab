@@ -19,7 +19,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.4</version>
+        <version>5.4.5</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
 
@@ -28,13 +28,13 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.4.4</version>
+            <version>5.4.5</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.4.4</version>
+            <version>5.4.5</version>
         </dependency>
 
         <!-- ECM -->

@@ -33,4 +33,13 @@ public class Utils {
             return servletRequest.getServerName();
         }
     }
+
+    public static boolean isTablet(VaadinRequest request) {
+        try {
+            String userAgent = request.getHeader("user-agent").toLowerCase();
+            return userAgent.contains("ipad");
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

@@ -22,7 +22,7 @@ import com.mycollab.mobile.mvp.AbstractPresenter;
 import com.mycollab.mobile.ui.IListView;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -38,7 +38,7 @@ public abstract class ProjectListPresenter<V extends IListView<S, B>, S extends 
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         NavigationManager currentNav = (NavigationManager) container;
         this.searchCriteria = (S) data.getParams();
         view.getPagedBeanTable().setSearchCriteria(searchCriteria);

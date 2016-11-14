@@ -25,7 +25,7 @@ import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
@@ -69,7 +69,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
         MHorizontalLayout layout = new MHorizontalLayout();
         MButton browseBtn = new MButton(FontAwesome.ELLIPSIS_H)
                 .withListener(clickEvent -> UI.getCurrent().addWindow(new BugSelectionWindow(BugSelectionField.this)))
-                .withStyleName(WebUIConstants.BUTTON_OPTION, WebUIConstants.BUTTON_SMALL_PADDING);
+                .withStyleName(WebThemes.BUTTON_OPTION, WebThemes.BUTTON_SMALL_PADDING);
         layout.with(suggestField, new Label("or browse"), browseBtn);
         return layout;
     }

@@ -33,7 +33,7 @@ public class BlockRowRender extends MVerticalLayout {
             container.removeComponent(this);
         }
         if (blockContainer != null) {
-            blockContainer.updateTitle();
+            blockContainer.refresh();
         }
     }
 }

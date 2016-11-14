@@ -24,6 +24,7 @@ import com.mycollab.common.service.{AuditLogService, CommentService}
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.arguments.{BasicSearchRequest, StringSearchField}
+import com.mycollab.html.LinkUtils
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -59,6 +60,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
       onInitAction(projectRelayEmailNotification)
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
+        contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
         import scala.collection.JavaConversions._
         for (user <- notifiers) {
           val context = new MailContext[B](notification, user, siteUrl)
@@ -86,6 +88,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
       onInitAction(projectRelayEmailNotification)
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
+        contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
         import scala.collection.JavaConversions._
         val auditLog = auditLogService.findLastestLog(notification.getTypeid.toInt, notification.getSaccountid)
         contentGenerator.putVariable("historyLog", auditLog)
@@ -128,6 +131,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
       onInitAction(projectRelayEmailNotification)
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
+        contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
         import scala.collection.JavaConversions._
         val searchCriteria = new CommentSearchCriteria
         searchCriteria.setType(StringSearchField.and(notification.getType))

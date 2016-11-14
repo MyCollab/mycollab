@@ -27,7 +27,7 @@ import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -55,7 +55,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
+    protected void onGo(HasComponents navigationManager, ScreenData<?> data) {
         ((NavigationManager) navigationManager).navigateTo(view);
         MyCollabUI.addFragment("", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
     }

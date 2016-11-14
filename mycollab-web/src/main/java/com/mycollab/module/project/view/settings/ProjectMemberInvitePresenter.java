@@ -41,10 +41,10 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import org.apache.commons.collections.CollectionUtils;
@@ -97,11 +97,10 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
             ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
-            userGroupContainer.removeAllComponents();
-            userGroupContainer.addComponent(view);
+            userGroupContainer.setContent(view);
 
             view.display();
 
@@ -134,7 +133,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                     .appendText(" as role ").appendChild(new B().appendText(invitation.getRoleName()));
             contentLayout.with(ELabel.html(introDiv.write()));
 
-            MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
+            MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(WebThemes.SCROLLABLE_CONTAINER);
             new Restrain(linksContainer).setMaxHeight("400px");
             contentLayout.with(linksContainer);
 
@@ -149,12 +148,12 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             MButton addNewBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.ACTION_INVITE_MORE_MEMBERS), clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(CanSendEmailInstructionWindow.this, null));
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton doneBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout controlsBtn = new MHorizontalLayout(addNewBtn, doneBtn).withMargin(true);
             contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);

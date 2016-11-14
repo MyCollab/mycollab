@@ -169,7 +169,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withWidthUndefined();
             MButton editNotificationBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum
                     .ACTION_EDIT_NOTIFICATION), clickEvent -> UI.getCurrent().addWindow(new NotificationSettingWindow(beanItem)))
-                    .withStyleName(WebUIConstants.BUTTON_LINK).withVisible(CurrentProjectVariables.canAccess
+                    .withStyleName(WebThemes.BUTTON_LINK).withVisible(CurrentProjectVariables.canAccess
                             (ProjectRolePermissionCollections.USERS));
             memberInfo.addComponent(new MHorizontalLayout(memberLink, editNotificationBtn).alignAll(Alignment.MIDDLE_LEFT));
 

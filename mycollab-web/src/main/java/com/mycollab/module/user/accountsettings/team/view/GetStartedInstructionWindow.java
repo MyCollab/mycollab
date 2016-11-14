@@ -25,7 +25,7 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.events.UserEvent;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -66,10 +66,10 @@ class GetStartedInstructionWindow extends MWindow {
             EventBusFactory.getInstance().post(new UserEvent.GotoAdd(GetStartedInstructionWindow.this, null));
             close();
         });
-        addNewBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+        addNewBtn.setStyleName(WebThemes.BUTTON_ACTION);
 
         Button doneBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> close());
-        doneBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+        doneBtn.setStyleName(WebThemes.BUTTON_ACTION);
 
         final MHorizontalLayout controlsBtn = new MHorizontalLayout(addNewBtn, doneBtn).withMargin(true);
         contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);

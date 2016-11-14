@@ -23,7 +23,7 @@ import com.mycollab.mobile.mvp.view.PresenterOptionUtil;
 import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -37,7 +37,7 @@ public class MilestonePresenter extends AbstractProjectPresenter<MilestoneContai
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         IPresenter<?> presenter;
 
         if (data instanceof MilestoneScreenData.Search) {

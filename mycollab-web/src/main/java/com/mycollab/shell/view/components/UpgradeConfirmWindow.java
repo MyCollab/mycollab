@@ -26,7 +26,7 @@ import com.mycollab.server.ServerInstance;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
@@ -79,12 +79,12 @@ public class UpgradeConfirmWindow extends MWindow {
         content.with(new Label(releaseNoteLink.write(), ContentMode.HTML));
 
         MButton skipBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton autoUpgradeBtn = new MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_AUTO_UPGRADE), clickEvent -> {
             close();
             navigateToWaitingUpgradePage();
-        }).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withStyleName(WebThemes.BUTTON_ACTION);
         if (installerFilePath == null) {
             autoUpgradeBtn.setEnabled(false);
         }

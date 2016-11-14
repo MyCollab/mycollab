@@ -29,7 +29,7 @@ import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Tree.CollapseEvent;
@@ -186,10 +186,10 @@ abstract class AbstractResourceMovingWindow extends MWindow {
                 close();
                 displayAfterMoveSuccess(baseFolder, checkingFail);
             }
-        }).withIcon(FontAwesome.ARROWS).withStyleName(WebUIConstants.BUTTON_ACTION);
+        }).withIcon(FontAwesome.ARROWS).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MHorizontalLayout controlGroupBtnLayout = new MHorizontalLayout(cancelBtn, moveBtn);
         contentLayout.with(controlGroupBtnLayout).withAlign(controlGroupBtnLayout, Alignment.MIDDLE_RIGHT);

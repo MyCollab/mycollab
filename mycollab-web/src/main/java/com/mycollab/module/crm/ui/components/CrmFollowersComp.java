@@ -39,7 +39,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -117,11 +117,11 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             });
             header.addComponent(addPopupView);
         }
-        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(WebUIConstants.INLINE_HELP)
+        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(WebThemes.INLINE_HELP)
                 .withDescription(UserUIContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP)));
 
         this.addComponent(header);
-        watcherLayout = new MCssLayout().withFullWidth().withStyleName(WebUIConstants.FLEX_DISPLAY);
+        watcherLayout = new MCssLayout().withFullWidth().withStyleName(WebThemes.FLEX_DISPLAY);
         this.addComponent(watcherLayout);
         loadWatchers();
     }
@@ -188,7 +188,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 
         ModifyWatcherPopup() {
             new Restrain(this).setMaxHeight("600px");
-            this.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
+            this.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             this.setWidth("100%");
             UserSearchCriteria criteria = new UserSearchCriteria();
             criteria.setStatuses(new SetSearchField<>("Active"));

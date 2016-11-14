@@ -27,7 +27,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -41,7 +41,7 @@ public class BugRowRenderer implements IBeanList.RowDisplayHandler<SimpleBug> {
     public Component generateRow(IBeanList<SimpleBug> host, SimpleBug bug, int rowIndex) {
         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
-        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX);
+        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX);
         rowComp.addStyleName("margin-bottom");
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 

@@ -26,15 +26,15 @@ import java.util.regex.Pattern;
  * @since 4.4.0
  */
 public class Version {
-    public static final String THEME_VERSION = "mycollab_20161020";
-    public static final String THEME_MOBILE_VERSION = "mycollab_20161021";
+    public static final String THEME_VERSION = "mycollab_20161110";
+    public static final String THEME_MOBILE_VERSION = "mycollab_20161111";
 
     public static String getVersion() {
-        return "5.4.4";
+        return "5.4.5";
     }
 
     public static DateTime getReleasedDate() {
-        return new DateTime(2016, 1, 1, 0, 0, 0);
+        return new DateTime(2016, 11, 15, 0, 0, 0);
     }
 
     static int[] getVersionNumbers(String ver) {

@@ -29,6 +29,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.web.ui.ListSelectionPresenter;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.Collection;
@@ -69,8 +70,10 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        container.addComponent(view);
+    protected void onGo(HasComponents container, ScreenData<?> data) {
+        ComponentContainer componentContainer = (ComponentContainer) container;
+        componentContainer.removeAllComponents();
+        componentContainer.addComponent(view);
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         doSearch(searchCriteria);
     }

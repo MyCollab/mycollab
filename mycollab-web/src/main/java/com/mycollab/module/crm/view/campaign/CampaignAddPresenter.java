@@ -35,7 +35,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -73,7 +73,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
             SimpleCampaign campaign = null;

@@ -28,7 +28,7 @@ import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.ui.MyCollabSession;
 import com.mycollab.web.DesktopApplication;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.util.BrowserCookie;
@@ -49,7 +49,7 @@ public class MainWindowContainer extends CssLayout {
         this.setDefaultView();
     }
 
-    public void setContent(ComponentContainer container) {
+    public void setContent(Component container) {
         this.removeAllComponents();
         this.addComponent(container);
     }

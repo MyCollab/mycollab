@@ -28,7 +28,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -41,9 +41,8 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
         super(ActivityContainer.class);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
         ActivityRootView activityContainer = (ActivityRootView) container;
         ActivityContainer eventContainer = (ActivityContainer) activityContainer

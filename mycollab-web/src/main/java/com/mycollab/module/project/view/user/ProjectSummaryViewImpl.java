@@ -16,12 +16,9 @@
  */
 package com.mycollab.module.project.view.user;
 
-import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.view.milestone.MilestoneTimelineWidget;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -32,7 +29,6 @@ import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.HorizontalLocationIs;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -44,9 +40,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
 
     @Override
     protected void displayView() {
-        withMargin(true);
-
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
+        MHorizontalLayout layout = new MHorizontalLayout().withMargin(true).withFullWidth();
         this.with(layout);
 
         DDVerticalLayout leftPanel = new DDVerticalLayout();
@@ -85,7 +79,6 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         DDVerticalLayout rightPanel = new DDVerticalLayout();
         rightPanel.setWidth("500px");
         rightPanel.setSpacing(true);
-        rightPanel.setMargin(new MarginInfo(false, false, true, false));
         rightPanel.setComponentVerticalDropRatio(0.3f);
         rightPanel.setDragMode(LayoutDragMode.CLONE_OTHER);
         rightPanel.setDropHandler(new DropHandler() {

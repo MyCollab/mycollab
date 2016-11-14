@@ -33,7 +33,7 @@ import com.mycollab.vaadin.addon.webcomponents.client.VCropSelection;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
@@ -102,7 +102,7 @@ public class LogoEditWindow extends MWindow {
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new SettingEvent.GotoGeneralSetting(LogoEditWindow.this, null)))
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton acceptBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), clickEvent -> {
             if (scaleImageData != null && scaleImageData.length > 0) {
@@ -116,7 +116,7 @@ public class LogoEditWindow extends MWindow {
                     throw new MyCollabException("Error when saving account logo", e);
                 }
             }
-        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
         previewBoxRight.with(controlBtns).withAlign(controlBtns, Alignment.TOP_LEFT);

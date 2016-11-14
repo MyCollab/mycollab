@@ -28,6 +28,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.CssLayout;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,6 @@ import org.vaadin.easyuploads.FileBuffer;
 import org.vaadin.easyuploads.MultiFileUpload;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +49,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class AttachmentPanel extends MVerticalLayout {
+public class AttachmentPanel extends CssLayout {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(AttachmentPanel.class);
     private Map<String, File> fileStores;
@@ -58,12 +58,11 @@ public class AttachmentPanel extends MVerticalLayout {
     private ResourceService resourceService;
 
     public AttachmentPanel() {
-        this.withStyleName("attachment-panel");
-        withMargin(false).withSpacing(false);
+        setWidth("100%");
         resourceService = AppContextUtil.getSpringBean(ResourceService.class);
         multiFileUpload = new MultiFileUploadExt();
         multiFileUpload.setWidth("100%");
-        this.with(multiFileUpload);
+        addComponent(multiFileUpload);
     }
 
     private void displayFileName(File file, final String fileName) {
@@ -75,7 +74,7 @@ public class AttachmentPanel extends MVerticalLayout {
             }
             fileStores.remove(fileName);
             AttachmentPanel.this.removeComponent(fileAttachmentLayout);
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
         ELabel fileLbl = ELabel.html(fileName).withDescription(fileName).withStyleName(UIConstants.TEXT_ELLIPSIS);
         fileAttachmentLayout.with(ELabel.fontIcon(FileAssetsUtil.getFileIconResource(fileName)).withWidthUndefined(),

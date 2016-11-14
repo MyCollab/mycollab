@@ -22,7 +22,7 @@ import com.mycollab.module.crm.view.setting.ICrmCustomViewPresenter;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +36,7 @@ public class CrmCustomViewPresenter extends AbstractPresenter<ICrmCustomView> im
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmSettingContainer settingContainer = (CrmSettingContainer) container;
         settingContainer.gotoSubView("Custom Layouts");
         MyCollabUI.addFragment("crm/setting/customlayout", "Custom Layouts");

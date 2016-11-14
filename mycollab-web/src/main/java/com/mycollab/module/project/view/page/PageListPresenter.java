@@ -30,7 +30,7 @@ import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.List;
@@ -51,11 +51,10 @@ public class PageListPresenter extends ProjectGenericPresenter<PageListView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PAGES)) {
             PageContainer pageContainer = (PageContainer) container;
             pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
-            pageContainer.removeAllComponents();
 
             String path = (String) data.getParams();
             if (path == null) {
@@ -65,10 +64,10 @@ public class PageListPresenter extends ProjectGenericPresenter<PageListView> {
             }
             List<PageResource> resources = pageService.getResources(path, UserUIContext.getUsername());
             if (!CollectionUtils.isEmpty(resources)) {
-                pageContainer.addComponent(view);
+                pageContainer.setContent(view);
                 view.displayDefaultPages(resources);
             } else {
-                pageContainer.addComponent(view);
+                pageContainer.setContent(view);
                 view.showNoItemView();
             }
 

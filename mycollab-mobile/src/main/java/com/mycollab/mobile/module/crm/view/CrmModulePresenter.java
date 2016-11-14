@@ -20,7 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -34,7 +34,7 @@ public class CrmModulePresenter extends AbstractCrmPresenter<CrmModule> {
     }
 
     @Override
-    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
         MyCollabUI.addFragment("crm/", UserUIContext.getMessage(GenericI18Enum.MODULE_CRM));
     }
 }

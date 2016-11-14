@@ -22,7 +22,7 @@ import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +36,7 @@ public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         AccountModule accountContainer = (AccountModule) container;
         accountContainer.gotoSubView(SettingUIConstants.PROFILE);
 

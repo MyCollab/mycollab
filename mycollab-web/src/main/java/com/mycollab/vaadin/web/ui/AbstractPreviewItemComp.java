@@ -26,7 +26,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -105,7 +104,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             header.with(actionControls).withAlign(actionControls, Alignment.TOP_RIGHT);
         }
 
-        MCssLayout contentWrapper = new MCssLayout().withFullWidth().withStyleName(WebUIConstants.CONTENT_WRAPPER);
+        MCssLayout contentWrapper = new MCssLayout().withFullWidth().withStyleName(WebThemes.CONTENT_WRAPPER);
 
         if (previewLayout == null)
             previewLayout = new DefaultReadViewLayout("");

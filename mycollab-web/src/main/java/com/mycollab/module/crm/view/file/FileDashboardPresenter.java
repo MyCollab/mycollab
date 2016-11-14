@@ -26,7 +26,7 @@ import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -41,7 +41,7 @@ public class FileDashboardPresenter extends CrmGenericPresenter<FileDashboardVie
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.FILE);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_DOCUMENT)) {
             super.onGo(container, data);

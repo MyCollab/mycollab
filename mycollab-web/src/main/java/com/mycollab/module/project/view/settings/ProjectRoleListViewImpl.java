@@ -34,10 +34,7 @@ import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
-import com.mycollab.vaadin.web.ui.CheckBoxDecor;
-import com.mycollab.vaadin.web.ui.LabelLink;
-import com.mycollab.vaadin.web.ui.SelectionOptionButton;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
@@ -109,7 +106,7 @@ public class ProjectRoleListViewImpl extends AbstractVerticalPageView implements
         CssLayout layoutWrapper = new CssLayout();
         layoutWrapper.setWidth("100%");
         MHorizontalLayout layout = new MHorizontalLayout();
-        layoutWrapper.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
+        layoutWrapper.addStyleName(WebThemes.TABLE_ACTION_CONTROLS);
         layoutWrapper.addComponent(layout);
 
         selectOptionButton = new SelectionOptionButton(this.tableItem);

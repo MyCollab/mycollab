@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.project.view;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -33,7 +33,7 @@ public class AllActivityStreamPresenter extends ProjectListPresenter<AllActivity
     }
 
     @Override
-    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
         super.onGo(navigator, data);
     }
 }

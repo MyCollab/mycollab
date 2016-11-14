@@ -26,7 +26,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -49,7 +49,7 @@ public class SalesDashboardView extends Depot {
         this.setContentBorder(true);
     }
 
-    public void displayReport() {
+    void displayReport() {
         final String reportName = this.reportDashboard[this.currentReportIndex];
 
         final VerticalLayout bodyContent = (VerticalLayout) this.bodyContent;
@@ -78,7 +78,7 @@ public class SalesDashboardView extends Depot {
     private void initUI() {
         final PopupButton saleChartPopup = new PopupButton("");
         saleChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
-        saleChartPopup.setStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+        saleChartPopup.setStyleName(WebThemes.BUTTON_ICON_ONLY);
 
         final OptionPopupContent filterBtnLayout = new OptionPopupContent();
 

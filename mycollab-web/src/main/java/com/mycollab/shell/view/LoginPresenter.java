@@ -26,7 +26,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewEvent;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.web.DesktopApplication;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -54,9 +54,9 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        container.removeAllComponents();
-        container.addComponent(view);
+    protected void onGo(HasComponents container, ScreenData<?> data) {
+        MainWindowContainer windowContainer = (MainWindowContainer) container;
+        windowContainer.setContent(view);
         MyCollabUI.addFragment("user/login", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
     }
 }

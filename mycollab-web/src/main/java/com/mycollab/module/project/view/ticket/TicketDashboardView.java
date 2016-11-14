@@ -29,4 +29,6 @@ public interface TicketDashboardView extends IListView<ProjectTicketSearchCriter
     void displayView(String query);
 
     void queryTickets(ProjectTicketSearchCriteria searchCriteria);
+
+    ProjectTicketSearchCriteria getCriteria();
 }

@@ -36,7 +36,7 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.web.ui.ListSelectionPresenter;
 import com.mycollab.vaadin.web.ui.MailFormWindow;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -109,7 +109,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleContainer roleContainer = (RoleContainer) container;
             roleContainer.removeAllComponents();

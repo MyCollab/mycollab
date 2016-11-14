@@ -36,7 +36,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -83,12 +83,11 @@ public class PageReadPresenter extends ProjectGenericPresenter<PageReadView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PAGES)) {
             PageContainer pageContainer = (PageContainer) container;
             pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
-            pageContainer.removeAllComponents();
-            pageContainer.addComponent(view);
+            pageContainer.setContent(view);
             Page page = (Page) data.getParams();
             view.previewItem(page);
 

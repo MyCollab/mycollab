@@ -36,7 +36,7 @@ import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -124,7 +124,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_MEETING)) {
             SimpleMeeting meeting;
             if (data.getParams() instanceof Integer) {

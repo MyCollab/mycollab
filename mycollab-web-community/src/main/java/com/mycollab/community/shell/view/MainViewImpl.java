@@ -40,7 +40,6 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.NotificationComponent;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.web.IDesktopModule;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
@@ -62,11 +61,6 @@ import java.util.GregorianCalendar;
  */
 @ViewComponent
 public class MainViewImpl extends AbstractMainView {
-    @Override
-    protected void postAddModule(IDesktopModule module) {
-//        SliderPanel sliderPanel = CommunitySliderPanel.buildCommunitySliderPanel();
-//        bodyLayout.with(sliderPanel);
-    }
 
     @Override
     protected MHorizontalLayout buildAccountMenuLayout() {
@@ -76,9 +70,9 @@ public class MainViewImpl extends AbstractMainView {
         accountNameLabel.addStyleName("subDomain");
         accountLayout.addComponent(accountNameLabel);
 
-        MButton buyPremiumBtn = new MButton(UserUIContext.getMessage(LicenseI18nEnum.OPT_TRIAL_THE_PRO_EDITION),
-                clickEvent -> UI.getCurrent().addWindow(new AdWindow()))
-                .withIcon(FontAwesome.SHOPPING_CART).withStyleName("ad");
+        MButton buyPremiumBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new AdWindow()))
+                .withIcon(FontAwesome.SHOPPING_CART).withStyleName("ad")
+                .withDescription(UserUIContext.getMessage(LicenseI18nEnum.OPT_TRIAL_THE_PRO_EDITION));
         accountLayout.addComponent(buyPremiumBtn);
 
         NotificationComponent notificationComponent = new NotificationComponent();

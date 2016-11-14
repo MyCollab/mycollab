@@ -43,7 +43,7 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -97,7 +97,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         tabSheet.selectTab(CrmTypeConstants.DETAIL);
 
         if (beanItem.isOverdue()) {
-            previewLayout.addTitleStyleName(WebUIConstants.LABEL_OVERDUE);
+            previewLayout.addTitleStyleName(WebThemes.LABEL_OVERDUE);
         }
     }
 

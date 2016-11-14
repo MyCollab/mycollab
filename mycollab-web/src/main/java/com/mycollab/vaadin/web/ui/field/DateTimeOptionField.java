@@ -19,7 +19,7 @@ package com.mycollab.vaadin.web.ui.field;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.PopupDateFieldExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
@@ -82,10 +82,10 @@ public class DateTimeOptionField extends CustomField<Date> {
         timeFormatComboBox.setNullSelectionAllowed(false);
 
         toggleTimeBtn = new Button("", clickEvent -> toggleHideTimeOption(!hideTimeOption));
-        toggleTimeBtn.addStyleName(WebUIConstants.BUTTON_LINK);
+        toggleTimeBtn.addStyleName(WebThemes.BUTTON_LINK);
 
         container = new MHorizontalLayout();
-        container.addStyleName(WebUIConstants.FLEX_DISPLAY);
+        container.addStyleName(WebThemes.FLEX_DISPLAY);
 
         if (hideTimeOption) {
             toggleTimeBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_SET_TIME));

@@ -23,7 +23,7 @@ import com.mycollab.module.project.domain.SimpleMessage;
 import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -37,7 +37,7 @@ public class MessageListPresenter extends ProjectListPresenter<MessageListView, 
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
             super.onGo(container, data);
         } else {

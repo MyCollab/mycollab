@@ -19,14 +19,14 @@ package com.mycollab.mobile.module.crm.view.campaign;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.mobile.module.crm.events.*;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.mycollab.mobile.shell.events.ShellEvent;
-import com.mycollab.mobile.module.crm.events.*;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.security.RolePermissionCollections;
@@ -37,7 +37,7 @@ import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.RelatedListHandler;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -234,7 +234,7 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
 
             if (data.getParams() instanceof Integer) {

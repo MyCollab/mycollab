@@ -29,7 +29,7 @@ import com.mycollab.vaadin.events.SearchHandler;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.breadcrumb.Breadcrumb;
 import com.vaadin.ui.Button;
 
@@ -74,7 +74,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
             criteria.setRootFolder(rootFolderPath);
             notifySearchHandler(criteria);
         });
-        documentBtnLink.addStyleName(WebUIConstants.BUTTON_LINK);
+        documentBtnLink.addStyleName(WebThemes.BUTTON_LINK);
         this.addLink(documentBtnLink);
         this.setLinkEnabled(true, 1);
     }

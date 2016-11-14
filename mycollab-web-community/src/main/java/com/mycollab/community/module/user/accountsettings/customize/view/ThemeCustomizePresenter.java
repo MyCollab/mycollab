@@ -20,7 +20,7 @@ import com.mycollab.module.user.accountsettings.customize.view.IThemeCustomizePr
 import com.mycollab.module.user.accountsettings.customize.view.IThemeCustomizeView;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -32,7 +32,7 @@ public class ThemeCustomizePresenter extends AbstractPresenter<IThemeCustomizeVi
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
 
     }
 }

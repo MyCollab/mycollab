@@ -140,7 +140,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     message.getFullPostedUserName());
             messageLayout.addComponent(userBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
 
             A labelLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(message.getProjectid(), message.getId()),
                     new Text(message.getTitle()));
@@ -163,7 +163,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                             messageService.removeWithSession(message, UserUIContext.getUsername(), MyCollabUI.getAccountId());
                             messageList.setSearchCriteria(searchCriteria);
                         }
-                    })).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+                    })).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             MHorizontalLayout rightHeader = new MHorizontalLayout();
@@ -196,7 +196,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                 attachmentCountLbl.setSizeUndefined();
                 attachmentNotification.addComponent(attachmentCountLbl);
                 Button attachmentIcon = new Button(FontAwesome.PAPERCLIP);
-                attachmentIcon.addStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+                attachmentIcon.addStyleName(WebThemes.BUTTON_ICON_ONLY);
                 attachmentNotification.addComponent(attachmentIcon);
                 notification.addComponent(attachmentNotification);
             }
@@ -230,7 +230,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch())
-                    .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SEARCH)
+                    .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SEARCH)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             final MHorizontalLayout basicSearchBody = new MHorizontalLayout(nameField, searchBtn).withWidthUndefined()
                     .withAlign(nameField, Alignment.MIDDLE_LEFT);
@@ -251,7 +251,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         private MHorizontalLayout messagePanelBody;
 
         TopMessagePanel() {
-            this.withFullWidth().withStyleName(WebUIConstants.BOX);
+            this.withFullWidth().withStyleName(WebThemes.BOX);
             messagePanelBody = new MHorizontalLayout().withSpacing(false).withFullWidth();
             messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
@@ -285,7 +285,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                     clickEvent -> MessageListViewImpl.this.setCriteria(searchCriteria))
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
 
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
                 Message message = new Message();
@@ -308,7 +308,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
                             UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout controls = new MHorizontalLayout(attachments, chkIsStick, cancelBtn, saveBtn)
                     .expand(attachments).withFullWidth();
@@ -324,7 +324,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             if (!isEmpty) {
                 MButton createMessageBtn = new MButton(UserUIContext.getMessage(MessageI18nEnum.NEW),
                         clickEvent -> createAddMessageLayout())
-                        .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                        .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                         .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
                 messagePanelBody.addComponent(createMessageBtn);

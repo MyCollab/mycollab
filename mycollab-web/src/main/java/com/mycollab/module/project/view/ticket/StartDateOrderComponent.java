@@ -58,13 +58,7 @@ public class StartDateOrderComponent extends TicketGroupOrderComponent {
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(titleValue);
                     startDateAvailables.put(time, groupComponent);
-                    int index = startDateAvailables.getKeyIndex(time);
-                    if (index > -1) {
-                        addComponent(groupComponent, index);
-                    } else {
-                        addComponent(groupComponent);
-                    }
-
+                    addComponent(groupComponent);
                     groupComponent.insertTicket(task);
                 }
             } else {

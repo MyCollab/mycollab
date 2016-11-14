@@ -17,7 +17,7 @@
 package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.module.project.domain.ProjectTicket;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 
 import java.util.List;
 
@@ -25,9 +25,9 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class SimpleListOrderComponent extends TicketGroupOrderComponent {
-    public SimpleListOrderComponent() {
-        this.addStyleName(WebUIConstants.BORDER_LIST);
+class SimpleListOrderComponent extends TicketGroupOrderComponent {
+    SimpleListOrderComponent() {
+        this.addStyleName(WebThemes.BORDER_LIST);
     }
 
     @Override

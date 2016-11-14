@@ -38,7 +38,7 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.ComponentContainer;
 
 import java.util.Date;
@@ -148,7 +148,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         Date now = new GregorianCalendar().getTime();
         String status = this.beanItem.getStatus();
         if (!"Completed".equals(status) && (this.beanItem.getEnddate() != null && this.beanItem.getEnddate().before(now))) {
-            previewLayout.addTitleStyleName(WebUIConstants.LABEL_OVERDUE);
+            previewLayout.addTitleStyleName(WebThemes.LABEL_OVERDUE);
         }
     }
 

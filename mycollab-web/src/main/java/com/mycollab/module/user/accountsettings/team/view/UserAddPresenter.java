@@ -35,7 +35,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewPermission;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.server.Page;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -103,7 +103,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         UserContainer userContainer = (UserContainer) container;
         userContainer.removeAllComponents();
         userContainer.addComponent(view);

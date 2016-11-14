@@ -29,14 +29,15 @@ import com.vaadin.ui.UI;
 public class MyCollabUIProvider extends UIProvider {
     private static final long serialVersionUID = 1L;
 
-    private static final String MOBILE_APP = "com.mycollab.mobile.MobileApplication";
-    private static final String DESKTOP_APP = "com.mycollab.web.DesktopApplication";
+    static final String MOBILE_APP = "com.mycollab.mobile.MobileApplication";
+    static final String DESKTOP_APP = "com.mycollab.web.DesktopApplication";
 
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
         VaadinRequest request = event.getRequest();
         String uiClass;
         String userAgent;
+
         try {
             userAgent = request.getHeader("user-agent").toLowerCase();
         } catch (Exception e) {

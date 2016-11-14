@@ -22,8 +22,6 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.fielddef.BugTableFieldDef;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.view.bug.BugSearchPanel;
-import com.mycollab.module.project.view.bug.BugTableDisplay;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
@@ -31,7 +29,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
@@ -80,12 +78,12 @@ public class BugSelectionWindow extends MWindow {
             MButton b = new MButton(bug.getName(), clickEvent -> {
                 fieldSelection.fireValueChange(bug);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK);
+            }).withStyleName(WebThemes.BUTTON_LINK);
 
             if (bug.isCompleted()) {
-                b.addStyleName(WebUIConstants.LINK_COMPLETED);
+                b.addStyleName(WebThemes.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
-                b.addStyleName(WebUIConstants.LINK_OVERDUE);
+                b.addStyleName(WebThemes.LINK_OVERDUE);
             }
 
             b.setDescription(ProjectTooltipGenerator.generateToolTipBug(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),

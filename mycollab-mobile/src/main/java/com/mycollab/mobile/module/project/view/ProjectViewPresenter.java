@@ -32,7 +32,7 @@ import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -46,7 +46,7 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (data == null) {
             // do nothing
         }
@@ -63,7 +63,7 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
     }
 
     @Override
-    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
+    protected void onHandleChain(HasComponents container, PageActionChain pageActionChain) {
         ScreenData<?> pageAction = pageActionChain.peek();
 
         IPresenter<?> presenter;

@@ -30,7 +30,7 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -77,7 +77,7 @@ public class RoleListViewImpl extends AbstractVerticalPageView implements RoleLi
 
     private ComponentContainer constructTableActionControls() {
         MHorizontalLayout layout = new MHorizontalLayout();
-        MCssLayout layoutWrapper = new MCssLayout(layout).withFullWidth().withStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
+        MCssLayout layoutWrapper = new MCssLayout(layout).withFullWidth().withStyleName(WebThemes.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         layout.addComponent(selectOptionButton);

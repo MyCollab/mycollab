@@ -64,17 +64,11 @@ public final class WebResourceIds {
   public static final String _default_user_avatar_32 = "icons/default_user_avatar_32.png";
   public static final String _default_user_avatar_48 = "icons/default_user_avatar_48.png";
   public static final String _default_user_avatar_64 = "icons/default_user_avatar_64.png";
-  public static final String _email_border_large_bottom = "icons/email/border_large_bottom.png";
-  public static final String _email_border_large_center = "icons/email/border_large_center.png";
-  public static final String _email_border_large_center_footer = "icons/email/border_large_center_footer.png";
-  public static final String _email_border_large_center_orange = "icons/email/border_large_center_orange.png";
-  public static final String _email_border_large_top = "icons/email/border_large_top.png";
   public static final String _email_footer_facebook = "icons/email/footer-facebook.png";
   public static final String _email_footer_google = "icons/email/footer-google.png";
   public static final String _email_footer_twitter = "icons/email/footer-twitter.png";
   public static final String _footer_clouds = "icons/footer_clouds.png";
   public static final String _lazy_load_icon = "icons/lazy-load-icon.gif";
   public static final String _logo = "icons/logo.png";
-  public static final String _logo_mycollab_2 = "icons/logo_mycollab_2.png";
   public static final String _sad_face = "icons/sad_face.png";
 }

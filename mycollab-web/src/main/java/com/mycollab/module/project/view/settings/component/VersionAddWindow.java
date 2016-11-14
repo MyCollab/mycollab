@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.settings.component;
 
-import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.VersionI18nEnum;
@@ -40,8 +40,8 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd
  * @since 5.3.0
  */
-public class VersionAddWindow extends MWindow implements IEditFormHandler<Version> {
-    public VersionAddWindow() {
+class VersionAddWindow extends MWindow implements IEditFormHandler<Version> {
+    VersionAddWindow() {
         super(UserUIContext.getMessage(VersionI18nEnum.NEW));
         AdvancedEditBeanForm<Version> editForm = new AdvancedEditBeanForm<>();
         editForm.addFormHandler(this);
@@ -51,7 +51,7 @@ public class VersionAddWindow extends MWindow implements IEditFormHandler<Versio
         Version version = new Version();
         version.setProjectid(CurrentProjectVariables.getProjectId());
         version.setSaccountid(MyCollabUI.getAccountId());
-        version.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
+        version.setStatus(StatusI18nEnum.Open.name());
         editForm.setBean(version);
         ComponentContainer buttonControls = generateEditFormControls(editForm, true, false, true);
         withWidth("750px").withModal(true).withResizable(false).withContent(new MVerticalLayout(editForm,

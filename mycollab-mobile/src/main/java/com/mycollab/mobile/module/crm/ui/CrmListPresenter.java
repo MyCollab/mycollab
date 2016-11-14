@@ -16,15 +16,15 @@
  */
 package com.mycollab.mobile.module.crm.ui;
 
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.arguments.ValuedBean;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.mobile.ui.AbstractListPresenter;
 import com.mycollab.mobile.ui.AbstractMobileTabPageView;
 import com.mycollab.mobile.ui.IListView;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @param <V>
@@ -40,9 +40,8 @@ public abstract class CrmListPresenter<V extends IListView<S, B>, S extends Sear
         super(viewClass);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         Component targetView;
         NavigationManager currentNav = (NavigationManager) container;
 

@@ -21,11 +21,9 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Label;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
@@ -175,7 +173,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
                 } else {
                     clickLegendItem(key.toString());
                 }
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(btnCaption);
+            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(btnCaption);
 
             layout.with(lblCircle, btnLink);
             mainLayout.addComponent(layout);

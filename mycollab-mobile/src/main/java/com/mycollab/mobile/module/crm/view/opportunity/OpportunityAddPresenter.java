@@ -20,8 +20,8 @@ import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.OpportunityEvent;
-import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
+import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.service.OpportunityService;
@@ -32,7 +32,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -65,7 +65,7 @@ public class OpportunityAddPresenter extends AbstractCrmPresenter<OpportunityAdd
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
 
             SimpleOpportunity opportunity = null;

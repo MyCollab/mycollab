@@ -29,10 +29,7 @@ import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.BasicSearchLayout;
-import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.SearchLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -66,7 +63,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
     protected Component buildExtraControls() {
         MButton createBtn = new MButton(UserUIContext.getMessage(VersionI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
         return createBtn;
     }
@@ -92,12 +89,12 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
             basicSearchBody.with(nameField);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
+                    .withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn);
 
             return basicSearchBody;

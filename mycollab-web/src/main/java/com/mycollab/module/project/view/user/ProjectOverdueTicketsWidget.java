@@ -25,8 +25,8 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.ticket.TicketRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
@@ -35,6 +35,8 @@ import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
+
+import java.text.MessageFormat;
 
 /**
  * @author MyCollab Ltd.
@@ -45,10 +47,10 @@ public class ProjectOverdueTicketsWidget extends Depot {
 
     private ProjectTicketSearchCriteria searchCriteria;
 
-    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> taskList;
+    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
 
     public ProjectOverdueTicketsWidget() {
-        super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
+        super(String.format("%s (0)", UserUIContext.getMessage(TicketI18nEnum.VAL_OVERDUE_TICKETS)), new CssLayout());
         this.setWidth("100%");
 
         final CheckBox myItemsSelection = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
@@ -62,7 +64,7 @@ public class ProjectOverdueTicketsWidget extends Depot {
             updateSearchResult();
         });
 
-        taskList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
+        ticketList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
                 new TicketRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
@@ -70,7 +72,7 @@ public class ProjectOverdueTicketsWidget extends Depot {
             }
         };
         this.addHeaderElement(myItemsSelection);
-        bodyContent.addComponent(taskList);
+        bodyContent.addComponent(ticketList);
     }
 
     public void showOpenTickets() {
@@ -82,7 +84,8 @@ public class ProjectOverdueTicketsWidget extends Depot {
     }
 
     private void updateSearchResult() {
-        taskList.setSearchCriteria(searchCriteria);
-        this.setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskList.getTotalCount()));
+        ticketList.setSearchCriteria(searchCriteria);
+        this.setTitle(MessageFormat.format("{0} ({1})", UserUIContext.getMessage(TicketI18nEnum.VAL_OVERDUE_TICKETS),
+                ticketList.getTotalCount()));
     }
 }

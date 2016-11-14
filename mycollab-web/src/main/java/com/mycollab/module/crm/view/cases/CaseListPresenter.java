@@ -38,7 +38,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.web.ui.MailFormWindow;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CASE);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CASE)) {
             searchCriteria = (CaseSearchCriteria) data.getParams();

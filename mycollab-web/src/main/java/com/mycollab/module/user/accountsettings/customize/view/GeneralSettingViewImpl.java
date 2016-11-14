@@ -42,7 +42,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.BrowserWindowOpener;
@@ -89,7 +89,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         Label headerLbl = new Label(UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
 
         MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> UI.getCurrent().addWindow(new AccountInfoChangeWindow()))
-                .withStyleName(WebUIConstants.BUTTON_LINK);
+                .withStyleName(WebThemes.BUTTON_LINK);
 
         generalSettingHeader.with(headerLbl, editBtn).alignAll(Alignment.MIDDLE_LEFT);
 
@@ -217,7 +217,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
             billingAccount.setLogopath(null);
             billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
-        }).withStyleName(WebUIConstants.BUTTON_OPTION);
+        }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         buttonControls.with(resetButton, logoUploadField);
@@ -283,7 +283,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
             billingAccount.setFaviconpath(null);
             billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
-        }).withStyleName(WebUIConstants.BUTTON_OPTION);
+        }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         buttonControls.with(resetButton, favIconUploadField);
@@ -301,7 +301,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         leftPanel.with(logoDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
         MButton downloadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
-                .withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.DOWNLOAD);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.DOWNLOAD);
         BrowserWindowOpener opener = new BrowserWindowOpener(SiteConfiguration.getApiUrl("localization/translations"));
         opener.extend(downloadBtn);
         rightPanel.with(downloadBtn, new ELabel(UserUIContext.getMessage(ShellI18nEnum

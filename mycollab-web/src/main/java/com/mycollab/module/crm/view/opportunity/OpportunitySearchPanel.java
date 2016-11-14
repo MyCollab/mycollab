@@ -75,7 +75,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
     protected Component buildExtraControls() {
         return (canCreateOpportunity) ? new MButton(UserUIContext.getMessage(OpportunityI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) : null;
     }
 
@@ -110,17 +110,17 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
             layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
+                    .withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
             layout.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
             MButton advancedSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     clickEvent -> moveToAdvancedSearchLayout())
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withStyleName(WebThemes.BUTTON_LINK);
 
             layout.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return layout;

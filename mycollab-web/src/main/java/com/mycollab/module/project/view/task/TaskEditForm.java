@@ -36,12 +36,11 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
@@ -69,7 +68,6 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
     }
 
     class FormLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
         private GridFormLayoutHelper informationLayout;
 
         @Override
@@ -78,13 +76,10 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
             layout.addComponent(informationLayout.getLayout());
 
-            MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
-            buttonControls.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-
             MButton updateAllBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
                 EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskEditForm.this, bean));
                 postExecution();
-            }).withStyleName(WebUIConstants.BUTTON_LINK);
+            }).withStyleName(WebThemes.BUTTON_LINK);
 
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (validateForm()) {
@@ -104,8 +99,8 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                             ProjectTypeConstants.TASK, "" + taskId);
                     uploadField.saveContentsToRepo(attachPath);
 
-                    ProjectSubscribersComp subcribersComp = taskEditFormFieldFactory.getSubscribersComp();
-                    List<String> followers = subcribersComp.getFollowers();
+                    ProjectSubscribersComp subscribersComp = taskEditFormFieldFactory.getSubscribersComp();
+                    List<String> followers = subscribersComp.getFollowers();
                     if (followers.size() > 0) {
                         List<MonitorItem> monitorItems = new ArrayList<>();
                         for (String follower : followers) {
@@ -127,15 +122,17 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                     EventBusFactory.getInstance().post(new TicketEvent.NewTicketAdded(TaskEditForm.this,
                             ProjectTypeConstants.TASK, taskId));
                 }
-            }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+            }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> postExecution())
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
-            buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
+
+            MHorizontalLayout buttonControls = new MHorizontalLayout(updateAllBtn, cancelBtn, saveBtn).withMargin(true)
+                    .alignAll(Alignment.MIDDLE_RIGHT);
 
             layout.addComponent(buttonControls);
             layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
-            layout.addStyleName(WebUIConstants.SCROLLABLE_CONTAINER);
+            layout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             new Restrain(layout).setMaxHeight("600px");
             return layout;
         }

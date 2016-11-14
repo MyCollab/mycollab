@@ -47,7 +47,7 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -87,12 +87,11 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
-            milestoneContainer.removeAllComponents();
-            milestoneContainer.addComponent(view);
+            milestoneContainer.setContent(view);
 
             SimpleMilestone milestone = (SimpleMilestone) data.getParams();
             view.editItem(milestone);

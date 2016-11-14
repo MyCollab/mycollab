@@ -19,6 +19,7 @@ package com.mycollab.module.project.view;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -37,8 +38,8 @@ public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketV
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        container.addComponent(view);
+    protected void onGo(HasComponents container, ScreenData<?> data) {
+        ((ComponentContainer) container).addComponent(view);
         view.displayTickets();
     }
 }

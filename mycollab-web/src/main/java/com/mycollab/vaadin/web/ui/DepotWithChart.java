@@ -45,7 +45,7 @@ public abstract class DepotWithChart extends Depot {
                 toggleViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_SIMPLE_MODE));
                 displayChartMode();
             }
-        }).withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+        }).withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         toggleViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_SIMPLE_MODE));
         addHeaderElement(toggleViewBtn);
         setContentBorder(true);

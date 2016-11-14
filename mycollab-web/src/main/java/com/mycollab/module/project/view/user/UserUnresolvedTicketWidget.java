@@ -43,12 +43,12 @@ import java.util.Date;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class UserUnresolvedAssignmentWidget extends Depot {
+public class UserUnresolvedTicketWidget extends Depot {
     private ProjectTicketSearchCriteria searchCriteria;
-    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> taskList;
+    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
     private String title = "";
 
-    public UserUnresolvedAssignmentWidget() {
+    public UserUnresolvedTicketWidget() {
         super("", new CssLayout());
         this.setWidth("100%");
         final CheckBox myItemsSelection = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
@@ -63,7 +63,7 @@ public class UserUnresolvedAssignmentWidget extends Depot {
                 updateSearchResult();
             }
         });
-        taskList = new DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket>
+        ticketList = new DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket>
                 (AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
@@ -71,7 +71,7 @@ public class UserUnresolvedAssignmentWidget extends Depot {
             }
         };
         this.addHeaderElement(myItemsSelection);
-        this.bodyContent.addComponent(taskList);
+        this.bodyContent.addComponent(ticketList);
     }
 
     public void displayUnresolvedAssignmentsThisWeek() {
@@ -112,7 +112,7 @@ public class UserUnresolvedAssignmentWidget extends Depot {
     }
 
     private void updateSearchResult() {
-        taskList.setSearchCriteria(searchCriteria);
-        this.setTitle(String.format(title, taskList.getTotalCount()));
+        ticketList.setSearchCriteria(searchCriteria);
+        this.setTitle(String.format(title, ticketList.getTotalCount()));
     }
 }

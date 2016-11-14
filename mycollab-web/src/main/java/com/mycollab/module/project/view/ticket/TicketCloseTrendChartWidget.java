@@ -34,7 +34,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.Depot;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -171,7 +171,7 @@ public class TicketCloseTrendChartWidget extends Depot {
 
                 String captionBtn = UserUIContext.getMessage(StatusI18nEnum.class, (String) key.getKey());
                 final MButton btnLink = new MButton(StringUtils.trim(captionBtn, 30, true)).withDescription
-                        (captionBtn).withStyleName(WebUIConstants.BUTTON_LINK);
+                        (captionBtn).withStyleName(WebThemes.BUTTON_LINK);
                 layout.with(lblCircle, btnLink);
                 mainLayout.addComponent(layout);
             }

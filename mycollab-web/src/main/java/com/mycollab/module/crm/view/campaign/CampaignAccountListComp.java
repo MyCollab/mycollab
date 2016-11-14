@@ -36,10 +36,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.SplitButton;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -84,7 +81,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
 
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
             final SplitButton controlsBtn = new SplitButton();
-            controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+            controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(AccountI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
@@ -143,7 +140,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
                                     CampaignAccountListComp.this.refresh();
                                 }
                             })
-            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

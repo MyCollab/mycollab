@@ -28,7 +28,7 @@ import com.mycollab.module.crm.view.contact.ContactTableDisplay;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
@@ -53,13 +53,13 @@ public class CaseContactSelectionWindow extends RelatedItemSelectionWindow<Simpl
         tableItem.addGeneratedColumn("contactName", (source, itemId, columnId) -> {
             final SimpleContact contact = tableItem.getBeanByIndex(itemId);
 
-            return new ELabel(contact.getContactName()).withStyleName(WebUIConstants.BUTTON_LINK)
+            return new ELabel(contact.getContactName()).withStyleName(WebThemes.BUTTON_LINK)
                     .withDescription(CrmTooltipGenerator.generateToolTipContact(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                             contact, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
 
         MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_ACTION);
+                .withStyleName(WebThemes.BUTTON_ACTION);
 
         ContactSearchPanel searchPanel = new ContactSearchPanel();
         searchPanel.addSearchHandler(criteria -> tableItem.setSearchCriteria(criteria));

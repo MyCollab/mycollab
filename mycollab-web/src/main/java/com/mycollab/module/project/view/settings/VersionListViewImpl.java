@@ -95,9 +95,9 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
             final LabelLink b = new LabelLink(bugVersion.getName(), ProjectLinkBuilder
                     .generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
             if (bugVersion.getStatus() != null && bugVersion.getStatus().equals(StatusI18nEnum.Closed.name())) {
-                b.addStyleName(WebUIConstants.LINK_COMPLETED);
+                b.addStyleName(WebThemes.LINK_COMPLETED);
             } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
-                b.addStyleName(WebUIConstants.LINK_OVERDUE);
+                b.addStyleName(WebThemes.LINK_OVERDUE);
             }
             b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                     bugVersion, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
@@ -139,7 +139,7 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
         final CssLayout layoutWrapper = new CssLayout();
         layoutWrapper.setWidth("100%");
         MHorizontalLayout layout = new MHorizontalLayout();
-        layoutWrapper.addStyleName(WebUIConstants.TABLE_ACTION_CONTROLS);
+        layoutWrapper.addStyleName(WebThemes.TABLE_ACTION_CONTROLS);
         layoutWrapper.addComponent(layout);
 
         this.selectOptionButton = new SelectionOptionButton(this.tableItem);

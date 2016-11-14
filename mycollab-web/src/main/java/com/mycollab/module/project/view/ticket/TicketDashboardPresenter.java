@@ -19,7 +19,6 @@ package com.mycollab.module.project.view.ticket;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.service.ProjectTicketService;
@@ -30,7 +29,7 @@ import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -53,10 +52,10 @@ public class TicketDashboardPresenter extends ProjectGenericListPresenter<Ticket
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canReadTicket()) {
-            container.removeAllComponents();
-            container.addComponent(view);
+            TicketContainer ticketContainer = (TicketContainer) container;
+            ticketContainer.setContent(view);
             String query = (data != null && data.getParams() instanceof String) ? (String) data.getParams() : "";
             view.displayView(query);
 

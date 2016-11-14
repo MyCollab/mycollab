@@ -29,8 +29,7 @@ import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -44,10 +43,9 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
     }
 
     @Override
-    public void onGo(ComponentContainer container, ScreenData<?> data) {
+    public void onGo(HasComponents container, ScreenData<?> data) {
         ProjectModule prjContainer = (ProjectModule) container;
-        prjContainer.removeAllComponents();
-        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
+        prjContainer.setContent(view);
         if (data.getParams() instanceof Integer) {
             ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             SimpleProject project = projectService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
@@ -69,7 +67,7 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
     }
 
     @Override
-    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
+    protected void onHandleChain(HasComponents container, PageActionChain pageActionChain) {
         ScreenData<?> pageAction = pageActionChain.peek();
 
         Class<? extends IPresenter> presenterCls = ProjectPresenterDataMapper.presenter(pageAction);

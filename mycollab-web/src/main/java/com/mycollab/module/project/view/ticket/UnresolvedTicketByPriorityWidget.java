@@ -31,10 +31,7 @@ import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.web.ui.ButtonI18nComp;
-import com.mycollab.vaadin.web.ui.Depot;
-import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -109,7 +106,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
                         priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                                 .withIcon(ProjectAssetsManager.getPriority(priority.name()))
-                                .withStyleName(WebUIConstants.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
+                                .withStyleName(WebThemes.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
                                 .withWidth("110px");
 
                         priorityLayout.addComponent(priorityLink);
@@ -126,7 +123,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
                     priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     MButton priorityLink = new ButtonI18nComp(priority.name(), priority, listener)
                             .withIcon(ProjectAssetsManager.getPriority(priority.name()))
-                            .withStyleName(WebUIConstants.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
+                            .withStyleName(WebThemes.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
                             .withWidth("110px");
                     priorityLayout.addComponent(priorityLink);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);

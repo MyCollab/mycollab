@@ -26,7 +26,7 @@ import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -71,7 +71,7 @@ public class OpportunitySelectionWindow extends MWindow {
             return new MButton(opportunity.getOpportunityname(), clickEvent -> {
                 fieldSelection.fireValueChange(opportunity);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
                     opportunity, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }

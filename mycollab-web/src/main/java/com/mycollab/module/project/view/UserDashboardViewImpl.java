@@ -42,7 +42,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.SearchTextField;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -214,7 +214,7 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         MHorizontalLayout headerComp = new MHorizontalLayout();
         ELabel headerLbl = ELabel.h2(String.format(headerTitle, value, 0));
         Button backDashboard = new Button("Back to workboard", clickEvent -> showDashboard());
-        backDashboard.setStyleName(WebUIConstants.BUTTON_ACTION);
+        backDashboard.setStyleName(WebThemes.BUTTON_ACTION);
         headerComp.with(headerLbl, backDashboard).alignAll(Alignment.MIDDLE_LEFT);
         layout.with(headerComp);
 
@@ -244,12 +244,12 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
             content.with(new Label(UserUIContext.getMessage(ProjectI18nEnum.OPT_TO_ADD_PROJECT)));
 
             MButton skipBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
 
             MButton createNewBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.NEW), clickEvent -> {
                 UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_ACTION);
+            }).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout btnControls = new MHorizontalLayout(skipBtn, createNewBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);

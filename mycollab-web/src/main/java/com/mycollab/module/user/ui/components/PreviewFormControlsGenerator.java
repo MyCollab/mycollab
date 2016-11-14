@@ -20,7 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -64,7 +64,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
 
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
         optionBtn = new PopupButton();
-        optionBtn.addStyleName(WebUIConstants.BUTTON_OPTION);
+        optionBtn.addStyleName(WebThemes.BUTTON_OPTION);
         optionBtn.setIcon(FontAwesome.ELLIPSIS_H);
 
         if (permissionItem != null) {
@@ -77,7 +77,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireAddForm(item);
-                }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION).withVisible(canWrite);
+                }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION).withVisible(canWrite);
                 editButtons.addComponent(addBtn);
             }
 
@@ -86,7 +86,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireEditForm(item);
-                }).withIcon(FontAwesome.EDIT).withStyleName(WebUIConstants.BUTTON_ACTION).withVisible(canWrite);
+                }).withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_ACTION).withVisible(canWrite);
                 editButtons.addComponent(editBtn);
             }
 
@@ -94,7 +94,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                 MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.fireDeleteForm(item);
-                }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_DANGER).withVisible(canAccess);
+                }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_DANGER).withVisible(canAccess);
                 editButtons.addComponent(deleteBtn);
             }
 
@@ -105,14 +105,14 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                 MButton previousItem = new MButton("", clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.fireGotoPrevious(item);
-                }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebUIConstants.BUTTON_ACTION)
+                }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_ACTION)
                         .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM)).withVisible(canRead);
                 navigationBtns.addButton(previousItem);
 
                 MButton nextItemBtn = new MButton("", clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.fireGotoNextItem(item);
-                }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebUIConstants.BUTTON_ACTION)
+                }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_ACTION)
                         .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM)).withVisible(canRead);
                 navigationBtns.addButton(nextItemBtn);
                 layout.with(navigationBtns);

@@ -30,7 +30,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -101,7 +101,7 @@ class GroupPageAddWindow extends MWindow {
                 layout.addComponent(controlsBtn);
 
                 final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                        .withStyleName(WebUIConstants.BUTTON_OPTION);
+                        .withStyleName(WebThemes.BUTTON_OPTION);
 
                 MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                     if (EditForm.this.validateForm()) {
@@ -112,7 +112,7 @@ class GroupPageAddWindow extends MWindow {
                         GroupPageAddWindow.this.close();
                         EventBusFactory.getInstance().post(new PageEvent.GotoList(GroupPageAddWindow.this, folder.getPath()));
                     }
-                }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+                }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
                 controlsBtn.with(cancelBtn, saveBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);

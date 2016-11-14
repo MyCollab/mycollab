@@ -16,30 +16,31 @@
  */
 package com.mycollab.mobile.module.crm.view.cases;
 
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.mobile.module.crm.events.ActivityEvent;
+import com.mycollab.mobile.module.crm.events.CaseEvent;
+import com.mycollab.mobile.module.crm.events.ContactEvent;
+import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.mycollab.mobile.shell.events.ShellEvent;
+import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.module.crm.service.ContactService;
+import com.mycollab.security.RolePermissionCollections;
+import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.RelatedListHandler;
-import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.mycollab.mobile.module.crm.events.CaseEvent;
-import com.mycollab.mobile.module.crm.events.ContactEvent;
-import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
-import com.mycollab.mobile.ui.ConfirmDialog;
-import com.mycollab.module.crm.domain.*;
-import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.spring.AppContextUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
 
                     @Override
                     public void selectAssociateItems(Set<SimpleContact> items) {
-                        List<ContactCase> associateContacts = new ArrayList<ContactCase>();
+                        List<ContactCase> associateContacts = new ArrayList<>();
                         SimpleCase cases = view.getItem();
                         for (SimpleContact contact : items) {
                             ContactCase associateContact = new ContactCase();
@@ -169,46 +170,36 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
                             final SimpleCrmTask task = new SimpleCrmTask();
                             task.setType(CrmTypeConstants.ACCOUNT);
                             task.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.TaskEdit(
-                                            CaseReadPresenter.this, task));
+                            EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(CaseReadPresenter.this, task));
                         } else if (itemId.equals(CrmTypeConstants.MEETING)) {
                             final SimpleMeeting meeting = new SimpleMeeting();
                             meeting.setType(CrmTypeConstants.ACCOUNT);
                             meeting.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.MeetingEdit(
-                                            CaseReadPresenter.this, meeting));
+                            EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(CaseReadPresenter.this, meeting));
                         } else if (itemId.equals(CrmTypeConstants.CALL)) {
                             final SimpleCall call = new SimpleCall();
                             call.setType(CrmTypeConstants.ACCOUNT);
                             call.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.CallEdit(
-                                            CaseReadPresenter.this, call));
+                            EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(CaseReadPresenter.this, call));
                         }
                     }
                 });
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CASE)) {
 
             if (data.getParams() instanceof Integer) {
-                CaseService caseService = AppContextUtil
-                        .getSpringBean(CaseService.class);
-                SimpleCase cases = caseService.findById(
-                        (Integer) data.getParams(), MyCollabUI.getAccountId());
+                CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
+                SimpleCase cases = caseService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
                 if (cases != null) {
                     view.previewItem(cases);
                     super.onGo(container, data);
 
-                    MyCollabUI.addFragment(CrmLinkGenerator
-                            .generateCasePreviewLink(cases.getId()), UserUIContext
-                            .getMessage(
-                                    GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    "Case", cases.getSubject()));
+                    MyCollabUI.addFragment(CrmLinkGenerator.generateCasePreviewLink(cases.getId()),
+                            UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    UserUIContext.getMessage(CaseI18nEnum.SINGLE), cases.getSubject()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

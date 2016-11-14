@@ -22,9 +22,9 @@ import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
-import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.mycollab.vaadin.web.ui.AbstractPresenter;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -36,7 +36,7 @@ public class SetupPresenter extends AbstractPresenter<SetupView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.isAdmin()) {
             AccountModule accountContainer = (AccountModule) container;
             accountContainer.gotoSubView(SettingUIConstants.SETUP);

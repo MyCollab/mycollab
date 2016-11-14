@@ -5,7 +5,7 @@
     <name>mycollab-deployer-community</name>
     <groupId>com.mycollab</groupId>
     <artifactId>mycollab-deployer-community</artifactId>
-    <version>5.4.4</version>
+    <version>5.4.5</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.0.4</maven>

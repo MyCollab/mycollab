@@ -31,7 +31,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.*;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource.StreamSource;
@@ -92,7 +92,7 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
             downloaderExt.extend(vcardDownloadBtn);
 
             vcardDownloadBtn.setIcon(FontAwesome.CREDIT_CARD);
-            vcardDownloadBtn.setStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            vcardDownloadBtn.setStyleName(WebThemes.BUTTON_ICON_ONLY);
             containerField.addComponentField(vcardDownloadBtn);
             containerField.getLayout().setComponentAlignment(vcardDownloadBtn, Alignment.TOP_RIGHT);
             return containerField;

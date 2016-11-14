@@ -26,7 +26,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -64,13 +64,13 @@ public class NewUserAddedWindow extends MWindow {
             EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
             close();
         });
-        createMoreUserBtn.addStyleName(WebUIConstants.BUTTON_LINK);
+        createMoreUserBtn.addStyleName(WebThemes.BUTTON_LINK);
 
         Button doneBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
             EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
             close();
         });
-        doneBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+        doneBtn.addStyleName(WebThemes.BUTTON_ACTION);
         MHorizontalLayout buttonControls = new MHorizontalLayout(createMoreUserBtn, doneBtn).withFullWidth()
                 .withAlign(createMoreUserBtn, Alignment.MIDDLE_LEFT).withAlign(doneBtn, Alignment.MIDDLE_RIGHT);
         content.with(buttonControls);

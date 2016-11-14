@@ -29,6 +29,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.ThemeManager;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.WebBrowser;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -195,5 +196,14 @@ public abstract class MyCollabUI extends UI {
         currentContext.clearSessionVariables();
         currentContext = null;
         super.close();
+    }
+
+    public static boolean isTablet() {
+        try {
+            WebBrowser webBrowser = Page.getCurrent().getWebBrowser();
+            return webBrowser.isIPad();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

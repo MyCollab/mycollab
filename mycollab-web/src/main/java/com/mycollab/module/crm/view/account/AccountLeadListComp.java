@@ -27,7 +27,6 @@ import com.mycollab.module.crm.domain.AccountLead;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.module.crm.service.LeadService;
@@ -38,10 +37,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.SplitButton;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -69,7 +65,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
 
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
             final SplitButton controlsBtn = new SplitButton();
-            controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+            controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(LeadI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
@@ -144,7 +140,7 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
                                 AccountLeadListComp.this.refresh();
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 

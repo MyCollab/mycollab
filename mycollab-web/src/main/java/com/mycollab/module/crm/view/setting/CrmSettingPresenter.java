@@ -25,7 +25,7 @@ import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -39,11 +39,11 @@ public class CrmSettingPresenter extends CrmGenericPresenter<CrmSettingContainer
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        IPresenter presenter;
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule crmModule = (CrmModule) container;
-        crmModule.addView(view);
+        crmModule.setContent(view);
 
+        IPresenter presenter;
         if (ClassUtils.instanceOf(data, NotificationSettingScreenData.Read.class)) {
             presenter = PresenterResolver.getPresenter(CrmNotificationSettingPresenter.class);
         } else if (ClassUtils.instanceOf(data, CustomViewScreenData.Read.class)) {

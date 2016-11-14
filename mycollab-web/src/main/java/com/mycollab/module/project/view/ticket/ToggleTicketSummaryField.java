@@ -46,7 +46,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -55,7 +55,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MWindow;
 
 import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
@@ -73,9 +72,9 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         titleLinkLbl = ELabel.html(buildTicketLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
                 UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
         if (ticket.isClosed()) {
-            titleLinkLbl.addStyleName(WebUIConstants.LINK_COMPLETED);
+            titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
         } else if (ticket.isOverdue()) {
-            titleLinkLbl.addStyleName(WebUIConstants.LINK_OVERDUE);
+            titleLinkLbl.addStyleName(WebThemes.LINK_OVERDUE);
         }
         this.addComponent(titleLinkLbl);
         if (CurrentProjectVariables.canWriteTicket(ticket)) {
@@ -192,10 +191,10 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
     }
 
     public void setClosedTicket() {
-        titleLinkLbl.addStyleName(WebUIConstants.LINK_COMPLETED);
+        titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
     }
 
     public void unsetClosedTicket() {
-        titleLinkLbl.removeStyleName(WebUIConstants.LINK_COMPLETED);
+        titleLinkLbl.removeStyleName(WebThemes.LINK_COMPLETED);
     }
 }

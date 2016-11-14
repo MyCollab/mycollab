@@ -23,11 +23,11 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.event.ActivityEvent;
 import com.mycollab.module.crm.event.CaseEvent;
 import com.mycollab.module.crm.event.ContactEvent;
-import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.service.CaseService;
 import com.mycollab.module.crm.service.ContactService;
@@ -44,7 +44,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.AbstractRelatedListHandler;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -193,7 +193,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CASE);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CASE)) {
             if (data.getParams() instanceof Integer) {

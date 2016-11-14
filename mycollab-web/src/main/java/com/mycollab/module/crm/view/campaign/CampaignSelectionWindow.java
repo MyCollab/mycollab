@@ -26,7 +26,7 @@ import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -68,7 +68,7 @@ public class CampaignSelectionWindow extends MWindow {
             return new MButton(campaign.getCampaignname(), clickEvent -> {
                 fieldSelection.fireValueChange(campaign);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(),
+            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(),
                     MyCollabUI.getDateFormat(), campaign, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }

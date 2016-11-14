@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.view.settings;
 
-import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -27,7 +26,7 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -41,7 +40,7 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         boolean isCurrentUserAccess = false;
 
         if (data.getParams() instanceof String) {

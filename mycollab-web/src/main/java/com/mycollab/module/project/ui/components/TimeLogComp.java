@@ -23,7 +23,7 @@ import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -58,11 +58,11 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
 
         if (hasEditPermission()) {
             MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent ->
-                    showEditTimeWindow(beanItem)).withStyleName(WebUIConstants.BUTTON_LINK);
+                    showEditTimeWindow(beanItem)).withStyleName(WebThemes.BUTTON_LINK);
             header.addComponent(editBtn);
         }
         header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withDescription(UserUIContext.getMessage
-                (TimeTrackingI18nEnum.TIME_EXPLAIN_HELP)).withStyleName(WebUIConstants.INLINE_HELP));
+                (TimeTrackingI18nEnum.TIME_EXPLAIN_HELP)).withStyleName(WebThemes.INLINE_HELP));
 
         this.addComponent(header);
 

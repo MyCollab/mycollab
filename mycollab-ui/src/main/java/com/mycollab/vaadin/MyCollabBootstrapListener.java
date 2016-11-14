@@ -25,8 +25,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.vaadin.server.BootstrapFragmentResponse;
 import com.vaadin.server.BootstrapListener;
 import com.vaadin.server.BootstrapPageResponse;
+import com.vaadin.server.VaadinRequest;
 import org.jsoup.nodes.Element;
 
+import static com.mycollab.vaadin.MyCollabUIProvider.MOBILE_APP;
 import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
@@ -42,7 +44,8 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 
     @Override
     public void modifyBootstrapPage(BootstrapPageResponse response) {
-        String domain = Utils.getSubDomain(response.getRequest());
+        VaadinRequest request = response.getRequest();
+        String domain = Utils.getSubDomain(request);
         BillingAccountService billingService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
         BillingAccount account = billingService.getAccountByDomain(domain);
@@ -54,26 +57,28 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 
         response.getDocument().head().append("<meta name=\"robots\" content=\"nofollow\" />");
 
-        response.getDocument().head()
-                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-2.1.4.min.js\"></script>",
-                        SiteConfiguration.getCdnUrl()));
-        response.getDocument().head()
-                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip-1.0.2.js?v=%s\"></script>",
-                        SiteConfiguration.getCdnUrl(), Version.getVersion()));
+        if (!MOBILE_APP.equals(response.getUiClass().getName()) || !Utils.isTablet(request)) {
+            response.getDocument().head()
+                    .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-2.1.4.min.js\"></script>",
+                            SiteConfiguration.getCdnUrl()));
+            response.getDocument().head()
+                    .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip-1.0.2.js?v=%s\"></script>",
+                            SiteConfiguration.getCdnUrl(), Version.getVersion()));
 
-        Element div1 = response.getDocument().body().appendElement("div");
-        div1.attr("id", "div1" + TOOLTIP_ID);
-        div1.attr("class", "stickytooltip");
+            Element div1 = response.getDocument().body().appendElement("div");
+            div1.attr("id", "div1" + TOOLTIP_ID);
+            div1.attr("class", "stickytooltip");
 
-        Element div12 = div1.appendElement("div");
-        div12.attr("style", "padding:5px");
+            Element div12 = div1.appendElement("div");
+            div12.attr("style", "padding:5px");
 
-        Element div13 = div12.appendElement("div");
-        div13.attr("id", "div13" + TOOLTIP_ID);
-        div13.attr("class", "atip");
-        div13.attr("style", "width:550px");
+            Element div13 = div12.appendElement("div");
+            div13.attr("id", "div13" + TOOLTIP_ID);
+            div13.attr("class", "atip");
+            div13.attr("style", "width:550px");
 
-        Element div14 = div13.appendElement("div");
-        div14.attr("id", "div14" + TOOLTIP_ID);
+            Element div14 = div13.appendElement("div");
+            div14.attr("id", "div14" + TOOLTIP_ID);
+        }
     }
 }

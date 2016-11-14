@@ -21,7 +21,7 @@ import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -35,11 +35,10 @@ public class ActivityCalendarPresenter extends CrmGenericPresenter<ActivityCalen
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
         super.onGo(container, data);
 
         MyCollabUI.addFragment("crm/activity/calendar", "Calendar");
     }
-
 }

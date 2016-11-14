@@ -16,7 +16,7 @@
  */
 package com.mycollab.vaadin.mvp;
 
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.util.ReflectTools;
 
 import java.io.Serializable;
@@ -27,7 +27,7 @@ import java.util.EventListener;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface PageView extends ComponentContainer, CacheableComponent {
+public interface PageView extends HasComponents, CacheableComponent {
 
     <E> void addViewListener(ViewListener<E> listener);
 

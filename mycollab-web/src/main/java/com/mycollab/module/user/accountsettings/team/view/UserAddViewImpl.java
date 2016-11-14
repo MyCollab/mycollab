@@ -151,7 +151,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                 Button moreInfoBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.ACTION_MORE_INFORMATION), event -> {
                     editUserForm.displayAdvancedForm(user);
                     setFormBuffered(true);
-                }).withStyleName(WebUIConstants.BUTTON_LINK);
+                }).withStyleName(WebThemes.BUTTON_LINK);
                 MHorizontalLayout linkWrap = new MHorizontalLayout().withMargin(true).with(moreInfoBtn);
                 bottomPanel.with(linkWrap).withAlign(linkWrap, Alignment.MIDDLE_LEFT);
                 rolePermissionLayout = new RolePermissionContainer();

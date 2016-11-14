@@ -44,7 +44,7 @@ import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -110,7 +110,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             displayActivities();
         });
 
-        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName(WebUIConstants.FORM_SECTION)
+        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName(WebThemes.FORM_SECTION)
                 .withFullWidth().with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
                 .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
@@ -149,8 +149,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         final int logCount = auditLogService.getTotalCount(logCriteria);
         setTotalNums(commentCount + logCount);
 
-        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
-        List<SimpleAuditLog> auditLogs = auditLogService.findPageableListByCriteria(new BasicSearchRequest<>(logCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleComment> comments = commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria));
+        List<SimpleAuditLog> auditLogs = auditLogService.findPageableListByCriteria(new BasicSearchRequest<>(logCriteria));
         List activities = new ArrayList(commentCount + logCount);
         activities.addAll(comments);
         activities.addAll(auditLogs);
@@ -182,7 +182,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                 comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
-        MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
+        MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
 
         MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -206,7 +206,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                                 activityBox.removeComponent(layout);
                             }
                         });
-            }).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            }).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {
             messageHeader.with(timePostLbl).expand(timePostLbl);
@@ -244,7 +244,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                     auditLog.getPostedUserFullName());
             layout.addComponent(memberBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebUIConstants.MESSAGE_CONTAINER);
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -257,8 +257,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
 
             rowLayout.addComponent(messageHeader);
 
-            for (int i = 0; i < changeItems.size(); i++) {
-                AuditChangeItem item = changeItems.get(i);
+            for (AuditChangeItem item : changeItems) {
                 String fieldName = item.getField();
 
                 DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);

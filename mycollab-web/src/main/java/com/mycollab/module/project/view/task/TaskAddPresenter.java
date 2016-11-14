@@ -42,7 +42,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -85,12 +85,11 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             TicketContainer ticketContainer = (TicketContainer) container;
             ticketContainer.navigateToContainer(ProjectTypeConstants.TASK);
-            ticketContainer.removeAllComponents();
-            ticketContainer.addComponent(view);
+            ticketContainer.setContent(view);
             SimpleTask task = (SimpleTask) data.getParams();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

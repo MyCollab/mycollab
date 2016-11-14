@@ -25,7 +25,7 @@ import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Inc.
@@ -39,7 +39,7 @@ public class ProjectModulePresenter extends AbstractProjectPresenter<ProjectModu
     }
 
     @Override
-    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
         ModuleHelper.setCurrentModule(view);
         UserUIContext.updateLastModuleVisit(ModuleNameConstants.PRJ);
 

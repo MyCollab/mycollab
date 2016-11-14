@@ -45,6 +45,7 @@ import com.mycollab.module.project.esb.AddProjectEvent;
 import com.mycollab.module.project.esb.DeleteProjectEvent;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.service.ProjectService;
+import com.mycollab.module.user.domain.BillingAccount;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.BooleanPermissionFlag;
 import com.mycollab.security.PermissionMap;
@@ -241,12 +242,8 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
     }
 
     @Override
-    public String getSubdomainOfProject(Integer projectId) {
-        if (deploymentMode.isDemandEdition()) {
-            return projectMapperExt.getSubdomainOfProject(projectId);
-        } else {
-            return SiteConfiguration.getSiteUrl("");
-        }
+    public BillingAccount getAccountInfoOfProject(Integer projectId) {
+        return projectMapperExt.getAccountInfoOfProject(projectId);
     }
 
     @Override

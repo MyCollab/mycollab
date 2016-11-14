@@ -47,10 +47,7 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DateViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -191,7 +188,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
     private static class GenericTaskRowRenderer implements IBeanList.RowDisplayHandler<ProjectTicket> {
         @Override
         public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket genericTask, int rowIndex) {
-            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebUIConstants.HOVER_EFFECT_NOT_BOX, "margin-bottom");
+            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX, "margin-bottom");
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
             String status = "";

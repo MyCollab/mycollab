@@ -77,7 +77,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         MHorizontalLayout content = new MHorizontalLayout().withSpacing(true).withWidth(widthVal).with(componentsText)
                 .withAlign(componentsText, Alignment.MIDDLE_LEFT);
 
-        componentPopupSelection.addStyleName(WebUIConstants.MULTI_SELECT_BG);
+        componentPopupSelection.addStyleName(WebThemes.MULTI_SELECT_BG);
         componentPopupSelection.setDirection(Alignment.TOP_LEFT);
 
         MHorizontalLayout multiSelectComp = new MHorizontalLayout().withSpacing(false).with(componentsText, componentPopupSelection)
@@ -86,7 +86,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
         if (canAddNew) {
             MButton newBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> requestAddNewComp())
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withStyleName(WebThemes.BUTTON_LINK);
             content.with(newBtn);
         }
         content.expand(multiSelectComp);

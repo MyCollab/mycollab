@@ -51,9 +51,9 @@ public class ToggleButtonGroup extends ButtonGroup {
                 selectedBtn = clickEvent.getButton();
                 Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
                 while (iterator.hasNext()) {
-                    iterator.next().removeStyleName(WebUIConstants.BTN_ACTIVE);
+                    iterator.next().removeStyleName(WebThemes.BTN_ACTIVE);
                 }
-                selectedBtn.addStyleName(WebUIConstants.BTN_ACTIVE);
+                selectedBtn.addStyleName(WebThemes.BTN_ACTIVE);
             }
         });
         return button;
@@ -65,9 +65,9 @@ public class ToggleButtonGroup extends ButtonGroup {
             Button currentBtn = (Button) iterator.next();
             if (currentBtn.equals(button)) {
                 selectedBtn = button;
-                selectedBtn.addStyleName(WebUIConstants.BTN_ACTIVE);
+                selectedBtn.addStyleName(WebThemes.BTN_ACTIVE);
             } else {
-                currentBtn.removeStyleName(WebUIConstants.BTN_ACTIVE);
+                currentBtn.removeStyleName(WebThemes.BTN_ACTIVE);
             }
         }
         return this;

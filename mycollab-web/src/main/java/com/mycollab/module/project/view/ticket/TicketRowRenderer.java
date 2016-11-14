@@ -20,8 +20,10 @@ import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.BlockRowRender;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
@@ -29,8 +31,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.PropertyChangedEvent;
 import com.mycollab.vaadin.ui.PropertyChangedListener;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.LazyPopupView;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CssLayout;
@@ -43,18 +46,20 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class TicketRowRenderer extends BlockRowRender implements PropertyChangedListener {
+class TicketRowRenderer extends BlockRowRender implements PropertyChangedListener {
     private static Logger LOG = LoggerFactory.getLogger(TicketRowRenderer.class);
 
     private ToggleTicketSummaryField toggleTicketField;
+    private ProjectTicket ticket;
 
     public TicketRowRenderer(final ProjectTicket ticket) {
-        withMargin(false).withFullWidth().addStyleName(WebUIConstants.BORDER_LIST_ROW);
+        this.ticket = ticket;
+        withMargin(false).withFullWidth().addStyleName(WebThemes.BORDER_LIST_ROW);
 
-        MHorizontalLayout headerLayout = new MHorizontalLayout();
         toggleTicketField = new ToggleTicketSummaryField(ticket);
-        headerLayout.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())).withWidthUndefined(),
-                toggleTicketField).expand(toggleTicketField).withFullWidth().withMargin(new MarginInfo(false, true, false, false));
+        MHorizontalLayout headerLayout = new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType()))
+                .withWidthUndefined(), toggleTicketField).expand(toggleTicketField).withFullWidth()
+                .withMargin(new MarginInfo(false, true, false, false));
 
         TicketComponentFactory popupFieldFactory = AppContextUtil.getSpringBean(TicketComponentFactory.class);
         AbstractComponent assigneeField = wrapListenerComponent(popupFieldFactory.createAssigneePopupField(ticket));
@@ -65,9 +70,9 @@ public class TicketRowRenderer extends BlockRowRender implements PropertyChanged
         footer.addComponent(wrapListenerComponent(popupFieldFactory.createPriorityPopupField(ticket)));
         footer.addComponent(popupFieldFactory.createFollowersPopupField(ticket));
         footer.addComponent(wrapListenerComponent(popupFieldFactory.createStatusPopupField(ticket)));
-        footer.addComponent(popupFieldFactory.createStartDatePopupField(ticket));
-        footer.addComponent(popupFieldFactory.createEndDatePopupField(ticket));
-        footer.addComponent(popupFieldFactory.createDueDatePopupField(ticket));
+        footer.addComponent(wrapListenerComponent(popupFieldFactory.createStartDatePopupField(ticket)));
+        footer.addComponent(wrapListenerComponent(popupFieldFactory.createEndDatePopupField(ticket)));
+        footer.addComponent(wrapListenerComponent(popupFieldFactory.createDueDatePopupField(ticket)));
         if (!SiteConfiguration.isCommunityEdition()) {
             footer.addComponent(popupFieldFactory.createBillableHoursPopupField(ticket));
             footer.addComponent(popupFieldFactory.createNonBillableHoursPopupField(ticket));
@@ -97,6 +102,16 @@ public class TicketRowRenderer extends BlockRowRender implements PropertyChanged
                 }
             } catch (Exception e) {
                 LOG.error("Error", e);
+            }
+        }
+
+        TicketDashboardView ticketDashboardView = UIUtils.getRoot(this, TicketDashboardView.class);
+        if (ticketDashboardView != null) {
+            ProjectTicketSearchCriteria criteria = ticketDashboardView.getCriteria();
+            boolean isSatisfied = AppContextUtil.getSpringBean(ProjectTicketService.class).isTicketIdSatisfyCriteria(ticket.getType(),
+                    ticket.getTypeId(), criteria);
+            if (!isSatisfied) {
+                this.selfRemoved();
             }
         }
     }

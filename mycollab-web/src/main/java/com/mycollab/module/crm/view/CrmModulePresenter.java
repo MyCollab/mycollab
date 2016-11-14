@@ -22,7 +22,7 @@ import com.mycollab.shell.view.ShellUrlResolver;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +36,7 @@ public class CrmModulePresenter extends AbstractPresenter<CrmModule> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         MainView mainView = (MainView) container;
         mainView.addModule(view);
 

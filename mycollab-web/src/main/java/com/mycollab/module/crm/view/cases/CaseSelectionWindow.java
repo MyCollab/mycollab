@@ -25,7 +25,7 @@ import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -66,7 +66,7 @@ public class CaseSelectionWindow extends MWindow {
             return new MButton(cases.getSubject(), clickEvent -> {
                 fieldSelection.fireValueChange(cases);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCases(
+            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCases(
                     UserUIContext.getUserLocale(), cases, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }

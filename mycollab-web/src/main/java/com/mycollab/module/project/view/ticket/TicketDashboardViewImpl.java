@@ -25,6 +25,7 @@ import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.LazyValueInjector;
 import com.mycollab.db.query.SearchFieldInfo;
@@ -51,10 +52,7 @@ import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.QueryParamHandler;
-import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
-import com.mycollab.vaadin.web.ui.ValueComboBox;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -78,7 +76,6 @@ import java.util.List;
 @ViewComponent
 public class TicketDashboardViewImpl extends AbstractVerticalPageView implements TicketDashboardView {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(TicketDashboardViewImpl.class);
 
     private int currentPage = 0;
@@ -166,14 +163,14 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                     protected Object doEval() {
                         return baseCriteria;
                     }
-                }))).withIcon(FontAwesome.PRINT).withStyleName(WebUIConstants.BUTTON_OPTION)
+                }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
         MButton newTicketBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.NEW), clickEvent -> {
             UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)
                     .createNewTicketWindow(null, CurrentProjectVariables.getProjectId(), null, false));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+        }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWriteTicket());
         groupWrapLayout.addComponent(newTicketBtn);
 
@@ -218,7 +215,9 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
 
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
-        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
+        statisticSearchCriteria.setIsOpenned(new SearchField());
+        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG,
+                ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
 
         if (StringUtils.isNotBlank(query)) {
             try {
@@ -240,6 +239,11 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
     @Override
     public void showNoItemView() {
 
+    }
+
+    @Override
+    public ProjectTicketSearchCriteria getCriteria() {
+        return baseCriteria;
     }
 
     private void displayTicketsStatistic() {
@@ -310,7 +314,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 if (currentPage >= newNumPages) {
                     wrapBody.removeComponent(wrapBody.getComponent(1));
                 }
-            }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.ANGLE_DOUBLE_DOWN);
+            }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.ANGLE_DOUBLE_DOWN);
             wrapBody.addComponent(moreBtn);
         }
         List<ProjectTicket> tickets = projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>

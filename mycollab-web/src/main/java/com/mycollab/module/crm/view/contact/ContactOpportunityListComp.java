@@ -27,7 +27,6 @@ import com.mycollab.module.crm.domain.ContactOpportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.service.OpportunityService;
@@ -38,10 +37,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.SplitButton;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -69,7 +65,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
 
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
             final SplitButton controlsBtn = new SplitButton();
-            controlsBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+            controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(OpportunityI18nEnum.NEW));
             controlsBtn.setIcon(FontAwesome.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
@@ -145,7 +141,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
                                     ContactOpportunityListComp.this.refresh();
                                 }
                             })
-            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
+            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY)
                     .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT));
 
             blockContent.addComponent(btnDelete);

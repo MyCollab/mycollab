@@ -29,6 +29,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -68,7 +69,7 @@ public class CallListDashlet extends Depot {
         bodyContent.addComponent(tableItem);
 
         MButton customizeViewBtn = new MButton("", clickEvent -> {
-        }).withIcon(FontAwesome.ADJUST).withStyleName(WebUIConstants.BUTTON_ICON_ONLY)
+        }).withIcon(FontAwesome.ADJUST).withStyleName(WebThemes.BUTTON_SMALL_PADDING)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         this.addHeaderElement(customizeViewBtn);
     }

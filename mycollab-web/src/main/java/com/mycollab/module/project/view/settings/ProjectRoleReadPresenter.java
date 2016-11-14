@@ -37,7 +37,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 /**
@@ -127,7 +127,7 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
 
         if (data.getParams() instanceof Integer) {

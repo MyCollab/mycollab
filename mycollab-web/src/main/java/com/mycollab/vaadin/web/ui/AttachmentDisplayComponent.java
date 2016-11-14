@@ -58,7 +58,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         attachments.forEach(this::addAttachmentRow);
     }
 
-    void addAttachmentRow(final Content attachment) {
+    private void addAttachmentRow(final Content attachment) {
         String docName = attachment.getPath();
         int lastIndex = docName.lastIndexOf("/");
         if (lastIndex != -1) {

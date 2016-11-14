@@ -43,10 +43,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
-import com.mycollab.vaadin.web.ui.StyleCalendarExp;
-import com.mycollab.vaadin.web.ui.ValueComboBox;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -93,7 +90,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         this.addStyleName("activityCalendar");
         calendarActionBtn = new PopupButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CREATE));
-        calendarActionBtn.setStyleName(WebUIConstants.BUTTON_ACTION);
+        calendarActionBtn.setStyleName(WebThemes.BUTTON_ACTION);
         initContent();
     }
 
@@ -112,7 +109,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         contentWrapper.addComponent(rightColumn);
 
         MHorizontalLayout actionPanel = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withFullWidth().withStyleName(WebUIConstants.HEADER_VIEW);
+                .withFullWidth().withStyleName(WebThemes.HEADER_VIEW);
         actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         Component headerText = ComponentUtils.header(CrmTypeConstants.ACTIVITY, "Calendar");
@@ -139,7 +136,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             monthViewBtn.addStyleName("selected-style");
             initLabelCaption();
         });
-        monthViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
+        monthViewBtn.setStyleName(WebThemes.BUTTON_LINK);
         popupLayout.addComponent(monthViewBtn);
 
         weekViewBtn = new Button(UserUIContext.getMessage(DayI18nEnum.OPT_WEEKLY), clickEvent -> {
@@ -148,7 +145,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             calendarComponent.switchToWeekView(new Date());
             datePicker.selectWeek(new Date());
         });
-        weekViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
+        weekViewBtn.setStyleName(WebThemes.BUTTON_LINK);
         popupLayout.addComponent(weekViewBtn);
 
         dailyViewBtn = new Button(UserUIContext.getMessage(DayI18nEnum.OPT_DAILY), clickEvent -> {
@@ -158,7 +155,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             datePicker.selectDate(currentDate);
             calendarComponent.switchToDateView(currentDate);
         });
-        dailyViewBtn.setStyleName(WebUIConstants.BUTTON_LINK);
+        dailyViewBtn.setStyleName(WebThemes.BUTTON_LINK);
         popupLayout.addComponent(dailyViewBtn);
 
         toggleViewBtn.setContent(popupLayout);
@@ -195,15 +192,15 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             }
         };
 
-        MButton todoBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+        MButton todoBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.NEW), listener).withStyleName(WebThemes.BUTTON_LINK)
                 .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK)).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_TASK));
         actionBtnLayout.addOption(todoBtn);
 
-        MButton callBtn = new MButton(UserUIContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+        MButton callBtn = new MButton(UserUIContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebThemes.BUTTON_LINK)
                 .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL)).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CALL));
         actionBtnLayout.addOption(callBtn);
 
-        MButton meetingBtn = new MButton(UserUIContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebUIConstants.BUTTON_LINK)
+        MButton meetingBtn = new MButton(UserUIContext.getMessage(MeetingI18nEnum.NEW), listener).withStyleName(WebThemes.BUTTON_LINK)
                 .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING)).withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_MEETING));
         actionBtnLayout.addOption(meetingBtn);
 
@@ -213,7 +210,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         Button calendarViewBtn = new Button("Calendar");
         calendarViewBtn.setStyleName("selected");
-        calendarViewBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+        calendarViewBtn.addStyleName(WebThemes.BUTTON_ACTION);
         viewSwitcher.addButton(calendarViewBtn);
 
         Button activityListBtn = new Button("Activities", event -> {
@@ -221,7 +218,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
         });
-        activityListBtn.addStyleName(WebUIConstants.BUTTON_ACTION);
+        activityListBtn.addStyleName(WebThemes.BUTTON_ACTION);
         viewSwitcher.addButton(activityListBtn);
 
         actionPanel.addComponent(viewSwitcher);
@@ -670,9 +667,9 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                             EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                             close();
                         }
-                    }).withIcon(FontAwesome.SAVE).withStyleName(WebUIConstants.BUTTON_ACTION);
+                    }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
                     MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), event -> close())
-                            .withStyleName(WebUIConstants.BUTTON_OPTION);
+                            .withStyleName(WebThemes.BUTTON_OPTION);
                     return new MHorizontalLayout(saveBtn, cancelBtn).withStyleName("addNewControl");
                 }
 

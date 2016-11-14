@@ -25,6 +25,7 @@ import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.arguments._
+import com.mycollab.html.LinkUtils
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.billing.RegisterStatusConstants
 import com.mycollab.module.esb.GenericCommand
@@ -88,6 +89,7 @@ object NewUserJoinCommand {
     contentGenerator.putVariable("formatter", new Formatter)
     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
       DateTimeUtils.getCurrentYear))
+    contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.getId, account.getLogopath))
     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
       String.format("%s has just joined on MyCollab workspace", newUser.getDisplayName),
       contentGenerator.parseFile("mailNewUserJoinAccountNotifier.ftl", Locale.US))

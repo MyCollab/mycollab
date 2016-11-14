@@ -27,7 +27,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -54,7 +54,7 @@ public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<Sim
         layout.addComponent(memberBlock);
 
         CssLayout rowLayout = new CssLayout();
-        rowLayout.setStyleName(WebUIConstants.MESSAGE_CONTAINER);
+        rowLayout.setStyleName(WebThemes.MESSAGE_CONTAINER);
         rowLayout.setWidth("100%");
 
         MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true,
@@ -84,7 +84,7 @@ public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<Sim
                                 ((BeanList) host).removeRow(layout);
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebUIConstants.BUTTON_ICON_ONLY);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             messageHeader.addComponent(msgDeleteBtn);
         }
 

@@ -43,7 +43,7 @@ import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
@@ -189,7 +189,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
             MButton accountLink = new MButton(account.getAccountname(),
                     clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, account.getId())))
                     .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT))
-                    .withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withStyleName(WebThemes.BUTTON_LINK);
             layoutHelper.addComponent(accountLink, UserUIContext.getMessage(AccountI18nEnum.SINGLE), 0, 0);
         } else {
             layoutHelper.addComponent(new Label(""), UserUIContext.getMessage(AccountI18nEnum.SINGLE), 0, 0);
@@ -200,7 +200,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         if (contact != null) {
             MButton contactLink = new MButton(contact.getContactName(),
                     clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId())))
-                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT)).withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT)).withStyleName(WebThemes.BUTTON_LINK);
             layoutHelper.addComponent(contactLink, UserUIContext.getMessage(ContactI18nEnum.SINGLE), 0, 1);
         } else {
             layoutHelper.addComponent(new Label(""), UserUIContext.getMessage(ContactI18nEnum.SINGLE), 0, 1);
@@ -212,7 +212,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         if (opportunity != null) {
             MButton opportunityLink = new MButton(opportunity.getOpportunityname(),
                     clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunity.getId())))
-                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY)).withStyleName(WebUIConstants.BUTTON_LINK);
+                    .withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY)).withStyleName(WebThemes.BUTTON_LINK);
             layoutHelper.addComponent(opportunityLink, UserUIContext.getMessage(OpportunityI18nEnum.SINGLE), 0, 2);
         } else {
             layoutHelper.addComponent(new Label(""), UserUIContext.getMessage(OpportunityI18nEnum.SINGLE), 0, 2);

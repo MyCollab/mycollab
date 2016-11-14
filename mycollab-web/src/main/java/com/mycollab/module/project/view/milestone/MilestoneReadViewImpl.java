@@ -147,9 +147,9 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
             if (StatusI18nEnum.Closed.name().equals(milestone.getStatus())) {
-                toggleMilestoneSummaryField.addLabelStyleName(WebUIConstants.LINK_COMPLETED);
+                toggleMilestoneSummaryField.addLabelStyleName(WebThemes.LINK_COMPLETED);
             } else {
-                toggleMilestoneSummaryField.removeLabelStyleName(WebUIConstants.LINK_COMPLETED);
+                toggleMilestoneSummaryField.removeLabelStyleName(WebThemes.LINK_COMPLETED);
             }
             this.addHeader(toggleMilestoneSummaryField);
         }

@@ -41,7 +41,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -108,7 +108,7 @@ class TestimonialWindow extends MWindow {
         content.addComponent(editForm);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
-                .withStyleName(WebUIConstants.BUTTON_OPTION);
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton submitBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), clickEvent -> {
             if (editForm.validateForm()) {
@@ -131,7 +131,7 @@ class TestimonialWindow extends MWindow {
                 }
                 close();
             }
-        }).withStyleName(WebUIConstants.BUTTON_ACTION).withIcon(FontAwesome.MAIL_FORWARD);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.MAIL_FORWARD);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, submitBtn).withMargin(true);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

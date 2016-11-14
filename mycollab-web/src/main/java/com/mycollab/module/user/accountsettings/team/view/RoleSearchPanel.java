@@ -61,7 +61,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
     protected Component buildExtraControls() {
         return new MButton(UserUIContext.getMessage(RoleI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebUIConstants.BUTTON_ACTION)
+                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
     }
 
@@ -84,12 +84,12 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
             basicSearchBody.addComponent(nameField);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(WebUIConstants.BUTTON_ACTION)
+                    .withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.addComponent(searchBtn);
 
             MButton clearBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> nameField.setValue(""))
-                    .withStyleName(WebUIConstants.BUTTON_OPTION);
+                    .withStyleName(WebThemes.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             basicSearchBody.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
             return basicSearchBody;

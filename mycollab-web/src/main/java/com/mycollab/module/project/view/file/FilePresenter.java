@@ -23,7 +23,7 @@ import com.mycollab.module.project.view.parameters.FileScreenData;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -37,11 +37,10 @@ public class FilePresenter extends AbstractPresenter<FileContainer> {
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         ProjectView projectViewContainer = (ProjectView) container;
         projectViewContainer.gotoSubView(ProjectTypeConstants.FILE);
 
-        view.removeAllComponents();
         AbstractPresenter<?> presenter;
 
         if (data instanceof FileScreenData.GotoDashboard) {
@@ -52,5 +51,4 @@ public class FilePresenter extends AbstractPresenter<FileContainer> {
 
         presenter.go(view, data);
     }
-
 }

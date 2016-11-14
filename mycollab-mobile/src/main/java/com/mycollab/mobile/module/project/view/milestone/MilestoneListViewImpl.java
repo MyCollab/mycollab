@@ -135,7 +135,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
         Toolbar toolbar = new Toolbar();
         closedMilestoneBtn = new Button(UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE),
                 clickEvent -> displayStatus(MilestoneStatus.Closed));
-        closedMilestoneBtn.setIcon(FontAwesome.MINUS);
+        closedMilestoneBtn.setIcon(FontAwesome.MINUS_CIRCLE);
         toolbar.addComponent(closedMilestoneBtn);
 
         inProgressMilestoneBtn = new Button(UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE),

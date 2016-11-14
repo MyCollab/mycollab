@@ -36,17 +36,14 @@ import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -55,7 +52,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 2.0
  */
 @ViewComponent
-public class AccountModuleImpl extends AbstractCssPageView implements AccountModule {
+public class AccountModuleImpl extends AbstractSingleContainerPageView implements AccountModule {
     private static final long serialVersionUID = 1L;
 
     private MHorizontalLayout serviceMenuContainer;
@@ -70,16 +67,14 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     private SetupPresenter setupPresenter;
 
     public AccountModuleImpl() {
-        super();
+        addStyleName("module");
         ControllerRegistry.addController(new UserAccountController(this));
-        this.setWidth("100%");
-        this.addStyleName("accountViewContainer");
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withFullWidth().withMargin(true).withStyleName("border-bottom");
         AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
         MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP))
-                .withIcon(FontAwesome.MORTAR_BOARD).withStyleName(WebUIConstants.BUTTON_LINK);
+                .withIcon(FontAwesome.MORTAR_BOARD).withStyleName(WebThemes.BUTTON_LINK);
         ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/account-management/");
         BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
         helpOpener.extend(helpBtn);
@@ -95,7 +90,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         contentWrapper.addComponentAsFirst(topPanel);
 
         this.buildComponents();
-        this.addComponent(tabSheet);
+        this.setContent(tabSheet);
     }
 
     private void buildComponents() {
@@ -140,7 +135,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         });
     }
 
-    private ComponentContainer constructAccountSettingsComponent() {
+    private HasComponents constructAccountSettingsComponent() {
         billingPresenter = PresenterResolver.getPresenter(IBillingPresenter.class);
         return billingPresenter.getView();
     }
@@ -150,12 +145,12 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         return profilePresenter.getView();
     }
 
-    private ComponentContainer constructUserRoleComponent() {
+    private HasComponents constructUserRoleComponent() {
         userPermissionPresenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter.class);
         return userPermissionPresenter.getView();
     }
 
-    private ComponentContainer constructSetupComponent() {
+    private HasComponents constructSetupComponent() {
         setupPresenter = PresenterResolver.getPresenter(SetupPresenter.class);
         return setupPresenter.getView();
     }

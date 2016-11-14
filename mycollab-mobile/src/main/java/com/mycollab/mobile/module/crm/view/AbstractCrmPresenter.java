@@ -21,7 +21,7 @@ import com.mycollab.mobile.mvp.AbstractPresenter;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -33,7 +33,7 @@ public class AbstractCrmPresenter<V extends PageView> extends AbstractPresenter<
     }
 
     @Override
-    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
         if (navigator instanceof NavigationManager) {
             ((NavigationManager) navigator).navigateTo(view);
         } else {

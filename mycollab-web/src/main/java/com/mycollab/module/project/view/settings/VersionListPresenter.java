@@ -30,15 +30,15 @@ import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
-import com.mycollab.vaadin.web.ui.MailFormWindow;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
+import com.mycollab.vaadin.web.ui.MailFormWindow;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
             VersionContainer versionContainer = (VersionContainer) container;
             versionContainer.removeAllComponents();

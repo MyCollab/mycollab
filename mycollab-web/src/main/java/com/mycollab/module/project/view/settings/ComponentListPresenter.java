@@ -38,6 +38,7 @@ import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.web.ui.MailFormWindow;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
     }
 
     @Override
-    protected void onGo(com.vaadin.ui.ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
             BugComponentContainer trackerContainer = (BugComponentContainer) container;
             trackerContainer.removeAllComponents();

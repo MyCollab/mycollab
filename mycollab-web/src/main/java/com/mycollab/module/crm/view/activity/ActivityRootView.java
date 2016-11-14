@@ -28,10 +28,7 @@ import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
@@ -94,7 +91,7 @@ public class ActivityRootView extends AbstractVerticalPageView {
         });
     }
 
-    private ComponentContainer constructCalendarView() {
+    private HasComponents constructCalendarView() {
         calendarPresenter = PresenterResolver.getPresenter(ActivityCalendarPresenter.class);
         return calendarPresenter.getView();
     }

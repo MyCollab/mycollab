@@ -29,15 +29,14 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.*;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class MessageListPresenter extends ProjectGenericPresenter<MessageListView> implements
-        ListCommand<MessageSearchCriteria> {
+public class MessageListPresenter extends ProjectGenericPresenter<MessageListView> implements ListCommand<MessageSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     private MessageSearchCriteria searchCriteria;
@@ -61,15 +60,14 @@ public class MessageListPresenter extends ProjectGenericPresenter<MessageListVie
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoMessageList();
 
             MessageContainer messageContainer = (MessageContainer) container;
             messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
-            messageContainer.removeAllComponents();
-            messageContainer.addComponent(view);
+            messageContainer.setContent(view);
             doSearch((MessageSearchCriteria) data.getParams());
         } else {
             throw new SecureAccessException();

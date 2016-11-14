@@ -37,7 +37,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.web.ui.MailFormWindow;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -50,7 +50,6 @@ import java.util.List;
  */
 public class ContactListPresenter extends CrmGenericListPresenter<ContactListView, ContactSearchCriteria, SimpleContact>
         implements MassUpdateCommand<Contact> {
-
     private static final long serialVersionUID = 1L;
     private ContactService contactService;
 
@@ -104,7 +103,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CONTACT);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
             searchCriteria = (ContactSearchCriteria) data.getParams();

@@ -33,7 +33,6 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.MilestoneEvent;
-import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -48,7 +47,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.TextField;
@@ -88,10 +87,10 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
             toggleStatusSelect.addValueChangeListener(valueChangeEvent -> {
                 if (milestone.isCompleted()) {
                     milestone.setStatus(MilestoneStatus.InProgress.name());
-                    titleLinkLbl.removeStyleName(WebUIConstants.LINK_COMPLETED);
+                    titleLinkLbl.removeStyleName(WebThemes.LINK_COMPLETED);
                 } else {
                     milestone.setStatus(MilestoneStatus.Closed.name());
-                    titleLinkLbl.addStyleName(WebUIConstants.LINK_COMPLETED);
+                    titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
                 }
                 displayTooltip();
                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);

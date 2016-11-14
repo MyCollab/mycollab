@@ -45,7 +45,7 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.AbstractRelatedListHandler;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -220,7 +220,7 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.OPPORTUNITY);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
             if (data.getParams() instanceof Integer) {

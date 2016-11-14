@@ -24,6 +24,7 @@ import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.mycollab.module.user.domain.BillingAccount;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
@@ -45,7 +46,7 @@ public interface ProjectMapperExt extends ISearchableDAO<ProjectSearchCriteria> 
 
     SimpleProject findProjectById(int projectId);
 
-    String getSubdomainOfProject(int projectId);
+    BillingAccount getAccountInfoOfProject(int projectId);
 
     int getTotalFollowingTickets(@Param("searchCriteria") MonitorSearchCriteria searchRequest);
 

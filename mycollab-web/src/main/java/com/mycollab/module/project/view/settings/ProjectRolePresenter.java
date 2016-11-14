@@ -22,7 +22,7 @@ import com.mycollab.module.project.view.parameters.ProjectRoleScreenData;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +36,7 @@ public class ProjectRolePresenter extends AbstractPresenter<ProjectRoleContainer
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         AbstractPresenter<?> presenter;
 
         if (data instanceof ProjectRoleScreenData.Search) {

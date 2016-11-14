@@ -26,7 +26,7 @@ import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -71,7 +71,7 @@ public class AccountSelectionWindow extends MWindow {
             return new MButton(account.getAccountname(), clickEvent -> {
                 fieldSelection.fireValueChange(account);
                 close();
-            }).withStyleName(WebUIConstants.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipAccount(
+            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateToolTipAccount(
                     UserUIContext.getUserLocale(), account, MyCollabUI.getSiteUrl()));
         });
     }

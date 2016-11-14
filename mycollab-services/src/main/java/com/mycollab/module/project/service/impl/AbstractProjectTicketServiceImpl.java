@@ -18,10 +18,12 @@ package com.mycollab.module.project.service.impl;
 
 import com.mycollab.common.domain.GroupItem;
 import com.mycollab.core.cache.CacheKey;
+import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultSearchService;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.dao.ProjectTicketMapper;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.Risk;
@@ -67,6 +69,21 @@ public abstract class AbstractProjectTicketServiceImpl extends DefaultSearchServ
         return projectTicketMapper.getTotalCountFromRisk(criteria)
                 + projectTicketMapper.getTotalCountFromBug(criteria)
                 + projectTicketMapper.getTotalCountFromTask(criteria);
+    }
+
+    @Override
+    public boolean isTicketIdSatisfyCriteria(String type, Integer typeId, ProjectTicketSearchCriteria criteria) {
+        ProjectTicketSearchCriteria newCriteria = BeanUtility.deepClone(criteria);
+        newCriteria.setTypeIds(new SetSearchField<>(typeId));
+        newCriteria.setTypes(new SetSearchField<>(type));
+        if (ProjectTypeConstants.TASK.equals(type)) {
+            return (projectTicketMapper.getTotalCountFromTask(newCriteria) > 0);
+        } else if (ProjectTypeConstants.BUG.equals(type)) {
+            return (projectTicketMapper.getTotalCountFromBug(newCriteria) > 0);
+        } else if (ProjectTypeConstants.RISK.equals(type)) {
+            return (projectTicketMapper.getTotalCountFromRisk(newCriteria) > 0);
+        }
+        return false;
     }
 
     @Override

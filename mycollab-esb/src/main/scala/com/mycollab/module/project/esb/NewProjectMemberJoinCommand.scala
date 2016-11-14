@@ -25,7 +25,7 @@ import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.DateTimeUtils
-import com.mycollab.html.DivLessFormatter
+import com.mycollab.html.{DivLessFormatter, LinkUtils}
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -85,6 +85,7 @@ object NewProjectMemberJoinCommand {
     contentGenerator.putVariable("formatter", new Formatter)
     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
       DateTimeUtils.getCurrentYear))
+    contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.getId, account.getLogopath))
     contentGenerator.putVariable("siteUrl", SiteConfiguration.getSiteUrl(account.getSubdomain))
     val recipients = ListBuffer[MailRecipientField]()
     membersInProjects.foreach(user => {

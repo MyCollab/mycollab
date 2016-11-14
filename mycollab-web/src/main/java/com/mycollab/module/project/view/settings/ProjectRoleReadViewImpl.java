@@ -30,10 +30,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.DefaultReadViewLayout;
-import com.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -70,7 +67,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
         CssLayout contentWrapper = new CssLayout();
         contentWrapper.setWidth("100%");
-        contentWrapper.setStyleName(WebUIConstants.CONTENT_WRAPPER);
+        contentWrapper.setStyleName(WebThemes.CONTENT_WRAPPER);
 
         previewLayout = new DefaultReadViewLayout("");
         contentWrapper.addComponent(previewLayout);

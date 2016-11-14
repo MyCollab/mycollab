@@ -30,12 +30,12 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.vaadin.web.ui.MailFormWindow;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.ComponentContainer;
+import com.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
+import com.mycollab.vaadin.web.ui.MailFormWindow;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -46,8 +46,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ActivityListPresenter extends
-        CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
+public class ActivityListPresenter extends CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
     private static final long serialVersionUID = 1L;
 
     public ActivityListPresenter() {
@@ -81,7 +80,7 @@ public class ActivityListPresenter extends
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
         if (UserUIContext.canRead(RolePermissionCollections.CRM_MEETING)
                 || UserUIContext.canRead(RolePermissionCollections.CRM_TASK)

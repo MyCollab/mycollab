@@ -26,7 +26,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewPermission;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd
@@ -39,7 +39,7 @@ public class GeneralSettingPresenter extends AbstractPresenter<GeneralSettingVie
     }
 
     @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+    protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.isAdmin()) {
             AccountSettingContainer customizeContainer = (AccountSettingContainer) container;
             customizeContainer.gotoSubView(UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));

@@ -24,8 +24,8 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
@@ -43,11 +43,11 @@ import java.util.List;
 public class TicketOverdueWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
-    private TicketOverduePagedList taskComponents;
+    private TicketOverduePagedList ticketOverdueComponent;
     private ProjectTicketSearchCriteria searchCriteria;
 
     public TicketOverdueWidget() {
-        super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, 0), new CssLayout());
+        super(UserUIContext.getMessage(TicketI18nEnum.VAL_OVERDUE_TICKETS) + " (0)", new CssLayout());
 
         final CheckBox myItemsOnly = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
         myItemsOnly.addValueChangeListener(valueChangeEvent -> {
@@ -58,17 +58,17 @@ public class TicketOverdueWidget extends Depot {
                 } else {
                     searchCriteria.setAssignUser(null);
                 }
-                taskComponents.setSearchCriteria(searchCriteria);
+                ticketOverdueComponent.setSearchCriteria(searchCriteria);
             }
         });
 
         this.addHeaderElement(myItemsOnly);
 
-        taskComponents = new TicketOverduePagedList();
-        bodyContent.addComponent(taskComponents);
+        ticketOverdueComponent = new TicketOverduePagedList();
+        bodyContent.addComponent(ticketOverdueComponent);
     }
 
-    public void showProjectTasksByStatus(List<Integer> prjKeys) {
+    public void showTicketsByStatus(List<Integer> prjKeys) {
         searchCriteria = new ProjectTicketSearchCriteria();
         searchCriteria.setProjectIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
         searchCriteria.setIsOpenned(new SearchField());
@@ -77,8 +77,8 @@ public class TicketOverdueWidget extends Depot {
     }
 
     private void updateSearchResult() {
-        taskComponents.setSearchCriteria(searchCriteria);
-        setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OVERDUE_ASSIGNMENTS_VALUE, taskComponents.getTotalCount()));
+        ticketOverdueComponent.setSearchCriteria(searchCriteria);
+        setTitle(String.format("%s (%d)", UserUIContext.getMessage(TicketI18nEnum.VAL_OVERDUE_TICKETS), ticketOverdueComponent.getTotalCount()));
     }
 
     private static class TicketOverduePagedList extends DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> {
