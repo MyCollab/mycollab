@@ -1,1 +1,0 @@
-$wnd.com_mycollab_widgetset_MyCollabMobileWidgetSet.runAsyncCallback2('nlb(1742,1,OKe);_.vc=function fPc(){Iwc((!Bwc&&(Bwc=new Owc),Bwc),this.a.d)};zte(Uh)(2);\n//# sourceURL=com.mycollab.widgetset.MyCollabMobileWidgetSet-2.js\n')

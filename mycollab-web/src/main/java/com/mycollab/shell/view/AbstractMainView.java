@@ -93,10 +93,6 @@ public abstract class AbstractMainView extends AbstractVerticalPageView implemen
         if (serviceMenu != null) {
             headerLayout.addComponent(serviceMenu, "serviceMenu");
         }
-        postAddModule(module);
-    }
-
-    protected void postAddModule(IDesktopModule module) {
     }
 
     private CustomLayout createTopMenu() {

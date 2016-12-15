@@ -38,6 +38,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIUtils;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -60,9 +61,11 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
     private CssLayout timelineContainer;
 
     public void display() {
-        this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("tm-container").withFullWidth();
+        this.withMargin(new MarginInfo(false, false, true, false)).withStyleName("tm-container").withFullWidth();
 
-        MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
+                .withStyleName(WebThemes.PANEL_HEADER);
+        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
         final CheckBox includeNoDateSet = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));

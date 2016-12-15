@@ -226,8 +226,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                Label createdLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
-                createdLbl.setSizeUndefined();
+                ELabel createdLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE)).withWidthUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
                 String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
@@ -239,8 +238,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
-                assigneeLbl.setSizeUndefined();
+                ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE))
+                        .withWidthUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
                 String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "assignUserAvatarId");

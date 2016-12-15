@@ -28,37 +28,37 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-reporting</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.58</version>
+            <version>1.60</version>
         </dependency>
 
         <dependency>

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
@@ -26,6 +27,7 @@ import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.service.PageService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
+import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.*;
 import com.mycollab.module.project.event.*;
 import com.mycollab.module.project.i18n.*;
@@ -37,11 +39,10 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.utils.LabelStringGenerator;
-import com.vaadin.breadcrumb.Breadcrumb;
-import com.vaadin.breadcrumb.BreadcrumbLayout;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -56,92 +57,68 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     private static final long serialVersionUID = 1L;
     private static LabelStringGenerator menuLinkGenerator = new BreadcrumbLabelStringGenerator();
 
-    private Breadcrumb breadcrumb;
     private SimpleProject project;
 
-    private Button homeBtn;
-
     public ProjectBreadcrumb() {
-        homeBtn = new Button(null, clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoDashboard(this, null)));
-        breadcrumb = new Breadcrumb() {
-            @Override
-            public void addLink(Button newBtn) {
-                if (getComponentCount() > 0)
-                    homeBtn.setCaption(null);
-                else
-                    homeBtn.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
-
-                super.addLink(newBtn);
-            }
-
-            @Override
-            public void select(int id) {
-                if (id == 0) {
-                    homeBtn.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
-                } else {
-                    homeBtn.setCaption(null);
-                }
-                super.select(id);
-            }
-
-            @Override
-            public int getComponentCount() {
-                if (getCompositionRoot() != null) {
-                    final BreadcrumbLayout compositionRoot = (BreadcrumbLayout) getCompositionRoot();
-                    return compositionRoot.getComponentCount();
-                }
-                return super.getComponentCount();
-            }
-        };
-        breadcrumb.setShowAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-        breadcrumb.setHideAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-        breadcrumb.setUseDefaultClickBehaviour(false);
-        breadcrumb.addLink(homeBtn);
-
-        withMargin(new MarginInfo(true, false, false, false)).with(breadcrumb).expand(breadcrumb).alignAll(Alignment.MIDDLE_RIGHT);
+        setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
     }
 
     public void setProject(SimpleProject project) {
         this.project = project;
     }
 
+    private void addSummaryLink() {
+        removeAllComponents();
+        with(ELabel.h3(new A("#" + ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(StringUtils
+                .trim(project.getName(), 30, true)).write())).withDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
+                project, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+    }
+
+    private void addLink(Button button) {
+        button.addStyleName(WebThemes.BUTTON_LINK);
+        with(new ELabel("/"), button);
+    }
+
+    private void addEnabledLink(Button button) {
+        button.addStyleName(WebThemes.BUTTON_LINK);
+        with(new ELabel("/"), button);
+    }
+
     public void gotoSearchProjectItems() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
     }
 
     public void gotoMessageList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MessageI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(MessageI18nEnum.LIST)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateMessagesLink(project.getId()),
                 UserUIContext.getMessage(MessageI18nEnum.LIST));
     }
 
     public void gotoMessage(Message message) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MessageI18nEnum.LIST),
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(MessageI18nEnum.LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null))));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(message.getTitle()));
+        addLink(generateBreadcrumbLink(message.getTitle()));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateMessagePreviewLink(project.getId(), message.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(MessageI18nEnum.SINGLE), message.getTitle()));
     }
 
     public void gotoRiskList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(RiskI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(RiskI18nEnum.LIST)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateRisksLink(project.getId()),
                 UserUIContext.getMessage(RiskI18nEnum.LIST));
     }
 
     public void gotoRiskRead(Risk risk) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName())));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateRiskPreviewLink(project.getId(), risk.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
@@ -149,76 +126,71 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoRiskEdit(final Risk risk) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()),
                 clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoRead(this, risk.getId()))));
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateRiskEditLink(project.getId(), risk.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()));
     }
 
     public void gotoRiskAdd() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateRiskAddLink(project.getId()),
                 UserUIContext.getMessage(RiskI18nEnum.NEW));
     }
 
     public void gotoMilestoneList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateMilestonesLink(project.getId()),
                 UserUIContext.getMessage(MilestoneI18nEnum.LIST));
     }
 
     public void gotoRoadmap() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP)));
         MyCollabUI.addFragment("project/roadmap/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP));
     }
 
     public void gotoMilestoneKanban() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
         MyCollabUI.addFragment("project/milestone/kanban/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoMilestoneRead(Milestone milestone) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(milestone.getName()));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
+        addLink(generateBreadcrumbLink(milestone.getName()));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateMilestonePreviewLink(project.getId(), milestone.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), milestone.getName()));
     }
 
     public void gotoMilestoneEdit(final Milestone milestone) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(milestone.getName(),
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
+        addLink(generateBreadcrumbLink(milestone.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestone.getId()))));
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment("project/milestone/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + milestone.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), milestone.getName()));
     }
 
     public void gotoMilestoneAdd() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
+        addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW)));
         MyCollabUI.addFragment("project/milestone/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(MilestoneI18nEnum.NEW));
     }
@@ -236,8 +208,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         String basePath = PathUtils.getProjectDocumentPath(MyCollabUI.getAccountId(), CurrentProjectVariables.getProjectId());
         String currentPath = CurrentProjectVariables.getCurrentPagePath();
 
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(PageI18nEnum.LIST), new GotoPageListListener(basePath)));
-        breadcrumb.setLinkEnabled(true, 1);
+        addEnabledLink(new Button(UserUIContext.getMessage(PageI18nEnum.LIST), new GotoPageListListener(basePath)));
 
         String extraPath = currentPath.substring(basePath.length());
         if (extraPath.startsWith("/")) {
@@ -253,7 +224,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 String folderPath = basePath + tempPath.toString();
                 Folder folder = wikiService.getFolder(folderPath);
                 if (folder != null) {
-                    breadcrumb.addLink(new Button(folder.getName(), new GotoPageListListener(folderPath)));
+                    addLink(new Button(folder.getName(), new GotoPageListListener(folderPath)));
                 } else {
                     return;
                 }
@@ -262,31 +233,31 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoPageList() {
-        breadcrumb.select(0);
+        addSummaryLink();
         buildPageBreadcrumbChain();
         MyCollabUI.addFragment(ProjectLinkGenerator.generatePagesLink(project.getId(),
                 CurrentProjectVariables.getCurrentPagePath()), UserUIContext.getMessage(PageI18nEnum.LIST));
     }
 
     public void gotoPageAdd() {
-        breadcrumb.select(0);
+        addSummaryLink();
         buildPageBreadcrumbChain();
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(PageI18nEnum.NEW)));
+        addLink(new Button(UserUIContext.getMessage(PageI18nEnum.NEW)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generatePageAdd(
                 project.getId(), CurrentProjectVariables.getCurrentPagePath()),
                 UserUIContext.getMessage(PageI18nEnum.NEW));
     }
 
     public void gotoPageRead(Page page) {
-        breadcrumb.select(0);
+        addSummaryLink();
         buildPageBreadcrumbChain();
-        breadcrumb.addLink(new Button(StringUtils.trim(page.getSubject(), 50)));
+        addLink(new Button(StringUtils.trim(page.getSubject(), 50)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generatePageRead(project.getId(), page.getPath()),
                 UserUIContext.getMessage(PageI18nEnum.DETAIL));
     }
 
     public void gotoPageEdit(Page page) {
-        breadcrumb.select(0);
+        addSummaryLink();
         buildPageBreadcrumbChain();
 
         MyCollabUI.addFragment(ProjectLinkGenerator.generatePageEdit(project.getId(), page.getPath()),
@@ -309,50 +280,47 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoTicketDashboard(String query) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST)));
         String fragment = (StringUtils.isNotBlank(query)) ? ProjectLinkGenerator.generateTicketDashboardLink(project.getId()) + "?" + query : ProjectLinkGenerator.generateTicketDashboardLink(project.getId());
         MyCollabUI.addFragment(fragment, UserUIContext.getMessage(TicketI18nEnum.LIST));
     }
 
     public void gotoTaskAdd() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW)));
         MyCollabUI.addFragment("project/task/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(TaskI18nEnum.NEW));
     }
 
     public void gotoGanttView() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART)));
         MyCollabUI.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART));
     }
 
     public void gotoTaskKanbanView() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(String.format("%s: %s", UserUIContext.getMessage(TaskI18nEnum.SINGLE),
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(new Button(String.format("%s: %s", UserUIContext.getMessage(TaskI18nEnum.SINGLE),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN))));
         MyCollabUI.addFragment("project/task/kanban/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoCalendar() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR)));
         MyCollabUI.addFragment("project/calendar/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR));
     }
 
     public void gotoTaskRead(SimpleTask task) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName())));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(), task.getProjectShortname()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
@@ -360,15 +328,12 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoTaskEdit(final SimpleTask task) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST),
-                new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addEnabledLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName()),
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()))));
-        breadcrumb.setLinkEnabled(true, 2);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskEditLink(task.getTaskkey(), task.getProjectShortname()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName()));
@@ -384,55 +349,51 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoBugKanbanView() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
         MyCollabUI.addFragment("project/bug/kanban/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoBugList(String query) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(BugI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(BugI18nEnum.LIST)));
         String fragment = (StringUtils.isNotBlank(query)) ? ProjectLinkGenerator.generateBugsLink(project.getId()) + "?" +
                 query : ProjectLinkGenerator.generateBugsLink(project.getId());
         MyCollabUI.addFragment(fragment, UserUIContext.getMessage(BugI18nEnum.LIST));
     }
 
     public void gotoBugAdd() {
-        breadcrumb.select(0);
+        addSummaryLink();
 
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
 
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(BugI18nEnum.NEW)));
+        addLink(new Button(UserUIContext.getMessage(BugI18nEnum.NEW)));
         MyCollabUI.addFragment("project/bug/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(BugI18nEnum.NEW));
     }
 
     public void gotoBugEdit(final SimpleBug bug) {
-        breadcrumb.select(0);
+        addSummaryLink();
 
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
 
-        breadcrumb.addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+        addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName()),
                 clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, bug.getId()))));
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateBugEditLink(bug.getBugkey(),
                 bug.getProjectShortName()), UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                 UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName()));
     }
 
     public void gotoBugRead(SimpleBug bug) {
-        breadcrumb.select(0);
+        addSummaryLink();
 
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        breadcrumb.setLinkEnabled(true, 1);
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
 
-        breadcrumb.addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+        addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName())));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(), bug.getProjectShortName()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
@@ -440,38 +401,35 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoVersionList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST)));
         MyCollabUI.addFragment("project/version/list/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(VersionI18nEnum.LIST));
     }
 
     public void gotoVersionAdd() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
         MyCollabUI.addFragment("project/version/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(VersionI18nEnum.NEW));
     }
 
     public void gotoVersionEdit(final Version version) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(version.getName(),
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
+        addLink(generateBreadcrumbLink(version.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId()))));
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment("project/version/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + version.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getName()));
     }
 
     public void gotoVersionRead(Version version) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(version.getName()));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
+        addLink(generateBreadcrumbLink(version.getName()));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateBugVersionPreviewLink(project.getId(), version.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getName()));
@@ -487,149 +445,141 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoTagList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG)));
         MyCollabUI.addFragment("project/tag/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG));
     }
 
     public void gotoFavoriteList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES)));
         MyCollabUI.addFragment("project/favorite/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES));
     }
 
     public void gotoComponentList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST)));
         MyCollabUI.addFragment("project/component/list/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ComponentI18nEnum.LIST));
     }
 
     public void gotoComponentAdd() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
         MyCollabUI.addFragment("project/component/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ComponentI18nEnum.NEW));
     }
 
     public void gotoComponentEdit(final Component component) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(component.getName(),
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
+        addLink(generateBreadcrumbLink(component.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId()))));
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment("project/component/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + component.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getName()));
     }
 
     public void gotoComponentRead(Component component) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
-        breadcrumb.addLink(generateBreadcrumbLink(component.getName()));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
+        addLink(generateBreadcrumbLink(component.getName()));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateBugComponentPreviewLink(project.getId(), component.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getName()));
     }
 
     public void gotoTimeTrackingList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateTimeReportLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_TIME_TRACKING));
     }
 
     public void gotoInvoiceView() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(InvoiceI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(InvoiceI18nEnum.LIST)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateInvoiceListLink(project.getId()),
                 UserUIContext.getMessage(InvoiceI18nEnum.LIST));
     }
 
     public void gotoFileList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateFileDashboardLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_FILES));
     }
 
     public void gotoUserList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST)));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateUsersLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_MEMBERS));
     }
 
     public void gotoUserAdd() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
+        addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES)));
         MyCollabUI.addFragment("project/user/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_INVITE_MEMBERS));
     }
 
     public void gotoUserRead(SimpleProjectMember member) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(member.getMemberFullName()));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
+        addLink(generateBreadcrumbLink(member.getMemberFullName()));
         MyCollabUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(project.getId() + "/"
                 + member.getUsername()), UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_MEMBER_READ, member.getMemberFullName()));
     }
 
     public void gotoUserEdit(SimpleProjectMember member) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(member.getMemberFullName()));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
+        addLink(generateBreadcrumbLink(member.getMemberFullName()));
         MyCollabUI.addFragment("project/user/edit/" + UrlEncodeDecoder.encode(project.getId() + "/"
                 + member.getId()), UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_MEMBER_EDIT, member.getMemberFullName()));
     }
 
     public void gotoRoleList() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST)));
         MyCollabUI.addFragment("project/role/list/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectRoleI18nEnum.LIST));
     }
 
     public void gotoRoleRead(SimpleProjectRole role) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoRoleListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(role.getRolename()));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoRoleListener()));
+        addLink(generateBreadcrumbLink(role.getRolename()));
         MyCollabUI.addFragment("project/role/preview/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     public void gotoProjectSetting() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_SETTING), new GotoNotificationSettingListener()));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_SETTING), new GotoNotificationSettingListener()));
         MyCollabUI.addFragment(ProjectLinkGenerator.generateProjectSettingLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_SETTING));
     }
 
     public void gotoRoleAdd() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoRoleListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoRoleListener()));
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
         MyCollabUI.addFragment("project/role/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectRoleI18nEnum.NEW));
     }
 
     public void gotoRoleEdit(ProjectRole role) {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoUserListener()));
-        breadcrumb.setLinkEnabled(true, 1);
-        breadcrumb.addLink(generateBreadcrumbLink(role.getRolename()));
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoUserListener()));
+        addLink(generateBreadcrumbLink(role.getRolename()));
         MyCollabUI.addFragment("project/role/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE), role.getRolename()));
@@ -672,7 +622,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoProjectDashboard() {
-        breadcrumb.select(0);
+        addSummaryLink();
         MyCollabUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD));
 //        if (CurrentProjectVariables.isAdmin() && !SiteConfiguration.isCommunityEdition()) {
@@ -681,8 +631,8 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     public void gotoProjectEdit() {
-        breadcrumb.select(0);
-        breadcrumb.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        addSummaryLink();
+        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         MyCollabUI.addFragment("project/edit/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(ProjectI18nEnum.SINGLE), project.getName()));

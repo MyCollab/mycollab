@@ -138,10 +138,10 @@ public class ThemeManager {
         }
 
         if (accountTheme.getTopmenubgselected() != null) {
-            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button.selected { background-color: #"
-                    + accountTheme.getTopmenubgselected() + "; }");
+            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu .v-button.selected {" +
+                    " background-color: #" + accountTheme.getTopmenubgselected() + "; }");
 
-            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button:hover { background-color: #"
+            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu .v-button:hover { background-color: #"
                     + accountTheme.getTopmenubgselected() + "; }");
 
             extraStyles.append(".v-button.add-btn-popup:hover { background-color: #" + accountTheme.getTopmenubgselected() + "; }");
@@ -156,10 +156,10 @@ public class ThemeManager {
         }
 
         if (accountTheme.getTopmenutextselected() != null) {
-            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button.selected { color: #"
+            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu .v-button.selected { color: #"
                     + accountTheme.getTopmenutextselected() + "; }");
 
-            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button:hover { color: #" + accountTheme.getTopmenutextselected() + "; }");
+            extraStyles.append(".topNavigation .serviceMenuContainer .service-menu .v-button:hover { color: #" + accountTheme.getTopmenutextselected() + "; }");
 
             extraStyles.append(".v-button.add-btn-popup:hover { color: #" + accountTheme.getTopmenutextselected() + "; }");
 

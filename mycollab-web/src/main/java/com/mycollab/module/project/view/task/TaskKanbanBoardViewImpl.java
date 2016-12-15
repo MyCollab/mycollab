@@ -411,7 +411,8 @@ public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements
                     return new Not(VerticalLocationIs.MIDDLE);
                 }
             });
-            new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((UIUtils.getBrowserHeight() - 450) + "px");
+            new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((UIUtils.getBrowserHeight() - 390) +
+                    "px");
 
             MHorizontalLayout headerLayout = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("header");
             header = new Label(UserUIContext.getMessage(StatusI18nEnum.class, optionVal.getTypeval()));

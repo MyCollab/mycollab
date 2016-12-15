@@ -15,44 +15,32 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-scheduler</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>c3p0</groupId>
-                    <artifactId>c3p0</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 </project>

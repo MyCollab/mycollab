@@ -20,7 +20,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
-import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Iterator;
 
@@ -28,7 +28,7 @@ import java.util.Iterator;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ServiceMenu extends ButtonGroup {
+public class ServiceMenu extends MHorizontalLayout {
     private static final long serialVersionUID = 1L;
 
     private static final String COMPONENT_STYLENAME = "service-menu";
@@ -42,20 +42,20 @@ public class ServiceMenu extends ButtonGroup {
     public Button addService(String serviceName, Resource linkIcon, ClickListener listener) {
         Button serviceBtn = new Button(serviceName, listener);
         serviceBtn.setIcon(linkIcon);
-        this.addButton(serviceBtn);
+        this.with(serviceBtn);
         return serviceBtn;
     }
 
     public Button addService(String serviceName, ClickListener listener) {
         Button serviceBtn = new Button(serviceName, listener);
-        this.addButton(serviceBtn);
+        this.with(serviceBtn);
         return serviceBtn;
     }
 
     public Button addService(String id, String serviceName, ClickListener listener) {
         Button serviceBtn = new Button(serviceName, listener);
         serviceBtn.setId(id);
-        this.addButton(serviceBtn);
+        this.with(serviceBtn);
         return serviceBtn;
     }
 

@@ -37,6 +37,8 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.*;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
@@ -61,9 +63,10 @@ public class MilestoneTimelineWidget extends DDVerticalLayout {
         this.setWidth("100%");
         this.addStyleName("tm-container");
         this.setSpacing(true);
-        this.setMargin(true);
+        this.setMargin(new MarginInfo(false, false, true, false));
 
-        MHorizontalLayout headerLayout = new MHorizontalLayout();
+        MHorizontalLayout headerLayout = new MHorizontalLayout().withStyleName(WebThemes.PANEL_HEADER);
+        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 
         final CheckBox noDateSetMilestone = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));

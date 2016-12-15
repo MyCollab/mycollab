@@ -19,6 +19,7 @@ package com.mycollab.module.project.view;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.BasicSearchRequest;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
@@ -107,6 +108,7 @@ public class ProjectAddBaseTemplateWindow extends MWindow {
             ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
             searchCriteria.addExtraField(ProjectSearchCriteria.p_template.buildParamIsEqual(SearchField.AND, 1));
+            searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
             List<SimpleProject> projectTemplates = projectService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
             this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
             for (SimpleProject prjTemplate : projectTemplates) {

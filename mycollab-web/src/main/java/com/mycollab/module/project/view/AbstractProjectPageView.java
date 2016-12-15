@@ -50,6 +50,7 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
 
     private ComponentContainer constructHeader() {
         header = new MHorizontalLayout().with(headerText).withStyleName("hdr-view").withFullWidth().withMargin(true);
+        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         return header;
     }
 

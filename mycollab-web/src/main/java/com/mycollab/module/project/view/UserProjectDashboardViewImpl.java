@@ -74,10 +74,10 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
             UserUnresolvedTicketWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedTicketWidget();
 
             ResponsiveColumn column1 = new ResponsiveColumn();
-            column1.addRule(ResponsiveColumn.DisplaySize.LG, 7);
-            column1.addRule(ResponsiveColumn.DisplaySize.MD, 7);
-            column1.addRule(ResponsiveColumn.DisplaySize.SM, 12);
-            column1.addRule(ResponsiveColumn.DisplaySize.XS, 12);
+            column1.addRule(ResponsiveLayout.DisplaySize.LG, 7);
+            column1.addRule(ResponsiveLayout.DisplaySize.MD, 7);
+            column1.addRule(ResponsiveLayout.DisplaySize.SM, 12);
+            column1.addRule(ResponsiveLayout.DisplaySize.XS, 12);
             MVerticalLayout leftPanel = new MVerticalLayout(milestoneTimelineWidget,
                     unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, ticketOverdueWidget)
                     .withMargin(new MarginInfo(true, true, false, false)).withFullWidth();
@@ -88,10 +88,10 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
             rightPanel.with(myProjectListComponent, activityStreamComponent);
 
             ResponsiveColumn column2 = new ResponsiveColumn();
-            column2.addRule(ResponsiveColumn.DisplaySize.LG, 5);
-            column2.addRule(ResponsiveColumn.DisplaySize.MD, 5);
-            column1.addRule(ResponsiveColumn.DisplaySize.SM, 12);
-            column1.addRule(ResponsiveColumn.DisplaySize.XS, 12);
+            column2.addRule(ResponsiveLayout.DisplaySize.LG, 5);
+            column2.addRule(ResponsiveLayout.DisplaySize.MD, 5);
+            column1.addRule(ResponsiveLayout.DisplaySize.SM, 12);
+            column1.addRule(ResponsiveLayout.DisplaySize.XS, 12);
             column2.setComponent(rightPanel);
 
             row.addColumn(column1);

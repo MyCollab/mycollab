@@ -995,7 +995,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.7.3";
+	content: "7.7.5";
 }
 
 .v-widget {
@@ -1690,6 +1690,7 @@ a.pending {
 	border-width: 1px 1px 0px 1px;
 	border-style: solid;
 	border-color: #ededed;
+	background-color: #ededed;
 	height: 40px !important;
 	padding: 0px 12px;
 }
@@ -2003,7 +2004,7 @@ div.v-window {
 .kanban-layout .kanban-block .kanban-item {
 	background-color: white;
 	cursor: move;
-	padding: 5px;
+	padding: 5px 5px 5px 10px;
 	margin: 0px 0px 2px 0px;
 }
 
@@ -2061,10 +2062,12 @@ div.v-window {
 	background: none;
 }
 
-.v-button.add-btn-popup .v-popup-indicator:before {
-	content: "\f0dd";
-	font-size: 15px;
-	opacity: 1;
+.v-button.add-btn-popup .v-popup-indicator {
+	display: none;
+}
+
+.v-popupbutton-popup-add-btn-popup .popupContent {
+	padding-top: 10px;
 }
 
 .block {
@@ -5174,6 +5177,8 @@ a.v-disabled {
 }
 
 .v-grid-body {
+	-ms-touch-action: none;
+	touch-action: none;
 	z-index: 0;
 	top: 0;
 }
@@ -5452,6 +5457,21 @@ a.v-disabled {
 	bottom: 0px;
 	cursor: col-resize;
 	z-index: 10;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.v-grid-column-resize-simple-indicator {
+	position: absolute;
+	width: 3px;
+	top: 0px;
+	left: 15px;
+	z-index: 9001;
+	background: #fff;
+	box-shadow: 0px 0px 5px #000;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
@@ -13873,7 +13893,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	transition: all 300ms;
 }
 
-.valo-menu-responsive[width-range~="0-800px"] .valo-menu-visible .valo-menuitems {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu-visible .valo-menuitems, .valo-menu-responsive[width-range~="0-800px"] .valo-menu-hover:hover .valo-menuitems {
 	-webkit-transform: translatex(0%);
 	-moz-transform: translatex(0%);
 	-ms-transform: translatex(0%);
@@ -14352,6 +14372,7 @@ a.pending {
 	border-width: 1px 1px 0px 1px;
 	border-style: solid;
 	border-color: #ededed;
+	background-color: #ededed;
 	height: 40px !important;
 	padding: 0px 12px;
 }
@@ -14665,7 +14686,7 @@ div.v-window {
 .kanban-layout .kanban-block .kanban-item {
 	background-color: white;
 	cursor: move;
-	padding: 5px;
+	padding: 5px 5px 5px 10px;
 	margin: 0px 0px 2px 0px;
 }
 
@@ -14723,10 +14744,12 @@ div.v-window {
 	background: none;
 }
 
-.v-button.add-btn-popup .v-popup-indicator:before {
-	content: "\f0dd";
-	font-size: 15px;
-	opacity: 1;
+.v-button.add-btn-popup .v-popup-indicator {
+	display: none;
+}
+
+.v-popupbutton-popup-add-btn-popup .popupContent {
+	padding-top: 10px;
 }
 
 .block {
@@ -15258,7 +15281,7 @@ div .addview-layout-body {
 .project-view .main-content .top-panel {
 	border-bottom: 1px solid #ededed;
 	padding: 12px 24px;
-	background-color: #efefef;
+	background-color: #f9eaff;
 }
 
 .project-view .sidebar-menu {
@@ -15271,6 +15294,22 @@ div .addview-layout-body {
 
 .project-view .addViewLayout {
 	padding: 0px 30px 10px;
+}
+
+.task {
+	box-shadow: inset 5px 0px 0px 0px #52de0f;
+}
+
+.bug {
+	box-shadow: inset 5px 0px 0px 0px #e20a71;
+}
+
+.milestone {
+	box-shadow: inset 5px 0px 0px 0px #649be2;
+}
+
+.risk {
+	box-shadow: inset 5px 0px 0px 0px #47bbdd;
 }
 
 .v-popupbutton-popup-myprojectlist .contentWrapper, .myprojectlist .contentWrapper {
@@ -15363,7 +15402,7 @@ div .addview-layout-body {
 .projectfeed-hdr-wrapper {
 	padding: 12px 24px;
 	border-bottom: 1px solid #ededed;
-	background-color: #efefef;
+	background-color: #f9eaff;
 }
 
 .closed-button .v-button-wrap {
@@ -16427,16 +16466,11 @@ input.v-textfield-pagedtable-pagefield {
 }
 
 .topNavigation .serviceMenuContainer .service-menu .v-button-wrap {
-	padding: 0px;
+	padding: 0px 10px;
 }
 
 .topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button {
 	padding: 3px 12px;
-}
-
-.topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button.v-button-left, .topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button.v-button-middle, .topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button.v-button-right {
-	background: none;
-	border: none;
 }
 
 .topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button:focus {
@@ -16450,6 +16484,7 @@ input.v-textfield-pagedtable-pagefield {
 .topNavigation .v-button {
 	border-radius: 4px;
 	font-weight: 600;
+	background-color: #fff;
 }
 
 .topNavigation .v-button .v-button-wrap {
@@ -16883,6 +16918,7 @@ input.v-textfield-errorField {
 	border-width: 1px 1px 0px 1px;
 	border-style: solid;
 	border-color: #ededed;
+	background-color: #ededed;
 	border-radius: 0px;
 	padding-right: 12px;
 }

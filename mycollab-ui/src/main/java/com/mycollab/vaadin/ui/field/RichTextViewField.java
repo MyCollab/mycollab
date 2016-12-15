@@ -21,7 +21,6 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Label;
 
 /**
  * @author MyCollab Ltd.
@@ -31,11 +30,9 @@ public class RichTextViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
     private String value;
-    private Label label;
 
     public RichTextViewField(String value) {
         this.value = value;
-        label = ELabel.html(StringUtils.formatRichText(value)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth();
     }
 
     @Override
@@ -50,6 +47,6 @@ public class RichTextViewField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        return label;
+        return ELabel.html(StringUtils.formatRichText(value)).withStyleName(UIConstants.LABEL_WORD_WRAP);
     }
 }

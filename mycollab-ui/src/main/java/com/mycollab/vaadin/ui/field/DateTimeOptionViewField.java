@@ -17,7 +17,6 @@
 package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.vaadin.UserUIContext;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -37,15 +36,8 @@ public class DateTimeOptionViewField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        final Label l = new Label();
-        l.setWidth("100%");
-        if (date == null) {
-            l.setValue("&nbsp;");
-            l.setContentMode(ContentMode.HTML);
-        } else {
-            l.setValue(UserUIContext.formatDateTime(date));
-        }
-        return l;
+        String dateValue = (date == null) ? "" : UserUIContext.formatDateTime(date);
+        return new Label(dateValue);
     }
 
     @Override

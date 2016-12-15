@@ -57,13 +57,16 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
         String status = "";
         if (ticket.isBug()) {
             status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
+            rowComp.addStyleName("bug");
         } else if (ticket.isMilestone()) {
             status = UserUIContext.getMessage(MilestoneStatus.class, ticket.getStatus());
+            rowComp.addStyleName("milestone");
         } else if (ticket.isRisk()) {
-            status = UserUIContext.getMessage(StatusI18nEnum.class,
-                    ticket.getStatus());
+            status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
+            rowComp.addStyleName("risk");
         } else if (ticket.isTask()) {
             status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
+            rowComp.addStyleName("task");
         }
         issueDiv.appendChild(new Span().appendText(status).setCSSClass(UIConstants.BLOCK));
 

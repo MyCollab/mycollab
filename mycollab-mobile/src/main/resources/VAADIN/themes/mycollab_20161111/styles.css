@@ -14,6 +14,10 @@
 	font-size: 16px;
 }
 
+.section .v-button-link .v-button-caption {
+	color: #F1F1F1 !important;
+}
+
 .v-touchkit-navbutton {
 	width: 100% !important;
 	color: $my-dark-color !important;
@@ -131,10 +135,6 @@
 	border-bottom: 1px solid $my-separator-color;
 }
 
-.row:last-child {
-	border-style: none;
-}
-
 .section {
 	width: 100%;
 	padding: 10px 5px 10px 5px;
@@ -149,6 +149,10 @@
 .section .v-label {
 	margin-left: 5px;
 	font-size: 16px;
+}
+
+.section .v-button-link .v-button-caption {
+	color: #F1F1F1 !important;
 }
 
 .v-touchkit-navbutton {
@@ -268,10 +272,6 @@
 	border-bottom: 1px solid #e5e5e5;
 }
 
-.row:last-child {
-	border-style: none;
-}
-
 .large {
 	font-size: larger !important;
 }
@@ -334,7 +334,7 @@ hr {
 }
 
 .border-bottom {
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5 !important;
 }
 
 .border-top {
@@ -801,6 +801,22 @@ body {
 	text-align: center;
 }
 
+.task {
+	box-shadow: inset 5px 0px 0px 0px #52de0f;
+}
+
+.bug {
+	box-shadow: inset 5px 0px 0px 0px #e20a71;
+}
+
+.milestone {
+	box-shadow: inset 5px 0px 0px 0px #649be2;
+}
+
+.risk {
+	box-shadow: inset 5px 0px 0px 0px #47bbdd;
+}
+
 .activity-cell {
 	border-bottom: 1px solid #e5e5e5;
 	padding: 5px;
@@ -839,7 +855,7 @@ body {
 }
 
 .message-list-view .message-block, .message-read-view .message-block {
-	padding: 1.2rem 0.8rem 0rem 0.8rem;
+	padding: 1rem 0.8rem 1rem 0.8rem;
 }
 
 .message-list-view .message-block .title-row, .message-read-view .message-block .title-row {

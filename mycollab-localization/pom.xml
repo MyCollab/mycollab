@@ -15,12 +15,12 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.cal10n</groupId>

@@ -52,9 +52,17 @@ class TicketRowRenderer extends BlockRowRender implements PropertyChangedListene
     private ToggleTicketSummaryField toggleTicketField;
     private ProjectTicket ticket;
 
-    public TicketRowRenderer(final ProjectTicket ticket) {
+    TicketRowRenderer(final ProjectTicket ticket) {
         this.ticket = ticket;
         withMargin(false).withFullWidth().addStyleName(WebThemes.BORDER_LIST_ROW);
+
+        if (ticket.isTask()) {
+            addStyleName("task");
+        } else if (ticket.isBug()) {
+            addStyleName("bug");
+        } else if (ticket.isRisk()) {
+            addStyleName("risk");
+        }
 
         toggleTicketField = new ToggleTicketSummaryField(ticket);
         MHorizontalLayout headerLayout = new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType()))

@@ -146,7 +146,8 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
 
             VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
             contentWrapper.addStyleName("main-content");
-            MVerticalLayout topPanel = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true))
+
+            MVerticalLayout topPanel = new MVerticalLayout(new ProjectInfoComponent(project)).withSpacing(false).withMargin(new MarginInfo(false, true, false, true))
                     .withFullWidth().withStyleName("top-panel").withHeightUndefined().withFullWidth();
             contentWrapper.addComponentAsFirst(topPanel);
 
@@ -155,10 +156,6 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
 
             buildComponents();
             this.addComponent(myProjectTab);
-
-            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-            breadCrumb.setProject(project);
-            topPanel.with(new ProjectInfoComponent(project), breadCrumb).alignAll(Alignment.MIDDLE_LEFT);
 
             if (project.getContextask() == null || project.getContextask()) {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();

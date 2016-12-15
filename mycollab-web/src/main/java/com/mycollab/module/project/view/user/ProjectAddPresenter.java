@@ -22,7 +22,6 @@ import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectService;
-import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.mycollab.security.BooleanPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
@@ -36,7 +35,6 @@ import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewPermission;
 import com.mycollab.vaadin.ui.MyCollabSession;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HasComponents;
 
 import static com.mycollab.vaadin.ui.MyCollabSession.CURRENT_PROJECT;
@@ -84,9 +82,8 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        ComponentContainer projectViewContainer = (ComponentContainer) container;
-        projectViewContainer.removeAllComponents();
-        projectViewContainer.addComponent(view);
+        ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
+        projectViewContainer.setContent(view);
 
         Project project = (Project) data.getParams();
         view.editItem(project);

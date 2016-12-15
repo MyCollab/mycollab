@@ -37,6 +37,7 @@ import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
+import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.query.TicketQueryInfo;
@@ -52,7 +53,10 @@ import com.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.QueryParamHandler;
+import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.mycollab.vaadin.web.ui.ValueComboBox;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -147,7 +151,8 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_GROUP)));
         final ComboBox groupCombo = new ValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
-                UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER));
+                UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER),
+                UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
         groupCombo.addValueChangeListener(valueChangeEvent -> {
             groupByState = (String) groupCombo.getValue();
             queryAndDisplayTickets();
@@ -248,8 +253,6 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
 
     private void displayTicketsStatistic() {
         rightColumn.removeAllComponents();
-//        final TicketCloseTrendChartWidget taskStatusTrendChartWidget = new TicketCloseTrendChartWidget();
-//        rightColumn.addComponent(taskStatusTrendChartWidget);
         UnresolvedTicketsByAssigneeWidget unresolvedTicketsByAssigneeWidget = new UnresolvedTicketsByAssigneeWidget();
         unresolvedTicketsByAssigneeWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTicketsByAssigneeWidget);
@@ -257,15 +260,6 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         UnresolvedTicketByPriorityWidget unresolvedTicketByPriorityWidget = new UnresolvedTicketByPriorityWidget();
         unresolvedTicketByPriorityWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTicketByPriorityWidget);
-
-//        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
-//            @Override
-//            public void run() {
-//                TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();
-//                timelineTrackingSearchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-//                taskStatusTrendChartWidget.display(timelineTrackingSearchCriteria);
-//            }
-//        });
     }
 
     @Override
@@ -294,6 +288,9 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         } else if (UserUIContext.getMessage(GenericI18Enum.OPT_USER).equals(groupByState)) {
             baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("assignUser", sortDirection)));
             ticketGroupOrderComponent = new UserOrderComponent();
+        } else if (UserUIContext.getMessage(MilestoneI18nEnum.SINGLE).equals(groupByState)) {
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("milestoneId", sortDirection)));
+            ticketGroupOrderComponent = new MilestoneOrderGroup();
         } else {
             throw new MyCollabException("Do not support group view by " + groupByState);
         }

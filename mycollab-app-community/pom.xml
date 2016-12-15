@@ -33,31 +33,31 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-scheduler-community</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

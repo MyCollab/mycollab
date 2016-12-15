@@ -56,25 +56,25 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPagedBeanTable.class);
 
-    protected int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS();
-    protected Collection<B> currentListData;
+    private int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS();
+    private Collection<B> currentListData;
     protected BasicSearchRequest<S> searchRequest;
 
-    protected MHorizontalLayout pageManagement;
+    private MHorizontalLayout pageManagement;
 
-    protected boolean isAscending = true;
-    protected Object sortColumnId;
+    private boolean isAscending = true;
+    private Object sortColumnId;
 
     protected int currentPage = 1;
-    protected int totalPage = 1;
-    protected int currentViewCount;
+    private int totalPage = 1;
+    private int currentViewCount;
     protected int totalCount;
 
     protected Table tableItem;
-    protected HorizontalLayout controlBarWrapper;
+    private HorizontalLayout controlBarWrapper;
 
-    protected Set<SelectableItemHandler<B>> selectableHandlers;
-    protected Set<PageableHandler> pageableHandlers;
+    private Set<SelectableItemHandler<B>> selectableHandlers;
+    private Set<PageableHandler> pageableHandlers;
 
     protected Class<B> type;
 
@@ -82,7 +82,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     private List<TableViewField> displayColumns;
     private List<TableViewField> defaultSelectedColumns;
 
-    protected final Map<Object, ColumnGenerator> columnGenerators = new HashMap<>();
+    private final Map<Object, ColumnGenerator> columnGenerators = new HashMap<>();
 
     public AbstractPagedBeanTable(Class<B> type, List<TableViewField> displayColumns) {
         this(type, null, displayColumns);

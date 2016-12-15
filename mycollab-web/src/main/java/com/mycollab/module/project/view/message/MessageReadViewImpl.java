@@ -103,7 +103,6 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
     }
 
     class FormLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
 
         @Override
         public ComponentContainer getLayout() {
@@ -135,7 +134,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             });
             stickyCheck.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
-            HeaderWithFontAwesome headerText = ComponentUtils.headerH3(ProjectTypeConstants.MESSAGE, message.getTitle());
+            HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MESSAGE, message.getTitle());
             header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)
                     .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT).expand(headerText);
 
@@ -150,7 +149,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
 
             messageLayout.addComponent(userBlock);
 
-            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(true).withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
+            MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withFullWidth();
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
