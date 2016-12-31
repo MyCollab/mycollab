@@ -59,6 +59,10 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         subscribersComp = new ProjectSubscribersComp(false, prjId, UserUIContext.getUsername());
     }
 
+    public BugEditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
+        super(form);
+    }
+
     @Override
     protected Field<?> onCreateField(final Object propertyId) {
         final SimpleBug beanItem = attachForm.getBean();
@@ -115,7 +119,8 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
                 beanItem.setMilestoneName(milestoneName);
             });
             return milestoneBox;
-        } else if (propertyId.equals("estimatetime") || (propertyId.equals("estimateremaintime"))) {
+        } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId) ||
+                (BugWithBLOBs.Field.remainestimate.equalTo(propertyId))) {
             return new DoubleField();
         } else if (propertyId.equals("selected")) {
             return subscribersComp;

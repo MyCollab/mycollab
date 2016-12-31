@@ -6,11 +6,9 @@
     <s_user username="user1" firstname="first1" lastname="last1" email="linhduong@esofthead.com"/>
     <m_prj_project id="1" name="aaa" sAccountId="1" shortname="aaa" projectStatus="Open"/>
 
-    <m_tracker_component projectId="1"
-                         name="component1" id="1" sAccountId="1"
+    <m_tracker_component projectId="1" name="component1" id="1" sAccountId="1"
                          createdTime="2009-01-02 00:00:00"/>
-    <m_tracker_component projectId="1"
-                         name="component2" id="2" sAccountId="1"
+    <m_tracker_component projectId="1" name="component2" id="2" sAccountId="1"
                          createdTime="2009-01-02 00:00:00"/>
 
     <m_tracker_bug name="name 1" id="1" projectId="1" priority="Medium"

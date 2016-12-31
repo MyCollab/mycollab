@@ -34,6 +34,8 @@
     m_form_custom_field_value*,
     m_form_section*,
     m_form_section_field*,
+    m_group*,
+    m_group_user*,
     m_monitor_item*,
     m_options*,
     m_prj_customize_view*,
@@ -739,6 +741,25 @@
     isCustom CDATA #REQUIRED
 >
 
+<!ELEMENT m_group EMPTY>
+<!ATTLIST m_group
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    description CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    createdUser CDATA #IMPLIED
+>
+
+<!ELEMENT m_group_user EMPTY>
+<!ATTLIST m_group_user
+    id CDATA #REQUIRED
+    groupId CDATA #REQUIRED
+    user CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    isOwner CDATA #REQUIRED
+>
+
 <!ELEMENT m_monitor_item EMPTY>
 <!ATTLIST m_monitor_item
     id CDATA #REQUIRED
@@ -947,6 +968,7 @@
     percentagecomplete CDATA #IMPLIED
     priority CDATA #REQUIRED
     remainEstimate CDATA #IMPLIED
+    originalEstimate CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_role EMPTY>
@@ -1067,8 +1089,8 @@
     projectId CDATA #REQUIRED
     resolveddate CDATA #IMPLIED
     description CDATA #IMPLIED
-    estimateTime CDATA #IMPLIED
-    estimateRemainTime CDATA #IMPLIED
+    originalEstimate CDATA #IMPLIED
+    remainEstimate CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
     milestoneId CDATA #IMPLIED
     bugkey CDATA #IMPLIED
@@ -1255,6 +1277,7 @@
     sAccountId CDATA #REQUIRED
     id CDATA #REQUIRED
     isSystemRole CDATA #IMPLIED
+    isDefault CDATA #IMPLIED
 >
 
 <!ELEMENT s_save_search_result EMPTY>
