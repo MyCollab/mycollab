@@ -110,10 +110,10 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
             } else if (SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
                         UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 8, 2, "100%");
-            } else if (BugWithBLOBs.Field.estimatetime.equalTo(propertyId)) {
+            } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE),
                         UserUIContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP), 0, 9);
-            } else if (BugWithBLOBs.Field.estimateremaintime.equalTo(propertyId)) {
+            } else if (BugWithBLOBs.Field.remainestimate.equalTo(propertyId)) {
                 informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE),
                         UserUIContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE_HELP), 1, 9);
             } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {

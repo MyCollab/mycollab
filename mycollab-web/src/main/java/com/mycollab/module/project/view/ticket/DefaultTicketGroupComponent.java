@@ -25,6 +25,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -32,15 +33,15 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 5.3.5
  */
 class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupComponent, IBlockContainer {
-    private Label headerLbl;
-    private CssLayout wrapBody;
+    private Label headerLbl, estimatedHours, remainHours;
+    private DDVerticalLayout wrapBody;
 
     private String titleValue;
 
     DefaultTicketGroupComponent(String titleValue) {
         this.titleValue = titleValue;
         this.setMargin(new MarginInfo(true, false, true, false));
-        wrapBody = new CssLayout();
+        wrapBody = new DDVerticalLayout();
         wrapBody.setWidth("100%");
         wrapBody.addStyleName(WebThemes.BORDER_LIST);
         headerLbl = ELabel.h3("");
@@ -67,5 +68,9 @@ class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupCompo
 
     private void updateTitle() {
         headerLbl.setValue(String.format("%s (%d)", titleValue, wrapBody.getComponentCount()));
+    }
+
+    private void updateHours(ProjectTicket ticket) {
+
     }
 }

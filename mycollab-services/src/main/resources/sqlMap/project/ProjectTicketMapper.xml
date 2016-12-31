@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycollab.module.project.dao.ProjectTicketMapper">
-    <resultMap id="BaseResultMap"
-        type="com.mycollab.module.project.domain.ProjectTicket">
+    <resultMap id="BaseResultMap" type="com.mycollab.module.project.domain.ProjectTicket">
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="description" jdbcType="LONGVARCHAR" property="description" />
         <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
@@ -33,8 +32,7 @@
         <result column="milestoneName" jdbcType="VARCHAR" property="milestoneName" />
     </resultMap>
 
-    <resultMap id="BaseResultTaskCountMap"
-        type="com.mycollab.module.project.domain.ProjectTicketCount">
+    <resultMap id="BaseResultTaskCountMap" type="com.mycollab.module.project.domain.ProjectTicketCount">
         <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
         <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
         <result column="projectId" jdbcType="INTEGER" property="projectId" />
@@ -318,6 +316,7 @@
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
                      AND m_prj_time_logging.type='Project-Risk' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
             mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId,
+            mainTbl.originalEstimate, mainTbl.remainEstimate,
             m_prj_milestone.name AS milestoneName
           FROM m_prj_risk AS mainTbl
               LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
@@ -342,7 +341,8 @@
                     WHERE m_comment.type='Project-Milestone' AND m_comment.typeId=mainTbl.id) AS numComments,
             0 AS numFollowers, 0 AS billableHours, 0 AS nonBillableHours, "" AS priority,
             mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
-            mainTbl.id AS milestoneId, mainTbl.name AS milestoneName
+            mainTbl.id AS milestoneId, 0 AS originalEstimate, 0 AS remainEstimate,
+            mainTbl.name AS milestoneName
           FROM m_prj_milestone AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
@@ -369,7 +369,8 @@
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
                      AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
                 mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
-                mainTbl.milestoneId, m_prj_milestone.name AS milestoneName
+                mainTbl.milestoneId, mainTbl.originalEstimate, mainTbl.remainEstimate,
+                m_prj_milestone.name AS milestoneName
           FROM m_tracker_bug AS mainTbl
               LEFT OUTER JOIN s_user AS assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
@@ -397,6 +398,7 @@
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = mainTbl.projectId
                      AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=mainTbl.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
             mainTbl.priority, mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate, mainTbl.milestoneId,
+            mainTbl.originalEstimate, mainTbl.remainEstimate,
             m_prj_milestone.name AS milestoneName
           FROM m_prj_task AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)

@@ -121,7 +121,7 @@
     </select>
 
     <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(m_tracker_bug.estimateRemainTime), 0)
+        SELECT COALESCE(SUM(m_tracker_bug.remainEstimate), 0)
             FROM m_tracker_bug, m_tracker_bug_related_item
             WHERE m_tracker_bug_related_item.typeId = @{versionid} AND m_tracker_bug_related_item.type = 'FixVersion'
                 AND m_tracker_bug_related_item.bugid = m_tracker_bug.id

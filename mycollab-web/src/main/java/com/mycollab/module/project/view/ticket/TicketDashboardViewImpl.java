@@ -153,11 +153,13 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
                 UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER),
                 UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
+        groupByState = UserUIContext.getMessage(MilestoneI18nEnum.SINGLE);
+        groupCombo.setValue(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
         groupCombo.addValueChangeListener(valueChangeEvent -> {
             groupByState = (String) groupCombo.getValue();
             queryAndDisplayTickets();
         });
-        groupByState = UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE);
+
         groupWrapLayout.addComponent(groupCombo);
 
         ticketSearchPanel.addHeaderRight(groupWrapLayout);
@@ -221,8 +223,8 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
 
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
         statisticSearchCriteria.setIsOpenned(new SearchField());
-        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG,
-                ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
+        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
+                ProjectTypeConstants.RISK));
 
         if (StringUtils.isNotBlank(query)) {
             try {
@@ -299,14 +301,14 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         int totalTasks = projectTicketService.getTotalTicketsCount(baseCriteria);
         ticketSearchPanel.setTotalCountNumber(totalTasks);
         currentPage = 0;
-        int pages = totalTasks / 20;
+        int pages = totalTasks / 100;
         if (currentPage < pages) {
             MButton moreBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_MORE), clickEvent -> {
                 int newTotalTickets = projectTicketService.getTotalTicketsCount(baseCriteria);
-                int newNumPages = newTotalTickets / 20;
+                int newNumPages = newTotalTickets / 100;
                 currentPage++;
                 List<ProjectTicket> otherTickets = projectTicketService.findTicketsByCriteria(new
-                        BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
+                        BasicSearchRequest<>(baseCriteria, currentPage + 1, 100));
                 ticketGroupOrderComponent.insertTickets(otherTickets);
                 if (currentPage >= newNumPages) {
                     wrapBody.removeComponent(wrapBody.getComponent(1));
@@ -315,7 +317,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
             wrapBody.addComponent(moreBtn);
         }
         List<ProjectTicket> tickets = projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>
-                (baseCriteria, currentPage + 1, 20));
+                (baseCriteria, currentPage + 1, 100));
         ticketGroupOrderComponent.insertTickets(tickets);
     }
 

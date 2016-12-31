@@ -90,6 +90,10 @@ public class ProjectTicket extends ValuedBean implements Serializable {
 
     private Integer numComments;
 
+    private Double originalestimate;
+
+    private Double remainestimate;
+
     public String getName() {
         return name;
     }
@@ -364,6 +368,22 @@ public class ProjectTicket extends ValuedBean implements Serializable {
 
     public void setCreatedUserAvatarId(String createdUserAvatarId) {
         this.createdUserAvatarId = createdUserAvatarId;
+    }
+
+    public Double getOriginalestimate() {
+        return originalestimate;
+    }
+
+    public void setOriginalestimate(Double originalestimate) {
+        this.originalestimate = originalestimate;
+    }
+
+    public Double getRemainestimate() {
+        return remainestimate;
+    }
+
+    public void setRemainestimate(Double remainestimate) {
+        this.remainestimate = remainestimate;
     }
 
     public static Task buildTask(ProjectTicket bean) {

@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.project.view.bug;
 
+import com.google.common.base.MoreObjects;
 import com.mycollab.db.arguments.BooleanSearchField;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
@@ -66,10 +67,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 
     @Override
     protected Double getRemainedHours(SimpleBug bean) {
-        if (bean.getEstimateremaintime() != null) {
-            return bean.getEstimateremaintime();
-        }
-        return 0d;
+       return MoreObjects.firstNonNull(bean.getRemainestimate(), 0d);
     }
 
     @Override
@@ -107,7 +105,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
         @Override
         protected void updateTimeRemain(double newValue) {
             BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-            bean.setEstimateremaintime(newValue);
+            bean.setRemainestimate(newValue);
             bugService.updateWithSession(bean, UserUIContext.getUsername());
         }
 
@@ -122,10 +120,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 
         @Override
         protected double getEstimateRemainTime() {
-            if (bean.getEstimateremaintime() != null) {
-                return bean.getEstimateremaintime();
-            }
-            return 0;
+            return MoreObjects.firstNonNull(bean.getRemainestimate(), 0d);
         }
 
         @Override

@@ -31,8 +31,11 @@ import java.util.List;
  * @since 5.4.6
  */
 public class MilestoneOrderGroup extends TicketGroupOrderComponent {
-    private SortedArrayMap<String, DefaultTicketGroupComponent> milestonesAvailable = new SortedArrayMap<>();
-    private DefaultTicketGroupComponent unspecifiedTasks;
+    private SortedArrayMap<String, MilestoneTicketGroupComponent> milestonesAvailable = new SortedArrayMap<>();
+    private DefaultTicketGroupComponent unspecifiedTickets;
+
+    public MilestoneOrderGroup() {
+    }
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
@@ -40,28 +43,32 @@ public class MilestoneOrderGroup extends TicketGroupOrderComponent {
             String milestoneName = ticket.getMilestoneName();
             if (milestoneName != null) {
                 if (milestonesAvailable.containsKey(milestoneName)) {
-                    DefaultTicketGroupComponent groupComponent = milestonesAvailable.get(milestoneName);
+                    MilestoneTicketGroupComponent groupComponent = milestonesAvailable.get(milestoneName);
                     groupComponent.insertTicket(ticket);
                 } else {
                     Div milestoneDiv = new DivLessFormatter().appendChild(new Text(" " + ticket.getMilestoneName()));
 
-                    DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(milestoneDiv.write());
+                    MilestoneTicketGroupComponent groupComponent = new MilestoneTicketGroupComponent(milestoneDiv.write());
                     milestonesAvailable.put(milestoneName, groupComponent);
                     int index = milestonesAvailable.getKeyIndex(milestoneName);
                     if (index > -1) {
                         addComponent(groupComponent, index);
                     } else {
-                        addComponent(groupComponent);
+                        if (unspecifiedTickets != null) {
+                            addComponent(groupComponent, getComponentCount() - 1);
+                        } else {
+                            addComponent(groupComponent);
+                        }
                     }
 
                     groupComponent.insertTicket(ticket);
                 }
             } else {
-                if (unspecifiedTasks == null) {
-                    unspecifiedTasks = new DefaultTicketGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
-                    addComponent(unspecifiedTasks, 0);
+                if (unspecifiedTickets == null) {
+                    unspecifiedTickets = new DefaultTicketGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+                    addComponent(unspecifiedTickets);
                 }
-                unspecifiedTasks.insertTicket(ticket);
+                unspecifiedTickets.insertTicket(ticket);
             }
         }
     }

@@ -339,12 +339,12 @@
                  m_tracker_bug.cus_str_05, m_tracker_bug.cus_time_01, m_tracker_bug.cus_time_02, 
                  m_tracker_bug.cus_time_03, m_tracker_bug.cus_time_04, m_tracker_bug.cus_dbl_01, m_tracker_bug.bugindex,
                  m_tracker_bug.cus_dbl_02, m_tracker_bug.cus_dbl_03, m_tracker_bug.projectId,
-                 m_tracker_bug.resolveddate, m_tracker_bug.sAccountId, m_tracker_bug.description, m_tracker_bug.estimateTime,
+                 m_tracker_bug.resolveddate, m_tracker_bug.sAccountId, m_tracker_bug.description, m_tracker_bug.originalEstimate,
                  m_tracker_bug.startDate, m_tracker_bug.endDate,
                  (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Bug' AND m_comment.typeId=m_tracker_bug.id) AS numComments,
-                 m_tracker_bug.estimateRemainTime, m_tracker_bug.milestoneId, bugkey, milestone.name as milestoneName,
+                 m_tracker_bug.remainEstimate, m_tracker_bug.milestoneId, bugkey, milestone.name as milestoneName,
                  concat(assignuserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignuserTbl.middlename, ''), ' ')), assignuserTbl.lastname) as assignuserFullName,
                  assignuserTbl.avatarId AS assignUserAvatarId,
                  concat(loguserTbl.firstname, ' ', LTRIM(concat(IFNULL(loguserTbl.middlename, ''), ' ')), loguserTbl.lastname) as loguserFullName,

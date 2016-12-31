@@ -1659,6 +1659,10 @@ a.pending {
 	cursor: pointer;
 }
 
+.cursor_move {
+	cursor: move;
+}
+
 .v-filterselect-suggestmenu {
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -14339,6 +14343,10 @@ a.pending {
 
 .cursor_pointer {
 	cursor: pointer;
+}
+
+.cursor_move {
+	cursor: move;
 }
 
 .v-filterselect-suggestmenu {

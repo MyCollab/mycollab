@@ -16,43 +16,43 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-caching</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-jackrabbit</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 

@@ -239,7 +239,7 @@
             FROM m_prj_milestone, m_prj_task
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id)
         UNION
-        (SELECT m_tracker_bug.estimateRemainTime AS timeValue
+        (SELECT m_tracker_bug.remainEstimate AS timeValue
             FROM m_prj_milestone, m_tracker_bug
             WHERE m_prj_milestone.id = @{milestoneid} AND m_tracker_bug.milestoneId = m_prj_milestone.id)) AS T
     </select>

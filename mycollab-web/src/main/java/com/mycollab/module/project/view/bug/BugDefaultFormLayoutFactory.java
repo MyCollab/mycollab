@@ -89,12 +89,12 @@ public class BugDefaultFormLayoutFactory {
                 .displayName(MilestoneI18nEnum.SINGLE)
                 .fieldIndex(10).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.estimatetime)
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.originalestimate)
                 .displayName(BugI18nEnum.FORM_ORIGINAL_ESTIMATE)
                 .contextHelp(BugI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP)
                 .fieldIndex(11).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.estimateremaintime)
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.remainestimate)
                 .displayName(BugI18nEnum.FORM_REMAIN_ESTIMATE)
                 .contextHelp(BugI18nEnum.FORM_REMAIN_ESTIMATE_HELP)
                 .fieldIndex(12).build());
