@@ -17,36 +17,82 @@
 package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.ui.components.IGroupComponent;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.event.dd.DragAndDropEvent;
+import com.vaadin.event.dd.DropHandler;
+import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
+import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import fi.jasoft.dragdroplayouts.DDVerticalLayout;
+import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
+import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
+import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.4.5
  */
-public class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupComponent, IBlockContainer {
+class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupComponent, IBlockContainer {
     private Label headerLbl;
-    private CssLayout wrapBody;
+    private DDVerticalLayout wrapBody;
 
     private String titleValue;
+    private Integer milestoneId;
 
-    MilestoneTicketGroupComponent(String titleValue) {
+    MilestoneTicketGroupComponent(String titleValue, Integer milestoneId) {
         this.titleValue = titleValue;
+        this.milestoneId = milestoneId;
         this.setMargin(new MarginInfo(true, false, true, false));
-        wrapBody = new CssLayout();
+        wrapBody = new DDVerticalLayout();
         wrapBody.setWidth("100%");
         wrapBody.addStyleName(WebThemes.BORDER_LIST);
-        wrapBody.addStyleName("cursor_move");
         headerLbl = ELabel.h3("");
-        this.with(headerLbl, wrapBody);
-        refresh();
+        with(headerLbl);
+        addComponent(wrapBody);
+
+        wrapBody.setComponentVerticalDropRatio(0.3f);
+        wrapBody.setDragMode(LayoutDragMode.CLONE);
+        wrapBody.setDropHandler(new DropHandler() {
+            @Override
+            public void drop(DragAndDropEvent event) {
+                LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
+
+                DDVerticalLayout.VerticalLayoutTargetDetails details = (DDVerticalLayout.VerticalLayoutTargetDetails) event
+                        .getTargetDetails();
+
+                Component dragComponent = transferable.getComponent();
+                if (dragComponent instanceof TicketRowRenderer) {
+                    TicketRowRenderer ticketRowRenderer = (TicketRowRenderer) dragComponent;
+                    MilestoneTicketGroupComponent originalMilestoneContainer = UIUtils.getRoot(ticketRowRenderer,
+                            MilestoneTicketGroupComponent.class);
+                    ProjectTicket ticket = ticketRowRenderer.getTicket();
+                    ticket.setMilestoneId(milestoneId);
+                    AppContextUtil.getSpringBean(ProjectTicketService.class).updateTicket(ticket, UserUIContext.getUsername());
+                    wrapBody.addComponent(ticketRowRenderer);
+                    updateTitle();
+                    if (originalMilestoneContainer != null) {
+                        originalMilestoneContainer.updateTitle();
+                    }
+                }
+            }
+
+            @Override
+            public AcceptCriterion getAcceptCriterion() {
+                return new Not(VerticalLocationIs.MIDDLE);
+            }
+        });
     }
 
     @Override
@@ -62,7 +108,9 @@ public class MilestoneTicketGroupComponent extends MVerticalLayout implements IG
     }
 
     void insertTicket(ProjectTicket ticket) {
-        wrapBody.addComponent(new TicketRowRenderer(ticket));
+        TicketRowRenderer ticketRowRenderer = new TicketRowRenderer(ticket);
+        ticketRowRenderer.addStyleName("cursor_move");
+        wrapBody.addComponent(ticketRowRenderer);
         updateTitle();
     }
 

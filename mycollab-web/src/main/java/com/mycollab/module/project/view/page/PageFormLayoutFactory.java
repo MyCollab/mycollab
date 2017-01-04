@@ -33,7 +33,7 @@ public class PageFormLayoutFactory extends AbstractFormLayoutFactory {
     private GridFormLayoutHelper informationLayout;
 
     @Override
-    public ComponentContainer getLayout() {
+    public AbstractComponent getLayout() {
         final VerticalLayout layout = new VerticalLayout();
 
         informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);

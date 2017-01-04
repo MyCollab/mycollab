@@ -16,16 +16,21 @@
  */
 package com.mycollab.core.utils;
 
+import com.google.common.base.MoreObjects;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
-import com.google.common.base.MoreObjects;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * @author MyCollab Ltd.
@@ -33,11 +38,32 @@ import java.util.regex.Pattern;
  */
 public class FileUtils {
 
-    public static File getHomeFolder() {
-        String userFolder = System.getProperty("user.home");
+    private static File homeFolder;
+
+    static {
+        String userFolder = System.getProperty("user.dir");
         File homeDir = new File(userFolder + "/.mycollab");
-        FileUtils.mkdirs(homeDir);
-        return homeDir;
+        File userHomeDir = new File(System.getProperty("user.home") + "/.mycollab");
+        if (userHomeDir.exists()) {
+            try {
+                Files.move(userHomeDir.toPath(), homeDir.toPath(), REPLACE_EXISTING);
+                homeFolder = homeDir;
+            } catch (Exception e) {
+                e.printStackTrace();
+                homeFolder = userHomeDir;
+            }
+        } else {
+            if (homeDir.exists()) {
+                homeFolder = homeDir;
+            } else {
+                FileUtils.mkdirs(homeDir);
+                homeFolder = homeDir;
+            }
+        }
+    }
+
+    public static File getHomeFolder() {
+        return homeFolder;
     }
 
     public static File getUserFolder() {

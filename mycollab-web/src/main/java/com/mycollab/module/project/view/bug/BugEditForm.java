@@ -19,18 +19,13 @@ package com.mycollab.module.project.view.bug;
 import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.domain.MonitorItem;
-import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.MonitorItemService;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.event.TicketEvent;
-import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
-import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugService;
@@ -39,9 +34,11 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.mycollab.vaadin.ui.UIUtils;
+import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -71,19 +68,18 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
     }
 
     class FormLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
-        private GridFormLayoutHelper informationLayout;
+        private IFormLayoutFactory formLayoutFactory;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             VerticalLayout layout = new VerticalLayout();
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 9);
-            layout.addComponent(informationLayout.getLayout());
+            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
+            AbstractComponent gridLayout = formLayoutFactory.getLayout();
+            gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
+            new Restrain(gridLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
+            layout.addComponent(gridLayout);
+            layout.setExpandRatio(gridLayout, 1.0f);
 
-            MButton updateAllBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
-                EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugEditForm.this, bean));
-                postExecution();
-            }).withStyleName(WebThemes.BUTTON_LINK);
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (validateForm()) {
                     BugService bugService = AppContextUtil.getSpringBean(BugService.class);
@@ -133,49 +129,16 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> postExecution())
                     .withStyleName(WebThemes.BUTTON_OPTION);
 
-            MHorizontalLayout buttonControls = new MHorizontalLayout(updateAllBtn, cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
+            MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, false, false, false));
 
             layout.addComponent(buttonControls);
             layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
-            layout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
-            new Restrain(layout).setMaxHeight("600px");
             return layout;
         }
 
         @Override
         protected Component onAttachField(Object propertyId, Field<?> field) {
-            if (BugWithBLOBs.Field.name.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0, 2, "100%");
-            } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY),
-                        UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY_HELP), 0, 1);
-            } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
-            } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
-            } else if (SimpleBug.Field.components.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_COMPONENTS),
-                        UserUIContext.getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 1, 2);
-            } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
-            } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
-                        UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 3);
-            } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 4);
-            } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), 1, 4);
-            } else if (BugWithBLOBs.Field.name.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 5, 2, "100%");
-            } else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
-            } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 7, 2, "100%");
-            } else if (SimpleBug.Field.selected.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS),
-                        UserUIContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP), 0, 8, 2, "100%");
-            }
-            return null;
+            return formLayoutFactory.attachField(propertyId, field);
         }
     }
 }

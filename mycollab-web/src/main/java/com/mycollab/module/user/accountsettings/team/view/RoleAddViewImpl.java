@@ -98,7 +98,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
             }
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 AddViewLayout formAddLayout = new AddViewLayout(initFormHeader(), FontAwesome.USERS);
 
                 ComponentContainer topLayout = createButtonControls();

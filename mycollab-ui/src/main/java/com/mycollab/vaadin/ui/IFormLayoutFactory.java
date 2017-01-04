@@ -16,11 +16,11 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
-import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -28,7 +28,7 @@ import java.util.Set;
  * @since 5.3.2
  */
 public interface IFormLayoutFactory {
-    ComponentContainer getLayout();
+    AbstractComponent getLayout();
 
     Component attachField(Object propertyId, Field<?> field);
 

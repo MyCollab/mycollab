@@ -97,7 +97,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         }
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             MHorizontalLayout header = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
             header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
             final AddViewLayout projectAddLayout = new AddViewLayout(header);
@@ -145,7 +145,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         private GridFormLayoutHelper descriptionLayout;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             final FormContainer layout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);

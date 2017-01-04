@@ -113,7 +113,7 @@ class ResolvedInputView extends AbstractMobilePageView {
             private GridFormLayoutHelper informationLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
                 return informationLayout.getLayout();
             }

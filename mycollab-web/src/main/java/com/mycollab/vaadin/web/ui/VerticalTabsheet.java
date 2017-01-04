@@ -322,7 +322,7 @@ public class VerticalTabsheet extends CustomComponent {
 
         void hideCaption() {
             this.setCaption("");
-            this.setDescription(caption);
+            this.setDescription(String.format("<div class=\"v-label-h3 no-margin\">%s</div>", caption));
         }
 
         void showCaption() {

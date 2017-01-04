@@ -312,7 +312,7 @@ public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements
     private static class KanbanTaskBlockItem extends BlockRowRender {
         private SimpleTask task;
 
-        KanbanTaskBlockItem(final SimpleTask task) {
+        private KanbanTaskBlockItem(final SimpleTask task) {
             this.task = task;
             this.addStyleName("kanban-item");
 
@@ -567,7 +567,7 @@ public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements
                 taskNameField.focus();
                 taskNameField.setWidth("100%");
                 layout.with(taskNameField);
-                MHorizontalLayout controlsBtn = new MHorizontalLayout();
+
                 MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
                     String taskName = taskNameField.getValue();
                     if (StringUtils.isNotBlank(taskName)) {
@@ -585,7 +585,8 @@ public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements
                     dragLayoutContainer.removeComponent(layout);
                     newTaskComp = null;
                 }).withStyleName(WebThemes.BUTTON_OPTION);
-                controlsBtn.with(cancelBtn, saveBtn);
+
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 if (newTaskComp != null && newTaskComp.getParent() != null) {
                     ((ComponentContainer) newTaskComp.getParent()).removeComponent(newTaskComp);

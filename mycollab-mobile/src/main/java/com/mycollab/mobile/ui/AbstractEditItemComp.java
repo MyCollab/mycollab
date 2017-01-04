@@ -24,8 +24,8 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -70,7 +70,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
         private static final long serialVersionUID = 1L;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             VerticalLayout formAddLayout = new VerticalLayout();
             wrappedLayoutFactory = initFormLayoutFactory();
             formAddLayout.addComponent(wrappedLayoutFactory.getLayout());

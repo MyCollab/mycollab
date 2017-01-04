@@ -84,7 +84,7 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
         private GridFormLayoutHelper informationLayout;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             AddViewLayout formAddLayout = new AddViewLayout(UserUIContext.getMessage(ShellI18nEnum.OPT_SMTP_SETTING), FontAwesome.WRENCH);
             FormContainer layout = new FormContainer();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);

@@ -22,7 +22,7 @@ import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.AddViewLayout2;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -39,7 +39,7 @@ public abstract class MeetingFormLayoutFactory extends WrappedFormLayoutFactory 
     }
 
     @Override
-    public ComponentContainer getLayout() {
+    public AbstractComponent getLayout() {
         AddViewLayout2 meetingLayout = new AddViewLayout2(title, CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
 
         Layout topPanel = createTopPanel();

@@ -652,7 +652,6 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             }
 
             private class FormLayoutFactory extends MeetingFormLayoutFactory {
-                private static final long serialVersionUID = 1L;
 
                 public FormLayoutFactory() {
                     super(meeting.getId() == null ? UserUIContext.getMessage(MeetingI18nEnum.NEW) : meeting.getSubject());

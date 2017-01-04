@@ -78,7 +78,7 @@ public class LinkIssueWindow extends MWindow {
             private GridFormLayoutHelper informationLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
                 layout.addComponent(informationLayout.getLayout());

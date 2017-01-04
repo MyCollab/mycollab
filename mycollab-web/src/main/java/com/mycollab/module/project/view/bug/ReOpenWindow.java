@@ -91,7 +91,7 @@ public class ReOpenWindow extends MWindow {
             private GridFormLayoutHelper informationLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 VerticalLayout layout = new VerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
                 layout.addComponent(informationLayout.getLayout());

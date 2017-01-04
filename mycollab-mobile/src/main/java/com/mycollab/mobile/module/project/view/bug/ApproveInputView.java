@@ -110,7 +110,7 @@ class ApproveInputView extends AbstractMobilePageView {
             private GridFormLayoutHelper informationLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
                 return informationLayout.getLayout();
             }

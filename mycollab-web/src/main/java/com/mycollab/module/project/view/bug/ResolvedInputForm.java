@@ -83,7 +83,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
         private GridFormLayoutHelper informationLayout;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             final VerticalLayout layout = new VerticalLayout();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
             layout.addComponent(informationLayout.getLayout());

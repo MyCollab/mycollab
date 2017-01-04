@@ -157,7 +157,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         private static final long serialVersionUID = 8833593761607165873L;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             HorizontalLayout blockContent = new HorizontalLayout();
             blockContent.addStyleName("member-block");
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(), 100);

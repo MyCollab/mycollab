@@ -27,8 +27,8 @@ import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.MassUpdateWindow;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 /**
@@ -59,7 +59,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
         private GridFormLayoutHelper addressLayout;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             FormContainer formLayout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);

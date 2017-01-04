@@ -163,7 +163,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         private GridFormLayoutHelper informationLayout;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             VerticalLayout layout = new VerticalLayout();
             layout.setMargin(false);
 

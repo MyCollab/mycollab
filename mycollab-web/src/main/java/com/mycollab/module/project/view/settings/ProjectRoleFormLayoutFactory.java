@@ -22,8 +22,8 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 /**
@@ -35,7 +35,7 @@ public class ProjectRoleFormLayoutFactory extends AbstractFormLayoutFactory {
     private GridFormLayoutHelper informationLayout;
 
     @Override
-    public ComponentContainer getLayout() {
+    public AbstractComponent getLayout() {
         final FormContainer layout = new FormContainer();
 
         informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);

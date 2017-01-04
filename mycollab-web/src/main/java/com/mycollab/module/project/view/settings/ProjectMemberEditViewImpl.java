@@ -126,7 +126,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             VerticalLayout layout = new VerticalLayout();
             layout.addComponent(wrappedLayoutFactory.getLayout());
 

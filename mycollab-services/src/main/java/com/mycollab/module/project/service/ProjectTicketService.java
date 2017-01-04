@@ -57,6 +57,8 @@ public interface ProjectTicketService extends ISearchableService<ProjectTicketSe
 
     void updateTicket(ProjectTicket ticket, String username);
 
+    void updateMilestoneId(ProjectTicket ticket);
+
     void removeTicket(ProjectTicket ticket, String username);
 
     boolean isTicketIdSatisfyCriteria(String type, Integer typeId, ProjectTicketSearchCriteria criteria);

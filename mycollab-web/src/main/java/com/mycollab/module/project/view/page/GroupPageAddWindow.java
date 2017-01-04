@@ -92,13 +92,10 @@ class GroupPageAddWindow extends MWindow {
             private GridFormLayoutHelper informationLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
                 layout.addComponent(informationLayout.getLayout());
-
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
-                layout.addComponent(controlsBtn);
 
                 final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);
@@ -114,7 +111,9 @@ class GroupPageAddWindow extends MWindow {
                     }
                 }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.with(cancelBtn, saveBtn);
+
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
+                layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }

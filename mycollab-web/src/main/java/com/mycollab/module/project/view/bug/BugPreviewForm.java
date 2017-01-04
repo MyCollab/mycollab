@@ -50,10 +50,7 @@ import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
@@ -73,7 +70,6 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
     }
 
     private static class FormLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
         private GridFormLayoutHelper informationLayout;
 
         @Override
@@ -123,7 +119,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
         }
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             final VerticalLayout layout = new VerticalLayout();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 11);
             layout.addComponent(informationLayout.getLayout());

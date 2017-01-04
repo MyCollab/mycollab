@@ -2375,6 +2375,14 @@ div.v-window {
 	overflow-y: auto;
 }
 
+.noscrollable-container {
+	overflow-y: hidden;
+}
+
+.noscrollable-container .v-window-contents > div {
+	overflow-y: hidden;
+}
+
 .tm-container {
 	border: 1px solid #ededed;
 }
@@ -15061,6 +15069,14 @@ div.v-window {
 	overflow-y: auto;
 }
 
+.noscrollable-container {
+	overflow-y: hidden;
+}
+
+.noscrollable-container .v-window-contents > div {
+	overflow-y: hidden;
+}
+
 .tm-container {
 	border: 1px solid #ededed;
 }
@@ -15289,7 +15305,7 @@ div .addview-layout-body {
 .project-view .main-content .top-panel {
 	border-bottom: 1px solid #ededed;
 	padding: 12px 24px;
-	background-color: #f9eaff;
+	background-color: #ededed;
 }
 
 .project-view .sidebar-menu {
@@ -15410,7 +15426,7 @@ div .addview-layout-body {
 .projectfeed-hdr-wrapper {
 	padding: 12px 24px;
 	border-bottom: 1px solid #ededed;
-	background-color: #f9eaff;
+	background-color: #ededed;
 }
 
 .closed-button .v-button-wrap {
@@ -15655,6 +15671,14 @@ div.v-button.token-field .v-button-wrap {
 	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
 	box-shadow: inset 5px 0px 0px 0px #0083ce;
 	background-color: #f5f5f5;
+}
+
+.border-list .v-slot-row {
+	border-bottom: 1px solid #ededed;
+}
+
+.border-list .v-slot-row:last-child {
+	border-style: none;
 }
 
 .selected {

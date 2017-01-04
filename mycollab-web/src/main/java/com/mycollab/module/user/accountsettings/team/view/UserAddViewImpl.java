@@ -135,7 +135,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             private RolePermissionContainer rolePermissionLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 String title = (user.getUsername() == null) ? UserUIContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
@@ -215,7 +215,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             private RolePermissionContainer rolePermissionLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 String title = (user.getUsername() == null) ? UserUIContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
                 AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
                 formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));

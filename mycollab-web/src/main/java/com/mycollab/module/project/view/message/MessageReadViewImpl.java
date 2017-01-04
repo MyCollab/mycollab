@@ -105,7 +105,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
     class FormLayoutFactory extends AbstractFormLayoutFactory {
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             header.removeAllComponents();
             MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withFullWidth();
 

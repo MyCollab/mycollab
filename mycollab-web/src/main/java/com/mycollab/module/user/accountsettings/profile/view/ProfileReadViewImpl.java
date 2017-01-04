@@ -140,7 +140,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
             private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 contactLayout.getLayout().setSpacing(true);
                 advancedInfoLayout.getLayout().setSpacing(true);
                 FormContainer layout = new FormContainer();

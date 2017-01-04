@@ -38,13 +38,13 @@ public class TaskSearchCriteria extends SearchCriteria {
             GenericI18Enum.FORM_ASSIGNEE, new PropertyListParam<String>("assignuser", "m_prj_task", "assignUser"));
 
     public static final PropertyListParam<String> p_createdUser = CacheParamMapper.register(ProjectTypeConstants.TASK,
-            ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE, new PropertyListParam<String>("createduser", "m_prj_task", "logby"));
+            ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE, new PropertyListParam<String>("createduser", "m_prj_task", "createdUser"));
 
     public static final PropertyListParam<Integer> p_milestoneId = CacheParamMapper.register(ProjectTypeConstants.TASK, MilestoneI18nEnum.SINGLE,
             new PropertyListParam<Integer>("milestone", "m_prj_task", "milestoneId"));
 
     public static final DateParam p_duedate = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_DUE_DATE,
-            new DateParam("duedate", "m_prj_task", "deadline"));
+            new DateParam("duedate", "m_prj_task", "dueDate"));
 
     public static final DateParam p_lastupdatedtime = CacheParamMapper.register(ProjectTypeConstants.TASK, GenericI18Enum.FORM_LAST_UPDATED_TIME,
             new DateParam("lastupdatedtime", "m_prj_task", "lastUpdatedTime"));

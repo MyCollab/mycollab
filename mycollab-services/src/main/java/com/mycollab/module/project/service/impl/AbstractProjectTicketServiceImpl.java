@@ -25,6 +25,7 @@ import com.mycollab.db.persistence.ISearchableDAO;
 import com.mycollab.db.persistence.service.DefaultSearchService;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.dao.ProjectTicketMapper;
+import com.mycollab.module.project.dao.TaskMapper;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.Risk;
 import com.mycollab.module.project.domain.Task;
@@ -134,6 +135,11 @@ public abstract class AbstractProjectTicketServiceImpl extends DefaultSearchServ
             Risk risk = ProjectTicket.buildRisk(ticket);
             AppContextUtil.getSpringBean(RiskService.class).updateSelectiveWithSession(risk, username);
         }
+    }
+
+    @Override
+    public void updateMilestoneId(ProjectTicket ticket) {
+
     }
 
     @Override

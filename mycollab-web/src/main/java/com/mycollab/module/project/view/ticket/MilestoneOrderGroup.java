@@ -30,27 +30,24 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.4.6
  */
-public class MilestoneOrderGroup extends TicketGroupOrderComponent {
-    private SortedArrayMap<String, MilestoneTicketGroupComponent> milestonesAvailable = new SortedArrayMap<>();
-    private DefaultTicketGroupComponent unspecifiedTickets;
-
-    public MilestoneOrderGroup() {
-    }
+class MilestoneOrderGroup extends TicketGroupOrderComponent {
+    private SortedArrayMap<Integer, MilestoneTicketGroupComponent> milestonesAvailable = new SortedArrayMap<>();
+    private MilestoneTicketGroupComponent unspecifiedTickets;
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
         for (ProjectTicket ticket : tickets) {
-            String milestoneName = ticket.getMilestoneName();
-            if (milestoneName != null) {
-                if (milestonesAvailable.containsKey(milestoneName)) {
-                    MilestoneTicketGroupComponent groupComponent = milestonesAvailable.get(milestoneName);
+            Integer milestoneId = ticket.getMilestoneId();
+            if (milestoneId != null) {
+                if (milestonesAvailable.containsKey(milestoneId)) {
+                    MilestoneTicketGroupComponent groupComponent = milestonesAvailable.get(milestoneId);
                     groupComponent.insertTicket(ticket);
                 } else {
                     Div milestoneDiv = new DivLessFormatter().appendChild(new Text(" " + ticket.getMilestoneName()));
 
-                    MilestoneTicketGroupComponent groupComponent = new MilestoneTicketGroupComponent(milestoneDiv.write());
-                    milestonesAvailable.put(milestoneName, groupComponent);
-                    int index = milestonesAvailable.getKeyIndex(milestoneName);
+                    MilestoneTicketGroupComponent groupComponent = new MilestoneTicketGroupComponent(milestoneDiv.write(), milestoneId);
+                    milestonesAvailable.put(milestoneId, groupComponent);
+                    int index = milestonesAvailable.getKeyIndex(milestoneId);
                     if (index > -1) {
                         addComponent(groupComponent, index);
                     } else {
@@ -65,7 +62,7 @@ public class MilestoneOrderGroup extends TicketGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedTickets == null) {
-                    unspecifiedTickets = new DefaultTicketGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+                    unspecifiedTickets = new MilestoneTicketGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED), null);
                     addComponent(unspecifiedTickets);
                 }
                 unspecifiedTickets.insertTicket(ticket);

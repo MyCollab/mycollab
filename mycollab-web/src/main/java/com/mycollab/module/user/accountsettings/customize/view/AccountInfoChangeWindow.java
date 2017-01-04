@@ -66,7 +66,7 @@ class AccountInfoChangeWindow extends MWindow {
             private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9, "200px");
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 return gridFormLayoutHelper.getLayout();
             }
 

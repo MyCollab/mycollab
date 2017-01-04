@@ -145,7 +145,7 @@ public class LeadConvertInfoWindow extends MWindow {
                 private GridFormLayoutHelper informationLayout;
 
                 @Override
-                public ComponentContainer getLayout() {
+                public AbstractComponent getLayout() {
                     this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
                     return informationLayout.getLayout();
                 }

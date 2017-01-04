@@ -26,6 +26,7 @@ import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.AddViewLayout2;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -62,7 +63,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractVerticalPageView i
     class FormLayoutFactory extends WrappedFormLayoutFactory {
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             AddViewLayout2 formAddLayout = new AddViewLayout2(initFormTitle(), initFormIconResource());
 
             ComponentContainer buttonControls = createButtonControls();

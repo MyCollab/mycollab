@@ -26,10 +26,7 @@ import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.DefaultReadViewLayout;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
@@ -45,7 +42,7 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
     }
 
     @Override
-    public ComponentContainer getLayout() {
+    public AbstractComponent getLayout() {
         ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 
         wrappedLayoutFactory = new RoleInformationLayout();
@@ -68,7 +65,7 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
         private GridFormLayoutHelper informationLayout;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             FormContainer layout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);

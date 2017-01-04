@@ -26,10 +26,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +81,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
     }
 
     @Override
-    public ComponentContainer getLayout() {
+    public AbstractComponent getLayout() {
         VerticalLayout layout = new VerticalLayout();
         int sectionCount = dynaForm.getSectionCount();
         sectionMappings = new HashMap<>();

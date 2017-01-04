@@ -95,6 +95,10 @@ class TicketRowRenderer extends BlockRowRender implements PropertyChangedListene
         return component;
     }
 
+    public ProjectTicket getTicket() {
+        return ticket;
+    }
+
     @Override
     public void propertyChanged(PropertyChangedEvent event) {
         EventBusFactory.getInstance().post(new TicketEvent.HasTicketPropertyChanged(this, event.getBindProperty()));

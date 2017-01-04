@@ -208,7 +208,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
             private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 FormContainer layout = new FormContainer();
                 layout.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION), contactLayout.getLayout());
                 layout.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION), advancedInfoLayout.getLayout());

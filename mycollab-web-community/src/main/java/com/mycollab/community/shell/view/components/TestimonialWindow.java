@@ -72,7 +72,7 @@ class TestimonialWindow extends MWindow {
             GridFormLayoutHelper gridFormLayoutHelper;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
                 return gridFormLayoutHelper.getLayout();
             }

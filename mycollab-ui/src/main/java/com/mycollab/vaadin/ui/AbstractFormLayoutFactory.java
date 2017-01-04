@@ -16,8 +16,8 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 import java.util.HashSet;
@@ -30,7 +30,7 @@ import java.util.Set;
 public abstract class AbstractFormLayoutFactory implements IFormLayoutFactory {
     private Set<String> fields = new HashSet<>();
 
-    public abstract ComponentContainer getLayout();
+    public abstract AbstractComponent getLayout();
 
     protected abstract Component onAttachField(Object propertyId, Field<?> field);
 

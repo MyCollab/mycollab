@@ -38,7 +38,6 @@ import java.util.*;
  * @since 2.0
  */
 public class DefaultDynaFormLayout implements IDynaFormLayout {
-    private static final long serialVersionUID = 1L;
 
     private DynaForm dynaForm;
 
@@ -67,7 +66,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
     }
 
     @Override
-    public ComponentContainer getLayout() {
+    public AbstractComponent getLayout() {
         FormContainer layout = new FormContainer();
         int sectionCount = dynaForm.getSectionCount();
         sectionMappings = new HashMap<>();

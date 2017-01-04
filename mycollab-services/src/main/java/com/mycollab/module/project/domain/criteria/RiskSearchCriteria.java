@@ -41,10 +41,10 @@ public class RiskSearchCriteria extends SearchCriteria {
             new PropertyListParam("assignuser", "m_prj_risk", "assignUser"));
 
     public static final Param p_raisedUser = CacheParamMapper.register(ProjectTypeConstants.RISK, RiskI18nEnum.FORM_RAISED_BY,
-            new PropertyListParam("raiseduser", "m_prj_risk", "raisedbyuser"));
+            new PropertyListParam("createdUser", "m_prj_risk", "createdUser"));
 
     public static final Param p_duedate = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_DUE_DATE,
-            new DateParam("duedate", "m_prj_risk", "datedue"));
+            new DateParam("dueDate", "m_prj_risk", "dueDate"));
 
     public static final Param p_raiseddate = CacheParamMapper.register(ProjectTypeConstants.RISK, GenericI18Enum.FORM_CREATED_TIME,
             new DateParam("raiseddate", "m_prj_risk", "dateraised"));

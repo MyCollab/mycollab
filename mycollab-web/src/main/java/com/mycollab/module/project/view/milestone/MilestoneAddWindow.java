@@ -63,11 +63,6 @@ public class MilestoneAddWindow extends MWindow {
         editForm.setBeanFormFieldFactory(milestoneEditFormFieldFactory);
         editForm.setBean(milestone);
 
-        MButton updateAllBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), clickEvent -> {
-            EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneAddWindow.this, milestone));
-            close();
-        }).withStyleName(WebThemes.BUTTON_LINK);
-
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (editForm.validateForm()) {
                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
@@ -94,7 +89,7 @@ public class MilestoneAddWindow extends MWindow {
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
-        MHorizontalLayout buttonControls = new MHorizontalLayout(updateAllBtn, cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
+        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(true);
         content.addComponent(buttonControls);
         content.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
     }

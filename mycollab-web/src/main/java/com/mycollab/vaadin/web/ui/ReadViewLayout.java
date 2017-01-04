@@ -18,7 +18,7 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.core.MyCollabException;
 import com.mycollab.web.CustomLayoutExt;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd.
@@ -31,15 +31,15 @@ public abstract class ReadViewLayout extends CustomLayoutExt {
         super("readView");
     }
 
-    public void addHeader(ComponentContainer header) {
+    public void addHeader(Component header) {
         this.addComponent(header, "readViewHeader");
     }
 
-    public void addBody(ComponentContainer body) {
+    public void addBody(Component body) {
         this.addComponent(body, "readViewBody");
     }
 
-    public void addBottomControls(ComponentContainer bottomControls) {
+    public void addBottomControls(Component bottomControls) {
         this.addComponent(bottomControls, "readViewBottomControls");
     }
 

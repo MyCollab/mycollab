@@ -28,7 +28,7 @@ import java.util.Set;
 public abstract class WrappedFormLayoutFactory implements IFormLayoutFactory {
     protected IFormLayoutFactory wrappedLayoutFactory;
 
-    public final IFormLayoutFactory getWrappedFactory() {
+    IFormLayoutFactory getWrappedFactory() {
         return wrappedLayoutFactory;
     }
 

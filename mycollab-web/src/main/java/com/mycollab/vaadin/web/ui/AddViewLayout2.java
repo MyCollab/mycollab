@@ -74,7 +74,7 @@ public class AddViewLayout2 extends VerticalLayout {
         titleLbl.addStyleName(style);
     }
 
-    public void addBody(ComponentContainer bodyContainer) {
+    public void addBody(AbstractComponent bodyContainer) {
         body.with(bodyContainer).expand(bodyContainer);
     }
 

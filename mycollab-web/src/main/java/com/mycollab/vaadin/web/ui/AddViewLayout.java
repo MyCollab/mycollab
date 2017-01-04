@@ -21,7 +21,7 @@ import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -57,20 +57,20 @@ public class AddViewLayout extends CustomLayoutExt {
         addComponent(header, "addViewHeader");
     }
 
-    public void addBody(final ComponentContainer body) {
+    public void addBody(Component body) {
         addComponent(body, "addViewBody");
     }
 
-    public void addBottom(final ComponentContainer bottomControls) {
+    public void addBottom(Component bottomControls) {
         this.addComponent(bottomControls, "addViewBottomControls");
     }
 
-    public void addHeaderTitle(ComponentContainer headerContainer) {
+    public void addHeaderTitle(Component headerContainer) {
         header.addComponent(headerContainer, 0);
         header.withAlign(headerContainer, Alignment.TOP_LEFT).expand(headerContainer);
     }
 
-    public void addHeaderRight(final ComponentContainer headerRight) {
+    public void addHeaderRight(Component headerRight) {
         header.with(headerRight).withAlign(headerRight, Alignment.TOP_RIGHT);
     }
 

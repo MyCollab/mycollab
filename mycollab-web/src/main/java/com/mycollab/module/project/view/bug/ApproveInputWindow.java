@@ -86,7 +86,7 @@ public class ApproveInputWindow extends MWindow {
             private GridFormLayoutHelper informationLayout;
 
             @Override
-            public ComponentContainer getLayout() {
+            public AbstractComponent getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
                 this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 

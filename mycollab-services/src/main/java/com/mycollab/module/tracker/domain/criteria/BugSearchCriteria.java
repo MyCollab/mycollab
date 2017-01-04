@@ -54,10 +54,10 @@ public class BugSearchCriteria extends SearchCriteria {
             new DateParam("resolveddate", "m_tracker_bug", "resolveddate"));
 
     public static final DateParam p_createddate = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_CREATED_TIME,
-            new DateParam("createddate", "m_tracker_bug", "createdTime"));
+            new DateParam("createdTime", "m_tracker_bug", "createdTime"));
 
     public static final DateParam p_duedate = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_DUE_DATE,
-            new DateParam("duedate", "m_tracker_bug", "duedate"));
+            new DateParam("dueDate", "m_tracker_bug", "dueDate"));
 
     public static final NumberParam p_bugkey = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_BUG_KEY,
             new NumberParam("key", "m_tracker_bug", "bugkey"));
@@ -88,13 +88,13 @@ public class BugSearchCriteria extends SearchCriteria {
             new BugTypeCustomSqlParam("components", "Component"));
 
     public static final PropertyListParam<String> p_assignee = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_ASSIGNEE,
-            new PropertyListParam<String>("assignuser", "m_tracker_bug", "assignuser"));
+            new PropertyListParam<String>("assignUser", "m_tracker_bug", "assignUser"));
 
     public static final PropertyListParam<String> p_createdUser = CacheParamMapper.register(ProjectTypeConstants.BUG, ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE,
-            new PropertyListParam<String>("logby", "m_tracker_bug", "logby"));
+            new PropertyListParam<String>("createdUser", "m_tracker_bug", "createdUser"));
 
     public static final PropertyListParam p_projectIds = CacheParamMapper.register(ProjectTypeConstants.BUG, null,
-            new PropertyListParam("projectid", "m_tracker_bug", "projectid"));
+            new PropertyListParam("projectId", "m_tracker_bug", "projectId"));
 
     private static class BugTypeCustomSqlParam extends CustomSqlParam {
         private String type;

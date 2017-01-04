@@ -27,8 +27,8 @@ import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.MassUpdateWindow;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 /**
@@ -58,7 +58,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
         private GridFormLayoutHelper informationLayout;
 
         @Override
-        public ComponentContainer getLayout() {
+        public AbstractComponent getLayout() {
             final FormContainer formLayout = new FormContainer();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
             formLayout.addSection(UserUIContext.getMessage(OpportunityI18nEnum.SECTION_OPPORTUNITY_INFORMATION), informationLayout.getLayout());
