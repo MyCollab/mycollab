@@ -101,18 +101,5 @@
             <artifactId>xebia-servlet-extras</artifactId>
             <version>1.0.8</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>se.jiderhamn</groupId>
-            <artifactId>classloader-leak-prevention</artifactId>
-            <version>1.15.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
--->
     </dependencies>
 </project>

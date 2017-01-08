@@ -75,7 +75,6 @@ public abstract class MyCollabUI extends UI {
     protected UserUIContext currentContext;
 
     private String initialSubDomain = "1";
-    private String siteUrl = null;
     private String currentFragmentUrl = "";
     private SimpleBillingAccount billingAccount;
     private Map<String, Object> attributes = new HashMap<>();
@@ -84,11 +83,7 @@ public abstract class MyCollabUI extends UI {
      * @return
      */
     public static String getSiteUrl() {
-        if (getInstance().siteUrl == null) {
-            getInstance().siteUrl = SiteConfiguration.getSiteUrl(getBillingAccount().getSubdomain());
-        }
-
-        return getInstance().siteUrl;
+        return SiteConfiguration.getSiteUrl(getBillingAccount().getSubdomain());
     }
 
     public static SimpleBillingAccount getBillingAccount() {

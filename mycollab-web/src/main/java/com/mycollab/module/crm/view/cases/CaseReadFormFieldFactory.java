@@ -17,10 +17,9 @@
 package com.mycollab.module.crm.view.cases;
 
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCase;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;

@@ -17,7 +17,7 @@
 package com.mycollab.module.crm.view.opportunity;
 
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;

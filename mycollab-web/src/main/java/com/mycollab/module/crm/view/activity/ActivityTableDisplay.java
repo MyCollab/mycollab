@@ -23,7 +23,7 @@ import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.service.EventService;

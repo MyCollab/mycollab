@@ -130,7 +130,7 @@ class AccountInfoChangeWindow extends MWindow {
                 BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
                 billingAccountService.updateSelectiveWithSession(billingAccount, UserUIContext.getUsername());
                 close();
-                String siteUrl = SiteConfiguration.getSiteUrl(billingAccount.getSubdomain());
+                String siteUrl = MyCollabUI.getSiteUrl();
                 String assignExec = String.format("window.location.assign(\'%s\');", siteUrl);
                 Page.getCurrent().getJavaScript().execute(assignExec);
             }

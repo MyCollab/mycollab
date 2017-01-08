@@ -15,15 +15,15 @@
         <springVersion>4.3.2.RELEASE</springVersion>
         <aspectjVersion>1.8.9</aspectjVersion>
         <java.version>1.8</java.version>
-        <slf4jVersion>1.7.21</slf4jVersion>
+        <slf4jVersion>1.7.22</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.7.5</vaadinVersion>
-        <jettyVersion>9.3.12.v20160915</jettyVersion>
+        <vaadinVersion>7.7.6</vaadinVersion>
+        <jettyVersion>9.4.0.v20161208</jettyVersion>
         <mysqlVersion>5.1.40</mysqlVersion>
         <junitVersion>4.12</junitVersion>
-        <jackrabbitVersion>2.13.5</jackrabbitVersion>
+        <jackrabbitVersion>2.14.0</jackrabbitVersion>
         <jacksonVersion>2.8.5</jacksonVersion>
-        <jodaVersion>2.9.6</jodaVersion>
+        <jodaVersion>2.9.7</jodaVersion>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.1</scala.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -55,13 +55,13 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.1.7</version>
+            <version>1.1.8</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
+            <version>1.1.8</version>
         </dependency>
 
         <dependency>
@@ -255,19 +255,19 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.4.1</version>
+            <version>3.4.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.3.0</version>
+            <version>1.3.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.mybatis.scripting</groupId>
             <artifactId>mybatis-velocity</artifactId>
-            <version>1.2</version>
+            <version>1.3</version>
         </dependency>
 
         <dependency>

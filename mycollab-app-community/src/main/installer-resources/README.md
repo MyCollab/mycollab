@@ -45,7 +45,7 @@ Version 5.4.6
 
 **Library Upgrades**
 
-* Vaadin 7.7.6
+* Vaadin 7.7.6, Jackrabbit 2.14.0
 * Other libraries
 
 **Improvements & New Features**
@@ -57,6 +57,8 @@ Version 5.4.6
 * Other minor improvements
 
 **Bug Fixes**
+
+* Can not install two different MyCollab instances on the same server
 
 
 Version 5.4.5

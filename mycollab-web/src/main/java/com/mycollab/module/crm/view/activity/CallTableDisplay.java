@@ -18,7 +18,7 @@
 package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.common.TableViewField;
-import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleCall;
 import com.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.mycollab.module.crm.i18n.CallI18nEnum;

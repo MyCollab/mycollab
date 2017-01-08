@@ -33,7 +33,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.mycollab.vaadin.web.ui.SplitButton;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -142,8 +145,8 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = new Label(String.format("Name: <a href='%s%s'>%s</a>", MyCollabUI.getSiteUrl(), CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.CONTACT, contact.getId()), contact.getContactName()), ContentMode.HTML);
+            ELabel contactName = ELabel.html(String.format("Name: <a href='%s'>%s</a>", CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.CONTACT, contact.getId()), contact.getContactName()));
             contactInfo.addComponent(contactName);
 
             Label contactTitle = new Label("Title: " + MoreObjects.firstNonNull(contact.getTitle(), ""));
@@ -153,7 +156,8 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
                     String.format("<a href='mailto:%s'>%s</a>", contact.getEmail(), contact.getEmail())), ContentMode.HTML);
             contactInfo.addComponent(contactEmail);
 
-            Label contactOfficePhone = new Label(String.format("Office Phone: %s", MoreObjects.firstNonNull(contact.getOfficephone(), "")));
+            Label contactOfficePhone = new Label(String.format("Office Phone: %s",
+                    MoreObjects.firstNonNull(contact.getOfficephone(), "")));
             contactInfo.addComponent(contactOfficePhone);
 
             blockTop.addComponent(contactInfo);

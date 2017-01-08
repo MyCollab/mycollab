@@ -49,8 +49,8 @@ public class ProjectLinkGenerator {
         return siteUrl + URL_PREFIX_PARAM + generateTaskPreviewLink(taskKey, prjShortName);
     }
 
-    public static String generateTaskEditLink(Integer taskkey, String prjShortName) {
-        return String.format("project/task/edit/%s-%d", prjShortName, taskkey);
+    public static String generateTaskEditLink(Integer taskKey, String prjShortName) {
+        return String.format("project/task/edit/%s-%d", prjShortName, taskKey);
     }
 
     public static String generateMilestonesLink(Integer projectId) {
@@ -94,6 +94,10 @@ public class ProjectLinkGenerator {
             return "";
         }
         return siteUrl + URL_PREFIX_PARAM + "project/user/preview/" + GenericLinkUtils.encodeParam(projectId, memberName);
+    }
+
+    public static String generateProjectMemberLink(Integer projectId, String memberName) {
+        return "project/user/preview/" + GenericLinkUtils.encodeParam(projectId, memberName);
     }
 
     public static String generateRisksLink(Integer projectId) {
@@ -181,11 +185,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateRolePreviewFullLink(String siteUrl, Integer projectId, Integer roleId) {
-        return siteUrl + URL_PREFIX_PARAM + "project/role/preview/" + GenericLinkUtils.encodeParam(projectId, roleId);
-    }
-
-    public static String generateTimeTrackingPreviewLink(Integer projectId, Integer timeId) {
-        return "project/time/list/" + GenericLinkUtils.encodeParam(projectId, timeId);
+        return siteUrl + URL_PREFIX_PARAM + generateRolePreviewLink(projectId, roleId);
     }
 
     public static String generateStandupDashboardLink() {

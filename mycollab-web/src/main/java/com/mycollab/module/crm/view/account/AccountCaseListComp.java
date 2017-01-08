@@ -19,11 +19,10 @@ package com.mycollab.module.crm.view.account;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -180,7 +179,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
             String assigneeValue = (oneCase.getAssignuser() == null) ? new Span().appendText(UserUIContext.getMessage
                     (GenericI18Enum.OPT_UNDEFINED)).write() : new A(AccountLinkGenerator.generatePreviewFullUserLink(
-                    SiteConfiguration.getSiteUrl(UserUIContext.getUser().getSubdomain()), oneCase.getAssignuser()))
+                    MyCollabUI.getSiteUrl(), oneCase.getAssignuser()))
                     .appendText(oneCase.getAssignUserFullName()).write();
             Label caseAssignUser = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": " + assigneeValue);
             caseInfo.addComponent(caseAssignUser);

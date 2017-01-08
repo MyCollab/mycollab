@@ -32,7 +32,6 @@ import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
@@ -90,8 +89,8 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
                 .formatPrettyTime((ticket.getLastUpdatedTime())))).withStyleName(UIConstants.META_INFO);
         metaInfoLayout.addComponent(lastUpdatedTimeLbl);
 
-        A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
-                CurrentProjectVariables.getProjectId(), ticket.getAssignUser()));
+        A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables.getProjectId(),
+                ticket.getAssignUser()));
         assigneeLink.appendText(StringUtils.trim(ticket.getAssignUserFullName(), 30, true));
         Div assigneeDiv = new Div().appendText(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
                 .appendChild(DivLessFormatter.EMPTY_SPACE(), new Img("", StorageFactory

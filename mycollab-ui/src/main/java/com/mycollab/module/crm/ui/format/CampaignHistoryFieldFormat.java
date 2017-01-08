@@ -16,21 +16,21 @@
  */
 package com.mycollab.module.crm.ui.format;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.html.DivLessFormatter;
-import com.mycollab.module.crm.CrmLinkGenerator;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Text;
+import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +63,7 @@ public class CampaignHistoryFieldFormat implements HistoryFieldFormat {
             if (campaign != null) {
                 if (displayAsHtml) {
                     A link = new A().setId("tag" + TOOLTIP_ID);
-                    link.setHref(CrmLinkGenerator.generateCampaignPreviewFullLink(MyCollabUI.getSiteUrl(), campaignId))
+                    link.setHref(CrmLinkBuilder.generateCampaignPreviewLinkFull(campaignId))
                             .appendChild(new Text(campaign.getCampaignname()));
                     link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(CrmTypeConstants.CAMPAIGN,
                             campaignId + ""));

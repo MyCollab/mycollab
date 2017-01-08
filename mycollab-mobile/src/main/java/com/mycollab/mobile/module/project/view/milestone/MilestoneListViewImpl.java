@@ -54,7 +54,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -182,9 +181,8 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
             metaLayout.addComponent(endDateInfo);
             metaLayout.addComponent(ELabel.EMPTY_SPACE());
 
-            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(MyCollabUI.getSiteUrl(),
-                    CurrentProjectVariables.getProjectId(), milestone.getAssignuser()))
-                    .appendText(StringUtils.trim(milestone.getOwnerFullName(), 30, true));
+            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables.getProjectId(),
+                    milestone.getAssignuser())).appendText(StringUtils.trim(milestone.getOwnerFullName(), 30, true));
             Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getAvatarPath(milestone
                     .getOwnerAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX)).appendChild(assigneeLink);
 

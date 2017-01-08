@@ -17,7 +17,7 @@
 package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.service.*;

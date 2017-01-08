@@ -49,7 +49,6 @@ public class FileUtils {
                 Files.move(userHomeDir.toPath(), homeDir.toPath(), REPLACE_EXISTING);
                 homeFolder = homeDir;
             } catch (Exception e) {
-                e.printStackTrace();
                 homeFolder = userHomeDir;
             }
         } else {

@@ -15,25 +15,25 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-jackrabbit</artifactId>
-            <version>5.4.5</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -80,8 +80,8 @@
 
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
+            <artifactId>mockito-core</artifactId>
+            <version>2.5.5</version>
         </dependency>
 
         <dependency>

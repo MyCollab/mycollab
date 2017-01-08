@@ -112,7 +112,7 @@ public class ProjectMembersWidget extends Depot {
         bodyContent.addComponent(memberList);
     }
 
-    public void showInformation() {
+    void showInformation() {
         searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         searchCriteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE,

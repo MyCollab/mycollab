@@ -20,7 +20,6 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.server.ServerInstance;
 import com.mycollab.vaadin.MyCollabUI;
@@ -99,7 +98,7 @@ public class UpgradeConfirmWindow extends MWindow {
             if (installerFile.exists()) {
                 new Thread(() -> {
                     ServerInstance.getInstance().preUpgrade();
-                    final String locUrl = SiteConfiguration.getSiteUrl(MyCollabUI.getSubDomain()) + "it/upgrade";
+                    final String locUrl = MyCollabUI.getSiteUrl() + "it/upgrade";
                     Future<Void> access = currentUI.access(() -> {
                         LOG.info("Redirect to the upgrade page " + locUrl);
                         currentUI.getPage().setLocation(locUrl);

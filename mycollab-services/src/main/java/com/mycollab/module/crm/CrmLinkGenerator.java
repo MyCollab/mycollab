@@ -95,7 +95,7 @@ public class CrmLinkGenerator {
         return siteUrl + "#" + generateCallPreviewLink(callId);
     }
 
-    public static String generateCrmItemLink(String type, int typeId) {
+    public static String generateCrmItemLink(String type, Integer typeId) {
         String result = "";
 
         if (CrmTypeConstants.ACCOUNT.equals(type)) {

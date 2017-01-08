@@ -18,7 +18,7 @@ package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.TableViewField;
 import com.mycollab.module.crm.CrmTooltipGenerator;
-import com.mycollab.module.crm.data.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
