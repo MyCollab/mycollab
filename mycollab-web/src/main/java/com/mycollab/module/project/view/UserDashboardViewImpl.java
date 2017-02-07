@@ -69,7 +69,7 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
     private TabSheet tabSheet;
 
     public UserDashboardViewImpl() {
-        this.withMargin(false).withFullWidth();
+        this.withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
 
         prjService = AppContextUtil.getSpringBean(ProjectService.class);
         prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername(), MyCollabUI.getAccountId());
@@ -81,8 +81,6 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         if (!SiteConfiguration.isCommunityEdition()) {
             tabSheet.addTab(buildCalendarComp(), UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), FontAwesome.CALENDAR);
         }
-
-//        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);
 
         tabSheet.addSelectedTabChangeListener(selectedTabChangeEvent -> {
             CssLayout comp = (CssLayout) tabSheet.getSelectedTab();

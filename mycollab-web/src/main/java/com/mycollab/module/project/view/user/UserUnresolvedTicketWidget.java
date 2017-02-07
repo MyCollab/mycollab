@@ -64,7 +64,7 @@ public class UserUnresolvedTicketWidget extends Depot {
             }
         });
         ticketList = new DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket>
-                (AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler(), 10) {
+                (AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler(true), 10) {
             @Override
             protected String stringWhenEmptyList() {
                 return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET);

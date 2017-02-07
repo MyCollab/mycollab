@@ -34,7 +34,7 @@ public class FertileNode extends Node {
 	
 	protected FertileNode(String tag){
 		super(tag);
-		this.children = new ArrayList<Node>();
+		this.children = new ArrayList<>();
 	}
 	
 	/**

@@ -57,7 +57,9 @@ import org.springframework.stereotype.Controller;
         "com.mycollab.spring",
         "com.mycollab.vaadin.mvp.service",
         "com.mycollab.vaadin.ui.registry",
-        "com.mycollab.community.configuration", "com.mycollab.premium.configuration", "com.mycollab.ondemand.configuration"},
+        "com.mycollab.community.configuration",
+        "com.mycollab.premium.configuration",
+        "com.mycollab.ondemand.configuration"},
         excludeFilters = {@ComponentScan.Filter(classes = {Controller.class})})
 @Profile("production")
 public class RootConfiguration {

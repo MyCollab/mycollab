@@ -82,7 +82,7 @@ public abstract class JettyServerBasedRunner implements IServerRunner {
         }
     }
 
-    private ClientCommunitor clientCommunitor;
+    private ClientConnector clientConnector;
 
     /**
      * Run web server with arguments
@@ -105,7 +105,7 @@ public abstract class JettyServerBasedRunner implements IServerRunner {
                 LOG.info("Detect client port " + listenPort);
                 new Thread(() -> {
                     try {
-                        clientCommunitor = new ClientCommunitor(listenPort);
+                        clientConnector = new ClientConnector(listenPort);
                     } catch (Exception e) {
                         LOG.error("Can not establish the client socket to port " + listenPort);
                     }
@@ -181,8 +181,8 @@ public abstract class JettyServerBasedRunner implements IServerRunner {
     }
 
     public void upgrade(File upgradeFile) {
-        if (clientCommunitor != null) {
-            clientCommunitor.reloadRequest(upgradeFile);
+        if (clientConnector != null) {
+            clientConnector.reloadRequest(upgradeFile);
         } else {
             throw new MyCollabException("Can not contact host process. Terminate upgrade, you should download MyCollab manually");
         }

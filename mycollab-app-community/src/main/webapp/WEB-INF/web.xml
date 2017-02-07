@@ -8,10 +8,6 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>com.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
-    </listener>
-
     <context-param>
         <param-name>ClassLoaderLeakPreventor.threadWaitMs</param-name>
         <param-value>60000</param-value>
@@ -68,11 +64,25 @@
         <param-name>heartbeatInterval</param-name>
         <param-value>120</param-value>
     </context-param>
-    
-    <mime-mapping>
-        <extension>manifest</extension>
-        <mime-type>text/cache-manifest</mime-type>
-    </mime-mapping>
+
+    <servlet>
+        <servlet-name>restApi</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>com.mycollab.spring.RestConfiguration</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>restApi</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

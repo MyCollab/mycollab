@@ -17,10 +17,15 @@
 package com.mycollab.module.project.view.settings.component;
 
 import com.mycollab.module.project.domain.SimpleProjectMember;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -30,22 +35,23 @@ public class ProjectMemberSelectionField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
     private ProjectMemberSelectionBox memberSelectionBox;
+    private MButton assignToMeBtn;
 
     public ProjectMemberSelectionField() {
-        super();
         this.setImmediate(true);
         memberSelectionBox = new ProjectMemberSelectionBox(true);
-        memberSelectionBox.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                SimpleProjectMember value = (SimpleProjectMember) memberSelectionBox.getValue();
-                if (value != null) {
-                    ProjectMemberSelectionField.this.setValue(value.getDisplayName());
-                } else {
-                    ProjectMemberSelectionField.this.setValue(null);
-                }
+        memberSelectionBox.addValueChangeListener(valueChangeEvent -> {
+            SimpleProjectMember value = (SimpleProjectMember) memberSelectionBox.getValue();
+            if (value != null) {
+                setValue(value.getDisplayName());
+            } else {
+                setValue(null);
             }
         });
+
+        assignToMeBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.ACTION_ASSIGN_TO_ME), clickEvent -> {
+            memberSelectionBox.setValue(UserUIContext.getUser().getUsername());
+        }).withStyleName(WebThemes.BUTTON_LINK);
     }
 
     @Override
@@ -72,7 +78,7 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        return memberSelectionBox;
+        return new MHorizontalLayout(memberSelectionBox, assignToMeBtn);
     }
 
     @Override

@@ -17,7 +17,6 @@
 package com.mycollab.server;
 
 import com.mycollab.core.MyCollabException;
-import org.eclipse.jetty.util.component.Container;
 
 import java.io.File;
 

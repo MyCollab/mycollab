@@ -114,12 +114,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.vaadin.external.atmosphere</groupId>
-            <artifactId>atmosphere-runtime</artifactId>
-            <version>2.2.9.vaadin2</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.vaadin.icons</groupId>
             <artifactId>vaadin-icons</artifactId>
             <version>1.0.1</version>

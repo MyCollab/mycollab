@@ -84,7 +84,7 @@ public class TicketOverdueWidget extends Depot {
     private static class TicketOverduePagedList extends DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> {
 
         TicketOverduePagedList() {
-            super(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler(), 10);
+            super(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowDisplayHandler(true), 10);
         }
 
         @Override

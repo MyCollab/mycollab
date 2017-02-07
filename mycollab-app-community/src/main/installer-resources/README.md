@@ -45,13 +45,14 @@ Version 5.4.6
 
 **Library Upgrades**
 
-* Vaadin 7.7.6, Jackrabbit 2.14.0
+* Jackrabbit 2.15.0
+* DynamicReports 5.0.0
+* Guava 21.0
 * Other libraries
 
 **Improvements & New Features**
 
 * Easy to navigate project tickets
-* Kanban board categorize by users
 * Drag & drop support in ticket dashboard
 * Update language files
 * Other minor improvements
@@ -59,6 +60,7 @@ Version 5.4.6
 **Bug Fixes**
 
 * Can not install two different MyCollab instances on the same server
+* UI issues on IE and Edge.
 
 
 Version 5.4.5

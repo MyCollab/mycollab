@@ -60,7 +60,6 @@ public class DataSourceConfiguration {
 
     @Bean
     public DataSourceTransactionManager txManager() {
-        DataSourceTransactionManager bean = new DataSourceTransactionManager(dataSource());
-        return bean;
+        return new DataSourceTransactionManager(dataSource());
     }
 }

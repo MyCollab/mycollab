@@ -52,11 +52,11 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class AssignTaskWindow extends MWindow {
+class AssignTaskWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private final Task task;
 
-    public AssignTaskWindow(Task task) {
+    AssignTaskWindow(Task task) {
         super(UserUIContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getName()));
         this.task = task;
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));

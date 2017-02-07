@@ -33,7 +33,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = StringLimitLengthValidator.class)
 @Documented
-@SuppressWarnings("ucd")
 public @interface StringLimitLength {
 
     String message() default "{com.mycollab.validator.constraints.StringLimitLengthValidator}";

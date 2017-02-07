@@ -17,8 +17,7 @@
 package com.mycollab.module.project.view.user;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.eventbus.AllowConcurrentEvents;
-import com.google.common.eventbus.Subscribe;
+
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -26,27 +25,19 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.configuration.StorageFactory;
-import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.db.arguments.BooleanSearchField;
-import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.SimpleProject;
-import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.event.ProjectNotificationEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
-import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
-import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
@@ -62,14 +53,17 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.mycollab.vaadin.web.ui.SearchTextField;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
+
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -80,30 +74,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 5.1.2
  */
 public class ProjectInfoComponent extends MHorizontalLayout {
-
-    private Label billableHoursLbl, nonBillableHoursLbl;
-
-    private ApplicationEventListener<ProjectEvent.TimeLoggingChangedEvent>
-            timeLoggingChangedEventApplicationEventListener = new ApplicationEventListener<ProjectEvent.TimeLoggingChangedEvent>() {
-        @Subscribe
-        @AllowConcurrentEvents
-        @Override
-        public void handle(ProjectEvent.TimeLoggingChangedEvent event) {
-            ItemTimeLoggingSearchCriteria baseCriteria = new ItemTimeLoggingSearchCriteria();
-            baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-
-            //get Billable hours
-            baseCriteria.setIsBillable(new BooleanSearchField(true));
-            ItemTimeLoggingService loggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
-            Double billableHours = loggingService.getTotalHoursByCriteria(baseCriteria);
-            billableHoursLbl.setValue(FontAwesome.MONEY.getHtml() + " " + billableHours);
-
-            // Get Non billable hours
-            baseCriteria.setIsBillable(new BooleanSearchField(false));
-            Double nonBillableHours = loggingService.getTotalHoursByCriteria(baseCriteria);
-            nonBillableHoursLbl.setValue(FontAwesome.GIFT.getHtml() + " " + nonBillableHours);
-        }
-    };
 
     public ProjectInfoComponent(SimpleProject project) {
         this.withMargin(false).withFullWidth();
@@ -116,21 +86,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
         MHorizontalLayout footer = new MHorizontalLayout().withStyleName(UIConstants.META_INFO, WebThemes.FLEX_DISPLAY);
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-
-        ELabel createdTimeLbl = ELabel.html(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext.formatPrettyTime(project
-                .getCreatedtime())).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME))
-                .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
-        footer.addComponents(createdTimeLbl);
-
-        billableHoursLbl = ELabel.html(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()))
-                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS))
-                .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
-        footer.addComponents(billableHoursLbl);
-
-        nonBillableHoursLbl = ELabel.html(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours())
-                .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS))
-                .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
-        footer.addComponents(nonBillableHoursLbl);
+        headerLayout.with(breadCrumb, footer);
 
         if (project.getLead() != null) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getAvatarPath
@@ -139,20 +95,13 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                             .appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
             ELabel leadLbl = ELabel.html(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER) + ": " + leadAvatar.write()).withWidthUndefined();
-            footer.addComponents(leadLbl);
+            footer.with(leadLbl);
         }
         if (project.getHomepage() != null) {
             ELabel homepageLbl = ELabel.html(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
                     .appendText(project.getHomepage()).setTarget("_blank").write())
                     .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
             homepageLbl.setDescription(UserUIContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
-        }
-
-        if (project.getNumActiveMembers() > 0) {
-            ELabel activeMembersLbl = ELabel.html(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers())
-                    .withDescription(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS))
-                    .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
-            footer.addComponents(activeMembersLbl);
         }
 
         if (project.getAccountid() != null && !SiteConfiguration.isCommunityEdition()) {
@@ -192,8 +141,6 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                             WebThemes.BUTTON_LINK);
             footer.addComponents(ganttChartBtn);
         }
-
-        headerLayout.with(breadCrumb, footer);
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(false);
         this.with(headerLayout, topPanel).expand(headerLayout).withAlign(topPanel, Alignment.TOP_RIGHT);
@@ -325,17 +272,5 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             topPanel.with(searchField, controlsBtn).withAlign(searchField, Alignment.TOP_RIGHT).withAlign(controlsBtn,
                     Alignment.TOP_RIGHT);
         }
-    }
-
-    @Override
-    public void attach() {
-        EventBusFactory.getInstance().register(timeLoggingChangedEventApplicationEventListener);
-        super.attach();
-    }
-
-    @Override
-    public void detach() {
-        EventBusFactory.getInstance().unregister(timeLoggingChangedEventApplicationEventListener);
-        super.detach();
     }
 }

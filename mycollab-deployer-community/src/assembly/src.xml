@@ -26,6 +26,7 @@
                 <include>${project.groupId}:mycollab-scheduler</include>
                 <include>${project.groupId}:mycollab-scheduler-community</include>
                 <include>${project.groupId}:mycollab-servlet</include>
+                <include>${project.groupId}:mycollab-client-api</include>
                 <include>${project.groupId}:mycollab-ui</include>
                 <include>${project.groupId}:mycollab-web</include>
                 <include>${project.groupId}:mycollab-mobile</include>

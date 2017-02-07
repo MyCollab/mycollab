@@ -93,7 +93,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     };
 
     public ProjectActivityComponent(String type, Integer extraTypeId) {
-        withMargin(false).withStyleName("activity-comp");
+        withMargin(false).withStyleName("activity-comp").withFullWidth();
         this.type = type;
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
         headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));

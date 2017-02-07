@@ -65,7 +65,7 @@ public class ProjectOverdueTicketsWidget extends Depot {
         });
 
         ticketList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
-                new TicketRowDisplayHandler(), 10) {
+                new TicketRowDisplayHandler(false), 10) {
             @Override
             protected String stringWhenEmptyList() {
                 return UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_OVERDUE_TICKET);

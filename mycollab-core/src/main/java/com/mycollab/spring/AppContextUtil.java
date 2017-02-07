@@ -42,9 +42,6 @@ public class AppContextUtil implements ApplicationContextAware {
     }
 
     public static <T> T getSpringBean(String name, Class<T> classType) {
-        if (ctx == null) {
-            throw new MyCollabException("Can not find service " + name);
-        }
         try {
             return ctx.getBean(name, classType);
         } catch (Exception e) {
@@ -57,9 +54,6 @@ public class AppContextUtil implements ApplicationContextAware {
     }
 
     public static <T> T getSpringBean(Class<T> classType) {
-        if (ctx == null) {
-            throw new MyCollabException("Can not find service " + classType);
-        }
         try {
             return ctx.getBean(classType);
         } catch (Exception e) {

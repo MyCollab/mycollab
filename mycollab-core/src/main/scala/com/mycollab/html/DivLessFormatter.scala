@@ -25,14 +25,14 @@ import com.hp.gagawa.java.elements.{Div, Text}
 class DivLessFormatter extends Div {
 
     override def write: String = {
-        val b: StringBuffer = new StringBuffer
+        val b = new StringBuilder
         if ((this.children != null) && (this.children.size > 0)) {
-            import scala.collection.JavaConversions._
-            for (child <- this.children) {
+            import scala.collection.JavaConverters._
+            for (child <- this.children.asScala.toList) {
                 b.append(child.write)
             }
         }
-        return b.toString
+        b.toString
     }
 }
 

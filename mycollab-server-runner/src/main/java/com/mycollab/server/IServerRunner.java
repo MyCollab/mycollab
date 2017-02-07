@@ -20,6 +20,7 @@ package com.mycollab.server;
  * @author MyColab Ltd
  * @since 5.4.0
  */
+@FunctionalInterface
 public interface IServerRunner {
     void run(String[] args) throws Exception;
 }

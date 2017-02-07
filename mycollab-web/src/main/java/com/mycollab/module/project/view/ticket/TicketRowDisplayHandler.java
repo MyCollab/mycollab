@@ -30,14 +30,14 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.TooltipHelper;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
+
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
@@ -47,6 +47,13 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
  * @since 5.2.4
  */
 public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectTicket> {
+
+    private boolean displayPrjShortname;
+
+    public TicketRowDisplayHandler(boolean displayPrjShortname) {
+        this.displayPrjShortname = displayPrjShortname;
+    }
+
     @Override
     public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket ticket, int rowIndex) {
         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
@@ -79,8 +86,12 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
         ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));
         ticketLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         if (ProjectTypeConstants.BUG.equals(ticket.getType()) || ProjectTypeConstants.TASK.equals(ticket.getType())) {
-            ticketLink.appendText(String.format("[%s-%d] - %s", ticket.getProjectShortName(), ticket.getExtraTypeId(),
-                    ticket.getName()));
+            if (displayPrjShortname) {
+                ticketLink.appendText(String.format("[%s-%d] - %s", ticket.getProjectShortName(), ticket.getExtraTypeId(),
+                        ticket.getName()));
+            } else {
+                ticketLink.appendText(ticket.getName());
+            }
             ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
                     ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
         } else {
