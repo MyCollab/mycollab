@@ -40,6 +40,18 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.4.7
+-------------
+
+**Improvements & New Features**
+
+* Export CSV file without header
+
+**Bug Fixes**
+
+* Always export to CSV even if user select PDF or Excel type in some cases
+* Can not send the email notification for edit CRM entities
+
 Version 5.4.6
 -------------
 
