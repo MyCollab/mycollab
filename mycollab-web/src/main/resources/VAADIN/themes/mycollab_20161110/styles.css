@@ -15410,7 +15410,7 @@ div .addview-layout-body {
 	width: 0;
 	top: 10px;
 	left: -10px;
-	border-width: 10px 10px 10px 0;
+	border-width: 11px 11px 11px 0.4px;
 	border-color: transparent #ffffff;
 	border-radius: 0px;
 }

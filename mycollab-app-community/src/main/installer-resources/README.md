@@ -46,6 +46,7 @@ Version 5.4.7
 **Improvements & New Features**
 
 * Export CSV file without header
+* Update Bulgarian language
 
 **Bug Fixes**
 

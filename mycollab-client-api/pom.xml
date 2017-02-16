@@ -5,7 +5,7 @@
     <parent>
         <artifactId>mycollab-parent-community</artifactId>
         <groupId>com.mycollab</groupId>
-        <version>5.4.6</version>
+        <version>5.4.7</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
