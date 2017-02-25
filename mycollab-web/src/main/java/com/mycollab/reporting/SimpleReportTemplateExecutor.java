@@ -22,6 +22,9 @@ import com.mycollab.vaadin.UserUIContext;
 
 import net.sf.dynamicreports.report.exception.DRException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -32,6 +35,7 @@ import java.util.List;
  */
 public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExecutor {
     public static final String CRITERIA = "criteria";
+    private static Logger LOG = LoggerFactory.getLogger(SimpleReportTemplateExecutor.class);
 
     protected AbstractReportBuilder reportBuilder;
     protected Class<T> classType;
@@ -45,6 +49,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
 
     @Override
     protected void initReport() throws Exception {
+        LOG.info("Export document: " + outputForm);
         if (outputForm == ReportExportType.PDF) {
             reportBuilder = new PdfReportBuilder(reportTitle, fieldBuilder, classType, parameters);
         } else if (outputForm == ReportExportType.CSV) {
@@ -78,6 +83,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
             totalItems = searchService.getTotalCount(searchCriteria);
             reportBuilder.setTitle(reportTitle + "(" + totalItems + ")");
             reportBuilder.setDataSource(new GroupIteratorDataSource(searchService, searchCriteria, totalItems));
+            LOG.info(String.format("Fill report %d items", totalItems));
         }
     }
 
@@ -95,6 +101,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
             int totalItems = data.size();
             reportBuilder.setTitle(reportTitle + "(" + totalItems + ")");
             reportBuilder.setDataSource(ds);
+            LOG.info(String.format("Fill report %d items", totalItems));
         }
     }
 }

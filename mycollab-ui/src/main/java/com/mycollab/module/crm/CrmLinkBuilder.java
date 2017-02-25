@@ -31,7 +31,7 @@ public class CrmLinkBuilder {
     }
 
     public static String generateCampaignPreviewLinkFull(Integer campaignId) {
-        return URL_PREFIX_PARAM + CrmLinkGenerator.generateCallPreviewLink(campaignId);
+        return URL_PREFIX_PARAM + CrmLinkGenerator.generateCampaignPreviewLink(campaignId);
     }
 
     public static String generateCasePreviewLinkFull(Integer caseId) {

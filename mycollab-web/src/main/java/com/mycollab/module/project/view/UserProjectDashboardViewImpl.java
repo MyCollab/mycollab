@@ -34,6 +34,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -63,6 +64,7 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ResponsiveLayout contentWrapper = new ResponsiveLayout(ResponsiveLayout.ContainerType.FIXED);
             contentWrapper.setSizeFull();
+            contentWrapper.addStyleName(WebThemes.MARGIN_TOP);
             addComponent(contentWrapper);
 
             ResponsiveRow row = new ResponsiveRow();

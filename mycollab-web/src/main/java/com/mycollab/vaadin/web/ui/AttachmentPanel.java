@@ -28,7 +28,10 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +90,12 @@ public class AttachmentPanel extends CssLayout {
         if (fileStores != null) {
             fileStores.clear();
         }
+        for (int i = getComponentCount() - 1; i >= 0; i--) {
+            Component comp = getComponent(i);
+            if (comp instanceof HorizontalLayout) {
+                removeComponent(comp);
+            }
+        }
     }
 
     public void saveContentsToRepo(String attachmentPath) {
@@ -120,14 +129,16 @@ public class AttachmentPanel extends CssLayout {
                 File oldFile = entry.getValue();
                 File parentFile = oldFile.getParentFile();
                 File newFile = new File(parentFile, entry.getKey());
-                if (newFile.exists())
+                if (newFile.exists()) {
                     newFile.delete();
+                }
                 if (oldFile.renameTo(newFile)) {
                     listFile.add(newFile);
                 }
 
-                if (listFile.size() <= 0)
+                if (listFile.size() <= 0) {
                     return null;
+                }
             }
         }
         return listFile;

@@ -64,7 +64,7 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
         this.withMargin(new MarginInfo(false, false, true, false)).withStyleName("tm-container").withFullWidth();
 
         MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName(WebThemes.PANEL_HEADER);
+                .withStyleName(WebThemes.PANEL_HEADER, "wrapped");
         headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
 

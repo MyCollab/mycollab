@@ -45,7 +45,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
 
         DDVerticalLayout leftPanel = new DDVerticalLayout();
         leftPanel.setSpacing(true);
-        leftPanel.setMargin(new MarginInfo(false, true, false, false));
+        leftPanel.setMargin(new MarginInfo(true, true, false, false));
         leftPanel.setComponentVerticalDropRatio(0.3f);
         leftPanel.setDragMode(LayoutDragMode.CLONE_OTHER);
         leftPanel.setDropHandler(new DropHandler() {
@@ -79,6 +79,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         DDVerticalLayout rightPanel = new DDVerticalLayout();
         rightPanel.setWidth("500px");
         rightPanel.setSpacing(true);
+        rightPanel.setMargin(new MarginInfo(true, false, false, false));
         rightPanel.setComponentVerticalDropRatio(0.3f);
         rightPanel.setDragMode(LayoutDragMode.CLONE_OTHER);
         rightPanel.setDropHandler(new DropHandler() {

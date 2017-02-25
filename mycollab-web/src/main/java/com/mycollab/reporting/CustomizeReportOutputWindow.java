@@ -38,7 +38,13 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.Table;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.tepi.listbuilder.ListBuilder;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -54,11 +60,12 @@ import java.util.Map;
  * @since 5.3.4
  */
 public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B extends ValuedBean> extends MWindow {
+    private static Logger LOG = LoggerFactory.getLogger(CustomizeReportOutputWindow.class);
+
     private VariableInjector<S> variableInjector;
     private ListBuilder listBuilder;
     private String viewId;
     private Table sampleTableDisplay;
-    private ReportExportType exportType;
 
     public CustomizeReportOutputWindow(final String viewId, final String reportTitle, final Class<B> beanCls,
                                        final ISearchableService<S> searchableService, final VariableInjector<S> variableInjector) {
@@ -115,10 +122,10 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
-
         final MButton exportBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT))
                 .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.DOWNLOAD);
         OnDemandFileDownloader pdfFileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
+
             @Override
             protected StreamResource.StreamSource buildStreamSource() {
                 return (StreamResource.StreamSource) () -> {
@@ -133,7 +140,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                     customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
 
                     SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>(reportTitle,
-                            new RpFieldsBuilder(columns), exportType, beanCls, searchableService);
+                            new RpFieldsBuilder(columns), getExportType(), beanCls, searchableService);
                     ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
                         @Override
                         protected void initReportParameters(Map<String, Object> parameters) {
@@ -144,17 +151,20 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                 };
             }
 
-            @Override
-            public String getFilename() {
+            private ReportExportType getExportType() {
                 String exportTypeVal = (String) optionGroup.getValue();
                 if (UserUIContext.getMessage(FileI18nEnum.CSV).equals(exportTypeVal)) {
-                    exportType = ReportExportType.CSV;
+                    return ReportExportType.CSV;
                 } else if (UserUIContext.getMessage(FileI18nEnum.EXCEL).equals(exportTypeVal)) {
-                    exportType = ReportExportType.EXCEL;
+                    return ReportExportType.EXCEL;
                 } else {
-                    exportType = ReportExportType.PDF;
+                    return ReportExportType.PDF;
                 }
-                return exportType.getDefaultFileName();
+            }
+
+            @Override
+            public String getFilename() {
+                return getExportType().getDefaultFileName();
             }
         });
         pdfFileDownloader.extend(exportBtn);
