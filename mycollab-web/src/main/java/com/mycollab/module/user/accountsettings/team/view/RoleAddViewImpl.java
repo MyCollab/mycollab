@@ -61,8 +61,6 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
     private Role role;
 
     public RoleAddViewImpl() {
-        super();
-
         this.setMargin(new MarginInfo(false, true, true, true));
         this.editForm = new EditForm();
         this.addComponent(this.editForm);
@@ -91,7 +89,6 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
         }
 
         private class FormLayoutFactory extends RoleFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
 
             public FormLayoutFactory() {
                 super("");
@@ -150,7 +147,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
                     Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                     permissionBox.setValue(flag);
-                    EditForm.this.permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
+                    permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
                     crmFormHelper.addComponent(permissionBox, UserUIContext.getMessage(permissionDefItem.getCaption()), i % 2, i / 2);
                 }
 

@@ -95,17 +95,13 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
     private void fireDeselect() {
         if (handlers != null) {
-            for (SelectionOptionHandler handler : handlers) {
-                handler.onDeSelect();
-            }
+            handlers.forEach(handler -> handler.onDeSelect());
         }
     }
 
     private void fireSelectAll() {
         if (handlers != null) {
-            for (SelectionOptionHandler handler : handlers) {
-                handler.onSelectAll();
-            }
+            handlers.forEach(handler -> handler.onSelectAll());
         }
     }
 

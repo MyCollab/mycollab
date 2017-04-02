@@ -20,8 +20,8 @@ import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.CrmDataTypeFactory;
-import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -40,6 +40,7 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Collections;
@@ -54,9 +55,9 @@ import static com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
  */
 public class AccountOpportunityListComp extends RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
     private static final long serialVersionUID = -2414709814283942446L;
+    static final Map<String, String> colormap;
 
     private Account account;
-    static final Map<String, String> colormap;
 
     static {
         Map<String, String> tmpMap = new HashMap<>();
@@ -69,7 +70,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         colormap = Collections.unmodifiableMap(tmpMap);
     }
 
-    public AccountOpportunityListComp() {
+    AccountOpportunityListComp() {
         super(AppContextUtil.getSpringBean(OpportunityService.class), 20);
         setMargin(true);
         this.setBlockDisplayHandler(new AccountOpportunityBlockDisplay());
@@ -84,12 +85,10 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
                 .withWidthUndefined();
         notesWrap.addComponent(noteLbl);
 
-        CssLayout noteBlock = new CssLayout();
-        noteBlock.setWidth("100%");
-        noteBlock.setStyleName("list-note-block");
+        MCssLayout noteBlock = new MCssLayout().withFullWidth().withStyleName("list-note-block");
         for (OpportunitySalesStage stage : CrmDataTypeFactory.getOpportunitySalesStageList()) {
-            ELabel note = new ELabel(UserUIContext.getMessage(stage))
-                    .withStyleName("note-label", colormap.get(stage.name())).withWidthUndefined();
+            MHorizontalLayout note = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(stage)))
+                    .withStyleName("note-label", colormap.get(stage.name()));
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
@@ -98,7 +97,6 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
             MButton createBtn = new MButton(UserUIContext.getMessage(OpportunityI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
                     .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
-
             controlsBtnWrap.with(createBtn).withAlign(createBtn, Alignment.TOP_RIGHT);
         }
 
@@ -126,9 +124,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
         @Override
         public Component generateBlock(final SimpleOpportunity opportunity, int blockIndex) {
-            CssLayout beanBlock = new CssLayout();
-            beanBlock.addStyleName("bean-block");
-            beanBlock.setWidth("350px");
+            MCssLayout beanBlock = new MCssLayout().withWidth("350px").withStyleName("bean-block");
 
             MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
             CssLayout iconWrap = new CssLayout();

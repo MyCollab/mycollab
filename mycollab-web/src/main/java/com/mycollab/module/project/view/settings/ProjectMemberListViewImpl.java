@@ -75,7 +75,6 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
     private ProjectMemberSearchCriteria searchCriteria;
 
     public ProjectMemberListViewImpl() {
-        super();
         this.setMargin(new MarginInfo(false, true, true, true));
         MHorizontalLayout viewHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -112,14 +111,12 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
         viewHeader.addComponent(searchTextField);
 
-        MButton printBtn = new MButton("", clickEvent -> {
-            UI.getCurrent().addWindow(new ProjectMemberCustomizeReportOutputWindow(new LazyValueInjector() {
-                @Override
-                protected Object doEval() {
-                    return searchCriteria;
-                }
-            }));
-        }).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new ProjectMemberCustomizeReportOutputWindow(new LazyValueInjector() {
+            @Override
+            protected Object doEval() {
+                return searchCriteria;
+            }
+        }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         viewHeader.addComponent(printBtn);
 
         MButton createBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
@@ -153,18 +150,16 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         List<SimpleProjectMember> memberLists = prjMemberService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
         headerText.updateTitle(String.format("%s (%d)", UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), memberLists.size()));
-        for (SimpleProjectMember member : memberLists) {
-            contentLayout.addComponent(generateMemberBlock(member));
-        }
+        memberLists.forEach(member -> contentLayout.addComponent(generateMemberBlock(member)));
     }
 
     private Component generateMemberBlock(final SimpleProjectMember member) {
-        HorizontalLayout blockContent = new HorizontalLayout();
+        MHorizontalLayout blockContent = new MHorizontalLayout().withSpacing(false)
+                .withStyleName("member-block").withWidth("350px");
         blockContent.setStyleName("member-block");
         if (ProjectMemberStatusConstants.NOT_ACCESS_YET.equals(member.getStatus())) {
             blockContent.addStyleName("inactive");
         }
-        blockContent.setWidth("350px");
 
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
         memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
@@ -192,8 +187,8 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK)
-                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
-        deleteBtn.setDescription("Remove user '" + member.getDisplayName() + "' out of this project");
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS))
+                .withDescription("Remove user '" + member.getDisplayName() + "' out of this project");
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(editBtn, deleteBtn);
         blockTop.addComponent(buttonControls);
@@ -246,7 +241,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
 
         blockTop.addComponent(ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO));
 
-        blockContent.addComponent(blockTop);
+        blockContent.with(blockTop);
         blockContent.setExpandRatio(blockTop, 1.0f);
         return blockContent;
     }

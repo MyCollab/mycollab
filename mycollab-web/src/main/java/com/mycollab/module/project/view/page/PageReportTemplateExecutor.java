@@ -72,11 +72,11 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
     private MultiPageListBuilder titleContent;
 
     PageReportTemplateExecutor(String reportTitle) {
-        super(UserUIContext.getUser(), UserUIContext.getUserTimeZone(), UserUIContext.getUserLocale(), reportTitle, ReportExportType.PDF);
+        super(UserUIContext.getUserTimeZone(), UserUIContext.getUserLocale(), reportTitle, ReportExportType.PDF);
     }
 
     @Override
-    protected void initReport() throws Exception {
+    public void initReport() throws Exception {
         reportBuilder = report();
         titleContent = cmp.multiPageList();
         titleContent.add(defaultTitleComponent());
@@ -87,7 +87,7 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
     }
 
     @Override
-    protected void fillReport() throws DRException {
+    public void fillReport() throws DRException {
         Map<String, Object> parameters = this.getParameters();
         Page bean = (Page) parameters.get("bean");
         printForm(bean);
@@ -95,7 +95,7 @@ class PageReportTemplateExecutor extends ReportTemplateExecutor {
     }
 
     @Override
-    protected void outputReport(OutputStream outputStream) throws IOException, DRException {
+    public void outputReport(OutputStream outputStream) throws IOException, DRException {
         reportBuilder.toPdf(outputStream);
     }
 

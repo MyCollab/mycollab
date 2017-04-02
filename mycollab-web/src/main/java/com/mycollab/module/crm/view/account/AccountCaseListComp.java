@@ -21,8 +21,8 @@ import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.CrmDataTypeFactory;
-import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -43,6 +43,7 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Collections;
@@ -83,21 +84,18 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout().withFullWidth();
-        Label noteLbl = new Label(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE));
-        noteLbl.setSizeUndefined();
-        noteLbl.setStyleName("list-note-lbl");
+        ELabel noteLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE)).withWidthUndefined()
+                .withStyleName("list-note-lbl");
         notesWrap.addComponent(noteLbl);
 
-        CssLayout noteBlock = new CssLayout();
-        noteBlock.setWidth("100%");
-        noteBlock.setStyleName("list-note-block");
+        MCssLayout noteBlock = new MCssLayout().withFullWidth().withStyleName("list-note-block");
         for (CaseStatus status : CrmDataTypeFactory.getCasesStatusList()) {
             ELabel note = new ELabel(UserUIContext.getMessage(status)).withStyleName("note-label", colorsMap.get(status
                     .name())).withWidthUndefined();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
-        controlsBtnWrap.addComponent(notesWrap);
+        controlsBtnWrap.with(notesWrap).expand(notesWrap);
 
         if (UserUIContext.canWrite(RolePermissionCollections.CRM_CASE)) {
             MButton createBtn = new MButton(UserUIContext.getMessage(CaseI18nEnum.NEW), clickEvent -> fireNewRelatedItem(""))
@@ -128,9 +126,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
         @Override
         public Component generateBlock(final SimpleCase oneCase, int blockIndex) {
-            CssLayout beanBlock = new CssLayout();
-            beanBlock.addStyleName("bean-block");
-            beanBlock.setWidth("350px");
+            MCssLayout beanBlock = new MCssLayout().withWidth("350px").withStyleName("bean-block");
 
             VerticalLayout blockContent = new VerticalLayout();
             MHorizontalLayout blockTop = new MHorizontalLayout();

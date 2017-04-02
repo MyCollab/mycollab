@@ -19,7 +19,7 @@ package com.mycollab.community.module.crm.view.setting;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.crm.view.setting.ICrmCustomView;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.mvp.view.NotPresentedView;
+import com.mycollab.vaadin.web.ui.NotPresentedView;
 
 /**
  * @author MyCollab Ltd.

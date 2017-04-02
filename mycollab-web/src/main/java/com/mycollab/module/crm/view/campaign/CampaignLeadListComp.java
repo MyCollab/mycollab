@@ -37,7 +37,11 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.mycollab.vaadin.web.ui.SplitButton;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -152,7 +156,7 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
 
             leadInfo.addComponent(leadName);
 
-            Label leadStatus = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
+            ELabel leadStatus = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS) + ": " +
                     UserUIContext.getMessage(LeadStatus.class, lead.getStatus()));
             leadInfo.addComponent(leadStatus);
 

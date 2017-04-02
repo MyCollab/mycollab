@@ -21,6 +21,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.RolePermissionI18nEnum;
+import com.mycollab.module.project.ui.components.ProjectPreviewFormControlsGenerator;
 import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.vaadin.UserUIContext;

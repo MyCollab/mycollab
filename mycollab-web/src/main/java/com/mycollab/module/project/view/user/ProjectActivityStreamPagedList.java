@@ -147,8 +147,8 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
-                        content.append("<p><ul><li>\"").append(
-                                StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(), 200)).append("\"</li></ul></p>");
+                        content.append("<ul><li>\"").append(
+                                StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(), 200)).append("\"</li></ul>");
                     }
                 } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,

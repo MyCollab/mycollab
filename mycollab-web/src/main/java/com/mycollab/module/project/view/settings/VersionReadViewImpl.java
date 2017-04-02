@@ -24,6 +24,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.VersionI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.components.ProjectPreviewFormControlsGenerator;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.module.project.ui.components.DateInfoComp;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;

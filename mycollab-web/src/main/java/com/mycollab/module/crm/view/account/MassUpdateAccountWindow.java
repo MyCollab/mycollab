@@ -53,7 +53,6 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
     }
 
     private class MassUpdateAccountFormLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper informationLayout;
         private GridFormLayoutHelper addressLayout;

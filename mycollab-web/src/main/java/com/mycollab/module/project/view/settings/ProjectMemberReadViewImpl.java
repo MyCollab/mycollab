@@ -36,6 +36,7 @@ import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.components.ProjectPreviewFormControlsGenerator;
 import com.mycollab.module.project.view.AbstractProjectPageView;
 import com.mycollab.module.project.view.settings.component.NotificationSettingWindow;
 import com.mycollab.module.project.view.user.ProjectActivityStreamPagedList;

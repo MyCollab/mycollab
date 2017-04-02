@@ -30,10 +30,13 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -44,7 +47,6 @@ import java.util.List;
  * @since 5.0.4
  */
 public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleComment> {
-    private static final long serialVersionUID = 1L;
 
     @Override
     public Component generateRow(IBeanList<SimpleComment> host, final SimpleComment comment, int rowIndex) {
@@ -53,20 +55,16 @@ public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<Sim
         UserBlock memberBlock = new UserBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
-        CssLayout rowLayout = new CssLayout();
-        rowLayout.setStyleName(WebThemes.MESSAGE_CONTAINER);
-        rowLayout.setWidth("100%");
+        MCssLayout rowLayout = new MCssLayout().withStyleName(WebThemes.MESSAGE_CONTAINER).withFullWidth();
 
         MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true,
-                true, false, true)).withFullWidth();
-        messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+                true, false, true)).withFullWidth().withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel timePostLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                UserUIContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).withDescription(UserUIContext.
-                formatDateTime(comment.getCreatedtime()));
+        ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+                UserUIContext.formatPrettyTime(comment.getCreatedtime())))
+                .withDescription(UserUIContext.formatDateTime(comment.getCreatedtime()))
+                .withStyleName(UIConstants.META_INFO).withWidthUndefined();
 
-        timePostLbl.setSizeUndefined();
-        timePostLbl.setStyleName(UIConstants.META_INFO);
         messageHeader.with(timePostLbl).expand(timePostLbl);
 
         // Message delete button

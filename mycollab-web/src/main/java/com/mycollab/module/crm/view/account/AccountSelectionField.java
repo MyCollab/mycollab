@@ -90,8 +90,8 @@ public class AccountSelectionField extends CustomField<Integer> implements Field
 
     @Override
     protected Component initContent() {
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
-        layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth()
+                .withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         accountName.setNullRepresentation("");
         accountName.setEnabled(true);

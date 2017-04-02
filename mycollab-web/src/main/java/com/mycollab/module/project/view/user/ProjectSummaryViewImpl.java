@@ -18,7 +18,7 @@ package com.mycollab.module.project.view.user;
 
 import com.mycollab.module.project.view.milestone.MilestoneTimelineWidget;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
+import com.mycollab.vaadin.web.ui.AbstractLazyPageView;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;

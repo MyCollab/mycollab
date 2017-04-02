@@ -108,7 +108,6 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
     private class EditUserForm extends AdvancedEditBeanForm<SimpleUser> {
         private static final long serialVersionUID = 1L;
 
-
         private void displayBasicForm(SimpleUser newDataSource) {
             this.setFormLayoutFactory(new BasicFormLayoutFactory());
             this.setBeanFormFieldFactory(new BasicEditFormFieldFactory(editUserForm));
@@ -130,7 +129,6 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
         }
 
         private class BasicFormLayoutFactory extends WrappedFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
 
             private RolePermissionContainer rolePermissionLayout;
 
@@ -152,7 +150,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                     editUserForm.displayAdvancedForm(user);
                     setFormBuffered(true);
                 }).withStyleName(WebThemes.BUTTON_LINK);
-                MHorizontalLayout linkWrap = new MHorizontalLayout().withMargin(true).with(moreInfoBtn);
+                MHorizontalLayout linkWrap = new MHorizontalLayout(moreInfoBtn).withMargin(true);
                 bottomPanel.with(linkWrap).withAlign(linkWrap, Alignment.MIDDLE_LEFT);
                 rolePermissionLayout = new RolePermissionContainer();
                 bottomPanel.addComponent(rolePermissionLayout);
@@ -208,7 +206,6 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
         }
 
         private class AdvancedFormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper basicInformationLayout;
             private GridFormLayoutHelper advancedInformationLayout;
             private GridFormLayoutHelper contactInformationLayout;

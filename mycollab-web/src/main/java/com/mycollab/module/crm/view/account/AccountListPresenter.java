@@ -44,6 +44,7 @@ import com.vaadin.ui.UI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author MyCollab Ltd.
@@ -104,12 +105,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
             Collection<SimpleAccount> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-            List<Account> keyList = new ArrayList<>();
-            for (SimpleAccount item : currentDataList) {
-                if (item.isSelected()) {
-                    keyList.add(item);
-                }
-            }
+            List<Account> keyList = currentDataList.stream().filter(item -> item.isSelected()).collect(Collectors.toList());
 
             if (keyList.size() > 0) {
                 accountService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
@@ -145,12 +141,8 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
     public void massUpdate(Account value) {
         if (!isSelectAll) {
             Collection<SimpleAccount> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-            List<Integer> keyList = new ArrayList<>();
-            for (SimpleAccount item : currentDataList) {
-                if (item.isSelected()) {
-                    keyList.add(item.getId());
-                }
-            }
+            List<Integer> keyList = currentDataList.stream().filter(item -> item.isSelected()).map(item -> item.getId())
+                    .collect(Collectors.toList());
 
             if (keyList.size() > 0) {
                 accountService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());

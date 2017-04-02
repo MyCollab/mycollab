@@ -18,7 +18,7 @@ package com.mycollab.community.module.user.accountsettings.billing.view;
 
 import com.mycollab.module.user.accountsettings.billing.view.IBillingContainer;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.mvp.view.NotPresentedView;
+import com.mycollab.vaadin.web.ui.NotPresentedView;
 
 /**
  * @author MyCollab Ltd.

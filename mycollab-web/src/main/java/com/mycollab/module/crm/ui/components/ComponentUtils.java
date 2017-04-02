@@ -29,21 +29,14 @@ import org.vaadin.viritin.button.MButton;
  * @since 5.0.0
  */
 public class ComponentUtils {
-    public static final HeaderWithFontAwesome header(String resId, String title) {
+    public static HeaderWithFontAwesome header(String resId, String title) {
         return HeaderWithFontAwesome.h2(CrmAssetsManager.getAsset(resId), title);
     }
 
-    public static final MButton createCustomizeViewButton() {
+    public static MButton createCustomizeViewButton() {
         MButton customizeViewBtn = new MButton("").withIcon(FontAwesome.ADJUST)
                 .withStyleName(WebThemes.BUTTON_ACTION, WebThemes.BUTTON_SMALL_PADDING);
         customizeViewBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_LAYOUT_OPTIONS));
         return customizeViewBtn;
-    }
-
-    public static final MButton createImportEntitiesButton() {
-        MButton importBtn = new MButton("").withIcon(FontAwesome.CLOUD_UPLOAD)
-                .withStyleName(WebThemes.BUTTON_ACTION, WebThemes.BUTTON_SMALL_PADDING);
-        importBtn.setDescription("Import");
-        return importBtn;
     }
 }

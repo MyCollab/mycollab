@@ -106,7 +106,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
                 CrmAssetsManager.getAsset(CrmTypeConstants.ACTIVITY));
     }
 
-    protected void displayActivities() {
+    private void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.CAMPAIGN));
@@ -146,8 +146,8 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         tabSheet.selectTab(CrmTypeConstants.DETAIL);
 
         Date now = new GregorianCalendar().getTime();
-        String status = this.beanItem.getStatus();
-        if (!"Completed".equals(status) && (this.beanItem.getEnddate() != null && this.beanItem.getEnddate().before(now))) {
+        String status = beanItem.getStatus();
+        if (!"Completed".equals(status) && (beanItem.getEnddate() != null && beanItem.getEnddate().before(now))) {
             previewLayout.addTitleStyleName(WebThemes.LABEL_OVERDUE);
         }
     }

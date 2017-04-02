@@ -28,7 +28,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
-import com.mycollab.reporting.CustomizeReportOutputWindow;
+import com.mycollab.vaadin.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;

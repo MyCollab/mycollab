@@ -25,7 +25,7 @@ import com.mycollab.module.project.fielddef.MilestoneTableFieldDef;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.service.MilestoneService;
-import com.mycollab.reporting.CustomizeReportOutputWindow;
+import com.mycollab.vaadin.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;

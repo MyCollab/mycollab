@@ -24,7 +24,7 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.fielddef.ProjectMemberTableFieldDef;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
-import com.mycollab.reporting.CustomizeReportOutputWindow;
+import com.mycollab.vaadin.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 

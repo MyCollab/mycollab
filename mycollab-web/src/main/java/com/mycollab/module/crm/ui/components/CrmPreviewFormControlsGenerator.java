@@ -17,7 +17,7 @@
 package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.reporting.PrintButton;
+import com.mycollab.vaadin.reporting.PrintButton;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;

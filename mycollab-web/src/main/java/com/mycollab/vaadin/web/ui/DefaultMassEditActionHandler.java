@@ -17,11 +17,15 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.reporting.*;
+import com.mycollab.reporting.ReportExportType;
+import com.mycollab.reporting.ReportTemplateExecutor;
+import com.mycollab.reporting.RpFieldsBuilder;
+import com.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.MassItemActionHandler;
 import com.mycollab.vaadin.events.ViewItemAction;
+import com.mycollab.vaadin.reporting.ReportStreamSource;
 import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
@@ -66,11 +70,13 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
         addtionalParamters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
         ReportTemplateExecutor reportTemplateExecutor;
         if (presenter.isSelectAll) {
-            reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems(getReportTitle(),
+            reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems(UserUIContext.getUserTimeZone(),
+                    UserUIContext.getUserLocale(), getReportTitle(),
                     new RpFieldsBuilder(pagedBeanTable.getDisplayColumns()), exportType, getReportModelClassType(),
                     presenter.getSearchService());
         } else {
-            reportTemplateExecutor = new SimpleReportTemplateExecutor.ListData(getReportTitle(),
+            reportTemplateExecutor = new SimpleReportTemplateExecutor.ListData(UserUIContext.getUserTimeZone(),
+                    UserUIContext.getUserLocale(), getReportTitle(),
                     new RpFieldsBuilder(pagedBeanTable.getDisplayColumns()), exportType, presenter.getSelectedItems(),
                     getReportModelClassType());
         }

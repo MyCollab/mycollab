@@ -26,9 +26,8 @@ import com.mycollab.module.crm.event.OpportunityEvent;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.ui.chart.PieChartWrapper;
+import com.mycollab.vaadin.web.ui.chart.PieChartWrapper;
 import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;
 

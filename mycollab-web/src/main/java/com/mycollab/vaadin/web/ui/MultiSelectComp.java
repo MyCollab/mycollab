@@ -16,17 +16,18 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.hp.gagawa.java.elements.Li;
+import com.hp.gagawa.java.elements.Ul;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
-import com.hp.gagawa.java.elements.Li;
-import com.hp.gagawa.java.elements.Ul;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -57,11 +58,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         this.canAddNew = canAddNew;
         propertyDisplayField = displayName;
 
-        componentsText = new TextField();
-        componentsText.setNullRepresentation("");
-        componentsText.setReadOnly(true);
-        componentsText.addStyleName("noBorderRight");
-        componentsText.setWidth("100%");
+        componentsText = new MTextField().withNullRepresentation("").withReadOnly(true)
+                .withStyleName("noBorderRight").withFullWidth();
 
         componentPopupSelection = new PopupButton();
         componentPopupSelection.addClickListener(clickEvent -> initContentPopup());
@@ -127,7 +125,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             try {
                 itemName = (String) PropertyUtils.getProperty(item, propertyDisplayField);
             } catch (final Exception e) {
-                e.printStackTrace();
+                LOG.error("Error", e);
             }
         } else {
             itemName = item.toString();

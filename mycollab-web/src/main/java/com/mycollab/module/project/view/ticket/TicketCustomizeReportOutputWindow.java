@@ -25,7 +25,7 @@ import com.mycollab.module.project.fielddef.TicketTableFieldDef;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.reporting.CustomizeReportOutputWindow;
+import com.mycollab.vaadin.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;

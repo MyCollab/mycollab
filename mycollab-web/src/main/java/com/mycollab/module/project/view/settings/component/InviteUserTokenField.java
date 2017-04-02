@@ -34,6 +34,7 @@ import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.*;
 
@@ -157,12 +158,11 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
     }
 
     private Component generateToken(final String email) {
-        final Button btn = new Button(email, FontAwesome.TIMES);
+        MButton btn = new MButton(email).withIcon(FontAwesome.TIMES).withStyleName("token-field");
         btn.addClickListener(clickEvent -> {
             InviteUserTokenField.this.removeComponent(btn);
             inviteEmails.remove(email);
         });
-        btn.addStyleName("token-field");
         return btn;
     }
 

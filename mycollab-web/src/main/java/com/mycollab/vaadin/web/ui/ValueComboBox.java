@@ -18,6 +18,8 @@ package com.mycollab.vaadin.web.ui;
 
 import com.vaadin.ui.ComboBox;
 
+import java.util.stream.Stream;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -45,10 +47,7 @@ public class ValueComboBox extends ComboBox {
 
     public final void loadData(String... values) {
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-
-        for (int i = 0; i < values.length; i++) {
-            this.addItem(values[i]);
-        }
+        Stream.of(values).forEach(value -> addItem(value));
 
         if (!this.isNullSelectionAllowed()) {
             this.select(this.getItemIds().iterator().next());

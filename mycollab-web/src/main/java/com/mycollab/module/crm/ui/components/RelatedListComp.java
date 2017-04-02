@@ -51,9 +51,7 @@ public abstract class RelatedListComp<T, S extends SearchCriteria> extends MVert
 
     protected void fireNewRelatedItem(final String itemId) {
         if (handlers != null) {
-            for (final RelatedListHandler handler : handlers) {
-                handler.createNewRelatedItem(itemId);
-            }
+            handlers.forEach(handler -> handler.createNewRelatedItem(itemId));
         }
     }
 

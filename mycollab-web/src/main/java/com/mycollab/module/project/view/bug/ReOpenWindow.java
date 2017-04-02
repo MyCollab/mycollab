@@ -87,7 +87,6 @@ public class ReOpenWindow extends MWindow {
         }
 
         class FormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
             @Override
@@ -131,13 +130,12 @@ public class ReOpenWindow extends MWindow {
                         close();
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
                     }
-                }).withStyleName(WebThemes.BUTTON_ACTION);
-                reOpenBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+                }).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);
 
-                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, reOpenBtn).withMargin(new MarginInfo(true, true, true, false));
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, reOpenBtn).withMargin(new MarginInfo(true, true, false, false));
 
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);

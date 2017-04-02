@@ -20,14 +20,21 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.mail.AttachmentSource;
 import com.mycollab.module.mail.FileAttachmentSource;
 import com.mycollab.module.mail.service.ExtMailService;
+import com.mycollab.reporting.ReportTemplateExecutor;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
 import java.io.File;
@@ -44,25 +51,32 @@ public class MailFormWindow extends MWindow {
     private EmailTokenField tokenFieldMailTo;
     private EmailTokenField tokenFieldMailCc = new EmailTokenField();
     private EmailTokenField tokenFieldMailBcc = new EmailTokenField();
+
     private GridLayout inputLayout;
     private Layout subjectField;
     private Layout ccField;
     private Layout bccField;
 
-    private Button btnLinkCc;
-    private Button btnLinkBcc;
+    private MButton btnLinkCc, btnLinkBcc;
 
     private boolean isAddCc = false;
     private boolean isAddBcc = false;
 
-    private List<String> lstMail;
+    private List<String> mails;
+
+    private ReportTemplateExecutor reportTemplateExecutor;
 
     public MailFormWindow() {
         initLayout();
     }
 
-    public MailFormWindow(List<String> lstMail) {
-        this.lstMail = lstMail;
+    public MailFormWindow(List<String> mails) {
+        this.mails = mails;
+        initLayout();
+    }
+
+    public MailFormWindow(ReportTemplateExecutor reportTemplateExecutor) {
+        this.reportTemplateExecutor = reportTemplateExecutor;
         initLayout();
     }
 
@@ -72,115 +86,93 @@ public class MailFormWindow extends MWindow {
     }
 
     private void initButtonLinkCcBcc() {
-        btnLinkCc = new Button("Add Cc");
-        btnLinkCc.setStyleName(WebThemes.BUTTON_LINK);
+        btnLinkCc = new MButton("Add Cc", clickEvent -> toggleCcLink()).withStyleName(WebThemes.BUTTON_LINK);
         inputLayout.addComponent(btnLinkCc, 1, 0);
         inputLayout.setComponentAlignment(btnLinkCc, Alignment.MIDDLE_CENTER);
 
-        btnLinkBcc = new Button("Add Bcc");
-        btnLinkBcc.setStyleName(WebThemes.BUTTON_LINK);
+        btnLinkBcc = new MButton("Add Bcc", clickEvent -> toggleBccLink()).withStyleName(WebThemes.BUTTON_LINK);
         inputLayout.addComponent(btnLinkBcc, 2, 0);
         inputLayout.setComponentAlignment(btnLinkBcc, Alignment.MIDDLE_CENTER);
-
-        btnLinkCc.addClickListener(clickEvent -> toggleCcLink());
-        btnLinkBcc.addClickListener(clickEvent -> toggleBccLink());
     }
 
     private Layout createTextFieldMail(String title, Component component) {
-        HorizontalLayout layout = new HorizontalLayout();
-        Label lbTitle = new Label(title);
-        lbTitle.setWidth("60px");
-        lbTitle.setStyleName("lbmail");
-        layout.addComponent(lbTitle);
-        layout.setComponentAlignment(lbTitle, Alignment.MIDDLE_RIGHT);
-        layout.addComponent(component);
-        layout.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
-        layout.setWidth("100%");
-        layout.setExpandRatio(component, 1.0f);
-        return layout;
+        return new MHorizontalLayout(new ELabel(title).withWidth("80px"), component).expand(component).withFullWidth()
+                .withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+    }
+
+    private Layout createTextFieldMailWithHelp(String title, Component component) {
+        return new MHorizontalLayout(ELabel.html(title + "&nbsp;" + FontAwesome.QUESTION_CIRCLE.getHtml())
+                .withStyleName(WebThemes.INLINE_HELP).withDescription("Enter the user name or email, then press the enter button to finish the entry")
+                .withWidth("80px"), component).expand(component).withFullWidth()
+                .withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
     }
 
     private void initUI() {
-        GridLayout mainLayout = new GridLayout(1, 5);
-        mainLayout.setWidth("100%");
-        mainLayout.setMargin(true);
-        mainLayout.setSpacing(true);
-
-        CssLayout inputPanel = new CssLayout();
-        inputPanel.setWidth("100%");
-        inputPanel.setStyleName("mail-panel");
+        MVerticalLayout mainLayout = new MVerticalLayout().withFullWidth();
 
         inputLayout = new GridLayout(3, 4);
         inputLayout.setSpacing(true);
         inputLayout.setWidth("100%");
         inputLayout.setColumnExpandRatio(0, 1.0f);
 
-        inputPanel.addComponent(inputLayout);
-
-        mainLayout.addComponent(inputPanel);
+        mainLayout.addComponent(inputLayout);
 
         tokenFieldMailTo = new EmailTokenField();
+        inputLayout.addComponent(createTextFieldMailWithHelp("To:", tokenFieldMailTo), 0, 0);
 
-        inputLayout.addComponent(createTextFieldMail("To:", tokenFieldMailTo), 0, 0);
-
-        if (lstMail != null) {
-            for (String mail : lstMail) {
-                if (StringUtils.isNotBlank(mail)) {
-                    if (mail.indexOf("<") > -1) {
-                        String strMail = mail.substring(mail.indexOf("<") + 1, mail.lastIndexOf(">"));
-                        if (strMail != null && !strMail.equalsIgnoreCase("null")) {
-
-                        }
-                    } else {
-
-                    }
+        if (mails != null) {
+            mails.stream().filter(mail -> mail.indexOf("<") > 0).map(mail -> {
+                String strMail = mail.substring(mail.indexOf("<") + 1, mail.lastIndexOf(">"));
+                if (strMail != null && !strMail.equalsIgnoreCase("null")) {
+                    return strMail;
+                } else {
+                    return "";
                 }
-            }
+            });
         }
 
-        final TextField subject = new TextField();
-        subject.setRequired(true);
-        subject.setWidth("100%");
+        final MTextField subject = new MTextField().withRequired(true).withFullWidth();
         subjectField = createTextFieldMail("Subject:", subject);
         inputLayout.addComponent(subjectField, 0, 1);
 
         initButtonLinkCcBcc();
 
-        ccField = createTextFieldMail("Cc:", tokenFieldMailCc);
-        bccField = createTextFieldMail("Bcc:", tokenFieldMailBcc);
+        ccField = createTextFieldMailWithHelp("Cc:", tokenFieldMailCc);
+        bccField = createTextFieldMailWithHelp("Bcc:", tokenFieldMailBcc);
 
         final RichTextArea noteArea = new RichTextArea();
         noteArea.setWidth("100%");
         noteArea.setHeight("200px");
-        mainLayout.addComponent(noteArea, 0, 1);
+        mainLayout.addComponent(noteArea);
         mainLayout.setComponentAlignment(noteArea, Alignment.MIDDLE_CENTER);
 
         final AttachmentPanel attachments = new AttachmentPanel();
-        attachments.setWidth("500px");
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton sendBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SEND_EMAIL), clickEvent -> {
-            if (tokenFieldMailTo.getListRecipient().size() <= 0 || subject.getValue().equals("")) {
+            if (tokenFieldMailTo.getListRecipients().size() <= 0 || subject.getValue().equals("")) {
                 NotificationUtil.showErrorNotification("To Email field and Subject field must be not empty! Please fulfil them before sending email.");
                 return;
             }
             if (UserUIContext.getUser().getEmail() != null && UserUIContext.getUser().getEmail().length() > 0) {
                 ExtMailService systemMailService = AppContextUtil.getSpringBean(ExtMailService.class);
 
-                List<File> listFile = attachments.files();
-                List<AttachmentSource> attachmentSource = null;
-                if (listFile != null && listFile.size() > 0) {
-                    attachmentSource = new ArrayList<>();
-                    for (File file : listFile) {
-                        attachmentSource.add(new FileAttachmentSource(file));
-                    }
+                List<File> files = attachments.files();
+                List<AttachmentSource> attachmentSource = new ArrayList<>();
+                if (CollectionUtils.isNotEmpty(files)) {
+                    files.forEach(file -> attachmentSource.add(new FileAttachmentSource(file)));
+                }
+
+                if (reportTemplateExecutor != null) {
+                    attachmentSource.add(new FileAttachmentSource(reportTemplateExecutor.getDefaultExportFileName(),
+                            reportTemplateExecutor.exportStream()));
                 }
 
                 systemMailService.sendHTMLMail(UserUIContext.getUser().getEmail(), UserUIContext.getUser().getDisplayName(),
-                        tokenFieldMailTo.getListRecipient(), tokenFieldMailCc.getListRecipient(),
-                        tokenFieldMailBcc.getListRecipient(), subject.getValue(),
+                        tokenFieldMailTo.getListRecipients(), tokenFieldMailCc.getListRecipients(),
+                        tokenFieldMailBcc.getListRecipients(), subject.getValue(),
                         noteArea.getValue(), attachmentSource, true);
                 close();
             } else {
@@ -188,9 +180,13 @@ public class MailFormWindow extends MWindow {
             }
         }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
 
-        MHorizontalLayout controlsLayout = new MHorizontalLayout(attachments, cancelBtn, sendBtn).expand(attachments).withFullWidth();
-        mainLayout.addComponent(controlsLayout, 0, 2);
-        this.setContent(mainLayout);
+        MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, sendBtn)
+                .withMargin(new MarginInfo(false, true, true, false));
+        mainLayout.with(attachments);
+        mainLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
+        new Restrain(mainLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
+        this.setContent(new MVerticalLayout(mainLayout, controlsLayout).withMargin(false)
+                .withSpacing(false).withAlign(controlsLayout, Alignment.TOP_RIGHT));
     }
 
     private void checkToReInitCcBcc() {

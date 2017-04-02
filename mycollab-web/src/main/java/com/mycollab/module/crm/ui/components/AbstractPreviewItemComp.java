@@ -31,8 +31,6 @@ import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
-import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -40,6 +38,8 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
  * @param <B>
@@ -52,7 +52,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
 
     protected B beanItem;
     private FontAwesome iconResource;
-    private ELabel headerTitle;
+    protected MHorizontalLayout headerTitle;
     protected MHorizontalLayout header;
     protected VerticalLayout tabContent;
     protected VerticalTabsheet tabSheet;
@@ -68,10 +68,9 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
         tabSheet = new VerticalTabsheet();
         tabSheet.setSizeFull();
         tabSheet.setNavigatorWidth("100%");
-        tabSheet.setNavigatorStyleName("sidebar-menu");
         tabSheet.addToggleNavigatorControl();
 
-        headerTitle = ELabel.h2("");
+        headerTitle = new MHorizontalLayout();
         header = new MHorizontalLayout(headerTitle).withStyleName("hdr-view").withFullWidth()
                 .withMargin(new MarginInfo(true, false, true, false)).expand(headerTitle);
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -81,14 +80,9 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
         CssLayout navigatorWrapper = tabSheet.getNavigatorWrapper();
         navigatorWrapper.setWidth("200px");
 
-        tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void selectedTabChange(SelectedTabChangeEvent event) {
-                Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
-                tabSheet.selectTab(((TabImpl) tab).getTabId());
-            }
+        tabSheet.addSelectedTabChangeListener(selectedTabChangeEvent -> {
+            Tab tab = ((VerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
+            tabSheet.selectTab(((TabImpl) tab).getTabId());
         });
 
         tabContent = tabSheet.getContentWrapper();
@@ -104,7 +98,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
         RightSidebarLayout bodyContainer = new RightSidebarLayout();
         bodyContainer.addStyleName(WebThemes.CONTENT_WRAPPER);
 
-        MVerticalLayout bodyContent = new MVerticalLayout(previewForm).withSpacing(false).withMargin(false).withFullWidth();
+        MVerticalLayout bodyContent = new MVerticalLayout(previewForm).withSpacing(false)
+                .withMargin(false).withFullWidth();
         bodyContainer.setContent(bodyContent);
         sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
         bodyContainer.setSidebar(sidebarContent);
@@ -146,12 +141,17 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
         previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
         previewForm.setBean(item);
 
-        headerTitle.setValue(iconResource.getHtml() + " " + initFormTitle());
+        updateHeader(initFormTitle());
         onPreviewItem();
     }
 
     public void updateTitle(String title) {
-        headerTitle.setValue(iconResource.getHtml() + " " + title);
+        updateHeader(title);
+    }
+
+    protected void updateHeader(String title) {
+        headerTitle.removeAllComponents();
+        headerTitle.with(ELabel.h2(iconResource.getHtml() + " " + title));
     }
 
     public B getBeanItem() {
@@ -179,9 +179,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
     abstract protected ComponentContainer createBottomPanel();
 
     public void addToSideBar(Component... components) {
-        for (Component component : components) {
-            sidebarContent.addComponent(component);
-        }
+        Arrays.stream(components).forEach(component -> sidebarContent.addComponent(component));
     }
 
     private void toggleFavorite() {

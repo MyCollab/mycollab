@@ -265,7 +265,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
     }
 
     @Override
-    public void queryTickets(final ProjectTicketSearchCriteria searchCriteria) {
+    public void queryTickets(ProjectTicketSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
         baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
         queryAndDisplayTickets();
@@ -297,7 +297,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
             throw new MyCollabException("Do not support group view by " + groupByState);
         }
         wrapBody.addComponent(ticketGroupOrderComponent);
-        final ProjectTicketService projectTicketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
+        ProjectTicketService projectTicketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
         int totalTasks = projectTicketService.getTotalTicketsCount(baseCriteria);
         ticketSearchPanel.setTotalCountNumber(totalTasks);
         currentPage = 0;

@@ -109,7 +109,7 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
     }
     val optionBtn = new MButton("").withIcon(resource).withStyleName(WebThemes.BUTTON_ACTION, WebThemes.BUTTON_SMALL_PADDING)
       .withDescription(description)
-    val fileDownloader: FileDownloader = new FileDownloader(new StreamResource(new DownloadStreamSource(exportType), downloadFileName))
+    val fileDownloader = new FileDownloader(new StreamResource(new DownloadStreamSource(exportType), downloadFileName))
     fileDownloader.extend(optionBtn)
     group.addButton(optionBtn)
   }

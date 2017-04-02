@@ -84,11 +84,11 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
                 public void onDeSelect() {
                     Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
                     isSelectAll = false;
-                    for (B item : currentDataList) {
+                    currentDataList.forEach(item -> {
                         item.setSelected(false);
                         CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
                         checkBox.setValueWithoutNotifyListeners(false);
-                    }
+                    });
                     checkWhetherEnableTableActionControl();
                 }
 
@@ -112,11 +112,11 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
 
     private void selectAllItemsInCurrentPage() {
         Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-        for (B item : currentDataList) {
+        currentDataList.forEach(item -> {
             item.setSelected(true);
             CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
             checkBox.setValueWithoutNotifyListeners(true);
-        }
+        });
     }
 
     public void doSearch(S searchCriteria) {

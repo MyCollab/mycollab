@@ -16,24 +16,32 @@
  */
 package com.mycollab.module.crm.view.account;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Br;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.TableViewField;
-import com.mycollab.module.crm.CrmTooltipGenerator;
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountIndustry;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.mycollab.module.crm.service.AccountService;
+import com.mycollab.module.crm.ui.components.CrmAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
-import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.UrlLink;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
 
@@ -74,9 +82,20 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
 
         addGeneratedColumn("accountname", (source, itemId, columnId) -> {
             SimpleAccount account = getBeanByIndex(itemId);
-            LabelLink b = new LabelLink(account.getAccountname(), CrmLinkBuilder.generateAccountPreviewLinkFull(account.getId()));
-            b.setDescription(CrmTooltipGenerator.generateToolTipAccount(UserUIContext.getUserLocale(), account, MyCollabUI.getSiteUrl()));
-            return b;
+            A accountLink = new A(CrmLinkBuilder.generateAccountPreviewLinkFull(account.getId())).appendText(account.getAccountname());
+            accountLink.setAttribute("onmouseover", TooltipHelper.crmHoverJsFunction(CrmTypeConstants.ACCOUNT,
+                    account.getId() + ""));
+            accountLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+            A url;
+            if (StringUtils.isNotBlank(account.getWebsite())) {
+                url = new A(account.getWebsite(), "_blank").appendText(account.getWebsite()).setCSSClass(UIConstants.META_INFO);
+            } else {
+                url = new A("").appendText("").setCSSClass(UIConstants.META_INFO);
+            }
+            Div accountDiv = new Div().appendChild(accountLink, new Br(), url);
+            ELabel b = ELabel.html(accountDiv.write());
+            return new MHorizontalLayout(CrmAssetsUtil.accountLogoComp(account, 32), b)
+                    .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false);
         });
 
         addGeneratedColumn("assignUserFullName", (source, itemId, columnId) -> {

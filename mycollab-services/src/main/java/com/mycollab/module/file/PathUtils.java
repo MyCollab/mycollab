@@ -20,7 +20,7 @@ package com.mycollab.module.file;
  * @author MyCollab Ltd
  * @since 5.0.10
  */
-public class PathUtils {
+public final class PathUtils {
     public static String buildPath(Integer sAccountId, String objectPath) {
         return ((sAccountId == null) ? "" : sAccountId + "/") + objectPath;
     }
@@ -33,7 +33,7 @@ public class PathUtils {
         return String.format("%d/.assets", accountId);
     }
 
-    public static final String getProjectDocumentPath(Integer accountId, Integer projectId) {
+    public static String getProjectDocumentPath(Integer accountId, Integer projectId) {
         return String.format("%d/project/%d/.page", accountId, projectId);
     }
 

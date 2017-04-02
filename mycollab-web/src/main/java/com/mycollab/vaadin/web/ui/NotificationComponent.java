@@ -28,7 +28,6 @@ import com.mycollab.core.NewUpdateAvailableNotification;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.shell.events.ShellEvent;
-import com.mycollab.shell.view.components.UpgradeConfirmWindow;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;

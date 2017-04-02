@@ -186,8 +186,6 @@ public class ThemeManager {
 
             extraStyles.append(".project-info .header { color: #" + accountTheme.getVtabsheettext() + "; }");
 
-            extraStyles.append(".crmContainer .navigator-wrap .basic-info { color: #" + accountTheme.getVtabsheettext() + "; }");
-
             extraStyles.append(".intro-text-wrap .v-label { color: #" + accountTheme.getVtabsheettext() + "; }");
         }
 

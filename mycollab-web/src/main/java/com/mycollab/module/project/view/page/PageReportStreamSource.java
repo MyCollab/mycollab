@@ -18,7 +18,7 @@ package com.mycollab.module.project.view.page;
 
 import com.mycollab.core.MyCollabException;
 import com.mycollab.module.page.domain.Page;
-import com.mycollab.reporting.ReportStreamSource;
+import com.mycollab.vaadin.reporting.ReportStreamSource;
 
 import java.util.Map;
 

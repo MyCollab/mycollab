@@ -30,6 +30,5 @@ public enum ClientI18nEnum {
     EDIT,
 
     OPT_NUM_PROJECTS,
-    OPT_REMOVE_CLIENT,
-    OPT_CHANGE_LOGO_HELP
+    OPT_REMOVE_CLIENT
 }

@@ -139,7 +139,7 @@ public class ActivityStreamComponent extends CssLayout {
                         currentDate = itemCreatedDate;
                     }
 
-                    StringBuffer content = new StringBuffer("");
+                    StringBuilder content = new StringBuilder("");
 
                     // --------------Item hidden div tooltip----------------
                     String type = ProjectLocalizationTypeMap.getType(activityStream.getType());
@@ -176,8 +176,8 @@ public class ActivityStreamComponent extends CssLayout {
                                 assigneeValue, type, itemLink, projectLink));
 
                         if (activityStream.getAssoAuditLog() != null) {
-                            content.append("<p><ul><li>\"").append(StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(),
-                                    200)).append("\"</li></ul></p>");
+                            content.append("<ul><li>\"").append(StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(),
+                                    200)).append("\"</li></ul>");
                         }
                     } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
                         if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {

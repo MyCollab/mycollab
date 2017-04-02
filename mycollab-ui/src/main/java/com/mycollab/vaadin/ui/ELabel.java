@@ -100,6 +100,10 @@ public class ELabel extends Label {
         return new ELabel(value, ContentMode.HTML);
     }
 
+    public static ELabel html(String value, String link) {
+        return new ELabel(new A(link).appendText(value).write(), ContentMode.HTML);
+    }
+
     public static ELabel email(String email) {
         return new ELabel(new A("mailto:" + email).appendText(MoreObjects.firstNonNull(email, "")).write(), ContentMode.HTML);
     }

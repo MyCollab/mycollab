@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.mycollab.module.crm.view.activity;
 
 import com.hp.gagawa.java.elements.*;
 import com.mycollab.common.TableViewField;
 import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.service.EventService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.user.AccountLinkGenerator;
@@ -34,10 +34,10 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
-import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Label;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,18 +83,21 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
         this.addGeneratedColumn("subject", (source, itemId, columnId) -> {
             SimpleActivity simpleEvent = getBeanByIndex(itemId);
 
-            LabelLink b = new LabelLink(simpleEvent.getSubject(), CrmLinkBuilder.generateActivityPreviewLinkFull(
-                    simpleEvent.getEventType(), simpleEvent.getId()));
             FontAwesome iconLink = CrmAssetsManager.getAsset(simpleEvent.getEventType());
-            b.setIconLink(iconLink);
+            ELabel b = ELabel.html(iconLink.getHtml() + " " + simpleEvent.getSubject(), CrmLinkBuilder.generateActivityPreviewLinkFull(
+                    simpleEvent.getEventType(), simpleEvent.getId())).withDescription(generateToolTip(simpleEvent));
 
             if (simpleEvent.isCompleted()) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
             } else if (simpleEvent.isOverdue()) {
                 b.addStyleName(WebThemes.LINK_OVERDUE);
             }
-            b.setDescription(generateToolTip(simpleEvent));
             return b;
+        });
+
+        this.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            SimpleActivity simpleEvent = getBeanByIndex(itemId);
+            return new Label(UserUIContext.getMessage(OptionI18nEnum.CallStatus.class, simpleEvent.getStatus()));
         });
     }
 
@@ -123,21 +126,21 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                     new Td().setStyle("width: 100px; vertical-align: top; text-align: right;")
                             .appendText("Start Date & Time:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(UserUIContext.formatDateTime(meeting.getStartDate())));
+                            .appendText(UserUIContext.formatDateTime(meeting.getStartDate())));
             trRow1.appendChild(
                     new Td().setStyle("width: 90px; vertical-align: top; text-align: right;").appendText("Status:"))
                     .appendChild(new Td().setStyle("width:110px; vertical-align: top; text-align: left;")
-                                    .appendText((meeting.getStatus() != null) ? meeting.getStatus() : ""));
+                            .appendText((meeting.getStatus() != null) ? meeting.getStatus() : ""));
 
             Tr trRow2 = new Tr();
             trRow2.appendChild(
                     new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("End Date & Time:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText(UserUIContext.formatDateTime(meeting.getEndDate())));
+                            .appendText(UserUIContext.formatDateTime(meeting.getEndDate())));
             trRow2.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
-                            .appendText("Location:"))
+                    .appendText("Location:"))
                     .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendText((meeting.getMeetingLocation() != null) ? meeting.getMeetingLocation() : ""));
+                            .appendText((meeting.getMeetingLocation() != null) ? meeting.getMeetingLocation() : ""));
             Tr trRow3 = new Tr();
             Td trRow3_value = new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top;")
                     .appendText(StringUtils.trimHtmlTags(meeting.getDescription()));

@@ -20,6 +20,8 @@ import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.Lead;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.vaadin.UserUIContext;
@@ -60,6 +62,10 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
         } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
             return new CountryComboBox();
         } else if (propertyId.equals("status")) {
+            B bean = attachForm.getBean();
+            if (bean.getStatus() == null) {
+                bean.setStatus(LeadStatus.New.name());
+            }
             return new LeadStatusComboBox();
         } else if (propertyId.equals("industry")) {
             return new IndustryComboBox();

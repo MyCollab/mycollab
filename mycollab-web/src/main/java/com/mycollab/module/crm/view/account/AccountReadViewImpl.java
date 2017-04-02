@@ -34,6 +34,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
@@ -115,6 +116,13 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         } else {
             return beanItem.getAccountname();
         }
+    }
+
+    @Override
+    protected void updateHeader(String title) {
+        headerTitle.removeAllComponents();
+        ELabel formTitle = ELabel.h2(title);
+        headerTitle.with(CrmAssetsUtil.editableAccountLogoComp(beanItem, 32), formTitle).expand(formTitle);
     }
 
     @Override

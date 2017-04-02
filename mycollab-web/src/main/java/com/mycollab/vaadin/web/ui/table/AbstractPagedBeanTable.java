@@ -235,18 +235,14 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
             doSearch();
 
             if (pageableHandlers != null) {
-                for (final PageableHandler handler : pageableHandlers) {
-                    handler.move(currentPage);
-                }
+                pageableHandlers.forEach(handler -> handler.move(currentPage));
             }
         }
     }
 
     public void fireSelectItemEvent(final B item) {
         if (this.selectableHandlers != null) {
-            for (final SelectableItemHandler<B> handler : this.selectableHandlers) {
-                handler.onSelect(item);
-            }
+            selectableHandlers.forEach(handler -> handler.onSelect(item));
         }
     }
 

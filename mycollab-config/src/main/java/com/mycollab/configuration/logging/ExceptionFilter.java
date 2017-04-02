@@ -31,7 +31,8 @@ public class ExceptionFilter extends Filter<ILoggingEvent> {
 
     static {
         try {
-            blacklistClasses = new Class[]{Class.forName("org.apache.jackrabbit.core.cluster.ClusterException"),
+            blacklistClasses = new Class[]{
+                    Class.forName("org.apache.jackrabbit.core.cluster.ClusterException"),
                     Class.forName("org.springframework.dao.UncategorizedDataAccessException"),
                     Class.forName("org.springframework.transaction.CannotCreateTransactionException"),
                     Class.forName("com.mycollab.core.SessionExpireException"),
@@ -39,7 +40,8 @@ public class ExceptionFilter extends Filter<ILoggingEvent> {
                     Class.forName("org.apache.commons.mail.EmailException"),
                     Class.forName("java.net.SocketTimeoutException"),
                     Class.forName("java.sql.SQLTransientConnectionException"),
-                    Class.forName("com.mysql.jdbc.exceptions.jdbc4.CommunicationsException")};
+                    Class.forName("com.mysql.jdbc.exceptions.jdbc4.CommunicationsException"),
+                    Class.forName("com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException")};
         } catch (Exception e) {
         }
     }

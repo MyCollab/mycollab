@@ -19,17 +19,10 @@ package com.mycollab.module.project.view.user;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.crm.view.account.AccountSelectionField;
-import com.mycollab.module.file.PathUtils;
-import com.mycollab.module.file.service.EntityUploaderService;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
-import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
-import com.mycollab.module.user.ui.components.ImagePreviewCropWindow;
-import com.mycollab.module.user.ui.components.UploadImageField;
-import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
@@ -39,13 +32,10 @@ import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.DoubleField;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.awt.image.BufferedImage;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -77,8 +67,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         editForm.setBean(project);
     }
 
-    class FormLayoutFactory extends AbstractFormLayoutFactory implements ImagePreviewCropWindow.ImageSelectionCommand {
-        private static final long serialVersionUID = 1L;
+    class FormLayoutFactory extends AbstractFormLayoutFactory {
 
         private ProjectInformationLayout projectInformationLayout;
 
@@ -111,12 +100,10 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
 
         private MHorizontalLayout buildHeaderTitle() {
             ELabel titleLbl = ELabel.h2(project.getName());
-            UploadImageField uploadImageField = new UploadImageField(this);
-            uploadImageField.setButtonCaption(UserUIContext.getMessage(ProjectI18nEnum.ACTION_CHANGE_LOGO));
 
-            MVerticalLayout logoLayout = new MVerticalLayout(ProjectAssetsUtil.buildProjectLogo(project.getShortname(),
-                    project.getId(), project.getAvatarid(), 100),
-                    uploadImageField).withMargin(false).withWidth("-1px").alignAll(Alignment.TOP_CENTER);
+            MVerticalLayout logoLayout = new MVerticalLayout(ProjectAssetsUtil.projectLogoComp(project.getShortname(),
+                    project.getId(), project.getAvatarid(), 32))
+                    .withMargin(false).withWidth("-1px").alignAll(Alignment.TOP_CENTER);
             return new MHorizontalLayout(logoLayout, titleLbl).expand(titleLbl);
         }
 
@@ -124,22 +111,9 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         public Component onAttachField(Object propertyId, final Field<?> field) {
             return projectInformationLayout.onAttachField(propertyId, field);
         }
-
-        @Override
-        public void process(BufferedImage image) {
-            EntityUploaderService entityUploaderService = AppContextUtil.getSpringBean(EntityUploaderService.class);
-            String newLogoId = entityUploaderService.upload(image, PathUtils.getProjectLogoPath(MyCollabUI.getAccountId(),
-                    project.getId()), project.getAvatarid(), UserUIContext.getUsername(), MyCollabUI.getAccountId(),
-                    new int[]{16, 32, 48, 64, 100});
-            ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-            project.setAvatarid(newLogoId);
-            projectService.updateSelectiveWithSession(project, UserUIContext.getUsername());
-            Page.getCurrent().getJavaScript().execute("window.location.reload();");
-        }
     }
 
     private static class ProjectInformationLayout extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
         private GridFormLayoutHelper informationLayout;
         private GridFormLayoutHelper financialLayout;
         private GridFormLayoutHelper descriptionLayout;

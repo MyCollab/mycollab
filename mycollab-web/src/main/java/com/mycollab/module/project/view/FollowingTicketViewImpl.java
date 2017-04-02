@@ -107,7 +107,8 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
 
             @Override
             protected StreamSource buildStreamSource() {
-                SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Following Tickets",
+                SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>(
+                        UserUIContext.getUserTimeZone(), UserUIContext.getUserLocale(), "Following Tickets",
                         new RpFieldsBuilder(ticketTable.getDisplayColumns()), exportType, FollowingTicket.class,
                         AppContextUtil.getSpringBean(ProjectFollowingTicketService.class));
                 //TODO: correct the report of following tickets

@@ -116,7 +116,7 @@ public class GridFormLayoutHelper implements Serializable {
                     .withWidth(defaultCaptionWidth).withFullHeight().withStyleName("gridform-caption").with(captionLbl).expand(captionLbl)
                     .withAlign(captionLbl, alignment);
             if (StringUtils.isNotBlank(contextHelp)) {
-                ELabel contextHelpLbl = new ELabel("&nbsp;" + FontAwesome.QUESTION_CIRCLE.getHtml(), ContentMode.HTML)
+                ELabel contextHelpLbl = ELabel.html("&nbsp;" + FontAwesome.QUESTION_CIRCLE.getHtml())
                         .withStyleName(WebThemes.INLINE_HELP).withDescription(contextHelp).withWidthUndefined();
                 captionWrapper.with(contextHelpLbl);
             }

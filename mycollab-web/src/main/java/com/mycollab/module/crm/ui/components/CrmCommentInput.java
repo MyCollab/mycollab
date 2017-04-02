@@ -30,6 +30,7 @@ import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -50,7 +51,7 @@ class CrmCommentInput extends MHorizontalLayout {
     private String type;
     private String typeId;
 
-    CrmCommentInput(final ReloadableComponent component, final String typeVal) {
+    CrmCommentInput(ReloadableComponent component, String typeVal) {
         super();
         this.withMargin(new MarginInfo(true, true, false, false)).withFullWidth();
 
@@ -95,9 +96,8 @@ class CrmCommentInput extends MHorizontalLayout {
             commentArea.setValue("");
             component.reload();
         }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
-        final MHorizontalLayout controlsLayout = new MHorizontalLayout(attachments, cancelBtn, newCommentBtn)
-                .expand(attachments).withFullWidth();
-        textAreaWrap.with(commentArea, controlsLayout);
+        final MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, newCommentBtn);
+        textAreaWrap.with(commentArea, attachments, controlsLayout).withAlign(controlsLayout, Alignment.TOP_RIGHT);
     }
 
     void setTypeAndId(final String typeId) {

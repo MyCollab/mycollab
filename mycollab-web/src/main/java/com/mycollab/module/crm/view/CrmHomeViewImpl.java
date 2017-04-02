@@ -23,7 +23,7 @@ import com.mycollab.module.crm.view.lead.LeadListDashlet;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.mvp.view.AbstractLazyPageView;
+import com.mycollab.vaadin.web.ui.AbstractLazyPageView;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import org.vaadin.viritin.layouts.MHorizontalLayout;

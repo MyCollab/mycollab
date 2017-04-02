@@ -69,19 +69,15 @@ public abstract class RelatedListComp2<SearchService extends ISearchableService<
         handlers.add(handler);
     }
 
-    protected void fireNewRelatedItem(final String itemId) {
+    protected void fireNewRelatedItem(String itemId) {
         if (handlers != null) {
-            for (final RelatedListHandler handler : handlers) {
-                handler.createNewRelatedItem(itemId);
-            }
+            handlers.forEach(handler -> handler.createNewRelatedItem(itemId));
         }
     }
 
-    public void fireSelectedRelatedItems(final Set selectedItems) {
+    public void fireSelectedRelatedItems(Set selectedItems) {
         if (handlers != null) {
-            for (final RelatedListHandler handler : handlers) {
-                handler.selectAssociateItems(selectedItems);
-            }
+            handlers.forEach(handler -> handler.selectAssociateItems(selectedItems));
         }
     }
 }

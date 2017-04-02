@@ -40,6 +40,26 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.4.8
+-------------
+
+**Library Upgrades**
+
+* Jackrabbit 2.15.1
+* HikariCP 2.6.1, Cglib 3.2.5
+
+**Improvements & New Features**
+
+* Theme modification
+* Allow upload icons for CRM account
+* Several minor bug fixes
+
+**Bug Fixes**
+
+* [Premium] Can not edit bug in the mobile application
+* Export files may fail to export wrong file type
+
+
 Version 5.4.7
 -------------
 

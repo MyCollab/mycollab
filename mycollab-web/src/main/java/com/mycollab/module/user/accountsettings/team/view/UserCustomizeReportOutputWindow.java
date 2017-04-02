@@ -24,7 +24,7 @@ import com.mycollab.module.user.accountsettings.view.UserTableFieldDef;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.mycollab.module.user.service.UserService;
-import com.mycollab.reporting.CustomizeReportOutputWindow;
+import com.mycollab.vaadin.reporting.CustomizeReportOutputWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import org.joda.time.LocalDate;
