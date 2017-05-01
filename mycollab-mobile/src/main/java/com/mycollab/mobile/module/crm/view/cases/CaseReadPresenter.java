@@ -19,19 +19,14 @@ package com.mycollab.mobile.module.crm.view.cases;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.mycollab.mobile.module.crm.events.CaseEvent;
-import com.mycollab.mobile.module.crm.events.ContactEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
-import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
-import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.mycollab.module.crm.service.CaseService;
-import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
@@ -39,14 +34,8 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.RelatedListHandler;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
-
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
@@ -129,61 +118,6 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
                 }
             }
         });
-        view.getRelatedContactHandlers().addRelatedListHandler(
-                new RelatedListHandler<SimpleContact>() {
-
-                    @Override
-                    public void selectAssociateItems(Set<SimpleContact> items) {
-                        List<ContactCase> associateContacts = new ArrayList<>();
-                        SimpleCase cases = view.getItem();
-                        for (SimpleContact contact : items) {
-                            ContactCase associateContact = new ContactCase();
-                            associateContact.setCaseid(cases.getId());
-                            associateContact.setContactid(contact.getId());
-                            associateContact.setCreatedtime(new GregorianCalendar().getTime());
-                            associateContacts.add(associateContact);
-                        }
-
-                        ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                        contactService.saveContactCaseRelationship(associateContacts, MyCollabUI.getAccountId());
-                        EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-                    }
-
-                    @Override
-                    public void createNewRelatedItem(String itemId) {
-                        SimpleContact contact = new SimpleContact();
-                        contact.setExtraData(view.getItem());
-                        EventBusFactory.getInstance().post(new ContactEvent.GotoEdit(CaseReadPresenter.this, contact));
-                    }
-                });
-        view.getRelatedActivityHandlers().addRelatedListHandler(
-                new RelatedListHandler<SimpleActivity>() {
-
-                    @Override
-                    public void selectAssociateItems(Set<SimpleActivity> items) {
-
-                    }
-
-                    @Override
-                    public void createNewRelatedItem(String itemId) {
-                        if (itemId.equals(CrmTypeConstants.TASK)) {
-                            final SimpleCrmTask task = new SimpleCrmTask();
-                            task.setType(CrmTypeConstants.ACCOUNT);
-                            task.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(CaseReadPresenter.this, task));
-                        } else if (itemId.equals(CrmTypeConstants.MEETING)) {
-                            final SimpleMeeting meeting = new SimpleMeeting();
-                            meeting.setType(CrmTypeConstants.ACCOUNT);
-                            meeting.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(CaseReadPresenter.this, meeting));
-                        } else if (itemId.equals(CrmTypeConstants.CALL)) {
-                            final SimpleCall call = new SimpleCall();
-                            call.setType(CrmTypeConstants.ACCOUNT);
-                            call.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(CaseReadPresenter.this, call));
-                        }
-                    }
-                });
     }
 
     @Override

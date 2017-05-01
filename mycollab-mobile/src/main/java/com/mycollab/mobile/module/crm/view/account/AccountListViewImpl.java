@@ -16,39 +16,41 @@
  */
 package com.mycollab.mobile.module.crm.view.account;
 
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.AccountEvent;
-import com.mycollab.mobile.module.crm.ui.AbstractListViewComp;
+import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Component;
-import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
  * @since 3.0
  */
 @ViewComponent
-public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements AccountListView {
+public class AccountListViewImpl extends AbstractListPageView<AccountSearchCriteria, SimpleAccount> implements AccountListView {
     private static final long serialVersionUID = -500810154594390148L;
 
     public AccountListViewImpl() {
-        super();
         setCaption(UserUIContext.getMessage(AccountI18nEnum.LIST));
     }
 
     @Override
-    protected AbstractPagedBeanList<AccountSearchCriteria, SimpleAccount> createBeanTable() {
+    protected AbstractPagedBeanList<AccountSearchCriteria, SimpleAccount> createBeanList() {
         return new AccountListDisplay();
     }
 
     @Override
-    protected Component createRightComponent() {
-        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null)))
-                .withStyleName("add-btn");
+    public void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment("crm/account/list", UserUIContext.getMessage(AccountI18nEnum.LIST));
+    }
+
+    @Override
+    protected SearchInputField<AccountSearchCriteria> createSearchField() {
+        return null;
     }
 }

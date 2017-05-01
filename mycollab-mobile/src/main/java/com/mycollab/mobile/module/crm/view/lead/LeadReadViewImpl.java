@@ -26,8 +26,6 @@ import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.IconConstants;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.SimpleActivity;
-import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -37,7 +35,6 @@ import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
@@ -109,7 +106,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
                 + UserUIContext.getMessage(CampaignI18nEnum.LIST)
                 + "</div>");
         relatedCampaigns.setHtmlContentAllowed(true);
-        relatedCampaigns.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(
+        relatedCampaigns.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoRelatedItems(
                 LeadReadViewImpl.this, new CrmRelatedItemsScreenData(associateCampaigns))));
         toolbarLayout.addComponent(relatedCampaigns);
 
@@ -120,21 +117,11 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
                 + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(this,
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateActivities))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-        return associateActivities;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers() {
-        return associateCampaigns;
     }
 
     @Override

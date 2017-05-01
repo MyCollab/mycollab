@@ -16,28 +16,16 @@
  */
 package com.mycollab.mobile.module.crm.view.opportunity;
 
-import com.mycollab.module.crm.domain.SimpleActivity;
-import com.mycollab.module.crm.domain.SimpleContact;
-import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.IPreviewView;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public interface OpportunityReadView extends IPreviewView<SimpleOpportunity> {
 
-	HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers();
-
-	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
-
-	IRelatedListHandlers<SimpleContact> getRelatedContactHandlers();
-
-	IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers();
+    HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers();
 
 }

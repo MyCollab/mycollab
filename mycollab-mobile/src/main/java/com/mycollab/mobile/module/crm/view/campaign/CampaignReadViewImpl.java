@@ -26,7 +26,7 @@ import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.IconConstants;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -37,7 +37,6 @@ import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
@@ -115,7 +114,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
                 + UserUIContext.getMessage(AccountI18nEnum.LIST)
                 + "</div>");
         relatedAccounts.setHtmlContentAllowed(true);
-        relatedAccounts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GoToRelatedItems(this,
+        relatedAccounts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateAccounts))));
         toolbarLayout.addComponent(relatedAccounts);
 
@@ -126,7 +125,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
                 + UserUIContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
-        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GoToRelatedItems(this,
+        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateContacts))));
         toolbarLayout.addComponent(relatedContacts);
 
@@ -136,7 +135,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
                 + "\"></span><div class=\"screen-reader-text\">"
                 + UserUIContext.getMessage(LeadI18nEnum.LIST) + "</div>");
         relatedLeads.setHtmlContentAllowed(true);
-        relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GoToRelatedItems(this,
+        relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateLeads))));
         toolbarLayout.addComponent(relatedLeads);
 
@@ -147,31 +146,11 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
                 + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GoToRelatedItems(this,
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateActivities))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-        return associateActivities;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleAccount> getRelatedAccountHandlers() {
-        return associateAccounts;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-        return associateContacts;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
-        return associateLeads;
     }
 
     @Override

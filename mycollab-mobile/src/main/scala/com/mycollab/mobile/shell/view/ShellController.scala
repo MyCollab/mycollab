@@ -20,6 +20,7 @@ import com.google.common.eventbus.Subscribe
 import com.mycollab.core.utils.ScalaUtils
 import com.mycollab.eventmanager.ApplicationEventListener
 import com.mycollab.mobile.MobileApplication
+import com.mycollab.mobile.module.crm.CrmModuleScreenData
 import com.mycollab.mobile.module.crm.view.CrmModulePresenter
 import com.mycollab.mobile.module.project.ProjectModuleScreenData
 import com.mycollab.mobile.module.project.view.ProjectModulePresenter
@@ -60,7 +61,8 @@ class ShellController(val mainNav: NavigationManager) extends AbstractController
     this.register(new ApplicationEventListener[ShellEvent.GotoCrmModule]() {
       @Subscribe def handle(event: ShellEvent.GotoCrmModule) {
         val presenter = PresenterResolver.getPresenter(classOf[CrmModulePresenter])
-        presenter.go(mainNav, null)
+        val screenData = new CrmModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
+        presenter.go(mainNav, screenData)
       }
     })
     this.register(new ApplicationEventListener[ShellEvent.GotoProjectModule]() {

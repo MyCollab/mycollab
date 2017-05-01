@@ -1,5 +1,0 @@
-/* InfiniteScrollLayout */
-.v-csslayout.v-scrolllayout {
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-}

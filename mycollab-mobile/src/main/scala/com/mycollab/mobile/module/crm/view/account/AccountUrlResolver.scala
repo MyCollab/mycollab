@@ -57,5 +57,4 @@ class AccountUrlResolver extends CrmUrlResolver {
       EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, accountId))
     }
   }
-  
 }

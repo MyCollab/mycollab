@@ -73,12 +73,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>loginform</artifactId>
-            <version>0.6.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiler</artifactId>
             <version>${vaadinVersion}</version>
@@ -308,12 +302,18 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-clean-plugin</artifactId>
-                        <version>2.6.1</version>
+                        <version>3.0.0</version>
+                        <!-- Clean up also any pre-compiled themes -->
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>src/main/webapp/VAADIN/widgetsets</directory>
+                                    <directory>src/main/webapp/VAADIN/themes</directory>
+                                    <includes>
+                                        <include>**/styles.css</include>
+                                        <include>**/styles.scss.cache</include>
+                                    </includes>
                                 </fileset>
                             </filesets>
                         </configuration>
@@ -322,45 +322,14 @@
                         <groupId>com.vaadin</groupId>
                         <artifactId>vaadin-maven-plugin</artifactId>
                         <version>${vaadinVersion}</version>
-                        <configuration>
-                            <extraJvmArgs>-Xmx1024M -Xss2048k</extraJvmArgs>
-                            <!-- <runTarget>mobilemail</runTarget> -->
-                            <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. 
-                                This way compatible with Vaadin eclipse plugin. -->
-                            <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets
-                            </webappDirectory>
-                            <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
-                            </hostedWebapp>
-                            <!-- Most Vaadin apps don't need this stuff, 
-                                guide that to target -->
-                            <persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
-                            <deploy>${project.build.directory}/gwt-deploy</deploy>
-                            <!-- Compile report is not typically needed either, 
-                                saves hunreds of mb disk -->
-                            <compileReport>false</compileReport>
-                            <noServer>true</noServer>
-                            <!-- Remove draftCompile when project is ready -->
-                            <draftCompile>false</draftCompile>
-
-                            <style>OBF</style>
-                            <runTarget>http://localhost:8080/</runTarget>
-                        </configuration>
                         <executions>
                             <execution>
-                                <configuration>
-                                    <!-- if you don't specify any modules, the plugin will find them -->
-                                    <modules>
-                                        <module>com.mycollab.widgetset.MyCollabMobileWidgetSet</module>
-                                        <module>com.mycollab.widgetset.MyCollabWidgetSet</module>
-                                    </modules>
-                                </configuration>
                                 <goals>
-                                    <goal>clean</goal>
-                                    <goal>resources</goal>
                                     <goal>update-theme</goal>
                                     <goal>update-widgetset</goal>
-                                    <goal>compile-theme</goal>
                                     <goal>compile</goal>
+                                    <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
+                                    <goal>compile-theme</goal>
                                 </goals>
                             </execution>
                         </executions>

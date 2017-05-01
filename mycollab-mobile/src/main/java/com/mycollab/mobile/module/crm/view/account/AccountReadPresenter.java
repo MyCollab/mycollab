@@ -19,17 +19,15 @@ package com.mycollab.mobile.module.crm.view.account;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.*;
+import com.mycollab.mobile.module.crm.events.AccountEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
-import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
-import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.Account;
+import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.service.AccountService;
-import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.MyCollabUI;
@@ -37,14 +35,8 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.RelatedListHandler;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
-
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
@@ -121,113 +113,6 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                 }
             }
         });
-
-        view.getRelatedCaseHandlers().addRelatedListHandler(new RelatedListHandler<SimpleCase>() {
-
-            @Override
-            public void selectAssociateItems(Set<SimpleCase> items) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void createNewRelatedItem(String itemId) {
-                SimpleCase cases = new SimpleCase();
-                cases.setAccountid(view.getItem().getId());
-                EventBusFactory.getInstance().post(new CaseEvent.GotoEdit(this, cases));
-            }
-        });
-        view.getRelatedContactHandlers().addRelatedListHandler(new RelatedListHandler<SimpleContact>() {
-
-            @Override
-            public void createNewRelatedItem(String itemId) {
-                SimpleContact contact = new SimpleContact();
-                contact.setAccountid(view.getItem().getId());
-                EventBusFactory.getInstance().post(new ContactEvent.GotoEdit(this, contact));
-            }
-
-            @Override
-            public void selectAssociateItems(Set<SimpleContact> items) {
-                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                SimpleAccount account = view.getItem();
-                for (SimpleContact contact : items) {
-                    contact.setAccountid(account.getId());
-                    contactService.updateWithSession(contact, UserUIContext.getUsername());
-                }
-
-                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-            }
-
-        });
-        view.getRelatedLeadHandlers().addRelatedListHandler(new RelatedListHandler<SimpleLead>() {
-
-            @Override
-            public void selectAssociateItems(Set<SimpleLead> items) {
-                SimpleAccount account = view.getItem();
-                List<AccountLead> associateLeads = new ArrayList<>();
-                for (SimpleLead contact : items) {
-                    AccountLead assoLead = new AccountLead();
-                    assoLead.setAccountid(account.getId());
-                    assoLead.setLeadid(contact.getId());
-                    assoLead.setCreatetime(new GregorianCalendar().getTime());
-                    associateLeads.add(assoLead);
-                }
-
-                AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                accountService.saveAccountLeadRelationship(associateLeads, MyCollabUI.getAccountId());
-
-                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-            }
-
-            @Override
-            public void createNewRelatedItem(String itemId) {
-                SimpleLead lead = new SimpleLead();
-                lead.setAccountname(view.getItem().getAccountname());
-                EventBusFactory.getInstance().post(new LeadEvent.GotoEdit(this, lead));
-            }
-        });
-        view.getRelatedOpportunityHandlers().addRelatedListHandler(new RelatedListHandler<SimpleOpportunity>() {
-
-            @Override
-            public void selectAssociateItems(Set<SimpleOpportunity> items) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void createNewRelatedItem(String itemId) {
-                SimpleOpportunity opportunity = new SimpleOpportunity();
-                opportunity.setAccountid(view.getItem().getId());
-                EventBusFactory.getInstance().post(new OpportunityEvent.GotoEdit(this, opportunity));
-            }
-        });
-        view.getRelatedActivityHandlers().addRelatedListHandler(new RelatedListHandler<SimpleActivity>() {
-
-            @Override
-            public void selectAssociateItems(Set<SimpleActivity> items) {
-
-            }
-
-            @Override
-            public void createNewRelatedItem(String itemId) {
-                if (itemId.equals(CrmTypeConstants.TASK)) {
-                    final SimpleCrmTask task = new SimpleCrmTask();
-                    task.setType(CrmTypeConstants.ACCOUNT);
-                    task.setTypeid(view.getItem().getId());
-                    EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(AccountReadPresenter.this, task));
-                } else if (itemId.equals(CrmTypeConstants.MEETING)) {
-                    final SimpleMeeting meeting = new SimpleMeeting();
-                    meeting.setType(CrmTypeConstants.ACCOUNT);
-                    meeting.setTypeid(view.getItem().getId());
-                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(AccountReadPresenter.this, meeting));
-                } else if (itemId.equals(CrmTypeConstants.CALL)) {
-                    final SimpleCall call = new SimpleCall();
-                    call.setType(CrmTypeConstants.ACCOUNT);
-                    call.setTypeid(view.getItem().getId());
-                    EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(AccountReadPresenter.this, call));
-                }
-            }
-        });
-
     }
 
     @Override

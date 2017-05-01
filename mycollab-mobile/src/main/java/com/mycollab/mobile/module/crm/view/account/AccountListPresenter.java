@@ -19,9 +19,6 @@ package com.mycollab.mobile.module.crm.view.account;
 import com.mycollab.mobile.module.crm.ui.CrmListPresenter;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.MyCollabUI;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.HasComponents;
 
@@ -39,7 +36,5 @@ public class AccountListPresenter extends CrmListPresenter<AccountListView, Acco
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         super.onGo(container, data);
-        MyCollabUI.addFragment("crm/account/list", UserUIContext.getMessage(AccountI18nEnum.LIST));
     }
-
 }

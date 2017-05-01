@@ -87,7 +87,6 @@ public class MobileApplication extends MyCollabUI {
         // Maintain the session when the browser app closes
         offlineMode.setPersistentSessionCookie(true);
 
-
         // Define the timeout in secs to wait when a server
         // request is sent before falling back to offline mode
         offlineMode.setOfflineModeTimeout(15);

@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.crm.view.lead;
+package com.mycollab.mobile.module.crm.events
 
-import com.mycollab.module.crm.domain.SimpleLead;
-import com.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.mycollab.vaadin.mvp.IPreviewView;
+import com.mycollab.events.ApplicationEvent
 
 /**
- * @author MyCollab Ltd.
- * @since 4.1
- */
-public interface LeadReadView extends IPreviewView<SimpleLead> {
-    HasPreviewFormHandlers<SimpleLead> getPreviewFormHandlers();
+  * @author MyCollab Ltd
+  * @since 5.4.9
+  */
+object CrmEvent {
+
+  class GotoContainer(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

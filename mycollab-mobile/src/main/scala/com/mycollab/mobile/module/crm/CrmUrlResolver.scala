@@ -27,8 +27,6 @@ import com.mycollab.mobile.module.crm.view.lead.LeadUrlResolver
 import com.mycollab.mobile.module.crm.view.opportunity.OpportunityUrlResolver
 import com.mycollab.mobile.shell.ModuleHelper
 import com.mycollab.mobile.shell.events.ShellEvent
-import com.mycollab.module.crm.i18n.AccountI18nEnum
-import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.mvp.UrlResolver
 
 /**
@@ -37,6 +35,7 @@ import com.mycollab.vaadin.mvp.UrlResolver
   */
 class CrmUrlResolver extends UrlResolver {
   def build: UrlResolver = {
+    this.addSubResolver("dashboard", new DashboardUrlResolver)
     this.addSubResolver("account", new AccountUrlResolver)
     this.addSubResolver("contact", new ContactUrlResolver)
     this.addSubResolver("campaign", new CampaignUrlResolver)
@@ -44,7 +43,7 @@ class CrmUrlResolver extends UrlResolver {
     this.addSubResolver("opportunity", new OpportunityUrlResolver)
     this.addSubResolver("cases", new CaseUrlResolver)
     this.addSubResolver("activity", new ActivityUrlResolver)
-    return this
+    this
   }
 
   override def handle(params: String*) {
@@ -58,11 +57,17 @@ class CrmUrlResolver extends UrlResolver {
 
   protected override def handlePage(params: String*) {
     super.handlePage(params: _*)
-    EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-      new CrmModuleScreenData.GotoModule(UserUIContext.getMessage(AccountI18nEnum.LIST))))
+    EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null))
   }
 
   protected def defaultPageErrorHandler() {
     EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null))
   }
+
+  class DashboardUrlResolver extends CrmUrlResolver {
+    protected override def handlePage(params: String*) {
+      EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this, null))
+    }
+  }
+
 }

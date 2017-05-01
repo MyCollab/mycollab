@@ -19,14 +19,14 @@ package com.mycollab.mobile.module.crm.view.account;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.form.view.DynaFormLayout;
 import com.mycollab.mobile.module.crm.events.AccountEvent;
-import com.mycollab.mobile.module.crm.ui.CrmAbstractPreviewItemComp;
 import com.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
 import com.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
+import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.IconConstants;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
@@ -37,18 +37,16 @@ import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
 @ViewComponent
-public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccount> implements AccountReadView {
+public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> implements AccountReadView {
     private static final long serialVersionUID = -5987636662071328512L;
 
     private AccountRelatedContactView associateContacts;
@@ -107,9 +105,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        HorizontalLayout toolbarLayout = new HorizontalLayout();
-        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        toolbarLayout.setSpacing(true);
+        MVerticalLayout toolbarLayout = new MVerticalLayout().withFullWidth().withSpacing(false).withMargin(false);
 
         Button relatedContacts = new Button();
         relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
@@ -118,7 +114,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
                 + UserUIContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
-        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(
+        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRelatedItems(
                 this, new CrmRelatedItemsScreenData(associateContacts))));
         toolbarLayout.addComponent(relatedContacts);
 
@@ -130,7 +126,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
                         + UserUIContext.getMessage(OpportunityI18nEnum.LIST)
                         + "</div>");
         relatedOpportunities.setHtmlContentAllowed(true);
-        relatedOpportunities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(this,
+        relatedOpportunities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateOpportunities))));
         toolbarLayout.addComponent(relatedOpportunities);
 
@@ -140,7 +136,7 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
                 + "\"></span><div class=\"screen-reader-text\">"
                 + UserUIContext.getMessage(LeadI18nEnum.LIST) + "</div>");
         relatedLeads.setHtmlContentAllowed(true);
-        relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(this,
+        relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateLeads))));
         toolbarLayout.addComponent(relatedLeads);
 
@@ -151,36 +147,11 @@ public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccoun
                 + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(this,
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new AccountEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateActivities))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-        return associateContacts;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers() {
-        return associateOpportunities;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
-        return associateLeads;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleCase> getRelatedCaseHandlers() {
-        return associateCases;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-        return associateActivities;
     }
 
     @Override

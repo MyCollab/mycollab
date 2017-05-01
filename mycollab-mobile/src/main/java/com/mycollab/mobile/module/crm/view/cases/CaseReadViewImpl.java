@@ -26,9 +26,7 @@ import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.IconConstants;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.SimpleCase;
-import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
@@ -37,7 +35,6 @@ import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
@@ -108,7 +105,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
                 + UserUIContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
-        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GoToRelatedItems(this,
+        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateContacts))));
         toolbarLayout.addComponent(relatedContacts);
 
@@ -119,21 +116,11 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
                 + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GoToRelatedItems(this,
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateActivities))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-        return associateActivities;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-        return associateContacts;
     }
 
     @Override

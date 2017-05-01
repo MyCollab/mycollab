@@ -103,5 +103,4 @@ class ProjectUrlResolver extends UrlResolver {
       }
     }
   }
-
 }

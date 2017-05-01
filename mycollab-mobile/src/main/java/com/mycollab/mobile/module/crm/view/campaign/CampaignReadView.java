@@ -16,29 +16,14 @@
  */
 package com.mycollab.mobile.module.crm.view.campaign;
 
-import com.mycollab.module.crm.domain.SimpleAccount;
-import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.SimpleCampaign;
-import com.mycollab.module.crm.domain.SimpleContact;
-import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.IPreviewView;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public interface CampaignReadView extends IPreviewView<SimpleCampaign> {
-	HasPreviewFormHandlers<SimpleCampaign> getPreviewFormHandlers();
-
-	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
-
-	IRelatedListHandlers<SimpleAccount> getRelatedAccountHandlers();
-
-	IRelatedListHandlers<SimpleContact> getRelatedContactHandlers();
-
-	IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers();
+    HasPreviewFormHandlers<SimpleCampaign> getPreviewFormHandlers();
 }

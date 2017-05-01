@@ -19,6 +19,7 @@ package com.mycollab.mobile.module.crm.view;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.mobile.mvp.AbstractPresenter;
 import com.mycollab.vaadin.mvp.PageView;
+import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.HasComponents;
@@ -35,7 +36,12 @@ public class AbstractCrmPresenter<V extends PageView> extends AbstractPresenter<
     @Override
     protected void onGo(HasComponents navigator, ScreenData<?> data) {
         if (navigator instanceof NavigationManager) {
-            ((NavigationManager) navigator).navigateTo(view);
+            NavigationManager navManager = ((NavigationManager) navigator);
+            navManager.navigateTo(view);
+            if (navManager.getPreviousComponent() == null) {
+                CrmContainerPresenter crmContainer = PresenterResolver.getPresenter(CrmContainerPresenter.class);
+                navManager.setPreviousComponent(crmContainer.getView());
+            }
         } else {
             throw new MyCollabException("Invalid flow");
         }

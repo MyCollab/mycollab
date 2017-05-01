@@ -37,7 +37,7 @@ class CampaignUrlResolver extends CrmUrlResolver {
   class CampaignListUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
       EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-        new CrmModuleScreenData.GotoModule(UserUIContext.getMessage(CampaignI18nEnum.LIST))))
+        new CrmModuleScreenData.GotoModule(Array())))
     }
   }
   

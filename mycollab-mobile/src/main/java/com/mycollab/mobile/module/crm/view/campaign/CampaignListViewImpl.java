@@ -18,11 +18,13 @@ package com.mycollab.mobile.module.crm.view.campaign;
 
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.CampaignEvent;
-import com.mycollab.mobile.module.crm.ui.AbstractListViewComp;
+import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Component;
@@ -33,23 +35,27 @@ import org.vaadin.viritin.button.MButton;
  * @since 4.0
  */
 @ViewComponent
-public class CampaignListViewImpl extends AbstractListViewComp<CampaignSearchCriteria, SimpleCampaign> implements CampaignListView {
+public class CampaignListViewImpl extends AbstractListPageView<CampaignSearchCriteria, SimpleCampaign> implements CampaignListView {
     private static final long serialVersionUID = -8743010493576179868L;
 
     public CampaignListViewImpl() {
-        super();
         setCaption(UserUIContext.getMessage(CampaignI18nEnum.LIST));
     }
 
     @Override
-    protected AbstractPagedBeanList<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
+    protected AbstractPagedBeanList<CampaignSearchCriteria, SimpleCampaign> createBeanList() {
         return new CampaignListDisplay();
     }
 
     @Override
-    protected Component createRightComponent() {
+    protected SearchInputField<CampaignSearchCriteria> createSearchField() {
+        return null;
+    }
+
+    @Override
+    protected Component buildRightComponent() {
         return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null)))
-                .withStyleName("add-btn");
+                .withStyleName("add-btn").withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
     }
 
 }

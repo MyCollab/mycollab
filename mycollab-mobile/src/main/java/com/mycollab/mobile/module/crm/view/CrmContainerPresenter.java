@@ -58,7 +58,7 @@ public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView
             return;
         }
 
-        String submodule = ((CrmModuleScreenData.GotoModule) data).getParams();
+        String[] submodule = ((CrmModuleScreenData.GotoModule) data).getParams();
         if (UserUIContext.getMessage(AccountI18nEnum.LIST).equals(submodule)) {
             view.goToAccounts();
         } else if (UserUIContext.getMessage(ContactI18nEnum.LIST).equals(submodule)) {

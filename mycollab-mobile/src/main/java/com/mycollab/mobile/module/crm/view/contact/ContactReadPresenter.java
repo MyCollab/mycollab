@@ -19,15 +19,11 @@ package com.mycollab.mobile.module.crm.view.contact;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.mycollab.mobile.module.crm.events.ContactEvent;
-import com.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
-import com.mycollab.mobile.shell.events.ShellEvent;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
-import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactService;
@@ -38,14 +34,8 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.RelatedListHandler;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
-
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
@@ -126,70 +116,11 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
                 }
             }
         });
-        view.getRelatedOpportunityHandlers().addRelatedListHandler(new RelatedListHandler<SimpleOpportunity>() {
-
-            @Override
-            public void selectAssociateItems(Set<SimpleOpportunity> items) {
-                SimpleContact contact = view.getItem();
-                List<ContactOpportunity> associateOpportunities = new ArrayList<>();
-                for (SimpleOpportunity opportunity : items) {
-                    ContactOpportunity assoOpportunity = new ContactOpportunity();
-                    assoOpportunity.setOpportunityid(opportunity.getId());
-                    assoOpportunity.setContactid(contact.getId());
-                    assoOpportunity.setCreatedtime(new GregorianCalendar().getTime());
-                    associateOpportunities.add(assoOpportunity);
-                }
-
-                ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                contactService.saveContactOpportunityRelationship(
-                        associateOpportunities, MyCollabUI.getAccountId());
-
-                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-            }
-
-            @Override
-            public void createNewRelatedItem(String itemId) {
-                SimpleOpportunity opportunity = new SimpleOpportunity();
-                opportunity.setExtraData(view.getItem());
-                EventBusFactory.getInstance().post(new OpportunityEvent.GotoEdit(ContactReadPresenter.this, opportunity));
-            }
-        });
-        view.getRelatedActivityHandlers().addRelatedListHandler(new RelatedListHandler<SimpleActivity>() {
-            @Override
-            public void selectAssociateItems(Set<SimpleActivity> items) {
-
-            }
-
-            @Override
-            public void createNewRelatedItem(String itemId) {
-                if (itemId.equals(CrmTypeConstants.TASK)) {
-                    SimpleCrmTask task = new SimpleCrmTask();
-                    task.setType(CrmTypeConstants.ACCOUNT);
-                    task.setTypeid(view.getItem().getId());
-                    EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(ContactReadPresenter.this, task));
-                } else if (itemId.equals(CrmTypeConstants.MEETING)) {
-                    final SimpleMeeting meeting = new SimpleMeeting();
-                    meeting.setType(CrmTypeConstants.ACCOUNT);
-                    meeting.setTypeid(view.getItem().getId());
-                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(ContactReadPresenter.this, meeting));
-                } else if (itemId.equals(CrmTypeConstants.CALL)) {
-                    final SimpleCall call = new SimpleCall();
-                    call.setType(CrmTypeConstants.ACCOUNT);
-                    call.setTypeid(view.getItem().getId());
-                    EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(ContactReadPresenter.this, call));
-                }
-            }
-        });
     }
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
-            /*
-             * CrmNavigationMenu crmToolbar = (CrmNavigationMenu) container
-			 * .getNavigationMenu(); crmToolbar.selectButton(UserUIContext
-			 * .getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
-			 */
 
             if (data.getParams() instanceof Integer) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);

@@ -26,9 +26,6 @@ import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.IconConstants;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.domain.SimpleActivity;
-import com.mycollab.module.crm.domain.SimpleContact;
-import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -39,7 +36,6 @@ import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
@@ -113,7 +109,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
                 + UserUIContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
-        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+        relatedContacts.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateContacts))));
         toolbarLayout.addComponent(relatedContacts);
 
@@ -123,7 +119,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
                 + "\"></span><div class=\"screen-reader-text\">"
                 + UserUIContext.getMessage(LeadI18nEnum.LIST) + "</div>");
         relatedLeads.setHtmlContentAllowed(true);
-        relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+        relatedLeads.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateLeads))));
         toolbarLayout.addComponent(relatedLeads);
 
@@ -134,26 +130,11 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
                 + UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
                 + "</div>");
         relatedActivities.setHtmlContentAllowed(true);
-        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+        relatedActivities.addClickListener(clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoRelatedItems(this,
                 new CrmRelatedItemsScreenData(associateActivities))));
         toolbarLayout.addComponent(relatedActivities);
 
         return toolbarLayout;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-        return associateActivities;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-        return associateContacts;
-    }
-
-    @Override
-    public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
-        return associateLeads;
     }
 
     @Override

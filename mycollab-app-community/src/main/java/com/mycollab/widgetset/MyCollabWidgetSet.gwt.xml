@@ -15,7 +15,7 @@
 
     <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
 
-    <inherits name="org.vaadin.risto.stylecalendar.widgetset.StyleCalendarWidgetset" />
+    <inherits name="org.vaadin.risto.stylecalendar.StyleCalendarWidgetset" />
 
     <inherits name="com.vaadin.DefaultWidgetSet" />
 

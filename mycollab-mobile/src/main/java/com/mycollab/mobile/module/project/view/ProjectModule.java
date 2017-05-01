@@ -16,7 +16,6 @@
  */
 package com.mycollab.mobile.module.project.view;
 
-import com.mycollab.mobile.module.project.view.ProjectModuleController;
 import com.mycollab.mobile.ui.AbstractMobileMenuPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.IModule;

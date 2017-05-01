@@ -38,16 +38,16 @@ class PageActionChain {
 
   def add(pageAction: ScreenData[_]): PageActionChain = {
     chains += pageAction
-    return this
+    this
   }
 
   def pop: ScreenData[_] = {
     if (chains.size > 0) {
       val pageAction = chains(0)
       chains.remove(0)
-      return pageAction
+      pageAction
     }
-    else return null
+    else null
   }
 
   def peek: ScreenData[_] = chains(0)

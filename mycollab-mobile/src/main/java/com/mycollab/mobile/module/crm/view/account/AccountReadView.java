@@ -16,10 +16,9 @@
  */
 package com.mycollab.mobile.module.crm.view.account;
 
+import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.IPreviewView;
-import com.mycollab.vaadin.ui.IRelatedListHandlers;
-import com.mycollab.module.crm.domain.*;
 
 /**
  * @author MyCollab Ltd.
@@ -27,14 +26,4 @@ import com.mycollab.module.crm.domain.*;
  */
 public interface AccountReadView extends IPreviewView<SimpleAccount> {
     HasPreviewFormHandlers<SimpleAccount> getPreviewFormHandlers();
-
-    IRelatedListHandlers<SimpleContact> getRelatedContactHandlers();
-
-    IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers();
-
-    IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers();
-
-    IRelatedListHandlers<SimpleCase> getRelatedCaseHandlers();
-
-    IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
 }

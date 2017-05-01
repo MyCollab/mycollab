@@ -16,6 +16,7 @@
  */
 package com.mycollab.mobile.module.crm.view;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
 import com.mycollab.mobile.module.crm.CrmModuleScreenData;
@@ -25,6 +26,7 @@ import com.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
 import com.mycollab.mobile.module.crm.view.account.AccountAddPresenter;
 import com.mycollab.mobile.module.crm.view.account.AccountListPresenter;
 import com.mycollab.mobile.module.crm.view.account.AccountReadPresenter;
+import com.mycollab.mobile.module.crm.view.activity.*;
 import com.mycollab.mobile.module.crm.view.campaign.CampaignAddPresenter;
 import com.mycollab.mobile.module.crm.view.campaign.CampaignListPresenter;
 import com.mycollab.mobile.module.crm.view.campaign.CampaignReadPresenter;
@@ -40,14 +42,12 @@ import com.mycollab.mobile.module.crm.view.lead.LeadReadPresenter;
 import com.mycollab.mobile.module.crm.view.opportunity.OpportunityAddPresenter;
 import com.mycollab.mobile.module.crm.view.opportunity.OpportunityListPresenter;
 import com.mycollab.mobile.module.crm.view.opportunity.OpportunityReadPresenter;
+import com.mycollab.module.crm.domain.*;
+import com.mycollab.module.crm.domain.criteria.*;
 import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.mvp.AbstractController;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.google.common.eventbus.Subscribe;
-import com.mycollab.mobile.module.crm.view.activity.*;
-import com.mycollab.module.crm.domain.*;
-import com.mycollab.module.crm.domain.criteria.*;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 
 /**
@@ -106,10 +106,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(AccountEvent.GotoAdd event) {
-                AccountAddPresenter presenter = PresenterResolver
-                        .getPresenter(AccountAddPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Add<SimpleAccount>(new SimpleAccount()));
+                AccountAddPresenter presenter = PresenterResolver.getPresenter(AccountAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleAccount()));
             }
         });
 
@@ -135,12 +133,12 @@ public class CrmModuleController extends AbstractController {
             }
         });
 
-        this.register(new ApplicationEventListener<AccountEvent.GoToRelatedItems>() {
+        this.register(new ApplicationEventListener<AccountEvent.GotoRelatedItems>() {
             private static final long serialVersionUID = 259904372741221966L;
 
             @Subscribe
             @Override
-            public void handle(AccountEvent.GoToRelatedItems event) {
+            public void handle(AccountEvent.GotoRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
                     crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
@@ -164,7 +162,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = -3723195748802950651L;
 
             @Subscribe
-            @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public void handle(ActivityEvent.TaskRead event) {
                 AssignmentReadPresenter presenter = PresenterResolver.getPresenter(AssignmentReadPresenter.class);
@@ -178,10 +175,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ActivityEvent.TaskAdd event) {
-                AssignmentAddPresenter presenter = PresenterResolver
-                        .getPresenter(AssignmentAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Add<SimpleCrmTask>(
-                        new SimpleCrmTask()));
+                AssignmentAddPresenter presenter = PresenterResolver.getPresenter(AssignmentAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleCrmTask()));
             }
         });
 
@@ -234,7 +229,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = -3723195748802950651L;
 
             @Subscribe
-            @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public void handle(ActivityEvent.MeetingRead event) {
                 MeetingReadPresenter presenter = PresenterResolver.getPresenter(MeetingReadPresenter.class);
@@ -264,12 +258,12 @@ public class CrmModuleController extends AbstractController {
             }
         });
 
-        this.register(new ApplicationEventListener<ActivityEvent.GoToRelatedItems>() {
+        this.register(new ApplicationEventListener<ActivityEvent.GotoRelatedItems>() {
             private static final long serialVersionUID = -2245568910777045010L;
 
             @Subscribe
             @Override
-            public void handle(ActivityEvent.GoToRelatedItems event) {
+            public void handle(ActivityEvent.GotoRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData) {
                     crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
                 }
@@ -318,7 +312,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = -5099988781106338890L;
 
             @Subscribe
-            @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public void handle(ContactEvent.GotoRead event) {
                 ContactReadPresenter presenter = PresenterResolver.getPresenter(ContactReadPresenter.class);
@@ -326,18 +319,16 @@ public class CrmModuleController extends AbstractController {
             }
         });
 
-        this.register(new ApplicationEventListener<ContactEvent.GoToRelatedItems>() {
+        this.register(new ApplicationEventListener<ContactEvent.GotoRelatedItems>() {
             private static final long serialVersionUID = -8341031306697617759L;
 
             @Subscribe
             @Override
-            public void handle(ContactEvent.GoToRelatedItems event) {
+            public void handle(ContactEvent.GotoRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
                     crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
-
         });
-
     }
 
     private void bindCampaignEvents() {
@@ -381,7 +372,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = -9221302504462965422L;
 
             @Subscribe
-            @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public void handle(CampaignEvent.GotoRead event) {
                 CampaignReadPresenter presenter = PresenterResolver.getPresenter(CampaignReadPresenter.class);
@@ -389,12 +379,12 @@ public class CrmModuleController extends AbstractController {
             }
         });
 
-        this.register(new ApplicationEventListener<CampaignEvent.GoToRelatedItems>() {
+        this.register(new ApplicationEventListener<CampaignEvent.GotoRelatedItems>() {
             private static final long serialVersionUID = -1867638793934682142L;
 
             @Subscribe
             @Override
-            public void handle(CampaignEvent.GoToRelatedItems event) {
+            public void handle(CampaignEvent.GotoRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
                     crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
@@ -442,7 +432,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = -5491126759925853548L;
 
             @Subscribe
-            @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(CaseEvent.GotoRead event) {
                 CaseReadPresenter presenter = PresenterResolver.getPresenter(CaseReadPresenter.class);
@@ -450,12 +439,12 @@ public class CrmModuleController extends AbstractController {
             }
         });
 
-        this.register(new ApplicationEventListener<CaseEvent.GoToRelatedItems>() {
+        this.register(new ApplicationEventListener<CaseEvent.GotoRelatedItems>() {
             private static final long serialVersionUID = 1019540906038925888L;
 
             @Subscribe
             @Override
-            public void handle(CaseEvent.GoToRelatedItems event) {
+            public void handle(CaseEvent.GotoRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
                     crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
@@ -480,7 +469,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = 9113847281543934181L;
 
             @Subscribe
-            @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(LeadEvent.GotoRead event) {
                 LeadReadPresenter presenter = PresenterResolver.getPresenter(LeadReadPresenter.class);
@@ -510,12 +498,12 @@ public class CrmModuleController extends AbstractController {
             }
         });
 
-        this.register(new ApplicationEventListener<LeadEvent.GoToRelatedItems>() {
+        this.register(new ApplicationEventListener<LeadEvent.GotoRelatedItems>() {
             private static final long serialVersionUID = -1655170606113750709L;
 
             @Subscribe
             @Override
-            public void handle(LeadEvent.GoToRelatedItems event) {
+            public void handle(LeadEvent.GotoRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
                     crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
@@ -541,7 +529,6 @@ public class CrmModuleController extends AbstractController {
             private static final long serialVersionUID = -4783961655267073679L;
 
             @Subscribe
-            @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(OpportunityEvent.GotoRead event) {
                 OpportunityReadPresenter presenter = PresenterResolver.getPresenter(OpportunityReadPresenter.class);
@@ -567,16 +554,16 @@ public class CrmModuleController extends AbstractController {
             @Override
             public void handle(OpportunityEvent.GotoEdit event) {
                 OpportunityAddPresenter presenter = PresenterResolver.getPresenter(OpportunityAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(event.getData()));
+                presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
 
-        this.register(new ApplicationEventListener<OpportunityEvent.GoToRelatedItems>() {
+        this.register(new ApplicationEventListener<OpportunityEvent.GotoRelatedItems>() {
             private static final long serialVersionUID = 2389909957063829985L;
 
             @Subscribe
             @Override
-            public void handle(OpportunityEvent.GoToRelatedItems event) {
+            public void handle(OpportunityEvent.GotoRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
                     crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }

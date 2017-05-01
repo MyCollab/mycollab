@@ -18,47 +18,43 @@ package com.mycollab.mobile.module.crm.view.contact;
 
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.ContactEvent;
-import com.mycollab.mobile.module.crm.ui.AbstractListViewComp;
+import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
 @ViewComponent
-public class ContactListViewImpl extends AbstractListViewComp<ContactSearchCriteria, SimpleContact> implements ContactListView {
+public class ContactListViewImpl extends AbstractListPageView<ContactSearchCriteria, SimpleContact> implements ContactListView {
     private static final long serialVersionUID = 8271856163726726780L;
 
     public ContactListViewImpl() {
-        super();
         setCaption(UserUIContext.getMessage(ContactI18nEnum.LIST));
     }
 
     @Override
-    protected AbstractPagedBeanList<ContactSearchCriteria, SimpleContact> createBeanTable() {
-        ContactListDisplay contactListDisplay = new ContactListDisplay();
-        return contactListDisplay;
+    protected AbstractPagedBeanList<ContactSearchCriteria, SimpleContact> createBeanList() {
+        return new ContactListDisplay();
     }
 
     @Override
-    protected Component createRightComponent() {
-        Button addContact = new Button();
-        addContact.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+    protected SearchInputField<ContactSearchCriteria> createSearchField() {
+        return null;
+    }
 
-            @Override
-            public void buttonClick(Button.ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
-            }
-        });
-        addContact.setStyleName("add-btn");
-        return addContact;
+    @Override
+    protected Component buildRightComponent() {
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null)))
+                .withStyleName("add-btn").withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT));
     }
 }

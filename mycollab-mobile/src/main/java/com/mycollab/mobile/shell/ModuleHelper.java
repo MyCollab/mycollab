@@ -16,7 +16,7 @@
  */
 package com.mycollab.mobile.shell;
 
-import com.mycollab.mobile.module.crm.view.CrmContainerView;
+import com.mycollab.mobile.module.crm.view.CrmModule;
 import com.mycollab.mobile.module.project.view.ProjectModule;
 import com.mycollab.vaadin.mvp.IModule;
 import com.mycollab.vaadin.ui.MyCollabSession;
@@ -44,6 +44,6 @@ public class ModuleHelper {
 
     public static boolean isCurrentCrmModule() {
         IModule module = getCurrentModule();
-        return (module != null) && (module instanceof CrmContainerView);
+        return (module != null) && (module instanceof CrmModule);
     }
 }

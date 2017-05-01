@@ -44,5 +44,4 @@ public class MessageListPresenter extends ProjectListPresenter<MessageListView, 
             NotificationUtil.showMessagePermissionAlert();
         }
     }
-
 }

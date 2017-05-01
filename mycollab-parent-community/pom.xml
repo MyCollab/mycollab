@@ -17,15 +17,15 @@
         <java.version>1.8</java.version>
         <slf4jVersion>1.7.25</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.7.3</vaadinVersion>
+        <vaadinVersion>7.7.8</vaadinVersion>
         <jettyVersion>9.3.12.v20160915</jettyVersion>
-        <mysqlVersion>5.1.40</mysqlVersion>
+        <mysqlVersion>5.1.42</mysqlVersion>
         <junitVersion>4.12</junitVersion>
         <jackrabbitVersion>2.15.1</jackrabbitVersion>
         <jacksonVersion>2.8.6</jacksonVersion>
         <jodaVersion>2.9.9</jodaVersion>
         <scala.binary.version>2.12</scala.binary.version>
-        <scala.version>2.12.1</scala.version>
+        <scala.version>2.12.2</scala.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.inceptionYear>2011</project.inceptionYear>
         <sonar.language>java</sonar.language>
@@ -55,13 +55,13 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
         </dependency>
 
         <dependency>
@@ -115,7 +115,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker-gae</artifactId>
-            <version>2.3.25-incubating</version>
+            <version>2.3.26-incubating</version>
         </dependency>
 
         <dependency>
@@ -255,7 +255,7 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.4.2</version>
+            <version>3.4.4</version>
         </dependency>
 
         <dependency>

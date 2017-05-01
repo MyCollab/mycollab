@@ -18,11 +18,13 @@ package com.mycollab.mobile.module.crm.view.lead;
 
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.LeadEvent;
-import com.mycollab.mobile.module.crm.ui.AbstractListViewComp;
+import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Component;
@@ -33,7 +35,7 @@ import org.vaadin.viritin.button.MButton;
  * @since 4.1
  */
 @ViewComponent
-public class LeadListViewImpl extends AbstractListViewComp<LeadSearchCriteria, SimpleLead> implements LeadListView {
+public class LeadListViewImpl extends AbstractListPageView<LeadSearchCriteria, SimpleLead> implements LeadListView {
     private static final long serialVersionUID = -5311139413938817084L;
 
     public LeadListViewImpl() {
@@ -41,14 +43,19 @@ public class LeadListViewImpl extends AbstractListViewComp<LeadSearchCriteria, S
     }
 
     @Override
-    protected AbstractPagedBeanList<LeadSearchCriteria, SimpleLead> createBeanTable() {
+    protected AbstractPagedBeanList<LeadSearchCriteria, SimpleLead> createBeanList() {
         return new LeadListDisplay();
     }
 
     @Override
-    protected Component createRightComponent() {
+    protected SearchInputField<LeadSearchCriteria> createSearchField() {
+        return null;
+    }
+
+    @Override
+    protected Component buildRightComponent() {
         return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null)))
-                .withStyleName("add-btn");
+                .withStyleName("add-btn").withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD));
     }
 
 }

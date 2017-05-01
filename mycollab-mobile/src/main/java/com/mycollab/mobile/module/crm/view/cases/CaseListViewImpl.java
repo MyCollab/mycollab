@@ -18,11 +18,13 @@ package com.mycollab.mobile.module.crm.view.cases;
 
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.CaseEvent;
-import com.mycollab.mobile.module.crm.ui.AbstractListViewComp;
+import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
+import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Component;
@@ -33,23 +35,26 @@ import org.vaadin.viritin.button.MButton;
  * @since 4.0
  */
 @ViewComponent
-public class CaseListViewImpl extends AbstractListViewComp<CaseSearchCriteria, SimpleCase> implements CaseListView {
+public class CaseListViewImpl extends AbstractListPageView<CaseSearchCriteria, SimpleCase> implements CaseListView {
     private static final long serialVersionUID = -2790165346072368795L;
 
     public CaseListViewImpl() {
-        super();
         setCaption(UserUIContext.getMessage(CaseI18nEnum.NEW));
     }
 
     @Override
-    protected AbstractPagedBeanList<CaseSearchCriteria, SimpleCase> createBeanTable() {
+    protected AbstractPagedBeanList<CaseSearchCriteria, SimpleCase> createBeanList() {
         return new CaseListDisplay();
     }
 
     @Override
-    protected Component createRightComponent() {
-        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null)))
-                .withStyleName("add-btn");
+    protected SearchInputField<CaseSearchCriteria> createSearchField() {
+        return null;
     }
 
+    @Override
+    protected Component buildRightComponent() {
+        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null)))
+                .withStyleName("add-btn").withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CASE));
+    }
 }
