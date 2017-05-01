@@ -25,58 +25,52 @@ import com.mycollab.vaadin.MyCollabUI;
 import com.vaadin.data.Property;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-@SuppressWarnings("serial")
-public class CampaignSelectionField extends
-		AbstractSelectionCustomField<Integer, CampaignWithBLOBs> {
+public class CampaignSelectionField extends AbstractSelectionCustomField<Integer, CampaignWithBLOBs> {
 
-	public CampaignSelectionField() {
-		super(CampaignSelectionView.class);
-	}
+    public CampaignSelectionField() {
+        super(CampaignSelectionView.class);
+    }
 
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		Object value = newDataSource.getValue();
-		if (value instanceof Integer) {
-			setCampaignByVal((Integer) value);
-		}
-		super.setPropertyDataSource(newDataSource);
-	}
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value instanceof Integer) {
+            setCampaignByVal((Integer) value);
+        }
+        super.setPropertyDataSource(newDataSource);
+    }
 
-	@Override
-	public void setValue(Integer value) {
-		this.setCampaignByVal(value);
-		super.setValue(value);
-	}
+    @Override
+    public void setValue(Integer value) {
+        this.setCampaignByVal(value);
+        super.setValue(value);
+    }
 
-	private void setCampaignByVal(Integer campaignId) {
-		CampaignService campaignService = AppContextUtil
-				.getSpringBean(CampaignService.class);
-		SimpleCampaign campaign = campaignService.findById(campaignId,
-				MyCollabUI.getAccountId());
-		if (campaign != null) {
-			setInternalCampaign(campaign);
-		}
-	}
+    private void setCampaignByVal(Integer campaignId) {
+        CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
+        SimpleCampaign campaign = campaignService.findById(campaignId, MyCollabUI.getAccountId());
+        if (campaign != null) {
+            setInternalCampaign(campaign);
+        }
+    }
 
-	private void setInternalCampaign(CampaignWithBLOBs campaign) {
-		this.beanItem = campaign;
-		navButton.setCaption(beanItem.getCampaignname());
-	}
+    private void setInternalCampaign(CampaignWithBLOBs campaign) {
+        this.beanItem = campaign;
+        navButton.setCaption(beanItem.getCampaignname());
+    }
 
-	@Override
-	public void fireValueChange(CampaignWithBLOBs data) {
-		setInternalCampaign(data);
-		setInternalValue(data.getId());
-	}
+    @Override
+    public void fireValueChange(CampaignWithBLOBs data) {
+        setInternalCampaign(data);
+        setInternalValue(data.getId());
+    }
 
-	@Override
-	public Class<? extends Integer> getType() {
-		return Integer.class;
-	}
+    @Override
+    public Class<? extends Integer> getType() {
+        return Integer.class;
+    }
 
 }

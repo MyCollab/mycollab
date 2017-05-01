@@ -14,26 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.view;
+package com.mycollab.mobile.module.crm.view;
 
-import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
- * @since 4.5.2
+ * @since 4.4.0
  */
-public class AllActivityStreamPresenter extends ProjectListPresenter<AllActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
-    private static final long serialVersionUID = -2089284900326846089L;
+public class AllActivitiesPresenter extends AbstractCrmPresenter<AllActivitiesView> {
+    private static final long serialVersionUID = -2422488836026839744L;
 
-    public AllActivityStreamPresenter() {
-        super(AllActivityView.class);
+    public AllActivitiesPresenter() {
+        super(AllActivitiesView.class);
     }
 
     @Override
     protected void onGo(HasComponents navigator, ScreenData<?> data) {
         super.onGo(navigator, data);
     }
+
 }

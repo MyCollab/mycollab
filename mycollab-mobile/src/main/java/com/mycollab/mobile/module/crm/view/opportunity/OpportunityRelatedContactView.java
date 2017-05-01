@@ -41,7 +41,6 @@ public class OpportunityRelatedContactView extends AbstractRelatedListView<Simpl
     private SimpleOpportunity opportunity;
 
     public OpportunityRelatedContactView() {
-        super();
         setCaption(UserUIContext.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
         this.itemList = new ContactListDisplay();
         this.setContent(itemList);

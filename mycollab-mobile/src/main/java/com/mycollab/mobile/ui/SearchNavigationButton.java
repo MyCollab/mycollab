@@ -14,15 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.view;
+package com.mycollab.mobile.ui;
 
-import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.mycollab.mobile.ui.IListView;
-import com.mycollab.module.project.domain.ProjectActivityStream;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.server.FontAwesome;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.5.2
+ * @author MyCollab Ltd
+ * @since 5.4.3
  */
-public interface AllActivityView extends IListView<ActivityStreamSearchCriteria, ProjectActivityStream> {
+public abstract class SearchNavigationButton extends NavigationButton {
+    public SearchNavigationButton() {
+        setIcon(FontAwesome.SEARCH);
+        addStyleName(UIConstants.CIRCLE_BOX);
+        this.addClickListener(navigationButtonClickEvent -> getNavigationManager().navigateTo(getSearchInputView()));
+    }
+
+    abstract protected SearchInputView getSearchInputView();
 }

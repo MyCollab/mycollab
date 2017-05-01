@@ -35,12 +35,17 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.touchkit.NavigationBarQuickMenu;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+import static com.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator.CLONE_BTN_PRESENTED;
+import static com.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator.DELETE_BTN_PRESENTED;
 
 /**
  * @author MyCollab Ltd.
@@ -98,7 +103,13 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_CAMPAIGN);
+        VerticalLayout buttonControls = new CrmPreviewFormControlsGenerator<>(previewForm).
+                createButtonControls(CLONE_BTN_PRESENTED | DELETE_BTN_PRESENTED,
+                        RolePermissionCollections.CRM_CAMPAIGN);
+        MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoEdit(this, beanItem)))
+                .withIcon(FontAwesome.EDIT).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        return new MHorizontalLayout(editBtn, new NavigationBarQuickMenu(buttonControls));
     }
 
     @Override

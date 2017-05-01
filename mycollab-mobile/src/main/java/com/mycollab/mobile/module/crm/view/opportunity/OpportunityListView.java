@@ -21,12 +21,9 @@ import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public interface OpportunityListView extends
-		IListView<OpportunitySearchCriteria, SimpleOpportunity> {
+public interface OpportunityListView extends IListView<OpportunitySearchCriteria, SimpleOpportunity> {
 
 }

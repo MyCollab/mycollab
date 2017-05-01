@@ -39,7 +39,6 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
     private LeadRowDisplayHandler rowHandler = new LeadRowDisplayHandler();
 
     public LeadSelectionView() {
-        super();
         createUI();
         this.setCaption(UserUIContext.getMessage(LeadI18nEnum.M_VIEW_LEAD_NAME_LOOKUP));
     }

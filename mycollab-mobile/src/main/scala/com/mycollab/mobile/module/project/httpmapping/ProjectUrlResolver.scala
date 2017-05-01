@@ -90,7 +90,7 @@ class ProjectUrlResolver extends UrlResolver {
         searchCriteria.setExtraTypeIds(new SetSearchField(prjKeys))
 
         val data = new AllActivities(searchCriteria)
-        EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this, data))
+        EventBusFactory.getInstance().post(new ProjectEvent.GotoAllActivitiesView(this, data))
       }
       else {
         val projectId =  UrlTokenizer(params(0)).getInt

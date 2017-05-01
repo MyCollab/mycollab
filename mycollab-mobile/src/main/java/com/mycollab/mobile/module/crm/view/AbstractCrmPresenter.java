@@ -39,8 +39,8 @@ public class AbstractCrmPresenter<V extends PageView> extends AbstractPresenter<
             NavigationManager navManager = ((NavigationManager) navigator);
             navManager.navigateTo(view);
             if (navManager.getPreviousComponent() == null) {
-                CrmContainerPresenter crmContainer = PresenterResolver.getPresenter(CrmContainerPresenter.class);
-                navManager.setPreviousComponent(crmContainer.getView());
+                AllActivitiesPresenter activitiesPresenter = PresenterResolver.getPresenter(AllActivitiesPresenter.class);
+                navManager.setPreviousComponent(activitiesPresenter.getView());
             }
         } else {
             throw new MyCollabException("Invalid flow");

@@ -16,16 +16,21 @@
  */
 package com.mycollab.mobile.module.crm.view.account;
 
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.AccountEvent;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.service.AccountService;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Component;
-import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -42,8 +47,12 @@ public class AccountListDisplay extends DefaultPagedBeanList<AccountService, Acc
 
         @Override
         public Component generateRow(IBeanList<SimpleAccount> host, final SimpleAccount account, int rowIndex) {
-            return new MButton(account.getAccountname(), clickEvent -> EventBusFactory.getInstance().post
-                    (new AccountEvent.GotoRead(this, account.getId()))).withFullWidth();
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
+            A accountLink = new A(CrmLinkBuilder.generateAccountPreviewLinkFull(account.getId())).appendText(account.getAccountname());
+            MCssLayout accountWrap = new MCssLayout(ELabel.html(accountLink.write()));
+            rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
+                    (CrmTypeConstants.ACCOUNT)), accountWrap).expand(accountWrap).withFullWidth());
+            return rowLayout;
         }
     }
 }

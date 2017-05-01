@@ -41,8 +41,6 @@ public class OpportunityRelatedLeadView extends AbstractRelatedListView<SimpleLe
     private SimpleOpportunity opportunity;
 
     public OpportunityRelatedLeadView() {
-        super();
-
         setCaption(UserUIContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
         this.itemList = new LeadListDisplay();
         this.setContent(this.itemList);

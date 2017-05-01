@@ -41,7 +41,6 @@ public class CampaignRelatedContactView extends AbstractRelatedListView<SimpleCo
     private SimpleCampaign campaign;
 
     public CampaignRelatedContactView() {
-        super();
         setCaption(UserUIContext.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
         this.itemList = new ContactListDisplay();
         this.setContent(this.itemList);

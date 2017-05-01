@@ -16,16 +16,21 @@
  */
 package com.mycollab.mobile.module.crm.view.opportunity;
 
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.OpportunityEvent;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.service.OpportunityService;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Component;
-import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -42,8 +47,12 @@ public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityServ
 
         @Override
         public Component generateRow(IBeanList<SimpleOpportunity> host, final SimpleOpportunity opportunity, int rowIndex) {
-            return new MButton(opportunity.getOpportunityname(), clickEvent -> EventBusFactory.getInstance().post(
-                    new OpportunityEvent.GotoRead(this, opportunity.getId()))).withFullWidth();
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
+            A itemLink = new A(CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity.getId())).appendText(opportunity.getOpportunityname());
+            MCssLayout itemWrap = new MCssLayout(ELabel.html(itemLink.write()));
+            rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
+                    (CrmTypeConstants.OPPORTUNITY)), itemWrap).expand(itemWrap).withFullWidth());
+            return rowLayout;
         }
     }
 }

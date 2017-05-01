@@ -39,7 +39,6 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
     private CaseRowDisplayHandler rowHandler = new CaseRowDisplayHandler();
 
     public CaseSelectionView() {
-        super();
         createUI();
         this.setCaption(UserUIContext.getMessage(CaseI18nEnum.M_VIEW_CASE_NAME_LOOKUP));
     }

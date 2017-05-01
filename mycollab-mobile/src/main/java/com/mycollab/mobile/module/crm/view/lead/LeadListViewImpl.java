@@ -21,14 +21,20 @@ import com.mycollab.mobile.module.crm.events.LeadEvent;
 import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.SearchInputField;
+import com.mycollab.mobile.ui.SearchInputView;
+import com.mycollab.mobile.ui.SearchNavigationButton;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -54,8 +60,15 @@ public class LeadListViewImpl extends AbstractListPageView<LeadSearchCriteria, S
 
     @Override
     protected Component buildRightComponent() {
-        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null)))
-                .withStyleName("add-btn").withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD));
+        SearchNavigationButton searchBtn = new SearchNavigationButton() {
+            @Override
+            protected SearchInputView getSearchInputView() {
+                return new LeadSearchInputView();
+            }
+        };
+        MButton newLeadBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_LEAD));
+        return new MHorizontalLayout(searchBtn, newLeadBtn).alignAll(Alignment.TOP_RIGHT);
     }
-
 }

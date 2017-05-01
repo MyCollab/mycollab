@@ -14,26 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.crm.view;
+package com.mycollab.mobile.module.project.view;
 
-import com.mycollab.vaadin.mvp.IModule;
+import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
+import com.mycollab.module.project.domain.ProjectActivityStream;
+import com.mycollab.vaadin.mvp.ScreenData;
+import com.vaadin.ui.HasComponents;
 
 /**
  * @author MyCollab Ltd.
- * @since 4.4.0
+ * @since 4.5.2
  */
-public interface CrmContainerView extends IModule {
-    void goToAccounts();
+public class AllActivitiesStreamPresenter extends ProjectListPresenter<AllActivitiesView, ActivityStreamSearchCriteria, ProjectActivityStream> {
+    private static final long serialVersionUID = -2089284900326846089L;
 
-    void goToContacts();
+    public AllActivitiesStreamPresenter() {
+        super(AllActivitiesView.class);
+    }
 
-    void goToCampaigns();
-
-    void goToCases();
-
-    void goToLeads();
-
-    void goToActivities();
-
-    void goToOpportunities();
+    @Override
+    protected void onGo(HasComponents navigator, ScreenData<?> data) {
+        super.onGo(navigator, data);
+    }
 }

@@ -32,7 +32,7 @@ object ProjectEvent {
 
   class MyProjectActivities(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
 
-  class AllActivities(source: AnyRef) extends ApplicationEvent(source, null) {}
+  class GotoAllActivitiesView(source: AnyRef) extends ApplicationEvent(source, null) {}
 
   class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 

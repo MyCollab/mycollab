@@ -50,7 +50,7 @@ class LeadUrlResolver extends CrmUrlResolver {
 
   class LeadListUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
+      EventBusFactory.getInstance().post(new CrmEvent.GotoActivitiesView(this,
         new CrmModuleScreenData.GotoModule(Array())))
     }
   }

@@ -53,12 +53,12 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+class ProjectActivitiesStreamListDisplay extends AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> {
     private static final long serialVersionUID = 9189667863722393067L;
 
     private final ProjectActivityStreamService projectActivityStreamService;
 
-    ProjectActivityStreamListDisplay() {
+    ProjectActivitiesStreamListDisplay() {
         super(new ActivityStreamRowHandler(), 20);
         projectActivityStreamService = AppContextUtil.getSpringBean(ProjectActivityStreamService.class);
     }

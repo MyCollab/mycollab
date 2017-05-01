@@ -21,8 +21,8 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.project.events.MessageEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
-import com.mycollab.mobile.module.project.ui.SearchInputView;
-import com.mycollab.mobile.module.project.ui.SearchNavigationButton;
+import com.mycollab.mobile.ui.SearchInputView;
+import com.mycollab.mobile.ui.SearchNavigationButton;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.mobile.ui.MobileAttachmentUtils;
@@ -60,7 +60,6 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
     private static final long serialVersionUID = -5340014066758050437L;
 
     public MessageListViewImpl() {
-        super();
         setCaption(UserUIContext.getMessage(MessageI18nEnum.LIST));
         setStyleName("message-list-view");
     }

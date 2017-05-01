@@ -29,7 +29,6 @@ public class CaseStatusComboBox extends I18nValueComboBox {
     private static final long serialVersionUID = 1L;
 
     public CaseStatusComboBox() {
-        super();
         setCaption(null);
         this.loadData(Arrays.asList(CrmDataTypeFactory.getCasesStatusList()));
     }

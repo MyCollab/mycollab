@@ -72,14 +72,14 @@ public class CrmModuleController extends AbstractController {
     }
 
     private void bindCrmEvents() {
-        this.register(new ApplicationEventListener<CrmEvent.GotoContainer>() {
+        this.register(new ApplicationEventListener<CrmEvent.GotoActivitiesView>() {
 
             private static final long serialVersionUID = -3626315180394209108L;
 
             @Subscribe
             @Override
-            public void handle(CrmEvent.GotoContainer event) {
-                CrmContainerPresenter presenter = PresenterResolver.getPresenter(CrmContainerPresenter.class);
+            public void handle(CrmEvent.GotoActivitiesView event) {
+                AllActivitiesPresenter presenter = PresenterResolver.getPresenter(AllActivitiesPresenter.class);
                 presenter.go(crmViewNavigation, (CrmModuleScreenData.GotoModule) event.getData());
             }
         });

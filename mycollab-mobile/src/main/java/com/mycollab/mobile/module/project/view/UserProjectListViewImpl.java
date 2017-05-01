@@ -36,6 +36,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
+import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
 
 /**
@@ -73,12 +74,12 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
 
     @Override
     protected void buildNavigateMenu() {
-        addSection("Views:");
+        addSection("Views");
 
         // Buttons with styling (slightly smaller with left-aligned text)
         MButton activityBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES), clickEvent -> {
             closeMenu();
-            EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this));
+            EventBusFactory.getInstance().post(new ProjectEvent.GotoAllActivitiesView(this));
         }).withIcon(FontAwesome.INBOX);
         addMenuItem(activityBtn);
 
@@ -87,6 +88,13 @@ public class UserProjectListViewImpl extends AbstractListPageView<ProjectSearchC
             EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
         }).withIcon(FontAwesome.BUILDING);
         addMenuItem(prjBtn);
+
+        addSection("Modules");
+        MButton crmModuleBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.MODULE_CRM), clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
+        }).withIcon(VaadinIcons.MONEY);
+        addMenuItem(crmModuleBtn);
 
         addSection(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 

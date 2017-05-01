@@ -41,7 +41,6 @@ public class CampaignRelatedLeadView extends AbstractRelatedListView<SimpleLead,
     private SimpleCampaign campaign;
 
     public CampaignRelatedLeadView() {
-        super();
         setCaption(UserUIContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
         this.itemList = new LeadListDisplay();
         this.setContent(itemList);

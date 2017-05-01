@@ -28,11 +28,11 @@ import com.vaadin.ui.HasComponents;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class ProjectActivityStreamPresenter extends ProjectListPresenter<ProjectActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
+public class ProjectActivityStreamPresenter extends ProjectListPresenter<ProjectActivitiesView, ActivityStreamSearchCriteria, ProjectActivityStream> {
     private static final long serialVersionUID = -2089284900326846089L;
 
     public ProjectActivityStreamPresenter() {
-        super(ProjectActivityView.class);
+        super(ProjectActivitiesView.class);
     }
 
     @Override

@@ -66,7 +66,6 @@ public class CrmPreviewFormControlsGenerator<T> {
                 previewForm.fireEditForm(item);
             }).withVisible(canWrite);
             editButtons.addComponent(editBtn);
-            editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
@@ -75,7 +74,6 @@ public class CrmPreviewFormControlsGenerator<T> {
                 previewForm.fireDeleteForm(item);
             });
             editButtons.addComponent(deleteBtn);
-            editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
             deleteBtn.setEnabled(canAccess);
         }
 
@@ -84,9 +82,7 @@ public class CrmPreviewFormControlsGenerator<T> {
                 T item = previewForm.getBean();
                 previewForm.fireCloneForm(item);
             });
-            cloneBtn.setWidth("100%");
             editButtons.addComponent(cloneBtn);
-            editButtons.setComponentAlignment(cloneBtn, Alignment.MIDDLE_CENTER);
             cloneBtn.setEnabled(canWrite);
         }
 

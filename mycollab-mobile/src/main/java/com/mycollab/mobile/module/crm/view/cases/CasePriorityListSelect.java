@@ -29,7 +29,6 @@ public class CasePriorityListSelect extends I18NValueListSelect {
     private static final long serialVersionUID = 1L;
 
     public CasePriorityListSelect() {
-        super();
         setCaption(null);
         this.loadData(Arrays.asList(CrmDataTypeFactory.getCasesPriorityList()));
     }

@@ -52,7 +52,6 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
     private final CssLayout mainLayout;
 
     public ProjectDashboardViewImpl() {
-        super();
         this.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
         this.setRightComponent(buildRightComponent());
         mainLayout = new CssLayout();

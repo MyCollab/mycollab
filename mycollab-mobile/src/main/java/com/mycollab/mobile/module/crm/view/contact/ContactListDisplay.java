@@ -16,16 +16,21 @@
  */
 package com.mycollab.mobile.module.crm.view.contact;
 
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.ContactEvent;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.service.ContactService;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Component;
-import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -42,9 +47,12 @@ public class ContactListDisplay extends DefaultPagedBeanList<ContactService, Con
 
         @Override
         public Component generateRow(IBeanList<SimpleContact> host, final SimpleContact contact, int rowIndex) {
-            return new MButton(contact.getContactName(),
-                    clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId())
-                    )).withFullWidth();
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
+            A itemLink = new A(CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId())).appendText(contact.getContactName());
+            MCssLayout itemWrap = new MCssLayout(ELabel.html(itemLink.write()));
+            rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
+                    (CrmTypeConstants.CONTACT)), itemWrap).expand(itemWrap).withFullWidth());
+            return rowLayout;
         }
 
     }

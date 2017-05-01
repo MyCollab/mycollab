@@ -21,7 +21,7 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.SearchFieldInfo;
 import com.mycollab.db.query.SearchQueryInfo;
-import com.mycollab.mobile.module.project.ui.SearchInputView;
+import com.mycollab.mobile.ui.SearchInputView;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;

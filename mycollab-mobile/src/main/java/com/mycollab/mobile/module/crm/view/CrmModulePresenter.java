@@ -45,7 +45,7 @@ public class CrmModulePresenter extends AbstractCrmPresenter<CrmModule> {
 
         String[] params = (String[]) data.getParams();
         if (params == null || params.length == 0) {
-            EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this, null));
+            EventBusFactory.getInstance().post(new CrmEvent.GotoActivitiesView(this, null));
             MyCollabUI.addFragment("crm", UserUIContext.getMessage(GenericI18Enum.MODULE_CRM));
         } else {
             MobileApplication.rootUrlResolver.getSubResolver("crm").handle(params);

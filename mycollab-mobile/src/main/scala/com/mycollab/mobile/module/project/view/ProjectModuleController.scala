@@ -78,9 +78,9 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
         presenter.handleChain(navManager, event.getData.asInstanceOf[PageActionChain])
       }
     })
-    this.register(new ApplicationEventListener[ProjectEvent.AllActivities]() {
-      @Subscribe def handle(event: ProjectEvent.AllActivities) {
-        val presenter = PresenterResolver.getPresenter(classOf[AllActivityStreamPresenter])
+    this.register(new ApplicationEventListener[ProjectEvent.GotoAllActivitiesView]() {
+      @Subscribe def handle(event: ProjectEvent.GotoAllActivitiesView) {
+        val presenter = PresenterResolver.getPresenter(classOf[AllActivitiesStreamPresenter])
         val prjService = AppContextUtil.getSpringBean(classOf[ProjectService])
         val prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername, MyCollabUI.getAccountId)
         val searchCriteria = new ActivityStreamSearchCriteria()

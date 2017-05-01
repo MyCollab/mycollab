@@ -27,6 +27,7 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.FontAwesome;
+import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
 
 /**
@@ -37,7 +38,7 @@ public class CrmMobileMenuPageView extends AbstractMobileMenuPageView {
     @Override
     protected void buildNavigateMenu() {
         getMenu().setWidth("80%");
-        addSection("Views:");
+        addSection("Views");
 
         MButton accountBtn = new MButton(UserUIContext.getMessage(AccountI18nEnum.LIST), clickEvent -> {
             closeMenu();
@@ -76,6 +77,13 @@ public class CrmMobileMenuPageView extends AbstractMobileMenuPageView {
             EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
         }).withIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
         addMenuItem(caseBtn);
+
+        addSection("Modules");
+        MButton projectModuleBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), clickEvent -> {
+            closeMenu();
+            EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
+        }).withIcon(VaadinIcons.TASKS);
+        addMenuItem(projectModuleBtn);
 
         addSection(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 

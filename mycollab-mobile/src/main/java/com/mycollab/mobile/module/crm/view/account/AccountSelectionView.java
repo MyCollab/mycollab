@@ -40,7 +40,6 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
     private AccountRowDisplayHandler rowHandler = new AccountRowDisplayHandler();
 
     public AccountSelectionView() {
-        super();
         createUI();
         this.setCaption(UserUIContext.getMessage(AccountI18nEnum.M_VIEW_ACCOUNT_NAME_LOOKUP));
     }

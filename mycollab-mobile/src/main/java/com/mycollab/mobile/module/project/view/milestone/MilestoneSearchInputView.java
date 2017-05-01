@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.project.view.milestone;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.mobile.module.project.ui.SearchInputView;
+import com.mycollab.mobile.ui.SearchInputView;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.vaadin.UserUIContext;

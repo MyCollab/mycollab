@@ -42,7 +42,7 @@ public abstract class AbstractListPageView<S extends SearchCriteria, B> extends 
     }
 
     protected void doSearch() {
-        if (getPagedBeanTable().getSearchRequest() != null) {
+        if (getPagedBeanTable()!= null && getPagedBeanTable().getSearchRequest() != null) {
             getPagedBeanTable().refresh();
         }
     }

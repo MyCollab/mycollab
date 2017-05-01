@@ -21,14 +21,20 @@ import com.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.SearchInputField;
+import com.mycollab.mobile.ui.SearchInputView;
+import com.mycollab.mobile.ui.SearchNavigationButton;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -54,8 +60,16 @@ public class CampaignListViewImpl extends AbstractListPageView<CampaignSearchCri
 
     @Override
     protected Component buildRightComponent() {
-        return new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null)))
-                .withStyleName("add-btn").withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        SearchNavigationButton searchBtn = new SearchNavigationButton() {
+            @Override
+            protected SearchInputView getSearchInputView() {
+                return new CampaignSearchInputView();
+            }
+        };
+        MButton newCampaignBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null)))
+                .withIcon(FontAwesome.PLUS).withStyleName(UIConstants.CIRCLE_BOX)
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        return new MHorizontalLayout(searchBtn, newCampaignBtn).alignAll(Alignment.TOP_RIGHT);
     }
 
 }

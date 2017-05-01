@@ -45,7 +45,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public abstract class AbstractMainView extends AbstractVerticalPageView implements MainView {
     private static final long serialVersionUID = 1L;
 
-    protected CustomLayout headerLayout;
+    private CustomLayout headerLayout;
     private MHorizontalLayout bodyLayout;
     protected MHorizontalLayout accountLayout;
 

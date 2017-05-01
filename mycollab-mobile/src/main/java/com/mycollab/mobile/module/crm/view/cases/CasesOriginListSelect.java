@@ -29,7 +29,6 @@ public class CasesOriginListSelect extends I18NValueListSelect {
     private static final long serialVersionUID = 1L;
 
     public CasesOriginListSelect() {
-        super();
         setCaption(null);
         this.loadData(Arrays.asList(CrmDataTypeFactory.getCasesOrigin()));
     }

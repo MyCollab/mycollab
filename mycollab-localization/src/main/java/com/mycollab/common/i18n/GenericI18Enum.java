@@ -177,6 +177,7 @@ public enum GenericI18Enum {
     EXT_MODIFIED_ITEM,
     EXT_NO_ITEM,
 
+    OPT_ITEM_VALUE,
     OPT_SAVED_FILTER,
     OPT_CHANGE_HISTORY,
     OPT_MY_ITEMS,

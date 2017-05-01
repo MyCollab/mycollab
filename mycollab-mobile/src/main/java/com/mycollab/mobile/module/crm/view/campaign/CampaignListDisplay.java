@@ -16,16 +16,21 @@
  */
 package com.mycollab.mobile.module.crm.view.campaign;
 
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.CampaignEvent;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.service.CampaignService;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -42,10 +47,12 @@ public class CampaignListDisplay extends DefaultPagedBeanList<CampaignService, C
 
         @Override
         public Component generateRow(IBeanList<SimpleCampaign> host, final SimpleCampaign campaign, int rowIndex) {
-            final Button b = new Button(campaign.getCampaignname(), clickEvent -> EventBusFactory.getInstance().post(
-                    new CampaignEvent.GotoRead(this, campaign.getId())));
-            b.setWidth("100%");
-            return b;
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
+            A itemLink = new A(CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId())).appendText(campaign.getCampaignname());
+            MCssLayout itemWrap = new MCssLayout(ELabel.html(itemLink.write()));
+            rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
+                    (CrmTypeConstants.CAMPAIGN)), itemWrap).expand(itemWrap).withFullWidth());
+            return rowLayout;
         }
 
     }

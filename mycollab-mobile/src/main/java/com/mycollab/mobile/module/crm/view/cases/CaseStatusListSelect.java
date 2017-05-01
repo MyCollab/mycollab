@@ -29,7 +29,6 @@ public class CaseStatusListSelect extends I18NValueListSelect {
     private static final long serialVersionUID = 1L;
 
     public CaseStatusListSelect() {
-        super();
         setCaption(null);
         this.loadData(Arrays.asList(CrmDataTypeFactory.getCasesStatusList()));
     }

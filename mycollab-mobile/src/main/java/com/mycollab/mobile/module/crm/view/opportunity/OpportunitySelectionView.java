@@ -38,7 +38,6 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
     private OpportunityRowDisplayHandler rowHandler = new OpportunityRowDisplayHandler();
 
     public OpportunitySelectionView() {
-        super();
         createUI();
         this.setCaption(UserUIContext.getMessage(OpportunityI18nEnum.M_VIEW_OPPORTUNITY_NAME_LOOKUP));
     }

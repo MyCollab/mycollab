@@ -34,16 +34,16 @@ import com.vaadin.ui.Component;
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectActivityViewImpl extends AbstractListPageView<ActivityStreamSearchCriteria, ProjectActivityStream> implements ProjectActivityView {
+public class ProjectActivitiesViewImpl extends AbstractListPageView<ActivityStreamSearchCriteria, ProjectActivityStream> implements ProjectActivitiesView {
     private static final long serialVersionUID = 6930154745425180819L;
 
-    public ProjectActivityViewImpl() {
+    public ProjectActivitiesViewImpl() {
         this.setCaption(UserUIContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
     }
 
     @Override
     protected AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> createBeanList() {
-        return new ProjectActivityStreamListDisplay();
+        return new ProjectActivitiesStreamListDisplay();
     }
 
     @Override

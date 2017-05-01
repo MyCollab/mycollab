@@ -24,6 +24,6 @@ import com.mycollab.events.ApplicationEvent
   */
 object CrmEvent {
 
-  class GotoContainer(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+  class GotoActivitiesView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
 }

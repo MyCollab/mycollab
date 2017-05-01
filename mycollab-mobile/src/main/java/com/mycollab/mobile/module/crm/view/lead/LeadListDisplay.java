@@ -16,16 +16,21 @@
  */
 package com.mycollab.mobile.module.crm.view.lead;
 
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.LeadEvent;
+import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.service.LeadService;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.ui.Component;
-import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -42,8 +47,12 @@ public class LeadListDisplay extends DefaultPagedBeanList<LeadService, LeadSearc
 
         @Override
         public Component generateRow(IBeanList<SimpleLead> host, final SimpleLead lead, int rowIndex) {
-            return new MButton(lead.getLeadName(), clickEvent -> EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this,
-                    lead.getId()))).withFullWidth();
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
+            A itemLink = new A(CrmLinkBuilder.generateLeadPreviewLinkFull(lead.getId())).appendText(lead.getLeadName());
+            MCssLayout itemWrap = new MCssLayout(ELabel.html(itemLink.write()));
+            rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
+                    (CrmTypeConstants.LEAD)), itemWrap).expand(itemWrap).withFullWidth());
+            return rowLayout;
         }
     }
 }

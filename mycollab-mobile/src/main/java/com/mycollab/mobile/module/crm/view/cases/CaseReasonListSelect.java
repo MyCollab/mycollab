@@ -29,7 +29,6 @@ public class CaseReasonListSelect extends I18NValueListSelect {
     private static final long serialVersionUID = 1L;
 
     public CaseReasonListSelect() {
-        super();
         setCaption(null);
         this.loadData(Arrays.asList(CrmDataTypeFactory.getCasesReason()));
     }

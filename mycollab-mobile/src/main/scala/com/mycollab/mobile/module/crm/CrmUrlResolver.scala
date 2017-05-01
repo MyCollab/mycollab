@@ -66,7 +66,7 @@ class CrmUrlResolver extends UrlResolver {
 
   class DashboardUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this, null))
+      EventBusFactory.getInstance().post(new CrmEvent.GotoActivitiesView(this, null))
     }
   }
 
