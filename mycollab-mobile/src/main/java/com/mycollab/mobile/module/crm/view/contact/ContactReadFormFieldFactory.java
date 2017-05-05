@@ -17,12 +17,17 @@
 package com.mycollab.mobile.module.crm.view.contact;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.field.CountryViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.EmailViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -38,22 +43,29 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
 
     @Override
     protected Field<?> onCreateField(Object propertyId) {
+        SimpleContact contact = attachForm.getBean();
         if (propertyId.equals("accountid")) {
-            return new DefaultViewField(attachForm.getBean().getAccountName());
+            return new DefaultViewField(contact.getAccountName());
         } else if (propertyId.equals("email")) {
-            return new EmailViewField(attachForm.getBean().getEmail());
+            return new EmailViewField(contact.getEmail());
         } else if (propertyId.equals("assignuser")) {
-            return new DefaultViewField(attachForm.getBean().getAssignUserFullName());
+            return new DefaultViewField(contact.getAssignUserFullName());
         } else if (propertyId.equals("iscallable")) {
-            if (Boolean.FALSE.equals(attachForm.getBean().getIscallable())) {
+            if (Boolean.FALSE.equals(contact.getIscallable())) {
                 return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_NO));
             } else {
                 return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_YES));
             }
         } else if (propertyId.equals("birthday")) {
-            return new DefaultViewField(UserUIContext.formatDate(attachForm.getBean().getBirthday()));
+            return new DefaultViewField(UserUIContext.formatDate(contact.getBirthday()));
         } else if (propertyId.equals("firstname")) {
-            return new DefaultViewField(attachForm.getBean().getFirstname());
+            return new DefaultViewField(contact.getFirstname());
+        } else if (Contact.Field.leadsource.equalTo(propertyId)) {
+            return new I18nFormViewField(contact.getLeadsource(), OptionI18nEnum.OpportunityLeadSource.class).withStyleName(UIConstants.FIELD_NOTE);
+        } else if (Contact.Field.primcountry.equalTo(propertyId)) {
+            return new CountryViewField(contact.getPrimcountry());
+        } else if (Contact.Field.othercountry.equalTo(propertyId)) {
+            return new CountryViewField(contact.getOthercountry());
         }
 
         return null;

@@ -20,9 +20,8 @@ import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public interface CampaignAddview extends IFormAddView<SimpleCampaign> {
+public interface CampaignAddView extends IFormAddView<SimpleCampaign> {
 }

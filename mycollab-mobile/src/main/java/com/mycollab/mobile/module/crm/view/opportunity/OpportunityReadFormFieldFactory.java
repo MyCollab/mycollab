@@ -20,11 +20,16 @@ package com.mycollab.mobile.module.crm.view.opportunity;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+
+import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.vaadin.ui.Field;
 
 public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {
@@ -53,6 +58,12 @@ public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewF
             } else {
                 return new DefaultViewField("");
             }
+        } else if (Opportunity.Field.salesstage.equalTo(propertyId)) {
+            return new I18nFormViewField(opportunity.getSalesstage(), OptionI18nEnum.OpportunitySalesStage.class).withStyleName(UIConstants.FIELD_NOTE);
+        } else if (Opportunity.Field.opportunitytype.equalTo(propertyId)) {
+            return new I18nFormViewField(opportunity.getOpportunitytype(), OptionI18nEnum.OpportunityType.class);
+        } else if (Opportunity.Field.source.equalTo(propertyId)) {
+            return new I18nFormViewField(opportunity.getSource(), OptionI18nEnum.OpportunityLeadSource.class);
         }
         return field;
     }

@@ -53,6 +53,7 @@ import static com.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator.
 @ViewComponent
 public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity> implements OpportunityReadView {
     private static final long serialVersionUID = 1588189344759887006L;
+
     private ActivityRelatedItemView associateActivities;
     private OpportunityRelatedContactView associateContacts;
     private OpportunityRelatedLeadView associateLeads;
@@ -109,9 +110,8 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        MHorizontalLayout toolbarLayout = new MHorizontalLayout();
         toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        toolbarLayout.setSpacing(true);
 
         Button relatedContacts = new Button();
         relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""

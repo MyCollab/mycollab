@@ -28,12 +28,9 @@ import com.mycollab.mobile.module.project.view.task.ITaskAddPresenter;
 import com.mycollab.mobile.module.project.view.task.TaskReadPresenter;
 import com.mycollab.mobile.mvp.AbstractPresenter;
 import com.mycollab.mobile.mvp.view.PresenterOptionUtil;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.HasComponents;
 
 /**
@@ -49,30 +46,25 @@ public class TicketPresenter extends AbstractPresenter<TicketContainer> {
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            IPresenter<?> presenter;
+        IPresenter<?> presenter;
 
-            if (data == null || data instanceof TicketScreenData.GotoDashboard) {
-                presenter = PresenterResolver.getPresenter(TicketListPresenter.class);
-            } else if (data instanceof TaskScreenData.Read) {
-                presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
-            } else if (data instanceof TaskScreenData.Add || data instanceof TaskScreenData.Edit) {
-                presenter = PresenterOptionUtil.getPresenter(ITaskAddPresenter.class);
-            } else if (data instanceof BugScreenData.Read) {
-                presenter = PresenterResolver.getPresenter(BugReadPresenter.class);
-            } else if (data instanceof BugScreenData.Add || data instanceof BugScreenData.Edit) {
-                presenter = PresenterResolver.getPresenter(IBugAddPresenter.class);
-            } else if (data instanceof RiskScreenData.Read || data instanceof RiskScreenData.Add || data instanceof
-                    RiskScreenData.Edit) {
-                presenter = PresenterResolver.getPresenter(IRiskPresenter.class);
-            } else {
-                throw new MyCollabException("Do not support param: " + data);
-            }
-
-            presenter.go(container, data);
+        if (data == null || data instanceof TicketScreenData.GotoDashboard) {
+            presenter = PresenterResolver.getPresenter(TicketListPresenter.class);
+        } else if (data instanceof TaskScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
+        } else if (data instanceof TaskScreenData.Add || data instanceof TaskScreenData.Edit) {
+            presenter = PresenterOptionUtil.getPresenter(ITaskAddPresenter.class);
+        } else if (data instanceof BugScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(BugReadPresenter.class);
+        } else if (data instanceof BugScreenData.Add || data instanceof BugScreenData.Edit) {
+            presenter = PresenterOptionUtil.getPresenter(IBugAddPresenter.class);
+        } else if (data instanceof RiskScreenData.Read || data instanceof RiskScreenData.Add || data instanceof
+                RiskScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(IRiskPresenter.class);
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new MyCollabException("Do not support param: " + data);
         }
-    }
 
+        presenter.go(container, data);
+    }
 }

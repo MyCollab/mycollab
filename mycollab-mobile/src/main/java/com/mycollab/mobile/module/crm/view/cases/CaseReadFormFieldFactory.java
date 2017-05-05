@@ -16,11 +16,16 @@
  */
 package com.mycollab.mobile.module.crm.view.cases;
 
+import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCase;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.EmailViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -43,6 +48,20 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
             return new EmailViewField(cases.getEmail());
         } else if (propertyId.equals("assignuser")) {
             return new DefaultViewField(cases.getAssignUserFullName());
+        } else if (propertyId.equals("description")) {
+            return new RichTextViewField(cases.getDescription());
+        } else if (CaseWithBLOBs.Field.resolution.equalTo(propertyId)) {
+            return new RichTextViewField(cases.getResolution());
+        } else if (CaseWithBLOBs.Field.origin.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getOrigin(), OptionI18nEnum.CaseOrigin.class);
+        } else if (CaseWithBLOBs.Field.priority.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getPriority(), OptionI18nEnum.CasePriority.class);
+        } else if (CaseWithBLOBs.Field.status.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getStatus(), OptionI18nEnum.CaseStatus.class);
+        } else if (CaseWithBLOBs.Field.reason.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getReason(), OptionI18nEnum.CaseReason.class);
+        } else if (CaseWithBLOBs.Field.type.equalTo(propertyId)) {
+            return new I18nFormViewField(cases.getType(), OptionI18nEnum.CaseType.class).withStyleName(UIConstants.FIELD_NOTE);
         }
         return null;
     }

@@ -14,19 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.crm.view.campaign;
+package com.mycollab.mobile.module.crm.view.opportunity;
 
-import com.mycollab.mobile.ui.I18NValueListSelect;
-import com.mycollab.module.crm.CrmDataTypeFactory;
-
-import java.util.Arrays;
+import com.mycollab.vaadin.mvp.IPresenter;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.1
+ * @author MyCollab Ltd
+ * @since 5.4.9
  */
-public class CampaignStatusListSelect extends I18NValueListSelect {
-    public CampaignStatusListSelect() {
-        this.loadData(Arrays.asList(CrmDataTypeFactory.getCampaignStatusList()));
-    }
+public interface IOpportunityAddPresenter extends IPresenter<OpportunityAddView> {
 }

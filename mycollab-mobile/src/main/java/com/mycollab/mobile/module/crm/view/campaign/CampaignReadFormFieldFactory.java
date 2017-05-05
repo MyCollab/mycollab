@@ -16,11 +16,15 @@
  */
 package com.mycollab.mobile.module.crm.view.campaign;
 
+import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -30,7 +34,7 @@ import com.vaadin.ui.Field;
 class CampaignReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCampaign> {
     private static final long serialVersionUID = 1L;
 
-    public CampaignReadFormFieldFactory(GenericBeanForm<SimpleCampaign> form) {
+    CampaignReadFormFieldFactory(GenericBeanForm<SimpleCampaign> form) {
         super(form);
     }
 
@@ -50,6 +54,10 @@ class CampaignReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactor
             } else {
                 return new DefaultViewField("");
             }
+        } else if (CampaignWithBLOBs.Field.type.equalTo(propertyId)) {
+            return new I18nFormViewField(campaign.getType(), OptionI18nEnum.CampaignType.class);
+        } else if (CampaignWithBLOBs.Field.status.equalTo(propertyId)) {
+            return new I18nFormViewField(campaign.getStatus(), OptionI18nEnum.CampaignStatus.class).withStyleName(UIConstants.FIELD_NOTE);
         }
 
         return null;
