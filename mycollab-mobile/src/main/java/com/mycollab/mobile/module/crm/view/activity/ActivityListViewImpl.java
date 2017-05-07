@@ -42,7 +42,6 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
     private static final long serialVersionUID = -7632616933330982900L;
 
     public ActivityListViewImpl() {
-        super();
         setCaption(UserUIContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
     }
 

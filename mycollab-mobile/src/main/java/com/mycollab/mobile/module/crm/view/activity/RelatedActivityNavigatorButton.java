@@ -14,44 +14,47 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.crm.view.cases;
+package com.mycollab.mobile.module.crm.view.activity;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.mycollab.module.crm.service.CaseService;
+import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.module.crm.CrmTypeConstants;
+import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.mycollab.module.crm.service.EventService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 
 /**
- * @author Hai Nguyen
+ * @author MyCollab Ltd
  * @since 5.4.9
  */
-public class RelatedCaseNavigatorButton extends NavigationButton {
-    private CaseSearchCriteria criteria;
+public class RelatedActivityNavigatorButton extends NavigationButton {
+    private ActivitySearchCriteria criteria;
 
-    public RelatedCaseNavigatorButton() {
+    public RelatedActivityNavigatorButton() {
         super(UserUIContext.getMessage(GenericI18Enum.OPT_ITEM_VALUE,
-                UserUIContext.getMessage(CaseI18nEnum.SINGLE), 0));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY), 0));
         this.addClickListener(navigationButtonClickEvent -> {
             if (criteria != null) {
-                getNavigationManager().navigateTo(new CaseListDisplayView(criteria));
+                getNavigationManager().navigateTo(new ActivityListDisplayView(criteria));
             }
         });
     }
 
-    void displayTotalCases(CaseSearchCriteria criteria) {
+    void displayTotalActivities(ActivitySearchCriteria criteria) {
         this.criteria = criteria;
-        CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
+        EventService eventService = AppContextUtil.getSpringBean(EventService.class);
         this.setCaption(UserUIContext.getMessage(GenericI18Enum.OPT_ITEM_VALUE,
-                UserUIContext.getMessage(CaseI18nEnum.SINGLE), caseService.getTotalCount(criteria)));
+                UserUIContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY), eventService.getTotalCount(criteria)));
     }
 
     public void displayRelatedByAccount(Integer accountId) {
-        CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-        searchCriteria.setAccountId(NumberSearchField.equal(accountId));
-        displayTotalCases(searchCriteria);
+        ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+        searchCriteria.setType(StringSearchField.and(CrmTypeConstants.ACCOUNT));
+        searchCriteria.setTypeid(NumberSearchField.equal(accountId));
+        displayTotalActivities(searchCriteria);
     }
 }

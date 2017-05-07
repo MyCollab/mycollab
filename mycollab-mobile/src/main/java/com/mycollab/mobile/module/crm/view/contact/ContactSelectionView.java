@@ -41,7 +41,6 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
     private ContactRowDisplayHandler rowHandler = new ContactRowDisplayHandler();
 
     public ContactSelectionView() {
-        super();
         createUI();
         this.setCaption(UserUIContext.getMessage(ContactI18nEnum.M_VIEW_CONTACT_NAME_LOOKUP));
     }

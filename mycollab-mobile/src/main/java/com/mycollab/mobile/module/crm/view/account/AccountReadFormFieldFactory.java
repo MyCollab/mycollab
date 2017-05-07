@@ -39,6 +39,7 @@ class AccountReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory
     @Override
     protected Field<?> onCreateField(Object propertyId) {
         SimpleAccount account = attachForm.getBean();
+
         if (propertyId.equals("email")) {
             return new DefaultViewField(account.getEmail());
         } else if (propertyId.equals("assignuser")) {

@@ -16,11 +16,12 @@
  */
 package com.mycollab.mobile.module.crm.view.account;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.form.view.DynaFormLayout;
 import com.mycollab.mobile.module.crm.events.AccountEvent;
 import com.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
-import com.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
+import com.mycollab.mobile.module.crm.view.activity.RelatedActivityNavigatorButton;
 import com.mycollab.mobile.module.crm.view.cases.RelatedCaseNavigatorButton;
 import com.mycollab.mobile.module.crm.view.contact.RelatedContactNavigatorButton;
 import com.mycollab.mobile.module.crm.view.lead.RelatedLeadNavigatorButton;
@@ -28,10 +29,13 @@ import com.mycollab.mobile.module.crm.view.opportunity.RelatedOpportunityNavigat
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.FormSectionBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleAccount;
+import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.security.RolePermissionCollections;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -60,7 +64,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 
     private RelatedContactNavigatorButton associateContacts;
     private RelatedCaseNavigatorButton associateCases;
-    private ActivityRelatedItemView associateActivities;
+    private RelatedActivityNavigatorButton associateActivities;
     private RelatedLeadNavigatorButton associateLeads;
     private RelatedOpportunityNavigationButton associateOpportunities;
 
@@ -68,7 +72,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
     protected void afterPreviewItem() {
         associateContacts.displayRelatedByAccount(beanItem.getId());
         associateCases.displayRelatedByAccount(beanItem.getId());
-        associateActivities.displayActivity(beanItem.getId());
+        associateActivities.displayRelatedByAccount(beanItem.getId());
         associateLeads.displayRelatedByAccount(beanItem.getId());
         associateOpportunities.displayRelatedByAccount(beanItem.getId());
     }
@@ -77,7 +81,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
     protected void initRelatedComponents() {
         associateContacts = new RelatedContactNavigatorButton();
         associateCases = new RelatedCaseNavigatorButton();
-        associateActivities = new ActivityRelatedItemView(CrmTypeConstants.ACCOUNT);
+        associateActivities = new RelatedActivityNavigatorButton();
         associateLeads = new RelatedLeadNavigatorButton();
         associateOpportunities = new RelatedOpportunityNavigationButton();
     }
@@ -105,6 +109,14 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
     @Override
     public HasPreviewFormHandlers<SimpleAccount> getPreviewFormHandlers() {
         return this.previewForm;
+    }
+
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        MyCollabUI.addFragment(CrmLinkGenerator.generateAccountPreviewLink(beanItem.getId()),
+                UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        UserUIContext.getMessage(AccountI18nEnum.SINGLE), beanItem.getAccountname()));
     }
 
     @Override
@@ -136,6 +148,10 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         Component caseSection = FormSectionBuilder.build(CrmAssetsManager.getAsset(CrmTypeConstants.CASE),
                 associateCases);
         toolbarLayout.addComponent(caseSection);
+
+        Component activitySection = FormSectionBuilder.build(CrmAssetsManager.getAsset(CrmTypeConstants.ACTIVITY),
+                associateActivities);
+        toolbarLayout.addComponent(activitySection);
         return toolbarLayout;
     }
 

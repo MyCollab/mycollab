@@ -22,11 +22,9 @@ import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.mobile.module.crm.events.AccountEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.mycollab.mobile.ui.ConfirmDialog;
-import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleAccount;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
@@ -124,10 +122,6 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                 if (account != null) {
                     view.previewItem(account);
                     super.onGo(container, data);
-
-                    MyCollabUI.addFragment(CrmLinkGenerator.generateAccountPreviewLink(account.getId()),
-                            UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    UserUIContext.getMessage(AccountI18nEnum.SINGLE), account.getAccountname()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

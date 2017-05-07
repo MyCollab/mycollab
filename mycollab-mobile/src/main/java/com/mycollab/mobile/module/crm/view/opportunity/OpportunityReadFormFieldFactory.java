@@ -23,7 +23,9 @@ package com.mycollab.mobile.module.crm.view.opportunity;
 
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityType;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -32,10 +34,10 @@ import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.vaadin.ui.Field;
 
-public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {
+class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {
     private static final long serialVersionUID = 1L;
 
-    public OpportunityReadFormFieldFactory(GenericBeanForm<SimpleOpportunity> form) {
+    OpportunityReadFormFieldFactory(GenericBeanForm<SimpleOpportunity> form) {
         super(form);
     }
 
@@ -59,11 +61,11 @@ public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewF
                 return new DefaultViewField("");
             }
         } else if (Opportunity.Field.salesstage.equalTo(propertyId)) {
-            return new I18nFormViewField(opportunity.getSalesstage(), OptionI18nEnum.OpportunitySalesStage.class).withStyleName(UIConstants.FIELD_NOTE);
+            return new I18nFormViewField(opportunity.getSalesstage(), OpportunitySalesStage.class).withStyleName(UIConstants.FIELD_NOTE);
         } else if (Opportunity.Field.opportunitytype.equalTo(propertyId)) {
-            return new I18nFormViewField(opportunity.getOpportunitytype(), OptionI18nEnum.OpportunityType.class);
+            return new I18nFormViewField(opportunity.getOpportunitytype(), OpportunityType.class);
         } else if (Opportunity.Field.source.equalTo(propertyId)) {
-            return new I18nFormViewField(opportunity.getSource(), OptionI18nEnum.OpportunityLeadSource.class);
+            return new I18nFormViewField(opportunity.getSource(), OpportunityLeadSource.class);
         }
         return field;
     }

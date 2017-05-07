@@ -40,7 +40,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
     protected AdvancedEditBeanForm<B> editForm;
 
     public AbstractEditItemComp() {
-        super();
         editForm = new AdvancedEditBeanForm<>();
         this.setContent(editForm);
 
@@ -67,7 +66,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
     }
 
     class FormLayoutFactory extends WrappedFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
 
         @Override
         public AbstractComponent getLayout() {

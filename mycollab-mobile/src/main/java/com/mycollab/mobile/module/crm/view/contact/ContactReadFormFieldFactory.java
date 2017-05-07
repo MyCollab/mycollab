@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.crm.view.contact;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -34,10 +34,10 @@ import com.vaadin.ui.Field;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleContact> {
+class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleContact> {
     private static final long serialVersionUID = 1L;
 
-    public ContactReadFormFieldFactory(GenericBeanForm<SimpleContact> form) {
+    ContactReadFormFieldFactory(GenericBeanForm<SimpleContact> form) {
         super(form);
     }
 
@@ -61,7 +61,7 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
         } else if (propertyId.equals("firstname")) {
             return new DefaultViewField(contact.getFirstname());
         } else if (Contact.Field.leadsource.equalTo(propertyId)) {
-            return new I18nFormViewField(contact.getLeadsource(), OptionI18nEnum.OpportunityLeadSource.class).withStyleName(UIConstants.FIELD_NOTE);
+            return new I18nFormViewField(contact.getLeadsource(), OpportunityLeadSource.class).withStyleName(UIConstants.FIELD_NOTE);
         } else if (Contact.Field.primcountry.equalTo(propertyId)) {
             return new CountryViewField(contact.getPrimcountry());
         } else if (Contact.Field.othercountry.equalTo(propertyId)) {

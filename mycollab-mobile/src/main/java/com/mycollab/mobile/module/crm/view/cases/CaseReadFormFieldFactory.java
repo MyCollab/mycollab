@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.crm.view.cases;
 
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCase;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -35,13 +35,14 @@ import com.vaadin.ui.Field;
 class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCase> {
     private static final long serialVersionUID = 1L;
 
-    public CaseReadFormFieldFactory(GenericBeanForm<SimpleCase> form) {
+    CaseReadFormFieldFactory(GenericBeanForm<SimpleCase> form) {
         super(form);
     }
 
     @Override
     protected Field<?> onCreateField(Object propertyId) {
         final SimpleCase cases = attachForm.getBean();
+
         if (propertyId.equals("accountid")) {
             return new DefaultViewField(cases.getAccountName());
         } else if (propertyId.equals("email")) {
@@ -53,15 +54,15 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         } else if (CaseWithBLOBs.Field.resolution.equalTo(propertyId)) {
             return new RichTextViewField(cases.getResolution());
         } else if (CaseWithBLOBs.Field.origin.equalTo(propertyId)) {
-            return new I18nFormViewField(cases.getOrigin(), OptionI18nEnum.CaseOrigin.class);
+            return new I18nFormViewField(cases.getOrigin(), CaseOrigin.class);
         } else if (CaseWithBLOBs.Field.priority.equalTo(propertyId)) {
-            return new I18nFormViewField(cases.getPriority(), OptionI18nEnum.CasePriority.class);
+            return new I18nFormViewField(cases.getPriority(), CasePriority.class);
         } else if (CaseWithBLOBs.Field.status.equalTo(propertyId)) {
-            return new I18nFormViewField(cases.getStatus(), OptionI18nEnum.CaseStatus.class);
+            return new I18nFormViewField(cases.getStatus(), CaseStatus.class);
         } else if (CaseWithBLOBs.Field.reason.equalTo(propertyId)) {
-            return new I18nFormViewField(cases.getReason(), OptionI18nEnum.CaseReason.class);
+            return new I18nFormViewField(cases.getReason(), CaseReason.class);
         } else if (CaseWithBLOBs.Field.type.equalTo(propertyId)) {
-            return new I18nFormViewField(cases.getType(), OptionI18nEnum.CaseType.class).withStyleName(UIConstants.FIELD_NOTE);
+            return new I18nFormViewField(cases.getType(), CaseType.class).withStyleName(UIConstants.FIELD_NOTE);
         }
         return null;
     }
