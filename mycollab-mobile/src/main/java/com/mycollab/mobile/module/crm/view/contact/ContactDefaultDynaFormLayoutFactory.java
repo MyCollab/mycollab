@@ -41,13 +41,13 @@ public class ContactDefaultDynaFormLayoutFactory {
                 .displayName(GenericI18Enum.FORM_FIRSTNAME)
                 .fieldIndex(0).build());
 
-        contactSection.fields(new PhoneDynaFieldBuilder().fieldName("officephone")
-                .displayName(ContactI18nEnum.FORM_OFFICE_PHONE)
-                .fieldIndex(1).build());
-
         contactSection.fields(new TextDynaFieldBuilder().fieldName("lastname")
                 .displayName(GenericI18Enum.FORM_LASTNAME)
-                .fieldIndex(2).mandatory(true).build());
+                .fieldIndex(1).mandatory(true).build());
+
+        contactSection.fields(new PhoneDynaFieldBuilder().fieldName("officephone")
+                .displayName(ContactI18nEnum.FORM_OFFICE_PHONE)
+                .fieldIndex(2).build());
 
         contactSection.fields(new PhoneDynaFieldBuilder().fieldName("mobile")
                 .displayName(ContactI18nEnum.FORM_MOBILE)

@@ -20,7 +20,6 @@ package com.mycollab.mobile.module.crm.view.opportunity;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;

@@ -40,7 +40,6 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
     private CampaignRowDisplayHandler rowHandler = new CampaignRowDisplayHandler();
 
     public CampaignSelectionView() {
-        super();
         createUI();
         this.setCaption(UserUIContext.getMessage(CampaignI18nEnum.M_VIEW_CAMPAIGN_NAME_LOOKUP));
     }

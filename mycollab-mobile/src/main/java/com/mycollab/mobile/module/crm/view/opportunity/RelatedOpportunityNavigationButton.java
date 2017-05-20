@@ -54,4 +54,10 @@ public class RelatedOpportunityNavigationButton extends NavigationButton {
         searchCriteria.setAccountId(NumberSearchField.equal(accountId));
         displayTotalOpportunities(searchCriteria);
     }
+
+    public void displayRelatedByContact(Integer contactId) {
+        OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+        searchCriteria.setContactId(NumberSearchField.equal(contactId));
+        displayTotalOpportunities(searchCriteria);
+    }
 }

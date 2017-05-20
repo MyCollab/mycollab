@@ -36,10 +36,10 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
+class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
     private static final long serialVersionUID = -2350731660593521985L;
 
-    public OpportunityListDisplay() {
+    OpportunityListDisplay() {
         super(AppContextUtil.getSpringBean(OpportunityService.class), new OpportunityRowDisplayHandler());
     }
 

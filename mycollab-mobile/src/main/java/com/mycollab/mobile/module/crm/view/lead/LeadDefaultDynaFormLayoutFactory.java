@@ -40,12 +40,12 @@ public class LeadDefaultDynaFormLayoutFactory {
                 .displayName(GenericI18Enum.FORM_FIRSTNAME)
                 .fieldIndex(0).build());
 
-        infoSection.fields(new EmailDynaFieldBuilder().fieldName("email")
-                .displayName(GenericI18Enum.FORM_EMAIL)
-                .fieldIndex(1).build());
-
         infoSection.fields(new TextDynaFieldBuilder().fieldName("lastname")
                 .displayName(GenericI18Enum.FORM_LASTNAME)
+                .fieldIndex(1).build());
+
+        infoSection.fields(new EmailDynaFieldBuilder().fieldName("email")
+                .displayName(GenericI18Enum.FORM_EMAIL)
                 .fieldIndex(2).build());
 
         infoSection.fields(new PhoneDynaFieldBuilder().fieldName("officephone")

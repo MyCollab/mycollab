@@ -23,5 +23,5 @@ import com.mycollab.vaadin.mvp.IFormAddView;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public interface CampaignAddView extends IFormAddView<SimpleCampaign> {
+public interface CampaignAddView2 extends IFormAddView<SimpleCampaign> {
 }

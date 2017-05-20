@@ -57,4 +57,39 @@ public class RelatedActivityNavigatorButton extends NavigationButton {
         searchCriteria.setTypeid(NumberSearchField.equal(accountId));
         displayTotalActivities(searchCriteria);
     }
+
+    public void displayRelatedByContact(Integer contactId) {
+        ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+        searchCriteria.setType(StringSearchField.and(CrmTypeConstants.CONTACT));
+        searchCriteria.setTypeid(NumberSearchField.equal(contactId));
+        displayTotalActivities(searchCriteria);
+    }
+
+    public void displayRelatedByCampaign(Integer campaignId) {
+        ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+        searchCriteria.setType(StringSearchField.and(CrmTypeConstants.CAMPAIGN));
+        searchCriteria.setTypeid(NumberSearchField.equal(campaignId));
+        displayTotalActivities(searchCriteria);
+    }
+
+    public void displayRelatedByLead(Integer leadId) {
+        ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+        searchCriteria.setType(StringSearchField.and(CrmTypeConstants.LEAD));
+        searchCriteria.setTypeid(NumberSearchField.equal(leadId));
+        displayTotalActivities(searchCriteria);
+    }
+
+    public void displayRelatedByOpportunity(Integer opportunityId) {
+        ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+        searchCriteria.setType(StringSearchField.and(CrmTypeConstants.OPPORTUNITY));
+        searchCriteria.setTypeid(NumberSearchField.equal(opportunityId));
+        displayTotalActivities(searchCriteria);
+    }
+
+    public void displayRelatedByCase(Integer caseId) {
+        ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+        searchCriteria.setType(StringSearchField.and(CrmTypeConstants.CASE));
+        searchCriteria.setTypeid(NumberSearchField.equal(caseId));
+        displayTotalActivities(searchCriteria);
+    }
 }

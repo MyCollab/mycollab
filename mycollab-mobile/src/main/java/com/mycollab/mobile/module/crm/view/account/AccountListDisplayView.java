@@ -14,26 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.crm.view.cases;
+package com.mycollab.mobile.module.crm.view.account;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
-import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 
 /**
  * @author MyCollab Ltd
  * @since 5.4.9
  */
-class CaseListDisplayView extends AbstractMobilePageView {
-    private CaseSearchCriteria criteria;
-    private final CaseListDisplay itemList;
+class AccountListDisplayView extends AbstractMobilePageView {
+    private AccountSearchCriteria criteria;
+    private final AccountListDisplay itemList;
 
-    CaseListDisplayView(CaseSearchCriteria criteria) {
+    AccountListDisplayView(AccountSearchCriteria criteria) {
         this.criteria = criteria;
-        itemList = new CaseListDisplay();
+        itemList = new AccountListDisplay();
         this.setContent(itemList);
         displayItems();
     }
@@ -41,6 +40,6 @@ class CaseListDisplayView extends AbstractMobilePageView {
     private void displayItems() {
         Integer numItems = itemList.search(criteria);
         this.setCaption(UserUIContext.getMessage(GenericI18Enum.OPT_ITEM_VALUE,
-                UserUIContext.getMessage(CaseI18nEnum.SINGLE), numItems));
+                UserUIContext.getMessage(AccountI18nEnum.SINGLE), numItems));
     }
 }

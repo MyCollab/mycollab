@@ -129,11 +129,6 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
                 if (lead != null) {
                     view.previewItem(lead);
                     super.onGo(container, data);
-
-                    MyCollabUI.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
-                            UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    UserUIContext.getMessage(LeadI18nEnum.SINGLE), lead.getLeadName()));
-
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }
