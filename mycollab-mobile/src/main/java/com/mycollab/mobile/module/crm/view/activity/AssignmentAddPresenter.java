@@ -107,6 +107,5 @@ public class AssignmentAddPresenter extends AbstractCrmPresenter<AssignmentAddVi
         } else {
             taskService.updateWithSession(item, UserUIContext.getUsername());
         }
-
     }
 }

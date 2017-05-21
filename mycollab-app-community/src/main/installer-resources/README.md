@@ -46,13 +46,17 @@ Version 5.4.9
 **Library Upgrades**
 
 * Mybatis 3.4.4, Infinispan 9.0.0.Final, Flyway 2.3.0, Quartz Scheduler 2.3.0
-* Vaadin 7.7.8
+* Vaadin 7.7.9, Jackrabbit 2.15.2
 * Other libraries
 
 **Improvements & New Features**
 
 * Support CRM mobile
-* Add report module in project view
+* Update languages
+
+**Bug Fixes**
+
+
 
 Version 5.4.8
 -------------

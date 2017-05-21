@@ -14,20 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.crm.view.activity;
+package com.mycollab.mobile.module.crm.view.campaign;
 
-import com.mycollab.mobile.ui.ValueListSelect;
+import com.mycollab.module.crm.domain.SimpleCampaign;
+import com.mycollab.vaadin.mvp.IFormAddView;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class MeetingStatusListSelect extends ValueListSelect {
-    private static final long serialVersionUID = 1L;
-
-    public MeetingStatusListSelect() {
-        super();
-        setCaption(null);
-        this.loadData("Planned", "Held", "Not Held");
-    }
+public interface CampaignAddView extends IFormAddView<SimpleCampaign> {
 }

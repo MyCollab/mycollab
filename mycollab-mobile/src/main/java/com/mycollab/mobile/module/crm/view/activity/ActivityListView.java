@@ -21,12 +21,9 @@ import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public interface ActivityListView extends
-		IListView<ActivitySearchCriteria, SimpleActivity> {
+public interface ActivityListView extends IListView<ActivitySearchCriteria, SimpleActivity> {
 
 }

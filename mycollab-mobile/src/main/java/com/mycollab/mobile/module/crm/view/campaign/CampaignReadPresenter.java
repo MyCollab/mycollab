@@ -114,7 +114,6 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
                 } else {
                     NotificationUtil.showGotoLastRecordNotification();
                 }
-
             }
 
             @Override
