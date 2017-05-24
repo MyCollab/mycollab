@@ -30,7 +30,6 @@ public class CurrencyComboBoxField extends ListSelect {
     private static final long serialVersionUID = 1L;
 
     public CurrencyComboBoxField() {
-        super();
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
         this.setRows(1);
 

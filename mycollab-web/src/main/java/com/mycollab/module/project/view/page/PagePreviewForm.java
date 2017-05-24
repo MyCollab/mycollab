@@ -63,7 +63,7 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
     private static class PageReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Page> {
         private static final long serialVersionUID = 1L;
 
-        public PageReadFormFieldFactory(GenericBeanForm<Page> form) {
+        PageReadFormFieldFactory(GenericBeanForm<Page> form) {
             super(form);
         }
 

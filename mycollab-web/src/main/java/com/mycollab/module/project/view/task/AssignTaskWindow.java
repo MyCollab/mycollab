@@ -37,7 +37,6 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -115,7 +114,7 @@ class AssignTaskWindow extends MWindow {
                         close();
                         EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
                     }
-                }).withIcon(FontAwesome.SHARE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                }).withIcon(FontAwesome.SHARE).withStyleName(WebThemes.BUTTON_ACTION);
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
                 layout.addComponent(controlsBtn);

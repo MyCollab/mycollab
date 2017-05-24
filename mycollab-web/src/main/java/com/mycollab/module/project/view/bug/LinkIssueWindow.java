@@ -32,7 +32,6 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -101,7 +100,7 @@ public class LinkIssueWindow extends MWindow {
                         close();
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedBug.getId()));
                     }
-                }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
 
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);

@@ -37,7 +37,6 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -119,7 +118,6 @@ class AssignBugWindow extends MWindow {
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
                     }
                 }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SHARE);
-                approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);

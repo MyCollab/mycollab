@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.8</version>
+        <version>5.4.9</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -74,47 +74,61 @@
 
         <dependency>
             <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiled</artifactId>
+            <version>${vaadinVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client</artifactId>
+            <version>${vaadinVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiler</artifactId>
             <version>${vaadinVersion}</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-sass-compiler</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.vaadin.external.flute</groupId>
-                    <artifactId>flute</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.vaadin.external.streamhtmlparser</groupId>
-                    <artifactId>streamhtmlparser-jsilver</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.vaadin.external.google</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.validation</groupId>
-                    <artifactId>validation-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.w3c.css</groupId>
-                    <artifactId>sac</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>net.sourceforge.cssparser</groupId>
-                    <artifactId>cssparser</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xml-apis</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.0.0</version>
+                <!-- Clean up also any pre-compiled themes -->
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/webapp/VAADIN/themes</directory>
+                            <includes>
+                                <include>**/styles.css</include>
+                                <include>**/styles.scss.cache</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadinVersion}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>update-theme</goal>
+                            <goal>update-widgetset</goal>
+                            <goal>compile</goal>
+                            <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
+                            <goal>compile-theme</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -269,73 +283,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>widgetset</id>
-            <activation>
-                <property>
-                    <name>environment</name>
-                    <value>widgetset</value>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-client-compiled</artifactId>
-                    <version>${vaadinVersion}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-client</artifactId>
-                    <version>${vaadinVersion}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-client-compiler</artifactId>
-                    <version>${vaadinVersion}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <!-- Clean up also any pre-compiled themes -->
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>src/main/webapp/VAADIN/themes</directory>
-                                    <includes>
-                                        <include>**/styles.css</include>
-                                        <include>**/styles.scss.cache</include>
-                                    </includes>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>vaadin-maven-plugin</artifactId>
-                        <version>${vaadinVersion}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>update-theme</goal>
-                                    <goal>update-widgetset</goal>
-                                    <goal>compile</goal>
-                                    <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
-                                    <goal>compile-theme</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.8</version>
+        <version>5.4.9</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
 

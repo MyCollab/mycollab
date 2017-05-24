@@ -54,9 +54,11 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -632,7 +634,7 @@ public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements
                     }
 
                     close();
-                }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
 
                 MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, false))
                         .with(cancelBtn, saveBtn);

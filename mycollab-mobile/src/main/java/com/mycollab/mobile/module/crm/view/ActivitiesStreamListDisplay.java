@@ -14,18 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.ui;
-
-import com.mycollab.common.CountryValueFactory;
+package com.mycollab.mobile.module.crm.view;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.1
+ * Created by Nguyen on 5/23/2017.
  */
-public class CountryListSelect extends ValueListSelect {
-	private static final long serialVersionUID = 1L;
-
-	public CountryListSelect() {
-		loadData(CountryValueFactory.getCountryList());
-	}
+public class ActivitiesStreamListDisplay {
 }

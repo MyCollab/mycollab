@@ -33,9 +33,7 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
@@ -85,7 +83,6 @@ public class MilestoneAddWindow extends MWindow {
                 close();
             }
         }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
-        saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);

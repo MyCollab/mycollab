@@ -35,7 +35,6 @@ public class I18NValueListSelect extends ValueListSelect {
     }
 
     public I18NValueListSelect(boolean nullIsAllowable, Enum<?>... keys) {
-        this();
         setNullSelectionAllowed(nullIsAllowable);
         loadData(Arrays.asList(keys));
     }

@@ -30,11 +30,11 @@ public class Version {
     public static final String THEME_MOBILE_VERSION = "mycollab_20161111";
 
     public static String getVersion() {
-        return "5.4.8";
+        return "5.4.9";
     }
 
     public static DateTime getReleasedDate() {
-        return new DateTime(2017, 4, 2, 0, 0, 0);
+        return new DateTime(2017, 5, 25, 0, 0, 0);
     }
 
     static int[] getVersionNumbers(String ver) {

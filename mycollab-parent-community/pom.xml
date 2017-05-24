@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.mycollab</groupId>
     <artifactId>mycollab-parent-community</artifactId>
-    <version>5.4.8</version>
+    <version>5.4.9</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.3.0</maven>
@@ -273,7 +273,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>2.6.1</version>
+            <version>2.6.2</version>
         </dependency>
 
         <dependency>

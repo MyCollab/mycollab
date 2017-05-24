@@ -414,7 +414,7 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CaseEvent.GotoAdd event) {
-                IPresenter presenter = PresenterResolver.getPresenter(ICaseAddPresenter.class);
+                IPresenter presenter = PresenterOptionUtil.getPresenter(ICaseAddPresenter.class);
                 presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleCase()));
             }
         });
@@ -425,7 +425,7 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CaseEvent.GotoEdit event) {
-                IPresenter presenter = PresenterResolver.getPresenter(ICaseAddPresenter.class);
+                IPresenter presenter = PresenterOptionUtil.getPresenter(ICaseAddPresenter.class);
                 presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
@@ -544,7 +544,7 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(OpportunityEvent.GotoAdd event) {
-                IPresenter presenter = PresenterResolver.getPresenter(IOpportunityAddPresenter.class);
+                IPresenter presenter = PresenterOptionUtil.getPresenter(IOpportunityAddPresenter.class);
                 presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleOpportunity()));
             }
         });
@@ -555,7 +555,7 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(OpportunityEvent.GotoEdit event) {
-                IPresenter presenter = PresenterResolver.getPresenter(IOpportunityAddPresenter.class);
+                IPresenter presenter = PresenterOptionUtil.getPresenter(IOpportunityAddPresenter.class);
                 presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });

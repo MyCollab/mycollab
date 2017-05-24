@@ -32,7 +32,6 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -110,7 +109,6 @@ class GroupPageAddWindow extends MWindow {
                         EventBusFactory.getInstance().post(new PageEvent.GotoList(GroupPageAddWindow.this, folder.getPath()));
                     }
                 }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
-                saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);

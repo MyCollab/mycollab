@@ -36,7 +36,6 @@ public class MainView extends AbstractMobileMainView {
     private static final long serialVersionUID = 1316340508967377888L;
 
     public MainView() {
-        super();
         this.setSizeFull();
 
         MVerticalLayout contentLayout = new MVerticalLayout().withStyleName("content-wrapper").withFullWidth();

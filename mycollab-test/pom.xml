@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.8</version>
+        <version>5.4.9</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.7.0</version>
+            <version>3.8.0</version>
         </dependency>
 
         <dependency>
