@@ -48,8 +48,8 @@ class AuditLogRegistry extends InitializingBean {
           var isAppended = false
           val changeItems: java.util.List[AuditChangeItem] = activityStream.getAssoAuditLog.getChangeItems
           if (CollectionUtils.isNotEmpty(changeItems)) {
-            import scala.collection.JavaConversions._
-            for (item <- changeItems) {
+            import scala.collection.JavaConverters._
+            for (item <- changeItems.asScala) {
               val fieldName = item.getField
               val fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName)
               if (fieldDisplayHandler != null) {

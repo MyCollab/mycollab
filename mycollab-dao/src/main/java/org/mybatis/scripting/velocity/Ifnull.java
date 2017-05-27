@@ -27,8 +27,8 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 
 /**
- * @author <a href="mailto:shinobu@ieee.org">Shinobu Kawai</a>
- * @version $Id: $
+ * @author MyCollab Ltd.
+ * @since 4.0
  */
 public class Ifnull extends Directive {
 

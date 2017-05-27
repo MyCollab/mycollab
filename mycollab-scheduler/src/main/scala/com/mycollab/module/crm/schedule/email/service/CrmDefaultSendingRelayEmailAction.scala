@@ -62,7 +62,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
       bean = getBeanInContext(notification)
       if (bean != null) {
         contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
-        import scala.collection.JavaConversions._
+        import scala.collection.JavaConverters._
         for (user <- notifiers) {
           val notifierFullName = user.getDisplayName
           if (StringUtils.isBlank(notifierFullName)) {
@@ -82,7 +82,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
           buildExtraTemplateVariables(context)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List(userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
             subject, contentGenerator.parseFile("mailCrmItemCreatedNotifier.ftl", context.getLocale))
         }
       }
@@ -102,8 +102,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
         searchCriteria.setSaccountid(null)
         val comments = commentService.findPageableListByCriteria(new BasicSearchRequest[CommentSearchCriteria](searchCriteria, 0, 5))
         contentGenerator.putVariable("lastComments", comments)
-        
-        import scala.collection.JavaConversions._
+
+        import scala.collection.JavaConverters._
         for (user <- notifiers) {
           val notifierFullName = user.getDisplayName
           if (notifierFullName == null) {
@@ -132,7 +132,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
           contentGenerator.putVariable("mapper", getItemFieldMapper)
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List(userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
             subject, contentGenerator.parseFile("mailCrmItemUpdatedNotifier.ftl", context.getLocale))
         }
       }
@@ -152,7 +152,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
       contentGenerator.putVariable("lastComments", comments)
       contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
       
-      import scala.collection.JavaConversions._
+      import scala.collection.JavaConverters._
       for (user <- notifiers) {
         val notifierFullName = user.getDisplayName
         val context = new MailContext[B](notification, user, siteUrl)

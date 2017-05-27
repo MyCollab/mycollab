@@ -29,10 +29,8 @@ import org.apache.velocity.runtime.parser.node.Node;
 import com.mycollab.db.arguments.NoValueSearchField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class NoValExpr extends Directive {
 

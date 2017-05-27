@@ -62,7 +62,7 @@ public class TrimExtDirective extends Directive {
         int rightIndex = params.maxBody;
         if (!params.prefixOverrides.isEmpty()) {
             final String LEFT = params.body.substring(0, params.maxPrefixLength < params.maxBody ? params.maxPrefixLength
-                                    : params.maxBody).toUpperCase(Locale.ENGLISH);
+                    : params.maxBody).toUpperCase(Locale.ENGLISH);
             FastLinkedList<String>.Node n = params.prefixOverrides.start();
             while (n != null) {
                 if (LEFT.startsWith(n.data)) {

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.task;
+package com.mycollab.module.project.view.ticket;
 
 import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.domain.OptionVal;
@@ -43,6 +43,9 @@ import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.mycollab.module.project.view.kanban.DeleteColumnWindow;
 import com.mycollab.module.project.view.service.TaskComponentFactory;
+import com.mycollab.module.project.view.task.TaskSavedFilterComboBox;
+import com.mycollab.module.project.view.task.TaskSearchPanel;
+import com.mycollab.module.project.view.task.ToggleTaskSummaryField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.MyCollabUI;
@@ -91,7 +94,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 5.1.1
  */
 @ViewComponent
-public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements TaskKanbanBoardView {
+public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implements TicketKanbanBoardView {
 
     private ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
     private OptionValService optionValService = AppContextUtil.getSpringBean(OptionValService.class);
@@ -118,7 +121,7 @@ public class TaskKanbanBoardViewImpl extends AbstractVerticalPageView implements
                 }
             };
 
-    public TaskKanbanBoardViewImpl() {
+    public TicketKanbanBoardViewImpl() {
         this.setSizeFull();
         this.withSpacing(true).withMargin(new MarginInfo(false, true, true, true));
         searchPanel = new TaskSearchPanel();

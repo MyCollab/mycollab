@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.task;
+package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.view.IKanbanView;
@@ -25,7 +25,7 @@ import com.mycollab.vaadin.mvp.PageView;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public interface TaskKanbanBoardView extends PageView, IKanbanView {
+public interface TicketKanbanBoardView extends PageView, IKanbanView {
     HasSearchHandlers<TaskSearchCriteria> getSearchHandlers();
 
     void display();

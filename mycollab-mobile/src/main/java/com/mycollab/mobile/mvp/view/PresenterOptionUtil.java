@@ -27,8 +27,7 @@ import com.mycollab.vaadin.mvp.PresenterResolver;
 public class PresenterOptionUtil {
     public static IPresenter getPresenter(Class presenterClass) {
         try {
-            IPresenter presenter = PresenterResolver.getPresenter(presenterClass);
-            return presenter;
+            return PresenterResolver.getPresenter(presenterClass);
         } catch (PresenterNotFoundException e) {
             return new NotPresentPresenter();
         }

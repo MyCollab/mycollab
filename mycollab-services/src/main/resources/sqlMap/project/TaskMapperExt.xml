@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycollab.module.project.dao.TaskMapperExt">
 
-    <resultMap
-            extends="com.mycollab.module.project.dao.TaskMapper.ResultMapWithBLOBs"
+    <resultMap extends="com.mycollab.module.project.dao.TaskMapper.ResultMapWithBLOBs"
             id="TaskResult" type="com.mycollab.module.project.domain.SimpleTask">
         <result column="projectName" property="projectName" jdbcType="VARCHAR"/>
         <result column="projectShortname" property="projectShortname" jdbcType="VARCHAR"/>

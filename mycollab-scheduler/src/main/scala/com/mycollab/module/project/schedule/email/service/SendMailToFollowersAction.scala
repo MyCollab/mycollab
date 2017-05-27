@@ -61,7 +61,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
         contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
-        import scala.collection.JavaConversions._
+        import scala.collection.JavaConverters._
         for (user <- notifiers) {
           val context = new MailContext[B](notification, user, siteUrl)
           context.setWrappedBean(bean)
@@ -74,7 +74,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
             getCreateSubject(context), contentGenerator.parseFile("mailProjectItemCreatedNotifier.ftl", context.getLocale))
         }
       }
@@ -89,7 +89,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
         contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
-        import scala.collection.JavaConversions._
+        import scala.collection.JavaConverters._
         val auditLog = auditLogService.findLastestLog(notification.getTypeid.toInt, notification.getSaccountid)
         contentGenerator.putVariable("historyLog", auditLog)
         contentGenerator.putVariable("mapper", getItemFieldMapper)
@@ -117,7 +117,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val recipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
             getUpdateSubject(context), contentGenerator.parseFile("mailProjectItemUpdatedNotifier.ftl", context.getLocale))
         }
       }
@@ -132,7 +132,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
       bean = getBeanInContext(projectRelayEmailNotification)
       if (bean != null) {
         contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.getSaccountid, notification.getAccountLogo))
-        import scala.collection.JavaConversions._
+        import scala.collection.JavaConverters._
         val searchCriteria = new CommentSearchCriteria
         searchCriteria.setType(StringSearchField.and(notification.getType))
         searchCriteria.setTypeId(StringSearchField.and(notification.getTypeid))
@@ -152,7 +152,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
           val userMail = new MailRecipientField(user.getEmail, user.getUsername)
           val toRecipients = List[MailRecipientField](userMail)
-          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, toRecipients,
+          extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail, SiteConfiguration.getDefaultSiteName, toRecipients.asJava,
             getCommentSubject(context), contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.getLocale))
         }
       }

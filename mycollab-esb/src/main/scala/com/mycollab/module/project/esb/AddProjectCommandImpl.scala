@@ -37,8 +37,8 @@ import org.springframework.stereotype.Component
   def addProject(event: AddProjectEvent): Unit = {
     val ex = new OptionValExample
     ex.createCriteria().andIsdefaultEqualTo(true).andSaccountidEqualTo(event.accountId)
-    import scala.collection.JavaConversions._
-    val defaultOptions = optionValMapper.selectByExample(ex)
+    import collection.JavaConverters._
+    val defaultOptions = optionValMapper.selectByExample(ex).asScala
     for (option <- defaultOptions) {
       val prjOption = new OptionVal
       prjOption.setCreatedtime(new GregorianCalendar().getTime)

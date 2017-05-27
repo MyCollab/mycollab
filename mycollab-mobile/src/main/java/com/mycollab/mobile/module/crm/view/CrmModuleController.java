@@ -19,7 +19,6 @@ package com.mycollab.mobile.module.crm.view;
 import com.google.common.eventbus.Subscribe;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.eventmanager.ApplicationEventListener;
-import com.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.mycollab.mobile.module.crm.events.*;
 import com.mycollab.mobile.module.crm.events.ActivityEvent.CallEdit;
 import com.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
@@ -75,14 +74,13 @@ public class CrmModuleController extends AbstractController {
 
     private void bindCrmEvents() {
         this.register(new ApplicationEventListener<CrmEvent.GotoActivitiesView>() {
-
             private static final long serialVersionUID = -3626315180394209108L;
 
             @Subscribe
             @Override
             public void handle(CrmEvent.GotoActivitiesView event) {
                 AllActivitiesPresenter presenter = PresenterResolver.getPresenter(AllActivitiesPresenter.class);
-                presenter.go(crmViewNavigation, (CrmModuleScreenData.GotoModule) event.getData());
+                presenter.go(crmViewNavigation, new ScreenData<>(null));
             }
         });
     }
