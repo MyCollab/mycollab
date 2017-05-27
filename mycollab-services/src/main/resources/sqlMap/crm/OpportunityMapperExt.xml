@@ -25,7 +25,7 @@
         
         #ifnotnull($searchCriteria.contactId)
              ${searchCriteria.contactId.operation} 
-                EXISTS (SELECT COUNT(*)
+                EXISTS (SELECT 1
                     FROM m_crm_contacts_opportunities, m_crm_contact 
                     WHERE m_crm_contact.id=@{searchCriteria.contactId.value, jdbcType=NUMERIC} 
                         AND m_crm_opportunity.id= m_crm_contacts_opportunities.opportunityId
@@ -83,7 +83,7 @@
         
         #ifnotnull($searchCriteria.accountId)
             ${searchCriteria.accountId.operation}
-                EXISTS (SELECT COUNT(*)
+                EXISTS (SELECT 1
                 FROM m_crm_account 
                 WHERE m_crm_opportunity.accountid = m_crm_account.id 
                     AND m_crm_account.id = @{searchCriteria.accountId.value,jdbcType=NUMERIC}

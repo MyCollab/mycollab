@@ -22,6 +22,7 @@ import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.mycollab.module.crm.service.OpportunityService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 
@@ -51,6 +52,7 @@ public class RelatedOpportunityNavigationButton extends NavigationButton {
 
     public void displayRelatedByAccount(Integer accountId) {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+        searchCriteria.setSaccountid(NumberSearchField.equal(MyCollabUI.getAccountId()));
         searchCriteria.setAccountId(NumberSearchField.equal(accountId));
         displayTotalOpportunities(searchCriteria);
     }

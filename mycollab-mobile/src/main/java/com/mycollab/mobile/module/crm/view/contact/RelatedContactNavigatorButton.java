@@ -38,6 +38,7 @@ import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 
@@ -67,6 +68,7 @@ public class RelatedContactNavigatorButton extends NavigationButton {
 
     public void displayRelatedByAccount(Integer accountId) {
         ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
+        searchCriteria.setSaccountid(NumberSearchField.equal(MyCollabUI.getAccountId()));
         searchCriteria.setAccountId(NumberSearchField.equal(accountId));
         displayTotalContacts(searchCriteria);
     }

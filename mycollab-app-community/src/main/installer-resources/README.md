@@ -56,6 +56,8 @@ Version 5.4.9
 
 **Bug Fixes**
 
+* Display the wrong total opportunities value
+* Several text areas don't support the line-end character
 
 
 Version 5.4.8

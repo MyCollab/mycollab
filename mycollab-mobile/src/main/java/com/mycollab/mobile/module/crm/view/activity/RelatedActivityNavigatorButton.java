@@ -24,6 +24,7 @@ import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.mycollab.module.crm.service.EventService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.MyCollabUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 
@@ -53,6 +54,7 @@ public class RelatedActivityNavigatorButton extends NavigationButton {
 
     public void displayRelatedByAccount(Integer accountId) {
         ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+        searchCriteria.setSaccountid(NumberSearchField.equal(MyCollabUI.getAccountId()));
         searchCriteria.setType(StringSearchField.and(CrmTypeConstants.ACCOUNT));
         searchCriteria.setTypeid(NumberSearchField.equal(accountId));
         displayTotalActivities(searchCriteria);

@@ -995,7 +995,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.7.3";
+	content: "7.7.9";
 }
 
 .v-widget {
@@ -5197,6 +5197,8 @@ a.v-disabled {
 }
 
 .v-grid-body {
+	-ms-touch-action: none;
+	touch-action: none;
 	z-index: 0;
 	top: 0;
 }
@@ -5475,6 +5477,21 @@ a.v-disabled {
 	bottom: 0px;
 	cursor: col-resize;
 	z-index: 10;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.v-grid-column-resize-simple-indicator {
+	position: absolute;
+	width: 3px;
+	top: 0px;
+	left: 15px;
+	z-index: 9001;
+	background: #fff;
+	box-shadow: 0px 0px 5px #000;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
@@ -13896,7 +13913,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	transition: all 300ms;
 }
 
-.valo-menu-responsive[width-range~="0-800px"] .valo-menu-visible .valo-menuitems {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu-visible .valo-menuitems, .valo-menu-responsive[width-range~="0-800px"] .valo-menu-hover:hover .valo-menuitems {
 	-webkit-transform: translatex(0%);
 	-moz-transform: translatex(0%);
 	-ms-transform: translatex(0%);
