@@ -27,7 +27,9 @@ public class FormatHtmlTest {
     @Test
     public void testFormatHtml() {
         String mixTextAndHtml = StringUtils.formatRichText("Hello world https://community.mycollab.com <b>Hai Nguyen</b>");
-        Assert.assertEquals("Hello world <a href=\"https://community.mycollab.com\" target=\"_blank\">https://community.mycollab.com</a> <b>Hai Nguyen</b>", mixTextAndHtml);
+        Assert.assertEquals("Hello world \n" +
+                "<a href=\"https://community.mycollab.com\" target=\"_blank\">https://community.mycollab.com</a> \n" +
+                "<b>Hai Nguyen</b>", mixTextAndHtml);
 
         String pureHtml = StringUtils.formatRichText("https://mycollab.com");
         Assert.assertEquals("<a href=\"https://mycollab.com\" target=\"_blank\">https://mycollab.com</a>", pureHtml);
