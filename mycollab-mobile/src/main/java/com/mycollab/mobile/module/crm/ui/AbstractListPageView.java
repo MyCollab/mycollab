@@ -48,7 +48,7 @@ public abstract class AbstractListPageView<S extends SearchCriteria, B> extends 
     }
 
     @Override
-    public void onBecomingVisible() {
+    protected void onBecomingVisible() {
         super.onBecomingVisible();
         doSearch();
 

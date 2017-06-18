@@ -16,10 +16,16 @@
  */
 package com.mycollab.mobile.module.crm.view.contact;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.html.DivLessFormatter;
+import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -28,6 +34,7 @@ import com.mycollab.vaadin.ui.field.CountryViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.EmailViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Field;
 
 /**
@@ -44,21 +51,27 @@ class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory
     @Override
     protected Field<?> onCreateField(Object propertyId) {
         SimpleContact contact = attachForm.getBean();
-        if (propertyId.equals("accountid")) {
-            return new DefaultViewField(contact.getAccountName());
-        } else if (propertyId.equals("email")) {
+        if (Contact.Field.accountid.equalTo(propertyId)) {
+            if (contact.getAccountid() != null) {
+                A accountLink = new A(CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()))
+                        .appendText(contact.getAccountName());
+                Div accountDiv = new Div().appendText(CrmAssetsManager.getAsset(CrmTypeConstants
+                        .ACCOUNT).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), accountLink);
+                return new DefaultViewField(accountDiv.write(), ContentMode.HTML);
+            }
+        } else if (Contact.Field.email.equalTo(propertyId)) {
             return new EmailViewField(contact.getEmail());
-        } else if (propertyId.equals("assignuser")) {
+        } else if (Contact.Field.assignuser.equalTo(propertyId)) {
             return new DefaultViewField(contact.getAssignUserFullName());
-        } else if (propertyId.equals("iscallable")) {
+        } else if (Contact.Field.iscallable.equalTo(propertyId)) {
             if (Boolean.FALSE.equals(contact.getIscallable())) {
                 return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_NO));
             } else {
                 return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_YES));
             }
-        } else if (propertyId.equals("birthday")) {
+        } else if (Contact.Field.birthday.equalTo(propertyId)) {
             return new DefaultViewField(UserUIContext.formatDate(contact.getBirthday()));
-        } else if (propertyId.equals("firstname")) {
+        } else if (Contact.Field.firstname.equalTo(propertyId)) {
             return new DefaultViewField(contact.getFirstname());
         } else if (Contact.Field.leadsource.equalTo(propertyId)) {
             return new I18nFormViewField(contact.getLeadsource(), OpportunityLeadSource.class).withStyleName(UIConstants.FIELD_NOTE);

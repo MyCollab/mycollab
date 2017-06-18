@@ -41,6 +41,12 @@ public class AllActivitiesViewImpl extends AbstractListPageView<ActivityStreamSe
     }
 
     @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+
+    }
+
+    @Override
     protected SearchInputField<ActivityStreamSearchCriteria> createSearchField() {
         return null;
     }

@@ -40,6 +40,22 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.4.10
+--------------
+
+**Library Upgrades**
+
+* Vaadin 7.7.10, Jackrabbit 2.15.3
+* Other libraries
+
+**Improvements & New Features**
+
+* Update CRM links mobile
+
+**Bug Fixes**
+
+* Customize table columns may cause duplicated items
+
 Version 5.4.9
 -------------
 

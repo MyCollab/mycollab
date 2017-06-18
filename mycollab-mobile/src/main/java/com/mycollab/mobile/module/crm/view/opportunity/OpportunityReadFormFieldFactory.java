@@ -20,17 +20,25 @@ package com.mycollab.mobile.module.crm.view.opportunity;
  * @author MyCollab Ltd.
  * @since 4.1
  */
+
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.mycollab.html.DivLessFormatter;
+import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityType;
+import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Field;
 
 class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {
@@ -46,9 +54,21 @@ class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFac
         final SimpleOpportunity opportunity = attachForm.getBean();
 
         if (propertyId.equals("accountid")) {
-            field = new DefaultViewField(opportunity.getAccountName());
+            if (opportunity.getAccountid() != null) {
+                A accountLink = new A(CrmLinkBuilder.generateAccountPreviewLinkFull(opportunity.getAccountid()))
+                        .appendText(opportunity.getAccountName());
+                Div accountDiv = new Div().appendText(CrmAssetsManager.getAsset(CrmTypeConstants
+                        .ACCOUNT).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), accountLink);
+                field = new DefaultViewField(accountDiv.write(), ContentMode.HTML);
+            }
         } else if (propertyId.equals("campaignid")) {
-            field = new DefaultViewField(opportunity.getCampaignName());
+            if (opportunity.getCampaignid() != null) {
+                A campaignLink = new A(CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity.getAccountid()))
+                        .appendText(opportunity.getCampaignName());
+                Div campaignDiv = new Div().appendText(CrmAssetsManager.getAsset(CrmTypeConstants
+                        .CAMPAIGN).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), campaignLink);
+                field = new DefaultViewField(campaignDiv.write(), ContentMode.HTML);
+            }
         } else if (propertyId.equals("assignuser")) {
             field = new DefaultViewField(opportunity.getAssignUserFullName());
         } else if (propertyId.equals("expectedcloseddate")) {
