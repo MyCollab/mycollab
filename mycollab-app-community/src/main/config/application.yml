@@ -1,0 +1,15 @@
+app:
+  name: MyCollab
+  description: The world-class collaboration software
+  facebookUrl: https://www.facebook.com/mycollab2
+  twitterUrl: https://twitter.com/mycollabdotcom
+  googleUrl: https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub
+  linkedinUrl: http://www.linkedin.com/company/mycollab
+
+server:
+  apiUrl: https://api.mycollab.com/api/
+  port: 8080
+  storageSystem: file
+
+endpoints:
+  sensitive: false

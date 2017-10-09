@@ -1,0 +1,1 @@
+ALTER TABLE `s_timeline_tracking` ADD COLUMN `flag` TINYINT(2) NOT NULL DEFAULT 1;
