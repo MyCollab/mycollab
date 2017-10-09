@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.module.crm.CrmTypeConstants;
@@ -22,7 +6,7 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.service.*;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
@@ -61,14 +45,14 @@ public class RelatedReadItemField extends CustomField {
 
             if (CrmTypeConstants.ACCOUNT.equals(type)) {
                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                final SimpleAccount account = accountService.findById(typeId, MyCollabUI.getAccountId());
+                final SimpleAccount account = accountService.findById(typeId, AppUI.getAccountId());
                 if (account != null) {
                     relateItemName = account.getAccountname();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
                 }
             } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
                 CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                final SimpleCampaign campaign = campaignService.findById(typeId, MyCollabUI.getAccountId());
+                final SimpleCampaign campaign = campaignService.findById(typeId, AppUI.getAccountId());
                 if (campaign != null) {
                     relateItemName = campaign.getCampaignname();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN);
@@ -76,7 +60,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.CONTACT.equals(type)) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                final SimpleContact contact = contactService.findById(typeId, MyCollabUI.getAccountId());
+                final SimpleContact contact = contactService.findById(typeId, AppUI.getAccountId());
                 if (contact != null) {
                     relateItemName = contact.getContactName();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT);
@@ -84,7 +68,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.LEAD.equals(type)) {
                 LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
-                final SimpleLead lead = leadService.findById(typeId, MyCollabUI.getAccountId());
+                final SimpleLead lead = leadService.findById(typeId, AppUI.getAccountId());
                 if (lead != null) {
                     relateItemName = lead.getLeadName();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.LEAD);
@@ -92,7 +76,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                final SimpleOpportunity opportunity = opportunityService.findById(typeId, MyCollabUI.getAccountId());
+                final SimpleOpportunity opportunity = opportunityService.findById(typeId, AppUI.getAccountId());
                 if (opportunity != null) {
                     relateItemName = opportunity.getOpportunityname();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY);
@@ -100,7 +84,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.CASE.equals(type)) {
                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                final SimpleCase cases = caseService.findById(typeId, MyCollabUI.getAccountId());
+                final SimpleCase cases = caseService.findById(typeId, AppUI.getAccountId());
                 if (cases != null) {
                     relateItemName = cases.getSubject();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CASE);

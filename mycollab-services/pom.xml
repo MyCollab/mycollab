@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.10</version>
+        <version>6.0.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -16,6 +16,12 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-caching</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mycollab</groupId>
+            <artifactId>mycollab-config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -39,13 +45,13 @@
 
         <dependency>
             <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-config</artifactId>
+            <artifactId>mycollab-jackrabbit</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-jackrabbit</artifactId>
+            <artifactId>mycollab-migration</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -53,13 +59,6 @@
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junitVersion}</version>
             <scope>test</scope>
         </dependency>
 
@@ -76,32 +75,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.3.0.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
-
-        <dependency>
             <groupId>image4j</groupId>
             <artifactId>image4j</artifactId>
             <version>0.7.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
-            <artifactId>jackrabbit-spi-commons</artifactId>
-            <version>${jackrabbitVersion}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
-<!--
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -110,16 +91,16 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysqlVersion}</version>
+                        <version>${mysql.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>com.mycollab</groupId>
                         <artifactId>mycollab-tool</artifactId>
-                        <version>1.0.3</version>
+                        <version>1.0.4</version>
                     </dependency>
                 </dependencies>
                 <executions>
-
+<!--
                     <execution>
                         <id>Crm Artifacts Generator</id>
                         <phase>validate</phase>
@@ -219,9 +200,9 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
+                    -->
                 </executions>
             </plugin>
-            -->
         </plugins>
     </build>
 

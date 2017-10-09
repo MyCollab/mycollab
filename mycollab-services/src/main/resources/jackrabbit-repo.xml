@@ -52,7 +52,7 @@
     <!-- Cluster configuration with system variables. -->
     <Cluster>
         <Journal
-            class="com.mycollab.module.ecm.MyCollabDatabaseJournal">
+            class="com.mycollab.module.ecm.ContentDatabaseJournal">
             <param name="schemaObjectPrefix" value="ecm_journal" />
         </Journal>
     </Cluster>

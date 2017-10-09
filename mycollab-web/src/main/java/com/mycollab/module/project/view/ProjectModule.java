@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -22,7 +6,7 @@ import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.event.ClientEvent;
@@ -30,9 +14,13 @@ import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.event.ReportEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.module.project.view.user.ProjectPagedList;
 import com.mycollab.security.RolePermissionCollections;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractSingleContainerPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
@@ -103,10 +91,18 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
             MButton newPrjButton = new MButton(UserUIContext.getMessage(ProjectI18nEnum.SINGLE), clickEvent -> {
                 UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
                 newBtn.setPopupVisible(false);
-            }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
+            }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT))
+                    .withVisible(UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
             contentLayout.addOption(newPrjButton);
+
+            MButton newTicketButton = new MButton(UserUIContext.getMessage(TicketI18nEnum.SINGLE), clickEvent -> {
+                UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)
+                        .createNewTicketWindow(null, null, null, false));
+                newBtn.setPopupVisible(false);
+            }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET));
+            contentLayout.addOption(newTicketButton);
+
             newBtn.setContent(contentLayout);
-            newBtn.setVisible(UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
 
             serviceMenuContainer.with(newBtn).withAlign(newBtn, Alignment.MIDDLE_LEFT);
         }

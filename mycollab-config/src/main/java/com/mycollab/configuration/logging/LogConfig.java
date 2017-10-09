@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-config.
- *
- * mycollab-config is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-config is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-config.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.configuration.logging;
 
 import ch.qos.logback.classic.LoggerContext;
@@ -43,7 +27,7 @@ public class LogConfig {
         InputStream inputStream = LogConfig.class.getClassLoader().getResourceAsStream("logback-test.xml");
         if (inputStream == null) {
             try {
-                File configFile = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf/logback.xml", "src/main/conf/logback.xml");
+                File configFile = FileUtils.getDesireFile(FileUtils.getUserFolder(), "config/logback.xml", "src/main/config/logback.xml");
                 if (configFile != null) inputStream = new FileInputStream(configFile);
             } catch (FileNotFoundException e) {
                 inputStream = LogConfig.class.getClassLoader().getResourceAsStream("logback.xml");

@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-migration.
- *
- * mycollab-migration is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-migration is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-migration.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.db.migration.service;
 
 import com.mycollab.configuration.IDeploymentMode;
@@ -23,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +18,7 @@ import javax.sql.DataSource;
  * @since 1.0
  */
 @Component("dbMigration")
+@Profile({"production", "test"})
 @DependsOn("appContextUtil")
 public class DbMigrationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(DbMigrationRunner.class);
@@ -50,7 +36,12 @@ public class DbMigrationRunner {
             flyway.setBaselineOnMigrate(true);
             flyway.setDataSource(dataSource);
             flyway.setValidateOnMigrate(false);
-            flyway.setLocations("db/migration", "db/migration2");
+            if (deploymentMode.isDemandEdition()) {
+                flyway.setLocations("db/migration", "db/migration2");
+            } else {
+                flyway.setLocations("db/migration");
+            }
+
             boolean doMigrateLoop = true;
             while (doMigrateLoop) {
                 try {

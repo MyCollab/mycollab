@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
@@ -30,7 +14,7 @@ import com.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -115,7 +99,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
                 this.displayNoExistItems(container, data);
             }
 
-            MyCollabUI.addFragment("crm/contact/list", UserUIContext.getMessage(ContactI18nEnum.LIST));
+            AppUI.addFragment("crm/contact/list", UserUIContext.getMessage(ContactI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }
@@ -133,12 +117,12 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
             }
 
             if (keyList.size() > 0) {
-                contactService.massRemoveWithSession(keyList, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                contactService.massRemoveWithSession(keyList, UserUIContext.getUsername(), AppUI.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            contactService.removeByCriteria(searchCriteria, MyCollabUI.getAccountId());
+            contactService.removeByCriteria(searchCriteria, AppUI.getAccountId());
             doSearch(searchCriteria);
         }
     }
@@ -154,7 +138,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
                 }
             }
             if (keyList.size() > 0) {
-                contactService.massUpdateWithSession(value, keyList, MyCollabUI.getAccountId());
+                contactService.massUpdateWithSession(value, keyList, AppUI.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.contact;
 
 import com.google.common.base.MoreObjects;
@@ -34,7 +18,7 @@ import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
@@ -74,7 +58,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
                 ContactOpportunitySelectionWindow opportunitiesWindow = new ContactOpportunitySelectionWindow(
                         ContactOpportunityListComp.this);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+                criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
                 UI.getCurrent().addWindow(opportunitiesWindow);
                 opportunitiesWindow.setSearchCriteria(criteria);
                 controlsBtn.setPopupVisible(false);
@@ -96,7 +80,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     private void loadOpportunities() {
         OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
         criteria.setContactId(new NumberSearchField(contact.getId()));
         setSearchCriteria(criteria);
     }
@@ -127,7 +111,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
 
             MButton btnDelete = new MButton("", clickEvent ->
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -137,7 +121,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
                                     ContactOpportunity associateOpportunity = new ContactOpportunity();
                                     associateOpportunity.setContactid(contact.getId());
                                     associateOpportunity.setOpportunityid(opportunity.getId());
-                                    contactService.removeContactOpportunityRelationship(associateOpportunity, MyCollabUI.getAccountId());
+                                    contactService.removeContactOpportunityRelationship(associateOpportunity, AppUI.getAccountId());
                                     ContactOpportunityListComp.this.refresh();
                                 }
                             })

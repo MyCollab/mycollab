@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.settings.component;
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -45,7 +29,7 @@ public class VersionListSelect extends IntegerKeyListSelect {
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
-        List<Version> versions = versionService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
+        List<Version> versions = (List<Version>) versionService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (Version version : versions) {
             this.addItem(version.getId());
             this.setItemCaption(version.getId(), version.getName());

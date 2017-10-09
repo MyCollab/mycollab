@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.crm.view.activity;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.ActivityEvent;
+import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.mobile.module.crm.event.ActivityEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.CrmLinkGenerator;
@@ -31,9 +15,9 @@ import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.service.TaskService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
+import com.mycollab.vaadin.event.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.HasComponents;
@@ -52,7 +36,7 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleCrmTask>() {
+        getView().getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleCrmTask>() {
             @Override
             public void onEdit(SimpleCrmTask data) {
                 EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(this, data));
@@ -72,7 +56,7 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-                                taskService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                taskService.removeWithSession(data, UserUIContext.getUsername(), AppUI.getAccountId());
                                 EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
                             }
                         });
@@ -94,8 +78,8 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             public void gotoNext(SimpleCrmTask data) {
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 CrmTaskSearchCriteria criteria = new CrmTaskSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
+                criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, nextId));
@@ -109,8 +93,8 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             public void gotoPrevious(SimpleCrmTask data) {
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 CrmTaskSearchCriteria criteria = new CrmTaskSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
+                criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN));
                 Integer nextId = taskService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, nextId));
@@ -128,7 +112,7 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             SimpleCrmTask task;
             if (data.getParams() instanceof Integer) {
                 TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-                task = taskService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
+                task = taskService.findById((Integer) data.getParams(), AppUI.getAccountId());
                 if (task == null) {
                     NotificationUtil.showRecordNotExistNotification();
                     return;
@@ -136,10 +120,10 @@ public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentRead
             } else {
                 throw new MyCollabException("Invalid data " + data);
             }
-            view.previewItem(task);
+            getView().previewItem(task);
             super.onGo(container, data);
 
-            MyCollabUI.addFragment(CrmLinkGenerator.generateTaskPreviewLink(task.getId()),
+            AppUI.addFragment(CrmLinkGenerator.generateTaskPreviewLink(task.getId()),
                     UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                             UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getSubject()));
         } else {

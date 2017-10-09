@@ -9,9 +9,12 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.10</version>
+        <version>6.0.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
+    <properties>
+        <jackrabbit.version>2.15.3</jackrabbit.version>
+    </properties>
 
     <dependencies>
         <!-- MYCOLLAB DEPENDENCIES -->
@@ -43,7 +46,7 @@
         <dependency>
             <groupId>org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-core</artifactId>
-            <version>${jackrabbitVersion}</version>
+            <version>${jackrabbit.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-dbcp</groupId>
@@ -67,13 +70,13 @@
         <dependency>
             <groupId>org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-spi</artifactId>
-            <version>${jackrabbitVersion}</version>
+            <version>${jackrabbit.version}</version>
         </dependency>
 
         <dependency>
             <groupId> org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-spi-commons</artifactId>
-            <version>${jackrabbitVersion}</version>
+            <version>${jackrabbit.version}</version>
         </dependency>
 
         <dependency>

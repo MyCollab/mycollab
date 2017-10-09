@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -81,47 +65,47 @@ public class CrmPreviewFormControlsGenerator<T> {
 
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
-        if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
+        if (canWrite && (buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
             MButton addBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD), clickEvent -> {
                 optionBtn.setPopupVisible(false);
                 T item = previewForm.getBean();
                 previewForm.fireAddForm(item);
-            }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION).withVisible(canWrite);
+            }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
             editBtns.addComponent(addBtn);
         }
 
-        if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
+        if (canWrite && (buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
             MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> {
                 optionBtn.setPopupVisible(false);
                 T item = previewForm.getBean();
                 previewForm.fireEditForm(item);
-            }).withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_ACTION).withVisible(canWrite);
+            }).withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_ACTION);
             editBtns.addComponent(editBtn);
         }
 
-        if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
+        if (canAccess && (buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
             MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireDeleteForm(item);
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_DANGER).withVisible(canAccess);
+            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_DANGER);
             editBtns.addComponent(deleteBtn);
         }
 
-        if ((buttonEnableFlags & PRINT_BTN_PRESENTED) == PRINT_BTN_PRESENTED) {
+        if (canRead && (buttonEnableFlags & PRINT_BTN_PRESENTED) == PRINT_BTN_PRESENTED) {
             final PrintButton printBtn = new PrintButton();
             printBtn.withListener(clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.firePrintForm(printBtn, item);
-            }).withStyleName(WebThemes.BUTTON_OPTION).withVisible(canRead);
+            }).withStyleName(WebThemes.BUTTON_OPTION);
             editBtns.addComponent(printBtn);
         }
 
-        if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
+        if (canWrite && (buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
             MButton cloneBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLONE), clickEvent -> {
                 optionBtn.setPopupVisible(false);
                 T item = previewForm.getBean();
                 previewForm.fireCloneForm(item);
-            }).withIcon(FontAwesome.ROAD).withVisible(canWrite);
+            }).withIcon(FontAwesome.ROAD);
             popupButtonsControl.addOption(cloneBtn);
         }
 
@@ -130,21 +114,19 @@ public class CrmPreviewFormControlsGenerator<T> {
         ButtonGroup navigationBtns = new ButtonGroup();
         navigationBtns.setStyleName("navigation-btns");
 
-        if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
+        if (canRead && (buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
             MButton previousItem = new MButton("", clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireGotoPrevious(item);
             }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_OPTION)
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM))
-                    .withVisible(canRead);
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
             navigationBtns.addButton(previousItem);
 
             MButton nextItemBtn = new MButton("", clickEvent -> {
                 T item = previewForm.getBean();
                 previewForm.fireGotoNextItem(item);
             }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_OPTION)
-                    .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM))
-                    .withVisible(canRead);
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
             navigationBtns.addButton(nextItemBtn);
         }
 

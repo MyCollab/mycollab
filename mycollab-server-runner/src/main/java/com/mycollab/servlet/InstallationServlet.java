@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-server-runner.
- *
- * mycollab-server-runner is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-server-runner is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.servlet;
 
 import com.mycollab.configuration.SiteConfiguration;
@@ -45,18 +29,10 @@ public class InstallationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(InstallationServlet.class);
 
-    private boolean waitFlag = true;
-
-    public void setWaitFlag(boolean flag) {
-        this.waitFlag = flag;
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("Try to install MyCollab");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Expires", "-1");
         PrintWriter out = response.getWriter();
-        String sitename = request.getParameter("sitename");
+        String siteName = request.getParameter("sitename");
         String serverAddress = request.getParameter("serverAddress");
         String databaseName = request.getParameter("databaseName");
         String dbUserName = request.getParameter("dbUserName");
@@ -106,7 +82,7 @@ public class InstallationServlet extends HttpServlet {
 
         Configuration configuration = SiteConfiguration.freemarkerConfiguration();
         Map<String, Object> templateContext = new HashMap<>();
-        templateContext.put("sitename", sitename);
+        templateContext.put("sitename", siteName);
         templateContext.put("serveraddress", serverAddress);
         templateContext.put("dbUrl", dbUrl);
         templateContext.put("dbUser", dbUserName);
@@ -119,7 +95,7 @@ public class InstallationServlet extends HttpServlet {
         templateContext.put("smtpSSLEnable", ssl);
         templateContext.put("mailNotify", smtpUserName);
 
-        File confFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf", "src/main/conf");
+        File confFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "config", "src/main/config");
         if (confFolder == null) {
             out.write("Can not write the settings to the file system. You should check our knowledge base article at " +
                     "http://support.mycollab.com/topic/994098-/ to solve this issue.");
@@ -141,16 +117,6 @@ public class InstallationServlet extends HttpServlet {
             outStream.write(writer.toString().getBytes());
             outStream.flush();
             outStream.close();
-
-            while (waitFlag) {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new MyCollabException(e);
-                }
-            }
-
-
         } catch (Exception e) {
             LOG.error("Error while set up MyCollab", e);
             out.write("Can not write the settings to the file system. You should check our knowledge base article at " +

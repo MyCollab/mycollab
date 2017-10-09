@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.ui.components;
 
 import com.mycollab.common.domain.CommentWithBLOBs;
@@ -23,7 +7,7 @@ import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
@@ -80,7 +64,7 @@ class ProjectCommentInput extends MHorizontalLayout {
             comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
             comment.setCreatedtime(new GregorianCalendar().getTime());
             comment.setCreateduser(UserUIContext.getUsername());
-            comment.setSaccountid(MyCollabUI.getAccountId());
+            comment.setSaccountid(AppUI.getAccountId());
             comment.setType(type);
             comment.setTypeid("" + typeId);
             comment.setExtratypeid(extraTypeId);
@@ -88,7 +72,7 @@ class ProjectCommentInput extends MHorizontalLayout {
             final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
             int commentId = commentService.saveWithSession(comment, UserUIContext.getUsername());
 
-            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, MyCollabUI.getAccountId(),
+            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, AppUI.getAccountId(),
                     CurrentProjectVariables.getProjectId(), typeId, commentId);
 
             if (!"".equals(attachmentPath)) {

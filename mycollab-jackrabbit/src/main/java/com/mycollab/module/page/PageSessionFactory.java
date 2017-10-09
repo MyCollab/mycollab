@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-jackrabbit.
- *
- * mycollab-jackrabbit is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-jackrabbit is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-jackrabbit.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.page;
 
 import com.mycollab.module.ecm.ContentException;
@@ -43,8 +27,8 @@ public class PageSessionFactory extends JcrSessionFactory {
         final String[] jcrNamespaces = session.getWorkspace()
                 .getNamespaceRegistry().getPrefixes();
         boolean createNamespace = true;
-        for (int i = 0; i < jcrNamespaces.length; i++) {
-            if (jcrNamespaces[i].equals("wiki")) {
+        for (String jcrNamespace : jcrNamespaces) {
+            if (jcrNamespace.equals("wiki")) {
                 createNamespace = false;
                 LOG.debug("Jackrabbit OCM namespace exists.");
             }

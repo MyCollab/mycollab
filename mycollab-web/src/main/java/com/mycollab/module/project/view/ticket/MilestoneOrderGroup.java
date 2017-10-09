@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.ticket;
 
 import com.hp.gagawa.java.elements.Div;
@@ -43,9 +27,7 @@ class MilestoneOrderGroup extends TicketGroupOrderComponent {
                     MilestoneTicketGroupComponent groupComponent = milestonesAvailable.get(milestoneId);
                     groupComponent.insertTicket(ticket);
                 } else {
-                    Div milestoneDiv = new DivLessFormatter().appendChild(new Text(" " + ticket.getMilestoneName()));
-
-                    MilestoneTicketGroupComponent groupComponent = new MilestoneTicketGroupComponent(milestoneDiv.write(), milestoneId);
+                    MilestoneTicketGroupComponent groupComponent = new MilestoneTicketGroupComponent(milestoneId);
                     milestonesAvailable.put(milestoneId, groupComponent);
                     int index = milestonesAvailable.getKeyIndex(milestoneId);
                     if (index > -1) {
@@ -62,7 +44,7 @@ class MilestoneOrderGroup extends TicketGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedTickets == null) {
-                    unspecifiedTickets = new MilestoneTicketGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED), null);
+                    unspecifiedTickets = new MilestoneTicketGroupComponent(null);
                     addComponent(unspecifiedTickets);
                 }
                 unspecifiedTickets.insertTicket(ticket);

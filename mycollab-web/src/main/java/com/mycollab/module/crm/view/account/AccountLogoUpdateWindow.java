@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.account;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -23,7 +7,7 @@ import com.mycollab.module.crm.ui.components.CrmAssetsUtil;
 import com.mycollab.module.file.PathUtils;
 import com.mycollab.module.file.service.EntityUploaderService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.ImagePreviewCropWindow;
 import com.mycollab.vaadin.web.ui.UploadImageField;
@@ -56,9 +40,9 @@ public class AccountLogoUpdateWindow extends MWindow implements ImagePreviewCrop
     @Override
     public void process(BufferedImage image) {
         EntityUploaderService entityUploaderService = AppContextUtil.getSpringBean(EntityUploaderService.class);
-        String newLogoId = entityUploaderService.upload(image, PathUtils.getEntityLogoPath(MyCollabUI.getAccountId()),
-                account.getAvatarid(), UserUIContext.getUsername(), MyCollabUI.getAccountId(),
-                new int[]{16, 32, 48, 64, 100});
+        String newLogoId = entityUploaderService.upload(image, PathUtils.getEntityLogoPath(AppUI.getAccountId()),
+                account.getAvatarid(), UserUIContext.getUsername(), AppUI.getAccountId(),
+                new Integer[]{16, 32, 48, 64, 100});
         AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
         account.setAvatarid(newLogoId);
         accountService.updateSelectiveWithSession(account, UserUIContext.getUsername());

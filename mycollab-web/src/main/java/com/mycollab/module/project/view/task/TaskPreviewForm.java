@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.task;
 
 import com.google.common.eventbus.Subscribe;
@@ -21,13 +5,13 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.HumanTime;
 import com.mycollab.db.arguments.BooleanSearchField;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.eventmanager.ApplicationEventListener;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.ApplicationEventListener;
+import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -43,7 +27,7 @@ import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DateTimeOptionViewField;
@@ -90,8 +74,8 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         protected Field<?> onCreateField(final Object propertyId) {
             SimpleTask beanItem = attachForm.getBean();
             if (Task.Field.assignuser.equalTo(propertyId)) {
-                return new ProjectUserFormLinkField(beanItem.getAssignuser(), beanItem.getAssignUserAvatarId(),
-                        beanItem.getAssignUserFullName());
+                return new ProjectUserFormLinkField(beanItem.getProjectid(), beanItem.getAssignuser(),
+                        beanItem.getAssignUserAvatarId(), beanItem.getAssignUserFullName());
             } else if (Task.Field.startdate.equalTo(propertyId)) {
                 return new DateTimeOptionViewField(beanItem.getStartdate());
             } else if (Task.Field.enddate.equalTo(propertyId)) {
@@ -138,7 +122,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     @Subscribe
                     public void handle(TaskEvent.NewTaskAdded event) {
                         final ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        SimpleTask task = projectTaskService.findById((Integer) event.getData(), MyCollabUI.getAccountId());
+                        SimpleTask task = projectTaskService.findById((Integer) event.getData(), AppUI.getAccountId());
                         if (task != null && tasksLayout != null) {
                             tasksLayout.addComponent(generateSubTaskContent(task), 0);
                         }
@@ -196,7 +180,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             }
 
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-            List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), MyCollabUI.getAccountId(),
+            List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), AppUI.getAccountId(),
                     new SearchCriteria.OrderField("createdTime", SearchCriteria.DESC));
             if (CollectionUtils.isNotEmpty(subTasks)) {
                 for (SimpleTask subTask : subTasks) {
@@ -227,7 +211,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             final ELabel statusLbl = new ELabel(taskStatus).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined();
             layout.with(statusLbl);
 
-            String avatarLink = StorageFactory.getAvatarPath(subTask.getAssignUserAvatarId(), 16);
+            String avatarLink = StorageUtils.getAvatarPath(subTask.getAssignUserAvatarId(), 16);
             Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                     .setTitle(subTask.getAssignUserFullName());
             layout.with(ELabel.html(avatarImg.write()).withWidthUndefined());

@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.crm.ui;
 
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.module.crm.domain.*;
 import com.mycollab.module.crm.service.*;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
@@ -50,8 +34,8 @@ public class RelatedReadItemField extends CustomField {
                 return new Label("");
             }
 
-            final Integer typeid = (Integer) PropertyUtils.getProperty(bean, "typeid");
-            if (typeid == null) {
+            final Integer typeId = (Integer) PropertyUtils.getProperty(bean, "typeid");
+            if (typeId == null) {
                 return new Label("");
             }
 
@@ -60,47 +44,47 @@ public class RelatedReadItemField extends CustomField {
 
             if ("Account".equals(type)) {
                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                final SimpleAccount account = accountService.findById(typeid, MyCollabUI.getAccountId());
+                final SimpleAccount account = accountService.findById(typeId, AppUI.getAccountId());
                 if (account != null) {
                     relateItemName = account.getAccountname();
-                    relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/account.png"));
+                    relatedLink = new ExternalResource(StorageUtils.generateAssetRelativeLink("icons/16/crm/account.png"));
                 }
             } else if ("Campaign".equals(type)) {
                 CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-                final SimpleCampaign campaign = campaignService.findById(typeid, MyCollabUI.getAccountId());
+                final SimpleCampaign campaign = campaignService.findById(typeId, AppUI.getAccountId());
                 if (campaign != null) {
                     relateItemName = campaign.getCampaignname();
-                    relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/campaign.png"));
+                    relatedLink = new ExternalResource(StorageUtils.generateAssetRelativeLink("icons/16/crm/campaign.png"));
                 }
             } else if ("Contact".equals(type)) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                final SimpleContact contact = contactService.findById(typeid, MyCollabUI.getAccountId());
+                final SimpleContact contact = contactService.findById(typeId, AppUI.getAccountId());
                 if (contact != null) {
                     relateItemName = contact.getContactName();
-                    relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/contact.png"));
+                    relatedLink = new ExternalResource(StorageUtils.generateAssetRelativeLink("icons/16/crm/contact.png"));
 
                 }
             } else if ("Lead".equals(type)) {
                 LeadService leadService = AppContextUtil.getSpringBean(LeadService.class);
-                final SimpleLead lead = leadService.findById(typeid, MyCollabUI.getAccountId());
+                final SimpleLead lead = leadService.findById(typeId, AppUI.getAccountId());
                 if (lead != null) {
                     relateItemName = lead.getLeadName();
-                    relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/lead.png"));
+                    relatedLink = new ExternalResource(StorageUtils.generateAssetRelativeLink("icons/16/crm/lead.png"));
                 }
             } else if ("Opportunity".equals(type)) {
                 OpportunityService opportunityService = AppContextUtil.getSpringBean(OpportunityService.class);
-                final SimpleOpportunity opportunity = opportunityService.findById(typeid, MyCollabUI.getAccountId());
+                final SimpleOpportunity opportunity = opportunityService.findById(typeId, AppUI.getAccountId());
                 if (opportunity != null) {
                     relateItemName = opportunity.getOpportunityname();
-                    relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/opportunity.png"));
+                    relatedLink = new ExternalResource(StorageUtils.generateAssetRelativeLink("icons/16/crm/opportunity.png"));
 
                 }
             } else if ("Case".equals(type)) {
                 CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                final SimpleCase cases = caseService.findById(typeid, MyCollabUI.getAccountId());
+                final SimpleCase cases = caseService.findById(typeId, AppUI.getAccountId());
                 if (cases != null) {
                     relateItemName = cases.getSubject();
-                    relatedLink = new ExternalResource(StorageFactory.generateAssetRelativeLink("icons/16/crm/case.png"));
+                    relatedLink = new ExternalResource(StorageUtils.generateAssetRelativeLink("icons/16/crm/case.png"));
                 }
             }
 

@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.shell.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -27,7 +11,7 @@ import com.mycollab.module.user.domain.SimpleBillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -117,7 +101,7 @@ class SetupNewInstanceView extends MVerticalLayout {
             String timezoneDbId = timeZoneSelectionField.getValue();
             BillingAccountMapper billingAccountMapper = AppContextUtil.getSpringBean(BillingAccountMapper.class);
             BillingAccountExample ex = new BillingAccountExample();
-            ex.createCriteria().andIdEqualTo(MyCollabUI.getAccountId());
+            ex.createCriteria().andIdEqualTo(AppUI.getAccountId());
             List<BillingAccount> billingAccounts = billingAccountMapper.selectByExample(ex);
             BillingAccount billingAccount = billingAccounts.get(0);
             billingAccount.setDefaultlanguagetag(language);
@@ -129,7 +113,7 @@ class SetupNewInstanceView extends MVerticalLayout {
 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccountService.createDefaultAccountData(adminName, password, timezoneDbId, language, true,
-                    createSampleDataSelection.getValue(), MyCollabUI.getAccountId());
+                    createSampleDataSelection.getValue(), AppUI.getAccountId());
 
             ((DesktopApplication) UI.getCurrent()).doLogin(adminName, password, false);
         }).withStyleName(WebThemes.BUTTON_ACTION);

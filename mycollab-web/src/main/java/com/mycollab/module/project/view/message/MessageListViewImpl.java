@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.message;
 
 import com.hp.gagawa.java.elements.A;
@@ -38,11 +22,11 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.HasEditFormHandlers;
-import com.mycollab.vaadin.events.HasSearchHandlers;
-import com.mycollab.vaadin.events.IEditFormHandler;
+import com.mycollab.vaadin.event.HasEditFormHandlers;
+import com.mycollab.vaadin.event.HasSearchHandlers;
+import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -77,7 +61,6 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
     private boolean isEmpty;
 
     public MessageListViewImpl() {
-        super();
         this.withSpacing(true).withMargin(true).withFullWidth();
 
         topMessagePanel = new TopMessagePanel();
@@ -153,14 +136,14 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             timePostLbl.setStyleName(UIConstants.META_INFO);
 
             MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
-                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-                            messageService.removeWithSession(message, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                            messageService.removeWithSession(message, UserUIContext.getUsername(), AppUI.getAccountId());
                             messageList.setSearchCriteria(searchCriteria);
                         }
                     })).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
@@ -188,7 +171,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             }
             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils
-                    .getProjectEntityAttachmentPath(MyCollabUI.getAccountId(),
+                    .getProjectEntityAttachmentPath(AppUI.getAccountId(),
                             message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentNotification = new HorizontalLayout();
@@ -264,11 +247,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
         private void createAddMessageLayout() {
             messagePanelBody.removeAllComponents();
-            MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("700px");
-
-            final RichTextArea ckEditorTextField = new RichTextArea();
-            ckEditorTextField.setWidth("100%");
-            ckEditorTextField.setHeight("200px");
+            MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("800px");
 
             Label titleLbl = new Label(UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE));
             final TextField titleField = new MTextField().withFullWidth().withNullRepresentation("").withRequired(true)
@@ -276,6 +255,10 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                             UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
 
             MHorizontalLayout titleLayout = new MHorizontalLayout(titleLbl, titleField).expand(titleField).withFullWidth();
+
+            final RichTextArea ckEditorTextField = new RichTextArea();
+            ckEditorTextField.setWidth("100%");
+            ckEditorTextField.setHeight("200px");
 
             addMessageWrapper.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
                     .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);
@@ -295,12 +278,12 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     message.setTitle(titleField.getValue());
                     message.setMessage(ckEditorTextField.getValue());
                     message.setPosteduser(UserUIContext.getUsername());
-                    message.setSaccountid(MyCollabUI.getAccountId());
+                    message.setSaccountid(AppUI.getAccountId());
                     message.setIsstick(chkIsStick.getValue());
                     MessageListViewImpl.this.fireSaveItem(message);
 
                     String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                            MyCollabUI.getAccountId(), message.getProjectid(),
+                            AppUI.getAccountId(), message.getProjectid(),
                             ProjectTypeConstants.MESSAGE, "" + message.getId());
                     attachments.saveContentsToRepo(attachmentPath);
                 } else {
@@ -311,7 +294,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout controls = new MHorizontalLayout(attachments, chkIsStick, cancelBtn, saveBtn)
-                    .expand(attachments).withFullWidth();
+                    .expand(attachments).withFullWidth().alignAll(Alignment.TOP_LEFT);
 
             addMessageWrapper.with(controls).withAlign(controls, Alignment.MIDDLE_CENTER);
             messagePanelBody.addComponent(addMessageWrapper);

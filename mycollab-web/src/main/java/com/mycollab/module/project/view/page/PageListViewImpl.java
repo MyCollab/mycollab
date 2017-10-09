@@ -1,26 +1,9 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.page;
 
 import com.google.common.collect.Ordering;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.domain.PageResource;
@@ -33,7 +16,8 @@ import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -41,7 +25,10 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.mycollab.vaadin.web.ui.SortButton;
+import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -53,7 +40,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -67,9 +53,9 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
 
     private MHorizontalLayout headerLayout;
     private MVerticalLayout pagesLayout;
-    private List<PageResource> resources;
+    private List<? extends PageResource> resources;
 
-    private static Comparator<PageResource> dateSort = (o1, o2) -> o1.getCreatedTime().compareTo(o2.getCreatedTime());
+    private static Comparator<PageResource> dateSort = Comparator.comparing(PageResource::getCreatedTime);
 
     private static Comparator<PageResource> kindSort = (o1, o2) -> {
         if (o1.getClass() == o2.getClass()) {
@@ -123,9 +109,9 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
         SortButton sortDateBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_DATE), clickEvent -> {
             dateSourceAscend = !dateSourceAscend;
             if (dateSourceAscend) {
-                Collections.sort(resources, Ordering.from(dateSort));
+                resources.sort(Ordering.from(dateSort));
             } else {
-                Collections.sort(resources, Ordering.from(dateSort).reverse());
+                resources.sort(Ordering.from(dateSort).reverse());
             }
             displayPages(resources);
         });
@@ -134,9 +120,9 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
         SortButton sortNameBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_NAME), clickEvent -> {
             nameSortAscend = !nameSortAscend;
             if (nameSortAscend) {
-                Collections.sort(resources, Ordering.from(nameSort));
+                resources.sort(Ordering.from(nameSort));
             } else {
-                Collections.sort(resources, Ordering.from(nameSort).reverse());
+                resources.sort(Ordering.from(nameSort).reverse());
             }
             displayPages(resources);
         });
@@ -145,9 +131,9 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
         SortButton sortKindBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_KIND), clickEvent -> {
             kindSortAscend = !kindSortAscend;
             if (kindSortAscend) {
-                Collections.sort(resources, Ordering.from(kindSort));
+                resources.sort(Ordering.from(kindSort));
             } else {
-                Collections.sort(resources, Ordering.from(kindSort).reverse());
+                resources.sort(Ordering.from(kindSort).reverse());
             }
             displayPages(resources);
         });
@@ -168,15 +154,12 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
         headerLayout.with(newPageBtn).withAlign(newPageBtn, Alignment.MIDDLE_RIGHT);
     }
 
-    private void displayPages(List<PageResource> resources) {
+    private void displayPages(List<? extends PageResource> resources) {
         this.resources = resources;
         pagesLayout.removeAllComponents();
         if (resources != null) {
-            for (PageResource resource : resources) {
-                Layout resourceBlock = resource instanceof Page ? displayPageBlock((Page) resource)
-                        : displayFolderBlock((Folder) resource);
-                pagesLayout.addComponent(resourceBlock);
-            }
+            resources.stream().map(resource -> resource instanceof Page ? displayPageBlock((Page) resource)
+                    : displayFolderBlock((Folder) resource)).forEach(resourceBlock -> pagesLayout.addComponent(resourceBlock));
         }
     }
 
@@ -187,8 +170,8 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
     }
 
     @Override
-    public void displayDefaultPages(List<PageResource> resources) {
-        Collections.sort(resources, Ordering.from(dateSort));
+    public void displayDefaultPages(List<? extends PageResource> resources) {
+        resources.sort(Ordering.from(dateSort));
         displayPages(resources);
     }
 
@@ -215,21 +198,19 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
                 .withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING).withIcon(FontAwesome.EDIT);
         editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
-        MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
-            ConfirmDialogExt.show(UI.getCurrent(),
-                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
-                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
-                    confirmDialog -> {
-                        if (confirmDialog.isConfirmed()) {
-                            PageService pageService = AppContextUtil.getSpringBean(PageService.class);
-                            pageService.removeResource(resource.getPath());
-                            resources.remove(resource);
-                            displayPages(resources);
-                        }
-                    });
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING);
+        MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
+                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
+                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
+                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                confirmDialog -> {
+                    if (confirmDialog.isConfirmed()) {
+                        PageService pageService = AppContextUtil.getSpringBean(PageService.class);
+                        pageService.removeResource(resource.getPath());
+                        resources.remove(resource);
+                        displayPages(resources);
+                    }
+                })).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING);
         deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
 
         container.addComponent(new MHorizontalLayout(editBtn, deleteBtn));
@@ -259,7 +240,7 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
 
         MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
-                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),

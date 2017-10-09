@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web-community.
- *
- * mycollab-web-community is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web-community is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.community.module.project.view.service;
 
 import com.hp.gagawa.java.elements.Div;
@@ -23,9 +7,9 @@ import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.core.utils.NumberUtils;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -37,7 +21,7 @@ import com.mycollab.module.project.view.bug.BugEditForm;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.module.project.view.task.TaskEditForm;
 import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -151,7 +135,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
 
     @Override
     public AbstractComponent createAssigneePopupField(ProjectTicket ticket) {
-        String avatarLink = StorageFactory.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
+        String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
         Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
                 .setTitle(ticket.getAssignUserFullName());
         return new MetaFieldBuilder().withCaption(img.write())
@@ -216,7 +200,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
                 SimpleTask task = new SimpleTask();
                 task.setProjectid(prjId);
                 task.setMilestoneid(milestoneId);
-                task.setSaccountid(MyCollabUI.getAccountId());
+                task.setSaccountid(AppUI.getAccountId());
                 task.setCreateduser(UserUIContext.getUsername());
                 task.setStartdate(dateValue);
                 TaskEditForm editForm = new TaskEditForm() {
@@ -230,7 +214,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             } else if (UserUIContext.getMessage(BugI18nEnum.SINGLE).equals(value)) {
                 SimpleBug bug = new SimpleBug();
                 bug.setProjectid(prjId);
-                bug.setSaccountid(MyCollabUI.getAccountId());
+                bug.setSaccountid(AppUI.getAccountId());
                 bug.setStartdate(dateValue);
                 bug.setMilestoneid(milestoneId);
                 bug.setCreateduser(UserUIContext.getUsername());

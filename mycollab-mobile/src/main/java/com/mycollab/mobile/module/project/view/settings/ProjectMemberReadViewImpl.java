@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.project.view.settings;
 
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.project.events.ProjectMemberEvent;
+import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.mobile.module.project.event.ProjectMemberEvent;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.mycollab.mobile.ui.ConfirmDialog;
@@ -37,9 +21,9 @@ import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.HasPreviewFormHandlers;
+import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
@@ -112,7 +96,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
                 dialog -> {
                     if (dialog.isConfirmed()) {
                         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-                        projectMemberService.removeWithSession(beanItem, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                        projectMemberService.removeWithSession(beanItem, UserUIContext.getUsername(), AppUI.getAccountId());
                         EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                     }
                 })).withIcon(FontAwesome.TRASH).withStyleName(UIConstants.CIRCLE_BOX)
@@ -125,7 +109,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         permissionGroup.removeAllComponents();
         if (roleId != null && roleId > 0) {
             ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
-            SimpleProjectRole role = roleService.findById(roleId, MyCollabUI.getAccountId());
+            SimpleProjectRole role = roleService.findById(roleId, AppUI.getAccountId());
             if (role != null) {
                 final PermissionMap permissionMap = role.getPermissionMap();
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
@@ -153,7 +137,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        MyCollabUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
+        AppUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
                 .getProjectId() + "/" + beanItem.getUsername()), beanItem.getDisplayName());
     }
 

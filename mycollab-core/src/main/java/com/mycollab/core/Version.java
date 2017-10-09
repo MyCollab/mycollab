@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-core.
- *
- * mycollab-core is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-core is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.core;
 
 import org.joda.time.DateTime;
@@ -30,7 +14,7 @@ public class Version {
     public static final String THEME_MOBILE_VERSION = "mycollab_20161111";
 
     public static String getVersion() {
-        return "5.4.9";
+        return "5.6.0";
     }
 
     public static DateTime getReleasedDate() {

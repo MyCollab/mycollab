@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.file.view;
 
 import com.mycollab.common.i18n.FileI18nEnum;
@@ -27,7 +11,7 @@ import com.mycollab.module.ecm.service.ExternalResourceService;
 import com.mycollab.module.ecm.service.ResourceMover;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
@@ -177,7 +161,7 @@ abstract class AbstractResourceMovingWindow extends MWindow {
                 boolean checkingFail = false;
                 for (Resource res : movedResources) {
                     try {
-                        resourceMover.moveResource(res, baseFolder, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                        resourceMover.moveResource(res, baseFolder, UserUIContext.getUsername(), AppUI.getAccountId());
                     } catch (Exception e) {
                         checkingFail = true;
                         LOG.error("Error", e);

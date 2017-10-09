@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.web.ui.table;
 
 import com.mycollab.common.TableViewField;
@@ -22,7 +6,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.FieldDefAnalyzer;
 import com.mycollab.common.service.CustomViewStoreService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.util.BeanItemContainer;
@@ -103,7 +87,7 @@ public abstract class CustomizedTableWindow extends MWindow {
             table.setDisplayColumns(selectedColumns);
             // Save custom table view def
             CustomViewStore viewDef = new CustomViewStore();
-            viewDef.setSaccountid(MyCollabUI.getAccountId());
+            viewDef.setSaccountid(AppUI.getAccountId());
             viewDef.setCreateduser(UserUIContext.getUsername());
             viewDef.setViewid(viewId);
             viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(selectedColumns)));

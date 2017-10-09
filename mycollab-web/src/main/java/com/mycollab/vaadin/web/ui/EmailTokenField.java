@@ -1,32 +1,16 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.web.ui;
 
 import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.domain.MailRecipientField;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -56,7 +40,6 @@ class EmailTokenField extends CssLayout implements SuggestField.NewItemsHandler,
     private boolean isFocusing = false;
 
     EmailTokenField() {
-        super();
         inviteEmails = new HashSet<>();
         this.setWidth("100%");
         this.addStyleName("member-token");
@@ -78,8 +61,8 @@ class EmailTokenField extends CssLayout implements SuggestField.NewItemsHandler,
         addComponent(suggestField);
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
         UserSearchCriteria searchCriteria = new UserSearchCriteria();
-        searchCriteria.setSaccountid(NumberSearchField.equal(MyCollabUI.getAccountId()));
-        candidateUsers = userService.findAbsoluteListByCriteria(searchCriteria, 0, Integer.MAX_VALUE);
+        searchCriteria.setSaccountid(NumberSearchField.equal(AppUI.getAccountId()));
+        candidateUsers = (List<SimpleUser>) userService.findAbsoluteListByCriteria(searchCriteria, 0, Integer.MAX_VALUE);
         suggestField.addBlurListener(blurEvent -> {
                     isFocusing = false;
                     if (!"".equals(lastQuery) && StringUtils.isValidEmail(lastQuery) && !inviteEmails.contains(lastQuery)) {
@@ -175,7 +158,7 @@ class EmailTokenField extends CssLayout implements SuggestField.NewItemsHandler,
     private Component generateToken(final SimpleUser user) {
         final Button btn = new Button("", FontAwesome.TIMES);
         btn.setCaptionAsHtml(true);
-        btn.setCaption((new Img("", StorageFactory.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
+        btn.setCaption((new Img("", StorageUtils.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
         btn.addClickListener(clickEvent -> {
             EmailTokenField.this.removeComponent(btn);
             inviteEmails.remove(user.getEmail());

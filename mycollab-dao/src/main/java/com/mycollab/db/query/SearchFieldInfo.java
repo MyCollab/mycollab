@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-dao.
- *
- * mycollab-dao is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-dao is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-dao.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.db.query;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -210,7 +194,7 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
         }
     }
 
-    public static <S extends SearchCriteria> S buildSearchCriteria(Class<S> cls, List<SearchFieldInfo> fieldInfos) {
+    public static <S extends SearchCriteria> S buildSearchCriteria(Class<S> cls, List<SearchFieldInfo<S>> fieldInfos) {
         try {
             S searchCriteria = cls.newInstance();
             for (SearchFieldInfo info : fieldInfos) {
@@ -225,7 +209,7 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
         }
     }
 
-    public static <S extends SearchCriteria> S buildSearchCriteria(S searchCriteria, List<SearchFieldInfo> fieldInfos) {
+    public static <S extends SearchCriteria> S buildSearchCriteria(S searchCriteria, List<SearchFieldInfo<S>> fieldInfos) {
         try {
             S tmpSearchCriteria = BeanUtility.deepClone(searchCriteria);
             for (SearchFieldInfo info : fieldInfos) {

@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view;
 
 import com.hp.gagawa.java.elements.A;
@@ -31,7 +15,7 @@ import com.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.PresenterResolver;
@@ -72,7 +56,7 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         this.withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
 
         prjService = AppContextUtil.getSpringBean(ProjectService.class);
-        prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername(), MyCollabUI.getAccountId());
+        prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
 
         tabSheet = new TabSheet();
         tabSheet.addTab(buildDashboardComp(), UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), FontAwesome.DASHBOARD);
@@ -122,7 +106,7 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         }
 
         if (UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-            int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(UserUIContext.getUsername(), MyCollabUI.getAccountId());
+            int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(UserUIContext.getUsername(), AppUI.getAccountId());
             if (countActiveProjects == 0) {
                 UI.getCurrent().addWindow(new AskCreateNewProjectWindow());
             }
@@ -186,7 +170,7 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.TOP_RIGHT);
         headerContent.with(headerContentTop);
         MHorizontalLayout metaInfoLayout = new MHorizontalLayout();
-        if (Boolean.TRUE.equals(MyCollabUI.getBillingAccount().getDisplayemailpublicly())) {
+        if (Boolean.TRUE.equals(AppUI.getBillingAccount().getDisplayemailpublicly())) {
             metaInfoLayout.with(new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL) + ": ").withStyleName(UIConstants.META_INFO),
                     ELabel.html(new A(String.format("mailto:%s", UserUIContext.getUsername())).appendText(UserUIContext.getUsername()).write()));
         }
@@ -217,7 +201,7 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         layout.with(headerComp);
 
         ProjectService prjService = AppContextUtil.getSpringBean(ProjectService.class);
-        prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername(), MyCollabUI.getAccountId());
+        prjKeys = prjService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ProjectGenericItemSearchCriteria searchCriteria = new ProjectGenericItemSearchCriteria();
             searchCriteria.setPrjKeys(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));

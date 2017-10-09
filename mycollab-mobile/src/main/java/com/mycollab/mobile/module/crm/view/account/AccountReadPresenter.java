@@ -1,25 +1,9 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.crm.view.account;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.AccountEvent;
+import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.mobile.module.crm.event.AccountEvent;
 import com.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.crm.domain.Account;
@@ -28,9 +12,9 @@ import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.service.AccountService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
+import com.mycollab.vaadin.event.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.HasComponents;
@@ -49,7 +33,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleAccount>() {
+        getView().getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleAccount>() {
             @Override
             public void onEdit(SimpleAccount data) {
                 EventBusFactory.getInstance().post(new AccountEvent.GotoEdit(this, data));
@@ -64,7 +48,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                                accountService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                accountService.removeWithSession(data, UserUIContext.getUsername(), AppUI.getAccountId());
                                 EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null));
                             }
                         });
@@ -86,8 +70,8 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
             public void gotoNext(SimpleAccount data) {
                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 AccountSearchCriteria criteria = new AccountSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
+                criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 Integer nextId = accountService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, nextId));
@@ -101,8 +85,8 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
             public void gotoPrevious(SimpleAccount data) {
                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
                 AccountSearchCriteria criteria = new AccountSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
+                criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN));
                 Integer nextId = accountService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, nextId));
@@ -118,9 +102,9 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
         if (UserUIContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             if (data.getParams() instanceof Integer) {
                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);
-                SimpleAccount account = accountService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
+                SimpleAccount account = accountService.findById((Integer) data.getParams(), AppUI.getAccountId());
                 if (account != null) {
-                    view.previewItem(account);
+                    getView().previewItem(account);
                     super.onGo(container, data);
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

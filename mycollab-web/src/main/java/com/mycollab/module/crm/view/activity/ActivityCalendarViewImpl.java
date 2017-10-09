@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleMeeting;
@@ -35,7 +19,7 @@ import com.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.mycollab.module.crm.view.activity.ActivityEventProvider.CrmEvent;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -86,8 +70,6 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
     private final StyleCalendarExp datePicker = new StyleCalendarExp();
 
     public ActivityCalendarViewImpl() {
-        super();
-
         this.addStyleName("activityCalendar");
         calendarActionBtn = new PopupButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CREATE));
         calendarActionBtn.setStyleName(WebThemes.BUTTON_ACTION);
@@ -215,7 +197,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
 
         Button activityListBtn = new Button("Activities", event -> {
             ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-            criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+            criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
             EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
         });
         activityListBtn.addStyleName(WebThemes.BUTTON_ACTION);
@@ -628,7 +610,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
             this.setWidth("1220px");
 
             this.meeting = new MeetingWithBLOBs();
-            this.meeting.setSaccountid(MyCollabUI.getAccountId());
+            this.meeting.setSaccountid(AppUI.getAccountId());
             this.meeting.setStartdate(startDate);
             this.meeting.setEnddate(endDate);
 

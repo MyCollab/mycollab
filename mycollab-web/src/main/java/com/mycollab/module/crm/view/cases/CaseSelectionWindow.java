@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.cases;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -22,7 +6,7 @@ import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.fielddef.CaseTableFieldDef;
 import com.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -56,8 +40,8 @@ public class CaseSelectionWindow extends MWindow {
     }
 
     private void createCaseList() {
-        tableItem = new CaseTableDisplay(Arrays.asList(CaseTableFieldDef.subject(), CaseTableFieldDef.account(),
-                CaseTableFieldDef.priority(), CaseTableFieldDef.status(), CaseTableFieldDef.assignUser()));
+        tableItem = new CaseTableDisplay(Arrays.asList(CaseTableFieldDef.subject, CaseTableFieldDef.account,
+                CaseTableFieldDef.priority, CaseTableFieldDef.status, CaseTableFieldDef.assignUser));
         tableItem.setDisplayNumItems(10);
 
         tableItem.addGeneratedColumn("subject", (source, itemId, columnId) -> {
@@ -67,7 +51,7 @@ public class CaseSelectionWindow extends MWindow {
                 fieldSelection.fireValueChange(cases);
                 close();
             }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCases(
-                    UserUIContext.getUserLocale(), cases, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    UserUIContext.getUserLocale(), cases, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }
 }

@@ -1,23 +1,7 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.user;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
@@ -25,19 +9,17 @@ import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.mycollab.security.BooleanPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.shell.events.ShellEvent;
+import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.IEditFormHandler;
+import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewPermission;
 import com.mycollab.vaadin.ui.MyCollabSession;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.HasComponents;
-
-import static com.mycollab.vaadin.ui.MyCollabSession.CURRENT_PROJECT;
 
 /**
  * @author MyCollab Ltd.
@@ -89,20 +71,20 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
         view.editItem(project);
 
         if (project.getId() == null) {
-            MyCollabUI.addFragment("project/add", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+            AppUI.addFragment("project/add", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
                     UserUIContext.getMessage(ProjectI18nEnum.SINGLE)));
         }
     }
 
     private void saveProject(Project project) {
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-        project.setSaccountid(MyCollabUI.getAccountId());
+        project.setSaccountid(AppUI.getAccountId());
 
         if (project.getId() == null) {
             projectService.saveWithSession(project, UserUIContext.getUsername());
         } else {
             projectService.updateWithSession(project, UserUIContext.getUsername());
-            MyCollabSession.putCurrentUIVariable(CURRENT_PROJECT, project);
+            MyCollabSession.putCurrentUIVariable(MyCollabSession.CURRENT_PROJECT, project);
         }
     }
 }

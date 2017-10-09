@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.web.ui.table;
 
 import com.mycollab.common.TableViewField;
 import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.events.ApplicationEvent;
-import com.mycollab.vaadin.events.HasPagableHandlers;
-import com.mycollab.vaadin.events.HasSelectableItemHandlers;
+import com.mycollab.vaadin.event.ApplicationEvent;
+import com.mycollab.vaadin.event.HasPageableHandlers;
+import com.mycollab.vaadin.event.HasSelectableItemHandlers;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.util.ReflectTools;
@@ -35,7 +19,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public interface IPagedBeanTable<S extends SearchCriteria, T> extends HasSelectableItemHandlers<T>, HasPagableHandlers, Component {
+public interface IPagedBeanTable<S extends SearchCriteria, T> extends HasSelectableItemHandlers<T>, HasPageableHandlers, Component {
 
     int setSearchCriteria(S searchCriteria);
 
@@ -62,14 +46,20 @@ public interface IPagedBeanTable<S extends SearchCriteria, T> extends HasSelecta
 
         private static final long serialVersionUID = 1L;
         private String fieldName;
+        private Object data;
 
         public TableClickEvent(IPagedBeanTable source, Object data, String fieldName) {
-            super(source, data);
+            super(source);
+            this.data = data;
             this.fieldName = fieldName;
         }
 
         public String getFieldName() {
             return fieldName;
+        }
+
+        public Object getData() {
+            return data;
         }
     }
 }

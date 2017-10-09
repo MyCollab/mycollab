@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.project.view;
 
 import com.hp.gagawa.java.elements.A;
@@ -21,11 +5,11 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.FormSectionBuilder;
+import com.mycollab.module.file.service.AbstractStorageService;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -33,7 +17,7 @@ import com.mycollab.module.project.domain.ProjectActivityStream;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.ProjectActivityStreamService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.view.ProjectLocalizationTypeMap;
+import com.mycollab.module.project.ui.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.IBeanList;
@@ -128,11 +112,12 @@ class ProjectActivitiesStreamListDisplay extends AbstractPagedBeanList<ActivityS
     }
 
     private static String buildAssigneeValue(ProjectActivityStream activity) {
-        Img userAvatar = new Img("", StorageFactory.getAvatarPath(activity.getCreatedUserAvatarId(), 16)).setCSSClass
-                (UIConstants.CIRCLE_BOX);
+        Img userAvatar = new Img("", AppContextUtil.getSpringBean(AbstractStorageService.class)
+                .getAvatarPath(activity.getCreatedUserAvatarId(), 16))
+                .setCSSClass(UIConstants.CIRCLE_BOX);
         A userLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(activity.getExtratypeid(), activity
                 .getCreateduser())).appendText(StringUtils.trim(activity.getCreatedUserFullName(), 30, true));
-        return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink).write();
+        return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, userLink).write();
     }
 
     private static String buildItemValue(ProjectActivityStream activity) {
@@ -148,7 +133,7 @@ class ProjectActivitiesStreamListDisplay extends AbstractPagedBeanList<ActivityS
                     activity.getType(), activity.getTypeid()));
         }
         itemLink.appendText(StringUtils.trim(activity.getNamefield(), 30, true));
-        return new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink).write();
+        return new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE, itemLink).write();
     }
 
 }

@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web-community.
- *
- * mycollab-web-community is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web-community is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.community.shell.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -23,17 +7,17 @@ import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotific
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.mycollab.community.shell.view.components.AdRequestWindow;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.ui.SettingAssetsManager;
 import com.mycollab.module.user.ui.SettingUIConstants;
-import com.mycollab.shell.events.ShellEvent;
+import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.shell.view.AbstractMainView;
 import com.mycollab.vaadin.web.ui.AbstractAboutWindow;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -66,7 +50,7 @@ public class MainViewImpl extends AbstractMainView {
     protected MHorizontalLayout buildAccountMenuLayout() {
         accountLayout.removeAllComponents();
 
-        Label accountNameLabel = new Label(MyCollabUI.getSubDomain());
+        Label accountNameLabel = new Label(AppUI.getSubDomain());
         accountNameLabel.addStyleName("subDomain");
         accountLayout.addComponent(accountNameLabel);
 

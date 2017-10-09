@@ -1,36 +1,19 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.user.accountsettings.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.mycollab.module.user.accountsettings.customize.view.AccountSettingPresenter;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.mycollab.module.user.accountsettings.setup.view.SetupPresenter;
 import com.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
-import com.mycollab.module.user.accountsettings.view.events.ProfileEvent;
+import com.mycollab.module.user.accountsettings.view.event.ProfileEvent;
 import com.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
 import com.mycollab.module.user.ui.SettingAssetsManager;
 import com.mycollab.module.user.ui.SettingUIConstants;
-import com.mycollab.premium.module.user.accountsettings.view.UserAccountController;
-import com.mycollab.shell.events.ShellEvent;
+import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.ServiceMenu;

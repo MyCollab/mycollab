@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.opportunity;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -23,7 +7,7 @@ import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.fielddef.OpportunityTableFieldDef;
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -59,9 +43,9 @@ public class OpportunitySelectionWindow extends MWindow {
     }
 
     private void createOpportunityList() {
-        tableItem = new OpportunityTableDisplay(Arrays.asList(OpportunityTableFieldDef.opportunityName(),
-                OpportunityTableFieldDef.saleStage(), OpportunityTableFieldDef.accountName(),
-                OpportunityTableFieldDef.assignUser()));
+        tableItem = new OpportunityTableDisplay(Arrays.asList(OpportunityTableFieldDef.opportunityName,
+                OpportunityTableFieldDef.saleStage, OpportunityTableFieldDef.accountName,
+                OpportunityTableFieldDef.assignUser));
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
@@ -71,8 +55,8 @@ public class OpportunitySelectionWindow extends MWindow {
             return new MButton(opportunity.getOpportunityname(), clickEvent -> {
                 fieldSelection.fireValueChange(opportunity);
                 close();
-            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
-                    opportunity, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
+                    opportunity, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
     }
 }

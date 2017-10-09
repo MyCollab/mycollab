@@ -1,22 +1,7 @@
-/**
- * This file is part of mycollab-services.
- *
- * mycollab-services is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-services is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.common.json;
 
 import com.mycollab.core.MyCollabException;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.query.CacheParamMapper;
 import com.mycollab.db.query.Param;
 import com.mycollab.db.query.SearchFieldInfo;
@@ -38,7 +23,7 @@ import java.util.List;
 public class QueryAnalyzer {
     private static final Logger LOG = LoggerFactory.getLogger(QueryAnalyzer.class);
 
-    public static String toQueryParams(List<SearchFieldInfo> searchFieldInfos) {
+    public static <S extends SearchCriteria>String toQueryParams(List<SearchFieldInfo<S>> searchFieldInfos) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
@@ -50,13 +35,13 @@ public class QueryAnalyzer {
         }
     }
 
-    public static List<SearchFieldInfo> toSearchFieldInfos(String query, String type) {
+    public static <S extends SearchCriteria> List<SearchFieldInfo<S>> toSearchFieldInfos(String query, String type) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
             module.addDeserializer(Param.class, new ParamDeserializer(type));
             mapper.registerModule(module);
-            return mapper.readValue(query, new TypeReference<List<SearchFieldInfo>>() {
+            return mapper.readValue(query, new TypeReference<List<SearchFieldInfo<S>>>() {
             });
         } catch (Exception e) {
             LOG.error("Error", e);

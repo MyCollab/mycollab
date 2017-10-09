@@ -1,25 +1,8 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.DateTimeSearchField;
 import com.mycollab.db.arguments.SearchField;
-import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.module.crm.domain.SimpleMeeting;
 import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.mycollab.module.crm.service.MeetingService;
@@ -56,12 +39,12 @@ public class ActivityEventProvider implements CalendarEventProvider {
         List<CalendarEvent> events = new ArrayList<>();
 
         MeetingSearchCriteria searchCriteria = new MeetingSearchCriteria();
-        searchCriteria.setStartDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.GREATER_THAN_EQUAL(), startDate));
-        searchCriteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESS_THAN_EQUAL(), endDate));
+        searchCriteria.setStartDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.GREATER_THAN_EQUAL, startDate, null));
+        searchCriteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESS_THAN_EQUAL, endDate, null));
 
         LOG.debug("Get event from: " + startDate + " to " + endDate);
-        List<SimpleMeeting> crmEvents = meetingService.findPageableListByCriteria(new BasicSearchRequest<>(
-                        searchCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleMeeting> crmEvents = (List<SimpleMeeting>) meetingService.findPageableListByCriteria(new BasicSearchRequest<>(
+                searchCriteria, 0, Integer.MAX_VALUE));
         LOG.debug("There are " + crmEvents.size() + " event from " + startDate + " to " + endDate);
 
         filterListEventRecurringActivity(crmEvents, startDate, endDate);

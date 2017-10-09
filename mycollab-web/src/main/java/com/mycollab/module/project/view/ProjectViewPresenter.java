@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view;
 
 import com.mycollab.core.ResourceNotFoundException;
@@ -23,7 +7,7 @@ import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PageActionChain;
@@ -48,14 +32,14 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
         prjContainer.setContent(view);
         if (data.getParams() instanceof Integer) {
             ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-            SimpleProject project = projectService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
+            SimpleProject project = projectService.findById((Integer) data.getParams(), AppUI.getAccountId());
 
             if (project == null) {
                 throw new ResourceNotFoundException();
             } else {
                 ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 boolean userBelongToProject = projectMemberService.isUserBelongToProject(UserUIContext.getUsername(), project.getId(),
-                        MyCollabUI.getAccountId());
+                        AppUI.getAccountId());
                 if (userBelongToProject) {
                     CurrentProjectVariables.setProject(project);
                     view.initView(project);

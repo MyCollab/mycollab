@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.user.AdminTypeConstants;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.mycollab.module.user.accountsettings.view.UserTableFieldDef;
+import com.mycollab.module.user.accountsettings.fielddef.UserTableFieldDef;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.mycollab.module.user.service.UserService;
@@ -44,16 +28,16 @@ public class UserCustomizeReportOutputWindow extends CustomizeReportOutputWindow
 
     @Override
     protected Collection<TableViewField> getDefaultColumns() {
-        return Arrays.asList(UserTableFieldDef.displayName(), UserTableFieldDef.roleName(),
-                UserTableFieldDef.email(), UserTableFieldDef.birthday(),
-                UserTableFieldDef.officePhone(), UserTableFieldDef.homePhone(), UserTableFieldDef.company());
+        return Arrays.asList(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
+                UserTableFieldDef.email, UserTableFieldDef.birthday,
+                UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company);
     }
 
     @Override
     protected Collection<TableViewField> getAvailableColumns() {
-        return Arrays.asList(UserTableFieldDef.displayName(), UserTableFieldDef.roleName(),
-                UserTableFieldDef.email(), UserTableFieldDef.birthday(),
-                UserTableFieldDef.officePhone(), UserTableFieldDef.homePhone(), UserTableFieldDef.company());
+        return Arrays.asList(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
+                UserTableFieldDef.email, UserTableFieldDef.birthday,
+                UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company);
     }
 
     @Override

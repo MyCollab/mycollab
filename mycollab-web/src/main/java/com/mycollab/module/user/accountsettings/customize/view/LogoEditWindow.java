@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.user.accountsettings.customize.view;
 
 import com.mycollab.common.i18n.FileI18nEnum;
@@ -22,11 +6,11 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ImageUtil;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.service.AccountLogoService;
-import com.mycollab.module.user.accountsettings.view.events.SettingEvent;
+import com.mycollab.module.user.accountsettings.view.event.SettingEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.addon.webcomponents.CropField;
 import com.mycollab.vaadin.addon.webcomponents.client.VCropSelection;
@@ -89,7 +73,7 @@ public class LogoEditWindow extends MWindow {
         MHorizontalLayout previewBox = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, false))
                 .withFullWidth();
 
-        final String logoPath = MyCollabUI.getBillingAccount().getLogopath();
+        final String logoPath = AppUI.getBillingAccount().getLogopath();
         Resource defaultPhoto = AccountAssetsResolver.createLogoResource(logoPath, 150);
         previewImage = new Embedded(null, defaultPhoto);
         previewImage.setWidth("100px");
@@ -110,7 +94,7 @@ public class LogoEditWindow extends MWindow {
                     BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
                     AccountLogoService accountLogoService = AppContextUtil.getSpringBean(AccountLogoService.class);
                     accountLogoService.upload(UserUIContext.getUsername(),
-                            image, MyCollabUI.getAccountId());
+                            image, AppUI.getAccountId());
                     Page.getCurrent().getJavaScript().execute("window.location.reload();");
                 } catch (IOException e) {
                     throw new MyCollabException("Error when saving account logo", e);

@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view;
 
 import com.mycollab.common.GenericLinkUtils;
@@ -21,7 +5,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.PathUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
@@ -39,13 +23,14 @@ import com.mycollab.module.project.view.message.MessagePresenter;
 import com.mycollab.module.project.view.milestone.MilestonePresenter;
 import com.mycollab.module.project.view.page.PagePresenter;
 import com.mycollab.module.project.view.parameters.*;
+import com.mycollab.module.project.view.reports.IProjectReportPresenter;
 import com.mycollab.module.project.view.settings.UserSettingPresenter;
 import com.mycollab.module.project.view.ticket.TicketPresenter;
 import com.mycollab.module.project.view.time.IFinancePresenter;
 import com.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.mycollab.module.project.view.user.ProjectInfoComponent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
@@ -106,10 +91,10 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
         private PagePresenter pagePresenter;
         private FilePresenter filePresenter;
         private IFinancePresenter financePresenter;
+        private IProjectReportPresenter reportPresenter;
         private UserSettingPresenter userPresenter;
 
         ProjectViewWrap(SimpleProject project) {
-            super();
             this.setWidth("100%");
             this.addStyleName("project-view");
 
@@ -131,7 +116,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
                     filePresenter.go(ProjectViewImpl.this, new FileScreenData.GotoDashboard());
                 } else if (ProjectTypeConstants.PAGE.equals(caption)) {
                     pagePresenter.go(ProjectViewImpl.this,
-                            new PageScreenData.Search(PathUtils.getProjectDocumentPath(MyCollabUI.getAccountId(), project.getId())));
+                            new PageScreenData.Search(PathUtils.getProjectDocumentPath(AppUI.getAccountId(), project.getId())));
                 } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
                     dashboardPresenter.go(ProjectViewImpl.this, null);
                 } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
@@ -141,6 +126,8 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
                     userPresenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
                 } else if (ProjectTypeConstants.FINANCE.equals(caption)) {
                     financePresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.REPORTS.equals(caption)) {
+                    reportPresenter.go(ProjectViewImpl.this, null);
                 }
             });
 
@@ -243,6 +230,11 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.FINANCE);
             }
+
+//            myProjectTab.addTab(constructProjectReportComponent(), ProjectTypeConstants.REPORTS, 12,
+//                    UserUIContext.getMessage(PageI18nEnum.LIST),
+//                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId),
+//                    ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE));
 
             myProjectTab.addTab(constructProjectUsers(), ProjectTypeConstants.MEMBER, 13,
                     UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),

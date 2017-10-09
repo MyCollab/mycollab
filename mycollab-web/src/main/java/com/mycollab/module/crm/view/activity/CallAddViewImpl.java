@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
@@ -155,7 +139,6 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
         private static final long serialVersionUID = 1L;
 
         CallPurposeComboBox() {
-            super();
             setCaption(null);
             this.loadData(Arrays.asList(CallPurpose.Administrative, CallPurpose.Negotiation, CallPurpose.Project,
                     CallPurpose.Prospecting, CallPurpose.Support));
@@ -229,7 +212,6 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
     private class CallTypeComboBox extends I18nValueComboBox {
 
         CallTypeComboBox() {
-            super();
             setCaption(null);
             this.setWidth("80px");
             this.loadData(Arrays.asList(CallType.Inbound, CallType.Outbound));
@@ -240,7 +222,6 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
     private class CallStatusComboBox extends I18nValueComboBox {
 
         CallStatusComboBox() {
-            super();
             setCaption(null);
             this.setWidth("100px");
             this.loadData(Arrays.asList(CallStatus.Planned, CallStatus.Held, CallStatus.Not_Held));

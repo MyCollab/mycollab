@@ -1,41 +1,30 @@
-/**
- * This file is part of mycollab-scheduler-community.
- *
- * mycollab-scheduler-community is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-scheduler-community is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-scheduler-community.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.community.schedule.spring;
 
-import com.mycollab.schedule.AutowiringSpringBeanJobFactory;
-import com.mycollab.schedule.QuartzScheduleProperties;
 import com.mycollab.community.schedule.jobs.CheckUpdateJob;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+
+import javax.sql.DataSource;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.3
  */
 @Configuration
+@Profile("production")
 public class CommunityScheduleConfiguration {
+
+    @Autowired
+    private DataSource dataSource;
+
     @Bean
     public JobDetailFactoryBean checkUpdateJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
+        bean.setDurability(true);
         bean.setJobClass(CheckUpdateJob.class);
         return bean;
     }
@@ -45,24 +34,6 @@ public class CommunityScheduleConfiguration {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(checkUpdateJob().getObject());
         bean.setCronExpression("0 0 8 * * ?");
-        return bean;
-    }
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    @Bean
-    public SchedulerFactoryBean quartzSchedulerCommunity() {
-        SchedulerFactoryBean bean = new SchedulerFactoryBean();
-
-        bean.setQuartzProperties(new QuartzScheduleProperties());
-        bean.setOverwriteExistingJobs(true);
-        AutowiringSpringBeanJobFactory factory = new AutowiringSpringBeanJobFactory();
-        factory.setApplicationContext(applicationContext);
-        bean.setJobFactory(factory);
-        bean.setApplicationContextSchedulerContextKey("communityScheduler");
-
-        bean.setTriggers(checkUpdateJobTrigger().getObject());
         return bean;
     }
 }

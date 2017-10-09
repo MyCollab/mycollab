@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.project.ui;
 
 import com.mycollab.common.domain.CommentWithBLOBs;
@@ -29,7 +13,7 @@ import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -90,7 +74,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
             comment.setComment(commentInput.getValue());
             comment.setCreatedtime(new GregorianCalendar().getTime());
             comment.setCreateduser(UserUIContext.getUsername());
-            comment.setSaccountid(MyCollabUI.getAccountId());
+            comment.setSaccountid(AppUI.getAccountId());
             comment.setType(type);
             comment.setTypeid("" + typeId);
             comment.setExtratypeid(extraTypeId);
@@ -98,7 +82,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
             final CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
             int commentId = commentService.saveWithSession(comment, UserUIContext.getUsername());
 
-            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, MyCollabUI.getAccountId(),
+            String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, AppUI.getAccountId(),
                     CurrentProjectVariables.getProjectId(), typeId, commentId);
             if (!"".equals(attachmentPath)) {
                 saveContentsToRepo(attachmentPath);
@@ -166,15 +150,15 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
                             ImageIO.write(scaledImage, fileExt, outStream);
 
                             resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                    UserUIContext.getUsername(), new ByteArrayInputStream(outStream.toByteArray()), MyCollabUI.getAccountId());
+                                    UserUIContext.getUsername(), new ByteArrayInputStream(outStream.toByteArray()), AppUI.getAccountId());
                         } catch (IOException e) {
                             LOG.error("Error in upload file", e);
                             resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                    UserUIContext.getUsername(), new FileInputStream(file), MyCollabUI.getAccountId());
+                                    UserUIContext.getUsername(), new FileInputStream(file), AppUI.getAccountId());
                         }
                     } else {
                         resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
-                                UserUIContext.getUsername(), new FileInputStream(file), MyCollabUI.getAccountId());
+                                UserUIContext.getUsername(), new FileInputStream(file), AppUI.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {

@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.campaign;
 
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.service.CampaignService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Property;
@@ -60,7 +44,7 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
 
     private void setCampaignByVal(Integer campaignId) {
         CampaignService campaignService = AppContextUtil.getSpringBean(CampaignService.class);
-        SimpleCampaign campaign = campaignService.findById(campaignId, MyCollabUI.getAccountId());
+        SimpleCampaign campaign = campaignService.findById(campaignId, AppUI.getAccountId());
         if (campaign != null) {
             this.internalValue = campaign;
             campaignName.setValue(internalValue.getCampaignname());

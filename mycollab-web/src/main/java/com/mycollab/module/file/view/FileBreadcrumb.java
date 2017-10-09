@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.file.view;
 
 import com.mycollab.common.i18n.FileI18nEnum;
@@ -24,14 +8,17 @@ import com.mycollab.module.ecm.domain.ExternalFolder;
 import com.mycollab.module.ecm.domain.Folder;
 import com.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.HasSearchHandlers;
-import com.mycollab.vaadin.events.SearchHandler;
+import com.mycollab.vaadin.event.HasSearchHandlers;
+import com.mycollab.vaadin.event.SearchHandler;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.breadcrumb.Breadcrumb;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +28,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, HasSearchHandlers<FileSearchCriteria> {
+public class FileBreadcrumb extends MHorizontalLayout implements CacheableComponent, HasSearchHandlers<FileSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     private List<SearchHandler<FileSearchCriteria>> handlers;
@@ -52,31 +39,20 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
         if (StringUtils.isBlank(rootFolderPath)) {
             throw new MyCollabException("Root folder path can not be empty");
         }
+        setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         this.rootFolderPath = rootFolderPath;
-        this.setShowAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-        this.setHideAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-        this.setUseDefaultClickBehaviour(false);
     }
 
     void initBreadcrumb() {
-        // home Btn ----------------
-        this.addLink(new Button(null, clickEvent -> {
-            FileSearchCriteria criteria = new FileSearchCriteria();
-            criteria.setBaseFolder(rootFolderPath);
-            criteria.setRootFolder(rootFolderPath);
-            notifySearchHandler(criteria);
-        }));
+        removeAllComponents();
 
-        this.select(0);
-        Button documentBtnLink = generateBreadcrumbLink(UserUIContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS), clickEvent -> {
+        MButton documentBtnLink = generateBreadcrumbLink(UserUIContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS), clickEvent -> {
             FileSearchCriteria criteria = new FileSearchCriteria();
             criteria.setBaseFolder(rootFolderPath);
             criteria.setRootFolder(rootFolderPath);
             notifySearchHandler(criteria);
         });
-        documentBtnLink.addStyleName(WebThemes.BUTTON_LINK);
-        this.addLink(documentBtnLink);
-        this.setLinkEnabled(true, 1);
+        this.with(documentBtnLink);
     }
 
     void gotoFolder(final Folder folder) {
@@ -102,47 +78,43 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
             remainPath = remainPath.substring(1);
         }
 
-        Button btn1, btn2 = null;
+        MButton btn1, btn2 = null;
         int index;
         if ((index = remainPath.lastIndexOf('/')) != -1) {
             String pathName = remainPath.substring(index + 1);
             final String newPath = remainPath.substring(0, index);
             remainPath = newPath;
-            btn2 = new Button(StringUtils.trim(pathName, 25, true), clickEvent -> {
+            btn2 = new MButton(StringUtils.trim(pathName, 25, true), clickEvent -> {
                 FileSearchCriteria criteria = new FileSearchCriteria();
                 criteria.setBaseFolder(rootFolderPath + "/" + newPath);
                 criteria.setRootFolder(rootFolderPath);
                 notifySearchHandler(criteria);
-            });
-            btn2.setDescription(pathName);
+            }).withDescription(pathName).withStyleName(WebThemes.BUTTON_LINK);
         }
 
         if ((index = remainPath.lastIndexOf('/')) != -1) {
             String pathName = remainPath.substring(index + 1);
             final String newPath = remainPath.substring(0, index);
-            btn1 = new Button(StringUtils.trim(pathName, 25, true), clickEvent -> {
+            btn1 = new MButton(StringUtils.trim(pathName, 25, true), clickEvent -> {
                 FileSearchCriteria criteria = new FileSearchCriteria();
                 criteria.setBaseFolder(rootFolderPath + "/" + newPath);
                 criteria.setRootFolder(rootFolderPath);
                 notifySearchHandler(criteria);
-            });
-            btn1.setDescription(pathName);
+            }).withDescription(pathName).withStyleName(WebThemes.BUTTON_LINK);
         } else {
             final String newPath = remainPath;
-            btn1 = new Button(StringUtils.trim(newPath, 25, true), clickEvent -> {
+            btn1 = new MButton(StringUtils.trim(newPath, 25, true), clickEvent -> {
                 FileSearchCriteria criteria = new FileSearchCriteria();
                 criteria.setBaseFolder(rootFolderPath + "/" + newPath);
                 criteria.setRootFolder(rootFolderPath);
                 notifySearchHandler(criteria);
-            });
-            btn1.setDescription(newPath);
+            }).withDescription(newPath).withStyleName(WebThemes.BUTTON_LINK);
         }
 
-        addLink(btn1);
+        with(new ELabel("/"), btn1);
 
         if (btn2 != null) {
-            addLink(btn2);
-            select(btn2);
+            with(new ELabel("/"), btn2);
         }
     }
 
@@ -153,28 +125,27 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
         int index;
         if ((index = remainPath.lastIndexOf('/')) != -1) {
             if (index == 0) {
-                btn1 = new Button(StringUtils.trim(folder.getExternalDrive().getFoldername(), 25, true), clickEvent -> {
+                btn1 = new MButton(StringUtils.trim(folder.getExternalDrive().getFoldername(), 25, true), clickEvent -> {
                     FileSearchCriteria criteria = new FileSearchCriteria();
                     criteria.setBaseFolder("/");
                     criteria.setRootFolder("/");
                     criteria.setStorageName(StorageNames.DROPBOX);
                     criteria.setExternalDrive(folder.getExternalDrive());
                     notifySearchHandler(criteria);
-                });
+                }).withStyleName(WebThemes.BUTTON_LINK);
             }
             String pathName = remainPath.substring(index + 1);
             if (StringUtils.isNotBlank(pathName)) {
                 final String newPath = remainPath.substring(0, index);
                 remainPath = newPath;
-                btn2 = new Button(StringUtils.trim(pathName, 25, true), clickEvent -> {
+                btn2 = new MButton(StringUtils.trim(pathName, 25, true), clickEvent -> {
                     FileSearchCriteria criteria = new FileSearchCriteria();
                     criteria.setBaseFolder(newPath);
                     criteria.setRootFolder("/");
                     criteria.setStorageName(StorageNames.DROPBOX);
                     criteria.setExternalDrive(folder.getExternalDrive());
                     notifySearchHandler(criteria);
-                });
-                btn2.setDescription(pathName);
+                }).withDescription(pathName).withStyleName(WebThemes.BUTTON_LINK);
             } else {
                 remainPath = "";
             }
@@ -183,7 +154,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
         if ((index = remainPath.lastIndexOf('/')) != -1) {
             String pathName = remainPath.substring(index + 1);
             final String newPath = remainPath.substring(0, index);
-            btn1 = new Button(StringUtils.trim(pathName, 25, true), clickEvent -> {
+            btn1 = new MButton(StringUtils.trim(pathName, 25, true), clickEvent -> {
                 FileSearchCriteria criteria = new FileSearchCriteria();
                 criteria.setBaseFolder(newPath);
 
@@ -191,22 +162,21 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
                 criteria.setStorageName(StorageNames.DROPBOX);
                 criteria.setExternalDrive(folder.getExternalDrive());
                 notifySearchHandler(criteria);
-            });
-            btn1.setDescription(pathName);
+            }).withDescription(pathName).withStyleName(WebThemes.BUTTON_LINK);
         }
 
         if (btn1 != null) {
-            addLink(btn1);
+            with(new ELabel("/"), btn1);
         }
 
         if (btn2 != null) {
-            addLink(btn2);
-            select(btn2);
+            with(new ELabel("/"), btn2);
         }
     }
 
-    private static Button generateBreadcrumbLink(String linkname, Button.ClickListener listener) {
-        return CommonUIFactory.createButtonTooltip(StringUtils.trim(linkname, 25, true), linkname, listener);
+    private static MButton generateBreadcrumbLink(String linkName, Button.ClickListener listener) {
+        return CommonUIFactory.createButtonTooltip(StringUtils.trim(linkName, 25, true),
+                linkName, listener).withStyleName(WebThemes.BUTTON_LINK);
     }
 
     @Override
@@ -220,9 +190,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
     @Override
     public void notifySearchHandler(final FileSearchCriteria criteria) {
         if (handlers != null) {
-            for (SearchHandler<FileSearchCriteria> handler : handlers) {
-                handler.onSearch(criteria);
-            }
+            handlers.forEach(handler -> handler.onSearch(criteria));
         }
     }
 

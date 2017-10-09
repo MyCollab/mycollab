@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.account;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -22,7 +6,7 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.mycollab.module.crm.fielddef.AccountTableFieldDef;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -45,8 +29,8 @@ public class AccountListDashlet extends Depot {
     public AccountListDashlet() {
         super(UserUIContext.getMessage(AccountI18nEnum.MY_ITEMS), new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
-        tableItem = new AccountTableDisplay(Arrays.asList(AccountTableFieldDef.accountname(),
-                AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email()));
+        tableItem = new AccountTableDisplay(Arrays.asList(AccountTableFieldDef.accountname,
+                AccountTableFieldDef.phoneoffice, AccountTableFieldDef.email));
         bodyContent.addComponent(tableItem);
 
         MButton customizeViewBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new AccountListCustomizeWindow(tableItem)))
@@ -57,7 +41,7 @@ public class AccountListDashlet extends Depot {
 
     public void display() {
         final AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
         criteria.setAssignUser(StringSearchField.and(UserUIContext.getUsername()));
         tableItem.setSearchCriteria(criteria);
     }

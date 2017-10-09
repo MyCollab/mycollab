@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.web;
 
 import com.google.common.eventbus.Subscribe;
@@ -21,9 +5,10 @@ import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.EnDecryptHelper;
+import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.*;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.billing.UsageExceedBillingPlanException;
 import com.mycollab.module.user.dao.UserAccountMapper;
@@ -33,15 +18,15 @@ import com.mycollab.module.user.domain.UserAccount;
 import com.mycollab.module.user.domain.UserAccountExample;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.service.UserService;
-import com.mycollab.shell.ShellController;
-import com.mycollab.shell.events.ShellEvent;
+import com.mycollab.shell.view.ShellController;
+import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.shell.view.LoginPresenter;
 import com.mycollab.shell.view.LoginView;
 import com.mycollab.shell.view.MainWindowContainer;
 import com.mycollab.shell.view.ShellUrlResolver;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AsyncInvoker;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
@@ -57,7 +42,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
-import org.eclipse.jetty.io.EofException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.UncategorizedSQLException;
@@ -74,7 +58,7 @@ import static com.mycollab.core.utils.ExceptionUtils.getExceptionType;
  */
 @Theme(Version.THEME_VERSION)
 @Widgetset("com.mycollab.widgetset.MyCollabWidgetSet")
-public class DesktopApplication extends MyCollabUI {
+public class DesktopApplication extends AppUI {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(DesktopApplication.class);
 
@@ -89,7 +73,9 @@ public class DesktopApplication extends MyCollabUI {
     @Override
     protected void init(final VaadinRequest request) {
         broadcastReceiverService = AppContextUtil.getSpringBean(BroadcastReceiverService.class);
-        if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
+
+        ServerConfiguration serverConfiguration = AppContextUtil.getSpringBean(ServerConfiguration.class);
+        if (serverConfiguration.isPush()) {
             getPushConfiguration().setPushMode(PushMode.MANUAL);
         }
 
@@ -104,7 +90,7 @@ public class DesktopApplication extends MyCollabUI {
         });
 
         setCurrentFragmentUrl(this.getPage().getUriFragment());
-        currentContext = new UserUIContext();
+        setCurrentContext(new UserUIContext());
         postSetupApp(request);
 
         EventBusFactory.getInstance().register(new ShellErrorHandler());
@@ -170,7 +156,7 @@ public class DesktopApplication extends MyCollabUI {
         if (usageBillingException != null) {
             if (UserUIContext.isAdmin()) {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        UserUIContext.getMessage(GenericI18Enum.WINDOW_ATTENTION_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.WINDOW_ATTENTION_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -221,7 +207,7 @@ public class DesktopApplication extends MyCollabUI {
             Exception ex = (Exception) getExceptionType(e, systemEx);
             if (ex != null) {
                 ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
-                        UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.ERROR_USER_SYSTEM_ERROR, ex.getMessage()),
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -237,7 +223,7 @@ public class DesktopApplication extends MyCollabUI {
         IllegalStateException asyncNotSupport = getExceptionType(e, IllegalStateException.class);
         if (asyncNotSupport != null && asyncNotSupport.getMessage().contains("!asyncSupported")) {
             ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
-                    UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, MyCollabUI.getSiteName()),
+                    UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(ErrorI18nEnum.WEBSOCKET_NOT_SUPPORT),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -258,13 +244,9 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
-        EofException eofException = getExceptionType(e, EofException.class);
-        if (eofException != null) {
-            return;
-        }
         LOG.error("Error", e);
         ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
-                UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, MyCollabUI.getSiteName()),
+                UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppUI.getSiteName()),
                 UserUIContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE),
                 UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                 UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -276,12 +258,12 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     private void enter(String newFragmentUrl) {
-        ShellUrlResolver.ROOT().resolveFragment(newFragmentUrl);
+        ShellUrlResolver.ROOT.resolveFragment(newFragmentUrl);
     }
 
     private void clearSession() {
-        if (currentContext != null) {
-            currentContext.clearSessionVariables();
+        if (getCurrentContext() != null) {
+            getCurrentContext().clearSessionVariables();
             setCurrentFragmentUrl("");
         }
         Broadcaster.unregister(broadcastReceiverService);
@@ -295,7 +277,7 @@ public class DesktopApplication extends MyCollabUI {
 
     public void doLogin(String username, String password, boolean isRememberPassword) {
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        SimpleUser user = userService.authentication(username, password, MyCollabUI.getSubDomain(), false);
+        SimpleUser user = userService.authentication(username, password, AppUI.getSubDomain(), false);
 
         if (isRememberPassword) {
             rememberAccount(username, password);
@@ -309,7 +291,7 @@ public class DesktopApplication extends MyCollabUI {
     public void afterDoLogin(SimpleUser user) {
         BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
-        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(MyCollabUI.getAccountId());
+        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppUI.getAccountId());
         LOG.info(String.format("Get billing account successfully - Pricing: %s, User: %s - %s", "" + billingAccount.getBillingPlan().getPricing(),
                 user.getUsername(), user.getDisplayName()));
         UserUIContext.getInstance().setSessionVariables(user, billingAccount);
@@ -328,7 +310,7 @@ public class DesktopApplication extends MyCollabUI {
     public void redirectToLoginView() {
         clearSession();
 
-        MyCollabUI.addFragment("", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
+        AppUI.addFragment("", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
         // clear cookie remember username/password if any
         this.unsetRememberPassword();
 

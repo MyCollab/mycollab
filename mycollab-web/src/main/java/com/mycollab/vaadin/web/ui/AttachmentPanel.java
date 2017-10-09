@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.FileI18nEnum;
@@ -21,7 +5,7 @@ import com.mycollab.core.utils.FileUtils;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
@@ -105,7 +89,7 @@ public class AttachmentPanel extends CssLayout {
                     String fileName = entry.getKey();
                     File file = entry.getValue();
                     resourceService.saveContent(constructContent(fileName, attachmentPath),
-                            UserUIContext.getUsername(), new FileInputStream(file), MyCollabUI.getAccountId());
+                            UserUIContext.getUsername(), new FileInputStream(file), AppUI.getAccountId());
                 } catch (FileNotFoundException e) {
                     LOG.error("Error when attach content in UI", e);
                 }

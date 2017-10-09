@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-services.
- *
- * mycollab-services is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-services is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.spring;
 
 import com.mycollab.db.arguments.SearchCriteria;
@@ -24,11 +8,15 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
+import javax.sql.DataSource;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,21 +26,17 @@ import java.util.ArrayList;
  * @since 4.6.0
  */
 @Configuration
-@Profile("production")
-@Import(DataSourceConfiguration.class)
+@Profile({"production", "test"})
 @DependsOn("dbMigration")
-@MapperScan(basePackages = {"com.mycollab.common.dao", "com.mycollab.form.dao", "com.mycollab.module.crm.dao",
-        "com.mycollab.module.ecm.dao", "com.mycollab.ondemand.module.billing.dao", "com.mycollab.module.user.dao",
-        "com.mycollab.module.project.dao", "com.mycollab.module.tracker.dao", "com.mycollab.pro.common.dao",
-        "com.mycollab.pro.module.project.dao", "com.mycollab.ondemand.module.support.dao"})
+@MapperScan(basePackages = {"com.mycollab.**.dao"})
 public class MyBatisConfiguration {
     @Autowired
-    private DataSourceConfiguration dbConfig;
+    private DataSource dataSource;
 
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(dbConfig.dataSource());
+        sqlSessionFactory.setDataSource(dataSource);
         sqlSessionFactory.setTypeAliasesPackage("com.mycollab.common.domain.criteria;" +
                 "com.mycollab.module.crm.domain.criteria;" +
                 "com.mycollab.module.ecm.domain.criteria;" +

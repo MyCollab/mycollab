@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.db.arguments.NumberSearchField;
@@ -80,6 +64,15 @@ public class UserSettingViewImpl extends AbstractVerticalPageView implements Use
         myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
                 .VIEW_SETTINGS), FontAwesome.COG);
 
+        myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
+                .VIEW_SETTINGS), FontAwesome.COG);
+
+        myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
+                .VIEW_SETTINGS), FontAwesome.COG);
+
+        myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
+                .VIEW_SETTINGS), FontAwesome.COG);
+
         myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;
 
@@ -92,12 +85,14 @@ public class UserSettingViewImpl extends AbstractVerticalPageView implements Use
                 if (UserUIContext.getMessage(ProjectMemberI18nEnum.LIST).equals(caption)) {
                     ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
-                    criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
+                    criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE,
+                            ProjectMemberStatusConstants.NOT_ACCESS_YET));
                     userPresenter.go(UserSettingViewImpl.this, new ScreenData.Search<>(criteria));
                 } else if (UserUIContext.getMessage(ProjectRoleI18nEnum.LIST).equals(caption)) {
                     ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
-                    rolePresenter.go(UserSettingViewImpl.this, new ProjectRoleScreenData.Search(criteria));
+                    rolePresenter.go(UserSettingViewImpl.this,
+                            new ProjectRoleScreenData.Search(criteria));
                 } else if (UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS).equals(caption)) {
                     settingPresenter.go(UserSettingViewImpl.this, null);
                 } else if (UserUIContext.getMessage(ComponentI18nEnum.LIST).equals(caption)) {

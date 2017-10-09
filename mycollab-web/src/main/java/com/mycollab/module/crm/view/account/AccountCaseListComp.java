@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.account;
 
 import com.hp.gagawa.java.elements.A;
@@ -34,7 +18,7 @@ import com.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
@@ -64,8 +48,8 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
     static {
         Map<String, String> tmpMap = new HashMap<>();
-        for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
-            String roleKeyName = CrmDataTypeFactory.getCasesStatusList()[i].name();
+        for (int i = 0; i < CrmDataTypeFactory.casesStatusList.length; i++) {
+            String roleKeyName = CrmDataTypeFactory.casesStatusList[i].name();
             if (!tmpMap.containsKey(roleKeyName)) {
                 tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
@@ -89,7 +73,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         notesWrap.addComponent(noteLbl);
 
         MCssLayout noteBlock = new MCssLayout().withFullWidth().withStyleName("list-note-block");
-        for (CaseStatus status : CrmDataTypeFactory.getCasesStatusList()) {
+        for (CaseStatus status : CrmDataTypeFactory.casesStatusList) {
             ELabel note = new ELabel(UserUIContext.getMessage(status)).withStyleName("note-label", colorsMap.get(status
                     .name())).withWidthUndefined();
             noteBlock.addComponent(note);
@@ -141,14 +125,14 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
             MButton deleteBtn = new MButton("", clickEvent ->
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     CaseService caseService = AppContextUtil.getSpringBean(CaseService.class);
-                                    caseService.removeWithSession(oneCase, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                    caseService.removeWithSession(oneCase, UserUIContext.getUsername(), AppUI.getAccountId());
                                     AccountCaseListComp.this.refresh();
                                 }
                             })
@@ -174,8 +158,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             }
 
             String assigneeValue = (oneCase.getAssignuser() == null) ? new Span().appendText(UserUIContext.getMessage
-                    (GenericI18Enum.OPT_UNDEFINED)).write() : new A(AccountLinkGenerator.generatePreviewFullUserLink(
-                    MyCollabUI.getSiteUrl(), oneCase.getAssignuser()))
+                    (GenericI18Enum.OPT_UNDEFINED)).write() : new A(AccountLinkGenerator.generateUserLink(oneCase.getAssignuser()))
                     .appendText(oneCase.getAssignUserFullName()).write();
             Label caseAssignUser = ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": " + assigneeValue);
             caseInfo.addComponent(caseAssignUser);

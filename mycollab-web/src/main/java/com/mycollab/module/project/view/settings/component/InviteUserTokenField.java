@@ -1,30 +1,14 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.settings.component;
 
 import com.hp.gagawa.java.elements.Img;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -53,7 +37,6 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
     private boolean isFocusing = false;
 
     public InviteUserTokenField() {
-        super();
         inviteEmails = new HashSet<>();
         this.setWidth("100%");
         this.addStyleName("member-token");
@@ -74,7 +57,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
 
         addComponent(suggestField);
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), MyCollabUI.getAccountId());
+        candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
         suggestField.addBlurListener(blurEvent -> {
                     isFocusing = false;
                     if (!"".equals(lastQuery) && StringUtils.isValidEmail(lastQuery) && !inviteEmails.contains(lastQuery)) {
@@ -169,7 +152,7 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
     private Component generateToken(final SimpleUser user) {
         final Button btn = new Button("", FontAwesome.TIMES);
         btn.setCaptionAsHtml(true);
-        btn.setCaption((new Img("", StorageFactory.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
+        btn.setCaption((new Img("", StorageUtils.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
         btn.addClickListener(clickEvent -> {
             InviteUserTokenField.this.removeComponent(btn);
             inviteEmails.remove(user.getEmail());

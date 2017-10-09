@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view;
 
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.PathUtils;
 import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.domain.Page;
@@ -35,7 +19,7 @@ import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -70,8 +54,8 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     private void addSummaryLink() {
         removeAllComponents();
         with(ELabel.h3(new A("#" + ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(StringUtils
-                .trim(project.getName(), 30, true)).write())).withDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), MyCollabUI.getDateFormat(),
-                project, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                .trim(project.getName(), 30, true)).write())).withDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
+                project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
     }
 
     private void addLink(Button button) {
@@ -87,14 +71,14 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     public void gotoSearchProjectItems() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
     }
 
     public void gotoMessageList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(MessageI18nEnum.LIST)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateMessagesLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateMessagesLink(project.getId()),
                 UserUIContext.getMessage(MessageI18nEnum.LIST));
     }
 
@@ -103,16 +87,9 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(MessageI18nEnum.LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null))));
         addLink(generateBreadcrumbLink(message.getTitle()));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateMessagePreviewLink(project.getId(), message.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateMessagePreviewLink(project.getId(), message.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(MessageI18nEnum.SINGLE), message.getTitle()));
-    }
-
-    public void gotoRiskList() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(RiskI18nEnum.LIST)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateRisksLink(project.getId()),
-                UserUIContext.getMessage(RiskI18nEnum.LIST));
     }
 
     public void gotoRiskRead(Risk risk) {
@@ -120,7 +97,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName())));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateRiskPreviewLink(project.getId(), risk.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateRiskPreviewLink(project.getId(), risk.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()));
     }
@@ -132,7 +109,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()),
                 clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoRead(this, risk.getId()))));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateRiskEditLink(project.getId(), risk.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateRiskEditLink(project.getId(), risk.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()));
     }
@@ -141,21 +118,21 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateRiskAddLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateRiskAddLink(project.getId()),
                 UserUIContext.getMessage(RiskI18nEnum.NEW));
     }
 
     public void gotoMilestoneList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateMilestonesLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateMilestonesLink(project.getId()),
                 UserUIContext.getMessage(MilestoneI18nEnum.LIST));
     }
 
     public void gotoRoadmap() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP)));
-        MyCollabUI.addFragment("project/roadmap/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/roadmap/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP));
     }
 
@@ -163,7 +140,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
-        MyCollabUI.addFragment("project/milestone/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/milestone/kanban/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
@@ -171,7 +148,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
         addLink(generateBreadcrumbLink(milestone.getName()));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateMilestonePreviewLink(project.getId(), milestone.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateMilestonePreviewLink(project.getId(), milestone.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), milestone.getName()));
     }
@@ -182,7 +159,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addLink(generateBreadcrumbLink(milestone.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestone.getId()))));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment("project/milestone/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + milestone.getId()),
+        AppUI.addFragment("project/milestone/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + milestone.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), milestone.getName()));
     }
@@ -191,7 +168,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
         addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.NEW)));
-        MyCollabUI.addFragment("project/milestone/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/milestone/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(MilestoneI18nEnum.NEW));
     }
 
@@ -205,7 +182,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
     private void buildPageBreadcrumbChain() {
-        String basePath = PathUtils.getProjectDocumentPath(MyCollabUI.getAccountId(), CurrentProjectVariables.getProjectId());
+        String basePath = PathUtils.getProjectDocumentPath(AppUI.getAccountId(), CurrentProjectVariables.getProjectId());
         String currentPath = CurrentProjectVariables.getCurrentPagePath();
 
         addEnabledLink(new Button(UserUIContext.getMessage(PageI18nEnum.LIST), new GotoPageListListener(basePath)));
@@ -215,14 +192,14 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
             extraPath = extraPath.substring(1);
         }
         if (!extraPath.equals("")) {
-            PageService wikiService = AppContextUtil.getSpringBean(PageService.class);
+            PageService pageService = AppContextUtil.getSpringBean(PageService.class);
 
             String[] subPath = extraPath.split("/");
             StringBuilder tempPath = new StringBuilder();
             for (String var : subPath) {
                 tempPath.append("/").append(var);
                 String folderPath = basePath + tempPath.toString();
-                Folder folder = wikiService.getFolder(folderPath);
+                Folder folder = pageService.getFolder(folderPath);
                 if (folder != null) {
                     addLink(new Button(folder.getName(), new GotoPageListListener(folderPath)));
                 } else {
@@ -235,7 +212,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     public void gotoPageList() {
         addSummaryLink();
         buildPageBreadcrumbChain();
-        MyCollabUI.addFragment(ProjectLinkGenerator.generatePagesLink(project.getId(),
+        AppUI.addFragment(ProjectLinkGenerator.generatePagesLink(project.getId(),
                 CurrentProjectVariables.getCurrentPagePath()), UserUIContext.getMessage(PageI18nEnum.LIST));
     }
 
@@ -243,7 +220,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         buildPageBreadcrumbChain();
         addLink(new Button(UserUIContext.getMessage(PageI18nEnum.NEW)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generatePageAdd(
+        AppUI.addFragment(ProjectLinkGenerator.generatePageAdd(
                 project.getId(), CurrentProjectVariables.getCurrentPagePath()),
                 UserUIContext.getMessage(PageI18nEnum.NEW));
     }
@@ -252,7 +229,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         buildPageBreadcrumbChain();
         addLink(new Button(StringUtils.trim(page.getSubject(), 50)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generatePageRead(project.getId(), page.getPath()),
+        AppUI.addFragment(ProjectLinkGenerator.generatePageRead(project.getId(), page.getPath()),
                 UserUIContext.getMessage(PageI18nEnum.DETAIL));
     }
 
@@ -260,7 +237,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         buildPageBreadcrumbChain();
 
-        MyCollabUI.addFragment(ProjectLinkGenerator.generatePageEdit(project.getId(), page.getPath()),
+        AppUI.addFragment(ProjectLinkGenerator.generatePageEdit(project.getId(), page.getPath()),
                 UserUIContext.getMessage(PageI18nEnum.DETAIL));
     }
 
@@ -283,21 +260,21 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST)));
         String fragment = (StringUtils.isNotBlank(query)) ? ProjectLinkGenerator.generateTicketDashboardLink(project.getId()) + "?" + query : ProjectLinkGenerator.generateTicketDashboardLink(project.getId());
-        MyCollabUI.addFragment(fragment, UserUIContext.getMessage(TicketI18nEnum.LIST));
+        AppUI.addFragment(fragment, UserUIContext.getMessage(TicketI18nEnum.LIST));
     }
 
     public void gotoTaskAdd() {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW)));
-        MyCollabUI.addFragment("project/task/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/task/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(TaskI18nEnum.NEW));
     }
 
     public void gotoGanttView() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART)));
-        MyCollabUI.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART));
     }
 
@@ -306,14 +283,14 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(new Button(String.format("%s: %s", UserUIContext.getMessage(TaskI18nEnum.SINGLE),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN))));
-        MyCollabUI.addFragment("project/task/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/task/kanban/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoCalendar() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR)));
-        MyCollabUI.addFragment("project/calendar/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/calendar/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR));
     }
 
@@ -322,7 +299,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName())));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(), task.getProjectShortname()),
+        AppUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(), task.getProjectShortname()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName()));
     }
@@ -334,7 +311,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName()),
                 clickEvent -> EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()))));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateTaskEditLink(task.getTaskkey(), task.getProjectShortname()),
+        AppUI.addFragment(ProjectLinkGenerator.generateTaskEditLink(task.getTaskkey(), task.getProjectShortname()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName()));
     }
@@ -352,7 +329,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
-        MyCollabUI.addFragment("project/bug/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/bug/kanban/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
@@ -361,7 +338,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addLink(new Button(UserUIContext.getMessage(BugI18nEnum.LIST)));
         String fragment = (StringUtils.isNotBlank(query)) ? ProjectLinkGenerator.generateBugsLink(project.getId()) + "?" +
                 query : ProjectLinkGenerator.generateBugsLink(project.getId());
-        MyCollabUI.addFragment(fragment, UserUIContext.getMessage(BugI18nEnum.LIST));
+        AppUI.addFragment(fragment, UserUIContext.getMessage(BugI18nEnum.LIST));
     }
 
     public void gotoBugAdd() {
@@ -370,7 +347,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
 
         addLink(new Button(UserUIContext.getMessage(BugI18nEnum.NEW)));
-        MyCollabUI.addFragment("project/bug/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/bug/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(BugI18nEnum.NEW));
     }
 
@@ -383,7 +360,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName()),
                 clickEvent -> EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, bug.getId()))));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateBugEditLink(bug.getBugkey(),
+        AppUI.addFragment(ProjectLinkGenerator.generateBugEditLink(bug.getBugkey(),
                 bug.getProjectShortName()), UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                 UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName()));
     }
@@ -395,7 +372,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName())));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(), bug.getProjectShortName()),
+        AppUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(), bug.getProjectShortName()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName()));
     }
@@ -403,7 +380,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     public void gotoVersionList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST)));
-        MyCollabUI.addFragment("project/version/list/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/version/list/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(VersionI18nEnum.LIST));
     }
 
@@ -411,7 +388,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        MyCollabUI.addFragment("project/version/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/version/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(VersionI18nEnum.NEW));
     }
 
@@ -421,7 +398,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addLink(generateBreadcrumbLink(version.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId()))));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment("project/version/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + version.getId()),
+        AppUI.addFragment("project/version/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + version.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getName()));
     }
@@ -430,7 +407,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
         addLink(generateBreadcrumbLink(version.getName()));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateBugVersionPreviewLink(project.getId(), version.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateBugVersionPreviewLink(project.getId(), version.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getName()));
     }
@@ -447,21 +424,21 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     public void gotoTagList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG)));
-        MyCollabUI.addFragment("project/tag/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/tag/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG));
     }
 
     public void gotoFavoriteList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES)));
-        MyCollabUI.addFragment("project/favorite/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/favorite/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES));
     }
 
     public void gotoComponentList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST)));
-        MyCollabUI.addFragment("project/component/list/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/component/list/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ComponentI18nEnum.LIST));
     }
 
@@ -469,7 +446,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        MyCollabUI.addFragment("project/component/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/component/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ComponentI18nEnum.NEW));
     }
 
@@ -479,7 +456,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addLink(generateBreadcrumbLink(component.getName(),
                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId()))));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment("project/component/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + component.getId()),
+        AppUI.addFragment("project/component/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + component.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getName()));
     }
@@ -488,7 +465,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
         addLink(generateBreadcrumbLink(component.getName()));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateBugComponentPreviewLink(project.getId(), component.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateBugComponentPreviewLink(project.getId(), component.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getName()));
     }
@@ -496,28 +473,28 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     public void gotoTimeTrackingList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateTimeReportLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateTimeReportLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_TIME_TRACKING));
     }
 
     public void gotoInvoiceView() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(InvoiceI18nEnum.LIST)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateInvoiceListLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateInvoiceListLink(project.getId()),
                 UserUIContext.getMessage(InvoiceI18nEnum.LIST));
     }
 
     public void gotoFileList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateFileDashboardLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateFileDashboardLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_FILES));
     }
 
     public void gotoUserList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST)));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateUsersLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateUsersLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_MEMBERS));
     }
 
@@ -525,7 +502,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
         addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES)));
-        MyCollabUI.addFragment("project/user/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/user/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_INVITE_MEMBERS));
     }
 
@@ -533,7 +510,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
         addLink(generateBreadcrumbLink(member.getMemberFullName()));
-        MyCollabUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(project.getId() + "/"
+        AppUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(project.getId() + "/"
                 + member.getUsername()), UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_MEMBER_READ, member.getMemberFullName()));
     }
 
@@ -541,14 +518,14 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), new GotoUserListener()));
         addLink(generateBreadcrumbLink(member.getMemberFullName()));
-        MyCollabUI.addFragment("project/user/edit/" + UrlEncodeDecoder.encode(project.getId() + "/"
+        AppUI.addFragment("project/user/edit/" + UrlEncodeDecoder.encode(project.getId() + "/"
                 + member.getId()), UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_MEMBER_EDIT, member.getMemberFullName()));
     }
 
     public void gotoRoleList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST)));
-        MyCollabUI.addFragment("project/role/list/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/role/list/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectRoleI18nEnum.LIST));
     }
 
@@ -556,7 +533,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoRoleListener()));
         addLink(generateBreadcrumbLink(role.getRolename()));
-        MyCollabUI.addFragment("project/role/preview/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
+        AppUI.addFragment("project/role/preview/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE), role.getRolename()));
     }
@@ -564,7 +541,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     public void gotoProjectSetting() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_SETTING), new GotoNotificationSettingListener()));
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateProjectSettingLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateProjectSettingLink(project.getId()),
                 UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_SETTING));
     }
 
@@ -572,7 +549,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoRoleListener()));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        MyCollabUI.addFragment("project/role/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/role/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectRoleI18nEnum.NEW));
     }
 
@@ -580,7 +557,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoUserListener()));
         addLink(generateBreadcrumbLink(role.getRolename()));
-        MyCollabUI.addFragment("project/role/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
+        AppUI.addFragment("project/role/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE), role.getRolename()));
     }
@@ -623,7 +600,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 
     public void gotoProjectDashboard() {
         addSummaryLink();
-        MyCollabUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD));
 //        if (CurrentProjectVariables.isAdmin() && !SiteConfiguration.isCommunityEdition()) {
 //            buildCustomizeDashboardView();
@@ -633,7 +610,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     public void gotoProjectEdit() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment("project/edit/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment("project/edit/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(ProjectI18nEnum.SINGLE), project.getName()));
     }

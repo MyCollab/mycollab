@@ -1,29 +1,13 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.shell.view;
 
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.i18n.LocalizationHelper;
-import com.mycollab.module.user.events.UserEvent.PlainLogin;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.module.user.event.UserEvent.PlainLogin;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.vaadin.mvp.ViewEvent;
+import com.mycollab.vaadin.event.ViewEvent;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.web.DesktopApplication;
 import com.vaadin.ui.HasComponents;
@@ -57,6 +41,6 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
     protected void onGo(HasComponents container, ScreenData<?> data) {
         MainWindowContainer windowContainer = (MainWindowContainer) container;
         windowContainer.setContent(view);
-        MyCollabUI.addFragment("user/login", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
+        AppUI.addFragment("user/login", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
     }
 }

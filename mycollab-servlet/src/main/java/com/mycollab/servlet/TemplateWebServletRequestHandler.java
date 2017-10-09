@@ -1,21 +1,8 @@
-/**
- * This file is part of mycollab-servlet.
- *
- * mycollab-servlet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-servlet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-servlet.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.servlet;
 
+import com.mycollab.configuration.ApplicationConfiguration;
+import com.mycollab.configuration.IDeploymentMode;
+import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -37,6 +24,12 @@ public abstract class TemplateWebServletRequestHandler extends GenericHttpServle
     @Autowired
     private Configuration templateEngine;
 
+    @Autowired
+    private ApplicationConfiguration applicationConfiguration;
+
+    @Autowired
+    private IDeploymentMode deploymentMode;
+
     public String generatePageByTemplate(Locale locale, String templatePath, Map<String, Object> params) throws IOException, TemplateException {
         Map<String, Object> pageContext = new HashMap<>();
         if (params != null) {
@@ -45,10 +38,9 @@ public abstract class TemplateWebServletRequestHandler extends GenericHttpServle
             }
         }
 
-        Map<String, String> defaultUrls = SiteConfiguration.defaultUrls();
+        Map<String, String> defaultUrls = applicationConfiguration.defaultUrls();
 
-        defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-        defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
+        defaultUrls.put("cdn_url", deploymentMode.getCdnUrl());
         pageContext.put("defaultUrls", defaultUrls);
 
         StringWriter writer = new StringWriter();

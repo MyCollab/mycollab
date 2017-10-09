@@ -1,22 +1,7 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.project.view.ticket;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.SearchFieldInfo;
@@ -65,9 +50,9 @@ public class TicketSearchInputView extends SearchInputView<ProjectTicketSearchCr
         setContent(content);
     }
 
-    private void addSharedSearchQueryInfo(SearchQueryInfo queryInfo) {
+    private void addSharedSearchQueryInfo(SearchQueryInfo<ProjectTicketSearchCriteria> queryInfo) {
         content.with(new MButton(queryInfo.getQueryName(), clickEvent -> {
-            List<SearchFieldInfo> fieldInfos = queryInfo.getSearchFieldInfos();
+            List<SearchFieldInfo<ProjectTicketSearchCriteria>> fieldInfos = queryInfo.getSearchFieldInfos();
             criteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class, fieldInfos);
             criteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
             criteria.setProjectIds(new SetSearchField(CurrentProjectVariables.getProjectId()));

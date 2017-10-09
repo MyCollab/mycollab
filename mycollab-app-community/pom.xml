@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.4.10</version>
+        <version>6.0.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -21,6 +21,18 @@
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-client-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mycollab</groupId>
+            <artifactId>mycollab-migration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mycollab</groupId>
+            <artifactId>mycollab-mobile</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -56,40 +68,25 @@
 
         <dependency>
             <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-mobile</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlets</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiled</artifactId>
-            <version>${vaadinVersion}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client</artifactId>
-            <version>${vaadinVersion}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiler</artifactId>
-            <version>${vaadinVersion}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -116,7 +113,6 @@
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
-                <version>${vaadinVersion}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -239,8 +235,8 @@
                                 <copy todir="${installer.staging.dir}">
                                     <fileset dir="${installer.resource.dir.app}"/>
                                 </copy>
-                                <copy todir="${installer.staging.dir}/conf">
-                                    <fileset dir="${basedir}/src/main/conf">
+                                <copy todir="${installer.staging.dir}/config">
+                                    <fileset dir="${basedir}/src/main/config">
                                         <exclude name="mycollab.properties"/>
                                     </fileset>
                                 </copy>
@@ -250,9 +246,6 @@
                                 <copy todir="${installer.staging.dir}/bin">
                                     <fileset dir="${basedir}/src/main/scripts"/>
                                 </copy>
-                                <copy todir="${installer.staging.dir}/webapp">
-                                    <fileset dir="${basedir}/src/main/webapp"/>
-                                </copy>
                                 <copy todir="${installer.staging.dir}/lib">
                                     <fileset dir="${basedir}/src/main/lib"/>
                                 </copy>
@@ -261,26 +254,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.2.2</version>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <repository>mycollab/mycollab</repository>
-                    <tag>${project.version}</tag>
-                </configuration>
-            </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

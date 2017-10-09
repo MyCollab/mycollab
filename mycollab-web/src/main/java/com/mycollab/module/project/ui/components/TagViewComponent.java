@@ -1,31 +1,15 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.ui.components;
 
 import com.mycollab.common.domain.Tag;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.TagI18nEnum;
 import com.mycollab.common.service.TagService;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -67,9 +51,9 @@ public class TagViewComponent extends CssLayout {
         this.type = type;
         this.typeId = typeId;
 
-        List<Tag> tags = tagService.findTags(type, typeId + "", MyCollabUI.getAccountId());
-        for (Tag tag : tags) {
-            this.addComponent(new TagBlock(tag));
+        List<Tag> tags = tagService.findTags(type, typeId + "", AppUI.getAccountId());
+        if (tags != null) {
+            tags.stream().map(TagBlock::new).forEach(this::addComponent);
         }
 
         if (canAddNewTag) {
@@ -105,7 +89,7 @@ public class TagViewComponent extends CssLayout {
                 tag.setName(tagName);
                 tag.setType(type);
                 tag.setTypeid(typeId + "");
-                tag.setSaccountid(MyCollabUI.getAccountId());
+                tag.setSaccountid(AppUI.getAccountId());
                 tag.setExtratypeid(CurrentProjectVariables.getProjectId());
                 int result = tagService.saveWithSession(tag, UserUIContext.getUsername());
                 if (result > 0) {
@@ -131,7 +115,7 @@ public class TagViewComponent extends CssLayout {
         }
         List<Tag> suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG,
                         ProjectTypeConstants.TASK, ProjectTypeConstants.MILESTONE, ProjectTypeConstants.RISK},
-                MyCollabUI.getAccountId());
+                AppUI.getAccountId());
         return new ArrayList<>(suggestedTags);
     }
 
@@ -165,13 +149,13 @@ public class TagViewComponent extends CssLayout {
             if (canAddNewTag) {
                 MButton deleteBtn = new MButton(FontAwesome.TIMES, clickEvent -> {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                             UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
-                                    tagService.removeWithSession(tag, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                    tagService.removeWithSession(tag, UserUIContext.getUsername(), AppUI.getAccountId());
                                     TagViewComponent.this.removeComponent(TagBlock.this);
                                 }
                             });

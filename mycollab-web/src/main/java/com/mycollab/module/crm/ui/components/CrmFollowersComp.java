@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.common.domain.MonitorItem;
@@ -32,9 +16,8 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -56,6 +39,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import static com.mycollab.vaadin.AsyncInvoker.*;
 
 /**
  * @author MyCollab Ltd.
@@ -127,7 +112,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     }
 
     private void loadWatchers() {
-        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+        access(getUI(), new PageCommand() {
             @Override
             public void run() {
                 watcherLayout.removeAllComponents();
@@ -144,7 +129,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             final Image userAvatarBtn = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 32);
             userAvatarBtn.addStyleName(UIConstants.CIRCLE_BOX);
             userAvatarBtn.setDescription(CommonTooltipGenerator.generateTooltipUser(UserUIContext.getUserLocale(), user,
-                    MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             addComponent(userAvatarBtn);
             this.addStyleName("removeable-btn");
             this.setWidthUndefined();
@@ -170,7 +155,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             criteria.setTypeId(new NumberSearchField((Integer) PropertyUtils.getProperty(bean, "id")));
             criteria.setType(StringSearchField.and(type));
             criteria.setUser(StringSearchField.and(username));
-            monitorItemService.removeByCriteria(criteria, MyCollabUI.getAccountId());
+            monitorItemService.removeByCriteria(criteria, AppUI.getAccountId());
             for (SimpleUser user : followers) {
                 if (username.equals(user.getUsername())) {
                     followers.remove(user);
@@ -194,10 +179,8 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             criteria.setStatuses(new SetSearchField<>("Active"));
 
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
-            users = userService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
-            for (SimpleUser member : users) {
-                this.addComponent(new FollowerRow(member));
-            }
+            users = (List<SimpleUser>) userService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
+            users.stream().map(FollowerRow::new).forEach(this::addComponent);
         }
 
         List<MonitorItem> getUnsavedItems() {
@@ -205,7 +188,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             for (SimpleUser member : unsavedUsers) {
                 MonitorItem item = new MonitorItem();
                 item.setMonitorDate(new GregorianCalendar().getTime());
-                item.setSaccountid(MyCollabUI.getAccountId());
+                item.setSaccountid(AppUI.getAccountId());
                 item.setType(type);
                 item.setTypeid(typeId);
                 item.setUser(member.getUsername());

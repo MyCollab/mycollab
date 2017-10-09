@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-ui.
- *
- * mycollab-ui is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-ui is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.common.i18n.ShellI18nEnum;
@@ -22,7 +6,7 @@ import com.mycollab.core.utils.ColorUtils;
 import com.mycollab.module.user.domain.AccountTheme;
 import com.mycollab.module.user.service.AccountThemeService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.server.Page;
 
@@ -36,7 +20,7 @@ public class ThemeManager {
         AccountTheme accountTheme = themeService.findTheme(sAccountId);
 
         if (accountTheme == null) {
-            accountTheme = themeService.findDefaultTheme(MyCollabUI.getAccountId());
+            accountTheme = themeService.findDefaultTheme(AppUI.getAccountId());
             if (accountTheme == null) {
                 throw new UserInvalidInputException(UserUIContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
             }
@@ -44,14 +28,14 @@ public class ThemeManager {
 
         StringBuilder extraStyles = new StringBuilder();
 
-        extraStyles.append(".v-touchkit-navbar-caption { width: " + (UIUtils.getBrowserWidth() - 144) + "px !important; }");
-        extraStyles.append(".v-touchkit-navbar-caption span { width: " + (UIUtils.getBrowserWidth() - 144) + "px !important; }");
+        extraStyles.append(".v-touchkit-navbar-caption { width: ").append(UIUtils.getBrowserWidth() - 144).append("px !important; }");
+        extraStyles.append(".v-touchkit-navbar-caption span { width: ").append(UIUtils.getBrowserWidth() - 144).append("px !important; }");
 
         if (accountTheme.getVtabsheetbg() != null) {
-            extraStyles.append(".section { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
-            extraStyles.append(".v-navbar-quickmenu-content { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
-            extraStyles.append(".slidemenu .v-window-contents { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
-            extraStyles.append(".project-dashboard .project-info-layout { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
+            extraStyles.append(".section { background-color: #").append(accountTheme.getVtabsheetbg()).append("; }");
+            extraStyles.append(".v-navbar-quickmenu-content { background-color: #").append(accountTheme.getVtabsheetbg()).append("; }");
+            extraStyles.append(".slidemenu .v-window-contents { background-color: #").append(accountTheme.getVtabsheetbg()).append("; }");
+            extraStyles.append(".project-dashboard .project-info-layout { background-color: #").append(accountTheme.getVtabsheetbg()).append("; }");
         }
 
         if (accountTheme.getVtabsheettext() != null) {
@@ -123,7 +107,7 @@ public class ThemeManager {
         AccountTheme accountTheme = themeService.findTheme(sAccountId);
 
         if (accountTheme == null) {
-            accountTheme = themeService.findDefaultTheme(MyCollabUI.getAccountId());
+            accountTheme = themeService.findDefaultTheme(AppUI.getAccountId());
             if (accountTheme == null) {
                 throw new UserInvalidInputException(UserUIContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME));
             }

@@ -1,140 +1,127 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.user.accountsettings.view;
 
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.eventmanager.EventBusFactory;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
-import com.mycollab.module.user.accountsettings.view.events.ProfileEvent;
+import com.mycollab.module.user.accountsettings.view.event.AccountBillingEvent;
 import com.mycollab.module.user.domain.Role;
 import com.mycollab.module.user.domain.SimpleRole;
 import com.mycollab.module.user.domain.SimpleUser;
-import com.mycollab.module.user.events.RoleEvent;
-import com.mycollab.module.user.events.UserEvent;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.module.user.event.RoleEvent;
+import com.mycollab.module.user.event.UserEvent;
+import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.utils.LabelStringGenerator;
-import com.vaadin.breadcrumb.Breadcrumb;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 3.0
  */
 @ViewComponent
-public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableComponent {
+public class AccountSettingBreadcrumb extends MHorizontalLayout implements CacheableComponent {
     private static final long serialVersionUID = 1L;
 
     private static LabelStringGenerator menuLinkGenerator = new BreadcrumbLabelStringGenerator();
 
     public AccountSettingBreadcrumb() {
-        this.setShowAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-        this.setHideAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-        this.setUseDefaultClickBehaviour(false);
-        this.addLink(new Button(null, clickEvent -> EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this))));
+        setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
     }
 
     public void gotoProfile() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.OPT_PROFILE)));
-        MyCollabUI.addFragment("account/preview", UserUIContext.getMessage(UserI18nEnum.OPT_PROFILE));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.OPT_PROFILE)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/preview", UserUIContext.getMessage(UserI18nEnum.OPT_PROFILE));
     }
 
     public void gotoSetup() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP)));
-        MyCollabUI.addFragment("account/setup", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/setup", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP));
     }
 
     public void gotoBillingPage() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING)));
-        MyCollabUI.addFragment("account/billing", UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/billing", UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING));
     }
 
     public void gotoBillingHistory() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING),
-                clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))));
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY)));
-        MyCollabUI.addFragment("account/billing/history", UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING),
+                clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/billing/history", UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING_HISTORY));
     }
 
     public void gotoCancelAccountPage() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING),
-                clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))));
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT)));
-        MyCollabUI.addFragment("account/billing/cancel", UserUIContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_BILLING),
+                clickEvent -> EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/billing/cancel", UserUIContext.getMessage(AdminI18nEnum.ACTION_CANCEL_ACCOUNT));
     }
 
     public void gotoUserList() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST)));
-        MyCollabUI.addFragment("account/user/list", UserUIContext.getMessage(UserI18nEnum.LIST));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.LIST)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/user/list", UserUIContext.getMessage(UserI18nEnum.LIST));
     }
 
     public void gotoUserRead(SimpleUser user) {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
-        this.addLink(generateBreadcrumbLink(user.getDisplayName()));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(generateBreadcrumbLink(user.getDisplayName()));
 
-        MyCollabUI.addFragment("account/user/preview/" + UrlEncodeDecoder.encode(user.getUsername()),
+        AppUI.addFragment("account/user/preview/" + UrlEncodeDecoder.encode(user.getUsername()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, UserUIContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
     }
 
     public void gotoUserAdd() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
-        this.setLinkEnabled(true, 1);
-        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        MyCollabUI.addFragment("account/user/add", UserUIContext.getMessage(AdminI18nEnum.ACTION_INVITE_NEW_USER));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        AppUI.addFragment("account/user/add", UserUIContext.getMessage(AdminI18nEnum.ACTION_INVITE_NEW_USER));
     }
 
     public void gotoUserEdit(final SimpleUser user) {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()));
-        this.setLinkEnabled(true, 1);
-        this.addLink(generateBreadcrumbLink(user.getDisplayName(),
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(generateBreadcrumbLink(user.getDisplayName(),
                 clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoRead(this, user.getUsername()))));
-        this.setLinkEnabled(true, 2);
-        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()),
+        this.addComponent(new ELabel("/"));
+        this.addComponent(new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, UserUIContext.getMessage(UserI18nEnum.SINGLE), user.getDisplayName()));
     }
 
     public void gotoGeneralSetting() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
-        MyCollabUI.addFragment("account/setting/general", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/setting/general", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
     }
 
     public void gotoMakeTheme() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING)));
-        MyCollabUI.addFragment("account/setting/theme", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/setting/theme", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
     }
 
     private static class GotoUserListListener implements Button.ClickListener {
@@ -147,37 +134,37 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
     }
 
     public void gotoRoleList() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST)));
-        MyCollabUI.addFragment("account/role/list", UserUIContext.getMessage(RoleI18nEnum.LIST));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(RoleI18nEnum.LIST)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/role/list", UserUIContext.getMessage(RoleI18nEnum.LIST));
     }
 
     public void gotoRoleAdd() {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
-        this.setLinkEnabled(true, 1);
-        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-        MyCollabUI.addFragment("account/role/add", UserUIContext.getMessage(RoleI18nEnum.NEW));
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/role/add", UserUIContext.getMessage(RoleI18nEnum.NEW));
     }
 
     public void gotoRoleRead(SimpleRole role) {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
-        this.setLinkEnabled(true, 1);
-        this.addLink(generateBreadcrumbLink(role.getRolename()));
-        MyCollabUI.addFragment("account/role/preview/" + UrlEncodeDecoder.encode(role.getId()),
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(generateBreadcrumbLink(role.getRolename()));
+        AppUI.addFragment("account/role/preview/" + UrlEncodeDecoder.encode(role.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, UserUIContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     public void gotoRoleEdit(final Role role) {
-        this.select(0);
-        this.addLink(new Button(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()));
-        this.setLinkEnabled(true, 1);
-        this.addLink(generateBreadcrumbLink(role.getRolename(),
+        removeAllComponents();
+        this.addComponent(new MButton(UserUIContext.getMessage(RoleI18nEnum.LIST), new GotoRoleListListener()).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new ELabel("/"));
+        this.addComponent(generateBreadcrumbLink(role.getRolename(),
                 clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoRead(this, role.getId()))));
-        this.setLinkEnabled(true, 2);
-        this.addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        MyCollabUI.addFragment("account/role/edit/" + UrlEncodeDecoder.encode(role.getId()),
+        this.addComponent(new ELabel("/"));
+        this.addComponent(new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/role/edit/" + UrlEncodeDecoder.encode(role.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, UserUIContext.getMessage(RoleI18nEnum.SINGLE), role.getRolename()));
     }
 
@@ -190,11 +177,11 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
         }
     }
 
-    private static Button generateBreadcrumbLink(String linkName) {
-        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkName), linkName);
+    private static MButton generateBreadcrumbLink(String linkName) {
+        return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkName), linkName).withStyleName(WebThemes.BUTTON_LINK);
     }
 
-    private static Button generateBreadcrumbLink(String linkName, Button.ClickListener listener) {
+    private static MButton generateBreadcrumbLink(String linkName, Button.ClickListener listener) {
         return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkName), linkName, listener);
     }
 
@@ -207,6 +194,5 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
             }
             return value;
         }
-
     }
 }

@@ -1,50 +1,15 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
-/**
- * This file is part of mycollab-mobile.
- * <p>
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.crm.view.campaign;
 
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.module.crm.events.CampaignEvent;
+import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.mobile.module.crm.event.CampaignEvent;
 import com.mycollab.mobile.module.crm.ui.AbstractListPageView;
-import com.mycollab.mobile.ui.AbstractPagedBeanList;
-import com.mycollab.mobile.ui.SearchInputField;
-import com.mycollab.mobile.ui.SearchInputView;
-import com.mycollab.mobile.ui.SearchNavigationButton;
+import com.mycollab.mobile.ui.*;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -59,7 +24,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 4.0
  */
 @ViewComponent
-public class CampaignListViewImpl extends AbstractListPageView<CampaignSearchCriteria, SimpleCampaign> implements CampaignListView {
+public class CampaignListViewImpl extends AbstractListPageView<CampaignSearchCriteria, SimpleCampaign> implements IListView<CampaignSearchCriteria, SimpleCampaign> {
     private static final long serialVersionUID = -8743010493576179868L;
 
     public CampaignListViewImpl() {
@@ -79,7 +44,7 @@ public class CampaignListViewImpl extends AbstractListPageView<CampaignSearchCri
     @Override
     public void onBecomingVisible() {
         super.onBecomingVisible();
-        MyCollabUI.addFragment("crm/campaign/list", UserUIContext.getMessage(LeadI18nEnum.LIST));
+        AppUI.addFragment("crm/campaign/list", UserUIContext.getMessage(LeadI18nEnum.LIST));
     }
 
     @Override

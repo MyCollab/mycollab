@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.reporting;
 
 import com.mycollab.common.TableViewField;
@@ -31,7 +15,7 @@ import com.mycollab.reporting.ReportExportType;
 import com.mycollab.reporting.RpFieldsBuilder;
 import com.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
@@ -133,7 +117,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                     // Save custom table view def
                     CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
                     CustomViewStore viewDef = new CustomViewStore();
-                    viewDef.setSaccountid(MyCollabUI.getAccountId());
+                    viewDef.setSaccountid(AppUI.getAccountId());
                     viewDef.setCreateduser(UserUIContext.getUsername());
                     viewDef.setViewid(viewId);
                     viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(columns)));
@@ -167,7 +151,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                     UserUIContext.getUserTimeZone(), UserUIContext.getUserLocale(), reportTitle,
                     new RpFieldsBuilder(columns), getExportType(), beanCls, searchableService);
             Map<String, Object> parameters = new ConcurrentHashMap<>();
-            parameters.put("siteUrl", MyCollabUI.getSiteUrl());
+            parameters.put("siteUrl", AppUI.getSiteUrl());
             parameters.put("user", UserUIContext.getUser());
             parameters.put(SimpleReportTemplateExecutor.CRITERIA, variableInjector.eval());
             reportTemplateExecutor.setParameters(parameters);
@@ -202,7 +186,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
     private Collection<TableViewField> getViewColumns() {
         CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
-        CustomViewStore viewLayoutDef = customViewStoreService.getViewLayoutDef(MyCollabUI.getAccountId(),
+        CustomViewStore viewLayoutDef = customViewStoreService.getViewLayoutDef(AppUI.getAccountId(),
                 UserUIContext.getUsername(), viewId);
         if (!(viewLayoutDef instanceof NullCustomViewStore)) {
             try {

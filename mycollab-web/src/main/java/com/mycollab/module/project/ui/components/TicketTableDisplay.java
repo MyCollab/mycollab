@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.ui.components;
 
 import com.hp.gagawa.java.elements.A;
@@ -53,7 +37,7 @@ public class TicketTableDisplay extends DefaultPagedBeanTable<ProjectTicketServi
 
             Div div = new DivLessFormatter();
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-            A itemLink = new A().setId("tag" + TOOLTIP_ID);
+            A itemLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
             if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
                 itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(task.getProjectShortName(),
                         task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
@@ -66,7 +50,7 @@ public class TicketTableDisplay extends DefaultPagedBeanTable<ProjectTicketServi
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             itemLink.appendText(task.getName());
 
-            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink);
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE, itemLink);
 
             MButton assignmentLink = new MButton(div.write(),
                     clickEvent -> fireTableEvent(new TableClickEvent(TicketTableDisplay.this, task, "name")))

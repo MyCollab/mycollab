@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.lead;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -23,7 +7,7 @@ import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.mycollab.module.crm.fielddef.LeadTableFieldDef;
 import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -58,8 +42,8 @@ public class LeadSelectionWindow extends MWindow {
     }
 
     private void createLeadList() {
-        tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
-                LeadTableFieldDef.assignedUser(), LeadTableFieldDef.accountName()));
+        tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name, LeadTableFieldDef.status,
+                LeadTableFieldDef.assignedUser, LeadTableFieldDef.accountName));
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
@@ -70,7 +54,7 @@ public class LeadSelectionWindow extends MWindow {
                 close();
             }).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING)
                     .withDescription(CrmTooltipGenerator.generateTooltipLead(UserUIContext.getUserLocale(), lead,
-                            MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                            AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
         });
         tableItem.setSearchCriteria(new LeadSearchCriteria());
     }

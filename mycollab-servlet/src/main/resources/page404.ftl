@@ -24,7 +24,7 @@
                     <p>Well, this is embarrassing. We can't find the page you asked for.Bad link? Mistyped address? We're not sure. If you think something is wrong, <a class="v-button-bluebtn" style="text-decoration : none;" href="mailto:support@mycollab.com">contact us</a></p>
                 </div>
                 <div id="back_to_home" style="padding-left:30px;">
-                    <a class="v-button v-button-orangebtn" style="text-decoration : none;" href="http://www.mycollab.com">Return to the home page</a>
+                    <a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">Return to the home page</a>
                 </div>
                 <div class="clear"></div>
             </div>

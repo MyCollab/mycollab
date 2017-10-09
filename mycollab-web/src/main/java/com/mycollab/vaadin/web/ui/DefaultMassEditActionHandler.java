@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -21,10 +5,10 @@ import com.mycollab.reporting.ReportExportType;
 import com.mycollab.reporting.ReportTemplateExecutor;
 import com.mycollab.reporting.RpFieldsBuilder;
 import com.mycollab.reporting.SimpleReportTemplateExecutor;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.MassItemActionHandler;
-import com.mycollab.vaadin.events.ViewItemAction;
+import com.mycollab.vaadin.event.MassItemActionHandler;
+import com.mycollab.vaadin.event.ViewItemAction;
 import com.mycollab.vaadin.reporting.ReportStreamSource;
 import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 import com.vaadin.server.StreamResource;
@@ -46,8 +30,8 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
 
     @Override
     public void onSelect(String id) {
-        if (ViewItemAction.DELETE_ACTION().equals(id)) {
-            ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+        if (ViewItemAction.DELETE_ACTION.equals(id)) {
+            ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                     UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -65,9 +49,9 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
         IPagedBeanTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanTable();
-        final Map<String, Object> addtionalParamters = new HashMap<>();
-        addtionalParamters.put("siteUrl", MyCollabUI.getSiteUrl());
-        addtionalParamters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
+        final Map<String, Object> additionalParameters = new HashMap<>();
+        additionalParameters.put("siteUrl", AppUI.getSiteUrl());
+        additionalParameters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
         ReportTemplateExecutor reportTemplateExecutor;
         if (presenter.isSelectAll) {
             reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems(UserUIContext.getUserTimeZone(),
@@ -83,7 +67,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
         return new StreamResource(new ReportStreamSource(reportTemplateExecutor) {
             @Override
             protected void initReportParameters(Map<String, Object> parameters) {
-                parameters.putAll(addtionalParamters);
+                parameters.putAll(additionalParameters);
             }
         }, exportType.getDefaultFileName());
     }

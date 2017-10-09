@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.file.view;
 
 import com.mycollab.common.i18n.FileI18nEnum;
@@ -24,7 +8,7 @@ import com.mycollab.module.ecm.domain.Resource;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
@@ -71,7 +55,7 @@ class FileDownloadWindow extends MWindow {
         iconWrapper.addComponent(iconEmbed);
         layout.with(iconWrapper).withAlign(iconWrapper, Alignment.MIDDLE_CENTER);
 
-        final GridFormLayoutHelper inforLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
+        final GridFormLayoutHelper infoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
 
         if (content.getDescription() != null) {
             final Label descLbl = new Label();
@@ -81,26 +65,26 @@ class FileDownloadWindow extends MWindow {
                 descLbl.setValue("&nbsp;");
                 descLbl.setContentMode(ContentMode.HTML);
             }
-            inforLayout.addComponent(descLbl, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0);
+            infoLayout.addComponent(descLbl, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0);
         }
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
-        SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), MyCollabUI.getAccountId());
+        SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), AppUI.getAccountId());
         if (user == null) {
-            inforLayout.addComponent(new UserLink(UserUIContext.getUsername(), UserUIContext.getUserAvatarId(),
+            infoLayout.addComponent(new UserLink(UserUIContext.getUsername(), UserUIContext.getUserAvatarId(),
                     UserUIContext.getUserDisplayName()), UserUIContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
         } else {
-            inforLayout.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()),
+            infoLayout.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()),
                     UserUIContext.getMessage(GenericI18Enum.OPT_CREATED_BY), 0, 1);
         }
 
         final Label size = new Label(FileUtils.getVolumeDisplay(content.getSize()));
-        inforLayout.addComponent(size, UserUIContext.getMessage(FileI18nEnum.OPT_SIZE), 0, 2);
+        infoLayout.addComponent(size, UserUIContext.getMessage(FileI18nEnum.OPT_SIZE), 0, 2);
 
         ELabel dateCreate = new ELabel().prettyDateTime(content.getCreated().getTime());
-        inforLayout.addComponent(dateCreate, UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME), 0, 3);
+        infoLayout.addComponent(dateCreate, UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME), 0, 3);
 
-        layout.addComponent(inforLayout.getLayout());
+        layout.addComponent(infoLayout.getLayout());
 
         MButton downloadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
                 .withIcon(FontAwesome.DOWNLOAD).withStyleName(WebThemes.BUTTON_ACTION);

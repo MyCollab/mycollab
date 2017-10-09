@@ -1,31 +1,15 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.ui;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.core.utils.MimeTypesUtil;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.eventmanager.EventBusFactory;
-import com.mycollab.mobile.shell.events.ShellEvent;
+import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.mobile.shell.event.ShellEvent;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
@@ -131,7 +115,7 @@ public class MobileAttachmentUtils {
                         if (dialog.isConfirmed()) {
                             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
                             attachmentService.removeResource(attachment.getPath(), UserUIContext.getUsername(), true,
-                                    MyCollabUI.getAccountId());
+                                    AppUI.getAccountId());
                             ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });
@@ -184,15 +168,15 @@ public class MobileAttachmentUtils {
                             ImageIO.write(scaledImage, fileExt, outStream);
 
                             resourceService.saveContent(constructContent(fileName, attachmentPath), UserUIContext.getUsername(),
-                                    new ByteArrayInputStream(outStream.toByteArray()), MyCollabUI.getAccountId());
+                                    new ByteArrayInputStream(outStream.toByteArray()), AppUI.getAccountId());
                         } catch (IOException e) {
                             LOG.error("Error in upload file", e);
                             resourceService.saveContent(constructContent(fileName, attachmentPath), UserUIContext.getUsername(),
-                                    new FileInputStream(fileStores.get(fileName)), MyCollabUI.getAccountId());
+                                    new FileInputStream(fileStores.get(fileName)), AppUI.getAccountId());
                         }
                     } else {
                         resourceService.saveContent(constructContent(fileName, attachmentPath),
-                                UserUIContext.getUsername(), new FileInputStream(file), MyCollabUI.getAccountId());
+                                UserUIContext.getUsername(), new FileInputStream(file), AppUI.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {

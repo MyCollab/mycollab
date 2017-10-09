@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile.module.project.view.message;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -28,7 +12,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMessage;
 import com.mycollab.module.project.i18n.MessageI18nEnum;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -53,7 +37,6 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
     private final VerticalLayout mainLayout;
 
     public MessageReadViewImpl() {
-        super();
         this.addStyleName("message-read-view");
         this.setCaption(UserUIContext.getMessage(MessageI18nEnum.SINGLE));
         mainLayout = new VerticalLayout();
@@ -100,7 +83,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
 
         ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-                MyCollabUI.getAccountId(), bean.getProjectid(), ProjectTypeConstants.MESSAGE, "" + bean.getId()));
+                AppUI.getAccountId(), bean.getProjectid(), ProjectTypeConstants.MESSAGE, "" + bean.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             CssLayout attachmentPanel = new CssLayout();
             attachmentPanel.setStyleName("attachment-panel");

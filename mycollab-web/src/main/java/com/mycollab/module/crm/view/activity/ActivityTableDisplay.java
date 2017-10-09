@@ -1,24 +1,7 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.activity;
 
 import com.hp.gagawa.java.elements.*;
 import com.mycollab.common.TableViewField;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.CrmLinkGenerator;
@@ -28,9 +11,10 @@ import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.service.EventService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
@@ -273,7 +257,7 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
             trRow2.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
                     .appendText("Contact:"))
                     .appendChild(new Td().setStyle("width:110px; vertical-align: top; text-align: left;")
-                            .appendChild(new A().setHref((event.getContactId() != null) ? MyCollabUI.getSiteUrl() + "#"
+                            .appendChild(new A().setHref((event.getContactId() != null) ? AppUI.getSiteUrl() + "#"
                                     + CrmLinkGenerator.generateContactPreviewLink(event.getContactId()) : "")
                                     .appendText(StringUtils.trimHtmlTags(event.getContactFullName()))));
 
@@ -286,9 +270,9 @@ public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, Ac
                     .appendText("Assignee:"))
                     .appendChild(
                             new Td().setStyle("width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top;")
-                                    .appendChild(new A().setHref((event.getAssignUser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(
-                                            MyCollabUI.getSiteUrl(), event.getAssignUser()) : "")
-                                            .appendChild(new Img("", StorageFactory.getAvatarPath(event.getAssignUserAvatarId(), 16)))
+                                    .appendChild(new A().setHref((event.getAssignUser() != null) ? AccountLinkGenerator.generateUserLink(
+                                            event.getAssignUser()) : "")
+                                            .appendChild(new Img("", StorageUtils.getAvatarPath(event.getAssignUserAvatarId(), 16)))
                                             .appendText(StringUtils.trimHtmlTags(event.getAssignUserFullName()))));
 
             Tr trRow4 = new Tr();

@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.ui.components;
 
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -49,7 +33,7 @@ public class ProjectSubscribersComp extends CustomField {
     @Override
     protected Component initContent() {
         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleUser> members = projectMemberService.getActiveUsersInProject(projectId, MyCollabUI.getAccountId());
+        List<SimpleUser> members = projectMemberService.getActiveUsersInProject(projectId, AppUI.getAccountId());
         CssLayout container = new CssLayout();
         container.setStyleName("followers-container");
         final CheckBox selectAllCheckbox = new CheckBox("All", defaultSelectAll);

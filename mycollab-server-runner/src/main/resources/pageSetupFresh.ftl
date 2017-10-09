@@ -359,7 +359,7 @@ function updateInfoAction(){
     }
 
      $.ajax({
-          type: 'GET',
+          type: 'POST',
           url: urlPost,
           data : {
                     sitename : $('#sitename').val().trim(),
@@ -376,16 +376,21 @@ function updateInfoAction(){
                     ssl: sslStatus
                 },
           success: function(res) {
-             if (res!=null) {
-                if(res.length > 0) {
-                    $('#setupBtn').html('<span>Setup</span>');
-                    alert(res);
-                } else {
-                    window.location.assign(location.protocol + "//" + document.getElementById("serverAddress").value + ((location.port != "")? (":" + location.port) : ""));
-                }
-             }
+             setTimeout(function(){checkServerStarted();}, 10000)
           }
     });
+}
+
+function checkServerStarted() {
+  $.get("/checkStarted", function(checkRes) {
+    if (checkRes === "Started") {
+        window.location.assign(location.protocol + "//" + document.getElementById("serverAddress").value + ((location.port != "")? (":" + location.port) : ""));
+    } else {
+        setTimeout(function(){checkServerStarted();}, 5000);
+    }
+  }).fail(function(data) {
+      setTimeout(function(){checkServerStarted();}, 5000);
+  });
 }
 </script>
 </html>

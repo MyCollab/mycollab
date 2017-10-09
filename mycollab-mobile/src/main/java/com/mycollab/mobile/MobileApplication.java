@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-mobile.
- *
- * mycollab-mobile is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.mobile;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -22,11 +6,11 @@ import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.*;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.mobile.module.user.view.LoginPresenter;
-import com.mycollab.mobile.shell.ShellUrlResolver;
-import com.mycollab.mobile.shell.events.ShellEvent;
+import com.mycollab.mobile.shell.view.ShellUrlResolver;
+import com.mycollab.mobile.shell.event.ShellEvent;
 import com.mycollab.mobile.shell.view.ShellController;
 import com.mycollab.mobile.ui.ConfirmDialog;
 import com.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -38,7 +22,7 @@ import com.mycollab.module.user.domain.UserAccountExample;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.PresenterResolver;
@@ -72,7 +56,7 @@ import java.util.GregorianCalendar;
 @Theme(Version.THEME_MOBILE_VERSION)
 @Viewport("width=device-width, initial-scale=1")
 @Widgetset("com.mycollab.widgetset.MyCollabMobileWidgetSet")
-public class MobileApplication extends MyCollabUI {
+public class MobileApplication extends AppUI {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(MobileApplication.class);
 
@@ -144,14 +128,14 @@ public class MobileApplication extends MyCollabUI {
         });
 
         setCurrentFragmentUrl(this.getPage().getUriFragment());
-        currentContext = new UserUIContext();
+        setCurrentContext(new UserUIContext());
         postSetupApp(request);
 
         final NavigationManager manager = new NavigationManager();
         setContent(manager);
 
         registerControllers(manager);
-        ThemeManager.loadMobileTheme(MyCollabUI.getAccountId());
+        ThemeManager.loadMobileTheme(AppUI.getAccountId());
 
         getPage().addUriFragmentChangedListener(new UriFragmentChangedListener() {
             private static final long serialVersionUID = -6410955178515535406L;
@@ -199,7 +183,7 @@ public class MobileApplication extends MyCollabUI {
     public void doLogin(String username, String password, boolean isRememberPassword) {
         try {
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
-            SimpleUser user = userService.authentication(username, password, MyCollabUI.getSubDomain(), false);
+            SimpleUser user = userService.authentication(username, password, AppUI.getSubDomain(), false);
 
             if (isRememberPassword) {
                 rememberPassword(username, password);
@@ -207,7 +191,7 @@ public class MobileApplication extends MyCollabUI {
 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
 
-            SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(MyCollabUI.getAccountId());
+            SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppUI.getAccountId());
             UserUIContext.getInstance().setSessionVariables(user, billingAccount);
 
             UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
@@ -247,7 +231,7 @@ public class MobileApplication extends MyCollabUI {
 
     public void redirectToLoginView() {
         clearSession();
-        MyCollabUI.addFragment("", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
+        AppUI.addFragment("", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(), ShellI18nEnum.OPT_LOGIN_PAGE));
         // clear cookie remember username/password if any
         this.unsetRememberPassword();
 
@@ -258,8 +242,8 @@ public class MobileApplication extends MyCollabUI {
     }
 
     private void clearSession() {
-        if (currentContext != null) {
-            currentContext.clearSessionVariables();
+        if (getCurrentContext() != null) {
+            getCurrentContext().clearSessionVariables();
             setCurrentFragmentUrl("");
         }
     }

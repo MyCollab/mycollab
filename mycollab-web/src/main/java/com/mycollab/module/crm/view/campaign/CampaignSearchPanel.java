@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.campaign;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -21,7 +5,7 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.Param;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.event.CampaignEvent;
@@ -29,7 +13,7 @@ import com.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.mycollab.module.crm.ui.components.ComponentUtils;
 import com.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.mycollab.security.RolePermissionCollections;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.*;
@@ -126,7 +110,7 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
         @Override
         protected CampaignSearchCriteria fillUpSearchCriteria() {
             CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
 
             if (StringUtils.isNotBlank(nameField.getValue())) {
                 searchCriteria.setCampaignName(StringSearchField.and(nameField.getValue()));

@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.i18n.GenericI18Enum;
@@ -26,7 +10,7 @@ import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.mycollab.module.crm.view.opportunity.OpportunitySearchPanel;
 import com.mycollab.module.crm.view.opportunity.OpportunityTableDisplay;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -48,16 +32,16 @@ public class ContactOpportunitySelectionWindow extends RelatedItemSelectionWindo
 
     @Override
     protected void initUI() {
-        tableItem = new OpportunityTableDisplay(OpportunityTableFieldDef.selected(), Arrays.asList(
-                OpportunityTableFieldDef.opportunityName(), OpportunityTableFieldDef.saleStage(),
-                OpportunityTableFieldDef.expectedCloseDate()));
+        tableItem = new OpportunityTableDisplay(OpportunityTableFieldDef.selected, Arrays.asList(
+                OpportunityTableFieldDef.opportunityName, OpportunityTableFieldDef.saleStage,
+                OpportunityTableFieldDef.expectedCloseDate));
 
         tableItem.addGeneratedColumn("opportunityname", (source, itemId, columnId) -> {
             final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
 
             ELabel b = new ELabel(opportunity.getOpportunityname()).withStyleName(WebThemes.BUTTON_LINK)
                     .withDescription(CrmTooltipGenerator.generateTooltipOpportunity(UserUIContext.getUserLocale(),
-                            MyCollabUI.getDateFormat(), opportunity, MyCollabUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                            AppUI.getDateFormat(), opportunity, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             if (OpportunitySalesStage.Closed_Won.name().equals(opportunity.getSalesstage()) ||
                     OpportunitySalesStage.Closed_Lost.name().equals(opportunity.getSalesstage())) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);

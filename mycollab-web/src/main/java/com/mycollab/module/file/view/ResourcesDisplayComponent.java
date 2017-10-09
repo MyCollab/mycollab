@@ -1,44 +1,28 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.file.view;
 
 import com.google.common.collect.Collections2;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.DebugException;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.ecm.StorageNames;
 import com.mycollab.module.ecm.domain.*;
 import com.mycollab.module.ecm.service.ExternalDriveService;
 import com.mycollab.module.ecm.service.ExternalResourceService;
 import com.mycollab.module.ecm.service.ResourceService;
-import com.mycollab.module.file.events.FileEvent;
+import com.mycollab.module.file.StorageUtils;
+import com.mycollab.module.file.event.FileEvent;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.addon.webcomponents.FloatingComponent;
 import com.mycollab.vaadin.resources.LazyStreamSource;
@@ -48,7 +32,10 @@ import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.AttachmentPanel;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
@@ -111,7 +98,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             if (selectedFolder == null) {
                 throw new DebugException(String.format("Can not find folder with path %s--%s in account", criteria.getBaseFolder(),
-                        criteria.getRootFolder(), MyCollabUI.getAccountId()));
+                        criteria.getRootFolder(), AppUI.getAccountId()));
             } else if (!(selectedFolder instanceof Folder)) {
                 LOG.error(String.format("Expect folder but the result is file %s--%s", criteria.getBaseFolder(),
                         criteria.getRootFolder()));
@@ -146,7 +133,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     }
 
     private void deleteResourceAction(final Collection<Resource> deletedResources) {
-        ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+        ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                 UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                 UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                 UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -161,7 +148,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                     EventBusFactory.getInstance().post(new FileEvent.ResourceRemovedEvent
                                             (ResourcesDisplayComponent.this, res));
                                 }
-                                resourceService.removeResource(res.getPath(), UserUIContext.getUsername(), true, MyCollabUI.getAccountId());
+                                resourceService.removeResource(res.getPath(), UserUIContext.getUsername(), true, AppUI.getAccountId());
                             }
                         }
 
@@ -312,7 +299,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             } else if (resource instanceof Content) {
                 Content content = (Content) resource;
                 if (StringUtils.isNotBlank(content.getThumbnail())) {
-                    resourceIcon = new Embedded(null, new ExternalResource(StorageFactory.getResourcePath(content.getThumbnail())));
+                    resourceIcon = new Embedded(null, new ExternalResource(StorageUtils.getResourcePath(content.getThumbnail())));
                     resourceIcon.setWidth("38px");
                     resourceIcon.setHeight("38px");
                 } else {
@@ -388,7 +375,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 moreInfoAboutResLayout.addComponent(usernameLbl);
             } else {
                 UserService userService = AppContextUtil.getSpringBean(UserService.class);
-                SimpleUser user = userService.findUserByUserNameInAccount(resource.getCreatedUser(), MyCollabUI.getAccountId());
+                SimpleUser user = userService.findUserByUserNameInAccount(resource.getCreatedUser(), AppUI.getAccountId());
                 if (user != null) {
                     UserLink userLink = new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName());
                     userLink.addStyleName(UIConstants.META_INFO);
@@ -537,7 +524,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                         .getExternalDrive(), content, fileInputStream);
                             } else
                                 resourceService.saveContent(content, UserUIContext.getUsername(),
-                                        fileInputStream, MyCollabUI.getAccountId());
+                                        fileInputStream, AppUI.getAccountId());
                         } catch (IOException e) {
                             throw new MyCollabException(e);
                         }

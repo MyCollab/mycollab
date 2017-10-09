@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.project.view.milestone;
 
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.module.project.ui.components.TimeLogComp;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 
 /**
  * @author MyCollab Ltd
@@ -31,17 +15,17 @@ public class MilestoneTimeLogComp extends TimeLogComp<SimpleMilestone> {
 
     @Override
     protected Double getTotalBillableHours(SimpleMilestone bean) {
-        return itemLogService.getTotalBillableHoursByMilestone(bean.getId(), MyCollabUI.getAccountId());
+        return itemLogService.getTotalBillableHoursByMilestone(bean.getId(), AppUI.getAccountId());
     }
 
     @Override
     protected Double getTotalNonBillableHours(SimpleMilestone bean) {
-        return itemLogService.getTotalNonBillableHoursByMilestone(bean.getId(), MyCollabUI.getAccountId());
+        return itemLogService.getTotalNonBillableHoursByMilestone(bean.getId(), AppUI.getAccountId());
     }
 
     @Override
     protected Double getRemainedHours(SimpleMilestone bean) {
-        return itemLogService.getRemainHoursByMilestone(bean.getId(), MyCollabUI.getAccountId());
+        return itemLogService.getRemainHoursByMilestone(bean.getId(), AppUI.getAccountId());
     }
 
     @Override

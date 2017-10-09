@@ -1,25 +1,9 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.vaadin.events.HasPagableHandlers;
-import com.mycollab.vaadin.events.PageableHandler;
+import com.mycollab.vaadin.event.HasPageableHandlers;
+import com.mycollab.vaadin.event.PageableHandler;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -35,7 +19,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends VerticalLayout implements HasPagableHandlers {
+public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends VerticalLayout implements HasPageableHandlers {
     private static final long serialVersionUID = -1842929843421392806L;
 
     private int defaultNumberSearchItems = 10;

@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.*;
@@ -36,9 +20,9 @@ import com.mycollab.vaadin.reporting.FormReportLayout;
 import com.mycollab.vaadin.reporting.PrintButton;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.DefaultPreviewFormHandler;
+import com.mycollab.vaadin.event.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.ui.AbstractRelatedListHandler;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -78,14 +62,14 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
             @Override
             public void onDelete(final SimpleContact data) {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, MyCollabUI.getSiteName()),
+                        UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
                         UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 ContactService ContactService = AppContextUtil.getSpringBean(ContactService.class);
-                                ContactService.removeWithSession(data, UserUIContext.getUsername(), MyCollabUI.getAccountId());
+                                ContactService.removeWithSession(data, UserUIContext.getUsername(), AppUI.getAccountId());
                                 EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
                             }
                         });
@@ -114,8 +98,8 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
             public void gotoNext(SimpleContact data) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER()));
+                criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 Integer nextId = contactService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, nextId));
@@ -129,8 +113,8 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
             public void gotoPrevious(SimpleContact data) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                 ContactSearchCriteria criteria = new ContactSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(MyCollabUI.getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN()));
+                criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESS_THAN));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, nextId));
@@ -185,7 +169,7 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 
                     ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
                     contactService.saveContactOpportunityRelationship(
-                            associateOpportunities, MyCollabUI.getAccountId());
+                            associateOpportunities, AppUI.getAccountId());
 
                     view.getRelatedOpportunityHandlers().refresh();
                 }
@@ -199,12 +183,12 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
         if (UserUIContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
             if (data.getParams() instanceof Integer) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                SimpleContact contact = contactService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
+                SimpleContact contact = contactService.findById((Integer) data.getParams(), AppUI.getAccountId());
                 if (contact != null) {
                     super.onGo(container, data);
                     view.previewItem(contact);
 
-                    MyCollabUI.addFragment(CrmLinkGenerator.generateContactPreviewLink(contact.getId()),
+                    AppUI.addFragment(CrmLinkGenerator.generateContactPreviewLink(contact.getId()),
                             UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                                     UserUIContext.getMessage(ContactI18nEnum.SINGLE), contact.getContactName()));
 

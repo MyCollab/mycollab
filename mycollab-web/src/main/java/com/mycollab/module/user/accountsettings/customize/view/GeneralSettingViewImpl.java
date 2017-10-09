@@ -1,39 +1,24 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.user.accountsettings.customize.view;
 
 import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
+import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.configuration.StorageFactory;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.core.utils.TimezoneVal;
 import com.mycollab.i18n.LocalizationHelper;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.file.service.AccountFavIconService;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.domain.SimpleBillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -81,7 +66,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
     public void displayView() {
         removeAllComponents();
 
-        billingAccount = MyCollabUI.getBillingAccount();
+        billingAccount = AppUI.getBillingAccount();
         FormContainer formContainer = new FormContainer();
         this.addComponent(formContainer);
 
@@ -234,7 +219,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         Label logoDesc = new Label(UserUIContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION));
         leftPanel.with(logoDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
-        final Image favIconRes = new Image("", new ExternalResource(StorageFactory.getFavIconPath(billingAccount.getId(),
+        final Image favIconRes = new Image("", new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
                 billingAccount.getFaviconpath())));
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
@@ -259,9 +244,8 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
                     try {
                         AccountFavIconService favIconService = AppContextUtil.getSpringBean(AccountFavIconService.class);
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
-                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, MyCollabUI
-                                .getAccountId());
-                        favIconRes.setSource(new ExternalResource(StorageFactory.getFavIconPath(billingAccount.getId(),
+                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, AppUI.getAccountId());
+                        favIconRes.setSource(new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
                                 newFavIconPath)));
                         Page.getCurrent().getJavaScript().execute("window.location.reload();");
                     } catch (IOException e) {
@@ -302,7 +286,8 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
         MButton downloadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
                 .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.DOWNLOAD);
-        BrowserWindowOpener opener = new BrowserWindowOpener(SiteConfiguration.getApiUrl("localization/translations"));
+        ServerConfiguration serverConfiguration = AppContextUtil.getSpringBean(ServerConfiguration.class);
+        BrowserWindowOpener opener = new BrowserWindowOpener(serverConfiguration.getApiUrl("localization/translations"));
         opener.extend(downloadBtn);
         rightPanel.with(downloadBtn, new ELabel(UserUIContext.getMessage(ShellI18nEnum
                 .OPT_UPDATE_LANGUAGE_INSTRUCTION)).withStyleName(UIConstants.META_INFO));

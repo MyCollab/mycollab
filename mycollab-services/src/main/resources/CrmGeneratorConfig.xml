@@ -16,7 +16,7 @@
 
         <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/crm" />
 
-        <javaClientGenerator targetPackage="com.mycollab.module.crm.dao" targetProject="src/main/java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.mycollab.module.crm.dao" targetProject="src/main/java" type="MIXEDMAPPER">
             <property name="exampleMethodVisibility" value="public" />
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>

@@ -1,26 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
-import com.mycollab.eventmanager.EventBusFactory;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
@@ -31,9 +15,9 @@ import com.mycollab.module.crm.view.CrmGenericPresenter;
 import com.mycollab.module.crm.view.CrmModule;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.MyCollabUI;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.events.IEditFormHandler;
+import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.HasComponents;
 
@@ -81,7 +65,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
                 contact = (SimpleContact) data.getParams();
             } else if (data.getParams() instanceof Integer) {
                 ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-                contact = contactService.findById((Integer) data.getParams(), MyCollabUI.getAccountId());
+                contact = contactService.findById((Integer) data.getParams(), AppUI.getAccountId());
             }
             if (contact == null) {
                 throw new ResourceNotFoundException();
@@ -90,10 +74,10 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
             view.editItem(contact);
 
             if (contact.getId() == null) {
-                MyCollabUI.addFragment("crm/contact/add", UserUIContext.getMessage(GenericI18Enum
+                AppUI.addFragment("crm/contact/add", UserUIContext.getMessage(GenericI18Enum
                         .BROWSER_ADD_ITEM_TITLE, UserUIContext.getMessage(ContactI18nEnum.SINGLE)));
             } else {
-                MyCollabUI.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
+                AppUI.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
                         UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                                 UserUIContext.getMessage(ContactI18nEnum.SINGLE), contact.getLastname()));
             }
@@ -104,7 +88,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 
     private int saveContact(Contact contact) {
         ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);
-        contact.setSaccountid(MyCollabUI.getAccountId());
+        contact.setSaccountid(AppUI.getAccountId());
         if (contact.getId() == null) {
             contactService.saveWithSession(contact, UserUIContext.getUsername());
         } else {

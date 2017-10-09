@@ -1,21 +1,6 @@
-/**
- * This file is part of mycollab-scheduler-community.
- *
- * mycollab-scheduler-community is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-scheduler-community is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-scheduler-community.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.community.schedule.jobs;
 
+import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.BroadcastMessage;
 import com.mycollab.core.Broadcaster;
@@ -27,6 +12,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -53,10 +39,13 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
     private static boolean isDownloading = false;
     private static String latestFileDownloadedPath;
 
+    @Autowired
+    private ServerConfiguration serverConfiguration;
+
     @Override
     public void executeJob(JobExecutionContext context) throws JobExecutionException {
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(SiteConfiguration.getApiUrl("checkupdate?version=" + Version.getVersion()), String.class);
+        String result = restTemplate.getForObject(serverConfiguration.getApiUrl("checkupdate?version=" + Version.getVersion()), String.class);
         final Properties props = JsonDeSerializer.fromJson(result, Properties.class);
         String version = props.getProperty("version");
         if (Version.isEditionNewer(version)) {

@@ -1,35 +1,3 @@
-/**
- * This file is part of mycollab-web-community.
- *
- * mycollab-web-community is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web-community is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
- */
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.community.shell.view.components;
 
 import com.hp.gagawa.java.elements.A;
@@ -71,20 +39,20 @@ public class AdRequestWindow extends MWindow {
                 ContentMode.HTML);
 
         Label tweetUs = new Label(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.TWITTER.getHtml()),
-                DivLessFormatter.EMPTY_SPACE(),
+                DivLessFormatter.EMPTY_SPACE,
                 new A("https://twitter.com/intent/tweet?text=I am using MyCollab to manage all project activities, " +
                         "accounts and it works great @mycollabdotcom&source=webclient", "_blank")
                         .appendText("Share on Twitter")).setStyle("color:#006dac").write(), ContentMode.HTML);
 
         Label linkedIn = new Label(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.LINKEDIN_SQUARE.getHtml()),
-                DivLessFormatter.EMPTY_SPACE(),
+                DivLessFormatter.EMPTY_SPACE,
                 new A("https://www.linkedin.com/cws/share?url=https%3A%2F%2Fwww.mycollab.com&original_referer=https%3A%2F%2Fwww.mycollab.com&token=&isFramed=false&lang=en_US", "_blank")
                         .appendText("Share on LinkedIn")).setStyle("color:#006dac").write(), ContentMode.HTML);
 
         Label testimonialAd = new Label("A chance to get a free license of the premium MyCollab software for 10 users" +
                 ". If you execute one of the following:");
         Label rateSourceforge = new Label(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.FLAG_CHECKERED.getHtml()),
-                DivLessFormatter.EMPTY_SPACE(), new A("https://community.mycollab.com/docs/developing-mycollab/translating/", "_blank")
+                DivLessFormatter.EMPTY_SPACE, new A("https://community.mycollab.com/docs/developing-mycollab/translating/", "_blank")
                         .appendText("Localize MyCollab to your language at least 20% of the phrases")).setStyle
                 ("color:#006dac").write(), ContentMode.HTML);
         MButton testimonialBtn = new MButton("Write a testimonial which is selected to post on our website",
