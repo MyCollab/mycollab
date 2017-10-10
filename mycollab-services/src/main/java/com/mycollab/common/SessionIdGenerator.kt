@@ -9,13 +9,13 @@ abstract class SessionIdGenerator {
     abstract val sessionIdApp: String
 
     companion object {
-        private var instance: SessionIdGenerator? = null
+        private lateinit var instance: SessionIdGenerator
 
         fun registerSessionIdGenerator(provider: SessionIdGenerator) {
             instance = provider
         }
 
         val sessionId: String
-            get() = instance!!.sessionIdApp
+            get() = instance.sessionIdApp
     }
 }

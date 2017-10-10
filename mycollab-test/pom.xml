@@ -20,6 +20,12 @@
 
         <dependency>
             <groupId>com.mycollab</groupId>
+            <artifactId>mycollab-caching</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
             <version>${project.version}</version>
         </dependency>

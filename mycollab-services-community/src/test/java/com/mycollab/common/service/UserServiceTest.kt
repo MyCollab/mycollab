@@ -17,14 +17,14 @@ import org.assertj.core.api.Assertions.assertThat
 @RunWith(SpringJUnit4ClassRunner::class)
 class UserServiceTest : IntegrationServiceTest() {
     @Autowired
-    private val userService: UserService? = null
+    private lateinit var userService: UserService
 
     @DataSet
     @Test
     fun testGetListUser() {
         val criteria = UserSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
-        val users = userService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleUser>
+        val users = userService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleUser>
         assertThat(users.size).isEqualTo(4)
         assertThat<SimpleUser>(users).extracting("username").contains(
                 "hainguyen@esofthead.com", "linhduong@esofthead.com",
@@ -34,7 +34,7 @@ class UserServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun updateUserEmail() {
-        val user = userService!!.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
+        val user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
         assertThat(user!!.email).isEqualTo("hainguyen@esofthead.com")
 
         user.email = "hannguyen@esofthead.com"
@@ -48,14 +48,14 @@ class UserServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetTotalActiveUsersInAccount() {
-        val totalActiveUsersInAccount = userService!!.getTotalActiveUsersInAccount(1)
+        val totalActiveUsersInAccount = userService.getTotalActiveUsersInAccount(1)
         assertThat(totalActiveUsersInAccount).isEqualTo(3)
     }
 
     @DataSet
     @Test
     fun testFindUserByUsernameInAccount() {
-        val user = userService!!.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
+        val user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
         assertThat(user!!.username).isEqualTo("hainguyen@esofthead.com")
         assertThat(user.accountId).isEqualTo(1)
         assertThat(user.firstname).isEqualTo("Nguyen")

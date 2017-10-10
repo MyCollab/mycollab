@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 class ActivityStreamServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val activityStreamService: ActivityStreamService? = null
+    private lateinit var activityStreamService: ActivityStreamService
 
     @Test
     @DataSet
@@ -27,7 +27,7 @@ class ActivityStreamServiceTest : IntegrationServiceTest() {
         searchCriteria.moduleSet = SetSearchField("aa", "bb")
         searchCriteria.saccountid = NumberSearchField(1)
 
-        val activities = activityStreamService!!.findPageableListByCriteria(BasicSearchRequest(searchCriteria))
+        val activities = activityStreamService.findPageableListByCriteria(BasicSearchRequest(searchCriteria))
         assertThat(activities.size).isEqualTo(3)
     }
 
@@ -38,7 +38,7 @@ class ActivityStreamServiceTest : IntegrationServiceTest() {
         searchCriteria.moduleSet = SetSearchField("bb")
         searchCriteria.saccountid = NumberSearchField(1)
 
-        val activities = activityStreamService!!.findPageableListByCriteria(BasicSearchRequest(searchCriteria)) as List<SimpleActivityStream>
+        val activities = activityStreamService.findPageableListByCriteria(BasicSearchRequest(searchCriteria)) as List<SimpleActivityStream>
 
         assertThat(activities.size).isEqualTo(1)
         assertThat<SimpleActivityStream>(activities).extracting("saccountid", "module", "action").contains(tuple(1, "bb", "update"))

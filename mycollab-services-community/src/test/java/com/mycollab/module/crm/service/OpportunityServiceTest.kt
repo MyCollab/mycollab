@@ -19,12 +19,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 class OpportunityServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val opportunityService: OpportunityService? = null
+    private lateinit var opportunityService: OpportunityService
 
     @DataSet
     @Test
     fun testSearchByCriteria() {
-        val opportunities = opportunityService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleOpportunity>
+        val opportunities = opportunityService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleOpportunity>
 
         assertThat(opportunities.size).isEqualTo(2)
         assertThat<SimpleOpportunity>(opportunities).extracting("id", "salesstage", "source").contains(
@@ -34,7 +34,7 @@ class OpportunityServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetTotalCount() {
-        val opportunities = opportunityService!!.findPageableListByCriteria(BasicSearchRequest(criteria))
+        val opportunities = opportunityService.findPageableListByCriteria(BasicSearchRequest(criteria))
         assertThat(opportunities.size).isEqualTo(2)
     }
 
@@ -55,7 +55,7 @@ class OpportunityServiceTest : IntegrationServiceTest() {
         criteria.assignUsers = SetSearchField("hai", "linh")
         criteria.saccountid = NumberSearchField(1)
 
-        val opportunities = opportunityService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleOpportunity>
+        val opportunities = opportunityService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleOpportunity>
 
         assertThat(opportunities.size).isEqualTo(2)
         assertThat<SimpleOpportunity>(opportunities).extracting("id", "salesstage", "source").contains(

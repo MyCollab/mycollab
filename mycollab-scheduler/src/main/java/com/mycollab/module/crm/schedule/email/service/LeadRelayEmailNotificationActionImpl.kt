@@ -38,7 +38,9 @@ import org.springframework.stereotype.Component
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class LeadRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleLead>(), LeadRelayEmailNotificationAction {
+
     @Autowired private lateinit var leadService: LeadService
+
     private val mapper = LeadFieldNameMapper()
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleLead? =

@@ -11,5 +11,5 @@ import com.mycollab.db.persistence.service.IDefaultService
  */
 interface AuditLogService : IDefaultService<Int, AuditLog, AuditLogSearchCriteria> {
 
-    fun findLastestLog(auditLogId: Int, sAccountId: Int): SimpleAuditLog
+    fun findLastestLogs(auditLogId: Int, sAccountId: Int): SimpleAuditLog?
 }

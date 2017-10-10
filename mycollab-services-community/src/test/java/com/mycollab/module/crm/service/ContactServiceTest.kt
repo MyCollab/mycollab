@@ -19,12 +19,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 class ContactServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val contactService: ContactService? = null
+    private lateinit var contactService: ContactService
 
     @DataSet
     @Test
     fun testGetFindByCriteria() {
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(1)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"))
@@ -33,7 +33,7 @@ class ContactServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetTotalCount() {
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria))
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria))
         assertThat(contacts.size).isEqualTo(1)
     }
 
@@ -52,7 +52,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         val criteria = ContactSearchCriteria()
         criteria.contactName = StringSearchField.and("Nguyen Hai")
         criteria.saccountid = NumberSearchField(1)
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(1)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"))
@@ -65,7 +65,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.assignUsers = SetSearchField("linh", "hai")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(3)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"), tuple(3, "hai"))
@@ -77,7 +77,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         val criteria = ContactSearchCriteria()
         criteria.leadSources = SetSearchField("Email", "Campaign")
         criteria.saccountid = NumberSearchField(1)
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"))
@@ -90,7 +90,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.anyPostalCode = StringSearchField.and("70000")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"))
@@ -103,7 +103,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.anyCity = StringSearchField.and("HCM")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"))
@@ -116,7 +116,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.anyPhone = StringSearchField.and("(111)-(222)")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(2, "linh"), tuple(3, "hai"))
@@ -128,7 +128,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         val criteria = ContactSearchCriteria()
         criteria.countries = SetSearchField("Viet nam", "America")
         criteria.saccountid = NumberSearchField(1)
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(3, "hai"))
@@ -141,7 +141,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.anyState = StringSearchField.and("abc")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(
@@ -154,7 +154,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         val criteria = ContactSearchCriteria()
         criteria.anyAddress = StringSearchField.and("ade")
         criteria.saccountid = NumberSearchField(1)
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(tuple(1, "linh"), tuple(2, "linh"))
@@ -167,7 +167,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.anyEmail = StringSearchField.and("abc@y.co")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(2)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(
@@ -181,7 +181,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.lastname = StringSearchField.and("Linh")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(1)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(
@@ -195,7 +195,7 @@ class ContactServiceTest : IntegrationServiceTest() {
         criteria.firstname = StringSearchField.and("Nguyen")
         criteria.saccountid = NumberSearchField(1)
 
-        val contacts = contactService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
+        val contacts = contactService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleContact>
 
         assertThat(contacts.size).isEqualTo(3)
         assertThat<SimpleContact>(contacts).extracting("id", "assignuser").contains(

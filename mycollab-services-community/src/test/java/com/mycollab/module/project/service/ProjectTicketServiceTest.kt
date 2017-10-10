@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 @RunWith(SpringJUnit4ClassRunner::class)
 class ProjectTicketServiceTest : IntegrationServiceTest() {
     @Autowired
-    private val projectTicketService: ProjectTicketService? = null
+    private lateinit var projectTicketService: ProjectTicketService
 
     @DataSet
     @Test
@@ -29,7 +29,7 @@ class ProjectTicketServiceTest : IntegrationServiceTest() {
         val now = LocalDate()
         val rangeDateSearchField = RangeDateSearchField(now.minusDays(10000).toDate(), now.toDate())
         criteria.dateInRange = rangeDateSearchField
-        val accounts = projectTicketService!!.getAccountsHasOverdueAssignments(criteria)
+        val accounts = projectTicketService.getAccountsHasOverdueAssignments(criteria)
         assertThat(accounts).isNotEmpty().hasSize(2)
         assertThat(accounts).extracting("subdomain", "id").contains(tuple("a", 1), tuple("b", 2))
     }
@@ -40,7 +40,7 @@ class ProjectTicketServiceTest : IntegrationServiceTest() {
         val criteria = ProjectTicketSearchCriteria()
         criteria.saccountid = NumberSearchField.equal(2)
         criteria.projectIds = SetSearchField(3)
-        val tickets = projectTicketService!!.findTicketsByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
+        val tickets = projectTicketService.findTicketsByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
         assertThat<ProjectTicket>(tickets).hasSize(3)
         assertThat<ProjectTicket>(tickets).extracting("name", "assignUser", "assignUserFullName", "assignUserAvatarId", "type")
                 .contains(tuple("Task 4", "linhduong", "Duong Linh", "linh123", "Project-Task"),
@@ -54,7 +54,7 @@ class ProjectTicketServiceTest : IntegrationServiceTest() {
         val criteria = ProjectTicketSearchCriteria()
         criteria.saccountid = NumberSearchField.equal(2)
         criteria.projectIds = SetSearchField(3)
-        val groupItems = projectTicketService!!.getAssigneeSummary(criteria)
+        val groupItems = projectTicketService.getAssigneeSummary(criteria)
         assertThat(groupItems).hasSize(2)
         assertThat(groupItems).extracting("groupid", "value", "extraValue").contains(tuple("hai79", 2.0, null), tuple("linhduong", 1.0, "linh123"))
     }

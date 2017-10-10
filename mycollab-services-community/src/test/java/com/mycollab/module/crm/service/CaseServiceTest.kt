@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 class CaseServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val caseService: CaseService? = null
+    private lateinit var caseService: CaseService
 
     @DataSet
     @Test
@@ -27,7 +27,7 @@ class CaseServiceTest : IntegrationServiceTest() {
         val criteria = CaseSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
 
-        val cases = caseService!!.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
+        val cases = caseService.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
 
         assertThat(cases.size).isEqualTo(2)
         assertThat<SimpleCase>(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"))
@@ -42,10 +42,10 @@ class CaseServiceTest : IntegrationServiceTest() {
         criteria.subject = StringSearchField.and("a")
         criteria.saccountid = NumberSearchField(1)
 
-        val cases = caseService!!.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
+        val cases = caseService.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
 
-        assertThat(cases.size).isEqualTo(2)
-        assertThat<SimpleCase>(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"))
+        assertThat(cases.size).isEqualTo(1)
+        assertThat<SimpleCase>(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"))
     }
 
     @Test
@@ -55,7 +55,7 @@ class CaseServiceTest : IntegrationServiceTest() {
         criteria.assignUsers = SetSearchField("linh", "admin")
         criteria.saccountid = NumberSearchField(1)
 
-        val cases = caseService!!.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
+        val cases = caseService.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
 
         assertThat(cases.size).isEqualTo(2)
         assertThat<SimpleCase>(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"))
@@ -68,7 +68,7 @@ class CaseServiceTest : IntegrationServiceTest() {
         criteria.priorities = SetSearchField("High", "Medium")
         criteria.saccountid = NumberSearchField(1)
 
-        val cases = caseService!!.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
+        val cases = caseService.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
 
         assertThat(cases.size).isEqualTo(2)
         assertThat<SimpleCase>(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"))
@@ -81,7 +81,7 @@ class CaseServiceTest : IntegrationServiceTest() {
         criteria.statuses = SetSearchField("New", "Test Status")
         criteria.saccountid = NumberSearchField(1)
 
-        val cases = caseService!!.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
+        val cases = caseService.findPageableListByCriteria(BasicSearchRequest<CaseSearchCriteria>(criteria)) as List<SimpleCase>
 
         assertThat(cases.size).isEqualTo(2)
         assertThat<SimpleCase>(cases).extracting("id", "subject", "status").contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"))

@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 class MilestoneServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val itemTimeLoggingService: MilestoneService? = null
+    private lateinit var milestoneService: MilestoneService
 
     private val criteria: MilestoneSearchCriteria
         get() {
@@ -41,7 +41,7 @@ class MilestoneServiceTest : IntegrationServiceTest() {
         criteria.statuses = SetSearchField("Open")
         criteria.milestoneName = StringSearchField.and("milestone 1")
 
-        val milestones = itemTimeLoggingService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleMilestone>
+        val milestones = milestoneService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleMilestone>
 
         assertThat(milestones.size).isEqualTo(1)
         assertThat<SimpleMilestone>(milestones).extracting("id", "description", "createdUserFullName", "createdtime", "ownerFullName",
@@ -54,7 +54,7 @@ class MilestoneServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testGetListMilestonesByCriteria() {
-        val milestones = itemTimeLoggingService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleMilestone>
+        val milestones = milestoneService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleMilestone>
 
         assertThat(milestones.size).isEqualTo(4)
         assertThat<SimpleMilestone>(milestones).extracting("id", "description",
@@ -70,7 +70,7 @@ class MilestoneServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testFindMilestoneById() {
-        val milestone = itemTimeLoggingService!!.findById(1, 1)
+        val milestone = milestoneService.findById(1, 1)
         assertThat(milestone.createdUserFullName).isEqualTo("Hai Nguyen")
         assertThat(milestone.numOpenBugs).isEqualTo(2)
     }
@@ -78,7 +78,7 @@ class MilestoneServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetTotalCount() {
-        val milestoneSize = itemTimeLoggingService!!.getTotalCount(criteria)
+        val milestoneSize = milestoneService.getTotalCount(criteria)
         assertThat(milestoneSize).isEqualTo(4)
     }
 

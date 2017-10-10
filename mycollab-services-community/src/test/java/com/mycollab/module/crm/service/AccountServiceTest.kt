@@ -21,10 +21,10 @@ import org.assertj.core.api.Assertions.tuple
 class AccountServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val accountService: AccountService? = null
+    private lateinit var accountService: AccountService
 
     @Autowired
-    private val accountMapper: AccountMapper? = null
+    private lateinit var accountMapper: AccountMapper
 
     private val criteria: AccountSearchCriteria
         get() {
@@ -40,7 +40,7 @@ class AccountServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testSearchByCriteria() {
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)) as List<SimpleAccount>
         assertThat(accounts.size).isEqualTo(2)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"))
     }
@@ -48,7 +48,7 @@ class AccountServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetTotalCounts() {
-        assertThat(accountService!!.getTotalCount(criteria)).isEqualTo(2)
+        assertThat(accountService.getTotalCount(criteria)).isEqualTo(2)
     }
 
     @DataSet
@@ -57,7 +57,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         val criteria = AccountSearchCriteria()
         criteria.anyPhone = StringSearchField.and("111")
         criteria.saccountid = NumberSearchField(1)
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(2)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"))
@@ -70,7 +70,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.anyMail = StringSearchField.and("abc")
         criteria.saccountid = NumberSearchField(1)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
         assertThat(accounts.size).isEqualTo(2)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry")
                 .contains(tuple(2, "xyz1", "b"), tuple(3, "xyz2", "c"))
@@ -79,12 +79,12 @@ class AccountServiceTest : IntegrationServiceTest() {
     @Test
     @DataSet
     fun testRemoveAccounts() {
-        accountMapper!!.removeKeysWithSession(Arrays.asList(1, 2))
+        accountMapper.removeKeysWithSession(Arrays.asList(1, 2))
 
         val criteria = AccountSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(1)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(3, "xyz2", "c"))
@@ -93,7 +93,7 @@ class AccountServiceTest : IntegrationServiceTest() {
     @Test
     @DataSet
     fun testFindAccountById() {
-        val account = accountService!!.findById(1, 1)
+        val account = accountService.findById(1, 1)
         assertThat(account!!.accountname).isEqualTo("xyz")
     }
 
@@ -104,7 +104,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.industries = SetSearchField("a")
         criteria.saccountid = NumberSearchField(1)
 
-        accountService!!.removeByCriteria(criteria, 1)
+        accountService.removeByCriteria(criteria, 1)
 
         criteria = AccountSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
@@ -122,7 +122,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         account.id = 1
         account.accountname = "abc"
         account.saccountid = 1
-        accountService!!.updateWithSession(account, "hai79")
+        accountService.updateWithSession(account, "hai79")
 
         val simpleAccount = accountService.findById(1, 1)
         assertThat(simpleAccount!!.accountname).isEqualTo("abc")
@@ -136,7 +136,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.website = StringSearchField.and("http://www.esofthead.com")
         criteria.saccountid = NumberSearchField(1)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(3)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry")
@@ -150,7 +150,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.anyAddress = StringSearchField.and("123")
         criteria.saccountid = NumberSearchField(1)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(2)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"))
@@ -163,7 +163,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.anyCity = StringSearchField.and("ha noi")
         criteria.saccountid = NumberSearchField(1)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(2)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"))
@@ -176,7 +176,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.assignUser = StringSearchField.and("hai79")
         criteria.saccountid = NumberSearchField(1)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(1)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"))
@@ -189,7 +189,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.assignUser = StringSearchField.and("hai79")
         criteria.saccountid = NumberSearchField(1)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(1)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"))
@@ -202,7 +202,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         val account = Account()
         account.assignuser = "hai79"
         account.industry = "aaa"
-        accountService!!.massUpdateWithSession(account, updateKeys, 1)
+        accountService.massUpdateWithSession(account, updateKeys, 1)
 
         val criteria = AccountSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
@@ -223,7 +223,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.saccountid = NumberSearchField(1)
         criteria.addExtraField(NoValueSearchField(SearchField.AND, "m_crm_account.accountName is not null"))
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(3)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry")
@@ -237,7 +237,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         criteria.saccountid = NumberSearchField(1)
         criteria.addExtraField(OneValueSearchField(SearchField.AND, "m_crm_account.accountName = ", "xyz"))
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
         assertThat(accounts.size).isEqualTo(1)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"))
     }
@@ -248,7 +248,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         val criteria = AccountSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
         criteria.addExtraField(CollectionValueSearchField(SearchField.AND, "m_crm_account.industry in ", Arrays.asList("a", "b")))
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(2)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"))
@@ -265,7 +265,7 @@ class AccountServiceTest : IntegrationServiceTest() {
         compoField.addField(OneValueSearchField("", "m_crm_account.shippingCity = ", "ha noi"))
         criteria.addExtraField(compoField)
 
-        val accounts = accountService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
+        val accounts = accountService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleAccount>
 
         assertThat(accounts.size).isEqualTo(1)
         assertThat<SimpleAccount>(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"))

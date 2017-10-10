@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 @Profile("production", "test")
 @ConfigurationProperties(prefix = "app")
-class ApplicationConfiguration(var description: String? = "", var facebookUrl: String? = "",
+open class ApplicationConfiguration(var description: String? = "", var facebookUrl: String? = "",
                                var twitterUrl: String? = "", var googleUrl: String? = "",
                                var linkedinUrl: String? = "") {
 

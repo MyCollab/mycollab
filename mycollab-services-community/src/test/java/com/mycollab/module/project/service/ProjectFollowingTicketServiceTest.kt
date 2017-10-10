@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val projectFollowingTicketService: ProjectFollowingTicketService? = null
+    private lateinit var projectFollowingTicketService: ProjectFollowingTicketService
 
     private val criteria: FollowingTicketSearchCriteria
         get() {
@@ -36,7 +36,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testGetListProjectFollowingTicket() {
-        val projectFollowingTickets = projectFollowingTicketService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
+        val projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
         assertThat<FollowingTicket>(projectFollowingTickets).extracting("type", "name",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -60,7 +60,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
     fun testGetListProjectFollowingTicketBySummary() {
         val criteria = criteria
         criteria.name = StringSearchField.and("1")
-        val projectFollowingTickets = projectFollowingTicketService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
+        val projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
         assertThat<FollowingTicket>(projectFollowingTickets).extracting("type", "name", "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
                 tuple("Project-Bug", "bug 1", DATE_FORMAT.parse("2014-10-23 00:00:00")),
@@ -74,7 +74,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
     fun testGetListProjectFollowingTicketOfTaskAndBug() {
         val criteria = criteria
         criteria.types = SetSearchField("Project-Task", "Project-Bug")
-        val projectFollowingTickets = projectFollowingTicketService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
+        val projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
         assertThat<FollowingTicket>(projectFollowingTickets).extracting("type", "name",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -94,7 +94,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
     fun testGetListProjectFollowingTicketOfTask() {
         val criteria = criteria
         criteria.type = StringSearchField.and("Project-Task")
-        val projectFollowingTickets = projectFollowingTicketService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
+        val projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
         assertThat<FollowingTicket>(projectFollowingTickets).extracting("type", "name",
                 "monitorDate").contains(
                 tuple("Project-Task", "task 1", DATE_FORMAT.parse("2014-10-21 00:00:00")),
@@ -110,7 +110,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
     fun testGetListProjectFollowingTicketOfRisk() {
         val criteria = criteria
         criteria.type = StringSearchField.and("Project-Risk")
-        val projectFollowingTickets = projectFollowingTicketService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
+        val projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
 
         assertThat<FollowingTicket>(projectFollowingTickets).extracting("type", "name",
                 "monitorDate").contains(
@@ -127,7 +127,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
     fun testGetListProjectFollowingTicketOfBug() {
         val criteria = criteria
         criteria.type = StringSearchField.and("Project-Bug")
-        val projectFollowingTickets = projectFollowingTicketService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
+        val projectFollowingTickets = projectFollowingTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<FollowingTicket>
 
         assertThat<FollowingTicket>(projectFollowingTickets).extracting("type", "name",
                 "monitorDate").contains(
@@ -142,7 +142,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testGetTotalCount() {
-        assertThat(projectFollowingTicketService!!.getTotalCount(criteria)).isEqualTo(12)
+        assertThat(projectFollowingTicketService.getTotalCount(criteria)).isEqualTo(12)
     }
 
     companion object {

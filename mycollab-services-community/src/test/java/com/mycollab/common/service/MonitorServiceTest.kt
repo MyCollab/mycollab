@@ -15,7 +15,7 @@ import java.util.GregorianCalendar
 @RunWith(SpringJUnit4ClassRunner::class)
 class MonitorServiceTest : IntegrationServiceTest() {
     @Autowired
-    private val monitorItemService: MonitorItemService? = null
+    private lateinit var monitorItemService: MonitorItemService
 
     @Test
     @DataSet
@@ -29,6 +29,6 @@ class MonitorServiceTest : IntegrationServiceTest() {
         mon1.user = "hainguyen"
         val items = ArrayList<MonitorItem>()
         items.add(mon1)
-        monitorItemService!!.saveMonitorItems(items)
+        monitorItemService.saveMonitorItems(items)
     }
 }

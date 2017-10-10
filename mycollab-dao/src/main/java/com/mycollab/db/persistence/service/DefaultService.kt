@@ -56,7 +56,6 @@ abstract class DefaultService<K : Serializable, T, S : SearchCriteria> : Default
         if (isValid) {
             searchMapper.removeByCriteria(criteria)
         }
-
     }
 
     override fun getNextItemKey(criteria: S): Int? {
@@ -68,8 +67,7 @@ abstract class DefaultService<K : Serializable, T, S : SearchCriteria> : Default
     }
 
     override fun updateBySearchCriteria(record: T, searchCriteria: S) {
-        val searchMapper = searchMapper
-        if (searchMapper != null && searchMapper is IMassUpdateDAO<*, *>) {
+        if (searchMapper is IMassUpdateDAO<*, *>) {
             (searchMapper as IMassUpdateDAO<T, S>).updateBySearchCriteria(record, searchCriteria)
         }
     }

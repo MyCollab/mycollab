@@ -2,6 +2,7 @@ package com.mycollab.module.project.schedule.email.service
 
 import com.hp.gagawa.java.elements.A
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.domain.SimpleAuditLog
 import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.i18n.MailI18nEnum
@@ -81,8 +82,8 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
             if (bean != null) {
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
 
-                val auditLog = auditLogService!!.findLastestLog(notification.typeid.toInt(), notification.saccountid)
-                contentGenerator.putVariable("historyLog", auditLog)
+                val auditLog = auditLogService!!.findLastestLogs(notification.typeid.toInt(), notification.saccountid)
+                contentGenerator.putVariable("historyLog", auditLog ?: SimpleAuditLog())
                 contentGenerator.putVariable("mapper", getItemFieldMapper())
                 val searchCriteria = CommentSearchCriteria()
                 searchCriteria.type = StringSearchField.and(notification.type)

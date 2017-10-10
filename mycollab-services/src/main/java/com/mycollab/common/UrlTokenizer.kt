@@ -14,7 +14,7 @@ class UrlTokenizer(url: String) {
     fun getInt(): Int {
         if (hasMoreTokens())
             return getNextToken().toInt()
-        else throw InvalidTokenException("Invalid token " + internalVal)
+        else throw InvalidTokenException("Invalid token $internalVal")
     }
 
     @Throws(InvalidTokenException::class)

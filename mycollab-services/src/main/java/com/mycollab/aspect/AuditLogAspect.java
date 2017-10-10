@@ -11,6 +11,7 @@ import com.mycollab.common.service.ActivityStreamService;
 import com.mycollab.common.service.AuditLogService;
 import com.mycollab.common.service.MonitorItemService;
 import com.mycollab.common.service.RelayEmailNotificationService;
+import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.BeanUtility;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;
@@ -24,7 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -73,9 +76,9 @@ public class AuditLogAspect {
                 Method findMethod;
                 Object oldValue;
                 try {
-                    findMethod = cls.getMethod("findById", Integer.class, Integer.class);
+                    findMethod = cls.getMethod("findById", int.class, int.class);
                 } catch (Exception e) {
-                    findMethod = cls.getMethod("findByPrimaryKey", Integer.class, Integer.class);
+                    findMethod = cls.getMethod("findByPrimaryKey", Serializable.class, int.class);
                 }
                 oldValue = findMethod.invoke(service, typeId, sAccountId);
                 String key = bean.toString() + ClassInfoMap.getType(cls) + typeId;
@@ -129,7 +132,7 @@ public class AuditLogAspect {
             if (traceableAnnotation != null) {
                 try {
                     ClassInfo classInfo = ClassInfoMap.getClassInfo(cls);
-                    String changeSet = getChangeSet(cls, bean, classInfo.getExcludeHistoryFields(),isSelective);
+                    String changeSet = getChangeSet(cls, bean, classInfo.getExcludeHistoryFields(), isSelective);
                     if (changeSet != null) {
                         ActivityStreamWithBLOBs activity = TraceableCreateAspect.constructActivity(cls,
                                 traceableAnnotation, bean, username, ActivityStreamConstants.ACTION_UPDATE);

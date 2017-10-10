@@ -19,12 +19,12 @@ import com.mycollab.test.spring.IntegrationServiceTest
 class TaskServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val taskService: TaskService? = null
+    private lateinit var taskService: TaskService
 
     @DataSet
     @Test
     fun testSearchByCriteria() {
-        val tasks = taskService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleCrmTask>
+        val tasks = taskService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleCrmTask>
 
         assertThat(tasks.size).isEqualTo(1)
         assertThat<SimpleCrmTask>(tasks).extracting("id", "status", "subject").contains(tuple(1, "Completed", "aaa"))
@@ -33,7 +33,7 @@ class TaskServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetTotalCounts() {
-        val tasks = taskService!!.findPageableListByCriteria(BasicSearchRequest(criteria))
+        val tasks = taskService.findPageableListByCriteria(BasicSearchRequest(criteria))
         assertThat(tasks.size).isEqualTo(1)
     }
 

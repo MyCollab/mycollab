@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
 class EventServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val eventService: EventService? = null
+    private lateinit var eventService: EventService
 
     @DataSet
     @Test
@@ -32,7 +32,7 @@ class EventServiceTest : IntegrationServiceTest() {
         val criteria = ActivitySearchCriteria()
         criteria.saccountid = NumberSearchField.equal(1)
 
-        val list = eventService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleActivity>
+        val list = eventService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleActivity>
         assertThat(list.size).isEqualTo(1)
         assertThat<SimpleActivity>(list).extracting("id", "subject").contains(tuple(1, "aaa"))
     }
@@ -49,7 +49,7 @@ class EventServiceTest : IntegrationServiceTest() {
         criteria.endDate = DateTimeSearchField(AND, LESS_THAN_EQUAL, endDate)
         criteria.saccountid = NumberSearchField(1)
 
-        val list = eventService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleActivity>
+        val list = eventService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleActivity>
         assertThat(list.size).isEqualTo(1)
         assertThat<SimpleActivity>(list).extracting("id", "subject").contains(tuple(1, "aaa"))
     }

@@ -25,10 +25,10 @@ import org.assertj.core.api.Assertions.tuple
 class ProjectServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val projectService: ProjectService? = null
+    private lateinit var projectService: ProjectService
 
     @Autowired
-    private val projectActivityStreamService: ProjectActivityStreamService? = null
+    private lateinit var projectActivityStreamService: ProjectActivityStreamService
 
     @DataSet
     @Test
@@ -38,7 +38,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         project.name = "Example"
         project.projectstatus = "Open"
         project.shortname = "abc"
-        val projectId = projectService!!.saveWithSession(project, "admin")
+        val projectId = projectService.saveWithSession(project, "admin")
         assertThat(projectId).isGreaterThan(0)
     }
 
@@ -47,7 +47,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
     fun testGetListProjects() {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
-        val projects = projectService!!.findPageableListByCriteria(BasicSearchRequest<ProjectSearchCriteria>(criteria)) as List<SimpleProject>
+        val projects = projectService.findPageableListByCriteria(BasicSearchRequest<ProjectSearchCriteria>(criteria)) as List<SimpleProject>
         Assert.assertEquals(projects.size.toLong(), 4)
         assertThat<SimpleProject>(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"))
@@ -59,7 +59,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
 
-        val projects = projectService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleProject>
+        val projects = projectService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleProject>
         assertThat(projects.size).isEqualTo(4)
         assertThat<SimpleProject>(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"))
@@ -72,7 +72,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         criteria.involvedMember = StringSearchField.and("admin")
         criteria.saccountid = NumberSearchField(1)
 
-        val projects = projectService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleProject>
+        val projects = projectService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleProject>
 
         assertThat(projects.size).isEqualTo(2)
         assertThat<SimpleProject>(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"))
@@ -81,7 +81,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetProjectsUserInvolved() {
-        val projects = projectService!!.getProjectsUserInvolved("admin", 1)
+        val projects = projectService.getProjectsUserInvolved("admin", 1)
         Assert.assertEquals(2, projects.size.toLong())
         assertThat(projects.size).isEqualTo(2)
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"))
@@ -94,7 +94,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         criteria.moduleSet = SetSearchField(ModuleNameConstants.PRJ)
         criteria.extraTypeIds = SetSearchField(4)
         criteria.saccountid = NumberSearchField(1)
-        val streams = projectActivityStreamService!!.getProjectActivityStreams(BasicSearchRequest(criteria))
+        val streams = projectActivityStreamService.getProjectActivityStreams(BasicSearchRequest(criteria))
 
         assertThat(streams.size).isEqualTo(3)
         assertThat(streams).extracting("type", "typeid", "itemKey").contains(

@@ -31,13 +31,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-test</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-spring-boot-starter-embedded</artifactId>
             <version>2.0.0.Alpha1</version>

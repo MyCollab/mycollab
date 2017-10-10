@@ -20,12 +20,12 @@ import org.assertj.core.api.Assertions.tuple
 class CampaignServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val campaignService: CampaignService? = null
+    private lateinit var campaignService: CampaignService
 
     @DataSet
     @Test
     fun testSearchByCriteria() {
-        val campaigns = campaignService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleCampaign>
+        val campaigns = campaignService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleCampaign>
 
         assertThat(campaigns.size).isEqualTo(2)
         assertThat<SimpleCampaign>(campaigns).extracting("id", "campaignname", "status").contains(tuple(1, "AAA", "a"), tuple(2, "ABB", "b"))
@@ -34,7 +34,7 @@ class CampaignServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetTotalCounts() {
-        val campaigns = campaignService!!.findPageableListByCriteria(BasicSearchRequest(criteria))
+        val campaigns = campaignService.findPageableListByCriteria(BasicSearchRequest(criteria))
 
         assertThat(campaigns.size).isEqualTo(2)
     }

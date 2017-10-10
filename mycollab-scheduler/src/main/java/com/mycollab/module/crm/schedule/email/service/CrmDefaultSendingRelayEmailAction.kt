@@ -1,7 +1,7 @@
 package com.mycollab.module.crm.schedule.email.service
 
-import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.domain.SimpleAuditLog
 import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.i18n.MailI18nEnum
@@ -118,8 +118,8 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))
                     val subject = context.getMessage(getUpdateSubjectKey(), context.changeByUserFullName, getItemName())
-                    val auditLog = auditLogService.findLastestLog(context.typeid.toInt(), context.saccountid)
-                    contentGenerator.putVariable("historyLog", auditLog)
+                    val auditLog = auditLogService.findLastestLogs(context.typeid.toInt(), context.saccountid)
+                    contentGenerator.putVariable("historyLog", auditLog ?: SimpleAuditLog())
                     context.wrappedBean = bean
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("context", context)

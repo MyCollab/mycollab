@@ -3,6 +3,7 @@ package com.mycollab.module.project.schedule.email.service
 import com.hp.gagawa.java.elements.A
 import com.mycollab.common.NotificationType
 import com.mycollab.common.domain.MailRecipientField
+import com.mycollab.common.domain.SimpleAuditLog
 import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.i18n.MailI18nEnum
@@ -98,8 +99,8 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
             onInitAction(projectRelayEmailNotification)
             bean = getBeanInContext(projectRelayEmailNotification)
             if (bean != null) {
-                val auditLog = auditLogService.findLastestLog(notification.typeid.toInt(), notification.saccountid)
-                contentGenerator.putVariable("historyLog", auditLog)
+                val auditLog = auditLogService.findLastestLogs(notification.typeid.toInt(), notification.saccountid)
+                contentGenerator.putVariable("historyLog", auditLog ?: SimpleAuditLog())
                 contentGenerator.putVariable("mapper", getItemFieldMapper())
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
 
@@ -112,7 +113,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
 
                 notifiers.forEach { user ->
                     val context = MailContext<B>(notification, user, siteUrl)
-                    if (comments.size > 0) {
+                    if (comments.isNotEmpty()) {
                         contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Last_Comments_Value, "" + comments.size))
                     }
                     contentGenerator.putVariable("Changes", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Changes))
