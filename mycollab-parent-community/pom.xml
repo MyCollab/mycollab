@@ -352,10 +352,9 @@
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <inherited>true</inherited>
-                <version>3.0</version>
+                <version>3.1-SNAPSHOT</version>
                 <configuration>
-                    <tag>${project.artifactId}-${project.version}</tag>
-                    <header>com/mycila/maven/plugin/license/templates/GPL-3.txt</header>
+                    <header>com/mycila/maven/plugin/license/templates/AGPL-3.txt</header>
                     <properties>
                         <owner>MyCollab</owner>
                         <email>support@mycollab.com</email>
@@ -370,8 +369,8 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>remove</goal>
-                            <goal>format</goal>
+                           <!--<goal>remove</goal>-->
+                           <goal>format</goal>
                         </goals>
                         <phase>compile</phase>
                     </execution>
