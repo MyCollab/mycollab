@@ -44,12 +44,12 @@ class DeleteProjectCommand(private val activityStreamMapper: ActivityStreamMappe
     @AllowConcurrentEvents
     @Subscribe
     fun removedProject(event: DeleteProjectEvent) {
-        event.projects.forEach { project ->
-            deleteProjectActivityStream(project.id)
-            deleteRelatedComments(project.id)
-            deleteProjectFiles(event.accountId, project.id)
-            deleteProjectPages(event.accountId, project.id)
-            deleteProjectOptions(project.id)
+        event.projects.forEach {
+            deleteProjectActivityStream(it.id)
+            deleteRelatedComments(it.id)
+            deleteProjectFiles(event.accountId, it.id)
+            deleteProjectPages(event.accountId, it.id)
+            deleteProjectOptions(it.id)
         }
     }
 
@@ -66,13 +66,11 @@ class DeleteProjectCommand(private val activityStreamMapper: ActivityStreamMappe
     }
 
     private fun deleteProjectFiles(accountId: Int, projectId: Int) {
-        val rootPath = String.format("%d/project/%d", accountId, projectId)
-        resourceService.removeResource(rootPath, "", true, accountId)
+        resourceService.removeResource("$accountId/project/$projectId", "", true, accountId)
     }
 
     private fun deleteProjectPages(accountId: Int, projectId: Int) {
-        val rootPath = String.format("%d/project/%d/.page", accountId, projectId)
-        pageService.removeResource(rootPath)
+        pageService.removeResource("$accountId/project/$projectId/.page")
     }
 
     private fun deleteProjectOptions(projectId: Int) {

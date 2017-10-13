@@ -55,9 +55,9 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class TaskRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction<SimpleCrmTask>(), TaskRelayEmailNotificationAction {
+class TaskRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleCrmTask>(), TaskRelayEmailNotificationAction {
 
-    @Autowired private val taskService: TaskService? = null
+    @Autowired private lateinit var taskService: TaskService
     private val mapper = TaskFieldNameMapper()
 
     override fun buildExtraTemplateVariables(context: MailContext<SimpleCrmTask>) {
@@ -73,7 +73,7 @@ class TaskRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction
             MonitorTypeConstants.CREATE_ACTION -> TaskI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> TaskI18nEnum.MAIL_UPDATE_ITEM_HEADING
             MonitorTypeConstants.ADD_COMMENT_ACTION -> TaskI18nEnum.MAIL_COMMENT_ITEM_HEADING
-            else -> throw MyCollabException("Not support action ${emailNotification.action}");
+            else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
@@ -92,9 +92,9 @@ class TaskRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleCrmTask? =
-            taskService!!.findById(notification.typeid.toInt(), notification.saccountid)
+            taskService.findById(notification.typeid.toInt(), notification.saccountid)
 
-    class TaskFieldNameMapper() : ItemFieldMapper() {
+    class TaskFieldNameMapper : ItemFieldMapper() {
         init {
             put(CrmTask.Field.subject, TaskI18nEnum.FORM_SUBJECT, isColSpan = true)
             put(CrmTask.Field.status, GenericI18Enum.FORM_STATUS)

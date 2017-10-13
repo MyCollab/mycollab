@@ -43,11 +43,11 @@ class DeleteProjectTaskCommand(private val resourceService: ResourceService,
     @AllowConcurrentEvents
     @Subscribe
     fun removedTask(event: DeleteProjectTaskEvent) {
-        event.tasks.forEach { task ->
-            removeRelatedFiles(event.accountId, task.projectid, task.id)
-            removeRelatedComments(task.id)
-            removePredecessorTasks(task.id)
-            removeRelatedTags(task.id)
+        event.tasks.forEach {
+            removeRelatedFiles(event.accountId, it.projectid, it.id)
+            removeRelatedComments(it.id)
+            removePredecessorTasks(it.id)
+            removeRelatedTags(it.id)
         }
     }
 

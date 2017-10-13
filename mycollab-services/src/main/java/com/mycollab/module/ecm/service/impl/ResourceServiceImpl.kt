@@ -171,7 +171,7 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
 
     }
 
-    override fun getResource(path: String): Resource = contentJcrDao.getResource(path)
+    override fun getResource(path: String): Resource? = contentJcrDao.getResource(path)
 
     companion object {
         private val LOG = LoggerFactory.getLogger(ResourceServiceImpl::class.java)

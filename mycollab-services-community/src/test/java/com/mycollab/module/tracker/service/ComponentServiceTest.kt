@@ -39,7 +39,7 @@ import org.assertj.core.api.Assertions.tuple
 class ComponentServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val componentService: ComponentService? = null
+    private lateinit var componentService: ComponentService
 
     private val criteria: ComponentSearchCriteria
         get() {
@@ -53,7 +53,7 @@ class ComponentServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testGetListComponents() {
-        val components = componentService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
+        val components = componentService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
 
         assertThat(components.size).isEqualTo(4)
         assertThat<SimpleComponent>(components).extracting("id", "description", "status",
@@ -68,7 +68,7 @@ class ComponentServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testTotalCount() {
-        val components = componentService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
+        val components = componentService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
         assertThat(components.size).isEqualTo(4)
     }
 
@@ -78,7 +78,7 @@ class ComponentServiceTest : IntegrationServiceTest() {
         val criteria = ComponentSearchCriteria()
         criteria.id = NumberSearchField(1)
 
-        val components = componentService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
+        val components = componentService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
         assertThat(components.size).isEqualTo(1)
         assertThat<SimpleComponent>(components).extracting("id", "description", "status",
                 "name", "numBugs", "numOpenBugs").contains(
@@ -94,7 +94,7 @@ class ComponentServiceTest : IntegrationServiceTest() {
         criteria.status = StringSearchField.and("Closed")
         criteria.userlead = StringSearchField.and("nghiemle")
 
-        val components = componentService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
+        val components = componentService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleComponent>
         assertThat(components.size).isEqualTo(1)
         assertThat<SimpleComponent>(components).extracting("id", "description", "status",
                 "name", "numBugs", "numOpenBugs").contains(

@@ -42,11 +42,12 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class MeetingRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction<SimpleMeeting>(), MeetingRelayEmailNotificationAction {
-    @Autowired private val meetingService: MeetingService? = null
+class MeetingRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleMeeting>(), MeetingRelayEmailNotificationAction {
+    @Autowired private lateinit var meetingService: MeetingService
+
     private val mapper = MeetingFieldNameMapper()
 
-    override protected fun buildExtraTemplateVariables(context: MailContext<SimpleMeeting>) {
+    override fun buildExtraTemplateVariables(context: MailContext<SimpleMeeting>) {
         val summary = bean!!.subject
         val summaryLink = CrmLinkGenerator.generateMeetingPreviewFullLink(siteUrl, bean!!.id)
         val emailNotification = context.emailNotification
@@ -54,12 +55,12 @@ class MeetingRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAct
         val avatarId = if (changeUser != null) changeUser!!.avatarid else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
         val actionEnum = when (emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> MeetingI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> MeetingI18nEnum.MAIL_UPDATE_ITEM_HEADING
             MonitorTypeConstants.ADD_COMMENT_ACTION -> MeetingI18nEnum.MAIL_COMMENT_ITEM_HEADING
-            else -> throw MyCollabException("Not support action ${emailNotification.action}");
+            else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
@@ -78,9 +79,9 @@ class MeetingRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAct
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleMeeting =
-            meetingService!!.findById(notification.typeid.toInt(), notification.saccountid)
+            meetingService.findById(notification.typeid.toInt(), notification.saccountid)
 
-    class MeetingFieldNameMapper() : ItemFieldMapper() {
+    class MeetingFieldNameMapper : ItemFieldMapper() {
         init {
             put(MeetingWithBLOBs.Field.subject, MeetingI18nEnum.FORM_SUBJECT, isColSpan = true)
             put(MeetingWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)

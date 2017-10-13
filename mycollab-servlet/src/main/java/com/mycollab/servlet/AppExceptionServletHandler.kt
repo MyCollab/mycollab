@@ -20,26 +20,20 @@ import com.mycollab.common.i18n.ErrorI18nEnum
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
-import com.mycollab.configuration.ServerConfiguration
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.i18n.LocalizationHelper
 import freemarker.template.Configuration
-import freemarker.template.Template
 import freemarker.template.TemplateException
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataAccessException
 import org.springframework.dao.DataIntegrityViolationException
-
+import java.io.IOException
+import java.io.StringWriter
 import javax.servlet.ServletException
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import java.io.IOException
-import java.io.PrintWriter
-import java.io.StringWriter
-import java.util.HashMap
 
 /**
  * @author MyCollab Ltd.
@@ -82,9 +76,9 @@ class AppExceptionServletHandler : GenericHttpServlet() {
 
     @Throws(IOException::class, TemplateException::class)
     private fun responsePage404(response: HttpServletResponse) {
-        val context = HashMap<String, Any>()
-        var defaultUrls = applicationConfiguration.defaultUrls()
-        defaultUrls += ("cdn_url" to deploymentMode.getCdnUrl())
+        val context = mutableMapOf<String, Any>()
+        val defaultUrls = applicationConfiguration.defaultUrls()
+        defaultUrls.put("cdn_url", deploymentMode.getCdnUrl())
         context.put("defaultUrls", defaultUrls)
 
         val writer = StringWriter()
@@ -116,10 +110,9 @@ class AppExceptionServletHandler : GenericHttpServlet() {
             LOG.error("Exception in mycollab", throwable)
         }
 
-        val context = HashMap<String, Any>()
-        var  defaultUrls = applicationConfiguration.defaultUrls()
-
-        defaultUrls+=("cdn_url" to deploymentMode.getCdnUrl())
+        val context = mutableMapOf<String, Any>()
+        val defaultUrls = applicationConfiguration.defaultUrls()
+        defaultUrls.put("cdn_url", deploymentMode.getCdnUrl())
         context.put("defaultUrls", defaultUrls)
 
         val writer = StringWriter()

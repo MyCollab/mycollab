@@ -31,6 +31,6 @@ import org.springframework.stereotype.Service
 class ProjectFollowingTicketServiceImpl(private val projectFollowingTicketMapperExt: ProjectFollowingTicketMapperExt) : DefaultSearchService<FollowingTicketSearchCriteria>(), ProjectFollowingTicketService {
 
     override val searchMapper: ISearchableDAO<FollowingTicketSearchCriteria>
-        get() = projectFollowingTicketMapperExt as ISearchableDAO<FollowingTicketSearchCriteria>
+        get() = projectFollowingTicketMapperExt
 
 }

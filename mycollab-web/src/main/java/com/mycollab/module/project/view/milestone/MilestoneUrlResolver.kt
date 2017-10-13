@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.milestone
 
 import com.mycollab.common.UrlTokenizer
+import com.mycollab.core.ResourceNotFoundException
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.module.project.domain.SimpleMilestone
@@ -78,8 +79,12 @@ class MilestoneUrlResolver : ProjectUrlResolver() {
             val milestoneId = token.getInt()
             val milestoneService = AppContextUtil.getSpringBean(MilestoneService::class.java)
             val milestone = milestoneService.findById(milestoneId, AppUI.accountId)
-            val chain = PageActionChain(ProjectScreenData.Goto(projectId), MilestoneScreenData.Edit(milestone))
-            EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
+            if (milestone != null) {
+                val chain = PageActionChain(ProjectScreenData.Goto(projectId), MilestoneScreenData.Edit(milestone))
+                EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
+            } else {
+                throw ResourceNotFoundException("Can not find milestone $params")
+            }
         }
     }
 

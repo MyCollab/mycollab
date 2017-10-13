@@ -36,15 +36,15 @@ interface ProjectTicketService : ISearchableService<ProjectTicketSearchCriteria>
 
     fun updateAssignmentValue(assignment: ProjectTicket, username: String)
 
-    fun closeSubAssignmentOfMilestone(milestoneId: Int?)
+    fun closeSubAssignmentOfMilestone(milestoneId: Int)
 
-    fun findTicket(type: String, typeId: Int?): ProjectTicket
+    fun findTicket(type: String, typeId: Int): ProjectTicket?
 
     @Cacheable
     fun findTicketsByCriteria(@CacheKey searchRequest: BasicSearchRequest<ProjectTicketSearchCriteria>): List<*>
 
     @Cacheable
-    fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria): Int?
+    fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria): Int
 
     @Cacheable
     fun getAssigneeSummary(@CacheKey criteria: ProjectTicketSearchCriteria): List<GroupItem>
@@ -58,5 +58,5 @@ interface ProjectTicketService : ISearchableService<ProjectTicketSearchCriteria>
 
     fun removeTicket(ticket: ProjectTicket, username: String)
 
-    fun isTicketIdSatisfyCriteria(type: String, typeId: Int?, criteria: ProjectTicketSearchCriteria): Boolean
+    fun isTicketIdSatisfyCriteria(type: String, typeId: Int, criteria: ProjectTicketSearchCriteria): Boolean
 }

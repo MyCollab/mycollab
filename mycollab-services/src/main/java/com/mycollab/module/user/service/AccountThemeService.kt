@@ -12,27 +12,27 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.user.service;
+package com.mycollab.module.user.service
 
-import com.mycollab.core.cache.CacheEvict;
-import com.mycollab.core.cache.CacheKey;
-import com.mycollab.core.cache.Cacheable;
-import com.mycollab.db.persistence.service.ICrudService;
-import com.mycollab.module.user.domain.AccountTheme;
+import com.mycollab.core.cache.CacheEvict
+import com.mycollab.core.cache.CacheKey
+import com.mycollab.core.cache.Cacheable
+import com.mycollab.db.persistence.service.ICrudService
+import com.mycollab.module.user.domain.AccountTheme
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public interface AccountThemeService extends ICrudService<Integer, AccountTheme> {
+interface AccountThemeService : ICrudService<Int, AccountTheme> {
     @Cacheable
-    AccountTheme findTheme(@CacheKey Integer sAccountId);
+    fun findTheme(@CacheKey sAccountId: Int): AccountTheme?
 
     @Cacheable
-    AccountTheme findDefaultTheme(@CacheKey Integer sAccountId);
+    fun findDefaultTheme(@CacheKey sAccountId: Int): AccountTheme?
 
     @CacheEvict
-    void removeTheme(@CacheKey Integer sAccountId);
+    fun removeTheme(@CacheKey sAccountId: Int)
 }

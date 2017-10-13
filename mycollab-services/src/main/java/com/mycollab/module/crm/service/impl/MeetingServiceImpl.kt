@@ -61,35 +61,35 @@ class MeetingServiceImpl(private val meetingMapper: MeetingMapper,
 
     override fun saveWithSession(record: MeetingWithBLOBs, username: String?): Int {
         val result = super.saveWithSession(record, username)
-        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf(EventService::class.java)))
         return result
     }
 
     override fun updateWithSession(record: MeetingWithBLOBs, username: String?): Int {
         val result = super.updateWithSession(record, username)
-        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf(EventService::class.java)))
         return result
     }
 
     override fun removeByCriteria(criteria: MeetingSearchCriteria, sAccountId: Int) {
         super.removeByCriteria(criteria, sAccountId)
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(EventService::class.java)))
     }
 
     override fun massRemoveWithSession(items: List<MeetingWithBLOBs>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(items, username, sAccountId)
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(EventService::class.java)))
     }
 
     override fun massUpdateWithSession(record: MeetingWithBLOBs, primaryKeys: List<Int>, accountId: Int?) {
         super.massUpdateWithSession(record, primaryKeys, accountId)
-        asyncEventBus.post(CleanCacheEvent(accountId, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(accountId, arrayOf(EventService::class.java)))
     }
 
     override fun updateBySearchCriteria(record: MeetingWithBLOBs, searchCriteria: MeetingSearchCriteria) {
         super.updateBySearchCriteria(record, searchCriteria)
         asyncEventBus.post(CleanCacheEvent(searchCriteria.saccountid!!.value,
-                arrayOf<Class<*>>(EventService::class.java)))
+                arrayOf(EventService::class.java)))
     }
 
     companion object {

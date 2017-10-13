@@ -45,7 +45,7 @@ class SaveContentCommand(private val driveInfoService: DriveInfoService,
         if (event.sAccountId == null) {
             return
         }
-        val lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
+        val lock = DistributionLockUtil.getLock("ecm-${event.sAccountId}")
         var totalSize = event.content.size
         if (StringUtils.isNotBlank(event.content.thumbnail)) {
             totalSize += rawContentService.getSize(event.content.thumbnail)
@@ -63,7 +63,7 @@ class SaveContentCommand(private val driveInfoService: DriveInfoService,
         } catch (e: Exception) {
             LOG.error("Error while save content ${event.content}", e)
         } finally {
-            DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
+            DistributionLockUtil.removeLock("ecm-${event.sAccountId}")
             lock.unlock()
         }
     }

@@ -54,7 +54,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class CaseRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction<SimpleCase>(), CaseRelayEmailNotificationAction {
+class CaseRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleCase>(), CaseRelayEmailNotificationAction {
 
     @Autowired private lateinit var caseService: CaseService
     private val mapper = CaseFieldNameMapper()
@@ -79,12 +79,12 @@ class CaseRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction
         val avatarId = if (changeUser != null) changeUser!!.avatarid else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
         val actionEnum = when (emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> CaseI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> CaseI18nEnum.MAIL_UPDATE_ITEM_HEADING
             MonitorTypeConstants.ADD_COMMENT_ACTION -> CaseI18nEnum.MAIL_COMMENT_ITEM_HEADING
-            else -> throw MyCollabException("Not support action ${emailNotification.action}");
+            else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
@@ -92,7 +92,7 @@ class CaseRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction
         contentGenerator.putVariable("summaryLink", summaryLink)
     }
 
-    override protected fun getUpdateSubjectKey(): Enum<*> = CaseI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
+    override fun getUpdateSubjectKey(): Enum<*> = CaseI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
 
     class CaseFieldNameMapper() : ItemFieldMapper() {
         init {

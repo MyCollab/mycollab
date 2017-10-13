@@ -68,27 +68,27 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
         return projectMemberMapperExt.findMemberByUsername(username, projectId)
     }
 
-    override fun updateWithSession(member: ProjectMember, username: String?): Int {
-        val oldMember = findById(member.id, member.saccountid)
+    override fun updateWithSession(record: ProjectMember, username: String?): Int {
+        val oldMember = findById(record.id, record.saccountid)
         if (oldMember != null) {
-            if (java.lang.Boolean.FALSE == member.isadmin && java.lang.Boolean.TRUE == oldMember.isadmin) {
+            if (java.lang.Boolean.FALSE == record.isadmin && java.lang.Boolean.TRUE == oldMember.isadmin) {
                 val userAccountEx = ProjectMemberExample()
-                userAccountEx.createCriteria().andUsernameNotIn(listOf(member.username)).andProjectidEqualTo(member.projectid)
+                userAccountEx.createCriteria().andUsernameNotIn(listOf(record.username)).andProjectidEqualTo(record.projectid)
                         .andIsadminEqualTo(java.lang.Boolean.TRUE).andStatusEqualTo(ProjectMemberStatusConstants.ACTIVE)
                 if (projectMemberMapper.countByExample(userAccountEx) == 0L) {
-                    throw UserInvalidInputException(String.format("Can not change role of user %s. The reason is " + "%s is the unique account owner of the current project.", member.username, member.username))
+                    throw UserInvalidInputException(String.format("Can not change role of user %s. The reason is " + "%s is the unique account owner of the current project.", record.username, record.username))
                 }
             }
         }
 
-        return super.updateWithSession(member, username)
+        return super.updateWithSession(record, username)
     }
 
-    override fun massRemoveWithSession(members: List<ProjectMember>, username: String?, sAccountId: Int) {
-        if (CollectionUtils.isNotEmpty(members)) {
-            val userNames = members.map { it.username }
+    override fun massRemoveWithSession(items: List<ProjectMember>, username: String?, sAccountId: Int) {
+        if (CollectionUtils.isNotEmpty(items)) {
+            val userNames = items.map { it.username }
             var ex = ProjectMemberExample()
-            ex.createCriteria().andUsernameNotIn(userNames).andProjectidEqualTo(members[0].projectid)
+            ex.createCriteria().andUsernameNotIn(userNames).andProjectidEqualTo(items[0].projectid)
                     .andIsadminEqualTo(true).andStatusEqualTo(ProjectMemberStatusConstants.ACTIVE)
             if (projectMemberMapper.countByExample(ex) == 0L) {
                 throw UserInvalidInputException("Can not delete users. The reason is there is no project owner in the rest users")
@@ -97,10 +97,10 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
             val updateMember = ProjectMember()
             updateMember.status = ProjectMemberStatusConstants.INACTIVE
             ex = ProjectMemberExample()
-            ex.createCriteria().andSaccountidEqualTo(sAccountId).andIdIn(ArrayUtils.extractIds(members))
+            ex.createCriteria().andSaccountidEqualTo(sAccountId).andIdIn(ArrayUtils.extractIds(items))
             projectMemberMapper.updateByExampleSelective(updateMember, ex)
 
-            val event = DeleteProjectMemberEvent(members.toTypedArray(), username, sAccountId)
+            val event = DeleteProjectMemberEvent(items.toTypedArray(), username, sAccountId)
             asyncEventBus.post(event)
         }
     }

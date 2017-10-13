@@ -51,7 +51,7 @@ class DeleteResourcesCommand(private val rawContentService: RawContentService,
             return
         }
         if (event.isUpdateDriveInfo) {
-            val lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
+            val lock = DistributionLockUtil.getLock("ecm-${event.sAccountId}")
             try {
                 if (lock.tryLock(1, TimeUnit.HOURS)) {
                     var totalSize = 0L
@@ -73,7 +73,7 @@ class DeleteResourcesCommand(private val rawContentService: RawContentService,
             catch(e:Exception) {
                 LOG.error("Error while delete content ${event.paths}", e)
             } finally {
-                DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
+                DistributionLockUtil.removeLock("ecm-${event.sAccountId}")
                 lock.unlock()
             }
         }

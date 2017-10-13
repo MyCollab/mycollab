@@ -422,11 +422,8 @@ public class PageServiceImpl implements PageService {
     private static boolean isAccessible(Node node, String requestedUser) {
         String status = NodesUtil.getString(node, "wiki:status");
         String createdUser = NodesUtil.getString(node, "wiki:createdUser");
-        if (WikiI18nEnum.status_private.name().equals(status)) {
-            return (requestedUser.equals(createdUser));
-        }
+        return !WikiI18nEnum.status_private.name().equals(status) || (requestedUser.equals(createdUser));
 
-        return true;
     }
 
     private Page convertNodeToPage(Node node) {
@@ -459,8 +456,7 @@ public class PageServiceImpl implements PageService {
             folder.setCreatedTime(node.getProperty("jcr:created").getDate());
             folder.setCreatedUser(node.getProperty("wiki:createdUser").getString());
             if (node.hasProperty("wiki:description")) {
-                folder.setDescription(node.getProperty("wiki:description")
-                        .getString());
+                folder.setDescription(node.getProperty("wiki:description").getString());
             } else {
                 folder.setDescription("");
             }

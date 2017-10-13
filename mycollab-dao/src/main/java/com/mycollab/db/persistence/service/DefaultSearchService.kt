@@ -30,30 +30,22 @@ abstract class DefaultSearchService<S : SearchCriteria> : ISearchableService<S> 
 
     abstract val searchMapper: ISearchableDAO<S>
 
-    override fun getTotalCount(criteria: S): Int {
-        return searchMapper.getTotalCount(criteria)
-    }
+    override fun getTotalCount(criteria: S): Int = searchMapper.getTotalCount(criteria)
 
-    override fun findPageableListByCriteria(searchRequest: BasicSearchRequest<S>): List<*> {
-        return searchMapper.findPageableListByCriteria(searchRequest.searchCriteria,
-                RowBounds((searchRequest.currentPage - 1) * searchRequest.numberOfItems,
-                        searchRequest.numberOfItems))
-    }
+    override fun findPageableListByCriteria(searchRequest: BasicSearchRequest<S>): List<*> =
+            searchMapper.findPageableListByCriteria(searchRequest.searchCriteria,
+                    RowBounds((searchRequest.currentPage - 1) * searchRequest.numberOfItems,
+                            searchRequest.numberOfItems))
 
-    override fun findAbsoluteListByCriteria(searchCriteria: S, firstIndex: Int?, numberOftems: Int?): List<*> {
-        return searchMapper.findPageableListByCriteria(searchCriteria,
-                RowBounds(firstIndex!!, numberOftems!!))
-    }
+    override fun findAbsoluteListByCriteria(searchCriteria: S, firstIndex: Int, numberOfItems: Int): List<*> =
+            searchMapper.findPageableListByCriteria(searchCriteria,
+                    RowBounds(firstIndex, numberOfItems))
 
     override fun removeByCriteria(criteria: S, sAccountId: Int) {
         searchMapper.removeByCriteria(criteria)
     }
 
-    override fun getNextItemKey(criteria: S): Int? {
-        return searchMapper.getNextItemKey(criteria)
-    }
+    override fun getNextItemKey(criteria: S): Int? = searchMapper.getNextItemKey(criteria)
 
-    override fun getPreviousItemKey(criteria: S): Int? {
-        return searchMapper.getPreviousItemKey(criteria)
-    }
+    override fun getPreviousItemKey(criteria: S): Int? = searchMapper.getPreviousItemKey(criteria)
 }

@@ -39,45 +39,41 @@ object ResourceUtils {
      * @return
      */
     @JvmStatic
-    fun getExternalResourceService(resourceType: ResourceType): ExternalResourceService {
-        return when {
-            ResourceType.Dropbox === resourceType -> AppContextUtil.getSpringBean(DropboxResourceService::class.java)
-            else -> throw MyCollabException("Current support only dropbox resource service")
-        }
-    }
-
-    /**
-     * @param resource
-     * @return
-     */
-    @JvmStatic
-    fun getExternalDrive(resource: Resource): ExternalDrive? {
-        when (resource) {
-            is ExternalFolder -> return resource.externalDrive
-            is ExternalContent -> return resource.externalDrive
-            else -> return null
-        }
-    }
-
-    /**
-     * @param resource
-     * @return
-     */
-    @JvmStatic
-    fun getType(resource: Resource): ResourceType {
-        return if (!resource.isExternalResource) {
-            ResourceType.MyCollab
-        } else {
-            try {
-                val storageName = PropertyUtils.getProperty(resource, "storageName") as String
-                when (storageName) {
-                    StorageNames.DROPBOX -> ResourceType.Dropbox
-                    else -> throw Exception("Current support only dropbox resource service")
-                }
-            } catch (e: Exception) {
-                throw MyCollabException("Can not define storage name of bean $resource")
+    fun getExternalResourceService(resourceType: ResourceType): ExternalResourceService =
+            when {
+                ResourceType.Dropbox === resourceType -> AppContextUtil.getSpringBean(DropboxResourceService::class.java)
+                else -> throw MyCollabException("Current support only dropbox resource service")
             }
 
-        }
-    }
+    /**
+     * @param resource
+     * @return
+     */
+    @JvmStatic
+    fun getExternalDrive(resource: Resource): ExternalDrive? =
+            when (resource) {
+                is ExternalFolder -> resource.externalDrive
+                is ExternalContent -> resource.externalDrive
+                else -> null
+            }
+
+    /**
+     * @param resource
+     * @return
+     */
+    @JvmStatic
+    fun getType(resource: Resource): ResourceType =
+            if (!resource.isExternalResource) {
+                ResourceType.MyCollab
+            } else {
+                try {
+                    val storageName = PropertyUtils.getProperty(resource, "storageName") as String
+                    when (storageName) {
+                        StorageNames.DROPBOX -> ResourceType.Dropbox
+                        else -> throw Exception("Current support only dropbox resource service")
+                    }
+                } catch (e: Exception) {
+                    throw MyCollabException("Can not define storage name of bean $resource")
+                }
+            }
 }

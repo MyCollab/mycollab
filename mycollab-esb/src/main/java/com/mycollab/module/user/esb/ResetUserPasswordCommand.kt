@@ -53,8 +53,7 @@ class ResetUserPasswordCommand(private val extMailService: ExtMailService,
         val user = userService.findUserByUserName(username)
         if (user != null) {
             val subDomain = "api"
-            val recoveryPasswordURL = deploymentMode.getSiteUrl(subDomain) + "user/recoverypassword/" +
-                    UrlEncodeDecoder.encode(username)
+            val recoveryPasswordURL = "${deploymentMode.getSiteUrl(subDomain)}user/recoverypassword/${UrlEncodeDecoder.encode(username)}"
             val locale = LocalizationHelper.getLocaleInstance(user.language)
             contentGenerator.putVariable("username", user.username)
             contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)

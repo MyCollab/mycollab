@@ -18,19 +18,16 @@ package com.mycollab.module.page.service
 
 import com.mycollab.common.i18n.WikiI18nEnum
 import com.mycollab.module.page.domain.Page
-import com.mycollab.module.page.service.PageService
 import com.mycollab.test.spring.IntegrationServiceTest
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.tuple
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
 import javax.jcr.RepositoryException
-
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.tuple
 
 @RunWith(SpringJUnit4ClassRunner::class)
 class PageServiceTest : IntegrationServiceTest() {
@@ -73,7 +70,8 @@ class PageServiceTest : IntegrationServiceTest() {
         page.status = WikiI18nEnum.status_private.name
         pageService.savePage(page, "hainguyen@esofthead.com")
 
-        assertThat(pageService.getPage("1/page/document_2", "hainguyen@esofthead.com").subject).isEqualTo("Hello world 2")
+        val expectedPage = pageService.getPage("1/page/document_2", "hainguyen@esofthead.com")
+        assertThat(expectedPage!!.subject).isEqualTo("Hello world 2")
     }
 
     @Test
@@ -126,6 +124,6 @@ class PageServiceTest : IntegrationServiceTest() {
         val restorePage = pageService.restorePage("1/page/document_1", "1.0")
         assertThat(restorePage.subject).isEqualTo("Hello world 2")
         val page2 = pageService.getPage("1/page/document_1", "hainguyen@esofthead.com")
-        assertThat(page2.subject).isEqualTo("Hello world 2")
+        assertThat(page2!!.subject).isEqualTo("Hello world 2")
     }
 }

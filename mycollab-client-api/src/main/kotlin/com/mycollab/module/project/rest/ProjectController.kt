@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 class ProjectController {
 
     @Autowired
-    private val projectService: ProjectService? = null
+    private lateinit var projectService: ProjectService
 
     @RequestMapping(method = arrayOf(RequestMethod.GET))
     fun list(@PathVariable accountId: Int,
@@ -29,6 +29,6 @@ class ProjectController {
              @RequestParam(value = "limit", required = false) limit: Int?): List<*> {
         val searchCriteria = ProjectSearchCriteria()
         searchCriteria.saccountid = NumberSearchField.equal(accountId)
-        return projectService!!.findPageableListByCriteria(BasicSearchRequest(searchCriteria))
+        return projectService.findPageableListByCriteria(BasicSearchRequest(searchCriteria))
     }
 }

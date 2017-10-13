@@ -6,7 +6,7 @@
 
     <context id="MySQL" targetRuntime="MyBatis3">
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin"/>
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_base"
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
                         driverClass="com.mysql.jdbc.Driver" password="esofthead321"
                         userId="root"/>
 
@@ -22,8 +22,8 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table schema="mycollab" tableName="m_ecm_external_drive" domainObjectName="ExternalDrive"/>
-        <table schema="mycollab" tableName="m_ecm_driveinfo" domainObjectName="DriveInfo"/>
+        <table schema="mycollab_live" tableName="m_ecm_external_drive" domainObjectName="ExternalDrive"/>
+        <table schema="mycollab_live" tableName="m_ecm_driveinfo" domainObjectName="DriveInfo"/>
     </context>
 
 </generatorConfiguration>

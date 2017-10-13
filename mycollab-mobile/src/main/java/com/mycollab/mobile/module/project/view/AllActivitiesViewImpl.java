@@ -83,18 +83,16 @@ public class AllActivitiesViewImpl extends AbstractListPageView<ActivityStreamSe
         addSection("Views");
 
         // Buttons with styling (slightly smaller with left-aligned text)
-        Button activityBtn = new Button("Activities", clickEvent -> {
+        MButton activityBtn = new MButton("Activities", clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.GotoAllActivitiesView(this, null));
-        });
-        activityBtn.setIcon(FontAwesome.INBOX);
+        }).withIcon(FontAwesome.INBOX);
         addMenuItem(activityBtn);
 
-        Button prjBtn = new Button(UserUIContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
+        MButton prjBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.LIST), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
-        });
-        prjBtn.setIcon(FontAwesome.BUILDING);
+        }).withIcon(FontAwesome.BUILDING);
         addMenuItem(prjBtn);
 
         addSection("Modules");
@@ -106,11 +104,10 @@ public class AllActivitiesViewImpl extends AbstractListPageView<ActivityStreamSe
 
         addSection(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-        Button logoutBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
+        MButton logoutBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), clickEvent -> {
             closeMenu();
             EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
-        });
-        logoutBtn.setIcon(FontAwesome.SIGN_OUT);
+        }).withIcon(FontAwesome.SIGN_OUT);
         addMenuItem(logoutBtn);
     }
 

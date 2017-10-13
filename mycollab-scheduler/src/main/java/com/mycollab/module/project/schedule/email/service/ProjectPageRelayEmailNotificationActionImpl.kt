@@ -37,7 +37,7 @@ import org.springframework.stereotype.Service
 class ProjectPageRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Page>(), ProjectPageRelayEmailNotificationAction {
     @Autowired private lateinit var pageService: PageService
 
-    override fun getBeanInContext(notification: ProjectRelayEmailNotification): Page =
+    override fun getBeanInContext(notification: ProjectRelayEmailNotification): Page? =
             pageService.getPage(notification.typeid, "")
 
     override fun buildExtraTemplateVariables(context: MailContext<Page>) {}

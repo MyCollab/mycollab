@@ -40,5 +40,5 @@ interface ProjectPageService : IService {
      * @param requestedUser
      * @return
      */
-    fun getPage(path: String, requestedUser: String): Page
+    fun getPage(path: String, requestedUser: String): Page?
 }

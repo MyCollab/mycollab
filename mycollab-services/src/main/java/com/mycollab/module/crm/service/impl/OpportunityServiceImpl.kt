@@ -58,19 +58,19 @@ class OpportunityServiceImpl(private val opportunityMapper: OpportunityMapper,
         get() = opportunityMapperExt
 
     override fun findById(opportunityId: Int, sAccountId: Int): SimpleOpportunity? {
-        return opportunityMapperExt!!.findById(opportunityId)
+        return opportunityMapperExt.findById(opportunityId)
     }
 
-    override fun saveWithSession(opportunity: Opportunity, username: String?): Int {
-        val result = super.saveWithSession(opportunity, username)
-        if (opportunity.extraData != null && opportunity.extraData is SimpleContact) {
+    override fun saveWithSession(record: Opportunity, username: String?): Int {
+        val result = super.saveWithSession(record, username)
+        if (record.extraData != null && record.extraData is SimpleContact) {
             val associateOpportunity = ContactOpportunity()
-            associateOpportunity.opportunityid = opportunity.id
-            associateOpportunity.contactid = (opportunity.extraData as SimpleContact).id
+            associateOpportunity.opportunityid = record.id
+            associateOpportunity.contactid = (record.extraData as SimpleContact).id
             associateOpportunity.createdtime = GregorianCalendar().time
             val contactService = AppContextUtil.getSpringBean(ContactService::class.java)
             contactService.saveContactOpportunityRelationship(listOf(associateOpportunity),
-                    opportunity.saccountid)
+                    record.saccountid)
         }
         return result
     }

@@ -12,22 +12,23 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.tracker.service;
+package com.mycollab.module.tracker.service
 
-import com.mycollab.core.cache.CacheKey;
-import com.mycollab.core.cache.Cacheable;
-import com.mycollab.db.persistence.service.IDefaultService;
-import com.mycollab.module.tracker.domain.SimpleVersion;
-import com.mycollab.module.tracker.domain.Version;
-import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
+import com.mycollab.core.cache.CacheKey
+import com.mycollab.core.cache.Cacheable
+import com.mycollab.db.persistence.service.IDefaultService
+import com.mycollab.module.tracker.domain.Component
+import com.mycollab.module.tracker.domain.SimpleComponent
+import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
 
 /**
  * @author MyCollab Ltd
  * @since 1.0.0
  */
-public interface VersionService extends IDefaultService<Integer, Version, VersionSearchCriteria> {
+interface ComponentService : IDefaultService<Int, Component, ComponentSearchCriteria> {
+
     @Cacheable
-    SimpleVersion findById(Integer versionId, @CacheKey Integer sAccountId);
+    fun findById(componentId: Int, @CacheKey sAccountId: Int): SimpleComponent?
 }

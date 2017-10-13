@@ -27,13 +27,13 @@ import com.mycollab.common.domain.GroupItem
 import com.mycollab.common.event.TimelineTrackingUpdateEvent
 import com.mycollab.common.service.TagService
 import com.mycollab.common.service.TimelineTrackingService
+import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.cache.CleanCache
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.db.persistence.service.DefaultService
-import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.esb.DeleteProjectBugEvent
 import com.mycollab.module.project.i18n.OptionI18nEnum
@@ -50,11 +50,10 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
-
-import javax.sql.DataSource
 import java.sql.PreparedStatement
 import java.sql.SQLException
 import java.util.concurrent.TimeUnit
+import javax.sql.DataSource
 
 /**
  * @author MyCollab Ltd.
@@ -151,23 +150,19 @@ class BugServiceImpl(private val bugMapper: BugMapper,
         return bugMapperExt.getComponentDefectsSummary(criteria)
     }
 
-    override fun getVersionDefectsSummary(criteria: BugSearchCriteria): List<GroupItem> {
-        return bugMapperExt.getVersionDefectsSummary(criteria)
-    }
+    override fun getVersionDefectsSummary(criteria: BugSearchCriteria): List<GroupItem> =
+            bugMapperExt.getVersionDefectsSummary(criteria)
 
-    override fun findById(bugId: Int?, sAccountId: Int?): SimpleBug {
-        return bugMapperExt.getBugById(bugId!!)
-    }
+    override fun findById(bugId: Int, sAccountId: Int): SimpleBug =
+            bugMapperExt.getBugById(bugId)
 
-    override fun getBugStatusGroupItemBaseComponent(criteria: BugSearchCriteria): List<BugStatusGroupItem> {
-        return bugMapperExt.getBugStatusGroupItemBaseComponent(criteria)
-    }
+    override fun getBugStatusGroupItemBaseComponent(criteria: BugSearchCriteria): List<BugStatusGroupItem> =
+            bugMapperExt.getBugStatusGroupItemBaseComponent(criteria)
 
-    override fun findByProjectAndBugKey(bugKey: Int?, projectShortName: String, sAccountId: Int?): SimpleBug {
-        return bugMapperExt.findByProjectAndBugKey(bugKey!!, projectShortName, sAccountId!!)
-    }
+    override fun findByProjectAndBugKey(bugKey: Int, projectShortName: String, sAccountId: Int): SimpleBug? =
+            bugMapperExt.findByProjectAndBugKey(bugKey, projectShortName, sAccountId)
 
-    override fun massUpdateBugIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int?) {
+    override fun massUpdateBugIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int) {
         val jdbcTemplate = JdbcTemplate(dataSource)
         jdbcTemplate.batchUpdate("UPDATE `m_tracker_bug` SET `bugIndex`=? WHERE `id`=?", object : BatchPreparedStatementSetter {
             @Throws(SQLException::class)

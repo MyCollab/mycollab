@@ -87,7 +87,7 @@ class MilestoneServiceTest : IntegrationServiceTest() {
     @Throws(ParseException::class)
     fun testFindMilestoneById() {
         val milestone = milestoneService.findById(1, 1)
-        assertThat(milestone.createdUserFullName).isEqualTo("Hai Nguyen")
+        assertThat(milestone!!.createdUserFullName).isEqualTo("Hai Nguyen")
         assertThat(milestone.numOpenBugs).isEqualTo(2)
     }
 

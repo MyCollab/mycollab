@@ -63,7 +63,7 @@ class ComponentRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Sim
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
         val actionEnum = when (emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> ComponentI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> ComponentI18nEnum.MAIL_UPDATE_ITEM_HEADING
@@ -81,7 +81,7 @@ class ComponentRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Sim
     override fun getUpdateSubject(context: MailContext<SimpleComponent>): String = context.getMessage(
             ComponentI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
-    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleComponent =
+    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleComponent? =
             componentService.findById(notification.typeid.toInt(), notification.saccountid)
 
     override fun getItemName(): String = StringUtils.trim(bean!!.description, 100)

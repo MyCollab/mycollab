@@ -39,8 +39,8 @@ internal object PageGeneratorUtil {
         context.put("username", username)
         val applicationConfiguration = AppContextUtil.getSpringBean(ApplicationConfiguration::class.java)
         val deploymentMode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
-        var defaultUrls = applicationConfiguration.defaultUrls()
-        defaultUrls += ("cdn_url" to deploymentMode.getCdnUrl())
+        val defaultUrls = applicationConfiguration.defaultUrls()
+        defaultUrls.put ("cdn_url", deploymentMode.getCdnUrl())
         context.put("defaultUrls", defaultUrls)
 
         val writer = StringWriter()

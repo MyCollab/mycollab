@@ -51,7 +51,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class AccountRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAction<SimpleAccount>(), AccountRelayEmailNotificationAction {
+class AccountRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleAccount>(), AccountRelayEmailNotificationAction {
     @Autowired private lateinit var accountService: AccountService
     private val mapper = AccountFieldNameMapper()
 
@@ -77,12 +77,12 @@ class AccountRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAct
         val avatarId = if (changeUser != null) changeUser!!.avatarid else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
         val actionEnum =  when(emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> AccountI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> AccountI18nEnum.MAIL_UPDATE_ITEM_HEADING
             MonitorTypeConstants.ADD_COMMENT_ACTION -> AccountI18nEnum.MAIL_COMMENT_ITEM_HEADING
-            else -> throw MyCollabException("Not support action ${emailNotification.action}");
+            else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
@@ -90,7 +90,7 @@ class AccountRelayEmailNotificationActionImpl() : CrmDefaultSendingRelayEmailAct
         contentGenerator.putVariable("summaryLink", summaryLink)
     }
 
-    class AccountFieldNameMapper() : ItemFieldMapper() {
+    class AccountFieldNameMapper : ItemFieldMapper() {
         init {
             put(Account.Field.accountname, AccountI18nEnum.FORM_ACCOUNT_NAME)
             put(Account.Field.phoneoffice, AccountI18nEnum.FORM_OFFICE_PHONE)

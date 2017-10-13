@@ -49,7 +49,7 @@ class DeleteProjectBugCommand(private val resourceService: ResourceService,
 
     private fun removeRelatedFiles(accountId: Int, projectId: Int, bugId: Int) {
         val attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
-                ProjectTypeConstants.BUG, "" + bugId)
+                ProjectTypeConstants.BUG, "$bugId")
         resourceService.removeResource(attachmentPath, "", true, accountId)
     }
 

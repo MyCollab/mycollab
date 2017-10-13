@@ -75,7 +75,7 @@ class CampaignRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailActi
         val avatarId = if (changeUser != null) changeUser!!.avatarid else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
         val actionEnum = when (emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> CampaignI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> CampaignI18nEnum.MAIL_UPDATE_ITEM_HEADING

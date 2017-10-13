@@ -53,18 +53,18 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
     override val searchMapper: ISearchableDAO<CampaignSearchCriteria>
         get() = campaignMapperExt
 
-    override fun findById(campaignId: Int, sAccountUd: Int): SimpleCampaign? {
+    override fun findById(campaignId: Int, sAccountId: Int): SimpleCampaign? {
         return campaignMapperExt.findById(campaignId)
     }
 
-    override fun saveWithSession(campaign: CampaignWithBLOBs, username: String?): Int {
-        val result = super.saveWithSession(campaign, username)
-        if (campaign.extraData != null && campaign.extraData is SimpleLead) {
+    override fun saveWithSession(record: CampaignWithBLOBs, username: String?): Int {
+        val result = super.saveWithSession(record, username)
+        if (record.extraData != null && record.extraData is SimpleLead) {
             val associateLead = CampaignLead()
-            associateLead.campaignid = campaign.id
-            associateLead.leadid = (campaign.extraData as SimpleLead).id
+            associateLead.campaignid = record.id
+            associateLead.leadid = (record.extraData as SimpleLead).id
             associateLead.createdtime = GregorianCalendar().time
-            this.saveCampaignLeadRelationship(listOf(associateLead), campaign.saccountid)
+            this.saveCampaignLeadRelationship(listOf(associateLead), record.saccountid)
         }
         return result
     }

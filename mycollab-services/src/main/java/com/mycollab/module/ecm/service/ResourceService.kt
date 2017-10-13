@@ -50,7 +50,7 @@ interface ResourceService : IService {
      * @param path
      * @return
      */
-    fun getResource(path: String): Resource
+    fun getResource(path: String): Resource?
 
     /**
      * @param path

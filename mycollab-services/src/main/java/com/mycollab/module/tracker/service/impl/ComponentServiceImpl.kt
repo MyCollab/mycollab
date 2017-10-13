@@ -51,9 +51,8 @@ class ComponentServiceImpl(private val componentMapper: ComponentMapper,
     override val searchMapper: ISearchableDAO<ComponentSearchCriteria>
         get() = componentMapperExt
 
-    override fun findById(componentId: Int?, sAccountId: Int?): SimpleComponent {
-        return componentMapperExt.findComponentById(componentId!!)
-    }
+    override fun findById(componentId: Int, sAccountId: Int): SimpleComponent? =
+            componentMapperExt.findComponentById(componentId)
 
     override fun saveWithSession(record: Component, username: String?): Int {
         // check whether there is exiting record

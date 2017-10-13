@@ -33,15 +33,12 @@ import org.springframework.stereotype.Service
 @Service
 class AccountThemeServiceImpl(private val accountThemeMapper: AccountThemeMapper) : DefaultCrudService<Int, AccountTheme>(), AccountThemeService {
 
-
     override val crudMapper: ICrudGenericDAO<Int, AccountTheme>
         get() = accountThemeMapper as ICrudGenericDAO<Int, AccountTheme>
 
-    override fun findTheme(@CacheKey sAccountId: Int?): AccountTheme? {
-        return null
-    }
+    override fun findTheme(@CacheKey sAccountId: Int): AccountTheme? = null
 
-    override fun findDefaultTheme(@CacheKey sAccountId: Int?): AccountTheme? {
+    override fun findDefaultTheme(@CacheKey sAccountId: Int): AccountTheme? {
         val ex = AccountThemeExample()
         ex.createCriteria().andIsdefaultEqualTo(java.lang.Boolean.TRUE)
         val accountThemes = accountThemeMapper.selectByExample(ex)
@@ -51,7 +48,7 @@ class AccountThemeServiceImpl(private val accountThemeMapper: AccountThemeMapper
 
     }
 
-    override fun removeTheme(@CacheKey sAccountId: Int?) {
+    override fun removeTheme(@CacheKey sAccountId: Int) {
         throw UnsupportedFeatureException("Do not support this feature in the community edition")
     }
 }

@@ -61,9 +61,8 @@ class MilestoneServiceImpl(private val milestoneMapper: MilestoneMapper,
     override val searchMapper: ISearchableDAO<MilestoneSearchCriteria>
         get() = milestoneMapperExt
 
-    override fun findById(milestoneId: Int?, sAccountId: Int?): SimpleMilestone {
-        return milestoneMapperExt.findById(milestoneId)
-    }
+    override fun findById(milestoneId: Int, sAccountId: Int): SimpleMilestone? =
+            milestoneMapperExt.findById(milestoneId)
 
     override fun saveWithSession(record: Milestone, username: String?): Int {
         if (record.status == null) {
@@ -77,7 +76,7 @@ class MilestoneServiceImpl(private val milestoneMapper: MilestoneMapper,
         asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(ProjectService::class.java, GanttAssignmentService::class.java, ProjectTicketService::class.java, ProjectActivityStreamService::class.java)))
     }
 
-    override fun massUpdateOptionIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int?) {
+    override fun massUpdateOptionIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int) {
         val jdbcTemplate = JdbcTemplate(dataSource)
         jdbcTemplate.batchUpdate("UPDATE `m_prj_milestone` SET `orderIndex`=? WHERE `id`=?", object : BatchPreparedStatementSetter {
             @Throws(SQLException::class)

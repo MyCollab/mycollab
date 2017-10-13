@@ -118,7 +118,7 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
 
         val resource = contentJcrDao.getResource("a/b/c")
         assertThat(resource).isExactlyInstanceOf(Folder::class.java)
-        assertThat(resource.path).isEqualTo("a/b/c")
+        assertThat(resource!!.path).isEqualTo("a/b/c")
     }
 
     @Test
@@ -149,7 +149,6 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
 
         val subFolders = contentJcrDao.getSubFolders("a/b")
         assertThat(subFolders.size).isEqualTo(3)
-
         assertThat(subFolders).extracting("path").contains("a/b/c", "a/b/c2", "a/b/c3")
     }
 
@@ -171,7 +170,7 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
         contentJcrDao.rename("a/b/c", "a/b/d")
         val resource = contentJcrDao.getResource("a/b/d")
         assertThat(resource).isExactlyInstanceOf(Folder::class.java)
-        assertThat(resource.path).isEqualTo("a/b/d")
+        assertThat(resource!!.path).isEqualTo("a/b/d")
     }
 
     @Test
@@ -182,7 +181,7 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
         contentJcrDao.moveResource("xy/yz/zx", "ab/bc/ca")
         val resource = contentJcrDao.getResource("ab/bc/ca")
         assertThat(resource).isExactlyInstanceOf(Folder::class.java)
-        assertThat(resource.path).isEqualTo("ab/bc/ca")
+        assertThat(resource!!.path).isEqualTo("ab/bc/ca")
     }
 
     @Test

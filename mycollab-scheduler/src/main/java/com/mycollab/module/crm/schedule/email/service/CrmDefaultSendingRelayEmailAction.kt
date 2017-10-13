@@ -54,13 +54,13 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
     private lateinit var auditLogService: AuditLogService
 
     @Autowired
-    val userService: UserService? = null
+    lateinit var userService: UserService
 
     @Autowired
-    val notificationService: CrmNotificationSettingService? = null
+    lateinit var notificationService: CrmNotificationSettingService
 
     @Autowired
-    val commentService: CommentService? = null
+    private lateinit var commentService: CommentService
 
     @Autowired
     lateinit var contentGenerator: IContentGenerator
@@ -112,7 +112,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                 searchCriteria.type = StringSearchField.and(notification.type)
                 searchCriteria.typeId = StringSearchField.and(notification.typeid)
                 searchCriteria.saccountid = null
-                val comments = commentService!!.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
+                val comments = commentService.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
                 contentGenerator.putVariable("lastComments", comments)
 
                 notifiers.forEach { user ->
@@ -158,7 +158,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
             searchCriteria.type = StringSearchField.and(notification.type)
             searchCriteria.typeId = StringSearchField.and(notification.typeid)
             searchCriteria.saccountid = null
-            val comments = commentService!!.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
+            val comments = commentService.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
             contentGenerator.putVariable("lastComments", comments)
             contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
 
@@ -192,7 +192,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
 
     private fun onInitAction(notification: SimpleRelayEmailNotification) {
         siteUrl = MailUtils.getSiteUrl(notification.saccountid)
-        changeUser = userService!!.findUserByUserNameInAccount(notification.changeby, notification.saccountid)
+        changeUser = userService.findUserByUserNameInAccount(notification.changeby, notification.saccountid)
     }
 
     abstract protected fun getBeanInContext(notification: SimpleRelayEmailNotification): B?

@@ -51,7 +51,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class ProjectMilestoneRelayEmailNotificationActionImpl() : SendMailToAllMembersAction<SimpleMilestone>(), ProjectMilestoneRelayEmailNotificationAction {
+class ProjectMilestoneRelayEmailNotificationActionImpl : SendMailToAllMembersAction<SimpleMilestone>(), ProjectMilestoneRelayEmailNotificationAction {
 
     @Autowired private lateinit var milestoneService: MilestoneService
 
@@ -72,7 +72,7 @@ class ProjectMilestoneRelayEmailNotificationActionImpl() : SendMailToAllMembersA
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
-    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleMilestone =
+    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleMilestone? =
             milestoneService.findById(notification.typeid.toInt(), notification.saccountid)
 
     class MilestoneFieldNameMapper() : ItemFieldMapper() {
@@ -128,7 +128,7 @@ class ProjectMilestoneRelayEmailNotificationActionImpl() : SendMailToAllMembersA
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
 
         val actionEnum = when (emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> MilestoneI18nEnum.MAIL_CREATE_ITEM_HEADING

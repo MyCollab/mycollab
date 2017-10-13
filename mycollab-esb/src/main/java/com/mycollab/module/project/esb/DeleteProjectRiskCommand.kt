@@ -40,10 +40,10 @@ class DeleteProjectRiskCommand(private val resourceService: ResourceService,
     @AllowConcurrentEvents
     @Subscribe
     fun removeRisk(event: DeleteProjectRiskEvent) {
-        event.risks.forEach { risk ->
-            removeRelatedFiles(event.accountId, risk.projectid, risk.id)
-            removeRelatedComments(risk.id)
-            removeRelatedTags(risk.id)
+        event.risks.forEach {
+            removeRelatedFiles(event.accountId, it.projectid, it.id)
+            removeRelatedComments(it.id)
+            removeRelatedTags(it.id)
         }
     }
 

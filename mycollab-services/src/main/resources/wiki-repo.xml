@@ -25,7 +25,7 @@
     </Security>
 
     <Workspaces rootPath='repo2/wiki_workspaces' defaultWorkspace='wiki' />
-    <Workspace name="mycollab">
+    <Workspace name="mycollab_live">
         <FileSystem class="com.mycollab.module.ecm.DbFileSystemExt">
             <param name="schemaObjectPrefix" value="wiki_s_" />
         </FileSystem>

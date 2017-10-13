@@ -40,7 +40,7 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
 
     private var cacheUpdateMethod: Method? = null
 
-    override fun findByPrimaryKey(primaryKey: K, accountId: Int): T {
+    override fun findByPrimaryKey(primaryKey: K, sAccountId: Int): T {
         return crudMapper.selectByPrimaryKey(primaryKey)
     }
 
@@ -108,11 +108,11 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
     }
 
 
-    override fun removeWithSession(item: T, username: String?, accountId: Int) {
-        massRemoveWithSession(listOf(item), username, accountId)
+    override fun removeWithSession(item: T, username: String?, sAccountId: Int) {
+        massRemoveWithSession(listOf(item), username, sAccountId)
     }
 
-    override fun massRemoveWithSession(items: List<T>, username: String?, accountId: Int) {
+    override fun massRemoveWithSession(items: List<T>, username: String?, sAccountId: Int) {
         val primaryKeys = ArrayList<T>(items.size)
         for (item in items) {
             try {

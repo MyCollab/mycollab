@@ -17,8 +17,8 @@
 package com.mycollab.module.project.view.settings
 
 import com.mycollab.common.UrlTokenizer
+import com.mycollab.core.ResourceNotFoundException
 import com.mycollab.db.arguments.NumberSearchField
-import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.module.project.event.ProjectEvent
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.ProjectScreenData
@@ -28,6 +28,7 @@ import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
 import com.mycollab.module.tracker.service.VersionService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
+import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -69,8 +70,12 @@ class VersionUrlResolver : ProjectUrlResolver() {
             val versionId = token.getInt()
             val versionService = AppContextUtil.getSpringBean(VersionService::class.java)
             val version = versionService.findById(versionId, AppUI.accountId)
-            val chain = PageActionChain(ProjectScreenData.Goto(projectId), VersionScreenData.Edit(version))
-            EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
+            if (version != null) {
+                val chain = PageActionChain(ProjectScreenData.Goto(projectId), VersionScreenData.Edit(version))
+                EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
+            } else {
+                throw ResourceNotFoundException("Can not find version $params")
+            }
         }
     }
 

@@ -57,7 +57,7 @@ class VersionRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
         val actionEnum = when (emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> VersionI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> VersionI18nEnum.MAIL_UPDATE_ITEM_HEADING
@@ -87,10 +87,10 @@ class VersionRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
-    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleVersion =
+    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleVersion? =
             versionService.findById(notification.typeid.toInt(), notification.saccountid)
 
-    class VersionFieldNameMapper() : ItemFieldMapper() {
+    class VersionFieldNameMapper : ItemFieldMapper() {
         init {
             put(Version.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
             put(Version.Field.status, I18nFieldFormat(Version.Field.status.name, GenericI18Enum.FORM_STATUS,

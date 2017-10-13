@@ -307,7 +307,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 int newTotalTickets = projectTicketService.getTotalTicketsCount(baseCriteria);
                 int newNumPages = newTotalTickets / 100;
                 currentPage++;
-                List<ProjectTicket> otherTickets = projectTicketService.findTicketsByCriteria(new
+                List<ProjectTicket> otherTickets = (List<ProjectTicket>)projectTicketService.findTicketsByCriteria(new
                         BasicSearchRequest<>(baseCriteria, currentPage + 1, 100));
                 ticketGroupOrderComponent.insertTickets(otherTickets);
                 if (currentPage >= newNumPages) {
@@ -316,7 +316,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
             }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.ANGLE_DOUBLE_DOWN);
             wrapBody.addComponent(moreBtn);
         }
-        List<ProjectTicket> tickets = projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>
+        List<ProjectTicket> tickets = (List<ProjectTicket>)projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>
                 (baseCriteria, currentPage + 1, 100));
         ticketGroupOrderComponent.insertTickets(tickets);
     }

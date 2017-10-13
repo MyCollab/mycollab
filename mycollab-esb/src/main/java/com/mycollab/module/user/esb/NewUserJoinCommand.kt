@@ -85,15 +85,19 @@ class NewUserJoinCommand(private val billingAccountService: BillingAccountServic
                     .map { MailRecipientField(it.username, it.displayName) }
 
             val account = billingAccountService.getAccountById(sAccountId)
-            contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(account.subdomain))
-            contentGenerator.putVariable("newUser", newUser)
-            contentGenerator.putVariable("formatter", Formatter())
-            contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
-                    DateTimeUtils.getCurrentYear()))
-            contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
-            extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
-                    "${newUser.displayName} has just joined on MyCollab workspace",
-                    contentGenerator.parseFile("mailNewUserJoinAccountNotifier.ftl", Locale.US))
+            if (account != null) {
+                contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(account.subdomain))
+                contentGenerator.putVariable("newUser", newUser)
+                contentGenerator.putVariable("formatter", Formatter())
+                contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
+                        DateTimeUtils.getCurrentYear()))
+                contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
+                extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                        "${newUser.displayName} has just joined on MyCollab workspace",
+                        contentGenerator.parseFile("mailNewUserJoinAccountNotifier.ftl", Locale.US))
+            } else {
+                LOG.error("Can not find account $sAccountId")
+            }
         } else {
             LOG.error("Can not find the user $username in account $sAccountId")
         }

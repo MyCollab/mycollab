@@ -31,7 +31,7 @@ class ProjectTicketServiceImpl : AbstractProjectTicketServiceImpl() {
         throw MyCollabException("Not support this operation in the community edition")
     }
 
-    override fun closeSubAssignmentOfMilestone(milestoneId: Int?) {
+    override fun closeSubAssignmentOfMilestone(milestoneId: Int) {
         throw MyCollabException("Not support this operation in the community edition")
     }
 }

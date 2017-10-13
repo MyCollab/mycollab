@@ -41,7 +41,7 @@ import org.assertj.core.api.Assertions.tuple
 class VersionServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val versionService: VersionService? = null
+    private lateinit var versionService: VersionService
 
     private val criteria: VersionSearchCriteria
         get() {
@@ -55,7 +55,7 @@ class VersionServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testGetListVersions() {
-        val versions = versionService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleVersion>
+        val versions = versionService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleVersion>
 
         assertThat(versions.size).isEqualTo(4)
         assertThat<SimpleVersion>(versions).extracting("id", "description", "status",
@@ -70,7 +70,7 @@ class VersionServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testTotalCount() {
-        val versions = versionService!!.findPageableListByCriteria(BasicSearchRequest(criteria))
+        val versions = versionService.findPageableListByCriteria(BasicSearchRequest(criteria))
         assertThat(versions.size).isEqualTo(4)
     }
 
@@ -80,7 +80,7 @@ class VersionServiceTest : IntegrationServiceTest() {
         val criteria = VersionSearchCriteria()
         criteria.id = NumberSearchField(1)
 
-        val versions = versionService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleVersion>
+        val versions = versionService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleVersion>
         assertThat(versions.size).isEqualTo(1)
         assertThat<SimpleVersion>(versions).extracting("id", "description", "status",
                 "name", "numBugs", "numOpenBugs").contains(
@@ -95,7 +95,7 @@ class VersionServiceTest : IntegrationServiceTest() {
         criteria.status = StringSearchField.and("Closed")
         criteria.versionname = StringSearchField.and("2.0.0")
 
-        val versions = versionService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleVersion>
+        val versions = versionService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleVersion>
         assertThat(versions.size).isEqualTo(1)
         assertThat<SimpleVersion>(versions).extracting("id", "description", "status",
                 "name", "numBugs", "numOpenBugs").contains(
@@ -114,7 +114,7 @@ class VersionServiceTest : IntegrationServiceTest() {
         version.description = "a"
         version.status = "Open"
 
-        val versionId = versionService!!.saveWithSession(version, "hai79")
+        val versionId = versionService.saveWithSession(version, "hai79")
         assertThat(versionId > 0).isEqualTo(true)
     }
 

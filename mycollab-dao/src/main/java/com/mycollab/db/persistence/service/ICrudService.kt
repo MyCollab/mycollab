@@ -28,7 +28,7 @@ import java.io.Serializable
  * @author MyCollab Ltd.
  * @since 1.0
 </T></K> */
-interface ICrudService<K : Serializable, T> : IService {
+interface ICrudService<in K : Serializable, T> : IService {
 
     /**
      * @param record

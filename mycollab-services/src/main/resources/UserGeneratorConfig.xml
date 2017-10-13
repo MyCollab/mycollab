@@ -8,7 +8,7 @@
 
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin"/>
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_base"
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
                         driverClass="com.mysql.jdbc.Driver" password="esofthead321" userId="root"/>
 
         <javaModelGenerator targetPackage="com.mycollab.module.user.domain" targetProject="src/main/java">
@@ -22,17 +22,17 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table schema="mycollab" tableName="m_group" domainObjectName="Group"/>
-        <table schema="mycollab" tableName="m_group_user" domainObjectName="GroupUser"/>
-        <table schema="mycollab" tableName="s_account" domainObjectName="BillingAccount"/>
-        <table schema="mycollab" tableName="s_billing_plan" domainObjectName="BillingPlan"/>
-        <table schema="mycollab" tableName="s_roles" domainObjectName="Role"/>
-        <table schema="mycollab" tableName="s_user" domainObjectName="User"/>
-        <table schema="mycollab" tableName="s_user_account" domainObjectName="UserAccount"/>
-        <table schema="mycollab" tableName="s_role_permission" domainObjectName="RolePermission"/>
-        <table schema="mycollab" tableName="s_user_permission" domainObjectName="UserPermission"/>
-        <table schema="mycollab" tableName="s_user_tracking" domainObjectName="UserTracking"/>
-        <table schema="mycollab" tableName="s_account_theme" domainObjectName="AccountTheme"/>
+        <table schema="mycollab_live" tableName="m_group" domainObjectName="Group"/>
+        <table schema="mycollab_live" tableName="m_group_user" domainObjectName="GroupUser"/>
+        <table schema="mycollab_live" tableName="s_account" domainObjectName="BillingAccount"/>
+        <table schema="mycollab_live" tableName="s_billing_plan" domainObjectName="BillingPlan"/>
+        <table schema="mycollab_live" tableName="s_roles" domainObjectName="Role"/>
+        <table schema="mycollab_live" tableName="s_user" domainObjectName="User"/>
+        <table schema="mycollab_live" tableName="s_user_account" domainObjectName="UserAccount"/>
+        <table schema="mycollab_live" tableName="s_role_permission" domainObjectName="RolePermission"/>
+        <table schema="mycollab_live" tableName="s_user_permission" domainObjectName="UserPermission"/>
+        <table schema="mycollab_live" tableName="s_user_tracking" domainObjectName="UserTracking"/>
+        <table schema="mycollab_live" tableName="s_account_theme" domainObjectName="AccountTheme"/>
     </context>
 
 </generatorConfiguration>

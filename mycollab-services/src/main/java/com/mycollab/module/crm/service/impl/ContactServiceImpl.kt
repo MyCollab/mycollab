@@ -117,30 +117,30 @@ class ContactServiceImpl(private val contactMapper: ContactMapper,
         return contactMapperExt.findContactAssoWithConvertedLead(leadId)
     }
 
-    override fun saveWithSession(contact: Contact, username: String?): Int {
-        val result = super.saveWithSession(contact, username)
-        if (contact.extraData != null && contact.extraData is SimpleCampaign) {
+    override fun saveWithSession(record: Contact, username: String?): Int {
+        val result = super.saveWithSession(record, username)
+        if (record.extraData != null && record.extraData is SimpleCampaign) {
             val associateContact = CampaignContact()
-            associateContact.campaignid = (contact.extraData as SimpleCampaign).id
-            associateContact.contactid = contact.id
+            associateContact.campaignid = (record.extraData as SimpleCampaign).id
+            associateContact.contactid = record.id
             associateContact.createdtime = GregorianCalendar().time
 
             val campaignService = AppContextUtil.getSpringBean(CampaignService::class.java)
-            campaignService.saveCampaignContactRelationship(listOf(associateContact), contact.saccountid)
-        } else if (contact.extraData != null && contact.extraData is SimpleOpportunity) {
+            campaignService.saveCampaignContactRelationship(listOf(associateContact), record.saccountid)
+        } else if (record.extraData != null && record.extraData is SimpleOpportunity) {
             val associateContact = ContactOpportunity()
-            associateContact.contactid = contact.id
-            associateContact.opportunityid = (contact.extraData as SimpleOpportunity).id
+            associateContact.contactid = record.id
+            associateContact.opportunityid = (record.extraData as SimpleOpportunity).id
             associateContact.createdtime = GregorianCalendar().time
 
-            this.saveContactOpportunityRelationship(listOf(associateContact), contact.saccountid)
-        } else if (contact.extraData != null && contact.extraData is SimpleCase) {
+            this.saveContactOpportunityRelationship(listOf(associateContact), record.saccountid)
+        } else if (record.extraData != null && record.extraData is SimpleCase) {
             val associateCase = ContactCase()
-            associateCase.contactid = contact.id
-            associateCase.caseid = (contact.extraData as SimpleCase).id
+            associateCase.contactid = record.id
+            associateCase.caseid = (record.extraData as SimpleCase).id
             associateCase.createdtime = GregorianCalendar().time
 
-            this.saveContactCaseRelationship(listOf(associateCase), contact.saccountid)
+            this.saveContactCaseRelationship(listOf(associateCase), record.saccountid)
         }
         return result
     }

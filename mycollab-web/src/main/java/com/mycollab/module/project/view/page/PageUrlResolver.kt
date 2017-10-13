@@ -48,8 +48,7 @@ class PageUrlResolver : ProjectUrlResolver() {
                 val tokenizer = UrlTokenizer(params[0])
                 val projectId = tokenizer.getInt()
                 val pagePath = tokenizer.remainValue
-                val chain = PageActionChain(ProjectScreenData.Goto(projectId),
-                        PageScreenData.Search(pagePath))
+                val chain = PageActionChain(ProjectScreenData.Goto(projectId), PageScreenData.Search(pagePath))
                 EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
             } catch (e: Exception) {
                 throw MyCollabException(e)
@@ -106,7 +105,7 @@ class PageUrlResolver : ProjectUrlResolver() {
                 val projectId = tokenizer.getInt()
                 val pagePath = tokenizer.remainValue
                 val page = Page()
-                page.path = pagePath + "/" + StringUtils.generateSoftUniqueId()
+                page.path =  "$pagePath/${StringUtils.generateSoftUniqueId()}"
                 val chain = PageActionChain(ProjectScreenData.Goto(projectId), PageScreenData.Add(page))
                 EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
             } catch (e: Exception) {

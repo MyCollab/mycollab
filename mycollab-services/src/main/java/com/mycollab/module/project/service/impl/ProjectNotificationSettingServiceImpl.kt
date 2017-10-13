@@ -58,5 +58,4 @@ class ProjectNotificationSettingServiceImpl(private val projectNotificationSetti
         ex.createCriteria().andProjectidEqualTo(projectId).andSaccountidEqualTo(sAccountId)
         return projectNotificationSettingMapper.selectByExample(ex)
     }
-
 }

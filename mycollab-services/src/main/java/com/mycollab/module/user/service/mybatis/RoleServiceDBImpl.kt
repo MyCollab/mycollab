@@ -66,7 +66,7 @@ class RoleServiceDBImpl(private val roleMapper: RoleMapper,
         return super.updateWithSession(record, username)
     }
 
-    override fun savePermission(roleId: Int?, permissionMap: PermissionMap, accountid: Int?) {
+    override fun savePermission(roleId: Int?, permissionMap: PermissionMap, sAccountId: Int) {
         val perVal = permissionMap.toJsonString()
 
         val ex = RolePermissionExample()
@@ -84,11 +84,10 @@ class RoleServiceDBImpl(private val roleMapper: RoleMapper,
         }
     }
 
-    override fun findById(roleId: Int?, sAccountId: Int?): SimpleRole {
-        return roleMapperExt.findById(roleId)
-    }
+    override fun findById(roleId: Int, sAccountId: Int): SimpleRole =
+            roleMapperExt.findById(roleId)
 
-    override fun getDefaultRoleId(sAccountId: Int?): Int? {
+    override fun getDefaultRoleId(sAccountId: Int): Int? {
         var ex = RoleExample()
         ex.createCriteria().andIsdefaultEqualTo(java.lang.Boolean.TRUE).andSaccountidEqualTo(sAccountId)
         var roles = roleMapper.selectByExample(ex)

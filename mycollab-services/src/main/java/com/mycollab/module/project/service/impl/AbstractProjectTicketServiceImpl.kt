@@ -55,13 +55,13 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
                 projectTicketMapper.getTotalCountFromMilestone(criteria)
     }
 
-    override fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria): Int? {
+    override fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria): Int {
         return projectTicketMapper.getTotalCountFromRisk(criteria) +
                 projectTicketMapper.getTotalCountFromBug(criteria)!! +
                 projectTicketMapper.getTotalCountFromTask(criteria)!!
     }
 
-    override fun isTicketIdSatisfyCriteria(type: String, typeId: Int?, criteria: ProjectTicketSearchCriteria): Boolean {
+    override fun isTicketIdSatisfyCriteria(type: String, typeId: Int, criteria: ProjectTicketSearchCriteria): Boolean {
         val newCriteria = BeanUtility.deepClone(criteria)
         newCriteria.typeIds = SetSearchField(typeId)
         newCriteria.types = SetSearchField(type)
@@ -73,15 +73,13 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
         }
     }
 
-    override fun getAccountsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria): List<BillingAccount> {
-        return projectTicketMapper.getAccountsHasOverdueAssignments(searchCriteria)
-    }
+    override fun getAccountsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria): List<BillingAccount> =
+            projectTicketMapper.getAccountsHasOverdueAssignments(searchCriteria)
 
-    override fun getProjectsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria): List<Int> {
-        return projectTicketMapper.getProjectsHasOverdueAssignments(searchCriteria)
-    }
+    override fun getProjectsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria): List<Int> =
+            projectTicketMapper.getProjectsHasOverdueAssignments(searchCriteria)
 
-    override fun findTicket(type: String, typeId: Int?): ProjectTicket? {
+    override fun findTicket(type: String, typeId: Int): ProjectTicket? {
         val searchCriteria = ProjectTicketSearchCriteria()
         searchCriteria.types = SetSearchField(type)
         searchCriteria.typeIds = SetSearchField(typeId)
@@ -89,19 +87,16 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
         return if (assignments.isNotEmpty()) assignments[0] else null
     }
 
-    override fun getAssigneeSummary(@CacheKey criteria: ProjectTicketSearchCriteria): List<GroupItem> {
-        return projectTicketMapper.getAssigneeSummary(criteria)
-    }
+    override fun getAssigneeSummary(@CacheKey criteria: ProjectTicketSearchCriteria): List<GroupItem> =
+            projectTicketMapper.getAssigneeSummary(criteria)
 
-    override fun getPrioritySummary(@CacheKey criteria: ProjectTicketSearchCriteria): List<GroupItem> {
-        return projectTicketMapper.getPrioritySummary(criteria)
-    }
+    override fun getPrioritySummary(@CacheKey criteria: ProjectTicketSearchCriteria): List<GroupItem> =
+            projectTicketMapper.getPrioritySummary(criteria)
 
-    override fun findTicketsByCriteria(@CacheKey searchRequest: BasicSearchRequest<ProjectTicketSearchCriteria>): List<*> {
-        return projectTicketMapper.findTicketsByCriteria(searchRequest.searchCriteria,
-                RowBounds((searchRequest.currentPage - 1) * searchRequest.numberOfItems,
-                        searchRequest.numberOfItems))
-    }
+    override fun findTicketsByCriteria(@CacheKey searchRequest: BasicSearchRequest<ProjectTicketSearchCriteria>): List<*> =
+            projectTicketMapper.findTicketsByCriteria(searchRequest.searchCriteria,
+                    RowBounds((searchRequest.currentPage - 1) * searchRequest.numberOfItems,
+                            searchRequest.numberOfItems))
 
     override fun updateTicket(ticket: ProjectTicket, username: String) {
         when {
@@ -121,7 +116,6 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
     }
 
     override fun updateMilestoneId(ticket: ProjectTicket) {
-
     }
 
     override fun removeTicket(ticket: ProjectTicket, username: String) {

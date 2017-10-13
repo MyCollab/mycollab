@@ -36,6 +36,7 @@ import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.SimpleProjectMember
 import com.mycollab.module.project.service.ProjectMemberService
 import com.mycollab.module.user.service.BillingAccountService
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -58,40 +59,44 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
         val newMember = projectMemberService.findMemberByUsername(event.username, projectId, sAccountId)
         val membersInProjects = projectMemberService.getActiveUsersInProject(projectId, sAccountId)
         val account = billingAccountService.getAccountById(sAccountId)
-        contentGenerator.putVariable("newMember", newMember!!)
-        contentGenerator.putVariable("formatter", Formatter())
-        contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
-                DateTimeUtils.getCurrentYear()))
-        contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
-        contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(account.subdomain))
-        val recipients = mutableListOf<MailRecipientField>()
-        membersInProjects.forEach { user ->
-            if (event.username != user.username)
-                recipients.add(MailRecipientField(user.username, user.displayName))
+        if (account != null && newMember != null) {
+            contentGenerator.putVariable("newMember", newMember)
+            contentGenerator.putVariable("formatter", Formatter())
+            contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
+                    DateTimeUtils.getCurrentYear()))
+            contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
+            contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(account.subdomain))
+            val recipients = mutableListOf<MailRecipientField>()
+            membersInProjects.forEach {
+                if (event.username != it.username)
+                    recipients.add(MailRecipientField(it.username, it.displayName))
+            }
+            extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                    "${newMember.displayName} has just joined on project ${newMember.projectName}",
+                    contentGenerator.parseFile("mailProjectNewMemberJoinProjectNotifier.ftl", Locale.US))
+        } else {
+            LOG.error("Error while inform the new member join $account $newMember")
         }
-        extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
-                String.format("%s has just joined on project %s", newMember.displayName, newMember.projectName),
-                contentGenerator.parseFile("mailProjectNewMemberJoinProjectNotifier.ftl", Locale.US))
     }
 
     companion object {
+        val LOG = LoggerFactory.getLogger(NewProjectMemberJoinCommand::class.java)
+
         class Formatter {
-            fun formatProjectLink(siteUrl: String, newMember: SimpleProjectMember): String {
-                return DivLessFormatter().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROJECT)).
-                        appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
-                                newMember.projectid)).appendText(newMember.projectName)).write()
-            }
+            fun formatProjectLink(siteUrl: String, newMember: SimpleProjectMember): String =
+                    DivLessFormatter().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROJECT)).
+                            appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
+                                    newMember.projectid)).appendText(newMember.projectName)).write()
 
-            fun formatMemberLink(siteUrl: String, newMember: SimpleProjectMember): String {
-                return A(ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, newMember.projectid, newMember.username)).
-                        appendText(newMember.displayName).write()
-            }
 
-            fun formatRoleName(siteUrl: String, newMember: SimpleProjectMember): String {
-                return if (newMember.isProjectOwner) "Project Owner"
-                else A(ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, newMember.projectid,
-                        newMember.projectid)).appendText(newMember.roleName).write()
-            }
+            fun formatMemberLink(siteUrl: String, newMember: SimpleProjectMember): String =
+                    A(ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, newMember.projectid, newMember.username)).
+                            appendText(newMember.displayName).write()
+
+            fun formatRoleName(siteUrl: String, newMember: SimpleProjectMember): String =
+                    if (newMember.isProjectOwner) "Project Owner"
+                    else A(ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, newMember.projectid,
+                            newMember.projectid)).appendText(newMember.roleName).write()
         }
     }
 }

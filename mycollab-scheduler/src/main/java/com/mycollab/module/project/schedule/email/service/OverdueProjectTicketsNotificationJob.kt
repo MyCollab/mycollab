@@ -89,38 +89,36 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
         searchCriteria.dateInRange = rangeDate
         searchCriteria.isOpenned = SearchField()
         val accounts = projectAssignmentService.getAccountsHasOverdueAssignments(searchCriteria)
-        if (accounts != null) {
-            accounts.forEach { account ->
-                searchCriteria.saccountid = NumberSearchField(account.id)
-                contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
-                val projectIds = projectAssignmentService.getProjectsHasOverdueAssignments(searchCriteria)
-                for (projectId in projectIds) {
-                    searchCriteria.projectIds = SetSearchField<Int>(projectId)
-                    val siteUrl = deploymentMode.getSiteUrl(account.subdomain)
-                    contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId))
-                    val assignments = projectAssignmentService.findAbsoluteListByCriteria(searchCriteria, 0, Integer.MAX_VALUE)
-                    if (assignments.isNotEmpty()) {
-                        val projectName = (assignments[0] as ProjectTicket).projectName
-                        val notifiers = getNotifiersOfProject(projectId, account.id)
-                        contentGenerator.putVariable("assignments", assignments)
-                        contentGenerator.putVariable("subDomain", account.subdomain)
-                        contentGenerator.putVariable("formatter", OverdueAssignmentFormatter())
-                        for (notifier in notifiers) {
-                            val userMail = MailRecipientField(notifier.email, notifier.displayName)
-                            val recipients = listOf(userMail)
-                            val userLocale = LocalizationHelper.getLocaleInstance(notifier.language)
-                            contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Copyright,
-                                    DateTimeUtils.getCurrentYear()))
-                            val projectSettingUrl = A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId)).
-                                    appendText(LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Notification_Setting)).write()
-                            val projectFooter = LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Footer, projectName, projectSettingUrl)
-                            contentGenerator.putVariable("Project_Footer", projectFooter)
-                            val content = contentGenerator.parseFile("mailProjectOverdueAssignmentsNotifier.ftl", Locale.US)
-                            val overdueAssignments = "${LocalizationHelper.getMessage(userLocale, TicketI18nEnum.VAL_OVERDUE_TICKETS)}(${assignments.size})"
-                            contentGenerator.putVariable("overdueAssignments", overdueAssignments)
-                            extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
-                                    "[%s] %s".format(projectName, overdueAssignments), content)
-                        }
+        accounts.forEach { account ->
+            searchCriteria.saccountid = NumberSearchField(account.id)
+            contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
+            val projectIds = projectAssignmentService.getProjectsHasOverdueAssignments(searchCriteria)
+            for (projectId in projectIds) {
+                searchCriteria.projectIds = SetSearchField<Int>(projectId)
+                val siteUrl = deploymentMode.getSiteUrl(account.subdomain)
+                contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId))
+                val assignments = projectAssignmentService.findAbsoluteListByCriteria(searchCriteria, 0, Integer.MAX_VALUE)
+                if (assignments.isNotEmpty()) {
+                    val projectName = (assignments[0] as ProjectTicket).projectName
+                    val notifiers = getNotifiersOfProject(projectId, account.id)
+                    contentGenerator.putVariable("assignments", assignments)
+                    contentGenerator.putVariable("subDomain", account.subdomain)
+                    contentGenerator.putVariable("formatter", OverdueAssignmentFormatter())
+                    notifiers.forEach {
+                        val userMail = MailRecipientField(it.email, it.displayName)
+                        val recipients = listOf(userMail)
+                        val userLocale = LocalizationHelper.getLocaleInstance(it.language)
+                        contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Copyright,
+                                DateTimeUtils.getCurrentYear()))
+                        val projectSettingUrl = A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId)).
+                                appendText(LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Notification_Setting)).write()
+                        val projectFooter = LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Footer, projectName, projectSettingUrl)
+                        contentGenerator.putVariable("Project_Footer", projectFooter)
+                        val content = contentGenerator.parseFile("mailProjectOverdueAssignmentsNotifier.ftl", Locale.US)
+                        val overdueAssignments = "${LocalizationHelper.getMessage(userLocale, TicketI18nEnum.VAL_OVERDUE_TICKETS)}(${assignments.size})"
+                        contentGenerator.putVariable("overdueAssignments", overdueAssignments)
+                        extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                                "[%s] %s".format(projectName, overdueAssignments), content)
                     }
                 }
             }
@@ -132,11 +130,10 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
         var notifyUsers = projectMemberService.getActiveUsersInProject(projectId, accountId)
         val notificationSettings = projectNotificationService.findNotifications(projectId, accountId)
         if (notificationSettings.isNotEmpty()) {
-            for (setting in notificationSettings) {
-                if ((NotificationType.None.name == setting.level) || (NotificationType.Minimal.name == setting.level)) {
-                    notifyUsers = notifyUsers.filter { !(it.username == setting.username) }
-                }
-            }
+            notificationSettings
+                    .asSequence()
+                    .filter { (NotificationType.None.name == it.level) || (NotificationType.Minimal.name == it.level) }
+                    .forEach { setting -> notifyUsers = notifyUsers.filter { !(it.username == setting.username) } }
         }
         return notifyUsers.toSet()
     }

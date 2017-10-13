@@ -37,15 +37,15 @@ class DeleteProjectMessageCommand(private val resourceService: ResourceService,
     @AllowConcurrentEvents
     @Subscribe
     fun removedMessage(event: DeleteProjectMessageEvent) {
-        event.messages.forEach { message ->
-            removeRelatedFiles(event.accountId, message.projectid, message.id)
-            removeRelatedComments(message.id)
+        event.messages.forEach {
+            removeRelatedFiles(event.accountId, it.projectid, it.id)
+            removeRelatedComments(it.id)
         }
     }
 
     private fun removeRelatedFiles(accountId: Int, projectId: Int, messageId: Int) {
         val attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
-                ProjectTypeConstants.MESSAGE, "" + messageId)
+                ProjectTypeConstants.MESSAGE, "$messageId")
         resourceService.removeResource(attachmentPath, "", true, accountId)
     }
 

@@ -66,7 +66,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
         val user = userService.findUserInAccount(event.inviteUser, event.sAccountId)
         val billingAccount = projectService.getAccountInfoOfProject(event.projectId)
 
-        if (user != null) {
+        if (project!= null && user != null) {
             contentGenerator.putVariable("inviteUser", user.displayName)
             contentGenerator.putVariable("inviteMessage", event.inviteMessage)
             contentGenerator.putVariable("project", project)

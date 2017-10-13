@@ -82,7 +82,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         billingPlanCheckerService.validateAccountCanCreateMoreProject(record.saccountid)
         assertExistProjectShortnameInAccount(null, record.shortname, record.saccountid)
         val projectId = super.saveWithSession(record, username)
-        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(ProjectService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf(ProjectService::class.java)))
         return projectId
     }
 
@@ -192,20 +192,18 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         return projectRole
     }
 
-    override fun findById(projectId: Int?, sAccountId: Int?): SimpleProject {
-        return projectMapperExt.findProjectById(projectId!!)
-    }
+    override fun findById(projectId: Int, sAccountId: Int): SimpleProject=
+         projectMapperExt.findProjectById(projectId)
 
-    override fun getProjectKeysUserInvolved(username: String, sAccountId: Int?): List<Int> {
+    override fun getProjectKeysUserInvolved(username: String, sAccountId: Int): List<Int> {
         val searchCriteria = ProjectSearchCriteria()
         searchCriteria.involvedMember = StringSearchField.and(username)
         searchCriteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getUserProjectKeys(searchCriteria)
     }
 
-    override fun getAccountInfoOfProject(projectId: Int?): BillingAccount {
-        return projectMapperExt.getAccountInfoOfProject(projectId!!)
-    }
+    override fun getAccountInfoOfProject(projectId: Int): BillingAccount =
+         projectMapperExt.getAccountInfoOfProject(projectId)
 
     override fun massRemoveWithSession(projects: List<Project>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(projects, username, sAccountId)
@@ -213,20 +211,18 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         asyncEventBus.post(event)
     }
 
-    override fun getTotalActiveProjectsInAccount(@CacheKey sAccountId: Int): Int? {
+    override fun getTotalActiveProjectsInAccount(@CacheKey sAccountId: Int): Int {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(sAccountId)
         criteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getTotalCount(criteria)
     }
 
-    override fun findProjectRelayEmailNotifications(): List<ProjectRelayEmailNotification> {
-        return projectMapperExt.findProjectRelayEmailNotifications()
-    }
+    override fun findProjectRelayEmailNotifications(): List<ProjectRelayEmailNotification> =
+         projectMapperExt.findProjectRelayEmailNotifications()
 
-    override fun getProjectsUserInvolved(username: String, sAccountId: Int?): List<SimpleProject> {
-        return projectMapperExt.getProjectsUserInvolved(username, sAccountId)
-    }
+    override fun getProjectsUserInvolved(username: String, sAccountId: Int): List<SimpleProject> =
+         projectMapperExt.getProjectsUserInvolved(username, sAccountId)
 
     override fun getTotalActiveProjectsOfInvolvedUsers(username: String, @CacheKey sAccountId: Int?): Int? {
         val criteria = ProjectSearchCriteria()

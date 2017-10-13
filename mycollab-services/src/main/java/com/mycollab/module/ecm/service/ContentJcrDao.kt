@@ -32,7 +32,7 @@ interface ContentJcrDao {
 
     fun rename(oldPath: String, newPath: String)
 
-    fun getResource(path: String): Resource
+    fun getResource(path: String): Resource?
 
     fun removeResource(path: String)
 

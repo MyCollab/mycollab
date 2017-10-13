@@ -34,14 +34,14 @@ import java.util.*
 class BugServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private val bugService: BugService? = null
+    private lateinit var bugService: BugService
 
     @DataSet
     @Test
     fun testGetListBugs() {
         val criteria = BugSearchCriteria()
         criteria.saccountid = NumberSearchField.equal(1)
-        val bugs = bugService!!.findPageableListByCriteria(BasicSearchRequest<BugSearchCriteria>(criteria)) as List<SimpleBug>
+        val bugs = bugService.findPageableListByCriteria(BasicSearchRequest<BugSearchCriteria>(criteria)) as List<SimpleBug>
 
         assertThat(bugs.size).isEqualTo(3)
         assertThat<SimpleBug>(bugs).extracting("id", "detail", "name").contains(
@@ -59,7 +59,7 @@ class BugServiceTest : IntegrationServiceTest() {
         criteria.name = StringSearchField.and("name")
         criteria.detail = StringSearchField.and("detail")
 
-        val bugs = bugService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
+        val bugs = bugService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
         assertThat(bugs.size).isEqualTo(1)
         assertThat<SimpleBug>(bugs).extracting("id", "detail", "name").contains(tuple(2, "detail 2", "name 2"))
     }
@@ -67,8 +67,8 @@ class BugServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun testGetExtBug() {
-        val bug = bugService!!.findById(1, 1)
-        assertThat(bug.loguserFullName).isEqualTo("Nguyen Hai")
+        val bug = bugService.findById(1, 1)
+        assertThat(bug!!.loguserFullName).isEqualTo("Nguyen Hai")
         assertThat(bug.assignuserFullName).isEqualTo("Nguyen Hai")
         assertThat(bug.affectedVersions.size).isEqualTo(1)
         assertThat(bug.fixedVersions.size).isEqualTo(2)
@@ -81,7 +81,7 @@ class BugServiceTest : IntegrationServiceTest() {
         val criteria = BugSearchCriteria()
         criteria.componentids = SetSearchField(1, 2)
 
-        val bugs = bugService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
+        val bugs = bugService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
 
         assertThat(bugs.size).isEqualTo(1)
         assertThat<SimpleBug>(bugs).extracting("id", "detail", "name").contains(
@@ -93,7 +93,7 @@ class BugServiceTest : IntegrationServiceTest() {
     fun testGetComponentDefectsSummary() {
         val criteria = BugSearchCriteria()
         criteria.projectId = NumberSearchField(1)
-        bugService!!.getComponentDefectsSummary(criteria)
+        bugService.getComponentDefectsSummary(criteria)
     }
 
     @DataSet
@@ -103,7 +103,7 @@ class BugServiceTest : IntegrationServiceTest() {
         criteria.fixedversionids = SetSearchField(1, 2, 3)
         criteria.affectedversionids = SetSearchField(1, 2, 3)
 
-        val bugs = bugService!!.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
+        val bugs = bugService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
 
         assertThat(bugs.size).isEqualTo(1)
         assertThat<SimpleBug>(bugs).extracting("id", "detail", "name").contains(tuple(1, "detail 1", "name 1"))
@@ -113,7 +113,7 @@ class BugServiceTest : IntegrationServiceTest() {
     @Test
     fun testSearchByAssignedUser() {
         val criteria = BugSearchCriteria()
-        val assignedDefectsSummary = bugService!!.getAssignedDefectsSummary(criteria)
+        val assignedDefectsSummary = bugService.getAssignedDefectsSummary(criteria)
 
         assertThat(assignedDefectsSummary.size).isEqualTo(2)
         assertThat(assignedDefectsSummary).extracting("groupid", "value", "extraValue").contains(tuple("admin", 1.0, null),
@@ -131,14 +131,14 @@ class BugServiceTest : IntegrationServiceTest() {
 
         criteria.updatedDate = DateSearchField(date.time)
 
-        assertThat(bugService!!.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)).size).isEqualTo(0)
+        assertThat(bugService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)).size).isEqualTo(0)
     }
 
     @DataSet
     @Test
     fun testBugStatus() {
         val criteria = BugSearchCriteria()
-        val groupItems = bugService!!.getStatusSummary(criteria)
+        val groupItems = bugService.getStatusSummary(criteria)
         assertThat(groupItems.size).isEqualTo(1)
         assertThat(groupItems).extracting("groupid", "value", "extraValue").contains(tuple("1", 3.0, null))
     }
@@ -151,7 +151,8 @@ class BugServiceTest : IntegrationServiceTest() {
         bug.status = "aaa"
         bug.projectid = 1
         bug.saccountid = 1
-        val bugId = bugService!!.saveWithSession(bug, "admin")
-        assertThat(bugService.findById(bugId, 1).name).isEqualTo("summary4")
+        val bugId = bugService.saveWithSession(bug, "admin")
+        val expectedBug = bugService.findById(bugId, 1);
+        assertThat(expectedBug!!.name).isEqualTo("summary4")
     }
 }

@@ -49,7 +49,7 @@ interface ISearchableService<S : SearchCriteria> : IService {
      * @return
      */
     @Cacheable
-    fun findAbsoluteListByCriteria(@CacheKey searchCriteria: S, firstIndex: Int?, numberOfItems: Int?): List<*>
+    fun findAbsoluteListByCriteria(@CacheKey searchCriteria: S, firstIndex: Int, numberOfItems: Int): List<*>
 
     /**
      * @param criteria
