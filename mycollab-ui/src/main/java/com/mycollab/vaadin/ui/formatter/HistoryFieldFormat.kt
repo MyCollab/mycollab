@@ -34,5 +34,5 @@ interface HistoryFieldFormat {
      * @param msgIfBlank
      * @return
      */
-    fun toString(value: String, displayAsHtml: Boolean?, msgIfBlank: String): String
+    fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String
 }

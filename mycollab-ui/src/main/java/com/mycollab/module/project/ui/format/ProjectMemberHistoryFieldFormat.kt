@@ -38,7 +38,7 @@ class ProjectMemberHistoryFieldFormat : HistoryFieldFormat {
 
     override fun toString(value: String): String = toString(value, true, "")
 
-    override fun toString(value: String, displayAsHtml: Boolean?, msgIfBlank: String): String {
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
         if (StringUtils.isBlank(value)) {
             return msgIfBlank
         }
@@ -47,7 +47,7 @@ class ProjectMemberHistoryFieldFormat : HistoryFieldFormat {
             val userService = AppContextUtil.getSpringBean(UserService::class.java)
             val user = userService.findUserByUserNameInAccount(value, AppUI.accountId)
             if (user != null) {
-                return if (displayAsHtml!!) {
+                return if (displayAsHtml) {
                     val userAvatar = Img("", AppContextUtil.getSpringBean(AbstractStorageService::class.java)
                             .getAvatarPath(user.avatarid, 16)).setCSSClass(UIConstants.CIRCLE_BOX)
                     val link = A().setId("tag" + TOOLTIP_ID).appendText(StringUtils.trim(user.displayName, 30, true))

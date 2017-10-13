@@ -14,15 +14,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.event
-
-import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+package com.mycollab.vaadin.web.ui.utils
 
 /**
- * @author MyCollab Ltd
- * @since 6.0.0
+ * @author MyCollab
+ * @since 1.0
  */
-object TicketEvent {
-    class GotoDashboard(source: Any, data: ProjectTicketSearchCriteria?) : ApplicationEvent(source)
+interface LabelStringGenerator {
+
+    fun handleText(value: String): String
+
 }

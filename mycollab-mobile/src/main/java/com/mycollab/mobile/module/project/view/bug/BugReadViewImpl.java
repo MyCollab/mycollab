@@ -148,7 +148,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         } else if (beanItem.isOverdue()) {
             beanTitle.setCSSClass(MobileUIConstants.LINK_OVERDUE);
         }
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() + " " + beanTitle.write();
+        return String.format("%s %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), beanTitle.write());
     }
 
     @Override

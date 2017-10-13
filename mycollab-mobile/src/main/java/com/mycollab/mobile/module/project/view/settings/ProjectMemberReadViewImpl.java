@@ -50,6 +50,8 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.util.Arrays;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.5.2
@@ -128,20 +130,18 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
             SimpleProjectRole role = roleService.findById(roleId, AppUI.getAccountId());
             if (role != null) {
                 final PermissionMap permissionMap = role.getPermissionMap();
-                for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-                    final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                Arrays.stream(ProjectRolePermissionCollections.PROJECT_PERMISSIONS).forEach(permissionPath -> {
                     Label permissionLbl = new Label(UserUIContext.getPermissionCaptionValue(permissionMap, permissionPath));
                     permissionLbl.setCaption(UserUIContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)));
                     permissionGroup.addComponent(permissionLbl);
-                }
+                });
             }
         } else {
-            for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-                final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            Arrays.stream(ProjectRolePermissionCollections.PROJECT_PERMISSIONS).forEach(permissionPath -> {
                 Label permissionLbl = new Label(UserUIContext.getMessage(SecurityI18nEnum.ACCESS));
                 permissionLbl.setCaption(permissionPath);
                 permissionGroup.addComponent(permissionLbl);
-            }
+            });
         }
     }
 
@@ -153,12 +153,11 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        AppUI.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
-                .getProjectId() + "/" + beanItem.getUsername()), beanItem.getDisplayName());
+        AppUI.addFragment(String.format("project/user/preview/%s", UrlEncodeDecoder.encode(CurrentProjectVariables
+                .getProjectId() + "/" + beanItem.getUsername())), beanItem.getDisplayName());
     }
 
     private class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 8920529536882351151L;
 
         private GridFormLayoutHelper informationLayout;
 

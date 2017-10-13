@@ -14,15 +14,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.event
+package com.mycollab.vaadin.ui.formatter
 
-import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+import com.mycollab.common.i18n.GenericI18Enum
+import com.mycollab.core.utils.StringUtils
+import com.mycollab.vaadin.UserUIContext
 
 /**
  * @author MyCollab Ltd
- * @since 6.0.0
+ * @since 5.3.4
  */
-object TicketEvent {
-    class GotoDashboard(source: Any, data: ProjectTicketSearchCriteria?) : ApplicationEvent(source)
+class DefaultHistoryFieldFormat : HistoryFieldFormat {
+
+    override fun toString(value: String): String =
+            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
+            when {
+                StringUtils.isNotBlank(value) -> if (value.length > 150) "${value.substring(0, 150)}..." else value
+                else -> msgIfBlank
+            }
 }

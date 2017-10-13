@@ -109,7 +109,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
         super.onBecomingVisible();
         setCaption(UserUIContext.getMessage(MilestoneI18nEnum.LIST));
         updateTabStatus();
-        AppUI.addFragment("project/milestone/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
+        AppUI.addFragment(String.format("project/milestone/list/%s", GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId())),
                 UserUIContext.getMessage(MilestoneI18nEnum.LIST));
     }
 

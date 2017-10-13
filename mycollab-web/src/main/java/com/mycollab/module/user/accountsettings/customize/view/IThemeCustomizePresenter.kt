@@ -14,15 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.event
+package com.mycollab.module.user.accountsettings.customize.view
 
-import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+import com.mycollab.vaadin.mvp.IPresenter
 
 /**
  * @author MyCollab Ltd
- * @since 6.0.0
+ * @since 5.3.1
  */
-object TicketEvent {
-    class GotoDashboard(source: Any, data: ProjectTicketSearchCriteria?) : ApplicationEvent(source)
-}
+interface IThemeCustomizePresenter : IPresenter<IThemeCustomizeView>

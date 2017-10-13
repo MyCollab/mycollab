@@ -59,11 +59,9 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
         return listOf()
     }
 
-    override fun getContents(path: String): List<Content> =
-            contentJcrDao.getContents(path)
+    override fun getContents(path: String): List<Content> = contentJcrDao.getContents(path)
 
-    override fun getSubFolders(path: String): List<Folder> =
-            contentJcrDao.getSubFolders(path)
+    override fun getSubFolders(path: String): List<Folder> = contentJcrDao.getSubFolders(path)
 
     override fun createNewFolder(baseFolderPath: String, folderName: String, description: String, createdBy: String): Folder {
         if (FileUtils.isValidFileName(folderName)) {
@@ -88,7 +86,6 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
             } catch (e: IOException) {
                 LOG.error("Can not get available bytes", e)
             }
-
         }
 
         // detect mimeType and set to content
@@ -104,7 +101,7 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
                 rawContentService.getContentStream(contentPath).use { newInputStream ->
                     val image = ImageUtil.generateImageThumbnail(newInputStream)
                     if (image != null) {
-                        val thumbnailPath = String.format(".thumbnail/%d/%s.%s", sAccountId, StringUtils.generateSoftUniqueId(), "png")
+                        val thumbnailPath = ".thumbnail/$sAccountId/${StringUtils.generateSoftUniqueId()}.png"
                         val tmpFile = File.createTempFile("tmp", "png")
                         ImageIO.write(image, "png", FileOutputStream(tmpFile))
                         rawContentService.saveContent(thumbnailPath, FileInputStream(tmpFile))
@@ -114,7 +111,6 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
             } catch (e: IOException) {
                 LOG.error("Error when generating thumbnail", e)
             }
-
         }
 
         contentJcrDao.saveContent(content, createdUser)
@@ -131,8 +127,7 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
     override fun removeResource(path: String, userDelete: String, isUpdateDriveInfo: Boolean?, sAccountId: Int?) {
         val res = contentJcrDao.getResource(path)
 
-        val event: DeleteResourcesEvent
-        event = when (res) {
+        val event = when (res) {
             is Folder -> DeleteResourcesEvent(arrayOf(path), userDelete, isUpdateDriveInfo!!, sAccountId)
             else -> DeleteResourcesEvent(arrayOf(path, (res as Content).thumbnail), userDelete, isUpdateDriveInfo!!, sAccountId)
         }
@@ -140,8 +135,7 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
         contentJcrDao.removeResource(path)
     }
 
-    override fun getContentStream(path: String): InputStream =
-            rawContentService.getContentStream(path)
+    override fun getContentStream(path: String): InputStream = rawContentService.getContentStream(path)
 
     override fun rename(oldPath: String, newPath: String, userUpdate: String) {
         contentJcrDao.rename(oldPath, newPath)
@@ -177,8 +171,7 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
 
     }
 
-    override fun getResource(path: String): Resource =
-            contentJcrDao.getResource(path)
+    override fun getResource(path: String): Resource = contentJcrDao.getResource(path)
 
     companion object {
         private val LOG = LoggerFactory.getLogger(ResourceServiceImpl::class.java)

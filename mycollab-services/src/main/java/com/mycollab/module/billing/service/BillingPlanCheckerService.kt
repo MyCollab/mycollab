@@ -27,11 +27,11 @@ import com.mycollab.module.billing.UsageExceedBillingPlanException
 @IgnoreCacheClass
 interface BillingPlanCheckerService : IService {
     @Throws(UsageExceedBillingPlanException::class)
-    fun validateAccountCanCreateMoreProject(sAccountId: Int?)
+    fun validateAccountCanCreateMoreProject(sAccountId: Int)
 
     @Throws(UsageExceedBillingPlanException::class)
-    fun validateAccountCanCreateNewUser(sAccountId: Int?)
+    fun validateAccountCanCreateNewUser(sAccountId: Int)
 
     @Throws(UsageExceedBillingPlanException::class)
-    fun validateAccountCanUploadMoreFiles(sAccountId: Int?, extraBytes: Long)
+    fun validateAccountCanUploadMoreFiles(sAccountId: Int, extraBytes: Long)
 }

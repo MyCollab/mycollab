@@ -49,13 +49,13 @@ import java.util.HashMap
 class AppExceptionServletHandler : GenericHttpServlet() {
 
     @Autowired
-    private val templateEngine: Configuration? = null
+    private lateinit var templateEngine: Configuration
 
     @Autowired
-    private val deploymentMode: IDeploymentMode? = null
+    private lateinit var deploymentMode: IDeploymentMode
 
     @Autowired
-    private val applicationConfiguration: ApplicationConfiguration? = null
+    private lateinit var applicationConfiguration: ApplicationConfiguration
 
     @Throws(ServletException::class, IOException::class)
     override fun onHandleRequest(request: HttpServletRequest, response: HttpServletResponse) {
@@ -83,12 +83,12 @@ class AppExceptionServletHandler : GenericHttpServlet() {
     @Throws(IOException::class, TemplateException::class)
     private fun responsePage404(response: HttpServletResponse) {
         val context = HashMap<String, Any>()
-        var defaultUrls = applicationConfiguration!!.defaultUrls()
-        defaultUrls += ("cdn_url" to deploymentMode!!.getCdnUrl())
+        var defaultUrls = applicationConfiguration.defaultUrls()
+        defaultUrls += ("cdn_url" to deploymentMode.getCdnUrl())
         context.put("defaultUrls", defaultUrls)
 
         val writer = StringWriter()
-        val template = templateEngine!!.getTemplate("page404.ftl", response.locale)
+        val template = templateEngine.getTemplate("page404.ftl", response.locale)
         template.process(context, writer)
 
         val html = writer.toString()
@@ -117,13 +117,13 @@ class AppExceptionServletHandler : GenericHttpServlet() {
         }
 
         val context = HashMap<String, Any>()
-        var  defaultUrls = applicationConfiguration!!.defaultUrls()
+        var  defaultUrls = applicationConfiguration.defaultUrls()
 
-        defaultUrls+=("cdn_url" to deploymentMode!!.getCdnUrl())
+        defaultUrls+=("cdn_url" to deploymentMode.getCdnUrl())
         context.put("defaultUrls", defaultUrls)
 
         val writer = StringWriter()
-        val template = templateEngine!!.getTemplate("page500.ftl", response.locale)
+        val template = templateEngine.getTemplate("page500.ftl", response.locale)
         template.process(context, writer)
 
         val html = writer.toString()

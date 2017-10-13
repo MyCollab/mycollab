@@ -31,7 +31,6 @@ public class BugSeverityListSelect extends I18NValueListSelect {
     private static final long serialVersionUID = 1L;
 
     public BugSeverityListSelect() {
-        super();
         this.setNullSelectionAllowed(false);
         this.setCaption(null);
         this.loadData(Arrays.asList(OptionI18nEnum.bug_severities));

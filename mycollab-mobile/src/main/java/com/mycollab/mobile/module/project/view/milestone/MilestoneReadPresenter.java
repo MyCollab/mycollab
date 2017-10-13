@@ -90,7 +90,7 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
                     getView().previewItem(milestone);
                     super.onGo(container, data);
 
-                    AppUI.addFragment("project/milestone/preview/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(), milestone.getId()),
+                    AppUI.addFragment(String.format("project/milestone/preview/%s", GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(), milestone.getId())),
                             milestone.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

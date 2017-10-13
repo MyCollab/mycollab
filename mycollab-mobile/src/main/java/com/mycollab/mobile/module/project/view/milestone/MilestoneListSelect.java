@@ -47,9 +47,7 @@ public class MilestoneListSelect extends ValueListSelect {
         BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<>(SimpleMilestone.class);
         beanItem.setBeanIdProperty("id");
 
-        for (SimpleMilestone milestone : milestones) {
-            beanItem.addBean(milestone);
-        }
+        milestones.forEach(beanItem::addBean);
 
         this.setContainerDataSource(beanItem);
         this.setItemCaptionPropertyId("name");

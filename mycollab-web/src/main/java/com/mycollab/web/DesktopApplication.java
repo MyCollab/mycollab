@@ -141,12 +141,12 @@ public class DesktopApplication extends AppUI {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String attr = headerNames.nextElement();
-            requestInfo.append(attr + ": " + request.getHeader(attr)).append('\n');
+            requestInfo.append(attr).append(": ").append(request.getHeader(attr)).append('\n');
         }
-        requestInfo.append("Subdomain: " + Utils.getSubDomain(request)).append('\n');
-        requestInfo.append("Remote address: " + request.getRemoteAddr()).append('\n');
-        requestInfo.append("Path info: " + request.getPathInfo()).append('\n');
-        requestInfo.append("Remote host: " + request.getRemoteHost()).append('\n');
+        requestInfo.append("Subdomain: ").append(Utils.getSubDomain(request)).append('\n');
+        requestInfo.append("Remote address: ").append(request.getRemoteAddr()).append('\n');
+        requestInfo.append("Path info: ").append(request.getPathInfo()).append('\n');
+        requestInfo.append("Remote host: ").append(request.getRemoteHost()).append('\n');
         return requestInfo.toString();
     }
 

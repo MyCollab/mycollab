@@ -35,10 +35,10 @@ import javax.servlet.http.HttpServletResponse
 class ResetPasswordUpdatePage : TemplateWebServletRequestHandler() {
 
     @Autowired
-    private val userService: UserService? = null
+    private lateinit var userService: UserService
 
     @Autowired
-    private val deploymentMode: IDeploymentMode? = null
+    private lateinit var deploymentMode: IDeploymentMode
 
     override fun onHandleRequest(request: HttpServletRequest, response: HttpServletResponse) {
         val pathInfo = request.pathInfo
@@ -46,11 +46,11 @@ class ResetPasswordUpdatePage : TemplateWebServletRequestHandler() {
             if (pathInfo != null) {
                 val urlTokenizer = UrlTokenizer(pathInfo)
                 val username = urlTokenizer.getString()
-                val user = userService!!.findUserByUserName(username)
+                val user = userService.findUserByUserName(username)
                 if (user == null) {
                     PageGeneratorUtil.responseUserNotExistPage(response, username, request.contextPath + "/")
                 } else {
-                    val loginURL = if (deploymentMode!!.isDemandEdition)
+                    val loginURL = if (deploymentMode.isDemandEdition)
                         "https://www.mycollab.com/sign-in?username=" + username
                     else
                         request.contextPath + "/"

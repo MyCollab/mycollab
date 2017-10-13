@@ -40,5 +40,5 @@ open class FileStorageServiceImpl : AbstractStorageService(), InitializingBean {
     }
 
     override fun generateAssetRelativeLink(resourceId: String): String =
-            "${deploymentMode!!.getCdnUrl()}$resourceId?v=${Version.getVersion()}"
+            "${deploymentMode.getCdnUrl()}$resourceId?v=${Version.getVersion()}"
 }

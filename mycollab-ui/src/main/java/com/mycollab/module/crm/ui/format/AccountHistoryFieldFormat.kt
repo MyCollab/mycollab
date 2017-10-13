@@ -42,7 +42,7 @@ class AccountHistoryFieldFormat : HistoryFieldFormat {
         return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
     }
 
-    override fun toString(value: String, displayAsHtml: Boolean?, msgIfBlank: String): String {
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
         if (StringUtils.isBlank(value)) {
             return msgIfBlank
         }
@@ -52,11 +52,11 @@ class AccountHistoryFieldFormat : HistoryFieldFormat {
         val account = accountService.findById(accountId, AppUI.accountId)
 
         if (account != null) {
-            return if (displayAsHtml!!) {
+            return if (displayAsHtml) {
                 val link = A(CrmLinkBuilder.generateAccountPreviewLinkFull(accountId)).
-                        setId("tag" + TOOLTIP_ID).
+                        setId("tag$TOOLTIP_ID").
                         appendChild(Text(account.accountname))
-                link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(CrmTypeConstants.ACCOUNT, accountId.toString() + ""))
+                link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(CrmTypeConstants.ACCOUNT, accountId.toString()))
                 link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction())
                 val div = DivLessFormatter().appendChild(Text(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT).html),
                         DivLessFormatter.EMPTY_SPACE, link)

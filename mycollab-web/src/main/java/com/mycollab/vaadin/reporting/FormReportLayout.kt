@@ -14,15 +14,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.event
+package com.mycollab.vaadin.reporting
 
-import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+import com.mycollab.form.view.builder.type.DynaForm
+
+import java.util.Arrays
+import java.util.HashSet
 
 /**
  * @author MyCollab Ltd
- * @since 6.0.0
+ * @since 5.2.11
  */
-object TicketEvent {
-    class GotoDashboard(source: Any, data: ProjectTicketSearchCriteria?) : ApplicationEvent(source)
+class FormReportLayout(val moduleName: String, val titleField: String, val dynaForm: DynaForm, vararg excludeFieldArr: String) {
+    var excludeFields: Set<String>? = null
+        private set
+
+    init {
+        if (excludeFieldArr.isNotEmpty()) {
+            this.excludeFields = HashSet(Arrays.asList(*excludeFieldArr))
+        } else {
+            this.excludeFields = HashSet()
+        }
+    }
 }

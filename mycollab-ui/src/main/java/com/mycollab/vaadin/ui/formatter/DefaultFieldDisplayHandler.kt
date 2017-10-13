@@ -14,15 +14,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.event
+package com.mycollab.vaadin.ui.formatter
 
-import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+import com.mycollab.common.domain.AuditChangeItem
+import com.mycollab.vaadin.UserUIContext
+import com.hp.gagawa.java.elements.Li
 
 /**
  * @author MyCollab Ltd
- * @since 6.0.0
+ * @since 5.3.4
  */
-object TicketEvent {
-    class GotoDashboard(source: Any, data: ProjectTicketSearchCriteria?) : ApplicationEvent(source)
+class DefaultFieldDisplayHandler @JvmOverloads constructor(val displayName: Enum<*>, val format: HistoryFieldFormat = DefaultHistoryFieldFormat()) {
+
+    fun generateLogItem(item: AuditChangeItem): String {
+        val li = Li().appendText(UserUIContext.getMessage(displayName) + ": ")
+                .appendText(format.toString(item.oldvalue))
+                .appendText("&nbsp; &rarr; &nbsp; ")
+                .appendText(format.toString(item.newvalue))
+        return li.write()
+    }
 }

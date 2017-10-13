@@ -14,15 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.event
+package com.mycollab.common.ui.components.notification
 
-import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+import com.mycollab.core.AbstractNotification
 
 /**
  * @author MyCollab Ltd
- * @since 6.0.0
+ * @since 5.0.4
  */
-object TicketEvent {
-    class GotoDashboard(source: Any, data: ProjectTicketSearchCriteria?) : ApplicationEvent(source)
-}
+class SmtpSetupNotification : AbstractNotification(AbstractNotification.SCOPE_GLOBAL, AbstractNotification.WARNING)

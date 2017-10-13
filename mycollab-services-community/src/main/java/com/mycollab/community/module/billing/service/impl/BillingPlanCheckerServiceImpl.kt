@@ -28,17 +28,15 @@ import org.springframework.stereotype.Service
 class BillingPlanCheckerServiceImpl : BillingPlanCheckerService {
 
     @Throws(UsageExceedBillingPlanException::class)
-    override fun validateAccountCanCreateMoreProject(sAccountId: Int?) {
-
+    override fun validateAccountCanCreateMoreProject(sAccountId: Int) {
     }
 
     @Throws(UsageExceedBillingPlanException::class)
-    override fun validateAccountCanCreateNewUser(sAccountId: Int?) {
+    override fun validateAccountCanCreateNewUser(sAccountId: Int) {
     }
 
     @Throws(UsageExceedBillingPlanException::class)
-    override fun validateAccountCanUploadMoreFiles(sAccountId: Int?, extraBytes: Long) {
-
+    override fun validateAccountCanUploadMoreFiles(sAccountId: Int, extraBytes: Long) {
     }
 
 }

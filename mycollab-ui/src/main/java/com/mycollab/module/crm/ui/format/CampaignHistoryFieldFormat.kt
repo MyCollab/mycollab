@@ -43,7 +43,7 @@ class CampaignHistoryFieldFormat : HistoryFieldFormat {
         return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
     }
 
-    override fun toString(value: String, displayAsHtml: Boolean?, msgIfBlank: String): String {
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
         if (StringUtils.isBlank(value)) {
             return msgIfBlank
         }

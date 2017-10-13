@@ -13,7 +13,7 @@
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <properties>
-        <jackrabbit.version>2.15.3</jackrabbit.version>
+        <jackrabbit.version>2.15.6</jackrabbit.version>
     </properties>
 
     <dependencies>

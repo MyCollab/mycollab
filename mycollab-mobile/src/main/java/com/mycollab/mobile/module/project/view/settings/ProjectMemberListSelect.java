@@ -35,7 +35,6 @@ import java.util.List;
 public class ProjectMemberListSelect extends ListSelect {
 
     public ProjectMemberListSelect() {
-        super();
         this.setImmediate(true);
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
         this.setRows(1);
@@ -45,9 +44,9 @@ public class ProjectMemberListSelect extends ListSelect {
 
         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> projectMembers = (List<SimpleProjectMember>) projectMemberService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
-        for (SimpleProjectMember projectMember : projectMembers) {
+        projectMembers.forEach(projectMember -> {
             addItem(projectMember.getUsername());
             setItemCaption(projectMember.getUsername(), projectMember.getDisplayName());
-        }
+        });
     }
 }

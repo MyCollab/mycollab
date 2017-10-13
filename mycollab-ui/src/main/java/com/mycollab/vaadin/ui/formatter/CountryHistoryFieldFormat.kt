@@ -14,15 +14,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.mobile.module.project.event
+package com.mycollab.vaadin.ui.formatter
 
-import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+import com.mycollab.core.utils.StringUtils
+import com.mycollab.vaadin.UserUIContext
+import java.util.*
 
 /**
  * @author MyCollab Ltd
- * @since 6.0.0
+ * @since 5.4.2
  */
-object TicketEvent {
-    class GotoDashboard(source: Any, data: ProjectTicketSearchCriteria?) : ApplicationEvent(source)
+class CountryHistoryFieldFormat : HistoryFieldFormat {
+    override fun toString(countryCode: String): String =
+            when {
+                StringUtils.isNotBlank(countryCode) -> {
+                    val obj = Locale("", countryCode)
+                    obj.getDisplayCountry(UserUIContext.getUserLocale())
+                }
+                else -> ""
+            }
+
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String = toString(value)
 }
