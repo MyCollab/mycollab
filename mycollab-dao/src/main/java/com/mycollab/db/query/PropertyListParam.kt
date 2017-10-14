@@ -24,17 +24,13 @@ import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum
  * @author MyCollab Ltd.
  * @since 4.0
  */
-class PropertyListParam<P>(id: String, table: String, column: String) : ColumnParam(id, table, column) {
+class PropertyListParam<in P>(id: String, table: String, column: String) : ColumnParam(id, table, column) {
 
-    fun buildPropertyParamInList(oper: String, value: Collection<P>): CollectionValueSearchField {
-        val IN_EXPR = "%s.%s in "
-        return CollectionValueSearchField(oper, String.format(IN_EXPR, this.table, this.column), value)
-    }
+    fun buildPropertyParamInList(oper: String, value: Collection<P>): CollectionValueSearchField =
+            CollectionValueSearchField(oper, "$table.$column in ", value)
 
-    fun buildPropertyParamNotInList(oper: String, value: Collection<P>): CollectionValueSearchField {
-        val NOT_IN_EXPR = "%s.%s not in "
-        return CollectionValueSearchField(oper, String.format(NOT_IN_EXPR, this.table, this.column), value)
-    }
+    fun buildPropertyParamNotInList(oper: String, value: Collection<P>): CollectionValueSearchField =
+            CollectionValueSearchField(oper, "$table.$column not in ", value)
 
     companion object {
 

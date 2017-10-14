@@ -33,27 +33,26 @@ import org.springframework.stereotype.Service
 @Service
 class ProjectNotificationSettingServiceImpl(private val projectNotificationSettingMapper: ProjectNotificationSettingMapper) : DefaultCrudService<Int, ProjectNotificationSetting>(), ProjectNotificationSettingService {
 
-
     override val crudMapper: ICrudGenericDAO<Int, ProjectNotificationSetting>
         get() = projectNotificationSettingMapper as ICrudGenericDAO<Int, ProjectNotificationSetting>
 
-    override fun findNotification(username: String, projectId: Int?, @CacheKey sAccountId: Int?): ProjectNotificationSetting {
+    override fun findNotification(username: String, projectId: Int, @CacheKey sAccountId: Int): ProjectNotificationSetting {
         val ex = ProjectNotificationSettingExample()
         ex.createCriteria().andUsernameEqualTo(username).andProjectidEqualTo(projectId).andSaccountidEqualTo(sAccountId)
         val settings = projectNotificationSettingMapper.selectByExample(ex)
-        if (settings.isNotEmpty()) {
-            return settings[0]
+        return if (settings.isNotEmpty()) {
+            settings[0]
         } else {
             val setting = ProjectNotificationSetting()
             setting.level = NotificationType.Default.name
             setting.projectid = projectId
             setting.saccountid = sAccountId
             setting.username = username
-            return setting
+            setting
         }
     }
 
-    override fun findNotifications(projectId: Int?, @CacheKey sAccountId: Int?): List<ProjectNotificationSetting> {
+    override fun findNotifications(projectId: Int, @CacheKey sAccountId: Int): List<ProjectNotificationSetting> {
         val ex = ProjectNotificationSettingExample()
         ex.createCriteria().andProjectidEqualTo(projectId).andSaccountidEqualTo(sAccountId)
         return projectNotificationSettingMapper.selectByExample(ex)

@@ -30,5 +30,5 @@ import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria
 interface CaseService : IDefaultService<Int, CaseWithBLOBs, CaseSearchCriteria> {
 
     @Cacheable
-    fun findById(caseId: Int?, @CacheKey sAccountId: Int?): SimpleCase
+    fun findById(caseId: Int, @CacheKey sAccountId: Int): SimpleCase?
 }

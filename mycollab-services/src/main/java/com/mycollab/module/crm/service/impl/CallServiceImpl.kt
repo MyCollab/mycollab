@@ -52,12 +52,11 @@ class CallServiceImpl(private val callMapper: CallMapper,
     override val crudMapper: ICrudGenericDAO<Int, CallWithBLOBs>
         get() = callMapper as ICrudGenericDAO<Int, CallWithBLOBs>
 
-    override fun findById(callId: Int?, sAccountId: Int?): SimpleCall {
-        return callMapperExt.findById(callId)
-    }
-
     override val searchMapper: ISearchableDAO<CallSearchCriteria>
         get() = callMapperExt
+
+    override fun findById(callId: Int, sAccountId: Int): SimpleCall? =
+            callMapperExt.findById(callId)
 
     override fun saveWithSession(record: CallWithBLOBs, username: String?): Int {
         val result = super.saveWithSession(record, username)
@@ -71,14 +70,14 @@ class CallServiceImpl(private val callMapper: CallMapper,
         return result
     }
 
-    override fun removeByCriteria(criteria: CallSearchCriteria, accountId: Int) {
-        super.removeByCriteria(criteria, accountId)
-        asyncEventBus.post(CleanCacheEvent(accountId, arrayOf(EventService::class.java)))
+    override fun removeByCriteria(criteria: CallSearchCriteria, sAccountId: Int) {
+        super.removeByCriteria(criteria, sAccountId)
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(EventService::class.java)))
     }
 
-    override fun massRemoveWithSession(items: List<CallWithBLOBs>, username: String?, accountId: Int) {
-        super.massRemoveWithSession(items, username, accountId)
-        asyncEventBus.post(CleanCacheEvent(accountId, arrayOf(EventService::class.java)))
+    override fun massRemoveWithSession(items: List<CallWithBLOBs>, username: String?, sAccountId: Int) {
+        super.massRemoveWithSession(items, username, sAccountId)
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(EventService::class.java)))
     }
 
     override fun massUpdateWithSession(record: CallWithBLOBs, primaryKeys: List<Int>, accountId: Int?) {

@@ -92,11 +92,11 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
         reportBuilder = report();
         titleContent = cmp.multiPageList();
         titleContent.add(defaultTitleComponent());
-        reportBuilder.setParameters(parameters);
+        reportBuilder.setParameters(getParameters());
         reportBuilder.title(titleContent)
                 .setPageFormat(PageType.A4, PageOrientation.PORTRAIT)
-                .pageFooter(cmp.pageXofY().setStyle(reportStyles.getBoldCenteredStyle()))
-                .setLocale(locale);
+                .pageFooter(cmp.pageXofY().setStyle(getReportStyles().getBoldCenteredStyle()))
+                .setLocale(getLocale());
     }
 
     @Override
@@ -114,7 +114,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
         try {
             String titleValue = (String) PropertyUtils.getProperty(bean, formReportLayout.getTitleField());
             HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text(titleValue)
-                    .setStyle(reportStyles.getH2Style()));
+                    .setStyle(getReportStyles().getH2Style()));
             titleContent.add(historyHeader, cmp.verticalGap(10));
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new MyCollabException("Error", e);
@@ -130,8 +130,8 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
 
             if (section.getHeader() != null) {
                 HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text(UserUIContext.getMessage(section.getHeader()))
-                        .setStyle(reportStyles.getH3Style()));
-                titleContent.add(historyHeader, reportStyles.line(), cmp.verticalGap(10));
+                        .setStyle(getReportStyles().getH3Style()));
+                titleContent.add(historyHeader, getReportStyles().line(), cmp.verticalGap(10));
             }
 
             if (section.isDeletedSection() || section.getFieldCount() == 0) {
@@ -156,7 +156,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                             LOG.error("Error while getting property {}", dynaField.getFieldName(), e);
                         }
                         HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(UserUIContext.getMessage(dynaField.getDisplayName()))
-                                        .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
+                                        .setFixedWidth(FORM_CAPTION).setStyle(getReportStyles().getFormCaptionStyle()),
                                 cmp.text(fieldGroupFormatter.getFieldDisplayHandler
                                         (dynaField.getFieldName()).getFormat().toString(value, false, "")));
                         titleContent.add(newRow);
@@ -185,7 +185,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                         try {
                             if (dynaField.isColSpan()) {
                                 HorizontalListBuilder newRow = cmp.horizontalList().add(cmp.text(UserUIContext.getMessage(dynaField.getDisplayName()))
-                                                .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
+                                                .setFixedWidth(FORM_CAPTION).setStyle(getReportStyles().getFormCaptionStyle()),
                                         cmp.text(fieldGroupFormatter.getFieldDisplayHandler
                                                 (dynaField.getFieldName()).getFormat().toString(value, false, "")));
                                 titleContent.add(newRow);
@@ -193,13 +193,13 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                             } else {
                                 if (columnIndex == 0) {
                                     tmpRow = cmp.horizontalList().add(cmp.text(UserUIContext.getMessage(dynaField.getDisplayName()))
-                                                    .setFixedWidth(FORM_CAPTION).setStyle(reportStyles.getFormCaptionStyle()),
+                                                    .setFixedWidth(FORM_CAPTION).setStyle(getReportStyles().getFormCaptionStyle()),
                                             cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
                                                     .getFormat().toString(value, false, "")));
                                     titleContent.add(tmpRow);
                                 } else {
                                     tmpRow.add(cmp.text(UserUIContext.getMessage(dynaField.getDisplayName())).setFixedWidth(FORM_CAPTION)
-                                                    .setStyle(reportStyles.getFormCaptionStyle()),
+                                                    .setStyle(getReportStyles().getFormCaptionStyle()),
                                             cmp.text(fieldGroupFormatter.getFieldDisplayHandler(dynaField.getFieldName())
                                                     .getFormat().toString(value, false, "")));
                                 }
@@ -247,8 +247,8 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
         final int logCount = auditLogService.getTotalCount(logCriteria);
         int totalNums = commentCount + logCount;
         HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text("History (" + totalNums + ")")
-                .setStyle(reportStyles.getH3Style()));
-        titleContent.add(historyHeader, reportStyles.line(), cmp.verticalGap(10));
+                .setStyle(getReportStyles().getH3Style()));
+        titleContent.add(historyHeader, getReportStyles().line(), cmp.verticalGap(10));
 
         List<SimpleComment> comments = (List<SimpleComment>) commentService.findPageableListByCriteria(new BasicSearchRequest<>(commentCriteria));
         List<SimpleAuditLog> auditLogs = (List<SimpleAuditLog>) auditLogService.findPageableListByCriteria(new BasicSearchRequest<>(logCriteria));
@@ -272,22 +272,22 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
 
     private ComponentBuilder buildCommentBlock(SimpleComment comment) {
         TextFieldBuilder<String> authorField = cmp.text(StringUtils.trimHtmlTags(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                UserUIContext.formatPrettyTime(comment.getCreatedtime())), Integer.MAX_VALUE)).setStyle(reportStyles.getMetaInfoStyle());
+                UserUIContext.formatPrettyTime(comment.getCreatedtime())), Integer.MAX_VALUE)).setStyle(getReportStyles().getMetaInfoStyle());
         HorizontalListBuilder infoHeader = cmp.horizontalFlowList().add(authorField);
         return cmp.verticalList(infoHeader, cmp.text(StringUtils.trimHtmlTags(comment.getComment(), Integer.MAX_VALUE)))
-                .setStyle(reportStyles.getBorderStyle());
+                .setStyle(getReportStyles().getBorderStyle());
     }
 
     private ComponentBuilder buildAuditBlock(SimpleAuditLog auditLog) {
         List<AuditChangeItem> changeItems = auditLog.getChangeItems();
-        FormReportLayout formReportLayout = (FormReportLayout) parameters.get("layout");
+        FormReportLayout formReportLayout = (FormReportLayout) getParameters().get("layout");
         FieldGroupFormatter fieldGroupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(formReportLayout.getModuleName());
         if (CollectionUtils.isNotEmpty(changeItems)) {
             TextFieldBuilder<String> authorField = cmp.text(StringUtils.trimHtmlTags(UserUIContext.getMessage(
                     GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(), UserUIContext.formatPrettyTime
-                            (auditLog.getPosteddate())), Integer.MAX_VALUE)).setStyle(reportStyles.getMetaInfoStyle());
+                            (auditLog.getPosteddate())), Integer.MAX_VALUE)).setStyle(getReportStyles().getMetaInfoStyle());
             HorizontalListBuilder infoHeader = cmp.horizontalFlowList().add(authorField);
-            VerticalListBuilder block = cmp.verticalList().add(infoHeader).setStyle(reportStyles.getBorderStyle());
+            VerticalListBuilder block = cmp.verticalList().add(infoHeader).setStyle(getReportStyles().getBorderStyle());
             for (int i = 0; i < changeItems.size(); i++) {
                 AuditChangeItem item = changeItems.get(i);
                 String fieldName = item.getField();
@@ -296,7 +296,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                 if (fieldDisplayHandler != null) {
                     HorizontalListBuilder changeBlock = cmp.horizontalFlowList();
                     TextFieldBuilder<String> fieldLbl = cmp.text(UserUIContext.getMessage(fieldDisplayHandler
-                            .getDisplayName())).setStyle(reportStyles.getMetaInfoStyle());
+                            .getDisplayName())).setStyle(getReportStyles().getMetaInfoStyle());
                     TextFieldBuilder<String> oldValue = cmp.text(fieldDisplayHandler.getFormat().toString(item.getOldvalue(), false, ""));
                     TextFieldBuilder<String> newValue = cmp.text(fieldDisplayHandler.getFormat().toString(item.getNewvalue(), false, ""));
                     changeBlock.add(fieldLbl, oldValue, cmp.text(" -> "), newValue);

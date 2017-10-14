@@ -26,29 +26,29 @@ import com.mycollab.vaadin.AppUI
 object CrmLinkBuilder {
 
     @JvmStatic fun generateAccountPreviewLinkFull(accountId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateAccountPreviewLink(accountId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateAccountPreviewLink(accountId)}"""
 
     @JvmStatic fun generateCampaignPreviewLinkFull(campaignId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateCampaignPreviewLink(campaignId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateCampaignPreviewLink(campaignId)}"""
 
     @JvmStatic fun generateCasePreviewLinkFull(caseId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateCasePreviewLink(caseId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateCasePreviewLink(caseId)}"""
 
     @JvmStatic fun generateContactPreviewLinkFull(contactId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateContactPreviewLink(contactId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateContactPreviewLink(contactId)}"""
 
     @JvmStatic fun generateLeadPreviewLinkFull(leadId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateLeadPreviewLink(leadId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateLeadPreviewLink(leadId)}"""
 
     @JvmStatic fun generateOpportunityPreviewLinkFull(opportunityId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateOpportunityPreviewLink(opportunityId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateOpportunityPreviewLink(opportunityId)}"""
 
     @JvmStatic fun generateActivityPreviewLinkFull(type: String, typeId: Int?): String =
             CrmLinkGenerator.generateCrmItemFullLink(AppUI.siteUrl, type, typeId)
 
     @JvmStatic fun generateMeetingPreviewLinkFull(meetingId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateMeetingPreviewLink(meetingId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateMeetingPreviewLink(meetingId)}"""
 
     @JvmStatic fun generateCallPreviewLinkFul(callId: Int?): String =
-            URL_PREFIX_PARAM + CrmLinkGenerator.generateCallPreviewLink(callId)
+            """$URL_PREFIX_PARAM${CrmLinkGenerator.generateCallPreviewLink(callId)}"""
 }

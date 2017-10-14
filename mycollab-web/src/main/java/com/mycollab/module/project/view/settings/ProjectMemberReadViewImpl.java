@@ -157,7 +157,6 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     }
 
     private class ProjectMemberReadLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 8833593761607165873L;
 
         @Override
         public AbstractComponent getLayout() {
@@ -278,9 +277,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             isOpenSelection.addValueChangeListener(valueChangeEvent -> {
                 boolean isOpenOption = isOpenSelection.getValue();
                 if (isOpenOption) {
-                    searchCriteria.setIsOpenned(new SearchField());
+                    searchCriteria.setOpenned(new SearchField());
                 } else {
-                    searchCriteria.setIsOpenned(null);
+                    searchCriteria.setOpenned(null);
                 }
                 updateSearchResult();
             });
@@ -297,7 +296,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setAssignUser(StringSearchField.and(beanItem.getUsername()));
-            searchCriteria.setIsOpenned(new SearchField());
+            searchCriteria.setOpenned(new SearchField());
             updateSearchResult();
         }
 

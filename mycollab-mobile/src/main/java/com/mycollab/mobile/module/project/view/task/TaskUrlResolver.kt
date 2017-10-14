@@ -68,9 +68,13 @@ class TaskUrlResolver : ProjectUrlResolver() {
                 val prjShortName = ProjectLinkParams.getProjectShortName(params[0])
                 val itemKey = ProjectLinkParams.getItemKey(params[0])
                 val task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppUI.accountId)
-                val chain = PageActionChain(ProjectScreenData.Goto(task.projectid), TaskScreenData.Edit(task))
-                EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-            } else throw MyCollabException("Can not find task link ${Arrays.toString(params)}")
+                if (task != null) {
+                    val chain = PageActionChain(ProjectScreenData.Goto(task.projectid), TaskScreenData.Edit(task))
+                    EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
+                } else {
+                    throw ResourceNotFoundException("Can not find the task with path $params")
+                }
+            } else throw MyCollabException("Can not find task link $params")
         }
     }
 

@@ -75,7 +75,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
         if (notificationSettings.isNotEmpty()) {
             notificationSettings.forEach {
                 if ((NotificationType.None.name == it.level) || (NotificationType.Minimal.name == it.level)) {
-                    notifyUsers = notifyUsers.filter { notifyUser -> !(notifyUser.username == it.username) }
+                    notifyUsers = notifyUsers.filter { notifyUser -> notifyUser.username != it.username }
                 }
             }
         }
@@ -206,7 +206,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
             MailI18nEnum.Project_Footer, getProjectName(), getProjectNotificationSettingLink(context))
 
     private fun getProjectNotificationSettingLink(context: MailContext<B>) =
-            A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId)).
+            A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId!!)).
                     appendText(LocalizationHelper.getMessage(context.locale, MailI18nEnum.Project_Notification_Setting)).write()
 
 

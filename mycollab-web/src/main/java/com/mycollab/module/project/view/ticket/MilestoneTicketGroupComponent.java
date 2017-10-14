@@ -66,14 +66,18 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
         headerLbl = ELabel.h3("");
 
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-        milestone = milestoneService.findById(milestoneId, AppUI.getAccountId());
-        if (milestone != null) {
-            ELabel milestoneDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_FROM_TO,
-                    UserUIContext.formatDate(milestone.getStartdate()), UserUIContext.formatDate(milestone.getEnddate())))
-                    .withStyleName(UIConstants.META_INFO);
-            headerGroup = new MVerticalLayout(headerLbl, milestoneDateLbl).withMargin(false);
-        } else {
+        if (milestoneId == null) {
             headerGroup = new MVerticalLayout(headerLbl).withMargin(false);
+        } else {
+            milestone = milestoneService.findById(milestoneId, AppUI.getAccountId());
+            if (milestone != null) {
+                ELabel milestoneDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_FROM_TO,
+                        UserUIContext.formatDate(milestone.getStartdate()), UserUIContext.formatDate(milestone.getEnddate())))
+                        .withStyleName(UIConstants.META_INFO);
+                headerGroup = new MVerticalLayout(headerLbl, milestoneDateLbl).withMargin(false);
+            } else {
+                headerGroup = new MVerticalLayout(headerLbl).withMargin(false);
+            }
         }
 
         with(headerGroup);

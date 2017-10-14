@@ -49,15 +49,15 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
 
     @Override
     public void initReport() throws Exception {
-        LOG.info("Export document: " + outputForm);
-        if (outputForm == ReportExportType.PDF) {
-            reportBuilder = new PdfReportBuilder(reportTitle, locale, fieldBuilder, classType, parameters);
-        } else if (outputForm == ReportExportType.CSV) {
-            reportBuilder = new CsvReportBuilder(reportTitle, locale, fieldBuilder, classType, parameters);
-        } else if (outputForm == ReportExportType.EXCEL) {
-            reportBuilder = new XlsReportBuilder(reportTitle, locale, fieldBuilder, classType, parameters);
+        LOG.info("Export document: " + getOutputForm());
+        if (getOutputForm() == ReportExportType.PDF) {
+            reportBuilder = new PdfReportBuilder(getLocale(), fieldBuilder, classType, getParameters());
+        } else if (getOutputForm() == ReportExportType.CSV) {
+            reportBuilder = new CsvReportBuilder(getLocale(), fieldBuilder, classType, getParameters());
+        } else if (getOutputForm() == ReportExportType.EXCEL) {
+            reportBuilder = new XlsReportBuilder(getLocale(), fieldBuilder, classType, getParameters());
         } else {
-            throw new IllegalArgumentException("Do not support output type " + outputForm);
+            throw new IllegalArgumentException("Do not support output type " + getOutputForm());
         }
     }
 
@@ -79,9 +79,9 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
 
         @Override
         public void fillReport() {
-            S searchCriteria = (S) parameters.get(CRITERIA);
+            S searchCriteria = (S) getParameters().get(CRITERIA);
             totalItems = searchService.getTotalCount(searchCriteria);
-            reportBuilder.setTitle(reportTitle + "(" + totalItems + ")");
+            reportBuilder.setTitle(getReportTitle() + "(" + totalItems + ")");
             reportBuilder.setDataSource(new GroupIteratorDataSource(searchService, searchCriteria, totalItems));
             LOG.info(String.format("Fill report %d items and criteria %s", totalItems, BeanUtility.printBeanObj(searchCriteria)));
         }
@@ -99,7 +99,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
         public void fillReport() {
             BeanDataSource ds = new BeanDataSource(data);
             int totalItems = data.size();
-            reportBuilder.setTitle(reportTitle + "(" + totalItems + ")");
+            reportBuilder.setTitle(getReportTitle() + "(" + totalItems + ")");
             reportBuilder.setDataSource(ds);
             LOG.info(String.format("Fill report %d items", totalItems));
         }

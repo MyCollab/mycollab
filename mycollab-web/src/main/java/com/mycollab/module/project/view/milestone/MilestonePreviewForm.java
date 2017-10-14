@@ -121,9 +121,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             final CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
                 if (openSelection.getValue()) {
-                    searchCriteria.setIsOpenned(new SearchField());
+                    searchCriteria.setOpenned(new SearchField());
                 } else {
-                    searchCriteria.setIsOpenned(null);
+                    searchCriteria.setOpenned(null);
                 }
                 updateSearchStatus();
             });
@@ -163,7 +163,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             this.with(header, assignmentsLayout);
             searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setIsOpenned(new SearchField());
+            searchCriteria.setOpenned(new SearchField());
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
             searchCriteria.setMilestoneId(new NumberSearchField(beanItem.getId()));
             updateSearchStatus();

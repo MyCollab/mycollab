@@ -51,9 +51,8 @@ class CaseServiceImpl(private val caseMapper: CaseMapper,
     override val searchMapper: ISearchableDAO<CaseSearchCriteria>
         get() = caseMapperExt
 
-    override fun findById(caseId: Int?, sAccountId: Int?): SimpleCase {
-        return caseMapperExt.findById(caseId)
-    }
+    override fun findById(caseId: Int, sAccountId: Int): SimpleCase? =
+            caseMapperExt.findById(caseId)
 
     companion object {
         init {

@@ -129,7 +129,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK,
                     ProjectTypeConstants.TASK));
             searchCriteria.setMilestoneId(NumberSearchField.equal(milestone.getId()));
-            searchCriteria.setIsOpenned(new SearchField());
+            searchCriteria.setOpenned(new SearchField());
             ProjectTicketService genericTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
             int openAssignmentsCount = genericTaskService.getTotalCount(searchCriteria);
             if (openAssignmentsCount > 0) {

@@ -55,13 +55,12 @@ class TaskServiceImpl(private val taskMapper: CrmTaskMapper,
     override val searchMapper: ISearchableDAO<CrmTaskSearchCriteria>
         get() = taskMapperExt
 
-    override fun findById(taskId: Int?, sAccountId: Int?): SimpleCrmTask {
-        return taskMapperExt.findById(taskId)
-    }
+    override fun findById(taskId: Int, sAccountId: Int): SimpleCrmTask? =
+            taskMapperExt.findById(taskId)
 
     override fun saveWithSession(record: CrmTask, username: String?): Int {
         val result = super.saveWithSession(record, username)
-        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf(EventService::class.java)))
         return result
     }
 
@@ -73,23 +72,23 @@ class TaskServiceImpl(private val taskMapper: CrmTaskMapper,
 
     override fun removeByCriteria(criteria: CrmTaskSearchCriteria, sAccountId: Int) {
         super.removeByCriteria(criteria, sAccountId)
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(EventService::class.java)))
     }
 
-    override fun massRemoveWithSession(tasks: List<CrmTask>, username: String?, sAccountId: Int) {
-        super.massRemoveWithSession(tasks, username, sAccountId)
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(EventService::class.java)))
+    override fun massRemoveWithSession(items: List<CrmTask>, username: String?, sAccountId: Int) {
+        super.massRemoveWithSession(items, username, sAccountId)
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(EventService::class.java)))
     }
 
     override fun massUpdateWithSession(record: CrmTask, primaryKeys: List<Int>, accountId: Int?) {
         super.massUpdateWithSession(record, primaryKeys, accountId)
-        asyncEventBus.post(CleanCacheEvent(accountId, arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(accountId, arrayOf(EventService::class.java)))
     }
 
     override fun updateBySearchCriteria(record: CrmTask, searchCriteria: CrmTaskSearchCriteria) {
         super.updateBySearchCriteria(record, searchCriteria)
-        asyncEventBus.post(CleanCacheEvent(searchCriteria.accountId.value as Int,
-                arrayOf<Class<*>>(EventService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(searchCriteria.accountId!!.value as Int,
+                arrayOf(EventService::class.java)))
     }
 
     companion object {

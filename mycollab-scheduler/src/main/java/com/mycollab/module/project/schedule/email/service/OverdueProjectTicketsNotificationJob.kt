@@ -118,7 +118,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
                         val overdueAssignments = "${LocalizationHelper.getMessage(userLocale, TicketI18nEnum.VAL_OVERDUE_TICKETS)}(${assignments.size})"
                         contentGenerator.putVariable("overdueAssignments", overdueAssignments)
                         extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
-                                "[%s] %s".format(projectName, overdueAssignments), content)
+                                "[$projectName] $overdueAssignments", content)
                     }
                 }
             }
@@ -144,7 +144,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
         class OverdueAssignmentFormatter {
             fun formatDate(date: Date?): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd", Locale.US)
 
-            fun formatLink(subDomain: String, assignment: ProjectTicket): String {
+            fun formatLink(subDomain: String?, assignment: ProjectTicket): String {
                 val mode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
                 try {
                     return when (assignment.type) {

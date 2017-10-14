@@ -372,7 +372,7 @@ public class DesktopApplication extends AppUI {
         @Subscribe
         public void handle(ShellEvent.NotifyErrorEvent event) {
             final Throwable e = (Throwable) event.getData();
-            AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+            AsyncInvoker.INSTANCE.access(getUI(), new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     handleException(null, e);

@@ -30,5 +30,5 @@ import com.mycollab.module.crm.domain.criteria.CallSearchCriteria
 interface CallService : IDefaultService<Int, CallWithBLOBs, CallSearchCriteria> {
 
     @Cacheable
-    fun findById(callId: Int?, @CacheKey sAccountId: Int?): SimpleCall?
+    fun findById(callId: Int, @CacheKey sAccountId: Int): SimpleCall?
 }

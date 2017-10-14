@@ -51,9 +51,9 @@ class ConfirmEmailHandler : GenericHttpServlet() {
             if (user != null) {
                 user.status = UserStatusConstants.EMAIL_VERIFIED
                 userServices.updateWithSession(user, username)
-                response.sendRedirect(request.contextPath + "/")
+                response.sendRedirect("${request.contextPath}/")
             } else {
-                PageGeneratorUtil.responseUserNotExistPage(response, username, request.contextPath + "/")
+                PageGeneratorUtil.responseUserNotExistPage(response, username, "${request.contextPath}/")
             }
         } else {
             throw ResourceNotFoundException("Can not find user from path $pathInfo")

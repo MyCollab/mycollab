@@ -43,13 +43,13 @@ class ProjectSendingRelayEmailNotificationJob : GenericQuartzJobBean() {
     }
 
     @Autowired
-    private val projectService: ProjectService? = null
+    private lateinit var projectService: ProjectService
 
     @Autowired
-    private val relayNotificationMapper: RelayEmailNotificationMapper? = null
+    private lateinit var relayNotificationMapper: RelayEmailNotificationMapper
 
     override fun executeJob(context: JobExecutionContext) {
-        val relayEmailNotifications = projectService!!.findProjectRelayEmailNotifications()
+        val relayEmailNotifications = projectService.findProjectRelayEmailNotifications()
         relayEmailNotifications.forEach {
             try {
                 val mailServiceCls = MailServiceMap.service(it.type)
@@ -63,7 +63,7 @@ class ProjectSendingRelayEmailNotificationJob : GenericQuartzJobBean() {
             } catch (e: Exception) {
                 LOG.error("Error while sending scheduler command", e)
             } finally {
-                relayNotificationMapper!!.deleteByPrimaryKey(it.id)
+                relayNotificationMapper.deleteByPrimaryKey(it.id)
             }
         }
     }

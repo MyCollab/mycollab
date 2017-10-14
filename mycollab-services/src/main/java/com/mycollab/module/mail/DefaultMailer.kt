@@ -42,11 +42,10 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
             email.isSSLOnConnect = emailConf.isSsl
             email.setFrom(fromEmail, fromName)
             email.setCharset(EmailConstants.UTF_8)
-            for (aToEmail in toEmail) {
-                if (isValidate(aToEmail.email) && isValidate(aToEmail.name)) {
-                    email.addTo(aToEmail.email, aToEmail.name)
-                } else {
-                    LOG.error(String.format("Invalid to email input: %s---%s", aToEmail.email, aToEmail.name))
+            toEmail.forEach {
+                when {
+                    isValidate(it.email) && isValidate(it.name) -> email.addTo(it.email, it.name)
+                    else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
                 }
             }
 
@@ -54,7 +53,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
                 ccEmail.forEach {
                     when {
                         isValidate(it.email) && isValidate(it.name) -> email.addCc(it.email, it.name)
-                        else -> LOG.error(String.format("Invalid cc email input: %s---%s", it.email, it.name))
+                        else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
                     }
                 }
             }
@@ -63,7 +62,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
                 bccEmail.forEach {
                     when {
                         isValidate(it.email) && isValidate(it.name) -> email.addBcc(it.email, it.name)
-                        else -> LOG.error(String.format("Invalid bcc email input: %s---%s", it.email, it.name))
+                        else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
                     }
                 }
             }

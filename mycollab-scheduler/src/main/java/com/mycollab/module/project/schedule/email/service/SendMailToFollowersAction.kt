@@ -71,17 +71,17 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
             bean = getBeanInContext(projectRelayEmailNotification)
             if (bean != null) {
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
-                notifiers.forEach { user ->
-                    val context = MailContext<B>(notification, user, siteUrl)
+                notifiers.forEach {
+                    val context = MailContext<B>(notification, it, siteUrl)
                     context.wrappedBean = bean
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("context", context)
                     contentGenerator.putVariable("mapper", getItemFieldMapper())
-                    contentGenerator.putVariable("userName", user.displayName)
+                    contentGenerator.putVariable("userName", it.displayName)
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
-                    val userMail = MailRecipientField(user.email, user.username)
+                    val userMail = MailRecipientField(it.email, it.username)
                     val recipients = arrayListOf(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                             getCreateSubject(context), contentGenerator.parseFile("mailProjectItemCreatedNotifier.ftl", context.locale))
@@ -148,17 +148,17 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
                 val comments = commentService.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
                 contentGenerator.putVariable("lastComments", comments)
 
-                notifiers.forEach { user ->
-                    val context = MailContext<B>(notification, user, siteUrl)
+                notifiers.forEach {
+                    val context = MailContext<B>(notification, it, siteUrl)
                     context.wrappedBean = bean
                     buildExtraTemplateVariables(context)
-                    val userLocale = LocalizationHelper.getLocaleInstance(user.language)
+                    val userLocale = LocalizationHelper.getLocaleInstance(it.language)
                     contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Last_Comments_Value, "" + comments.size))
                     contentGenerator.putVariable("comment", context.emailNotification)
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
-                    val userMail = MailRecipientField(user.email, user.username)
+                    val userMail = MailRecipientField(it.email, it.username)
                     val toRecipients = arrayListOf(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), toRecipients,
                             getCommentSubject(context), contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.locale))
@@ -177,7 +177,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
             projectMember = projectMemberService.findMemberByUsername(notification.changeby, notification.projectId,
                     notification.saccountid)
         } else {
-         throw ResourceNotFoundException("Can not find project ${notification.projectId} in account ${notification.saccountid}")
+            throw ResourceNotFoundException("Can not find project ${notification.projectId} in account ${notification.saccountid}")
         }
     }
 
@@ -191,7 +191,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
             MailI18nEnum.Project_Footer, getProjectName(), getProjectNotificationSettingLink(context))
 
     private fun getProjectNotificationSettingLink(context: MailContext<B>): String {
-        return A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId)).
+        return A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId!!)).
                 appendText(LocalizationHelper.getMessage(context.locale, MailI18nEnum.Project_Notification_Setting)).write()
     }
 

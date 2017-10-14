@@ -25,7 +25,7 @@ import com.mycollab.db.arguments.SearchCriteria
  */
 abstract class SearchCriteriaBridgeParam<S : SearchCriteria>(id: String) : Param(id) {
 
-    abstract fun injectCriteriaInList(searchCriteria: S, oper: String, value: Collection<*>): S
+    abstract fun injectCriteriaInList(searchCriteria: S, oper: String, value: Collection<String>): S
 
-    abstract fun injectCriteriaNotInList(searchCriteria: S, oper: String, value: Collection<*>): S
+    abstract fun injectCriteriaNotInList(searchCriteria: S, oper: String, value: Collection<String>): S
 }

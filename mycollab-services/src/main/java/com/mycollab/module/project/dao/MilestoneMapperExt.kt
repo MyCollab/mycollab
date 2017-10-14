@@ -27,11 +27,11 @@ import org.apache.ibatis.annotations.Param
  */
 interface MilestoneMapperExt : ISearchableDAO<MilestoneSearchCriteria> {
 
-    fun findById(milestoneId: Int?): SimpleMilestone
+    fun findById(milestoneId: Int): SimpleMilestone?
 
-    fun getTotalBillableHours(@Param("milestoneid") milestoneId: Int): Double?
+    fun getTotalBillableHours(@Param("milestoneid") milestoneId: Int): Double
 
-    fun getTotalNonBillableHours(@Param("milestoneid") milestoneId: Int): Double?
+    fun getTotalNonBillableHours(@Param("milestoneid") milestoneId: Int): Double
 
-    fun getRemainHours(@Param("milestoneid") milestoneId: Int): Double?
+    fun getRemainHours(@Param("milestoneid") milestoneId: Int): Double
 }

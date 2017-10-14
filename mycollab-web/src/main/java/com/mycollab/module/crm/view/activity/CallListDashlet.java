@@ -78,7 +78,7 @@ public class CallListDashlet extends Depot {
         final CallSearchCriteria criteria = new CallSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
         criteria.setAssignUsers(new SetSearchField<>(UserUIContext.getUsername()));
-        criteria.setIsClosed(BitSearchField.FALSE);
+        criteria.setClosed(BitSearchField.FALSE);
         tableItem.setSearchCriteria(criteria);
     }
 }

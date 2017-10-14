@@ -111,7 +111,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
     private void updateCaption() {
         if (notificationItems.size() > 0) {
             UI ui = getUI();
-            AsyncInvoker.access(ui, new AsyncInvoker.PageCommand() {
+            AsyncInvoker.INSTANCE.access(ui, new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     NotificationComponent.this.setCaption("" + notificationItems.size());
@@ -149,7 +149,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             no.setDelayMsec(300000);
 
             UI currentUI = this.getUI();
-            AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+            AsyncInvoker.INSTANCE.access(getUI(), new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     no.show(currentUI.getPage());

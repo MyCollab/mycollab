@@ -27,6 +27,7 @@ import com.mycollab.common.domain.GroupItem
 import com.mycollab.common.event.TimelineTrackingAdjustIfEntityDeleteEvent
 import com.mycollab.common.event.TimelineTrackingUpdateEvent
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
+import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.cache.CleanCache
@@ -37,7 +38,6 @@ import com.mycollab.db.arguments.SearchField
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.db.persistence.service.DefaultService
-import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.dao.TaskMapper
 import com.mycollab.module.project.dao.TaskMapperExt
@@ -77,9 +77,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
     override val searchMapper: ISearchableDAO<TaskSearchCriteria>
         get() = taskMapperExt
 
-    override fun findById(taskId: Int?, sAccountId: Int?): SimpleTask {
-        return taskMapperExt.findTaskById(taskId!!)
-    }
+    override fun findById(taskId: Int, sAccountId: Int): SimpleTask = taskMapperExt.findTaskById(taskId)
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     override fun saveWithSession(record: Task, username: String?): Int {
@@ -95,7 +93,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
             record.priority = Priority.Medium.name
         }
         record.createduser = username
-        val lock = DistributionLockUtil.getLock("task-" + record.saccountid!!)
+        val lock = DistributionLockUtil.getLock("task-${record.saccountid!!}")
 
         try {
             if (lock.tryLock(120, TimeUnit.SECONDS)) {
@@ -112,7 +110,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         } catch (e: InterruptedException) {
             throw MyCollabException(e)
         } finally {
-            DistributionLockUtil.removeLock("task-" + record.saccountid!!)
+            DistributionLockUtil.removeLock("task-${record.saccountid!!}")
             lock.unlock()
         }
     }
@@ -144,7 +142,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
 
     @CleanCache
     fun postDirtyUpdate(sAccountId: Int?) {
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(ProjectService::class.java,
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(ProjectService::class.java,
                 ProjectTicketService::class.java, ProjectActivityStreamService::class.java,
                 ProjectMemberService::class.java, MilestoneService::class.java, ItemTimeLoggingService::class.java,
                 GanttAssignmentService::class.java)))
@@ -173,9 +171,8 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         return taskMapperExt.getAssignedDefectsSummary(criteria)
     }
 
-    override fun findByProjectAndTaskKey(taskKey: Int?, projectShortName: String, sAccountId: Int?): SimpleTask {
-        return taskMapperExt.findByProjectAndTaskKey(taskKey!!, projectShortName, sAccountId!!)
-    }
+    override fun findByProjectAndTaskKey(taskKey: Int, projectShortName: String, sAccountId: Int): SimpleTask? =
+            taskMapperExt.findByProjectAndTaskKey(taskKey, projectShortName, sAccountId)
 
     override fun findSubTasks(parentTaskId: Int, sAccountId: Int, orderField: SearchCriteria.OrderField): List<SimpleTask> {
         val searchCriteria = TaskSearchCriteria()
@@ -185,7 +182,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         return taskMapperExt.findPageableListByCriteria(searchCriteria, RowBounds(0, Integer.MAX_VALUE)) as List<SimpleTask>
     }
 
-    override fun getCountOfOpenSubTasks(taskId: Int): Int? {
+    override fun getCountOfOpenSubTasks(taskId: Int): Int {
         val searchCriteria = TaskSearchCriteria()
         searchCriteria.parentTaskId = NumberSearchField(taskId)
         searchCriteria.addExtraField(TaskSearchCriteria.p_status.buildPropertyParamNotInList(SearchField.AND,
@@ -201,7 +198,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         jdbcTemplate.update("UPDATE `m_prj_task` SET `status`=? WHERE `parentTaskId`=?", status, parentTaskId)
     }
 
-    override fun massUpdateTaskIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int?) {
+    override fun massUpdateTaskIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int) {
         val jdbcTemplate = JdbcTemplate(dataSource)
         jdbcTemplate.batchUpdate("UPDATE `m_prj_task` SET `taskindex`=? WHERE `id`=?", object : BatchPreparedStatementSetter {
             @Throws(SQLException::class)
@@ -216,7 +213,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         })
     }
 
-    override fun massUpdateStatuses(oldStatus: String, newStatus: String, projectId: Int?, @CacheKey sAccountId: Int?) {
+    override fun massUpdateStatuses(oldStatus: String, newStatus: String, projectId: Int, @CacheKey sAccountId: Int) {
         val updateTaskStatus = Task()
         updateTaskStatus.status = newStatus
         val ex = TaskExample()

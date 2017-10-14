@@ -48,7 +48,7 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificationAction {
     @Autowired
-    val extMailService: ExtMailService? = null
+    lateinit var extMailService: ExtMailService
 
     @Autowired
     private lateinit var auditLogService: AuditLogService
@@ -94,7 +94,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                     buildExtraTemplateVariables(context)
                     val userMail = MailRecipientField(user.email, user.username)
                     val recipients = listOf(userMail)
-                    extMailService!!.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                             subject, contentGenerator.parseFile("mailCrmItemCreatedNotifier.ftl", context.locale))
                 }
             }
@@ -115,13 +115,13 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                 val comments = commentService.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
                 contentGenerator.putVariable("lastComments", comments)
 
-                notifiers.forEach { user ->
-                    val notifierFullName = user.displayName
+                notifiers.forEach {
+                    val notifierFullName = it.displayName
                     if (notifierFullName == null) {
-                        LOG.error("Can not find user $user of notification $notification")
+                        LOG.error("Can not find user $it of notification $notification")
                         return
                     }
-                    val context = MailContext<B>(notification, user, siteUrl)
+                    val context = MailContext<B>(notification, it, siteUrl)
                     if (comments.isNotEmpty()) {
                         contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale,
                                 MailI18nEnum.Last_Comments_Value, "" + comments.size))
@@ -140,9 +140,9 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("context", context)
                     contentGenerator.putVariable("mapper", getItemFieldMapper())
-                    val userMail = MailRecipientField(user.email, user.username)
+                    val userMail = MailRecipientField(it.email, it.username)
                     val recipients = listOf(userMail)
-                    extMailService!!.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                             subject, contentGenerator.parseFile("mailCrmItemUpdatedNotifier.ftl", context.locale))
                 }
             }
@@ -180,7 +180,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                 val subject = context.getMessage(getCommentSubjectKey(), context.changeByUserFullName, getItemName())
                 val userMail = MailRecipientField(user.email, user.username)
                 val recipients = listOf(userMail)
-                extMailService!!.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                         subject, contentGenerator.parseFile("mailCrmItemAddNoteNotifier.ftl", context.locale))
             }
         }

@@ -55,9 +55,8 @@ class MeetingServiceImpl(private val meetingMapper: MeetingMapper,
     override val searchMapper: ISearchableDAO<MeetingSearchCriteria>
         get() = meetingMapperExt
 
-    override fun findById(meetingId: Int?, sAccountId: Int?): SimpleMeeting {
-        return meetingMapperExt.findById(meetingId)
-    }
+    override fun findById(meetingId: Int, sAccountId: Int): SimpleMeeting? =
+            meetingMapperExt.findById(meetingId)
 
     override fun saveWithSession(record: MeetingWithBLOBs, username: String?): Int {
         val result = super.saveWithSession(record, username)

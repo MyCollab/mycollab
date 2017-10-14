@@ -39,48 +39,43 @@ import com.mycollab.vaadin.ui.UIConstants
 object ProjectLinkBuilder {
 
     @JvmStatic
-    fun generateProjectFullLink(projectId: Int?): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(projectId)
-    }
+    fun generateProjectFullLink(projectId: Int): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateProjectLink(projectId)}"""
 
     @JvmStatic
-    fun generateComponentPreviewFullLink(projectId: Int?, componentId: Int?): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generateBugComponentPreviewLink(projectId!!, componentId!!)
-    }
+    fun generateComponentPreviewFullLink(projectId: Int, componentId: Int): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateBugComponentPreviewLink(projectId, componentId)}"""
 
     @JvmStatic
-    fun generateBugVersionPreviewFullLink(projectId: Int?, versionId: Int?): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generateBugVersionPreviewLink(projectId!!, versionId!!)
-    }
+    fun generateBugVersionPreviewFullLink(projectId: Int, versionId: Int): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateBugVersionPreviewLink(projectId, versionId)}"""
 
     @JvmStatic
-    fun generateRolePreviewFullLink(projectId: Int?, roleId: Int?): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generateRolePreviewLink(projectId!!, roleId!!)
-    }
+    fun generateRolePreviewFullLink(projectId: Int, roleId: Int): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateRolePreviewLink(projectId, roleId)}"""
 
     @JvmStatic
-    fun generateProjectMemberFullLink(projectId: Int?, memberName: String?): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectMemberLink(projectId, memberName)
-    }
+    fun generateProjectMemberFullLink(projectId: Int, memberName: String): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateProjectMemberLink(projectId, memberName)}"""
 
     @JvmStatic
-    fun generateProjectMemberHtmlLink(projectId: Int?, username: String, displayName: String, avatarId: String,
-                                      isDisplayTooltip: Boolean?): String {
+    fun generateProjectMemberHtmlLink(projectId: Int, username: String, displayName: String, avatarId: String,
+                                      isDisplayTooltip: Boolean): String {
         val userAvatar = Img("", AppContextUtil.getSpringBean(AbstractStorageService::class.java)
                 .getAvatarPath(avatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX)
         val link = A().setId("tag" + TOOLTIP_ID).setHref(generateProjectMemberFullLink(projectId,
                 username)).appendText(StringUtils.trim(displayName, 30, true))
-        if (isDisplayTooltip!!) {
+        return if (isDisplayTooltip) {
             link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username))
             link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction())
-            return DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
+            DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
         } else {
-            return DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
+            DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
         }
     }
 
     @JvmStatic
-    fun generateProjectMemberHtmlLink(projectId: Int, username: String, isDisplayTooltip: Boolean?): String? {
+    fun generateProjectMemberHtmlLink(projectId: Int, username: String, isDisplayTooltip: Boolean): String? {
         val projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService::class.java)
         val member = projectMemberService.findMemberByUsername(username, projectId, AppUI.accountId)
         return if (member != null) {
@@ -100,11 +95,6 @@ object ProjectLinkBuilder {
     }
 
     @JvmStatic
-    fun generateRiskPreviewFullLink(projectId: Int?, riskId: Int?): String {
-        return URL_PREFIX_PARAM + "project/risk/preview/" + UrlEncodeDecoder.encode(projectId.toString() + "/" + riskId)
-    }
-
-    @JvmStatic
     fun generateTaskPreviewFullLink(taskKey: Int?, prjShortName: String): String {
         return URL_PREFIX_PARAM + ProjectLinkGenerator.generateTaskPreviewLink(taskKey, prjShortName)
     }
@@ -115,31 +105,28 @@ object ProjectLinkBuilder {
     }
 
     @JvmStatic
-    fun generateClientPreviewFullLink(clientId: Int?): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generateClientPreviewLink(clientId)
-    }
+    fun generateClientPreviewFullLink(clientId: Int): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateClientPreviewLink(clientId)}"""
 
     @JvmStatic
-    fun generatePageFolderFullLink(projectId: Int?, folderPath: String): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generatePagesLink(projectId!!, folderPath)
-    }
+    fun generatePageFolderFullLink(projectId: Int, folderPath: String): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generatePagesLink(projectId, folderPath)}"""
 
     @JvmStatic
-    fun generatePageFullLink(projectId: Int?, pagePath: String): String {
-        return URL_PREFIX_PARAM + ProjectLinkGenerator.generatePageRead(projectId!!, pagePath)
-    }
+    fun generatePageFullLink(projectId: Int, pagePath: String): String =
+            """$URL_PREFIX_PARAM${ProjectLinkGenerator.generatePageRead(projectId, pagePath)}"""
 
     @JvmStatic
-    fun generateStandupDashboardLink(): String = URL_PREFIX_PARAM + ProjectLinkGenerator.generateStandupDashboardLink()
+    fun generateStandupDashboardLink(): String = """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateStandupDashboardLink()}"""
 
     @JvmStatic
-    fun generateHoursWeeklyReportLink(): String = URL_PREFIX_PARAM + ProjectLinkGenerator.generateHoursWeeklyReportLink()
+    fun generateHoursWeeklyReportLink(): String = """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateHoursWeeklyReportLink()}"""
 
     @JvmStatic
-    fun generateTimesheetReportLink(): String = URL_PREFIX_PARAM + ProjectLinkGenerator.generateTimesheetReportLink()
+    fun generateTimesheetReportLink(): String = """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateTimesheetReportLink()}"""
 
     @JvmStatic
-    fun generateUsersWorkloadReportLink(): String = URL_PREFIX_PARAM + ProjectLinkGenerator.generateUsersWorkloadReportLink()
+    fun generateUsersWorkloadReportLink(): String = """$URL_PREFIX_PARAM${ProjectLinkGenerator.generateUsersWorkloadReportLink()}"""
 
     @JvmStatic
     fun generateProjectItemHtmlLinkAndTooltip(prjShortName: String, projectId: Int, summary: String, type: String, typeId: String): String {

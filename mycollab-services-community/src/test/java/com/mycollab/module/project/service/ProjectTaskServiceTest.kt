@@ -36,7 +36,7 @@ class ProjectTaskServiceTest : IntegrationServiceTest() {
     @Test
     fun testFindById() {
         val task = projectTaskService.findById(1, 1)
-        assertThat(task.name).isEqualTo("task1")
+        assertThat(task!!.name).isEqualTo("task1")
         assertThat(task.projectShortname).isEqualTo("aaa")
     }
 
@@ -44,7 +44,7 @@ class ProjectTaskServiceTest : IntegrationServiceTest() {
     @Test
     fun testFindByProjectAndTaskKey() {
         val task = projectTaskService.findByProjectAndTaskKey(1, "aaa", 1)
-        assertThat(task.name).isEqualTo("task1")
+        assertThat(task!!.name).isEqualTo("task1")
         assertThat(task.projectShortname).isEqualTo("aaa")
     }
 }

@@ -30,5 +30,5 @@ import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria
 interface MeetingService : IDefaultService<Int, MeetingWithBLOBs, MeetingSearchCriteria> {
 
     @Cacheable
-    fun findById(meetingId: Int?, @CacheKey sAccountId: Int?): SimpleMeeting
+    fun findById(meetingId: Int, @CacheKey sAccountId: Int): SimpleMeeting?
 }

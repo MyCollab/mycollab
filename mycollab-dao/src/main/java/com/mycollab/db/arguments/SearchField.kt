@@ -28,7 +28,7 @@ open class SearchField : Serializable {
 
     var operation = AND
 
-    constructor() {}
+    constructor()
 
     constructor(operation: String) {
         this.operation = operation

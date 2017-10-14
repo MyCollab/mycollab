@@ -78,7 +78,7 @@ class MeetingRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailActio
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
-    override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleMeeting =
+    override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleMeeting? =
             meetingService.findById(notification.typeid.toInt(), notification.saccountid)
 
     class MeetingFieldNameMapper : ItemFieldMapper() {

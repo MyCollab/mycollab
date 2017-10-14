@@ -59,7 +59,7 @@ class CaseRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
     @Autowired private lateinit var caseService: CaseService
     private val mapper = CaseFieldNameMapper()
 
-    override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleCase =
+    override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleCase? =
             caseService.findById(notification.typeid.toInt(), notification.saccountid)
 
     override fun getCreateSubjectKey(): Enum<*> = CaseI18nEnum.MAIL_CREATE_ITEM_SUBJECT

@@ -36,7 +36,7 @@ class ProjectMemberServiceTest : IntegrationServiceTest() {
 
     @DataSet
     @Test
-    fun testGetActiveMembersInproject() {
+    fun testGetActiveMembersInProject() {
         val activeUsers = projectMemberService.getActiveUsersInProject(1, 1)
         assertThat(activeUsers.size).isEqualTo(1)
         assertThat(activeUsers).extracting("username").contains("user1")

@@ -29,5 +29,5 @@ import com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria
  */
 interface TaskService : IDefaultService<Int, CrmTask, CrmTaskSearchCriteria> {
     @Cacheable
-    fun findById(taskId: Int?, @CacheKey sAccountId: Int?): SimpleCrmTask
+    fun findById(taskId: Int, @CacheKey sAccountId: Int): SimpleCrmTask?
 }

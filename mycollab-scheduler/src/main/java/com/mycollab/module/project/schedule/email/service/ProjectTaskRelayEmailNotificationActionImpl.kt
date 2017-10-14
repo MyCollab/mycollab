@@ -91,7 +91,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
         contentGenerator.putVariable("summaryLink", summaryLink)
     }
 
-    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleTask =
+    override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleTask? =
             projectTaskService.findById(notification.typeid.toInt(), notification.saccountid)
 
     override fun getItemName(): String = StringUtils.trim(bean!!.name, 100)
@@ -113,28 +113,26 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
         val notificationSettings = projectNotificationService.findNotifications(notification.projectId, notification.saccountid)
         var notifyUsers = notification.notifyUsers
 
-        if (notificationSettings != null && notificationSettings.size > 0) {
-            notificationSettings.forEach { notificationSetting ->
-                if (NotificationType.None.name == notificationSetting.level) {
-                    notifyUsers = notifyUsers.filter { it.username != notificationSetting.username }
-                } else if (NotificationType.Minimal.name == notificationSetting.level) {
-                    val findResult = notifyUsers.find { it.username == notificationSetting.username }
-                    if (findResult == null) {
-                        val task = projectTaskService.findById(notification.typeid.toInt(), notification.saccountid)
-                        if (notificationSetting.username == task.assignuser) {
-                            val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
-                                    notificationSetting.projectid, notificationSetting.saccountid)
-                            if (prjMember != null) {
-                                notifyUsers += prjMember
-                            }
+        notificationSettings.forEach { notificationSetting ->
+            if (NotificationType.None.name == notificationSetting.level) {
+                notifyUsers = notifyUsers.filter { it.username != notificationSetting.username }
+            } else if (NotificationType.Minimal.name == notificationSetting.level) {
+                val findResult = notifyUsers.find { it.username == notificationSetting.username }
+                if (findResult == null) {
+                    val task = projectTaskService.findById(notification.typeid.toInt(), notification.saccountid)
+                    if (task != null && notificationSetting.username == task.assignuser) {
+                        val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
+                                notificationSetting.projectid, notificationSetting.saccountid)
+                        if (prjMember != null) {
+                            notifyUsers += prjMember
                         }
                     }
-                } else if (NotificationType.Full.name == notificationSetting.level) {
-                    val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
-                            notificationSetting.projectid, notificationSetting.saccountid)
-                    if (prjMember != null) {
-                        notifyUsers += prjMember
-                    }
+                }
+            } else if (NotificationType.Full.name == notificationSetting.level) {
+                val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
+                        notificationSetting.projectid, notificationSetting.saccountid)
+                if (prjMember != null) {
+                    notifyUsers += prjMember
                 }
             }
         }
