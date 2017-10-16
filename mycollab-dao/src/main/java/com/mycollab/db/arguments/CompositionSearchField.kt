@@ -45,8 +45,4 @@ class CompositionSearchField(oper: String) : SearchField() {
 
         fields!!.add(field)
     }
-
-    companion object {
-        private val serialVersionUID = 1L
-    }
 }

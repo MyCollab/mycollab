@@ -49,21 +49,17 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
                 }
             }
 
-            if (ccEmail!= null) {
-                ccEmail.forEach {
-                    when {
-                        isValidate(it.email) && isValidate(it.name) -> email.addCc(it.email, it.name)
-                        else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
-                    }
+            ccEmail?.forEach {
+                when {
+                    isValidate(it.email) && isValidate(it.name) -> email.addCc(it.email, it.name)
+                    else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
                 }
             }
 
-            if (bccEmail!= null) {
-                bccEmail.forEach {
-                    when {
-                        isValidate(it.email) && isValidate(it.name) -> email.addBcc(it.email, it.name)
-                        else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
-                    }
+            bccEmail?.forEach {
+                when {
+                    isValidate(it.email) && isValidate(it.name) -> email.addBcc(it.email, it.name)
+                    else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
                 }
             }
 
@@ -85,8 +81,9 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
 
     }
 
-    override fun sendHTMLMail(fromEmail: String, fromName: String, toEmails: List<MailRecipientField>, ccEmails: List<MailRecipientField>?,
-                     bccEmails: List<MailRecipientField>?, subject: String, html: String) {
+    override fun sendHTMLMail(fromEmail: String, fromName: String, toEmails: List<MailRecipientField>,
+                              ccEmails: List<MailRecipientField>?, bccEmails: List<MailRecipientField>?,
+                              subject: String, html: String) {
         try {
             val email = getBasicEmail(fromEmail, fromName, toEmails, ccEmails, bccEmails, subject, html)
             email.send()

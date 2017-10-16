@@ -16,7 +16,6 @@
  */
 package com.mycollab.aspect
 
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0

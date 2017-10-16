@@ -51,7 +51,7 @@ class RoleServiceDBImpl(private val roleMapper: RoleMapper,
         return super.saveWithSession(record, username)
     }
 
-    private fun setAllRoleNotDefault(sAccountId: Int?) {
+    private fun setAllRoleNotDefault(sAccountId: Int) {
         val updateRecord = Role()
         updateRecord.isdefault = java.lang.Boolean.FALSE
         val ex = RoleExample()
@@ -77,10 +77,9 @@ class RoleServiceDBImpl(private val roleMapper: RoleMapper,
         rolePer.roleval = perVal
 
         val data = rolePermissionMapper.countByExample(ex)
-        if (data > 0) {
-            rolePermissionMapper.updateByExampleSelective(rolePer, ex)
-        } else {
-            rolePermissionMapper.insert(rolePer)
+        when {
+            data > 0 -> rolePermissionMapper.updateByExampleSelective(rolePer, ex)
+            else -> rolePermissionMapper.insert(rolePer)
         }
     }
 

@@ -12,27 +12,28 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.common.domain.criteria;
+package com.mycollab.common.domain.criteria
 
-import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.db.arguments.SetSearchField;
+import com.mycollab.db.arguments.NumberSearchField
+import com.mycollab.db.arguments.SearchCriteria
+import com.mycollab.db.arguments.SetSearchField
+import com.mycollab.db.arguments.StringSearchField
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class RelayEmailNotificationSearchCriteria extends SearchCriteria {
-    private static final long serialVersionUID = 1L;
+open class MonitorSearchCriteria : SearchCriteria() {
 
-    private SetSearchField<String> types;
+    var user: StringSearchField? = null
 
-    public SetSearchField<String> getTypes() {
-        return types;
-    }
+    var typeId: NumberSearchField? = null
 
-    public void setTypes(SetSearchField<String> types) {
-        this.types = types;
-    }
+    var type: StringSearchField? = null
+
+    var types: SetSearchField<String>? = null
+
+    var extraTypeIds: SetSearchField<Int>? = null
 }

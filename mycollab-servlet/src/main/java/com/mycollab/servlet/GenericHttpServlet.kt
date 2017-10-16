@@ -63,7 +63,7 @@ abstract class GenericHttpServlet : HttpServlet() {
             filterException = getExceptionType(e, ResourceNotFoundException::class.java)
             if (filterException != null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND)
-                LOG.error("Resource not found", filterException)
+                LOG.error("Resource not found ${request.pathInfo}", filterException)
                 return
             }
             throw ServletException(e)

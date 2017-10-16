@@ -14,34 +14,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.spring
+package com.mycollab.community.schedule.spring
 
-import com.google.common.eventbus.AsyncEventBus
-import com.google.common.eventbus.SubscriberExceptionContext
-import com.google.common.eventbus.SubscriberExceptionHandler
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import com.mycollab.community.schedule.jobs.CheckUpdateJob
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
-
-import java.util.concurrent.Executors
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean
+import org.springframework.scheduling.quartz.JobDetailFactoryBean
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.0
+ * @since 5.1.3
  */
 @Configuration
-@Profile("production", "test")
-open class AppEventBus {
+@Profile("production")
+open class CommunityScheduleConfiguration {
 
     @Bean
-    open fun asyncEventBus(): AsyncEventBus {
-        return AsyncEventBus(Executors.newCachedThreadPool(),
-                SubscriberExceptionHandler { throwable, _ -> LOG.error("Error in event bus execution", throwable) })
+    open fun checkUpdateJob(): JobDetailFactoryBean {
+        val bean = JobDetailFactoryBean()
+        bean.setDurability(true)
+        bean.setJobClass(CheckUpdateJob::class.java)
+        return bean
     }
 
-    companion object {
-        private val LOG = LoggerFactory.getLogger(AppEventBus::class.java)
+    @Bean
+    open fun checkUpdateJobTrigger(): CronTriggerFactoryBean {
+        val bean = CronTriggerFactoryBean()
+        bean.setJobDetail(checkUpdateJob().`object`)
+        bean.setCronExpression("0 0 8 * * ?")
+        return bean
     }
 }

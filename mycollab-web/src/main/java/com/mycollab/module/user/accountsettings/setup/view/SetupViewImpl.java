@@ -107,7 +107,7 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
             final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (editForm.validateForm()) {
                     try {
-                        InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
+                        InstallUtils.INSTANCE.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
                                 emailConf.getPassword(), true, emailConf.getIsStartTls(), emailConf.getIsSsl());
                         saveEmailConfiguration();
                     } catch (UserInvalidInputException e) {

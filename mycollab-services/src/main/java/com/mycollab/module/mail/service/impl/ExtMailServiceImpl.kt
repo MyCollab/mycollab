@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class ExtMailServiceImpl : ExtMailService {
+open class ExtMailServiceImpl : ExtMailService {
 
     override val isMailSetupValid: Boolean
         get() {

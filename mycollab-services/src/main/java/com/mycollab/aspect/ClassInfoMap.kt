@@ -29,15 +29,9 @@ object ClassInfoMap {
         mapWrapper.put(cls, classInfo)
     }
 
-    @JvmStatic fun getClassInfo(cls: Class<*>): ClassInfo? {
-        return mapWrapper[cls]
-    }
+    @JvmStatic fun getClassInfo(cls: Class<*>): ClassInfo? = mapWrapper[cls]
 
-    @JvmStatic fun getModule(cls: Class<*>): String {
-        return mapWrapper[cls]!!.module!!
-    }
+    @JvmStatic fun getModule(cls: Class<*>): String = mapWrapper[cls]!!.module
 
-    @JvmStatic fun getType(cls: Class<*>): String {
-        return mapWrapper[cls]!!.type!!
-    }
+    @JvmStatic fun getType(cls: Class<*>): String = mapWrapper[cls]!!.type
 }

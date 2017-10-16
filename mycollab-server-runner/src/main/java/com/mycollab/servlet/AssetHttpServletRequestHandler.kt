@@ -14,35 +14,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.file.servlet
+package com.mycollab.servlet
 
 import com.mycollab.core.utils.MimeTypesUtil
-import com.mycollab.module.ecm.service.ResourceService
-import com.mycollab.servlet.GenericHttpServlet
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.IOException
+import java.io.InputStream
 import javax.servlet.ServletException
-import javax.servlet.annotation.WebServlet
+import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
  * @author MyCollab Ltd.
- * @since 4.4.0
+ * @since 3.0
  */
-@WebServlet(urlPatterns = arrayOf("/file/*"), name = "resourceGetHandler")
-class ResourceGetHandler : GenericHttpServlet() {
-
-    @Autowired
-    private lateinit var resourceService: ResourceService
+class AssetHttpServletRequestHandler : HttpServlet() {
 
     @Throws(ServletException::class, IOException::class)
-    override fun onHandleRequest(request: HttpServletRequest, response: HttpServletResponse) {
+    override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
         val path = request.pathInfo
-        val inputStream = resourceService.getContentStream(path)
+        var resourcePath = "assets$path"
+
+        var inputStream: InputStream? = AssetHttpServletRequestHandler::class.java.classLoader.getResourceAsStream(resourcePath)
+
+        if (inputStream == null) {
+            resourcePath = "VAADIN/themes/mycollab$path"
+            inputStream = AssetHttpServletRequestHandler::class.java.classLoader.getResourceAsStream(resourcePath)
+        }
 
         if (inputStream != null) {
             response.setHeader("Content-Type", MimeTypesUtil.detectMimeType(path))
@@ -64,6 +65,7 @@ class ResourceGetHandler : GenericHttpServlet() {
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(ResourceGetHandler::class.java)
+        private val serialVersionUID = 1L
+        private val LOG = LoggerFactory.getLogger(AssetHttpServletRequestHandler::class.java)
     }
 }

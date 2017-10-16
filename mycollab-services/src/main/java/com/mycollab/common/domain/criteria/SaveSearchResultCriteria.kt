@@ -12,25 +12,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.common.domain.criteria;
+package com.mycollab.common.domain.criteria
 
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchCriteria;
+import com.mycollab.db.arguments.SearchCriteria
+import com.mycollab.db.arguments.StringSearchField
 
 /**
- * @author MyCollab Ltd
- * @since 5.2.9
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
-public class TagSearchCriteria extends SearchCriteria {
-    private NumberSearchField projectId;
+class SaveSearchResultCriteria : SearchCriteria() {
 
-    public NumberSearchField getProjectId() {
-        return projectId;
-    }
+    var type: StringSearchField? = null
 
-    public void setProjectId(NumberSearchField projectId) {
-        this.projectId = projectId;
-    }
+    var createUser: StringSearchField? = null
 }

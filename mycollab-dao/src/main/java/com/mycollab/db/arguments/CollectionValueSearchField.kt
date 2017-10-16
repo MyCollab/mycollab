@@ -27,8 +27,4 @@ class CollectionValueSearchField(oper: String, var queryCount: String?, var valu
         this.operation = oper
         this.querySelect = queryCount
     }
-
-    companion object {
-        private val serialVersionUID = 1L
-    }
 }

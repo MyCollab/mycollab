@@ -10,6 +10,14 @@ server:
   apiUrl: https://api.mycollab.com/api/
   port: 8080
   storageSystem: file
+  siteUrl: http://%s:%d
+  resourceDownloadUrl: http://%s:%d/file/
+  cdnUrl: http://%s:%d/assets/
+  tomcat:
+    accesslog.directory: logs
+    accesslog.enabled: true
+    accesslog.pattern: \"%t %a "%r" %s (%D ms)\"
+    accesslog.rotate: true
 
 endpoints:
   sensitive: false

@@ -182,7 +182,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         return roleId
     }
 
-    private fun saveGuestRole(accountId: Int?): Int {
+    private fun saveGuestRole(accountId: Int): Int {
         // Register default role for account
         val role = Role()
         role.rolename = SimpleRole.GUEST

@@ -12,28 +12,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.db.arguments
+package com.mycollab.common.domain.criteria
 
-import java.util.Date
+import com.mycollab.db.arguments.NumberSearchField
+import com.mycollab.db.arguments.SearchCriteria
 
 /**
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Ltd
+ * @since 5.2.9
  */
-class RangeDateSearchField : SearchField {
-
-    var from: Date? = null
-    var to: Date? = null
-
-    constructor()
-
-    constructor(from: Date, to: Date) : this(SearchField.AND, from, to)
-
-    constructor(oper: String, from: Date, to: Date) {
-        this.operation = oper
-        this.from = from
-        this.to = to
-    }
+class TagSearchCriteria : SearchCriteria() {
+    var projectId: NumberSearchField? = null
 }

@@ -143,10 +143,9 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             userAccountEx.createCriteria().andUsernameEqualTo(record.email)
         }
 
-        if (userAccountMapper.countByExample(userAccountEx) > 0) {
-            userAccountMapper.updateByExampleSelective(userAccount, userAccountEx)
-        } else {
-            userAccountMapper.insert(userAccount)
+        when {
+            userAccountMapper.countByExample(userAccountEx) > 0 -> userAccountMapper.updateByExampleSelective(userAccount, userAccountEx)
+            else -> userAccountMapper.insert(userAccount)
         }
 
         if (isSendInvitationEmail) {
@@ -163,8 +162,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             ex.createCriteria().andUsernameEqualTo(record.email)
             val numUsers = userMapper.countByExample(ex)
             if (numUsers > 0) {
-                throw UserInvalidInputException(String.format("Email %s is already existed in system. Please choose another email.",
-                        record.email))
+                throw UserInvalidInputException("Email ${record.email} is already existed in system. Please choose another email.")
             }
         }
 
@@ -183,7 +181,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
                 userAccountEx.createCriteria().andAccountidEqualTo(sAccountId).andIsaccountownerEqualTo(java.lang.Boolean.TRUE)
                         .andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
                 if (userAccountMapper.countByExample(userAccountEx) <= 1) {
-                    throw UserInvalidInputException(String.format("Can not change role of user %s. The reason is " + "%s is the unique account owner of the current account.", record.username, record.username))
+                    throw UserInvalidInputException("Can not change role of user ${record.username}. The reason is ${record.username} is the unique account owner of the current account.")
                 }
             }
         }
@@ -222,8 +220,8 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         }
     }
 
-    override fun massRemoveWithSession(users: List<User>, username: String?, sAccountId: Int) {
-        val keys = users.map { it.username }
+    override fun massRemoveWithSession(items: List<User>, username: String?, sAccountId: Int) {
+        val keys = items.map { it.username }
         userMapperExt.removeKeysWithSession(keys)
     }
 
@@ -239,7 +237,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
 
         val users = findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleUser>
         if (users.isEmpty()) {
-            throw UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain))
+            throw UserInvalidInputException("User $username is not existed in this domain $subDomain")
         } else {
             var user: SimpleUser? = null
             if (deploymentMode.isDemandEdition) {
@@ -264,7 +262,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
                 updateUserAccountStatus(user.username, user.accountId, RegisterStatusConstants.ACTIVE)
                 asyncEventBus.post(NewUserJoinEvent(user.username, user.accountId))
             }
-            LOG.debug(String.format("User %s login to system successfully!", username))
+            LOG.debug("User $username login to system successfully!")
 
             if (user.isAccountOwner == null || user.isAccountOwner != null && !user.isAccountOwner) {
                 if (user.roleid != null) {

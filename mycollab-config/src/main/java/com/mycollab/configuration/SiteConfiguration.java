@@ -52,7 +52,6 @@ public class SiteConfiguration {
     private DatabaseConfiguration databaseConfiguration;
     private String endecryptPassword;
     private String dropboxCallbackUrl;
-    private String ggDriveCallbackUrl;
 
     private Configuration freemarkerConfiguration;
 
@@ -92,9 +91,8 @@ public class SiteConfiguration {
         instance.databaseConfiguration = new DatabaseConfiguration(driverClass, dbUrl, dbUser, dbPassword);
 
         instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
-        instance.ggDriveCallbackUrl = ApplicationProperties.getString(GOOGLE_DRIVE_LINK);
 
-        Configuration configuration = new Configuration(Configuration.VERSION_2_3_25);
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_26);
         configuration.setDefaultEncoding("UTF-8");
         try {
             List<TemplateLoader> loaders = new ArrayList<>();
@@ -171,10 +169,6 @@ public class SiteConfiguration {
 
     public static String getDropboxCallbackUrl() {
         return getInstance().dropboxCallbackUrl;
-    }
-
-    public static String getGGDriveCallbackUrl() {
-        return getInstance().ggDriveCallbackUrl;
     }
 
     public static String getEnDecryptPassword() {

@@ -53,14 +53,14 @@ class AppExceptionServletHandler : GenericHttpServlet() {
 
     @Throws(ServletException::class, IOException::class)
     override fun onHandleRequest(request: HttpServletRequest, response: HttpServletResponse) {
-        val status_code = request.getAttribute("javax.servlet.error.status_code") as? Int
+        val statusCode = request.getAttribute("javax.servlet.error.status_code") as? Int
 
         if (request.getHeader("User-Agent") == null) {
             return
         }
 
         try {
-            if (status_code != null && status_code == 404 || "404" == request.getParameter("param")) {
+            if (statusCode != null && statusCode == 404 || "404" == request.getParameter("param")) {
                 responsePage404(response)
             } else {
                 // Analyze the servlet exception
@@ -103,8 +103,8 @@ class AppExceptionServletHandler : GenericHttpServlet() {
             }
             val exception = getExceptionType(throwable, DataAccessException::class.java)
             if (exception != null) {
-                response.writer.println(String.format("<h1>%s</h1>", LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(),
-                        ErrorI18nEnum.ERROR_ESTABLISH_DATABASE_CONNECTION)))
+                response.writer.println("<h1>${LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(),
+                        ErrorI18nEnum.ERROR_ESTABLISH_DATABASE_CONNECTION)}</h1>")
                 return
             }
             LOG.error("Exception in mycollab", throwable)

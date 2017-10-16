@@ -28,14 +28,16 @@ import org.springframework.stereotype.Component
 @Profile("production")
 @ConfigurationProperties(prefix = "server")
 open class ServerConfiguration(var storageSystem: String = STORAGE_FILE, var port: Int? = 8080,
-                               var apiUrl: String, var pull_method: String?) {
+                               var apiUrl: String, var pullMethod: String?,
+                               var siteUrl: String, var resourceDownloadUrl:String,
+                               var cdnUrl:String) {
 
-    constructor() : this("", 8080, "", "")
+    constructor() : this("", 8080, "", "", "", "", "")
 
     fun getApiUrl(path: String): String = "$apiUrl$path"
 
     val isPush: Boolean
-        get() = !"pull".equals(pull_method ?: "", ignoreCase = true)
+        get() = !"pull".equals(pullMethod ?: "", ignoreCase = true)
 
     companion object {
 

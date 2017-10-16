@@ -62,11 +62,9 @@ public class ApplicationProperties {
     public static final String SERVER_ADDRESS = "server.address";
 
     public static final String DROPBOX_AUTH_LINK = "dropbox.callbackUrl";
-    public static final String GOOGLE_DRIVE_LINK = "ggDrive.callbackUrl";
 
     public static final String BI_ENDECRYPT_PASSWORD = "endecryptPassword";
 
-    public static final String COPYRIGHT_MSG = "copyright";
     public static final String DEFAULT_LOCALE = "defaultLocale";
 
     public static void loadProps() {
