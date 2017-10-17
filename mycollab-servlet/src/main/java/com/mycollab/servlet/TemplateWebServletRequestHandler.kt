@@ -48,11 +48,7 @@ abstract class TemplateWebServletRequestHandler : GenericHttpServlet() {
     @Throws(IOException::class, TemplateException::class)
     fun generatePageByTemplate(locale: Locale, templatePath: String, params: Map<String, Any>?): String {
         val pageContext = HashMap<String, Any>()
-        if (params != null) {
-            for ((key, value) in params) {
-                pageContext.put(key, value)
-            }
-        }
+        params?.forEach { (key, value) -> pageContext.put(key, value) }
 
         val defaultUrls = applicationConfiguration.defaultUrls()
 

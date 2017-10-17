@@ -43,39 +43,31 @@ class NumberParam(id: String, table: String, column: String) : ColumnParam(id, t
         }
     }
 
-    fun buildParamIsEqual(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(EQUAL_EXPR, this.table, this.column), value)
-    }
+    fun buildParamIsEqual(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(EQUAL_EXPR, this.table, this.column), value)
 
-    private fun buildParamIsNotEqual(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(NOT_EQUAL_EXPR, this.table, this.column), value)
-    }
+    private fun buildParamIsNotEqual(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(NOT_EQUAL_EXPR, this.table, this.column), value)
 
-    private fun buildParamIsNull(oper: String): NoValueSearchField {
-        return NoValueSearchField(oper, String.format(NULL_EXPR, this.table, this.column))
-    }
+    private fun buildParamIsNull(oper: String): NoValueSearchField =
+            NoValueSearchField(oper, String.format(NULL_EXPR, this.table, this.column))
 
-    private fun buildParamIsNotNull(oper: String): NoValueSearchField {
-        return NoValueSearchField(oper, String.format(NOT_NULL_EXPR, this.table, this.column))
-    }
+    private fun buildParamIsNotNull(oper: String): NoValueSearchField =
+            NoValueSearchField(oper, String.format(NOT_NULL_EXPR, this.table, this.column))
 
-    private fun buildParamIsGreaterThan(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(GREATER_THAN_EXPR,
-                this.table, this.column), value)
-    }
+    private fun buildParamIsGreaterThan(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(GREATER_THAN_EXPR,
+                    this.table, this.column), value)
 
-    private fun buildParamIsGreaterThanEqual(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(GREATER_THAN_EQUAL_EXPR, this.table, this.column), value)
-    }
+    private fun buildParamIsGreaterThanEqual(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(GREATER_THAN_EQUAL_EXPR, this.table, this.column), value)
 
-    private fun buildParamIsLessThan(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(LESS_THAN_EXPR, this.table, this.column), value)
-    }
+    private fun buildParamIsLessThan(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(LESS_THAN_EXPR, this.table, this.column), value)
 
-    private fun buildParamIsLessThanEqual(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(
-                LESS_THAN_EQUAL_EXPR, this.table, this.column), value)
-    }
+    private fun buildParamIsLessThanEqual(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(
+                    LESS_THAN_EQUAL_EXPR, this.table, this.column), value)
 
     companion object {
 

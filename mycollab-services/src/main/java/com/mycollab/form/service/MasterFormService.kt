@@ -28,8 +28,8 @@ import com.mycollab.form.view.builder.type.DynaForm
  */
 interface MasterFormService : IService {
     @Cacheable
-    fun findCustomForm(@CacheKey sAccountId: Int?, moduleName: String): DynaForm
+    fun findCustomForm(@CacheKey sAccountId: Int, moduleName: String): DynaForm?
 
     @CacheEvict
-    fun saveCustomForm(@CacheKey sAccountId: Int?, moduleName: String, form: DynaForm)
+    fun saveCustomForm(@CacheKey sAccountId: Int, moduleName: String, form: DynaForm)
 }

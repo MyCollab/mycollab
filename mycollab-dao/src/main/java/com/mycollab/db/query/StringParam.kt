@@ -41,85 +41,47 @@ class StringParam(id: String, table: String, column: String) : ColumnParam(id, t
         }
     }
 
-    fun buildStringParamIsNull(oper: String): NoValueSearchField {
-        val NULL_EXPR = "%s.%s is null"
-        return NoValueSearchField(oper, String.format(NULL_EXPR,
-                this.table, this.column))
-    }
+    fun buildStringParamIsNull(oper: String): NoValueSearchField = NoValueSearchField(oper, "$table.$column is null")
 
-    fun andStringParamIsNull(): NoValueSearchField {
-        return buildStringParamIsNull(SearchField.AND)
-    }
+    fun andStringParamIsNull(): NoValueSearchField = buildStringParamIsNull(SearchField.AND)
 
-    fun orStringParamIsNull(): NoValueSearchField {
-        return buildStringParamIsNull(SearchField.OR)
-    }
+    fun orStringParamIsNull(): NoValueSearchField = buildStringParamIsNull(SearchField.OR)
 
-    fun buildStringParamIsNotNull(oper: String): NoValueSearchField {
-        val NOT_NULL_EXPR = "%s.%s is not null"
-        return NoValueSearchField(oper, String.format(NOT_NULL_EXPR, this.table, this.column))
-    }
+    fun buildStringParamIsNotNull(oper: String): NoValueSearchField =
+            NoValueSearchField(oper, "$table.$column is not null")
 
-    fun andStringParamIsNotNull(): NoValueSearchField {
-        return buildStringParamIsNotNull(SearchField.AND)
-    }
+    fun andStringParamIsNotNull(): NoValueSearchField = buildStringParamIsNotNull(SearchField.AND)
 
-    fun orStringParamIsNotNull(): NoValueSearchField {
-        return buildStringParamIsNull(SearchField.OR)
-    }
+    fun orStringParamIsNotNull(): NoValueSearchField = buildStringParamIsNull(SearchField.OR)
 
-    fun buildStringParamIsEqual(oper: String, value: Any): OneValueSearchField {
-        val EQUAL_EXPR = "%s.%s = "
-        return OneValueSearchField(oper, String.format(EQUAL_EXPR, this.table, this.column), value)
-    }
+    fun buildStringParamIsEqual(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, "$table.$column = ", value)
 
-    fun andStringParamIsEqual(value: Any): OneValueSearchField {
-        return buildStringParamIsEqual(SearchField.AND, value)
-    }
+    fun andStringParamIsEqual(value: Any): OneValueSearchField = buildStringParamIsEqual(SearchField.AND, value)
 
-    fun orStringParamIsEqual(value: Any): OneValueSearchField {
-        return buildStringParamIsEqual(SearchField.OR, value)
-    }
+    fun orStringParamIsEqual(value: Any): OneValueSearchField = buildStringParamIsEqual(SearchField.OR, value)
 
-    fun buildStringParamIsNotEqual(oper: String, value: Any): OneValueSearchField {
-        val NOT_EQUAL_EXPR = "%s.%s <> "
-        return OneValueSearchField(oper, String.format(NOT_EQUAL_EXPR, this.table, this.column), value)
-    }
+    fun buildStringParamIsNotEqual(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, "$table.$column <> ", value)
 
-    fun andStringParamIsNotEqual(value: Any): OneValueSearchField {
-        return buildStringParamIsNotEqual(SearchField.AND, value)
-    }
+    fun andStringParamIsNotEqual(value: Any): OneValueSearchField = buildStringParamIsNotEqual(SearchField.AND, value)
 
-    fun orStringParamIsNotEqual(param: StringParam, value: Any): OneValueSearchField {
-        return buildStringParamIsNotEqual(SearchField.OR, value)
-    }
+    fun orStringParamIsNotEqual(param: StringParam, value: Any): OneValueSearchField =
+            buildStringParamIsNotEqual(SearchField.OR, value)
 
-    fun buildStringParamIsLike(oper: String, value: Any): OneValueSearchField {
-        val LIKE_EXPR = "%s.%s like "
-        return OneValueSearchField(oper, String.format(LIKE_EXPR, this.table, this.column), "%$value%")
-    }
+    fun buildStringParamIsLike(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, "$table.$column like ", "%$value%")
 
-    fun andStringParamIsLike(value: Any): OneValueSearchField {
-        return buildStringParamIsLike(SearchField.AND, value)
-    }
+    fun andStringParamIsLike(value: Any): OneValueSearchField = buildStringParamIsLike(SearchField.AND, value)
 
-    fun orStringParamIsLike(value: Any): OneValueSearchField {
-        return buildStringParamIsLike(SearchField.OR, value)
-    }
+    fun orStringParamIsLike(value: Any): OneValueSearchField = buildStringParamIsLike(SearchField.OR, value)
 
-    fun buildStringParamIsNotLike(oper: String, value: Any): OneValueSearchField {
-        val NOT_LIKE_EXPR = "%s.%s not like "
-        return OneValueSearchField(oper, String.format(NOT_LIKE_EXPR,
-                this.table, this.column), "%$value%")
-    }
+    fun buildStringParamIsNotLike(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, "$table.$column not like ", "%$value%")
 
-    fun andStringParamIsNotLike(value: Any): OneValueSearchField {
-        return buildStringParamIsNotLike(SearchField.AND, value)
-    }
+    fun andStringParamIsNotLike(value: Any): OneValueSearchField = buildStringParamIsNotLike(SearchField.AND, value)
 
-    fun orStringParamIsNotLike(value: Any): OneValueSearchField {
-        return buildStringParamIsNotLike(SearchField.OR, value)
-    }
+    fun orStringParamIsNotLike(value: Any): OneValueSearchField = buildStringParamIsNotLike(SearchField.OR, value)
 
     companion object {
 

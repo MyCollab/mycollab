@@ -18,6 +18,7 @@ package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
@@ -31,24 +32,16 @@ import com.vaadin.ui.Label;
 public class I18nFormViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    private Label label;
+    private ELabel label;
 
     public I18nFormViewField(final String key, Class<? extends Enum> enumCls) {
-        Class<? extends Enum> enumClass = enumCls;
-        label = new Label();
-        label.setContentMode(ContentMode.TEXT);
-        label.setWidthUndefined();
-        label.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        label = new ELabel("", ContentMode.TEXT).withWidthUndefined().withStyleName(UIConstants.LABEL_WORD_WRAP);
 
         if (StringUtils.isNotBlank(key)) {
             try {
-                String value = UserUIContext.getMessage(enumClass, key);
+                String value = UserUIContext.getMessage(enumCls, key);
                 label.setValue(value);
-            } catch (Exception e) {
-                label.setValue("");
-            }
-        } else {
-            label.setValue("");
+            } catch (Exception ignored) { }
         }
     }
 

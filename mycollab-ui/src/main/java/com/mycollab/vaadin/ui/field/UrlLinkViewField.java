@@ -52,7 +52,7 @@ public class UrlLinkViewField extends CustomField<String> {
     @Override
     protected Component initContent() {
         if (StringUtils.isBlank(url) || StringUtils.isBlank(caption)) {
-            return new Label("&nbsp;", ContentMode.HTML);
+            return ELabel.html("&nbsp;");
         } else {
             final A link = new A(url).appendText(caption).setTarget("_blank");
             return ELabel.html(link.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);

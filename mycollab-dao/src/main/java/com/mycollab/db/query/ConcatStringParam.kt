@@ -36,23 +36,19 @@ class ConcatStringParam(id: String, private val table: String, private val colum
         }
     }
 
-    private fun buildStringParamIsLike(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, buildConcatField() + " like ", "%$value%")
-    }
+    private fun buildStringParamIsLike(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, "${buildConcatField()} like ", "%$value%")
 
-    private fun buildStringParamIsNotLike(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, buildConcatField() + " not like ", "%$value%")
-    }
+    private fun buildStringParamIsNotLike(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, "${buildConcatField()} not like ", "%$value%")
 
     private fun buildConcatField(): String {
         val concatField = StringBuffer("concat(")
         for (i in columns.indices) {
-            if (i == 0) {
-                concatField.append("IFNULL(").append(table).append(".").append(columns[0]).append(",''), ' ',")
-            } else if (i < columns.size - 1) {
-                concatField.append("IFNULL(").append(table).append(".").append(columns[i]).append(",''), ' '")
-            } else {
-                concatField.append("IFNULL(").append(table).append(".").append(columns[i]).append(",'')")
+            when {
+                i == 0 -> concatField.append("IFNULL(").append(table).append(".").append(columns[0]).append(",''), ' ',")
+                i < columns.size - 1 -> concatField.append("IFNULL(").append(table).append(".").append(columns[i]).append(",''), ' '")
+                else -> concatField.append("IFNULL(").append(table).append(".").append(columns[i]).append(",'')")
             }
         }
         concatField.append(")")

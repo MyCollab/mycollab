@@ -45,18 +45,18 @@ public class DateFormatField extends CustomField<String> {
         now = new DateTime();
         dateExample = new Label();
         dateFormatInstance = DateTimeFormat.forPattern(dateFormat);
-        dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
+        dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
         dateExample.setWidthUndefined();
         dateInput.addTextChangeListener(textChangeEvent -> {
             try {
                 String newFormat = textChangeEvent.getText();
                 dateFormatInstance = DateTimeFormat.forPattern(newFormat);
-                dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
+                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
             } catch (Exception e) {
                 NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.INVALID_FORMAT));
                 dateInput.setValue(initialFormat);
                 dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
-                dateExample.setValue("(" + dateFormatInstance.print(now) + ")");
+                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
             }
         });
     }

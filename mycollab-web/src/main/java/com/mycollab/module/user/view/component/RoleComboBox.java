@@ -54,11 +54,11 @@ public class RoleComboBox extends ComboBox {
         ownerRole.setRolename(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         beanItem.addBean(ownerRole);
 
-        for (SimpleRole role : roles) {
+        roles.forEach(role -> {
             beanItem.addBean(role);
             if (Boolean.TRUE.equals(role.getIsdefault())) {
                 this.setValue(role.getId());
             }
-        }
+        });
     }
 }

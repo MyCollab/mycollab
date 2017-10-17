@@ -25,15 +25,11 @@ import com.mycollab.db.arguments.CollectionValueSearchField
  */
 class StringListParam(id: String, table: String, column: String, var values: List<String>?) : ColumnParam(id, table, column) {
 
-    fun buildStringParamInList(oper: String, values: Collection<*>): CollectionValueSearchField {
-        val IN_EXPR = "%s.%s in "
-        return CollectionValueSearchField(oper, String.format(IN_EXPR, this.table, this.column), values)
-    }
+    fun buildStringParamInList(oper: String, values: Collection<*>): CollectionValueSearchField =
+            CollectionValueSearchField(oper, "$table.$column in ", values)
 
-    fun buildStringParamNotInList(oper: String, values: Collection<*>): CollectionValueSearchField {
-        val NOT_IN_EXPR = "%s.%s not in "
-        return CollectionValueSearchField(oper, String.format(NOT_IN_EXPR, this.table, this.column), values)
-    }
+    fun buildStringParamNotInList(oper: String, values: Collection<*>): CollectionValueSearchField =
+            CollectionValueSearchField(oper, "$table.$column not in", values)
 
     companion object {
 

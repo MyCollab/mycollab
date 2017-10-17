@@ -38,13 +38,11 @@ class PropertyParam(id: String, table: String, column: String) : ColumnParam(id,
         }
     }
 
-    private fun buildPropertyIs(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(IS_EXPR, table, column), value)
-    }
+    private fun buildPropertyIs(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(IS_EXPR, table, column), value)
 
-    private fun buildPropertyIsNot(oper: String, value: Any): OneValueSearchField {
-        return OneValueSearchField(oper, String.format(IS_NOT_EXPR, table, column), value)
-    }
+    private fun buildPropertyIsNot(oper: String, value: Any): OneValueSearchField =
+            OneValueSearchField(oper, String.format(IS_NOT_EXPR, table, column), value)
 
     companion object {
 

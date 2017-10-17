@@ -12,18 +12,28 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.core.cache
+package com.mycollab.vaadin.resources
 
-import java.lang.annotation.Inherited
-import kotlin.reflect.KClass
+import com.vaadin.server.StreamResource
+import com.vaadin.server.StreamResource.StreamSource
+
+import java.io.InputStream
 
 /**
  * @author MyCollab Ltd.
- * @since 4.5.0
+ * @since 3.0
  */
-@Inherited
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-annotation class CacheArgs(val values: Array<KClass<*>>)
+abstract class LazyStreamSource : StreamResource.StreamSource {
+
+    open val filename: String?
+        get() = null
+
+    override fun getStream(): InputStream {
+        val streamSource = buildStreamSource()
+        return streamSource.stream
+    }
+
+    protected abstract fun buildStreamSource(): StreamSource
+}

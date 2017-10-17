@@ -12,18 +12,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.core.cache
+package com.mycollab.module.user.accountsettings.team.view
 
-import java.lang.annotation.Inherited
-import kotlin.reflect.KClass
+import com.mycollab.module.user.domain.SimpleRole
+import com.mycollab.module.user.domain.criteria.RoleSearchCriteria
+import com.mycollab.vaadin.web.ui.IListView
 
 /**
  * @author MyCollab Ltd.
- * @since 4.5.0
+ * @since 1.0
  */
-@Inherited
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-annotation class CacheArgs(val values: Array<KClass<*>>)
+interface RoleListView : IListView<RoleSearchCriteria, SimpleRole>

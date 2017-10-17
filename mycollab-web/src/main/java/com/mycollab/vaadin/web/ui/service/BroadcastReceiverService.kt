@@ -12,18 +12,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.core.cache
+package com.mycollab.vaadin.web.ui.service
 
-import java.lang.annotation.Inherited
-import kotlin.reflect.KClass
+import com.mycollab.core.BroadcastListener
+import com.mycollab.web.DesktopApplication
 
 /**
- * @author MyCollab Ltd.
- * @since 4.5.0
+ * @author MyCollab Ltd
+ * @since 5.3.5
  */
-@Inherited
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-annotation class CacheArgs(val values: Array<KClass<*>>)
+interface BroadcastReceiverService : BroadcastListener {
+    fun registerApp(myCollabApp: DesktopApplication)
+}

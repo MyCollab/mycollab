@@ -33,7 +33,6 @@ class PropertyListParam<in P>(id: String, table: String, column: String) : Colum
             CollectionValueSearchField(oper, "$table.$column not in ", value)
 
     companion object {
-
         @JvmField val OPTIONS = arrayOf(CollectionI18nEnum.IN, CollectionI18nEnum.NOT_IN)
     }
 }

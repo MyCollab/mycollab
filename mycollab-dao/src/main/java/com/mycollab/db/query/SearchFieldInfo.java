@@ -167,9 +167,9 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
             CollectionI18nEnum compareValue = CollectionI18nEnum.valueOf(compareOper);
             switch (compareValue) {
                 case IN:
-                    return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());
+                    return wrapParam.buildPropertyParamInList(prefixOper, (Collection<String>) this.eval());
                 case NOT_IN:
-                    return wrapParam.buildPropertyParamNotInList(prefixOper, (Collection<?>) this.eval());
+                    return wrapParam.buildPropertyParamNotInList(prefixOper, (Collection<String>) this.eval());
                 default:
                     throw new MyCollabException("Not support yet");
             }

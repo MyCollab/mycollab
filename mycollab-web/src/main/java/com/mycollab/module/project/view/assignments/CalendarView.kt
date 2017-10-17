@@ -12,18 +12,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.core.cache
+package com.mycollab.module.project.view.assignments
 
-import java.lang.annotation.Inherited
-import kotlin.reflect.KClass
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
+import com.mycollab.vaadin.event.HasSearchHandlers
+import com.mycollab.vaadin.mvp.LazyPageView
 
 /**
- * @author MyCollab Ltd.
- * @since 4.5.0
+ * @author MyCollab Ltd
+ * @since 5.2.0
  */
-@Inherited
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-annotation class CacheArgs(val values: Array<KClass<*>>)
+interface CalendarView : LazyPageView {
+
+    val searchHandlers: HasSearchHandlers<ProjectTicketSearchCriteria>
+    fun queryAssignments(criteria: ProjectTicketSearchCriteria)
+}

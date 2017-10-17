@@ -12,18 +12,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.core.cache
-
-import java.lang.annotation.Inherited
-import kotlin.reflect.KClass
+package com.mycollab.core
 
 /**
- * @author MyCollab Ltd.
- * @since 4.5.0
+ * @author MyCollab Ltd
+ * @since 5.3.5
  */
-@Inherited
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-annotation class CacheArgs(val values: Array<KClass<*>>)
+class BroadcastMessage(private val sAccountId: Int?, val clientId: String?, val wrapObj: Any) {
+
+    constructor(wrapObj: Any) : this(null, null, wrapObj) {}
+
+    fun getsAccountId(): Int? = sAccountId
+}

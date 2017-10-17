@@ -24,6 +24,6 @@ public class EmailViewField extends UrlLinkViewField {
     private static final long serialVersionUID = 1L;
 
     public EmailViewField(String email) {
-        super("mailto:" + email, email);
+        super(String.format("mailto:%s", email), email);
     }
 }
