@@ -59,7 +59,6 @@
                             <exclude>**/*.versionsBackup</exclude>
                             <exclude>**/*.iml</exclude>
                             <exclude>**/*.scss</exclude>
-                            <exclude>**/*.properties</exclude>
                         </excludes>
                     </fileSet>
                 </fileSets>
